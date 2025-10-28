@@ -10,6 +10,8 @@ import {
 } from '@heroicons/react/24/outline';
 import CashFlowChart from './charts/CashFlowChart';
 import DSOClientChart from './charts/DSOClientChart';
+import MarginAnalysisChart from './charts/MarginAnalysisChart';
+import WhatIfSimulator from './charts/WhatIfSimulator';
 
 interface KPI {
     title: string
@@ -170,6 +172,12 @@ export default function FinancialDashboard() {
 
             {/* DSO par Client - NOUVELLE VISUALISATION */}
             <DSOClientChart />
+
+            {/* Analyse des Marges - NOUVELLE VISUALISATION */}
+            <MarginAnalysisChart />
+
+            {/* Simulations What-If - NOUVELLE VISUALISATION */}
+            <WhatIfSimulator />
         </div>
     )
 }
