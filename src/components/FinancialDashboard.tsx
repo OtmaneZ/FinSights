@@ -1,6 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import React from 'react';
+import {
+    BanknotesIcon,
+    ArrowTrendingUpIcon,
+    ExclamationTriangleIcon,
+    ClockIcon
+} from '@heroicons/react/24/outline';
+import CashFlowChart from './charts/CashFlowChart';
+import DSOClientChart from './charts/DSOClientChart';
 
 interface KPI {
     title: string
@@ -155,6 +164,12 @@ export default function FinancialDashboard() {
                     </p>
                 </div>
             </div>
+
+            {/* Cash Flow Chart - NOUVELLE VISUALISATION */}
+            <CashFlowChart />
+
+            {/* DSO par Client - NOUVELLE VISUALISATION */}
+            <DSOClientChart />
         </div>
     )
 }
