@@ -11,9 +11,7 @@ import {
     ExclamationTriangleIcon,
     ClockIcon,
     DocumentArrowDownIcon,
-    CalendarIcon,
-    CloudArrowUpIcon,
-    CheckCircleIcon
+    CalendarIcon
 } from '@heroicons/react/24/outline';
 
 // Import dynamique des charts avec stratégie robuste
@@ -49,8 +47,6 @@ export default function FinancialDashboard() {
     const [selectedPeriod, setSelectedPeriod] = useState('current')
     const [kpis, setKpis] = useState<KPI[]>([])
     const [isExporting, setIsExporting] = useState(false)
-    const [showUploadZone, setShowUploadZone] = useState(false)
-    const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle')
     const dashboardRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -147,66 +143,6 @@ export default function FinancialDashboard() {
             alert('Erreur lors de l\'export PDF. Veuillez réessayer.');
         }
         setIsExporting(false);
-    };
-
-    // Fonction d'upload réelle
-    const handleFileUpload = async (files: FileList | null) => {
-        if (!files || files.length === 0) return;
-
-        const file = files[0];
-
-        // Validation simple
-        if (!file.name.endsWith('.csv')) {
-            setUploadStatus('error');
-            setTimeout(() => setUploadStatus('idle'), 3000);
-            return;
-        }
-
-        setUploadStatus('uploading');
-
-        try {
-            // Lecture du fichier
-            const fileContent = await new Promise<string>((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target?.result as string);
-                reader.onerror = (e) => reject(e);
-                reader.readAsText(file);
-            });
-
-            // Envoi à l'API
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    fileContent,
-                    fileName: file.name,
-                    fileType: file.type
-                })
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Erreur lors de l\'upload');
-            }
-
-            // Mise à jour des KPIs avec les vraies données
-            setKpis(result.data.kpis);
-            setUploadStatus('success');
-
-            // Auto-fermer après succès
-            setTimeout(() => {
-                setUploadStatus('idle');
-                setShowUploadZone(false);
-            }, 3000);
-
-        } catch (error) {
-            console.error('Erreur upload:', error);
-            setUploadStatus('error');
-            setTimeout(() => setUploadStatus('idle'), 3000);
-        }
     };
 
     // Données par période
@@ -312,79 +248,8 @@ export default function FinancialDashboard() {
                         <DocumentArrowDownIcon className="finsight-icon-sm" />
                         <span>{isExporting ? 'Export...' : 'Export PDF'}</span>
                     </button>
-                    <button
-                        onClick={() => setShowUploadZone(!showUploadZone)}
-                        className="finsight-btn finsight-btn-secondary"
-                    >
-                        <CloudArrowUpIcon className="finsight-icon-sm" />
-                        <span>Importer Données</span>
-                    </button>
                 </div>
             </div>
-
-            {/* Zone d'Upload */}
-            {showUploadZone && (
-                <div className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6">
-                    <div className="text-center">
-                        <CloudArrowUpIcon className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                            Importer vos données financières
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-4">
-                            Déposez vos fichiers Excel (.xlsx, .xls) ou CSV pour actualiser votre dashboard
-                        </p>
-
-                        {uploadStatus === 'idle' && (
-                            <div className="relative">
-                                <input
-                                    type="file"
-                                    accept=".xlsx,.xls,.csv"
-                                    onChange={(e) => handleFileUpload(e.target.files)}
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                />
-                                <div className="border-2 border-dashed border-blue-300 rounded-lg p-8 hover:border-blue-400 transition-colors cursor-pointer">
-                                    <div className="text-blue-600 font-medium">
-                                        📁 Cliquez pour sélectionner ou glissez vos fichiers ici
-                                    </div>
-                                    <div className="text-xs text-gray-500 mt-2">
-                                        Formats supportés : .xlsx, .xls, .csv (max 10MB)
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {uploadStatus === 'uploading' && (
-                            <div className="text-center p-8">
-                                <div className="animate-spin h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-                                <div className="text-blue-600 font-medium">Traitement en cours...</div>
-                                <div className="text-sm text-gray-500">Analyse et intégration de vos données</div>
-                            </div>
-                        )}
-
-                        {uploadStatus === 'success' && (
-                            <div className="text-center p-8">
-                                <CheckCircleIcon className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                                <div className="text-green-600 font-medium text-lg">✅ Import réussi !</div>
-                                <div className="text-sm text-gray-600">Vos données ont été intégrées au dashboard</div>
-                            </div>
-                        )}
-
-                        {uploadStatus === 'error' && (
-                            <div className="text-center p-8">
-                                <ExclamationTriangleIcon className="h-12 w-12 text-red-600 mx-auto mb-4" />
-                                <div className="text-red-600 font-medium">❌ Erreur d'import</div>
-                                <div className="text-sm text-gray-500">Format non supporté. Utilisez .xlsx, .xls ou .csv</div>
-                            </div>
-                        )}
-
-                        <div className="mt-4 flex justify-center space-x-4 text-xs text-gray-500">
-                            <span>🔒 Données sécurisées</span>
-                            <span>⚡ Traitement instantané</span>
-                            <span>🎯 KPIs auto-générés</span>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* KPI Grid */}
             <div className="finsight-kpi-grid">

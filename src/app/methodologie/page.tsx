@@ -29,7 +29,7 @@ export default function Methodology() {
                 <div className="finsight-footer-content">
                     <div className="finsight-footer-center">
                         <p className="finsight-footer-main">
-                            Prototype développé par <span className="finsight-footer-highlight">Otmane Boulahia</span> — <span className="finsight-footer-brand">Zine Insight</span>
+                            Solution développée par <span className="finsight-footer-highlight">Otmane Boulahia</span> — <span className="finsight-footer-brand">Zine Insight</span>
                         </p>
                     </div>
                 </div>

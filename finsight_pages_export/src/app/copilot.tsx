@@ -28,7 +28,7 @@ export default function CopilotPage() {
                         analytiques instantanées basées sur vos données réelles.
                     </p>
                     <div className="finsight-copilot-badge">
-                        🤖 Propulsé par IA FinSight™ - Zine Insight
+                        🤖 Propulsé par IA Skfolio + OpenAI (simulation)
                     </div>
                 </div>
 
@@ -69,7 +69,7 @@ export default function CopilotPage() {
                 <div className="finsight-footer-content">
                     <div className="finsight-footer-center">
                         <p className="finsight-footer-main">
-                            Solution développée par <span className="finsight-footer-highlight">Otmane Boulahia</span> — <span className="finsight-footer-brand">Zine Insight</span>
+                            Prototype développé par <span className="finsight-footer-highlight">Otmane Boulahia</span> — <span className="finsight-footer-brand">Zine Insight</span>
                         </p>
                     </div>
                 </div>
