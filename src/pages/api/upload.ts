@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { parseCSV, processFinancialData, generateDashboardKPIs } from '@/lib/dataParser';
+import { parseCSV } from '@/lib/dataParser';
+import { generateDashboardKPIs } from '@/lib/dataParser';
 
 export const config = {
     api: {
@@ -29,16 +30,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
         }
 
-        // Parse et traite les données
-        const records = parseCSV(fileContent);
+        // Parse et traite les données avec nouvelle API
+        const parseResult = parseCSV(fileContent);
 
-        if (records.length === 0) {
+        if (!parseResult.success || !parseResult.data) {
+            return res.status(400).json({
+                error: 'Erreur lors du parsing',
+                details: parseResult.errors.map(e => e.message).join(', ')
+            });
+        }
+
+        const { data: processedData } = parseResult;
+
+        if (processedData.records.length === 0) {
             return res.status(400).json({
                 error: 'Aucune donnée valide trouvée dans le fichier'
             });
         }
 
-        const processedData = processFinancialData(records);
         const dashboardKPIs = generateDashboardKPIs(processedData);
 
         // Simulation d'un délai de traitement (pour l'UX)
@@ -46,12 +55,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         return res.status(200).json({
             success: true,
-            message: `${records.length} enregistrements traités avec succès`,
+            message: `${processedData.records.length} enregistrements traités avec succès`,
             data: {
                 kpis: dashboardKPIs,
                 summary: processedData.summary,
-                recordCount: records.length,
-                period: processedData.summary.period
+                recordCount: processedData.records.length,
+                period: processedData.summary.period,
+                quality: processedData.qualityMetrics
             }
         });
 
