@@ -61,7 +61,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 summary: processedData.summary,
                 recordCount: processedData.records.length,
                 period: processedData.summary.period,
-                quality: processedData.qualityMetrics
+                quality: processedData.qualityMetrics,
+                // ✅ Données adaptatives
+                levelInfo: parseResult.data.levelInfo,
+                dashboardConfig: parseResult.data.dashboardConfig,
+                // ✅ Vraies données pour calculs dynamiques
+                records: processedData.records,
+                financialData: processedData
             }
         });
 

@@ -5,6 +5,8 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { DashboardConfig, DataLevelInfo } from '@/lib/dataModel';
+import { getUpgradeMessages } from '@/lib/dashboardConfig';
 import {
     BanknotesIcon,
     ArrowTrendingUpIcon,
@@ -51,55 +53,17 @@ export default function FinancialDashboard() {
     const [isExporting, setIsExporting] = useState(false)
     const [showUploadZone, setShowUploadZone] = useState(false)
     const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle')
+    const [dashboardConfig, setDashboardConfig] = useState<DashboardConfig | null>(null)
+    const [levelInfo, setLevelInfo] = useState<DataLevelInfo | null>(null)
+    const [upgradeMessages, setUpgradeMessages] = useState<string[]>([])
+    // ✅ Vraies données pour calculs dynamiques
+    const [financialData, setFinancialData] = useState<any>(null)
+    const [records, setRecords] = useState<any[]>([])
     const dashboardRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        // Simulate loading KPIs
-        const mockKPIs: KPI[] = [
-            {
-                title: 'Chiffre d\'Affaires',
-                value: '1 847 450 €',
-                change: '+12.3%',
-                changeType: 'positive',
-                description: 'vs Oct 2024 (↗️ nouveau contrat Safran)'
-            },
-            {
-                title: 'Trésorerie Nette',
-                value: '387 650 €',
-                change: '+45 820 €',
-                changeType: 'positive',
-                description: 'Position J-1 (↗️ encaissement Thales)'
-            },
-            {
-                title: 'Marge Brute',
-                value: '43.8%',
-                change: '-1.2pt',
-                changeType: 'negative',
-                description: 'vs Sep (⚠️ coûts matières premières)'
-            },
-            {
-                title: 'DSO Clients',
-                value: '42 jours',
-                change: '-8j',
-                changeType: 'positive',
-                description: 'Amélioration (✅ relances automatisées)'
-            },
-            {
-                title: 'EBITDA',
-                value: '298 450 €',
-                change: '+18.7%',
-                changeType: 'positive',
-                description: 'Performance T1 (🚀 optimisation charges)'
-            },
-            {
-                title: 'Charges Exploitation',
-                value: '1 124 300 €',
-                change: '+2.1%',
-                changeType: 'neutral',
-                description: 'Maîtrise inflation (+5% secteur)'
-            }
-        ]
-        setKpis(mockKPIs)
+        // ✅ État initial vide - pas de données factices
+        // Le dashboard se construira après upload de données réelles
     }, [selectedPeriod])
 
     // Fonction d'export PDF
@@ -192,8 +156,36 @@ export default function FinancialDashboard() {
                 throw new Error(result.error || 'Erreur lors de l\'upload');
             }
 
-            // Mise à jour des KPIs avec les vraies données
+            // Mise à jour avec la configuration adaptative
             setKpis(result.data.kpis);
+
+            // ✅ Stocker les vraies données pour calculs dynamiques
+            if (result.data.financialData) {
+                setFinancialData(result.data.financialData);
+            }
+            if (result.data.records) {
+                setRecords(result.data.records);
+            }
+
+            // DEBUG: Vérifier ce qui arrive
+            console.log('🔍 Debug result.data:', {
+                levelInfo: result.data.levelInfo,
+                dashboardConfig: result.data.dashboardConfig,
+                hasLevelInfo: !!result.data.levelInfo,
+                hasDashboardConfig: !!result.data.dashboardConfig,
+                recordsCount: result.data.records?.length || 0
+            });
+
+            // Configuration du dashboard selon les données
+            if (result.data.levelInfo && result.data.dashboardConfig) {
+                console.log('✅ Configuration adaptative appliquée:', result.data.dashboardConfig);
+                setLevelInfo(result.data.levelInfo);
+                setDashboardConfig(result.data.dashboardConfig);
+                setUpgradeMessages(getUpgradeMessages(result.data.levelInfo));
+            } else {
+                console.log('❌ Configuration adaptative manquante');
+            }
+
             setUploadStatus('success');
 
             // Auto-fermer après succès
@@ -209,62 +201,19 @@ export default function FinancialDashboard() {
         }
     };
 
-    // Données par période
+    // ✅ Plus de données par période factices - tout vient de l'upload CSV
     const getPeriodData = (period: string) => {
-        const periodData = {
-            current: {
-                title: 'Période Actuelle',
-                data: [
-                    { title: 'Chiffre d\'Affaires', value: '1 250 000 €', change: '+8.5%', changeType: 'positive' as const, description: 'vs même période N-1' },
-                    { title: 'Trésorerie Nette', value: '245 000 €', change: '+12.3%', changeType: 'positive' as const, description: 'Position au jour J' },
-                    { title: 'Marge Brute', value: '42.8%', change: '-2.3pt', changeType: 'negative' as const, description: 'vs mois précédent' },
-                    { title: 'DSO Clients', value: '47 jours', change: '+5j', changeType: 'negative' as const, description: 'Délai moyen de paiement' },
-                    { title: 'EBITDA', value: '185 000 €', change: '+15.2%', changeType: 'positive' as const, description: 'Marge opérationnelle' },
-                    { title: 'Charges Exploitation', value: '890 000 €', change: '+3.1%', changeType: 'neutral' as const, description: 'Évolution maîtrisée' }
-                ]
-            },
-            monthly: {
-                title: 'Vue Mensuelle',
-                data: [
-                    { title: 'Chiffre d\'Affaires', value: '104 000 €', change: '+6.2%', changeType: 'positive' as const, description: 'vs mois précédent' },
-                    { title: 'Trésorerie Nette', value: '245 000 €', change: '+8.7%', changeType: 'positive' as const, description: 'Évolution mensuelle' },
-                    { title: 'Marge Brute', value: '41.5%', change: '-1.8pt', changeType: 'negative' as const, description: 'vs mois précédent' },
-                    { title: 'DSO Clients', value: '45 jours', change: '+2j', changeType: 'negative' as const, description: 'Délai mensuel' },
-                    { title: 'EBITDA', value: '15 500 €', change: '+18.3%', changeType: 'positive' as const, description: 'Performance mensuelle' },
-                    { title: 'Charges Exploitation', value: '74 200 €', change: '+2.8%', changeType: 'neutral' as const, description: 'Charges mensuelles' }
-                ]
-            },
-            quarterly: {
-                title: 'Vue Trimestrielle',
-                data: [
-                    { title: 'Chiffre d\'Affaires', value: '312 000 €', change: '+11.3%', changeType: 'positive' as const, description: 'vs T-1' },
-                    { title: 'Trésorerie Nette', value: '245 000 €', change: '+22.1%', changeType: 'positive' as const, description: 'Évolution trimestrielle' },
-                    { title: 'Marge Brute', value: '43.2%', change: '+0.8pt', changeType: 'positive' as const, description: 'vs trimestre précédent' },
-                    { title: 'DSO Clients', value: '44 jours', change: '-3j', changeType: 'positive' as const, description: 'Amélioration trimestrielle' },
-                    { title: 'EBITDA', value: '46 800 €', change: '+25.7%', changeType: 'positive' as const, description: 'Croissance trimestrielle' },
-                    { title: 'Charges Exploitation', value: '223 000 €', change: '+4.2%', changeType: 'neutral' as const, description: 'Maîtrise des coûts' }
-                ]
-            },
-            yearly: {
-                title: 'Vue Annuelle',
-                data: [
-                    { title: 'Chiffre d\'Affaires', value: '1 250 000 €', change: '+18.5%', changeType: 'positive' as const, description: 'vs N-1' },
-                    { title: 'Trésorerie Nette', value: '245 000 €', change: '+34.2%', changeType: 'positive' as const, description: 'Progression annuelle' },
-                    { title: 'Marge Brute', value: '42.8%', change: '+1.5pt', changeType: 'positive' as const, description: 'vs année précédente' },
-                    { title: 'DSO Clients', value: '47 jours', change: '+8j', changeType: 'negative' as const, description: 'Dégradation annuelle' },
-                    { title: 'EBITDA', value: '185 000 €', change: '+42.3%', changeType: 'positive' as const, description: 'Excellente performance' },
-                    { title: 'Charges Exploitation', value: '890 000 €', change: '+12.8%', changeType: 'neutral' as const, description: 'Inflation contrôlée' }
-                ]
-            }
+        return {
+            title: 'Période Actuelle',
+            data: [] // Vide - les vraies données viennent de handleFileUpload
         };
-        return periodData[period as keyof typeof periodData] || periodData.current;
     };
 
-    // Mise à jour des KPIs selon la période
-    useEffect(() => {
-        const periodData = getPeriodData(selectedPeriod);
-        setKpis(periodData.data);
-    }, [selectedPeriod])
+    // ✅ KPIs chargés seulement depuis l'upload - pas de données factices par défaut
+    // useEffect(() => {
+    //     const periodData = getPeriodData(selectedPeriod);
+    //     setKpis(periodData.data);
+    // }, [selectedPeriod])
 
     const getChangeColor = (type: KPI['changeType']) => {
         switch (type) {
@@ -280,6 +229,63 @@ export default function FinancialDashboard() {
             case 'negative': return '↘'
             default: return '→'
         }
+    }
+
+    // ✅ Fonctions pour calculer des vraies données depuis les records
+    const getTopClients = () => {
+        if (!records.length) return [];
+
+        // Grouper par contrepartie et calculer les totaux
+        const clientTotals = records.reduce((acc, record) => {
+            const client = record.counterparty || record.description || 'Client inconnu';
+            if (!acc[client]) {
+                acc[client] = { name: client, total: 0, count: 0 };
+            }
+            acc[client].total += Math.abs(record.amount);
+            acc[client].count += 1;
+            return acc;
+        }, {});
+
+        // Trier et prendre le top 5
+        return Object.values(clientTotals)
+            .sort((a: any, b: any) => b.total - a.total)
+            .slice(0, 5)
+            .map((client: any) => ({
+                name: client.name,
+                value: `${client.total.toLocaleString('fr-FR')} €`,
+                count: client.count
+            }));
+    };
+
+    const getEvolutionData = () => {
+        if (!records.length) return [];
+
+        // Grouper par mois depuis les vraies données
+        const monthlyData = records.reduce((acc, record) => {
+            const month = new Date(record.date).toLocaleDateString('fr-FR', { month: 'short' });
+            if (!acc[month]) {
+                acc[month] = 0;
+            }
+            acc[month] += record.amount;
+            return acc;
+        }, {});
+
+        return Object.entries(monthlyData).map(([month, amount]: [string, any]) => ({
+            month,
+            amount: amount,
+            display: `${(amount / 1000).toFixed(0)}k`
+        }));
+    };
+
+    // Helper pour vérifier si un élément doit être affiché
+    const shouldShowElement = (element: keyof DashboardConfig): boolean => {
+        console.log(`🔍 shouldShowElement('${element}'):`, {
+            hasDashboardConfig: !!dashboardConfig,
+            configValue: dashboardConfig?.[element],
+            result: !dashboardConfig ? false : dashboardConfig[element] as boolean
+        });
+        if (!dashboardConfig) return false; // ✅ Si pas de config, on n'affiche RIEN (sauf KPIs de base)
+        return dashboardConfig[element] as boolean;
     }
 
     return (
@@ -386,264 +392,175 @@ export default function FinancialDashboard() {
                 </div>
             )}
 
-            {/* KPI Grid */}
-            <div className="finsight-kpi-grid">
-                {kpis.map((kpi, index) => (
-                    <div key={index} className="finsight-kpi-card finsight-kpi-hover">
-                        <div className="finsight-kpi-header">
-                            <h3 className="finsight-kpi-label">{kpi.title}</h3>
-                            <span className={`finsight-kpi-change ${getChangeColor(kpi.changeType)}`}>
-                                {getChangeIcon(kpi.changeType)} {kpi.change}
-                            </span>
-                        </div>
-                        <p className="finsight-kpi-value">{kpi.value}</p>
-                        <p className="finsight-kpi-description">{kpi.description}</p>
-                    </div>
-                ))}
-            </div>
-
-            {/* Quick Insights */}
-            {/* Quick Insights */}
-            <div className="bg-white rounded-lg shadow-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">🎯 Actions Prioritaires IA</h3>
-                <div className="space-y-4">
-                    <div className="flex items-start space-x-3 p-3 bg-green-50 rounded-lg">
-                        <span className="text-green-600 font-bold text-lg">💰</span>
-                        <div>
-                            <p className="font-semibold text-green-800">Trésorerie: +45k€ libérés</p>
-                            <p className="text-sm text-gray-700">Paiement Thales reçu hier. Relancez MAINTENANT Airbus (facture FAC-2024-0847, 62k€, +12j) pour optimiser novembre.</p>
-                        </div>
-                    </div>
-                    <div className="flex items-start space-x-3 p-3 bg-red-50 rounded-lg">
-                        <span className="text-red-600 font-bold text-lg">⚠️</span>
-                        <div>
-                            <p className="font-semibold text-red-800">Marge sous pression (-1.2pt)</p>
-                            <p className="text-sm text-gray-700">Coûts aluminium +15% sur commandes Q4. Négociez clause indexation avec fournisseur Mecachrome ou répercutez +2.8% prix clients nouveaux contrats.</p>
-                        </div>
-                    </div>
-                    <div className="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
-                        <span className="text-blue-600 font-bold text-lg">🚀</span>
-                        <div>
-                            <p className="font-semibold text-blue-800">DSO amélioré: -8 jours</p>
-                            <p className="text-sm text-gray-700">Vos relances automatisées fonctionnent! Dupliquez la méthode sur portfolio PME (potentiel -15j DSO = +180k€ trésorerie).</p>
-                        </div>
-                    </div>
-                    <div className="flex items-start space-x-3 p-3 bg-purple-50 rounded-lg">
-                        <span className="text-purple-600 font-bold text-lg">📊</span>
-                        <div>
-                            <p className="font-semibold text-purple-800">EBITDA +18.7% = Top quartile</p>
-                            <p className="text-sm text-gray-700">Performance exceptionnelle vs concurrents secteur (+12% moyenne). Communiquez résultats conseil admin et préparez plan investissement 2025.</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Bouton action */}
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                    <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                        📞 Programmer entretien CFO (15min) - Optimisations personnalisées
-                    </button>
-                </div>
-            </div>
-
-            {/* Cash Flow Projection */}
-            <div className="finsight-projection-card">
-                <h3 className="finsight-projection-title">🔮 Projection Trésorerie (90 jours)</h3>
-                <div className="finsight-projection-grid">
-                    <div className="finsight-projection-item">
-                        <p className="finsight-projection-label">Aujourd'hui</p>
-                        <p className="finsight-projection-value finsight-value-current">245k€</p>
-                    </div>
-                    <div className="finsight-projection-item">
-                        <p className="finsight-projection-label">Dans 30 jours</p>
-                        <p className="finsight-projection-value finsight-value-warning">198k€</p>
-                    </div>
-                    <div className="finsight-projection-item">
-                        <p className="finsight-projection-label">Dans 90 jours</p>
-                        <p className="finsight-projection-value finsight-value-positive">285k€</p>
-                    </div>
-                </div>
-                <div className="finsight-projection-insight">
-                    <p className="finsight-projection-text">
-                        📈 <strong>Prévision :</strong> Après une baisse temporaire due aux échéances de novembre,
-                        votre trésorerie devrait rebondir grâce aux encaissements de fin d'année (+40k€ attendus).
-                    </p>
-                </div>
-            </div>
-
-            {/* Quick Analytics Cards */}
-            <div className="finsight-analytics-grid">
-                <div className="finsight-analytics-card">
-                    <h3 className="finsight-analytics-title">📈 Évolution Mensuelle CA</h3>
-                    <div className="finsight-trend-bars">
-                        <div className="finsight-trend-bar" style={{ height: '60%' }}>
-                            <span className="finsight-trend-value">1.1M</span>
-                            <span className="finsight-trend-month">Sep</span>
-                        </div>
-                        <div className="finsight-trend-bar" style={{ height: '80%' }}>
-                            <span className="finsight-trend-value">1.2M</span>
-                            <span className="finsight-trend-month">Oct</span>
-                        </div>
-                        <div className="finsight-trend-bar finsight-trend-projected" style={{ height: '70%' }}>
-                            <span className="finsight-trend-value">1.15M</span>
-                            <span className="finsight-trend-month">Nov</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="finsight-analytics-card">
-                    <h3 className="finsight-analytics-title">⚡ Alertes Actives</h3>
-                    <div className="finsight-alerts-list">
-                        <div className="finsight-alert-item finsight-alert-high">
-                            <span className="finsight-alert-badge">URGENT</span>
-                            <p>Facture Client A (45k€) en retard de 15j</p>
-                        </div>
-                        <div className="finsight-alert-item finsight-alert-medium">
-                            <span className="finsight-alert-badge">MEDIUM</span>
-                            <p>Marge produit X sous le seuil (38%)</p>
-                        </div>
-                        <div className="finsight-alert-item finsight-alert-low">
-                            <span className="finsight-alert-badge">INFO</span>
-                            <p>Nouveau contrat signé (+120k€)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="finsight-analytics-card">
-                    <h3 className="finsight-analytics-title">🎯 Top 5 Clients</h3>
-                    <div className="finsight-client-ranking">
-                        <div className="finsight-client-item">
-                            <span className="finsight-client-name">Client Alpha</span>
-                            <span className="finsight-client-value">€285k</span>
-                        </div>
-                        <div className="finsight-client-item">
-                            <span className="finsight-client-name">Client Beta</span>
-                            <span className="finsight-client-value">€198k</span>
-                        </div>
-                        <div className="finsight-client-item">
-                            <span className="finsight-client-name">Client Gamma</span>
-                            <span className="finsight-client-value">€165k</span>
-                        </div>
-                        <div className="finsight-client-item">
-                            <span className="finsight-client-name">Client Delta</span>
-                            <span className="finsight-client-value">€142k</span>
-                        </div>
-                        <div className="finsight-client-item">
-                            <span className="finsight-client-name">Client Epsilon</span>
-                            <span className="finsight-client-value">€98k</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Detailed Analysis Section */}
-            <div className="finsight-detailed-analysis">
-                <h3 className="finsight-analysis-title">🔍 Analyse Détaillée</h3>
-                <div className="finsight-analysis-grid">
-                    <div className="finsight-analysis-card">
-                        <h4 className="finsight-analysis-subtitle">Flux de Trésorerie</h4>
-                        <div className="finsight-cashflow-visual">
-                            <div className="finsight-cashflow-timeline">
-                                <div className="finsight-cashflow-point finsight-point-past">
-                                    <span className="finsight-point-value">+85k</span>
-                                    <span className="finsight-point-date">Oct 15</span>
+            {/* ✅ Contenu principal - Affiché seulement après upload de données */}
+            {kpis.length > 0 && (
+                <>
+                    {/* KPI Grid */}
+                    <div className="finsight-kpi-grid" data-count={kpis.length}>
+                        {kpis.map((kpi, index) => (
+                            <div key={index} className="finsight-kpi-card finsight-kpi-hover">
+                                <div className="finsight-kpi-header">
+                                    <h3 className="finsight-kpi-label">{kpi.title}</h3>
+                                    <span className={`finsight-kpi-change ${getChangeColor(kpi.changeType)}`}>
+                                        {getChangeIcon(kpi.changeType)} {kpi.change}
+                                    </span>
                                 </div>
-                                <div className="finsight-cashflow-point finsight-point-current">
-                                    <span className="finsight-point-value">245k</span>
-                                    <span className="finsight-point-date">Aujourd'hui</span>
-                                </div>
-                                <div className="finsight-cashflow-point finsight-point-future">
-                                    <span className="finsight-point-value">-47k</span>
-                                    <span className="finsight-point-date">Nov 15</span>
-                                </div>
-                                <div className="finsight-cashflow-point finsight-point-future">
-                                    <span className="finsight-point-value">+125k</span>
-                                    <span className="finsight-point-date">Déc 30</span>
+                                <p className="finsight-kpi-value">{kpi.value}</p>
+                                <p className="finsight-kpi-description">{kpi.description}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Messages d'upgrade si données insuffisantes */}
+                    {upgradeMessages.length > 0 && levelInfo && (
+                        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-6 mb-6">
+                            <div className="flex items-start space-x-3">
+                                <span className="text-amber-600 text-2xl">💡</span>
+                                <div className="flex-1">
+                                    <h3 className="font-semibold text-amber-800 mb-2">
+                                        Niveau détecté: {levelInfo.description}
+                                    </h3>
+                                    <div className="space-y-2">
+                                        {upgradeMessages.map((message, index) => (
+                                            <p key={index} className="text-sm text-amber-700">{message}</p>
+                                        ))}
+                                    </div>
+                                    <div className="mt-3 text-xs text-amber-600">
+                                        🎯 Vous utilisez {Math.round(levelInfo.confidence * 100)}% du potentiel FinSight
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    )}
 
-                    <div className="finsight-analysis-card">
-                        <h4 className="finsight-analysis-subtitle">Ratios Financiers</h4>
-                        <div className="finsight-ratios-list">
-                            <div className="finsight-ratio-item">
-                                <span className="finsight-ratio-name">Liquidité Générale</span>
-                                <div className="finsight-ratio-bar">
-                                    <div className="finsight-ratio-fill" style={{ width: '75%' }}></div>
-                                    <span className="finsight-ratio-value">1.8</span>
-                                </div>
-                            </div>
-                            <div className="finsight-ratio-item">
-                                <span className="finsight-ratio-name">Endettement</span>
-                                <div className="finsight-ratio-bar">
-                                    <div className="finsight-ratio-fill finsight-ratio-warning" style={{ width: '45%' }}></div>
-                                    <span className="finsight-ratio-value">0.45</span>
-                                </div>
-                            </div>
-                            <div className="finsight-ratio-item">
-                                <span className="finsight-ratio-name">Rentabilité</span>
-                                <div className="finsight-ratio-bar">
-                                    <div className="finsight-ratio-fill finsight-ratio-good" style={{ width: '82%' }}></div>
-                                    <span className="finsight-ratio-value">14.8%</span>
-                                </div>
+                    {/* Quick Insights */}
+                    {shouldShowElement('showAIInsights') && (
+                        <div className="bg-white rounded-lg shadow-lg p-6">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-4">🎯 Actions Prioritaires IA</h3>
+                            <div className="text-center py-8 text-gray-500">
+                                <p>💡 Insights IA nécessitent plus de données</p>
+                                <p className="text-sm">Importez plusieurs mois d'historique pour des recommandations personnalisées</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    )}
 
-            {/* Action Items */}
-            <div className="finsight-action-items">
-                <h3 className="finsight-actions-title">⚡ Actions Recommandées</h3>
-                <div className="finsight-actions-list">
-                    <div className="finsight-action-card finsight-action-urgent">
-                        <div className="finsight-action-header">
-                            <span className="finsight-action-priority">URGENT</span>
-                            <span className="finsight-action-impact">Impact: +45k€</span>
+                    {/* Cash Flow Projection */}
+                    {shouldShowElement('showProjections') && (
+                        <div className="finsight-projection-card">
+                            <h3 className="finsight-projection-title">🔮 Projection Trésorerie (90 jours)</h3>
+                            <div className="text-center py-8 text-gray-500">
+                                <p>💡 Projections nécessitent plus de données historiques</p>
+                                <p className="text-sm">Importez au moins 6 mois de données pour des projections fiables</p>
+                            </div>
                         </div>
-                        <h4 className="finsight-action-title">Relancer Client Alpha</h4>
-                        <p className="finsight-action-description">
-                            Facture de 45k€ en retard de 15 jours. Risque de dégradation du DSO.
-                        </p>
-                        <button className="finsight-action-btn">Contacter maintenant</button>
+                    )}
+
+                    {/* Quick Analytics Cards */}
+                    <div className="finsight-analytics-grid">
+                        {shouldShowElement('showTrendAnalysis') && (
+                            <div className="finsight-analytics-card">
+                                <h3 className="finsight-analytics-title">📈 Évolution Mensuelle CA</h3>
+                                <div className="finsight-trend-bars">
+                                    {getEvolutionData().length > 0 ? (
+                                        getEvolutionData().map((monthData, index) => (
+                                            <div key={index} className="finsight-trend-bar" style={{ height: `${60 + index * 10}%` }}>
+                                                <span className="finsight-trend-value">{monthData.display}</span>
+                                                <span className="finsight-trend-month">{monthData.month}</span>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="text-center py-8 text-gray-500">
+                                            <p>💡 Pas assez de données historiques</p>
+                                            <p className="text-sm">Importez plusieurs mois pour voir l'évolution</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {shouldShowElement('showAlerts') && (
+                            <div className="finsight-analytics-card">
+                                <h3 className="finsight-analytics-title">⚡ Alertes Actives</h3>
+                                <div className="text-center py-8 text-gray-500">
+                                    <p>💡 Alertes nécessitent des règles business configurées</p>
+                                    <p className="text-sm">Contactez notre équipe pour configurer vos seuils d'alerte</p>
+                                </div>
+                            </div>
+                        )}
+
+                        {shouldShowElement('showTopClients') && (
+                            <div className="finsight-analytics-card">
+                                <h3 className="finsight-analytics-title">🎯 Top 5 Clients</h3>
+                                <div className="finsight-client-ranking">
+                                    {getTopClients().length > 0 ? (
+                                        getTopClients().map((client, index) => (
+                                            <div key={index} className="finsight-client-item">
+                                                <span className="finsight-client-name">{client.name}</span>
+                                                <span className="finsight-client-value">{client.value}</span>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="text-center py-8 text-gray-500">
+                                            <p>💡 Ajoutez une colonne "Client" ou "Contrepartie"</p>
+                                            <p className="text-sm">pour voir l'analyse des top clients</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    <div className="finsight-action-card finsight-action-medium">
-                        <div className="finsight-action-header">
-                            <span className="finsight-action-priority">MOYEN</span>
-                            <span className="finsight-action-impact">Impact: +12k€/mois</span>
+                    {/* Detailed Analysis Section */}
+                    {shouldShowElement('showDetailedAnalysis') && (
+                        <div className="finsight-detailed-analysis">
+                            <h3 className="finsight-analysis-title">🔍 Analyse Détaillée</h3>
+                            <div className="finsight-analysis-grid">
+                                <div className="finsight-analysis-card">
+                                    <h4 className="finsight-analysis-subtitle">Flux de Trésorerie</h4>
+                                    <div className="text-center py-8 text-gray-500">
+                                        <p>💡 Analyse flux de trésorerie nécessite des données de trésorerie</p>
+                                        <p className="text-sm">Connectez vos comptes bancaires pour un suivi en temps réel</p>
+                                    </div>
+                                </div>
+
+                                {shouldShowElement('showRatios') && (
+                                    <div className="finsight-analysis-card">
+                                        <h4 className="finsight-analysis-subtitle">Ratios Financiers</h4>
+                                        <div className="text-center py-8 text-gray-500">
+                                            <p>💡 Calcul des ratios nécessite des données bilan/compte de résultat</p>
+                                            <p className="text-sm">Importez vos états financiers pour des ratios précis</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                        <h4 className="finsight-action-title">Optimiser Marge Produit X</h4>
-                        <p className="finsight-action-description">
-                            Marge actuelle 38% vs objectif 42%. Revoir les coûts matières premières.
-                        </p>
-                        <button className="finsight-action-btn">Analyser détails</button>
-                    </div>
+                    )}
 
-                    <div className="finsight-action-card finsight-action-opportunity">
-                        <div className="finsight-action-header">
-                            <span className="finsight-action-priority">OPPORTUNITÉ</span>
-                            <span className="finsight-action-impact">Impact: +200k€</span>
+                    {/* Action Items */}
+                    {shouldShowElement('showRecommendations') && (
+                        <div className="finsight-action-items">
+                            <h3 className="finsight-actions-title">⚡ Actions Recommandées</h3>
+                            <div className="text-center py-8 text-gray-500">
+                                <p>💡 Recommandations nécessitent plus de données d'historique</p>
+                                <p className="text-sm">Importez plusieurs mois pour des recommandations personnalisées</p>
+                            </div>
                         </div>
-                        <h4 className="finsight-action-title">Négocier Nouveau Contrat</h4>
-                        <p className="finsight-action-description">
-                            Client Beta a exprimé un intérêt pour étendre le périmètre. Moment idéal.
-                        </p>
-                        <button className="finsight-action-btn">Préparer proposition</button>
-                    </div>
-                </div>
-            </div>
+                    )}
 
-            {/* Charts interactifs - Section avancée */}
-            <div className="finsight-advanced-charts">
-                <h3 className="finsight-charts-title">📊 Analyses Avancées</h3>
-                <div className="finsight-charts-grid">
-                    <CashFlowChart />
-                    <DSOClientChart />
-                    <MarginAnalysisChart />
-                    <WhatIfSimulator />
-                </div>
-            </div>
+                    {/* Charts interactifs - Section avancée */}
+                    {shouldShowElement('showAdvancedCharts') && (
+                        <div className="finsight-advanced-charts">
+                            <h3 className="finsight-charts-title">📊 Analyses Avancées</h3>
+                            <div className="finsight-charts-grid">
+                                <CashFlowChart />
+                                <DSOClientChart />
+                                <MarginAnalysisChart />
+                                <WhatIfSimulator />
+                            </div>
+                        </div>
+                    )}
+                </>
+            )}
         </div>
     )
 }

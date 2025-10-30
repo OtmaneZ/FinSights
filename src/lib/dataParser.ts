@@ -17,8 +17,11 @@ import {
     CategorySummary,
     FINANCIAL_CATEGORIES,
     DATE_FORMATS,
-    CURRENCY_PATTERNS
+    CURRENCY_PATTERNS,
+    DataLevelInfo
 } from './dataModel';
+
+import { detectDataLevel, getDashboardConfig, generateAdaptiveKPIs, detectCapabilities } from './dashboardConfig';
 
 // Configuration par défaut
 const DEFAULT_CONFIG: ParseConfig = {
@@ -33,6 +36,7 @@ const DEFAULT_CONFIG: ParseConfig = {
 
 // Parse CSV robuste avec détection automatique
 export function parseCSV(csvText: string, config: ParseConfig = DEFAULT_CONFIG): ParseResult {
+    console.log('🔍 Parser - parseCSV appelé avec:', { csvText: csvText.substring(0, 100) + '...', config });
     const errors: ParseError[] = [];
     const warnings: string[] = [];
 
@@ -86,15 +90,33 @@ export function parseCSV(csvText: string, config: ParseConfig = DEFAULT_CONFIG):
         // Traitement et validation
         const processedData = processFinancialData(records, 'csv-import');
 
+        // ✅ NOUVELLE LOGIQUE GRANULAIRE
+        console.log('🔍 Parser - Mappings détectés:', detectedMappings);
+
+        // Détection granulaire des capacités réelles
+        const capabilities = detectCapabilities(detectedMappings, records);
+        console.log('🔍 Parser - Capacités détectées:', capabilities);
+
+        // Configuration granulaire précise
+        const dashboardConfig = getDashboardConfig(capabilities);
+        console.log('🔍 Parser - Config granulaire:', dashboardConfig);
+
+        // Wrapper pour compatibilité (description niveau)
+        const levelInfo = detectDataLevel(detectedMappings, records);
+        console.log('🔍 Parser - levelInfo (compatibilité):', levelInfo);
+
         return {
             success: true,
-            data: processedData,
+            data: {
+                ...processedData,
+                levelInfo,
+                dashboardConfig
+            },
             errors,
             warnings,
             config: detectedConfig,
             detectedMappings
         };
-
     } catch (error) {
         errors.push({
             row: 0,
@@ -185,6 +207,16 @@ function detectColumns(headers: string[], sampleData: string[], config: ParseCon
             });
         }
 
+        // Détection de la colonne client/contrepartie (AVANT description pour priorité)
+        else if (isClientColumn(headerLower)) {
+            mappings.push({
+                sourceColumn: header,
+                targetField: 'counterparty',
+                confidence: 0.9,
+                dataType: 'string'
+            });
+        }
+
         // Détection de la colonne description
         else if (isDescriptionColumn(headerLower, samples)) {
             mappings.push({
@@ -262,6 +294,11 @@ function isDescriptionColumn(header: string, samples: string[]): boolean {
 function isAccountColumn(header: string): boolean {
     const accountKeywords = ['account', 'compte', 'iban', 'rib'];
     return accountKeywords.some(keyword => header.includes(keyword));
+}
+
+function isClientColumn(header: string): boolean {
+    const clientKeywords = ['client', 'contrepartie', 'counterparty', 'customer', 'fournisseur', 'supplier', 'beneficiaire'];
+    return clientKeywords.some(keyword => header.includes(keyword));
 }
 
 function isReferenceColumn(header: string): boolean {
@@ -378,6 +415,11 @@ function parseRecords(
             const accountCol = columnMap.get('account');
             if (accountCol !== undefined && cols[accountCol]) {
                 record.account = cols[accountCol].trim();
+            }
+
+            const counterpartyCol = columnMap.get('counterparty');
+            if (counterpartyCol !== undefined && cols[counterpartyCol]) {
+                record.counterparty = cols[counterpartyCol].trim();
             }
 
             const referenceCol = columnMap.get('reference');
@@ -634,10 +676,14 @@ function calculateDataQuality(records: FinancialRecord[]): DataQuality {
     };
 }
 
-// Génération des KPIs pour le dashboard avec nouvelles données
+// Génération des KPIs adaptatifs pour le dashboard
 export function generateDashboardKPIs(data: ProcessedData) {
-    const { kpis, summary } = data;
+    if (data.dashboardConfig) {
+        return generateAdaptiveKPIs(data, data.dashboardConfig);
+    }
 
+    // Fallback si pas de config (ancien comportement)
+    const { kpis, summary } = data;
     return [
         {
             title: 'Chiffre d\'Affaires',

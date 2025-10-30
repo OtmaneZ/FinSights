@@ -45,6 +45,8 @@ export interface ProcessedData {
     summary: DataSummary;
     kpis: FinancialKPIs;
     qualityMetrics: DataQuality;
+    levelInfo?: DataLevelInfo;
+    dashboardConfig?: DashboardConfig;
 }
 
 export interface DataSummary {
@@ -172,4 +174,46 @@ export const CURRENCY_PATTERNS = {
     EUR: /€|EUR|euro/i,
     USD: /\$|USD|dollar/i,
     GBP: /£|GBP|pound/i
+} as const;
+
+// Nouveaux types pour le système adaptatif
+export type DataLevel = 'basic' | 'intermediate' | 'advanced';
+
+export interface DataLevelInfo {
+    level: DataLevel;
+    confidence: number; // 0-1, confiance dans la détection
+    availableFeatures: string[];
+    missingFeatures: string[];
+    suggestions: string[];
+    description: string;
+}
+
+export interface DashboardConfig {
+    level: DataLevel;
+    showTopClients: boolean;
+    showDSO: boolean;
+    showAdvancedCharts: boolean;
+    showCategoryAnalysis: boolean;
+    showProductMargin: boolean;
+    showRatios: boolean;
+    showProjections: boolean;
+    showAlerts: boolean;
+    // ✅ Nouveaux flags pour sections factices
+    showAIInsights: boolean;        // Actions Prioritaires IA
+    showTrendAnalysis: boolean;     // Évolution Mensuelle CA
+    showDetailedAnalysis: boolean;  // Analyse Détaillée (Flux)
+    showRecommendations: boolean;   // Actions Recommandées
+    kpiCount: number;
+    chartCount: number;
+}
+
+// Mapping des fonctionnalités selon les colonnes détectées
+export const FEATURE_REQUIREMENTS = {
+    'topClients': ['counterparty'],
+    'dso': ['counterparty', 'date'],
+    'categoryAnalysis': ['category'],
+    'productMargin': ['product', 'amount'],
+    'advancedRatios': ['account', 'category'],
+    'projections': ['date', 'amount'],
+    'alerts': ['amount', 'date']
 } as const;
