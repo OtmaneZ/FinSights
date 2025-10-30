@@ -152,7 +152,7 @@ export default function WhatIfSimulator() {
             setSimulationResults(allResults);
             setIsSimulating(false);
         }, 1500);
-    }, [scenarios, customParams]);
+    }, [scenarios]);
 
     useEffect(() => {
         runAllSimulations();

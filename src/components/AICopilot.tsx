@@ -52,18 +52,38 @@ export default function AICopilot() {
         const lowerQuery = query.toLowerCase()
 
         if (lowerQuery.includes('trésorerie') || lowerQuery.includes('cash')) {
-            return `Votre position de trésorerie actuelle est de 245 000€. La projection à 30 jours montre 198 000€ (-19%), principalement due aux échéances fournisseurs du 15 novembre (85k€). Je recommande de négocier un échelonnement avec le fournisseur principal.`
+            return `💰 Votre position de trésorerie actuelle est de 245 000€. La projection à 30 jours montre 198 000€ (-19%), principalement due aux échéances fournisseurs du 15 novembre (85k€). Je recommande de négocier un échelonnement avec le fournisseur principal ou d'accélérer l'encaissement des factures en cours (125k€ disponibles).`
         }
 
         if (lowerQuery.includes('marge') || lowerQuery.includes('rentabilité')) {
-            return `Votre marge brute s'établit à 42.8% ce mois-ci, en baisse de 2.3 points vs septembre. Cette dégradation s'explique par l'augmentation des coûts matières premières (+8%) et un mix produit défavorable. Les lignes "Premium" maintiennent 65% de marge.`
+            return `📊 Votre marge brute s'établit à 42.8% ce mois-ci, en baisse de 2.3 points vs septembre. Cette dégradation s'explique par l'augmentation des coûts matières premières (+8%) et un mix produit défavorable. Les lignes "Premium" maintiennent 65% de marge. Actions suggérées : réviser les prix ou optimiser les achats.`
         }
 
-        if (lowerQuery.includes('créances') || lowerQuery.includes('paiement')) {
-            return `Le délai moyen de paiement client atteint 47 jours (+5j vs N-1). 3 clients représentent 65% du retard : SARL Dupont (125k€, 73j), SAS Martin (89k€, 68j), EURL Blanc (45k€, 52j). Je suggère une relance ciblée avec conditions préférentielles en cas de règlement rapide.`
+        if (lowerQuery.includes('créances') || lowerQuery.includes('paiement') || lowerQuery.includes('dso')) {
+            return `⏰ Le délai moyen de paiement client atteint 47 jours (+5j vs N-1). 3 clients représentent 65% du retard : SARL Dupont (125k€, 73j), SAS Martin (89k€, 68j), EURL Blanc (45k€, 52j). Je suggère une relance ciblée avec conditions préférentielles en cas de règlement rapide.`
         }
 
-        return `Je comprends votre question sur "${query}". Pour une analyse précise, j'aurais besoin d'accéder aux données en temps réel. En attendant, consultez le tableau de bord pour les métriques actualisées ou reformulez votre question avec des termes spécifiques (trésorerie, marges, créances, etc.).`
+        if (lowerQuery.includes('budget') || lowerQuery.includes('prévision') || lowerQuery.includes('forecast')) {
+            return `🔮 Selon vos tendances actuelles, votre budget Q4 devrait être atteint à 103%. Risques identifiés : inflation des coûts énergétiques (+12%) et retard sur 2 gros contrats. Opportunités : nouveau marché export (+15% potentiel) et optimisation fiscale possible (économie 25k€).`
+        }
+
+        if (lowerQuery.includes('performance') || lowerQuery.includes('kpi') || lowerQuery.includes('indicateur')) {
+            return `📈 Performance globale : CA +8.5% (excellent), marge -2.3pt (attention), trésorerie +12.3% (très bon). Vos KPIs sont dans la moyenne haute de votre secteur. Points d'amélioration prioritaires : maîtrise des coûts et accélération des encaissements.`
+        }
+
+        if (lowerQuery.includes('concurrent') || lowerQuery.includes('marché') || lowerQuery.includes('secteur')) {
+            return `🏆 Votre position concurrentielle est solide. Marges supérieures au secteur (+3pt), croissance soutenue, mais DSO dégradé vs concurrents. Benchmark sectoriel : CA médian 850k€, marge 39%, DSO 42j. Vous surperformez globalement.`
+        }
+
+        if (lowerQuery.includes('risque') || lowerQuery.includes('alerte') || lowerQuery.includes('danger')) {
+            return `⚠️ Risques détectés : concentration client (top 3 = 67% CA), dépendance fournisseur unique pour 45% des achats, trésorerie tendue en novembre. Actions préventives : diversification portefeuille, négociation échéancier, ligne de crédit de précaution.`
+        }
+
+        if (lowerQuery.includes('investissement') || lowerQuery.includes('projet') || lowerQuery.includes('expansion')) {
+            return `💡 Capacité d'investissement estimée à 180k€ sur 12 mois (basée sur cash-flow opérationnel). Projets éligibles : digitalisation (ROI 24 mois), recrutement commercial (break-even 8 mois), extension géographique (étude préalable recommandée).`
+        }
+
+        return `🤖 Je comprends votre question sur "${query}". Pour une analyse précise, j'aurais besoin d'accéder aux données en temps réel. En attendant, consultez le tableau de bord pour les métriques actualisées ou reformulez votre question avec des termes spécifiques (trésorerie, marges, créances, performance, risques, etc.).`
     }
 
     return (
@@ -81,8 +101,8 @@ export default function AICopilot() {
                     >
                         <div
                             className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${message.isUser
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-gray-100 text-gray-900'
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-gray-100 text-gray-900'
                                 }`}
                         >
                             <p className="text-sm">{message.content}</p>
@@ -146,6 +166,24 @@ export default function AICopilot() {
                         className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
                     >
                         Projection trésorerie
+                    </button>
+                    <button
+                        onClick={() => setInput('Quels sont mes principaux risques financiers ?')}
+                        className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
+                    >
+                        Analyse risques
+                    </button>
+                    <button
+                        onClick={() => setInput('Comment ma performance se compare au secteur ?')}
+                        className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
+                    >
+                        Benchmark secteur
+                    </button>
+                    <button
+                        onClick={() => setInput('Quelle est ma capacité d\'investissement ?')}
+                        className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
+                    >
+                        Capacité d'investissement
                     </button>
                 </div>
             </div>

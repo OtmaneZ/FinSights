@@ -13,6 +13,7 @@ export default function CopilotPage() {
                         <nav className="flex space-x-8">
                             <a href="/" className="text-gray-500 hover:text-gray-900">Accueil</a>
                             <a href="/dashboard" className="text-gray-500 hover:text-gray-900">Dashboard</a>
+                            <a href="/methodologie" className="text-gray-500 hover:text-gray-900">Méthodologie</a>
                             <a href="/copilot" className="text-blue-600 font-medium">Copilote IA</a>
                         </nav>
                     </div>
