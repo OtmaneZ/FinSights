@@ -3,7 +3,7 @@
  * Permet de persister les données financières entre sessions
  */
 
-import { FinSightDataModel, FinSightData } from './dataModel';
+import { FinSightDataModel } from './dataModel';
 
 const CACHE_KEY = 'finsight_data';
 const CACHE_HISTORY_KEY = 'finsight_history';

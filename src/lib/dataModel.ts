@@ -217,3 +217,70 @@ export const FEATURE_REQUIREMENTS = {
     'projections': ['date', 'amount'],
     'alerts': ['amount', 'date']
 } as const;
+
+// Types pour l'IA et les insights
+export interface AIAlert {
+    id: string;
+    type: 'urgent' | 'warning' | 'info';
+    title: string;
+    description: string;
+    impact: string;
+    action?: string;
+    priority: number;
+}
+
+export interface AIRecommendation {
+    id: string;
+    category: 'cash_flow' | 'margin' | 'efficiency' | 'growth';
+    title: string;
+    description: string;
+    impact: string;
+    effort: 'low' | 'medium' | 'high';
+    potentialGain: number;
+    priority: number;
+}
+
+export interface AIResponse {
+    answer: string;
+    confidence: number;
+    sources: string[];
+    suggestions: string[];
+    followUp?: string[];
+}
+
+// Modèle de données FinSight complet
+export interface FinSightDataModel {
+    id: string;
+    timestamp: string;
+    fileName: string;
+    recordCount: number;
+    period: {
+        start: Date;
+        end: Date;
+        label: string;
+    };
+    kpis: {
+        revenue: KPIMetric;
+        expenses: KPIMetric;
+        margin: KPIMetric;
+        cashFlow: KPIMetric;
+        dso: KPIMetric;
+        ebitda: KPIMetric;
+    };
+    insights?: {
+        alerts: AIAlert[];
+        recommendations: AIRecommendation[];
+        summary: string;
+        riskScore: number;
+    };
+}
+
+export interface KPIMetric {
+    title: string;
+    value: number;
+    formatted: string;
+    changeValue: number;
+    changeFormatted: string;
+    changeType: 'positive' | 'negative' | 'neutral';
+    description: string;
+}

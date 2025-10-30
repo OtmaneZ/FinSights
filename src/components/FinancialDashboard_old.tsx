@@ -16,9 +16,9 @@ import {
     CheckCircleIcon
 } from '@heroicons/react/24/outline';
 
-// Nouveaux imports Phase 2
-import { FinSightDataModel, KPIMetric } from '@/lib/dataModel';
-import { useFinSightCache } from '@/lib/cache';
+// Nouveaux imports Phase 2 (temporairement commentés)
+// import { FinSightDataModel, KPIMetric } from '@/lib/dataModel';
+// import { useFinSightCache } from '@/lib/cache';
 import AICopilot from './AICopilot';
 
 // Import dynamique des charts avec stratégie simple

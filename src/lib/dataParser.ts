@@ -678,11 +678,7 @@ function calculateDataQuality(records: FinancialRecord[]): DataQuality {
 
 // Génération des KPIs adaptatifs pour le dashboard
 export function generateDashboardKPIs(data: ProcessedData) {
-    if (data.dashboardConfig) {
-        return generateAdaptiveKPIs(data, data.dashboardConfig);
-    }
-
-    // Fallback si pas de config (ancien comportement)
+    // Fallback: générer les KPIs traditionnels
     const { kpis, summary } = data;
     return [
         {

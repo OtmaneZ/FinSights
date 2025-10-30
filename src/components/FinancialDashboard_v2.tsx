@@ -16,9 +16,7 @@ import {
     CheckCircleIcon
 } from '@heroicons/react/24/outline';
 
-// Nouveaux imports Phase 2
-import { FinSightDataModel, KPIMetric } from '@/lib/dataModel';
-import { useFinSightCache } from '@/lib/cache';
+// Simplification des imports
 import AICopilot from './AICopilot';
 
 // Import dynamique des charts avec stratégie robuste
@@ -59,26 +57,11 @@ export default function FinancialDashboard() {
     const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle')
     const dashboardRef = useRef<HTMLDivElement>(null)
 
-    // Nouveaux états Phase 2
-    const [finSightData, setFinSightData] = useState<FinSightDataModel | null>(null)
-    const [isDataLoaded, setIsDataLoaded] = useState(false)
-
-    // Hook cache Phase 2
-    const cache = useFinSightCache()
-
-    // Chargement initial depuis le cache
+    // useEffect simplifié
     useEffect(() => {
-        const cachedData = cache.loadData();
-        if (cachedData) {
-            setFinSightData(cachedData);
-            setIsDataLoaded(true);
-            updateKPIsFromFinSightData(cachedData);
-            console.log('✅ Données chargées depuis le cache');
-        } else {
-            // Charger les KPIs par défaut si pas de cache
-            loadDefaultKPIs();
-        }
-    }, [])
+        const periodData = getPeriodData(selectedPeriod);
+        setKpis(periodData.data);
+    }, [selectedPeriod])
 
     // Fonction pour convertir FinSightData vers KPIs d'affichage
     const updateKPIsFromFinSightData = (data: FinSightDataModel) => {
@@ -589,7 +572,7 @@ export default function FinancialDashboard() {
                                 <p className="text-3xl font-bold text-gray-900">{kpi.value}</p>
                                 <div className="flex items-center mt-2">
                                     <span className={`text-sm font-medium ${kpi.changeType === 'positive' ? 'text-green-600' :
-                                            kpi.changeType === 'negative' ? 'text-red-600' : 'text-gray-600'
+                                        kpi.changeType === 'negative' ? 'text-red-600' : 'text-gray-600'
                                         }`}>
                                         {kpi.change}
                                     </span>
@@ -623,13 +606,10 @@ export default function FinancialDashboard() {
                     </div>
                 </div>
 
-                {/* AI Copilot Section - Phase 2 */}
-                <div className="mb-12">
-                    <AICopilot
-                        finSightData={finSightData}
-                        isDataLoaded={isDataLoaded}
-                    />
-                </div>
+                {/* AI Copilot Section - Temporairement désactivé */}
+                {/* <div className="mb-12">
+                    <AICopilot />
+                </div> */}
             </div>
         </div>
     )
