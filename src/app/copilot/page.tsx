@@ -26,6 +26,11 @@ export default function CopilotPage() {
                         Posez vos questions financières en langage naturel et obtenez des réponses
                         analytiques instantanées basées sur vos données réelles.
                     </p>
+                    <p className="text-sm text-gray-500 mt-3 flex items-center">
+                        <span className="inline-flex items-center px-2 py-1 rounded-md bg-gray-100 text-gray-600 text-xs mr-2">
+                            🤖 Propulsé par IA Skfolio + OpenAI (simulation)
+                        </span>
+                    </p>
                 </div>
 
                 <AICopilot />
@@ -59,6 +64,17 @@ export default function CopilotPage() {
                     </div>
                 </div>
             </main>
+
+            {/* Footer */}
+            <footer className="bg-gray-900 text-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div className="text-center">
+                        <p className="text-sm text-gray-400">
+                            Prototype développé par <span className="text-white font-medium">Otmane Boulahia</span> — <span className="text-blue-400">Zine Insight</span>
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     LineChart,
     Line,
@@ -126,7 +126,7 @@ export default function WhatIfSimulator() {
     };
 
     // Exécuter toutes les simulations
-    const runAllSimulations = () => {
+    const runAllSimulations = useCallback(() => {
         setIsSimulating(true);
 
         setTimeout(() => {
@@ -152,11 +152,11 @@ export default function WhatIfSimulator() {
             setSimulationResults(allResults);
             setIsSimulating(false);
         }, 1500);
-    };
+    }, [scenarios, customParams]);
 
     useEffect(() => {
         runAllSimulations();
-    }, [customParams]);
+    }, [customParams, runAllSimulations]);
 
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat('fr-FR', {
@@ -318,8 +318,8 @@ export default function WhatIfSimulator() {
                                         setActiveScenario(key as any);
                                     }}
                                     className={`w-full text-left p-3 rounded-lg border ${activeScenario === key
-                                            ? 'border-blue-500 bg-blue-50'
-                                            : 'border-gray-200 hover:bg-gray-50'
+                                        ? 'border-blue-500 bg-blue-50'
+                                        : 'border-gray-200 hover:bg-gray-50'
                                         }`}
                                 >
                                     <div className="flex items-center space-x-2">
@@ -338,8 +338,8 @@ export default function WhatIfSimulator() {
                 {/* Visualisations */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* Graphique principal */}
-                    <div className="h-80">
-                        <ResponsiveContainer width="100%" height="100%">
+                    <div className="h-80 min-h-80">
+                        <ResponsiveContainer width="100%" height="100%" minHeight={320}>
                             <LineChart data={simulationResults} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="month" fontSize={12} />

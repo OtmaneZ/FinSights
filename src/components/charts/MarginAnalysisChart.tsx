@@ -216,8 +216,8 @@ export default function MarginAnalysisChart() {
                     <button
                         onClick={() => setSelectedView('overview')}
                         className={`px-3 py-1 text-sm rounded ${selectedView === 'overview'
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                     >
                         Vue Globale
@@ -225,8 +225,8 @@ export default function MarginAnalysisChart() {
                     <button
                         onClick={() => setSelectedView('segments')}
                         className={`px-3 py-1 text-sm rounded ${selectedView === 'segments'
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                     >
                         Par Segment
@@ -234,8 +234,8 @@ export default function MarginAnalysisChart() {
                     <button
                         onClick={() => setSelectedView('trends')}
                         className={`px-3 py-1 text-sm rounded ${selectedView === 'trends'
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                     >
                         Tendances
@@ -243,8 +243,8 @@ export default function MarginAnalysisChart() {
                 </div>
             </div>
 
-            <div className="h-80 mb-6">
-                <ResponsiveContainer width="100%" height="100%">
+            <div className="h-80 min-h-80 mb-6">
+                <ResponsiveContainer width="100%" height="100%" minHeight={320}>
                     {selectedView === 'overview' ? (
                         <ComposedChart data={overviewData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                             <CartesianGrid strokeDasharray="3 3" />

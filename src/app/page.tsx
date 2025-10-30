@@ -28,6 +28,11 @@ export default function Home() {
             {/* Hero Section */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="text-center">
+                    <div className="mb-4">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            Démonstration technologique — Oct 2025
+                        </span>
+                    </div>
                     <h2 className="text-4xl font-bold text-gray-900 sm:text-6xl">
                         La Finance
                         <span className="text-blue-600"> Augmentée</span>
@@ -42,7 +47,7 @@ export default function Home() {
                             Voir le Dashboard
                         </a>
                         <a href="/copilot" className="bg-white hover:bg-gray-50 text-blue-600 border border-blue-600 px-8 py-3 rounded-lg text-lg font-medium">
-                            Essayer le Copilote IA
+                            Voir une simulation IA
                         </a>
                     </div>
                 </div>
@@ -140,6 +145,20 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+
+            {/* Footer */}
+            <footer className="bg-gray-900 text-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div className="text-center">
+                        <p className="text-sm text-gray-400">
+                            Prototype développé par <span className="text-white font-medium">Otmane Boulahia</span> — <span className="text-blue-400">Zine Insight</span>
+                        </p>
+                        <p className="text-xs text-gray-500 mt-2">
+                            FinSight © 2025. Démonstration technologique.
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </main>
     )
 }

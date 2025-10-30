@@ -22,6 +22,17 @@ export default function DashboardPage() {
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <FinancialDashboard />
             </main>
+
+            {/* Footer */}
+            <footer className="bg-gray-900 text-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div className="text-center">
+                        <p className="text-sm text-gray-400">
+                            Prototype développé par <span className="text-white font-medium">Otmane Boulahia</span> — <span className="text-blue-400">Zine Insight</span>
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </div>
     )
 }

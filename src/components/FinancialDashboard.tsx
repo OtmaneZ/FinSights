@@ -2,16 +2,31 @@
 
 import { useState, useEffect } from 'react'
 import React from 'react';
+import dynamic from 'next/dynamic';
 import {
     BanknotesIcon,
     ArrowTrendingUpIcon,
     ExclamationTriangleIcon,
     ClockIcon
 } from '@heroicons/react/24/outline';
-import CashFlowChart from './charts/CashFlowChart';
-import DSOClientChart from './charts/DSOClientChart';
-import MarginAnalysisChart from './charts/MarginAnalysisChart';
-import WhatIfSimulator from './charts/WhatIfSimulator';
+
+// Import dynamique des charts pour éviter les problèmes SSR
+const CashFlowChart = dynamic(() => import('./charts/CashFlowChart'), {
+    ssr: false,
+    loading: () => <div className="h-80 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center"><span className="text-gray-500">Chargement du graphique...</span></div>
+});
+const DSOClientChart = dynamic(() => import('./charts/DSOClientChart'), {
+    ssr: false,
+    loading: () => <div className="h-80 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center"><span className="text-gray-500">Chargement du graphique...</span></div>
+});
+const MarginAnalysisChart = dynamic(() => import('./charts/MarginAnalysisChart'), {
+    ssr: false,
+    loading: () => <div className="h-80 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center"><span className="text-gray-500">Chargement du graphique...</span></div>
+});
+const WhatIfSimulator = dynamic(() => import('./charts/WhatIfSimulator'), {
+    ssr: false,
+    loading: () => <div className="h-80 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center"><span className="text-gray-500">Chargement du simulateur...</span></div>
+});
 
 interface KPI {
     title: string
