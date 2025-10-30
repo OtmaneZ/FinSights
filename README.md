@@ -349,6 +349,48 @@ Target: CFO/DAF PME-ETI avec budget 2-5k€  # Lancement de la démo- **SAP/Orac
 - **IA** : Réponses prédéfinies intelligentes
 
 *Dernière mise à jour: 30 octobre 2025 - Commit 16cfa14*
+
+---
+
+## 🏗️ STRATÉGIE INTÉGRATION ZINEINSIGHT
+
+### 🎯 **OPTION A : Extension Écosystème (Ajout, pas remplacement)**
+
+**Architecture cible :**
+```
+zineinsight.com/
+├── / (homepage actuelle CONSERVÉE)
+│   ├── Portfolio Power BI existant ✅
+│   ├── 3 Packages actuels (900-3600€) ✅  
+│   ├── Témoignages existants ✅
+│   └── + NOUVELLE section FinSight 🆕
+│
+├── /finsight/ (NOUVELLES pages dédiées) 🆕
+│   ├── /dashboard (interface interactive)
+│   ├── /copilot (AI assistant)  
+│   └── /methodology (process détaillé)
+│
+└── Navigation enrichie (menu + FinSight) 🆕
+```
+
+### 🎯 **Positionnement dual :**
+- **Power BI Classique** : 900-3600€ (offre actuelle conservée)
+- **Finance Augmentée** : 1800-2800€ (spécialisation FinSight)
+
+### ✅ **Avantages stratégiques :**
+- **Zéro risque** → Site actuel intact
+- **Cross-selling** → Clients Power BI → Upgrade FinSight  
+- **SEO renforcé** → Autorité domaine concentrée
+- **Cohérence écosystème** → Un seul site à maintenir
+
+### 🛠️ **Stack technique identifié :**
+- **Frontend** : HTML/CSS/JS + Revolutionary CSS system
+- **Style** : Adaptation FinSight au design glassmorphism existant
+- **Déploiement** : Scripts bash + systemd + nginx existants
+- **i18n** : Extension système traduction FR/EN
+
+**Position finale :**
+FinSight = **Spécialisation finance** de l'écosystème ZineInsight
 ## 🛠 **Stack Technique**- **Visualisations** : Charts interactifs (Recharts)
 
 
