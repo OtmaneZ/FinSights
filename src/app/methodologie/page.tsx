@@ -1,39 +1,42 @@
 import MethodologyPage from '@/components/MethodologyPage'
+import CTAFixed from '@/components/CTAFixed'
 
 export default function Methodology() {
     return (
-        <div className="min-h-screen bg-gray-50">
-            <header className="bg-white shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center py-6">
-                        <div className="flex items-center">
-                            <h1 className="text-2xl font-bold text-gray-900">FinSight</h1>
-                            <span className="ml-2 text-sm text-gray-500">Méthodologie</span>
-                        </div>
-                        <nav className="flex space-x-8">
-                            <a href="/" className="text-gray-500 hover:text-gray-900">Accueil</a>
-                            <a href="/dashboard" className="text-gray-500 hover:text-gray-900">Dashboard</a>
-                            <a href="/copilot" className="text-gray-500 hover:text-gray-900">Copilote IA</a>
-                            <a href="/methodologie" className="text-blue-600 font-medium">Méthodologie</a>
-                        </nav>
+        <main className="finsight-body">
+            {/* Header */}
+            <header className="finsight-header">
+                <div className="finsight-nav-container">
+                    <div className="finsight-brand-container">
+                        <h1 className="finsight-brand">FinSight</h1>
+                        <span className="finsight-brand-subtitle">Méthodologie</span>
                     </div>
+                    <nav className="finsight-nav-menu finsight-nav-hidden">
+                        <a href="/" className="finsight-nav-link">Accueil</a>
+                        <a href="/dashboard" className="finsight-nav-link">Dashboard</a>
+                        <a href="/copilot" className="finsight-nav-link">Copilote IA</a>
+                        <a href="/methodologie" className="finsight-nav-link finsight-nav-active">Méthodologie</a>
+                    </nav>
                 </div>
             </header>
 
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="finsight-main">
                 <MethodologyPage />
-            </main>
+            </div>
 
             {/* Footer */}
-            <footer className="bg-gray-900 text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <div className="text-center">
-                        <p className="text-sm text-gray-400">
-                            Prototype développé par <span className="text-white font-medium">Otmane Boulahia</span> — <span className="text-blue-400">Zine Insight</span>
+            <footer className="finsight-footer">
+                <div className="finsight-footer-content">
+                    <div className="finsight-footer-center">
+                        <p className="finsight-footer-main">
+                            Prototype développé par <span className="finsight-footer-highlight">Otmane Boulahia</span> — <span className="finsight-footer-brand">Zine Insight</span>
                         </p>
                     </div>
                 </div>
             </footer>
-        </div>
+
+            {/* CTA Fixe */}
+            <CTAFixed />
+        </main>
     )
 }

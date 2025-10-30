@@ -59,61 +59,58 @@ export default function CashFlowChart() {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex justify-between items-center mb-6">
+        <div className="finsight-chart-container">
+            <div className="finsight-chart-header">
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800">Évolution de la Trésorerie</h3>
-                    <p className="text-sm text-gray-600">Données réelles vs projections IA (en €)</p>
+                    <h3 className="finsight-chart-title">Évolution de la Trésorerie</h3>
+                    <p className="finsight-chart-subtitle">Données réelles vs projections IA (en €)</p>
                 </div>
-                <div className="flex space-x-4 text-sm">
-                    <div className="flex items-center">
-                        <div className="w-3 h-3 bg-blue-500 rounded mr-2"></div>
+                <div className="finsight-chart-legend">
+                    <div className="finsight-legend-item">
+                        <div className="finsight-legend-color finsight-legend-historical"></div>
                         <span>Historique</span>
                     </div>
-                    <div className="flex items-center">
-                        <div className="w-3 h-3 bg-blue-300 rounded mr-2"></div>
+                    <div className="finsight-legend-item">
+                        <div className="finsight-legend-color finsight-legend-projected"></div>
                         <span>Projection</span>
                     </div>
                 </div>
             </div>
 
-            <div className="h-80 min-h-80">
+            <div className="finsight-chart-area">
                 <ResponsiveContainer width="100%" height="100%" minHeight={320}>
                     <AreaChart data={cashFlowData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                         <XAxis
                             dataKey="month"
                             fontSize={12}
-                            tick={{ fill: '#6b7280' }}
+                            tick={{ fill: 'rgba(255,255,255,0.7)' }}
                         />
                         <YAxis
                             tickFormatter={(value) => `${Math.round(value / 1000)}k€`}
                             fontSize={12}
-                            tick={{ fill: '#6b7280' }}
+                            tick={{ fill: 'rgba(255,255,255,0.7)' }}
                         />
                         <Tooltip content={<CustomTooltip />} />
 
-                        {/* Zone de risque */}
                         <ReferenceLine y={50000} stroke="#ef4444" strokeDasharray="5 5" label="Seuil critique" />
                         <ReferenceLine y={100000} stroke="#f59e0b" strokeDasharray="5 5" label="Seuil d'alerte" />
 
-                        {/* Données historiques */}
                         <Area
                             type="monotone"
                             dataKey="actual"
-                            stroke="#3b82f6"
-                            fill="#3b82f6"
+                            stroke="#0066FF"
+                            fill="#0066FF"
                             fillOpacity={0.3}
                             strokeWidth={2}
                             connectNulls={false}
                         />
 
-                        {/* Projections */}
                         <Area
                             type="monotone"
                             dataKey="projected"
-                            stroke="#93c5fd"
-                            fill="#93c5fd"
+                            stroke="#00D4AA"
+                            fill="#00D4AA"
                             fillOpacity={0.2}
                             strokeWidth={2}
                             strokeDasharray="5 5"
@@ -124,16 +121,16 @@ export default function CashFlowChart() {
             </div>
 
             {/* Insights IA */}
-            <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
-                <div className="flex items-start space-x-3">
-                    <div className="text-blue-600 text-lg">🤖</div>
+            <div className="finsight-chart-insights">
+                <div className="finsight-insights-content">
+                    <div className="finsight-insights-icon">🤖</div>
                     <div>
-                        <p className="text-sm font-semibold text-blue-900 mb-1">Insights IA</p>
-                        <p className="text-sm text-blue-800">
+                        <p className="finsight-insights-label">Insights IA</p>
+                        <p className="finsight-insights-text">
                             <strong>Tendance :</strong> Baisse temporaire prévue en novembre (-32k€) due aux échéances fournisseurs.
-                            <strong>Rebond attendu</strong> en décembre (+34k€) grâce aux encaissements de fin d'année.
+                            <strong> Rebond attendu</strong> en décembre (+34k€) grâce aux encaissements de fin d'année.
                         </p>
-                        <p className="text-xs text-blue-700 mt-2">
+                        <p className="finsight-insights-recommendation">
                             💡 <strong>Recommandation :</strong> Négocier un étalement des paiements fournisseurs sur novembre.
                         </p>
                     </div>

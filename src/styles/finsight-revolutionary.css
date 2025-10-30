@@ -1,0 +1,1802 @@
+/* ====================================
+   🚀 FINSIGHT REVOLUTIONARY CSS
+   Adaptation FinSight pour ZineInsight
+   Glassmorphism + Revolutionary System
+==================================== */
+
+/* ===== IMPORT BASE REVOLUTIONARY SYSTEM ===== */
+/* Variables de base extraites du système ZineInsight */
+:root {
+    /* ✨ REVOLUTIONARY COLORS */
+    --revolution-primary: #0066FF;
+    --revolution-primary-light: #3385FF;
+    --revolution-primary-dark: #0052CC;
+    --revolution-secondary: #00D4AA;
+    --revolution-secondary-light: #33DDBB;
+    --revolution-secondary-dark: #00B894;
+    --revolution-accent: #FF6B6B;
+    --revolution-accent-light: rgba(255, 107, 107, 0.1);
+
+    /* 🌈 GRADIENT MAGIC */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-revolutionary: linear-gradient(135deg, #0066FF 0%, #00D4AA 50%, #FF6B6B 100%);
+    --gradient-cosmic: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    --gradient-secondary: linear-gradient(135deg, #00D4AA 0%, #00B894 100%);
+
+    /* 🎨 GLASSMORPHISM */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --glass-backdrop: blur(20px);
+    --glass-card: rgba(255, 255, 255, 0.05);
+    --glass-premium: rgba(255, 255, 255, 0.15);
+
+    /* 🌙 DARK THEME */
+    --bg-primary: #0a0a0b;
+    --bg-secondary: #1a1a1d;
+    --bg-tertiary: #2d2d30;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-tertiary: #808080;
+
+    /* 🌟 REVOLUTIONARY SHADOWS */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --shadow-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+    --shadow-glow-primary: 0 0 40px rgba(0, 102, 255, 0.3);
+    --shadow-glow-secondary: 0 0 40px rgba(0, 212, 170, 0.3);
+    --shadow-revolutionary: 0 0 60px rgba(102, 126, 234, 0.4), 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+
+    /* ✍️ TYPOGRAPHY REVOLUTIONARY */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-weight-thin: 100;
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
+
+    /* 📏 SPACING REVOLUTIONARY */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+
+    /* 🔄 BORDER RADIUS */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-3xl: 2rem;
+    --radius-full: 9999px;
+
+    /* ⚡ ANIMATIONS */
+    --duration-150: 150ms;
+    --duration-200: 200ms;
+    --duration-300: 300ms;
+    --duration-500: 500ms;
+    --duration-700: 700ms;
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-revolutionary: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ===== FINSIGHT BODY ADAPTATION ===== */
+.finsight-body {
+    background:
+        radial-gradient(ellipse at top left, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at top right, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(0, 212, 170, 0.1) 0%, transparent 50%),
+        var(--bg-primary);
+    min-height: 100vh;
+    font-family: var(--font-family);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+.finsight-body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(0, 212, 170, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ===== REVOLUTIONARY HEADER ADAPTATION ===== */
+.finsight-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    -webkit-backdrop-filter: var(--glass-backdrop);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: all var(--duration-300) var(--ease-out);
+}
+
+.finsight-nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.finsight-brand {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    background: var(--gradient-revolutionary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+}
+
+.finsight-nav-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    list-style: none;
+}
+
+.finsight-nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-lg);
+    transition: all var(--duration-200) var(--ease-out);
+}
+
+.finsight-nav-link:hover,
+.finsight-nav-link.active {
+    color: var(--text-primary);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+}
+
+/* ===== MAIN CONTAINER ADAPTATION ===== */
+.finsight-main {
+    padding-top: 100px;
+    min-height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+}
+
+/* ===== DASHBOARD CARDS REVOLUTIONARY ===== */
+.finsight-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+}
+
+.finsight-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    -webkit-backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    box-shadow: var(--glass-shadow);
+    transition: all var(--duration-300) var(--ease-out);
+    position: relative;
+    overflow: hidden;
+}
+
+.finsight-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--glass-shadow);
+    background: var(--glass-premium);
+}
+
+.finsight-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.finsight-card-title {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.finsight-card-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    color: white;
+    font-size: 1.25rem;
+}
+
+/* ===== KPI CARDS ===== */
+.finsight-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+.finsight-kpi-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4);
+    text-align: center;
+    transition: all var(--duration-200) var(--ease-out);
+}
+
+.finsight-kpi-card:hover {
+    transform: translateY(-1px);
+    background: var(--glass-premium);
+}
+
+.finsight-kpi-value {
+    font-size: 1.875rem;
+    font-weight: var(--font-weight-bold);
+    background: var(--gradient-revolutionary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-1);
+}
+
+.finsight-kpi-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.finsight-kpi-trend {
+    margin-top: var(--space-2);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.finsight-trend-up {
+    color: var(--revolution-secondary);
+}
+
+.finsight-trend-down {
+    color: var(--revolution-accent);
+}
+
+/* ===== REVOLUTIONARY BUTTONS ===== */
+.finsight-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--duration-300) var(--ease-out);
+    overflow: hidden;
+    user-select: none;
+}
+
+.finsight-btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.finsight-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow-primary), var(--shadow-lg);
+}
+
+.finsight-btn-secondary {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+.finsight-btn-secondary:hover {
+    background: var(--gradient-secondary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow-secondary), var(--shadow-lg);
+}
+
+.finsight-btn-revolutionary {
+    background: var(--gradient-revolutionary);
+    color: white;
+    box-shadow: var(--shadow-revolutionary);
+}
+
+.finsight-btn-revolutionary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-revolutionary), var(--shadow-2xl);
+}
+
+/* ===== CHARTS CONTAINER ===== */
+.finsight-chart-container {
+    background: var(--glass-card);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+    position: relative;
+    overflow: hidden;
+}
+
+.finsight-chart-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient-revolutionary);
+}
+
+.finsight-chart-title {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-4);
+    text-align: center;
+}
+
+/* ===== AI COPILOT ADAPTATION ===== */
+.finsight-copilot-container {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.finsight-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: var(--space-4);
+    padding: var(--space-4);
+    background: var(--glass-card);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--glass-border);
+}
+
+.finsight-message {
+    margin-bottom: var(--space-4);
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    max-width: 80%;
+}
+
+.finsight-message.user {
+    background: var(--gradient-primary);
+    color: white;
+    margin-left: auto;
+    text-align: right;
+}
+
+.finsight-message.ai {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+}
+
+.finsight-input-container {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+}
+
+.finsight-input {
+    flex: 1;
+    padding: var(--space-3);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    transition: all var(--duration-200) var(--ease-out);
+}
+
+.finsight-input:focus {
+    outline: none;
+    border-color: var(--revolution-primary);
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+/* ===== SECTION HEADERS ===== */
+.finsight-section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+}
+
+.finsight-section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    padding: var(--space-2) var(--space-4);
+    margin-bottom: var(--space-4);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+}
+
+.finsight-section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: var(--font-weight-black);
+    line-height: 1.2;
+    margin-bottom: var(--space-4);
+    color: var(--text-primary);
+    background: var(--gradient-revolutionary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.finsight-section-subtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .finsight-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .finsight-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .finsight-nav-menu {
+        gap: var(--space-4);
+    }
+
+    .finsight-main {
+        padding-left: var(--space-4);
+        padding-right: var(--space-4);
+    }
+}
+
+@media (max-width: 480px) {
+    .finsight-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .finsight-card {
+        padding: var(--space-4);
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes finsight-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes finsight-glow {
+
+    0%,
+    100% {
+        box-shadow: var(--shadow-glow-primary);
+    }
+
+    50% {
+        box-shadow: var(--shadow-glow-secondary);
+    }
+}
+
+.finsight-animate-fade-in {
+    animation: finsight-fade-in 0.6s var(--ease-out);
+}
+
+.finsight-animate-glow {
+    animation: finsight-glow 3s ease-in-out infinite;
+}
+
+/* ===== NEW COMPONENTS FOR BETTER LAYOUT ===== */
+
+/* KPI Grid Improvements */
+.finsight-kpi-grid {
+    margin-top: var(--space-16);
+    gap: var(--space-6);
+}
+
+.finsight-card-alert {
+    border: 2px solid var(--revolution-accent);
+    background: rgba(255, 107, 107, 0.05);
+}
+
+/* Dashboard Grid Improvements */
+.finsight-dashboard-grid {
+    margin-top: var(--space-16);
+}
+
+.finsight-card-center {
+    text-align: center;
+}
+
+.finsight-card-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto var(--space-4);
+    background: var(--glass-premium);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+}
+
+.finsight-icon-analysis {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.finsight-icon-forecast {
+    background: rgba(147, 51, 234, 0.1);
+    border-color: rgba(147, 51, 234, 0.3);
+}
+
+.finsight-icon-copilot {
+    background: rgba(249, 115, 22, 0.1);
+    border-color: rgba(249, 115, 22, 0.3);
+}
+
+.finsight-card-description {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-top: var(--space-2);
+    line-height: 1.5;
+}
+
+/* Copilot Demo */
+.finsight-copilot-demo {
+    margin-top: var(--space-16);
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+}
+
+.finsight-demo-title {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-6);
+}
+
+.finsight-demo-user-message {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.finsight-demo-ai-response {
+    background: rgba(0, 102, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    border: 1px solid rgba(0, 102, 255, 0.2);
+}
+
+.finsight-demo-user-message p,
+.finsight-demo-ai-response p {
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Footer */
+.finsight-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-secondary);
+    margin-top: var(--space-16);
+}
+
+.finsight-footer-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-6) var(--space-8);
+}
+
+.finsight-footer-center {
+    text-align: center;
+}
+
+.finsight-footer-main {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.finsight-footer-highlight {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-medium);
+}
+
+.finsight-footer-brand {
+    color: var(--revolution-primary);
+}
+
+.finsight-footer-sub {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin: var(--space-2) 0 0;
+}
+
+/* Fix for section header spacing */
+.finsight-section-header .finsight-section-badge {
+    margin-bottom: var(--space-4);
+}
+
+.finsight-section-header h1 {
+    margin-bottom: var(--space-6);
+}
+
+.finsight-section-header p {
+    margin-bottom: var(--space-10);
+}
+
+/* Additional brand container styles */
+.finsight-brand-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.finsight-brand-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.finsight-nav-hidden {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .finsight-nav-hidden {
+        display: flex;
+    }
+}
+
+/* CTA Buttons */
+.finsight-cta-buttons {
+    margin-top: var(--space-10);
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Navigation Active State */
+.finsight-nav-active {
+    color: var(--revolution-primary) !important;
+    background: rgba(0, 102, 255, 0.1);
+    border: 1px solid rgba(0, 102, 255, 0.2);
+}
+
+/* ===== DASHBOARD COMPONENTS ===== */
+
+/* Dashboard Container */
+.finsight-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+/* Dashboard Header */
+.finsight-dashboard-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+    .finsight-dashboard-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+}
+
+.finsight-dashboard-header-content h2 {
+    margin: 0;
+}
+
+.finsight-dashboard-title {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.finsight-dashboard-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: var(--space-1) 0 0;
+}
+
+.finsight-dashboard-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+    .finsight-dashboard-controls {
+        flex-direction: row;
+    }
+}
+
+.finsight-period-selector {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.finsight-select {
+    background: var(--glass-premium);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2) var(--space-4);
+    color: var(--text-primary);
+    backdrop-filter: var(--glass-backdrop);
+    transition: all var(--duration-200) var(--ease-out);
+}
+
+.finsight-select:focus {
+    outline: none;
+    border-color: var(--revolution-primary);
+    box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.2);
+}
+
+.finsight-icon-sm {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--text-secondary);
+}
+
+/* KPI Card Improvements */
+.finsight-kpi-hover {
+    transition: all var(--duration-300) var(--ease-out);
+}
+
+.finsight-kpi-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.finsight-kpi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-2);
+}
+
+.finsight-kpi-change {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.finsight-kpi-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: var(--space-1) 0 0;
+}
+
+/* Trend Colors */
+.finsight-trend-neutral {
+    color: var(--text-secondary);
+}
+
+/* Insights Card */
+.finsight-insights-card {
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+}
+
+.finsight-insights-title {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-4);
+}
+
+.finsight-insights-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.finsight-insight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+.finsight-insight-icon {
+    font-weight: var(--font-weight-bold);
+    font-size: 1rem;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+.finsight-insight-text {
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.finsight-insight-positive .finsight-insight-icon {
+    color: var(--revolution-secondary);
+}
+
+.finsight-insight-warning .finsight-insight-icon {
+    color: var(--revolution-accent);
+}
+
+.finsight-insight-alert .finsight-insight-icon {
+    color: #f59e0b;
+}
+
+/* Projection Card */
+.finsight-projection-card {
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+}
+
+.finsight-projection-title {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-4);
+}
+
+.finsight-projection-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+}
+
+.finsight-projection-item {
+    text-align: center;
+}
+
+.finsight-projection-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.finsight-projection-value {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    margin: var(--space-1) 0 0;
+}
+
+.finsight-value-current {
+    color: var(--text-primary);
+}
+
+.finsight-value-warning {
+    color: #f59e0b;
+}
+
+.finsight-value-positive {
+    color: var(--revolution-secondary);
+}
+
+.finsight-projection-insight {
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    background: rgba(0, 102, 255, 0.1);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(0, 102, 255, 0.2);
+}
+
+.finsight-projection-text {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ===== COPILOT PAGE COMPONENTS ===== */
+
+/* Copilot Introduction */
+.finsight-copilot-intro {
+    margin-bottom: var(--space-8);
+}
+
+.finsight-copilot-title {
+    font-size: 1.875rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-4);
+}
+
+.finsight-copilot-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 48rem;
+    margin: 0 0 var(--space-3);
+    line-height: 1.6;
+}
+
+.finsight-copilot-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Examples Grid */
+.finsight-examples-grid {
+    margin-top: var(--space-12);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+}
+
+@media (min-width: 768px) {
+    .finsight-examples-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .finsight-examples-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.finsight-example-card {
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+    transition: all var(--duration-300) var(--ease-out);
+}
+
+.finsight-example-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.finsight-example-title {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-3);
+}
+
+.finsight-example-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.finsight-example-list li {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    padding-left: var(--space-2);
+    position: relative;
+}
+
+.finsight-example-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--revolution-primary);
+    font-weight: var(--font-weight-medium);
+}
+
+/* ===== ENHANCED DASHBOARD COMPONENTS ===== */
+
+/* Analytics Grid */
+.finsight-analytics-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+}
+
+@media (min-width: 768px) {
+    .finsight-analytics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .finsight-analytics-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.finsight-analytics-card {
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+}
+
+.finsight-analytics-title {
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-4);
+}
+
+/* Trend Bars */
+.finsight-trend-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
+    height: 120px;
+    margin-top: var(--space-4);
+}
+
+.finsight-trend-bar {
+    flex: 1;
+    background: var(--revolution-primary);
+    border-radius: var(--radius-sm);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: var(--space-2);
+    transition: all var(--duration-300) var(--ease-out);
+}
+
+.finsight-trend-bar:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow-primary);
+}
+
+.finsight-trend-projected {
+    background: linear-gradient(135deg, var(--revolution-primary) 0%, var(--revolution-secondary) 100%);
+    opacity: 0.7;
+    border: 2px dashed var(--revolution-primary);
+}
+
+.finsight-trend-value {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    color: white;
+    margin-bottom: var(--space-1);
+}
+
+.finsight-trend-month {
+    font-size: 0.625rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Alerts */
+.finsight-alerts-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.finsight-alert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid;
+}
+
+.finsight-alert-high {
+    background: rgba(239, 68, 68, 0.1);
+    border-left-color: #ef4444;
+}
+
+.finsight-alert-medium {
+    background: rgba(249, 115, 22, 0.1);
+    border-left-color: #f97316;
+}
+
+.finsight-alert-low {
+    background: rgba(34, 197, 94, 0.1);
+    border-left-color: #22c55e;
+}
+
+.finsight-alert-badge {
+    font-size: 0.625rem;
+    font-weight: var(--font-weight-bold);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-full);
+    background: var(--revolution-accent);
+    color: white;
+    min-width: fit-content;
+}
+
+.finsight-alert-item p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+/* Client Ranking */
+.finsight-client-ranking {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.finsight-client-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--duration-200) var(--ease-out);
+}
+
+.finsight-client-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(4px);
+}
+
+.finsight-client-name {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.finsight-client-value {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--revolution-secondary);
+}
+
+/* Detailed Analysis */
+.finsight-detailed-analysis {
+    margin-bottom: var(--space-8);
+}
+
+.finsight-analysis-title {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-6);
+}
+
+.finsight-analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+    .finsight-analysis-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.finsight-analysis-card {
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+}
+
+.finsight-analysis-subtitle {
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-4);
+}
+
+/* Cashflow Timeline */
+.finsight-cashflow-timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+    height: 80px;
+    margin-top: var(--space-4);
+}
+
+.finsight-cashflow-timeline::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--glass-border);
+}
+
+.finsight-cashflow-point {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.finsight-point-value {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-bold);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-2);
+}
+
+.finsight-point-date {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.finsight-point-past .finsight-point-value {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.finsight-point-current .finsight-point-value {
+    background: rgba(0, 102, 255, 0.2);
+    color: var(--revolution-primary);
+    border: 2px solid var(--revolution-primary);
+}
+
+.finsight-point-future .finsight-point-value {
+    background: rgba(249, 115, 22, 0.2);
+    color: #f97316;
+}
+
+/* Ratios */
+.finsight-ratios-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.finsight-ratio-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.finsight-ratio-name {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    font-weight: var(--font-weight-medium);
+}
+
+.finsight-ratio-bar {
+    position: relative;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.finsight-ratio-fill {
+    height: 100%;
+    background: var(--revolution-secondary);
+    border-radius: var(--radius-full);
+    transition: width var(--duration-500) var(--ease-out);
+}
+
+.finsight-ratio-warning {
+    background: #f59e0b;
+}
+
+.finsight-ratio-good {
+    background: #22c55e;
+}
+
+.finsight-ratio-value {
+    position: absolute;
+    right: 0;
+    top: -20px;
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+}
+
+/* Action Items */
+.finsight-action-items {
+    margin-bottom: var(--space-8);
+}
+
+.finsight-actions-title {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-6);
+}
+
+.finsight-actions-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+    .finsight-actions-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .finsight-actions-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.finsight-action-card {
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+    transition: all var(--duration-300) var(--ease-out);
+}
+
+.finsight-action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-2xl);
+}
+
+.finsight-action-urgent {
+    border-left: 4px solid #ef4444;
+}
+
+.finsight-action-medium {
+    border-left: 4px solid #f59e0b;
+}
+
+.finsight-action-opportunity {
+    border-left: 4px solid #22c55e;
+}
+
+.finsight-action-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+}
+
+.finsight-action-priority {
+    font-size: 0.625rem;
+    font-weight: var(--font-weight-bold);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-full);
+    background: var(--revolution-accent);
+    color: white;
+}
+
+.finsight-action-impact {
+    font-size: 0.75rem;
+    color: var(--revolution-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.finsight-action-title {
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-2);
+}
+
+.finsight-action-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0 0 var(--space-4);
+}
+
+.finsight-action-btn {
+    background: var(--revolution-primary);
+    color: white;
+    border: none;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--duration-200) var(--ease-out);
+}
+
+.finsight-action-btn:hover {
+    background: var(--revolution-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ===== ADVANCED CHARTS SECTION ===== */
+
+.finsight-advanced-charts {
+    margin-top: var(--space-12);
+}
+
+.finsight-charts-title {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-6);
+}
+
+.finsight-charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+    .finsight-charts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Chart Loading States */
+.finsight-chart-loading {
+    height: 320px;
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    animation: finsight-pulse 2s ease-in-out infinite;
+}
+
+.finsight-chart-fallback {
+    height: 320px;
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    border-left: 4px solid var(--revolution-accent);
+}
+
+@keyframes finsight-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Chart Container Adaptation */
+.finsight-charts-grid>div {
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+/* Override chart styles to match Revolutionary theme */
+.finsight-charts-grid .bg-white {
+    background: var(--glass-premium) !important;
+    color: var(--text-primary) !important;
+}
+
+.finsight-charts-grid .text-gray-800,
+.finsight-charts-grid .text-gray-900 {
+    color: var(--text-primary) !important;
+}
+
+.finsight-charts-grid .text-gray-600 {
+    color: var(--text-secondary) !important;
+}
+
+.finsight-charts-grid .border-gray-200 {
+    border-color: var(--glass-border) !important;
+}
+
+/* ===== CHART COMPONENTS STYLES ===== */
+
+.finsight-chart-container {
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+}
+
+.finsight-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+}
+
+.finsight-chart-title {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.finsight-chart-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: var(--space-1) 0 0;
+}
+
+.finsight-chart-legend {
+    display: flex;
+    gap: var(--space-4);
+    font-size: 0.875rem;
+}
+
+.finsight-legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-secondary);
+}
+
+.finsight-legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-sm);
+}
+
+.finsight-legend-historical {
+    background: var(--revolution-primary);
+}
+
+.finsight-legend-projected {
+    background: var(--revolution-secondary);
+}
+
+.finsight-chart-area {
+    height: 320px;
+    min-height: 320px;
+    margin-bottom: var(--space-4);
+}
+
+.finsight-chart-insights {
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    background: rgba(0, 102, 255, 0.1);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(0, 102, 255, 0.2);
+}
+
+.finsight-insights-content {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+.finsight-insights-icon {
+    color: var(--revolution-primary);
+    font-size: 1.125rem;
+}
+
+.finsight-insights-label {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-1);
+}
+
+.finsight-insights-text {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-2);
+    line-height: 1.5;
+}
+
+.finsight-insights-recommendation {
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ===== COPILOT PAGE COMPONENTS ===== */
+
+/* Copilot Intro */
+.finsight-copilot-intro {
+    margin-bottom: var(--space-8);
+}
+
+.finsight-copilot-title {
+    font-size: 1.875rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-4);
+}
+
+.finsight-copilot-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 48rem;
+    margin: 0 0 var(--space-3);
+    line-height: 1.6;
+}
+
+.finsight-copilot-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-2);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+}
+
+/* Examples Grid */
+.finsight-examples-grid {
+    margin-top: var(--space-12);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+}
+
+@media (min-width: 768px) {
+    .finsight-examples-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .finsight-examples-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.finsight-example-card {
+    background: var(--glass-premium);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+    transition: all var(--duration-300) var(--ease-out);
+}
+
+.finsight-example-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.finsight-example-title {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-3);
+}
+
+.finsight-example-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.finsight-example-list li {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    padding-left: var(--space-4);
+    position: relative;
+}
+
+.finsight-example-list li::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    color: var(--revolution-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+.finsight-example-list li::after {
+    content: '"';
+    color: var(--revolution-primary);
+    font-weight: var(--font-weight-bold);
+}
