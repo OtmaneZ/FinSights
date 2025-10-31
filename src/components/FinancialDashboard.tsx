@@ -417,43 +417,41 @@ export default function FinancialDashboard() {
                 <>
                     {/* Badge Niveau Détecté */}
                     {levelInfo && (
-                        <div className={`mb-6 p-4 rounded-lg border-2 ${Number(levelInfo.level) === 1 ? 'bg-blue-50 border-blue-300' :
-                                Number(levelInfo.level) === 2 ? 'bg-blue-100 border-blue-400' :
-                                    'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
-                            }`}>
+                        <div className={`mb-6 p-4 rounded-lg border-2 ${
+                            levelInfo.level === 'basic' ? 'bg-blue-50 border-blue-300' :
+                            levelInfo.level === 'intermediate' ? 'bg-blue-100 border-blue-400' :
+                            'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
+                        }`}>
                             <div className="flex items-center justify-between flex-wrap gap-4">
                                 <div className="flex items-center gap-3">
-                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${Number(levelInfo.level) === 1 ? 'bg-blue-500' :
-                                            Number(levelInfo.level) === 2 ? 'bg-blue-600' :
-                                                'bg-gradient-to-br from-purple-600 to-indigo-600'
-                                        }`}>
-                                        <span className="text-xl font-bold text-white">{levelInfo.level}</span>
+                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                        levelInfo.level === 'basic' ? 'bg-blue-500' :
+                                        levelInfo.level === 'intermediate' ? 'bg-blue-600' :
+                                        'bg-gradient-to-br from-purple-600 to-indigo-600'
+                                    }`}>
+                                        <span className="text-xl font-bold text-white">
+                                            {levelInfo.level === 'basic' ? '1' : 
+                                             levelInfo.level === 'intermediate' ? '2' : '3'}
+                                        </span>
                                     </div>
                                     <div>
                                         <div className="font-bold text-gray-900">
-                                            {Number(levelInfo.level) === 1 ? '📊 Niveau Basique détecté' :
-                                                Number(levelInfo.level) === 2 ? '📈 Niveau Enrichi détecté' :
-                                                    '🚀 Niveau Complet détecté'}
+                                            {levelInfo.level === 'basic' ? '📊 Niveau Basique' :
+                                             levelInfo.level === 'intermediate' ? '📈 Niveau Enrichi' :
+                                             '🚀 Niveau Complet'}
                                         </div>
                                         <div className="text-sm text-gray-600">{levelInfo.description}</div>
                                     </div>
                                 </div>
-                                {Number(levelInfo.level) < 3 && (
-                                    <div className="text-sm">
+                                {levelInfo.level !== 'advanced' && levelInfo.suggestions && levelInfo.suggestions.length > 0 && (
+                                    <div className="text-sm max-w-md">
                                         <span className="text-gray-600">💡 </span>
-                                        {Number(levelInfo.level) === 1 && (
-                                            <span className="text-gray-700">
-                                                Ajoutez <strong>Catégorie</strong> et <strong>Contrepartie</strong> pour débloquer DSO et analyse clients
-                                            </span>
-                                        )}
-                                        {Number(levelInfo.level) === 2 && (
-                                            <span className="text-gray-700">
-                                                Ajoutez <strong>Produit</strong>, <strong>Marge</strong> et <strong>Échéance</strong> pour débloquer projections 90j
-                                            </span>
-                                        )}
+                                        <span className="text-gray-700">
+                                            {levelInfo.suggestions[0]}
+                                        </span>
                                     </div>
                                 )}
-                                {Number(levelInfo.level) === 3 && (
+                                {levelInfo.level === 'advanced' && (
                                     <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
                                         <span>🎉</span>
                                         <span>Toutes les analyses sont disponibles !</span>
