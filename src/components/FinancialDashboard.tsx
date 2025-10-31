@@ -417,25 +417,23 @@ export default function FinancialDashboard() {
                 <>
                     {/* Badge Niveau Détecté */}
                     {levelInfo && (
-                        <div className={`mb-6 p-4 rounded-lg border-2 ${
-                            Number(levelInfo.level) === 1 ? 'bg-blue-50 border-blue-300' :
-                            Number(levelInfo.level) === 2 ? 'bg-blue-100 border-blue-400' :
-                            'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
-                        }`}>
+                        <div className={`mb-6 p-4 rounded-lg border-2 ${Number(levelInfo.level) === 1 ? 'bg-blue-50 border-blue-300' :
+                                Number(levelInfo.level) === 2 ? 'bg-blue-100 border-blue-400' :
+                                    'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
+                            }`}>
                             <div className="flex items-center justify-between flex-wrap gap-4">
                                 <div className="flex items-center gap-3">
-                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                                        Number(levelInfo.level) === 1 ? 'bg-blue-500' :
-                                        Number(levelInfo.level) === 2 ? 'bg-blue-600' :
-                                        'bg-gradient-to-br from-purple-600 to-indigo-600'
-                                    }`}>
+                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${Number(levelInfo.level) === 1 ? 'bg-blue-500' :
+                                            Number(levelInfo.level) === 2 ? 'bg-blue-600' :
+                                                'bg-gradient-to-br from-purple-600 to-indigo-600'
+                                        }`}>
                                         <span className="text-xl font-bold text-white">{levelInfo.level}</span>
                                     </div>
                                     <div>
                                         <div className="font-bold text-gray-900">
                                             {Number(levelInfo.level) === 1 ? '📊 Niveau Basique détecté' :
-                                             Number(levelInfo.level) === 2 ? '📈 Niveau Enrichi détecté' :
-                                             '🚀 Niveau Complet détecté'}
+                                                Number(levelInfo.level) === 2 ? '📈 Niveau Enrichi détecté' :
+                                                    '🚀 Niveau Complet détecté'}
                                         </div>
                                         <div className="text-sm text-gray-600">{levelInfo.description}</div>
                                     </div>
@@ -480,49 +478,6 @@ export default function FinancialDashboard() {
                             </div>
                         ))}
                     </div>
-
-                    {/* Messages d'upgrade si données insuffisantes */}
-                    {upgradeMessages.length > 0 && levelInfo && (
-                        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-6 mb-6">
-                            <div className="flex items-start space-x-3">
-                                <span className="text-amber-600 text-2xl">💡</span>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold text-amber-800 mb-2">
-                                        Niveau détecté: {levelInfo.description}
-                                    </h3>
-                                    <div className="space-y-2">
-                                        {upgradeMessages.map((message, index) => (
-                                            <p key={index} className="text-sm text-amber-700">{message}</p>
-                                        ))}
-                                    </div>
-                                    <div className="mt-3 text-xs text-amber-600">
-                                        🎯 {(() => {
-                                            if (!dashboardConfig) return "Analyses en cours de chargement...";
-
-                                            // Compter les analyses actives
-                                            const activeAnalyses = [
-                                                dashboardConfig.showTopClients,
-                                                dashboardConfig.showDSO,
-                                                dashboardConfig.showCategoryAnalysis,
-                                                dashboardConfig.showAdvancedCharts,
-                                                dashboardConfig.showProductMargin,
-                                                dashboardConfig.showRatios,
-                                                dashboardConfig.showProjections,
-                                                dashboardConfig.showAlerts,
-                                                dashboardConfig.showAIInsights,
-                                                dashboardConfig.showTrendAnalysis
-                                            ].filter(Boolean).length;
-
-                                            const totalAnalyses = 10;
-                                            const remainingAnalyses = totalAnalyses - activeAnalyses;
-
-                                            return `Vos données activent ${activeAnalyses} analyses - Enrichissez pour débloquer ${remainingAnalyses} de plus`;
-                                        })()}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
 
                     {/* Quick Insights */}
                     {shouldShowElement('showAIInsights') && (

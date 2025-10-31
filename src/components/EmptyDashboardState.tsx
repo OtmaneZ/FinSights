@@ -31,7 +31,7 @@ export default function EmptyDashboardState() {
                         <p className="text-sm text-gray-600 mb-6">
                             Glissez votre fichier CSV/Excel ou cliquez pour sélectionner
                         </p>
-                        
+
                         <div className="relative mb-4">
                             <input
                                 type="file"
@@ -82,7 +82,7 @@ export default function EmptyDashboardState() {
                             </div>
                             <h4 className="font-bold text-gray-900">Niveau Basique</h4>
                         </div>
-                        
+
                         <div className="bg-gray-50 rounded-lg p-3 mb-4 font-mono text-xs text-gray-700">
                             <div className="font-semibold mb-1">Colonnes requises :</div>
                             <div>• Date</div>
@@ -115,14 +115,14 @@ export default function EmptyDashboardState() {
                         <div className="absolute -top-3 -right-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
                             Recommandé
                         </div>
-                        
+
                         <div className="flex items-center gap-2 mb-4">
                             <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
                                 <span className="text-lg font-bold text-white">2</span>
                             </div>
                             <h4 className="font-bold text-gray-900">Niveau Enrichi</h4>
                         </div>
-                        
+
                         <div className="bg-blue-50 rounded-lg p-3 mb-4 font-mono text-xs text-gray-700 border border-blue-200">
                             <div className="font-semibold mb-1">Colonnes requises :</div>
                             <div>• Date, Montant</div>
@@ -159,7 +159,7 @@ export default function EmptyDashboardState() {
                             </div>
                             <h4 className="font-bold text-gray-900">Niveau Complet</h4>
                         </div>
-                        
+
                         <div className="bg-purple-100 rounded-lg p-3 mb-4 font-mono text-xs text-gray-700 border border-purple-300">
                             <div className="font-semibold mb-1">Colonnes requises :</div>
                             <div>• Niveau 2</div>
@@ -207,7 +207,7 @@ export default function EmptyDashboardState() {
                             Téléchargez un template CSV pré-formaté pour tester immédiatement
                         </p>
                         <div className="flex flex-wrap gap-3">
-                            <button 
+                            <button
                                 onClick={() => {
                                     // Génération template niveau 1
                                     const csv = "Date,Montant\n2024-01-01,1500\n2024-01-05,-800\n2024-01-10,2200";
@@ -222,7 +222,7 @@ export default function EmptyDashboardState() {
                             >
                                 📄 Template Niveau 1
                             </button>
-                            <button 
+                            <button
                                 onClick={() => {
                                     const csv = "Date,Montant,Catégorie,Contrepartie\n2024-01-01,1500,Vente,Client A\n2024-01-05,-800,Achat,Fournisseur B\n2024-01-10,2200,Vente,Client C";
                                     const blob = new Blob([csv], { type: 'text/csv' });
@@ -236,7 +236,7 @@ export default function EmptyDashboardState() {
                             >
                                 📊 Template Niveau 2 (Recommandé)
                             </button>
-                            <button 
+                            <button
                                 onClick={() => {
                                     const csv = "Date,Montant,Catégorie,Contrepartie,Produit,Marge,Échéance\n2024-01-01,1500,Vente,Client A,Produit X,45%,2024-02-01\n2024-01-05,-800,Achat,Fournisseur B,Matière Y,,2024-01-15\n2024-01-10,2200,Vente,Client C,Produit Z,38%,2024-02-10";
                                     const blob = new Blob([csv], { type: 'text/csv' });
