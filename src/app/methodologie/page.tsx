@@ -14,7 +14,7 @@ export default function Methodology() {
                     <nav className="finsight-nav-menu finsight-nav-hidden">
                         <a href="/" className="finsight-nav-link">Accueil</a>
                         <a href="/dashboard" className="finsight-nav-link">Dashboard</a>
-                        <a href="/copilot" className="finsight-nav-link">Copilote IA</a>
+                        <a href="/dashboard" className="finsight-nav-link">Dashboard & IA</a>
                         <a href="/methodologie" className="finsight-nav-link finsight-nav-active">Méthodologie</a>
                     </nav>
                 </div>

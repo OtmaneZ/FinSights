@@ -15,7 +15,7 @@ export default function DashboardPage() {
                         <a href="/" className="finsight-nav-link">Accueil</a>
                         <a href="/dashboard" className="finsight-nav-link finsight-nav-active">Dashboard</a>
                         <a href="/methodologie" className="finsight-nav-link">Méthodologie</a>
-                        <a href="/copilot" className="finsight-nav-link">Copilote IA</a>
+                        <a href="/dashboard" className="finsight-nav-link finsight-nav-active">Dashboard & IA</a>
                     </nav>
                 </div>
             </header>

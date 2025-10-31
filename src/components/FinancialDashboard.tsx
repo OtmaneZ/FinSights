@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { DashboardConfig, DataLevelInfo } from '@/lib/dataModel';
 import { getUpgradeMessages } from '@/lib/dashboardConfig';
+import { useFinancialData } from '@/lib/financialContext';
 import {
     BanknotesIcon,
     ArrowTrendingUpIcon,
@@ -17,6 +18,9 @@ import {
     CloudArrowUpIcon,
     CheckCircleIcon
 } from '@heroicons/react/24/outline';
+
+// Import AICopilot
+import AICopilot from './AICopilot';
 
 // Import dynamique des charts avec stratégie robuste
 const CashFlowChart = dynamic(() => import('./charts/CashFlowChart').catch(() => ({ default: () => <div className="finsight-chart-fallback">📊 Graphique temporairement indisponible</div> })), {
@@ -48,6 +52,7 @@ interface KPI {
 }
 
 export default function FinancialDashboard() {
+    const { finSightData, setFinSightData, isDataLoaded, setIsDataLoaded, rawData, setRawData } = useFinancialData()
     const [selectedPeriod, setSelectedPeriod] = useState('current')
     const [kpis, setKpis] = useState<KPI[]>([])
     const [isExporting, setIsExporting] = useState(false)
@@ -56,9 +61,6 @@ export default function FinancialDashboard() {
     const [dashboardConfig, setDashboardConfig] = useState<DashboardConfig | null>(null)
     const [levelInfo, setLevelInfo] = useState<DataLevelInfo | null>(null)
     const [upgradeMessages, setUpgradeMessages] = useState<string[]>([])
-    // ✅ Vraies données pour calculs dynamiques
-    const [financialData, setFinancialData] = useState<any>(null)
-    const [records, setRecords] = useState<any[]>([])
     const dashboardRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -159,12 +161,11 @@ export default function FinancialDashboard() {
             // Mise à jour avec la configuration adaptative
             setKpis(result.data.kpis);
 
-            // ✅ Stocker les vraies données pour calculs dynamiques
-            if (result.data.financialData) {
-                setFinancialData(result.data.financialData);
-            }
-            if (result.data.records) {
-                setRecords(result.data.records);
+            // ✅ Stocker les données dans le contexte global pour le copilote
+            if (result.data) {
+                setFinSightData(result.data);
+                setRawData(result.data.records || []);
+                setIsDataLoaded(true);
             }
 
             // DEBUG: Vérifier ce qui arrive
@@ -233,10 +234,10 @@ export default function FinancialDashboard() {
 
     // ✅ Fonctions pour calculer des vraies données depuis les records
     const getTopClients = () => {
-        if (!records.length) return [];
+        if (!rawData || !rawData.length) return [];
 
         // Grouper par contrepartie et calculer les totaux
-        const clientTotals = records.reduce((acc, record) => {
+        const clientTotals = rawData.reduce((acc: any, record: any) => {
             const client = record.counterparty || record.description || 'Client inconnu';
             if (!acc[client]) {
                 acc[client] = { name: client, total: 0, count: 0 };
@@ -258,10 +259,10 @@ export default function FinancialDashboard() {
     };
 
     const getEvolutionData = () => {
-        if (!records.length) return [];
+        if (!rawData || !rawData.length) return [];
 
         // Grouper par mois depuis les vraies données
-        const monthlyData = records.reduce((acc, record) => {
+        const monthlyData = rawData.reduce((acc: any, record: any) => {
             const month = new Date(record.date).toLocaleDateString('fr-FR', { month: 'short' });
             if (!acc[month]) {
                 acc[month] = 0;
@@ -426,7 +427,28 @@ export default function FinancialDashboard() {
                                         ))}
                                     </div>
                                     <div className="mt-3 text-xs text-amber-600">
-                                        🎯 Vous utilisez {Math.round(levelInfo.confidence * 100)}% du potentiel FinSight
+                                        🎯 {(() => {
+                                            if (!dashboardConfig) return "Analyses en cours de chargement...";
+
+                                            // Compter les analyses actives
+                                            const activeAnalyses = [
+                                                dashboardConfig.showTopClients,
+                                                dashboardConfig.showDSO,
+                                                dashboardConfig.showCategoryAnalysis,
+                                                dashboardConfig.showAdvancedCharts,
+                                                dashboardConfig.showProductMargin,
+                                                dashboardConfig.showRatios,
+                                                dashboardConfig.showProjections,
+                                                dashboardConfig.showAlerts,
+                                                dashboardConfig.showAIInsights,
+                                                dashboardConfig.showTrendAnalysis
+                                            ].filter(Boolean).length;
+
+                                            const totalAnalyses = 10;
+                                            const remainingAnalyses = totalAnalyses - activeAnalyses;
+
+                                            return `Vos données activent ${activeAnalyses} analyses - Enrichissez pour débloquer ${remainingAnalyses} de plus`;
+                                        })()}
                                     </div>
                                 </div>
                             </div>
@@ -561,6 +583,11 @@ export default function FinancialDashboard() {
                     )}
                 </>
             )}
+
+            {/* AI Copilot Section - Toujours visible */}
+            <div className="mb-12">
+                <AICopilot />
+            </div>
         </div>
     )
 }

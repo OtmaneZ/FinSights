@@ -63,6 +63,95 @@ export default function FinancialDashboard() {
         setKpis(periodData.data);
     }, [selectedPeriod])
 
+    // Fonction getPeriodData manquante
+    const getPeriodData = (period: string) => {
+        switch (period) {
+            case 'current':
+                return {
+                    title: 'Octobre 2025',
+                    data: [
+                        {
+                            title: 'Chiffre d\'Affaires',
+                            value: '1 847 450 €',
+                            change: '+12.3%',
+                            changeType: 'positive' as const,
+                            description: 'vs Oct 2024 (↗️ nouveau contrat Safran)'
+                        },
+                        {
+                            title: 'Trésorerie Nette',
+                            value: '387 650 €',
+                            change: '+45 820 €',
+                            changeType: 'positive' as const,
+                            description: 'Position J-1 (↗️ encaissement Thales)'
+                        },
+                        {
+                            title: 'Marge Brute',
+                            value: '43.8%',
+                            change: '-1.2pt',
+                            changeType: 'negative' as const,
+                            description: 'vs Sep (⚠️ coûts matières premières)'
+                        },
+                        {
+                            title: 'DSO Clients',
+                            value: '42 jours',
+                            change: '-8j',
+                            changeType: 'positive' as const,
+                            description: 'Amélioration (✅ relances automatisées)'
+                        },
+                        {
+                            title: 'EBITDA',
+                            value: '298 450 €',
+                            change: '+18.7%',
+                            changeType: 'positive' as const,
+                            description: 'Performance T1 (🚀 optimisation charges)'
+                        },
+                        {
+                            title: 'Charges Exploitation',
+                            value: '1 124 300 €',
+                            change: '+2.1%',
+                            changeType: 'neutral' as const,
+                            description: 'Maîtrise inflation (+5% secteur)'
+                        }
+                    ]
+                };
+            case 'previous':
+                return {
+                    title: 'Septembre 2025',
+                    data: [
+                        {
+                            title: 'Chiffre d\'Affaires',
+                            value: '1 642 180 €',
+                            change: '+8.9%',
+                            changeType: 'positive' as const,
+                            description: 'vs Sep 2024'
+                        },
+                        {
+                            title: 'Trésorerie Nette',
+                            value: '341 830 €',
+                            change: '-15 420 €',
+                            changeType: 'negative' as const,
+                            description: 'vs Août 2025'
+                        }
+                    ]
+                };
+            case 'ytd':
+                return {
+                    title: 'Année 2025 (YTD)',
+                    data: [
+                        {
+                            title: 'Chiffre d\'Affaires',
+                            value: '16 247 850 €',
+                            change: '+15.6%',
+                            changeType: 'positive' as const,
+                            description: 'vs YTD 2024'
+                        }
+                    ]
+                };
+            default:
+                return { title: 'Données non disponibles', data: [] };
+        }
+    };
+
     // Fonction pour convertir FinSightData vers KPIs d'affichage
     const updateKPIsFromFinSightData = (data: FinSightDataModel) => {
         const convertedKPIs: KPI[] = [
