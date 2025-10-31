@@ -8,6 +8,7 @@ import html2canvas from 'html2canvas';
 import { DashboardConfig, DataLevelInfo } from '@/lib/dataModel';
 import { getUpgradeMessages } from '@/lib/dashboardConfig';
 import { useFinancialData } from '@/lib/financialContext';
+import { FinancialPDFExporter } from '@/lib/pdfExporter';
 import {
     BanknotesIcon,
     ArrowTrendingUpIcon,
@@ -85,46 +86,44 @@ export default function FinancialDashboard() {
         return () => window.removeEventListener('fileSelected', handleFileSelected);
     }, []);
 
-    // Fonction d'export PDF
+    // Fonction d'export PDF professionnelle
     const exportToPDF = async () => {
-        if (!dashboardRef.current) return;
+        if (!dashboardRef.current || kpis.length === 0) return;
 
         setIsExporting(true);
         try {
-            const canvas = await html2canvas(dashboardRef.current, {
-                scale: 2,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: '#ffffff'
-            });
+            // Créer l'exporteur PDF
+            const exporter = new FinancialPDFExporter();
 
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4');
+            // Préparer les options
+            const pdfOptions = {
+                companyName: 'Entreprise',  // TODO: Demander à l'utilisateur
+                reportPeriod: {
+                    start: rawData && rawData.length > 0 
+                        ? new Date(Math.min(...rawData.map((r: any) => new Date(r.date).getTime()))) 
+                        : new Date(),
+                    end: rawData && rawData.length > 0 
+                        ? new Date(Math.max(...rawData.map((r: any) => new Date(r.date).getTime()))) 
+                        : new Date()
+                },
+                kpis: kpis.map(kpi => ({
+                    title: kpi.title,
+                    value: kpi.value,
+                    change: kpi.change,
+                    description: kpi.description
+                })),
+                includeCharts: true,
+                includeMethodology: true,
+                confidential: true
+            };
 
-            // Calcul des dimensions
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdf.internal.pageSize.getHeight();
-            const imgWidth = canvas.width;
-            const imgHeight = canvas.height;
-            const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-            const imgX = (pdfWidth - imgWidth * ratio) / 2;
-            const imgY = 10;
+            // Générer le PDF
+            await exporter.generate(pdfOptions);
 
-            // En-tête
-            pdf.setFontSize(16);
-            pdf.text('Tableau de Bord FinSight', 20, 20);
-            pdf.setFontSize(10);
-            pdf.text(`Période: ${selectedPeriod}`, 20, 30);
-            pdf.text(`Généré le: ${new Date().toLocaleDateString('fr-FR')}`, 20, 35);
+            // Télécharger
+            const filename = `rapport-financier-${new Date().toISOString().split('T')[0]}.pdf`;
+            exporter.download(filename);
 
-            // Image du dashboard
-            pdf.addImage(imgData, 'PNG', imgX, 40, imgWidth * ratio, imgHeight * ratio);
-
-            // Pied de page
-            pdf.setFontSize(8);
-            pdf.text('Généré par FinSight - Tableau de bord financier intelligent', 20, pdfHeight - 10);
-
-            pdf.save(`finsight-dashboard-${selectedPeriod}-${new Date().toISOString().split('T')[0]}.pdf`);
         } catch (error) {
             console.error('Erreur lors de l\'export PDF:', error);
             alert('Erreur lors de l\'export PDF. Veuillez réessayer.');
@@ -421,14 +420,14 @@ export default function FinancialDashboard() {
                     {/* Badge Niveau Détecté */}
                     {levelInfo && (
                         <div className={`mb-6 p-4 rounded-lg border-2 ${levelInfo.level === 'basic' ? 'bg-blue-50 border-blue-300' :
-                                levelInfo.level === 'intermediate' ? 'bg-blue-100 border-blue-400' :
-                                    'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
+                            levelInfo.level === 'intermediate' ? 'bg-blue-100 border-blue-400' :
+                                'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
                             }`}>
                             <div className="flex items-center justify-between flex-wrap gap-4">
                                 <div className="flex items-center gap-3">
                                     <div className={`w-12 h-12 rounded-full flex items-center justify-center ${levelInfo.level === 'basic' ? 'bg-blue-500' :
-                                            levelInfo.level === 'intermediate' ? 'bg-blue-600' :
-                                                'bg-gradient-to-br from-purple-600 to-indigo-600'
+                                        levelInfo.level === 'intermediate' ? 'bg-blue-600' :
+                                            'bg-gradient-to-br from-purple-600 to-indigo-600'
                                         }`}>
                                         <span className="text-xl font-bold text-white">
                                             {levelInfo.level === 'basic' ? '1' :
