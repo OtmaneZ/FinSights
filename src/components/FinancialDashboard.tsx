@@ -417,28 +417,26 @@ export default function FinancialDashboard() {
                 <>
                     {/* Badge Niveau Détecté */}
                     {levelInfo && (
-                        <div className={`mb-6 p-4 rounded-lg border-2 ${
-                            levelInfo.level === 'basic' ? 'bg-blue-50 border-blue-300' :
-                            levelInfo.level === 'intermediate' ? 'bg-blue-100 border-blue-400' :
-                            'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
-                        }`}>
+                        <div className={`mb-6 p-4 rounded-lg border-2 ${levelInfo.level === 'basic' ? 'bg-blue-50 border-blue-300' :
+                                levelInfo.level === 'intermediate' ? 'bg-blue-100 border-blue-400' :
+                                    'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
+                            }`}>
                             <div className="flex items-center justify-between flex-wrap gap-4">
                                 <div className="flex items-center gap-3">
-                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                                        levelInfo.level === 'basic' ? 'bg-blue-500' :
-                                        levelInfo.level === 'intermediate' ? 'bg-blue-600' :
-                                        'bg-gradient-to-br from-purple-600 to-indigo-600'
-                                    }`}>
+                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${levelInfo.level === 'basic' ? 'bg-blue-500' :
+                                            levelInfo.level === 'intermediate' ? 'bg-blue-600' :
+                                                'bg-gradient-to-br from-purple-600 to-indigo-600'
+                                        }`}>
                                         <span className="text-xl font-bold text-white">
-                                            {levelInfo.level === 'basic' ? '1' : 
-                                             levelInfo.level === 'intermediate' ? '2' : '3'}
+                                            {levelInfo.level === 'basic' ? '1' :
+                                                levelInfo.level === 'intermediate' ? '2' : '3'}
                                         </span>
                                     </div>
                                     <div>
                                         <div className="font-bold text-gray-900">
                                             {levelInfo.level === 'basic' ? '📊 Niveau Basique' :
-                                             levelInfo.level === 'intermediate' ? '📈 Niveau Enrichi' :
-                                             '🚀 Niveau Complet'}
+                                                levelInfo.level === 'intermediate' ? '📈 Niveau Enrichi' :
+                                                    '🚀 Niveau Complet'}
                                         </div>
                                         <div className="text-sm text-gray-600">{levelInfo.description}</div>
                                     </div>

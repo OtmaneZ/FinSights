@@ -1,22 +1,79 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-
-// Données de démonstration pour le cash flow
-const cashFlowData = [
-    { month: 'Avr 24', actual: 180000, projected: null, type: 'historical' },
-    { month: 'Mai 24', actual: 165000, projected: null, type: 'historical' },
-    { month: 'Juin 24', actual: 142000, projected: null, type: 'historical' },
-    { month: 'Juil 24', actual: 158000, projected: null, type: 'historical' },
-    { month: 'Août 24', actual: 145000, projected: null, type: 'historical' },
-    { month: 'Sept 24', actual: 132000, projected: null, type: 'historical' },
-    { month: 'Oct 24', actual: null, projected: 95000, type: 'projection' },
-    { month: 'Nov 24', actual: null, projected: 78000, type: 'projection' },
-    { month: 'Déc 24', actual: null, projected: 112000, type: 'projection' },
-];
+import { useFinancialData } from '@/lib/financialContext';
 
 export default function CashFlowChart() {
+    const { rawData } = useFinancialData();
+
+    // ✅ CALCUL AVEC VRAIES DONNÉES - Pas de fake data
+    const cashFlowData = useMemo(() => {
+        if (!rawData || rawData.length === 0) {
+            return [];
+        }
+
+        // Grouper par mois et calculer le cash flow cumulatif
+        const monthlyData = rawData.reduce((acc: any, record: any) => {
+            try {
+                const date = new Date(record.date);
+                if (isNaN(date.getTime())) return acc;
+
+                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                const monthLabel = date.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' });
+
+                if (!acc[monthKey]) {
+                    acc[monthKey] = {
+                        month: monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1),
+                        sortKey: monthKey,
+                        total: 0,
+                        count: 0
+                    };
+                }
+
+                acc[monthKey].total += record.amount || 0;
+                acc[monthKey].count += 1;
+            } catch (error) {
+                console.error('Erreur traitement date:', error);
+            }
+            return acc;
+        }, {});
+
+        // Convertir en tableau et trier par date
+        const sortedMonths = Object.values(monthlyData)
+            .sort((a: any, b: any) => a.sortKey.localeCompare(b.sortKey));
+
+        // Calculer le cash flow cumulatif
+        let cumulativeCash = 0;
+        return sortedMonths.map((monthData: any, index) => {
+            cumulativeCash += monthData.total;
+            return {
+                month: monthData.month,
+                actual: Math.round(cumulativeCash),
+                projected: null,
+                type: 'historical'
+            };
+        });
+    }, [rawData]);
+
+    // 🛡️ Protection : Ne pas afficher le chart si pas de données
+    if (!rawData || rawData.length === 0 || cashFlowData.length === 0) {
+        return (
+            <div className="finsight-chart-container">
+                <div className="finsight-chart-header">
+                    <div>
+                        <h3 className="finsight-chart-title">Évolution de la Trésorerie</h3>
+                        <p className="finsight-chart-subtitle">Données réelles vs projections IA (en €)</p>
+                    </div>
+                </div>
+                <div className="text-center py-12 text-gray-500">
+                    <p className="text-lg mb-2">📊 Aucune donnée disponible</p>
+                    <p className="text-sm">Importez vos données financières pour visualiser l'évolution de votre trésorerie</p>
+                </div>
+            </div>
+        );
+    }
+
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat('fr-FR', {
             style: 'currency',

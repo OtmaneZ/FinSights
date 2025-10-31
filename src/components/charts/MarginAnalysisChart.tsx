@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
     BarChart,
     Bar,
@@ -15,6 +15,7 @@ import {
     ComposedChart
 } from 'recharts';
 import { ArrowTrendingDownIcon, ArrowTrendingUpIcon, ChartBarIcon } from '@heroicons/react/24/outline';
+import { useFinancialData } from '@/lib/financialContext';
 
 interface MarginData {
     period: string;
@@ -38,61 +39,93 @@ interface SegmentDetail {
     color: string;
 }
 
-// Données de démonstration
-const marginData: MarginData[] = [
-    {
-        period: 'Q1 2024',
-        revenue: 280000,
-        cogs: 168000,
-        grossMargin: 112000,
-        grossMarginPercent: 40.0,
-        segments: {
-            software: { revenue: 150000, margin: 82500, marginPercent: 55.0 },
-            consulting: { revenue: 90000, margin: 22500, marginPercent: 25.0 },
-            support: { revenue: 40000, margin: 7000, marginPercent: 17.5 }
-        }
-    },
-    {
-        period: 'Q2 2024',
-        revenue: 320000,
-        cogs: 185600,
-        grossMargin: 134400,
-        grossMarginPercent: 42.0,
-        segments: {
-            software: { revenue: 180000, margin: 103500, marginPercent: 57.5 },
-            consulting: { revenue: 100000, margin: 23000, marginPercent: 23.0 },
-            support: { revenue: 40000, margin: 7900, marginPercent: 19.8 }
-        }
-    },
-    {
-        period: 'Q3 2024',
-        revenue: 365000,
-        cogs: 204720,
-        grossMargin: 160280,
-        grossMarginPercent: 43.9,
-        segments: {
-            software: { revenue: 210000, margin: 125160, marginPercent: 59.6 },
-            consulting: { revenue: 115000, margin: 25300, marginPercent: 22.0 },
-            support: { revenue: 40000, margin: 9820, marginPercent: 24.6 }
-        }
-    },
-    {
-        period: 'Q4 2024',
-        revenue: 385000,
-        cogs: 212300,
-        grossMargin: 172700,
-        grossMarginPercent: 44.9,
-        segments: {
-            software: { revenue: 225000, margin: 138150, marginPercent: 61.4 },
-            consulting: { revenue: 120000, margin: 24600, marginPercent: 20.5 },
-            support: { revenue: 40000, margin: 9950, marginPercent: 24.9 }
-        }
-    }
-];
-
 export default function MarginAnalysisChart() {
+    const { rawData } = useFinancialData();
     const [selectedView, setSelectedView] = useState<'overview' | 'segments' | 'trends'>('overview');
     const [selectedSegment, setSelectedSegment] = useState<string | null>(null);
+
+    // ✅ CALCUL AVEC VRAIES DONNÉES - Analyse des marges
+    const marginData: MarginData[] = useMemo(() => {
+        if (!rawData || rawData.length === 0) {
+            return [];
+        }
+
+        // Grouper par mois/trimestre et calculer les marges
+        const periodMap = rawData.reduce((acc: any, record: any) => {
+            try {
+                const date = new Date(record.date);
+                if (isNaN(date.getTime())) return acc;
+
+                // Grouper par mois
+                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                const monthLabel = date.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+
+                if (!acc[monthKey]) {
+                    acc[monthKey] = {
+                        period: monthLabel,
+                        sortKey: monthKey,
+                        revenue: 0,
+                        cogs: 0,
+                        transactions: []
+                    };
+                }
+
+                const amount = record.amount || 0;
+                
+                // Classifier : revenu (positif) vs coûts (négatif)
+                if (amount > 0) {
+                    acc[monthKey].revenue += amount;
+                } else {
+                    acc[monthKey].cogs += Math.abs(amount);
+                }
+
+                acc[monthKey].transactions.push(record);
+            } catch (error) {
+                console.error('Erreur traitement marge:', error);
+            }
+            return acc;
+        }, {});
+
+        // Convertir en format MarginData
+        return Object.values(periodMap)
+            .sort((a: any, b: any) => a.sortKey.localeCompare(b.sortKey))
+            .map((period: any) => {
+                const grossMargin = period.revenue - period.cogs;
+                const grossMarginPercent = period.revenue > 0 
+                    ? (grossMargin / period.revenue) * 100 
+                    : 0;
+
+                return {
+                    period: period.period,
+                    revenue: Math.round(period.revenue),
+                    cogs: Math.round(period.cogs),
+                    grossMargin: Math.round(grossMargin),
+                    grossMarginPercent: Math.round(grossMarginPercent * 10) / 10,
+                    segments: {
+                        software: { revenue: 0, margin: 0, marginPercent: 0 },
+                        consulting: { revenue: 0, margin: 0, marginPercent: 0 },
+                        support: { revenue: 0, margin: 0, marginPercent: 0 }
+                    }
+                };
+            });
+    }, [rawData]);
+
+    // 🛡️ Protection : Ne pas afficher si pas de données
+    if (!rawData || rawData.length === 0 || marginData.length === 0) {
+        return (
+            <div className="finsight-chart-container">
+                <div className="finsight-chart-header">
+                    <h3 className="finsight-chart-title">Analyse des Marges</h3>
+                    <p className="finsight-chart-subtitle">Rentabilité par période • Évolution</p>
+                </div>
+                <div className="text-center py-12 text-gray-500">
+                    <p className="text-lg mb-2">📊 Aucune donnée de marge disponible</p>
+                    <p className="text-sm">Importez vos données pour analyser la rentabilité</p>
+                </div>
+            </div>
+        );
+    }
+
 
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat('fr-FR', {
