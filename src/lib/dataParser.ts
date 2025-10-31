@@ -22,6 +22,12 @@ import {
 } from './dataModel';
 
 import { detectDataLevel, getDashboardConfig, generateAdaptiveKPIs, detectCapabilities } from './dashboardConfig';
+import {
+    calculateNetMargin,
+    calculateGrossMargin,
+    calculateDSOFromTransactions,
+    calculateOperatingCashFlow
+} from './financialFormulas';
 
 // Configuration par défaut
 const DEFAULT_CONFIG: ParseConfig = {
@@ -515,7 +521,10 @@ export function processFinancialData(records: FinancialRecord[], sourceId: strin
 
     const totalIncome = income.reduce((sum, r) => sum + r.amount, 0);
     const totalExpenses = expenses.reduce((sum, r) => sum + r.amount, 0);
-    const netCashFlow = totalIncome - totalExpenses;
+    
+    // ✅ Utiliser la fonction de cash flow correcte
+    const cashFlowData = calculateOperatingCashFlow(records);
+    const netCashFlow = cashFlowData.netCashFlow;
 
     // Détection période
     const dates = records.map(r => r.date).filter(d => d instanceof Date);
@@ -545,13 +554,19 @@ export function processFinancialData(records: FinancialRecord[], sourceId: strin
         categories: categoryStats
     };
 
+    // ✅ Calculer marge avec formule correcte
+    const netMarginPercent = calculateNetMargin(totalIncome, totalExpenses);
+    
+    // ✅ Calculer DSO avec vraie formule
+    const dsoValue = calculateDSOFromTransactions(records);
+
     const kpis: FinancialKPIs = {
         revenue: totalIncome,
         expenses: totalExpenses,
         margin: netCashFlow,
-        marginPercentage: totalIncome > 0 ? (netCashFlow / totalIncome) * 100 : 0,
+        marginPercentage: netMarginPercent, // ✅ Formule correcte
         averageTransaction: records.length > 0 ? totalIncome / income.length : 0,
-        transactionFrequency: calculateTransactionFrequency(records, startDate, endDate),
+        transactionFrequency: dsoValue, // ✅ Maintenant c'est le vrai DSO
         topCategories: {
             income: categoryStats.filter(c => c.type === 'income').slice(0, 5),
             expense: categoryStats.filter(c => c.type === 'expense').slice(0, 5)

@@ -1,5 +1,13 @@
 // Configuration adaptative du dashboard selon le niveau de données
 import { DataLevel, DashboardConfig, DataLevelInfo, ColumnMapping, FinancialRecord } from './dataModel';
+import {
+    calculateDSOFromTransactions,
+    calculateEstimatedBFR,
+    calculateGrossMargin,
+    calculateNetMargin,
+    estimateReceivables,
+    estimatePayables
+} from './financialFormulas';
 
 // Détection granulaire des capacités réelles
 export function detectCapabilities(mappings: ColumnMapping[], records: FinancialRecord[]) {
@@ -105,7 +113,7 @@ export function getDashboardConfig(capabilities: ReturnType<typeof detectCapabil
 export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof detectCapabilities>) {
     const kpis = [];
 
-    // KPIs de base (toujours présents)
+    // ✅ KPI 1 : Chiffre d'Affaires
     kpis.push({
         title: 'Chiffre d\'Affaires',
         value: `${Math.round(data.kpis.revenue).toLocaleString('fr-FR')} €`,
@@ -115,6 +123,7 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         confidence: data.qualityMetrics.accuracy
     });
 
+    // ✅ KPI 2 : Charges
     kpis.push({
         title: 'Charges',
         value: `${Math.round(data.kpis.expenses).toLocaleString('fr-FR')} €`,
@@ -124,15 +133,18 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         confidence: data.qualityMetrics.accuracy
     });
 
+    // ✅ KPI 3 : Marge Nette (FORMULE CORRIGÉE)
+    const netMarginPercent = calculateNetMargin(data.kpis.revenue, data.kpis.expenses);
     kpis.push({
         title: 'Marge Nette',
-        value: `${data.kpis.marginPercentage.toFixed(1)}%`,
+        value: `${netMarginPercent.toFixed(1)}%`,
         change: `${data.kpis.trends.marginTrend.toFixed(1)}pt`,
-        changeType: data.kpis.marginPercentage > 20 ? 'positive' : data.kpis.marginPercentage > 10 ? 'neutral' : 'negative',
-        description: 'Marge bénéficiaire',
+        changeType: netMarginPercent > 20 ? 'positive' : netMarginPercent > 10 ? 'neutral' : 'negative',
+        description: 'Rentabilité nette',
         confidence: data.qualityMetrics.consistency
     });
 
+    // ✅ KPI 4 : Cash Flow Net
     kpis.push({
         title: 'Cash Flow Net',
         value: `${Math.round(data.summary.netCashFlow).toLocaleString('fr-FR')} €`,
@@ -142,15 +154,31 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         confidence: data.qualityMetrics.completeness
     });
 
-    // KPIs conditionnels SEULEMENT si données réelles
-    if (capabilities.canShowDSO) {
+    // ✅ KPI 5 : DSO - Délai de paiement clients (FORMULE CORRIGÉE)
+    if (capabilities.canShowDSO || data.records.length > 0) {
+        const dsoValue = calculateDSOFromTransactions(data.records);
         kpis.push({
             title: 'DSO Clients',
-            value: `${Math.round(data.kpis.transactionFrequency * 30)} jours`,
+            value: `${dsoValue} jours`,
             change: '-2j',
-            changeType: 'positive',
-            description: 'Délai de paiement estimé',
-            confidence: 0.6
+            changeType: dsoValue < 45 ? 'positive' : dsoValue < 60 ? 'neutral' : 'negative',
+            description: 'Délai moyen de paiement',
+            confidence: 0.7 // Estimation depuis transactions
+        });
+    }
+
+    // ✅ KPI 6 : BFR - Besoin en Fonds de Roulement (NOUVEAU)
+    if (data.records.length > 10) {
+        const bfrData = calculateEstimatedBFR(data.records, data.kpis.revenue);
+        const bfrRatio = data.kpis.revenue > 0 ? (bfrData.bfr / data.kpis.revenue) * 100 : 0;
+        
+        kpis.push({
+            title: 'BFR',
+            value: `${Math.round(bfrData.bfr).toLocaleString('fr-FR')} €`,
+            change: `${bfrRatio.toFixed(1)}% du CA`,
+            changeType: bfrRatio < 15 ? 'positive' : bfrRatio < 25 ? 'neutral' : 'negative',
+            description: bfrData.method,
+            confidence: bfrData.confidence
         });
     }
 
