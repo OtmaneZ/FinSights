@@ -521,7 +521,7 @@ export function processFinancialData(records: FinancialRecord[], sourceId: strin
 
     const totalIncome = income.reduce((sum, r) => sum + r.amount, 0);
     const totalExpenses = expenses.reduce((sum, r) => sum + r.amount, 0);
-    
+
     // ✅ Utiliser la fonction de cash flow correcte
     const cashFlowData = calculateOperatingCashFlow(records);
     const netCashFlow = cashFlowData.netCashFlow;
@@ -556,7 +556,7 @@ export function processFinancialData(records: FinancialRecord[], sourceId: strin
 
     // ✅ Calculer marge avec formule correcte
     const netMarginPercent = calculateNetMargin(totalIncome, totalExpenses);
-    
+
     // ✅ Calculer DSO avec vraie formule
     const dsoValue = calculateDSOFromTransactions(records);
 

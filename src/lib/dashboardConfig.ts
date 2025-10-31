@@ -171,7 +171,7 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
     if (data.records.length > 10) {
         const bfrData = calculateEstimatedBFR(data.records, data.kpis.revenue);
         const bfrRatio = data.kpis.revenue > 0 ? (bfrData.bfr / data.kpis.revenue) * 100 : 0;
-        
+
         kpis.push({
             title: 'BFR',
             value: `${Math.round(bfrData.bfr).toLocaleString('fr-FR')} €`,

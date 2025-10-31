@@ -25,6 +25,9 @@ import AICopilot from './AICopilot';
 // Import EmptyDashboardState
 import EmptyDashboardState from './EmptyDashboardState';
 
+// Import KPITooltip
+import KPITooltip from './KPITooltip';
+
 // Import dynamique des charts avec stratégie robuste
 const CashFlowChart = dynamic(() => import('./charts/CashFlowChart').catch(() => ({ default: () => <div className="finsight-chart-fallback">📊 Graphique temporairement indisponible</div> })), {
     ssr: false,
@@ -464,7 +467,10 @@ export default function FinancialDashboard() {
                         {kpis.map((kpi, index) => (
                             <div key={index} className="finsight-kpi-card finsight-kpi-hover">
                                 <div className="finsight-kpi-header">
-                                    <h3 className="finsight-kpi-label">{kpi.title}</h3>
+                                    <div className="flex items-center gap-1">
+                                        <h3 className="finsight-kpi-label">{kpi.title}</h3>
+                                        <KPITooltip kpiTitle={kpi.title} />
+                                    </div>
                                     <span className={`finsight-kpi-change ${getChangeColor(kpi.changeType)}`}>
                                         {getChangeIcon(kpi.changeType)} {kpi.change}
                                     </span>

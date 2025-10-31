@@ -38,9 +38,9 @@ export default function DSOClientChart() {
         const clientMap = rawData.reduce((acc: any, record: any) => {
             // Ne prendre que les créances (montants positifs ou catégorie spécifique)
             if (!record.counterparty && !record.description) return acc;
-            
+
             const clientName = record.counterparty || record.description || 'Client inconnu';
-            
+
             if (!acc[clientName]) {
                 acc[clientName] = {
                     clientName,
@@ -69,7 +69,7 @@ export default function DSOClientChart() {
         return Object.values(clientMap)
             .map((client: any) => {
                 // Calculer DSO approximatif (jours depuis dernier paiement)
-                const daysSinceLastPayment = client.lastDate 
+                const daysSinceLastPayment = client.lastDate
                     ? Math.floor((new Date().getTime() - client.lastDate.getTime()) / (1000 * 60 * 60 * 24))
                     : 60;
 

@@ -71,7 +71,7 @@ export default function MarginAnalysisChart() {
                 }
 
                 const amount = record.amount || 0;
-                
+
                 // Classifier : revenu (positif) vs coûts (négatif)
                 if (amount > 0) {
                     acc[monthKey].revenue += amount;
@@ -91,8 +91,8 @@ export default function MarginAnalysisChart() {
             .sort((a: any, b: any) => a.sortKey.localeCompare(b.sortKey))
             .map((period: any) => {
                 const grossMargin = period.revenue - period.cogs;
-                const grossMarginPercent = period.revenue > 0 
-                    ? (grossMargin / period.revenue) * 100 
+                const grossMarginPercent = period.revenue > 0
+                    ? (grossMargin / period.revenue) * 100
                     : 0;
 
                 return {

@@ -1,18 +1,115 @@
 # 📋 SUIVI DES MISES À JOUR - FINSIGHT
 **Date de création :** 30 octobre 2025
-**Dernière mise à jour :** 31 octobre 2025
-**Statut projet :** 95% complété - IA Copilote fonctionnel !
+**Dernière mise à jour :** 31 octobre 2025 23h30
+**Statut projet :** ⚠️ EN TRANSFORMATION - De démo à outil pro DAF/CFO
 
 ---
 
-## 🎯 **VISION DU PROJET**
-FinSight = **"Visualisez et Parlez à vos Données"**
-- **Visualisez** → Dashboard adaptatif selon la richesse des données
-- **Parlez** → Copilote IA pour interaction naturelle avec les chiffres
+## 🎯 **PIVOT STRATÉGIQUE (31 OCT 2025)**
+**Contexte révélé :** Bootcamp data analytics terminé, lien DFCG, cible DAF/CFO
+**Ancien objectif :** Démo technique pour lead magnet
+**Nouveau objectif :** Outil professionnel utilisable par directeurs financiers
+**Score actuel :** 38/100 (audit complet réalisé)
+**Score cible :** 85/100 en 4 semaines (pitch DFCG 1er décembre)
 
 ---
 
-## ✅ **CE QUI EST DÉJÀ FAIT (≈90%)**
+## 🔥 **SPRINT 1 - URGENCE (31 OCT 2025) ✅ TERMINÉ**
+
+### **PROBLÈME CRITIQUE IDENTIFIÉ**
+❌ Tous les graphiques affichaient des **fake data hardcodées**
+❌ Formules KPIs **incorrectes** (DSO calculé avec `fréquence × 30`)
+❌ Aucune **crédibilité** pour un DAF professionnel (repéré en 3 secondes)
+
+### **SOLUTION IMPLÉMENTÉE**
+✅ **CashFlowChart.tsx** - Connecté aux vraies données
+- Calcul cash flow cumulatif depuis `rawData`
+- Groupement par mois avec tri chronologique
+- Protection conditionnelle (affichage uniquement si données)
+
+✅ **DSOClientChart.tsx** - Analyse réelle des créances
+- Calcul DSO par client depuis transactions
+- Niveau de risque automatique (low/medium/high)
+- Top 5 clients triés par DSO décroissant
+
+✅ **MarginAnalysisChart.tsx** - Rentabilité calculée
+- Marges mensuelles revenue vs costs
+- Classification automatique créances/dettes
+- Pourcentage de marge brute dynamique
+
+✅ **Protection système**
+- Charts affichés UNIQUEMENT si `rawData.length > 0`
+- Messages explicites si pas de données
+- `shouldShowElement()` déjà en place dans dashboard
+
+---
+
+## 📋 **ROADMAP PROFESSIONNEL CRÉÉ**
+
+### **ÉTAT ACTUEL : 38/100**
+**Points forts :**
+- Architecture code propre (TypeScript, modulaire)
+- Upload CSV fonctionnel avec états bien gérés
+- Système adaptatif intelligent
+
+**Blockers critiques :**
+1. ✅ ~~Graphiques = fake data~~ → CORRIGÉ
+2. ⏳ Formules KPIs incorrectes (DSO, BFR, Marge)
+3. ⏳ Pas de lexique financier (tooltips)
+4. ⏳ Export PDF trop basique
+5. ⏳ Copilot IA non validé sur cas métier
+
+### **PHASE URGENTE (1-2 semaines) → 70/100**
+- [x] Connecter graphiques aux vraies données ✅
+- [ ] Corriger formules KPIs standards (DSO, BFR, Rotation stocks)
+- [ ] Ajouter lexique financier avec tooltips
+- [ ] Professionnaliser export PDF (logo, méthodologie, footer)
+- [ ] Tests avec exports Sage/Cegid/QuickBooks réels
+
+### **PHASE IMPORTANTE (2-3 semaines) → 85/100**
+- [ ] Benchmarks sectoriels (industrie, services, commerce)
+- [ ] Alertes intelligentes prédictives
+- [ ] Drill-down sur KPIs (clic → détail)
+
+### **CHECKLIST VALIDATION DAF**
+- [x] Afficher graphiques basés sur vraies données ✅
+- [ ] Calculer DSO/BFR/Marge avec formules standard
+- [ ] Export PDF pro (logo, méthodologie, footer)
+- [ ] Lexique explicatif pour chaque KPI
+- [ ] Benchmarker vs moyenne sectorielle
+- [ ] Générer alertes actionnables
+- [ ] Drill-down sur chaque KPI
+- [ ] Gérer formats variés (Sage, Cegid, Excel)
+- [ ] Démo vidéo 2min max
+- [ ] Guide utilisateur PDF 10 pages
+
+---
+
+## 🛠️ **MODIFICATIONS TECHNIQUES (31 OCT)**
+
+### **Fichiers modifiés**
+```
+src/components/charts/CashFlowChart.tsx          (75 lignes ajoutées)
+src/components/charts/DSOClientChart.tsx         (95 lignes ajoutées)
+src/components/charts/MarginAnalysisChart.tsx    (110 lignes ajoutées)
+tsconfig.json                                     (exclusion finsight_pages_export)
+roadmap.md                                        (créé - 400+ lignes)
+roadmap_OLD.md                                    (backup ancien roadmap)
+```
+
+### **Commit**
+```
+7941537 - ✅ SPRINT 1 - Connexion charts aux vraies données
+- CashFlowChart: Calcul cash flow cumulatif depuis rawData
+- DSOClientChart: Analyse DSO par client depuis transactions réelles
+- MarginAnalysisChart: Calcul marges mensuelles revenue vs costs
+- Protection conditionnelle déjà en place
+- Roadmap professionnel créé (38/100 → 85/100)
+```
+
+---
+
+## ✅ **CE QUI EST DÉJÀ FAIT (BASE SOLIDE)**
 
 ### 🏗️ **Architecture & Foundation**
 - [x] **Projet Next.js 14** configuré et opérationnel
