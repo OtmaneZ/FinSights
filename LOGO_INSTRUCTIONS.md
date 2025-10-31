@@ -30,15 +30,15 @@ Une fois le logo en place, modifier `/src/lib/pdfExporter.ts` :
 // Ligne 52 environ - Remplacer le placeholder
 private async addCoverPage(options: PDFExportOptions) {
     // ... code existant ...
-    
+
     // Logo FinSight
     const logoBase64 = 'data:image/png;base64,iVBORw0KGgo...'; // Votre logo en base64
     const logoWidth = 40;
     const logoHeight = 40;
     const logoX = (this.pageWidth - logoWidth) / 2;
-    
+
     this.pdf.addImage(logoBase64, 'PNG', logoX, 30, logoWidth, logoHeight);
-    
+
     // ... suite du code ...
 }
 ```

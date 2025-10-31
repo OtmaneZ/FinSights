@@ -99,11 +99,11 @@ export default function FinancialDashboard() {
             const pdfOptions = {
                 companyName: 'Entreprise',  // TODO: Demander à l'utilisateur
                 reportPeriod: {
-                    start: rawData && rawData.length > 0 
-                        ? new Date(Math.min(...rawData.map((r: any) => new Date(r.date).getTime()))) 
+                    start: rawData && rawData.length > 0
+                        ? new Date(Math.min(...rawData.map((r: any) => new Date(r.date).getTime())))
                         : new Date(),
-                    end: rawData && rawData.length > 0 
-                        ? new Date(Math.max(...rawData.map((r: any) => new Date(r.date).getTime()))) 
+                    end: rawData && rawData.length > 0
+                        ? new Date(Math.max(...rawData.map((r: any) => new Date(r.date).getTime())))
                         : new Date()
                 },
                 kpis: kpis.map(kpi => ({

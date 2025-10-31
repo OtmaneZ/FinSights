@@ -1,13 +1,13 @@
 /**
  * LEXIQUE FINANCIER - Définitions et formules pour DAF/CFO
- * 
+ *
  * Chaque KPI inclut :
  * - Définition claire en français
  * - Formule de calcul exacte
  * - Benchmarks sectoriels
  * - Seuils d'alerte
  * - Interprétation pour la prise de décision
- * 
+ *
  * Sources : PCG 2025, DFCG, Normes IFRS
  */
 

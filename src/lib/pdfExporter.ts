@@ -1,6 +1,6 @@
 /**
  * EXPORT PDF PROFESSIONNEL
- * 
+ *
  * Génération de rapports financiers de qualité DAF/CFO
  * - Page de couverture avec logo
  * - Table des matières
@@ -70,11 +70,11 @@ export class FinancialPDFExporter {
             const logoX = (this.pageWidth - logoWidth) / 2;
             // Note: Nécessite que le logo soit converti en base64 ou chargé
             // this.pdf.addImage(logoBase64, 'PNG', logoX, 30, logoWidth, logoHeight);
-            
+
             // Placeholder pour le logo (rectangle bleu foncé)
             this.pdf.setFillColor(0, 51, 153);
             this.pdf.roundedRect(logoX, 30, logoWidth, logoHeight, 5, 5, 'F');
-            
+
             // Icône "éclair" stylisée au centre du rectangle
             this.pdf.setFontSize(28);
             this.pdf.setTextColor(255, 255, 255);
@@ -139,7 +139,7 @@ export class FinancialPDFExporter {
             'Toute diffusion non autorisée est strictement interdite.',
             'Les calculs sont basés sur les données fournies et les formules standard (PCG 2025).'
         ];
-        
+
         disclaimer.forEach((line, index) => {
             const lineWidth = this.pdf.getTextWidth(line);
             this.pdf.text(line, (this.pageWidth - lineWidth) / 2, 185 + (index * 5));
@@ -192,17 +192,17 @@ export class FinancialPDFExporter {
         sections.forEach(section => {
             // Titre de section
             this.pdf.text(section.title, this.margin + 5, this.currentY);
-            
+
             // Points de suspension
             const dots = '...................................................................';
             this.pdf.setTextColor(148, 163, 184);
             this.pdf.text(dots, this.margin + 80, this.currentY);
-            
+
             // Numéro de page
             this.pdf.setFont('helvetica', 'bold');
             this.pdf.setTextColor(0, 102, 255);
             this.pdf.text(`p.${section.page}`, this.pageWidth - this.margin - 10, this.currentY);
-            
+
             this.pdf.setFont('helvetica', 'normal');
             this.pdf.setTextColor(51, 65, 85);
             this.currentY += 10;
@@ -359,7 +359,7 @@ export class FinancialPDFExporter {
         this.pdf.setFont('helvetica', 'bold');
         this.pdf.setTextColor(51, 65, 85);
         this.pdf.text('Références :', this.margin, this.currentY);
-        
+
         this.pdf.setFont('helvetica', 'normal');
         this.pdf.setTextColor(100, 116, 139);
         const refs = [
@@ -367,7 +367,7 @@ export class FinancialPDFExporter {
             '• Normes IFRS (International Financial Reporting Standards)',
             '• Standards DFCG (Directeurs Financiers et Contrôleurs de Gestion)'
         ];
-        
+
         refs.forEach((ref, index) => {
             this.pdf.text(ref, this.margin + 5, this.currentY + 7 + (index * 5));
         });
