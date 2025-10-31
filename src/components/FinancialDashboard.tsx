@@ -22,6 +22,9 @@ import {
 // Import AICopilot
 import AICopilot from './AICopilot';
 
+// Import EmptyDashboardState
+import EmptyDashboardState from './EmptyDashboardState';
+
 // Import dynamique des charts avec stratégie robuste
 const CashFlowChart = dynamic(() => import('./charts/CashFlowChart').catch(() => ({ default: () => <div className="finsight-chart-fallback">📊 Graphique temporairement indisponible</div> })), {
     ssr: false,
@@ -67,6 +70,17 @@ export default function FinancialDashboard() {
         // ✅ État initial vide - pas de données factices
         // Le dashboard se construira après upload de données réelles
     }, [selectedPeriod])
+
+    // Écouter l'événement d'upload depuis EmptyDashboardState
+    useEffect(() => {
+        const handleFileSelected = (event: Event) => {
+            const customEvent = event as CustomEvent;
+            handleFileUpload(customEvent.detail as FileList);
+        };
+
+        window.addEventListener('fileSelected', handleFileSelected);
+        return () => window.removeEventListener('fileSelected', handleFileSelected);
+    }, []);
 
     // Fonction d'export PDF
     const exportToPDF = async () => {
@@ -393,9 +407,64 @@ export default function FinancialDashboard() {
                 </div>
             )}
 
+            {/* ✅ État vide avec explications - Affiché avant upload */}
+            {kpis.length === 0 && !showUploadZone && (
+                <EmptyDashboardState />
+            )}
+
             {/* ✅ Contenu principal - Affiché seulement après upload de données */}
             {kpis.length > 0 && (
                 <>
+                    {/* Badge Niveau Détecté */}
+                    {levelInfo && (
+                        <div className={`mb-6 p-4 rounded-lg border-2 ${
+                            Number(levelInfo.level) === 1 ? 'bg-blue-50 border-blue-300' :
+                            Number(levelInfo.level) === 2 ? 'bg-blue-100 border-blue-400' :
+                            'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
+                        }`}>
+                            <div className="flex items-center justify-between flex-wrap gap-4">
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                        Number(levelInfo.level) === 1 ? 'bg-blue-500' :
+                                        Number(levelInfo.level) === 2 ? 'bg-blue-600' :
+                                        'bg-gradient-to-br from-purple-600 to-indigo-600'
+                                    }`}>
+                                        <span className="text-xl font-bold text-white">{levelInfo.level}</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-gray-900">
+                                            {Number(levelInfo.level) === 1 ? '📊 Niveau Basique détecté' :
+                                             Number(levelInfo.level) === 2 ? '📈 Niveau Enrichi détecté' :
+                                             '🚀 Niveau Complet détecté'}
+                                        </div>
+                                        <div className="text-sm text-gray-600">{levelInfo.description}</div>
+                                    </div>
+                                </div>
+                                {Number(levelInfo.level) < 3 && (
+                                    <div className="text-sm">
+                                        <span className="text-gray-600">💡 </span>
+                                        {Number(levelInfo.level) === 1 && (
+                                            <span className="text-gray-700">
+                                                Ajoutez <strong>Catégorie</strong> et <strong>Contrepartie</strong> pour débloquer DSO et analyse clients
+                                            </span>
+                                        )}
+                                        {Number(levelInfo.level) === 2 && (
+                                            <span className="text-gray-700">
+                                                Ajoutez <strong>Produit</strong>, <strong>Marge</strong> et <strong>Échéance</strong> pour débloquer projections 90j
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
+                                {Number(levelInfo.level) === 3 && (
+                                    <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
+                                        <span>🎉</span>
+                                        <span>Toutes les analyses sont disponibles !</span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     {/* KPI Grid */}
                     <div className="finsight-kpi-grid" data-count={kpis.length}>
                         {kpis.map((kpi, index) => (

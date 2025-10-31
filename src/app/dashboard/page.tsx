@@ -13,9 +13,8 @@ export default function DashboardPage() {
                     </div>
                     <nav className="finsight-nav-menu finsight-nav-hidden">
                         <a href="/" className="finsight-nav-link">Accueil</a>
-                        <a href="/dashboard" className="finsight-nav-link finsight-nav-active">Dashboard</a>
                         <a href="/methodologie" className="finsight-nav-link">Méthodologie</a>
-                        <a href="/dashboard" className="finsight-nav-link finsight-nav-active">Dashboard & IA</a>
+                        <a href="https://zineinsight.com" className="finsight-nav-link" target="_blank" rel="noopener noreferrer">Zine Insight</a>
                     </nav>
                 </div>
             </header>
