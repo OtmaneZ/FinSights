@@ -413,12 +413,107 @@ export class FinancialPDFExporter {
         // 3. KPIs
         this.addKPIsPage(options);
 
-        // 4. Méthodologie
+        // 4. Graphiques (si demandé)
+        if (options.includeCharts) {
+            await this.addChartsPage();
+        }
+
+        // 5. Méthodologie
         if (options.includeMethodology) {
             this.addMethodologyPage();
         }
 
         return this.pdf;
+    }
+
+    /**
+     * Capture et ajout des graphiques dans le PDF
+     */
+    private async addChartsPage(): Promise<void> {
+        this.pdf.addPage();
+        this.pageNumber++;
+        this.currentY = this.margin;
+
+        // Titre de la page
+        this.pdf.setFontSize(24);
+        this.pdf.setFont('helvetica', 'bold');
+        this.pdf.setTextColor(30, 41, 59);
+        this.pdf.text('Graphiques d\'Analyse', this.margin, this.currentY);
+
+        this.currentY += 15;
+
+        try {
+            // Chercher les graphiques dans le DOM
+            const chartElements = [
+                { id: 'cash-flow-chart', title: 'Évolution Trésorerie' },
+                { id: 'dso-client-chart', title: 'DSO par Client' },
+                { id: 'margin-analysis-chart', title: 'Analyse des Marges' }
+            ];
+
+            let chartsAdded = 0;
+
+            for (const chart of chartElements) {
+                const element = document.getElementById(chart.id);
+
+                if (element) {
+                    // Titre du graphique
+                    this.pdf.setFontSize(14);
+                    this.pdf.setFont('helvetica', 'bold');
+                    this.pdf.setTextColor(51, 65, 85);
+                    this.pdf.text(chart.title, this.margin, this.currentY);
+
+                    this.currentY += 8;
+
+                    // Capturer le graphique avec html2canvas
+                    const canvas = await html2canvas(element, {
+                        scale: 2,
+                        backgroundColor: '#ffffff',
+                        logging: false,
+                    });
+
+                    // Convertir en image
+                    const imgData = canvas.toDataURL('image/png');
+
+                    // Calculer dimensions pour garder le ratio
+                    const imgWidth = this.pageWidth - 2 * this.margin;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                    // Vérifier si on a assez d'espace, sinon nouvelle page
+                    if (this.currentY + imgHeight > this.pageHeight - this.footerHeight - 10) {
+                        this.addPageFooter();
+                        this.pdf.addPage();
+                        this.pageNumber++;
+                        this.currentY = this.margin;
+                    }
+
+                    // Ajouter l'image
+                    this.pdf.addImage(imgData, 'PNG', this.margin, this.currentY, imgWidth, imgHeight);
+
+                    this.currentY += imgHeight + 15;
+                    chartsAdded++;
+                } else {
+                    console.warn(`Graphique "${chart.id}" non trouvé dans le DOM`);
+                }
+            }
+
+            if (chartsAdded === 0) {
+                // Aucun graphique trouvé, afficher un message
+                this.pdf.setFontSize(12);
+                this.pdf.setFont('helvetica', 'normal');
+                this.pdf.setTextColor(148, 163, 184);
+                this.pdf.text('Aucun graphique disponible pour le moment.', this.margin, this.currentY);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la capture des graphiques:', error);
+
+            // Message d'erreur dans le PDF
+            this.pdf.setFontSize(12);
+            this.pdf.setFont('helvetica', 'normal');
+            this.pdf.setTextColor(239, 68, 68);
+            this.pdf.text('Erreur lors de la capture des graphiques.', this.margin, this.currentY);
+        }
+
+        this.addPageFooter();
     }
 
     /**

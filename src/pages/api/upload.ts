@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { parseCSV } from '@/lib/dataParser';
 import { generateDashboardKPIs } from '@/lib/dataParser';
+import { excelToCSV } from '@/lib/excelParser';
 
 export const config = {
     api: {
@@ -22,16 +23,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(400).json({ error: 'No file content provided' });
         }
 
-        // Pour commencer, on traite seulement les CSV
-        if (!fileName.endsWith('.csv')) {
+        // Détecter le type de fichier
+        const isExcel = fileName.endsWith('.xlsx') || fileName.endsWith('.xls');
+        const isCSV = fileName.endsWith('.csv');
+
+        if (!isCSV && !isExcel) {
             return res.status(400).json({
-                error: 'Format non supporté pour le moment. Utilisez un fichier CSV.',
-                supportedFormats: ['.csv']
+                error: 'Format non supporté. Utilisez un fichier CSV ou Excel.',
+                supportedFormats: ['.csv', '.xlsx', '.xls']
             });
         }
 
+        let csvContent = fileContent;
+
+        // Si c'est un fichier Excel, le convertir en CSV
+        if (isExcel) {
+            const conversionResult = excelToCSV(fileContent);
+
+            if (!conversionResult.success || !conversionResult.csvContent) {
+                return res.status(400).json({
+                    error: 'Erreur lors de la conversion Excel',
+                    details: conversionResult.error
+                });
+            }
+
+            csvContent = conversionResult.csvContent;
+            console.log(`✅ Excel converti: ${conversionResult.sheetName} (${conversionResult.rowCount} lignes × ${conversionResult.columnCount} colonnes)`);
+        }
+
         // Parse et traite les données avec nouvelle API
-        const parseResult = parseCSV(fileContent);
+        const parseResult = parseCSV(csvContent);
 
         if (!parseResult.success || !parseResult.data) {
             return res.status(400).json({

@@ -20,6 +20,12 @@ import {
     CheckCircleIcon
 } from '@heroicons/react/24/outline';
 
+// Import nouveaux composants
+import { BenchmarkBar } from './BenchmarkBar';
+import { AlertsPanel } from './AlertsPanel';
+import { CompanyInfoModal, CompanySector } from './CompanyInfoModal';
+import { DataPreviewPanel } from './DataPreviewPanel';
+
 // Import AICopilot
 import AICopilot from './AICopilot';
 
@@ -70,6 +76,11 @@ export default function FinancialDashboard() {
     const [upgradeMessages, setUpgradeMessages] = useState<string[]>([])
     const dashboardRef = useRef<HTMLDivElement>(null)
 
+    // ✅ Nouveaux states pour les fonctionnalités
+    const [showCompanyModal, setShowCompanyModal] = useState(false)
+    const [companyName, setCompanyName] = useState('')
+    const [companySector, setCompanySector] = useState<CompanySector>('services')
+
     useEffect(() => {
         // ✅ État initial vide - pas de données factices
         // Le dashboard se construira après upload de données réelles
@@ -97,7 +108,7 @@ export default function FinancialDashboard() {
 
             // Préparer les options
             const pdfOptions = {
-                companyName: 'Entreprise',  // TODO: Demander à l'utilisateur
+                companyName: companyName || 'Entreprise',  // ✅ Utiliser le nom de l'entreprise
                 reportPeriod: {
                     start: rawData && rawData.length > 0
                         ? new Date(Math.min(...rawData.map((r: any) => new Date(r.date).getTime())))
@@ -112,7 +123,7 @@ export default function FinancialDashboard() {
                     change: kpi.change,
                     description: kpi.description
                 })),
-                includeCharts: true,
+                includeCharts: true,  // ✅ Activer les graphiques
                 includeMethodology: true,
                 confidential: true
             };
@@ -138,7 +149,10 @@ export default function FinancialDashboard() {
         const file = files[0];
 
         // Validation simple
-        if (!file.name.endsWith('.csv')) {
+        const isCSV = file.name.endsWith('.csv');
+        const isExcel = file.name.endsWith('.xlsx') || file.name.endsWith('.xls');
+
+        if (!isCSV && !isExcel) {
             setUploadStatus('error');
             setTimeout(() => setUploadStatus('idle'), 3000);
             return;
@@ -148,12 +162,32 @@ export default function FinancialDashboard() {
 
         try {
             // Lecture du fichier
-            const fileContent = await new Promise<string>((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target?.result as string);
-                reader.onerror = (e) => reject(e);
-                reader.readAsText(file);
-            });
+            let fileContent: string;
+
+            if (isExcel) {
+                // Pour Excel, lire en ArrayBuffer puis convertir en base64
+                fileContent = await new Promise<string>((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const arrayBuffer = e.target?.result as ArrayBuffer;
+                        // Convertir en base64
+                        const uint8Array = new Uint8Array(arrayBuffer);
+                        const binaryString = uint8Array.reduce((acc, byte) => acc + String.fromCharCode(byte), '');
+                        const base64 = btoa(binaryString);
+                        resolve(base64);
+                    };
+                    reader.onerror = (e) => reject(e);
+                    reader.readAsArrayBuffer(file);
+                });
+            } else {
+                // Pour CSV, lire en texte
+                fileContent = await new Promise<string>((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target?.result as string);
+                    reader.onerror = (e) => reject(e);
+                    reader.readAsText(file);
+                });
+            }
 
             // Envoi à l'API
             const response = await fetch('/api/upload', {
@@ -205,11 +239,14 @@ export default function FinancialDashboard() {
 
             setUploadStatus('success');
 
-            // Auto-fermer après succès
+            // ✅ Afficher le modal secteur après upload réussi
+            setShowCompanyModal(true);
+
+            // Auto-fermer la zone d'upload après succès
             setTimeout(() => {
                 setUploadStatus('idle');
                 setShowUploadZone(false);
-            }, 3000);
+            }, 2000);
 
         } catch (error) {
             console.error('Erreur upload:', error);
@@ -304,6 +341,26 @@ export default function FinancialDashboard() {
         if (!dashboardConfig) return false; // ✅ Si pas de config, on n'affiche RIEN (sauf KPIs de base)
         return dashboardConfig[element] as boolean;
     }
+
+    // ✅ Handler modal secteur
+    const handleCompanyInfoSubmit = (name: string, sector: CompanySector) => {
+        setCompanyName(name);
+        setCompanySector(sector);
+        setShowCompanyModal(false);
+        console.log(`✅ Entreprise configurée: ${name} (${sector})`);
+    };
+
+    // ✅ Extraire les valeurs numériques des KPIs pour les benchmarks
+    const getKPINumericValue = (kpiTitle: string): number | undefined => {
+        const kpi = kpis.find(k => k.title.includes(kpiTitle));
+        if (!kpi) return undefined;
+
+        // Parser la valeur (ex: "45 jours" → 45, "12.5%" → 12.5)
+        const match = kpi.value.match(/[\d,.]+/);
+        if (!match) return undefined;
+
+        return parseFloat(match[0].replace(',', '.'));
+    };
 
     return (
         <div className="finsight-dashboard-container" ref={dashboardRef}>
@@ -476,9 +533,71 @@ export default function FinancialDashboard() {
                                 </div>
                                 <p className="finsight-kpi-value">{kpi.value}</p>
                                 <p className="finsight-kpi-description">{kpi.description}</p>
+
+                                {/* ✅ Benchmark Bar pour chaque KPI */}
+                                {companySector && kpi.title.includes('DSO') && (
+                                    <BenchmarkBar
+                                        kpiName="DSO"
+                                        currentValue={getKPINumericValue('DSO') || 0}
+                                        sector={companySector}
+                                        unit=" jours"
+                                        inverse={true}
+                                    />
+                                )}
+                                {companySector && kpi.title.includes('BFR') && (
+                                    <BenchmarkBar
+                                        kpiName="BFR"
+                                        currentValue={getKPINumericValue('BFR') || 0}
+                                        sector={companySector}
+                                        unit=" jours"
+                                        inverse={true}
+                                    />
+                                )}
+                                {companySector && kpi.title.includes('Marge Nette') && (
+                                    <BenchmarkBar
+                                        kpiName="MARGE_NETTE"
+                                        currentValue={getKPINumericValue('Marge') || 0}
+                                        sector={companySector}
+                                        unit="%"
+                                        inverse={false}
+                                    />
+                                )}
+                                {companySector && kpi.title.includes('Marge Brute') && (
+                                    <BenchmarkBar
+                                        kpiName="MARGE_BRUTE"
+                                        currentValue={getKPINumericValue('Brute') || 0}
+                                        sector={companySector}
+                                        unit="%"
+                                        inverse={false}
+                                    />
+                                )}
+                                {companySector && kpi.title.includes('Cash Flow') && (
+                                    <BenchmarkBar
+                                        kpiName="CASH_FLOW"
+                                        currentValue={getKPINumericValue('Cash') || 0}
+                                        sector={companySector}
+                                        unit="%"
+                                        inverse={false}
+                                    />
+                                )}
                             </div>
                         ))}
                     </div>
+
+                    {/* ✅ Preview Données (juste après upload) */}
+                    {rawData && rawData.length > 0 && (
+                        <DataPreviewPanel rawData={rawData} companyName={companyName} />
+                    )}
+
+                    {/* ✅ Alertes intelligentes */}
+                    {kpis.length > 0 && (
+                        <AlertsPanel
+                            dso={getKPINumericValue('DSO')}
+                            cashFlow={getKPINumericValue('Cash')}
+                            netMargin={getKPINumericValue('Marge')}
+                            bfr={getKPINumericValue('BFR')}
+                        />
+                    )}
 
                     {/* Quick Insights */}
                     {shouldShowElement('showAIInsights') && (
@@ -599,9 +718,15 @@ export default function FinancialDashboard() {
                         <div className="finsight-advanced-charts">
                             <h3 className="finsight-charts-title">📊 Analyses Avancées</h3>
                             <div className="finsight-charts-grid">
-                                <CashFlowChart />
-                                <DSOClientChart />
-                                <MarginAnalysisChart />
+                                <div id="cash-flow-chart">
+                                    <CashFlowChart />
+                                </div>
+                                <div id="dso-client-chart">
+                                    <DSOClientChart />
+                                </div>
+                                <div id="margin-analysis-chart">
+                                    <MarginAnalysisChart />
+                                </div>
                                 <WhatIfSimulator />
                             </div>
                         </div>
@@ -613,6 +738,13 @@ export default function FinancialDashboard() {
             <div className="mb-12">
                 <AICopilot />
             </div>
+
+            {/* ✅ Modal Secteur */}
+            <CompanyInfoModal
+                isOpen={showCompanyModal}
+                onClose={() => setShowCompanyModal(false)}
+                onSubmit={handleCompanyInfoSubmit}
+            />
         </div>
     )
 }
