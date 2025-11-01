@@ -60,20 +60,16 @@ export class FinancialPDFExporter {
      */
     private addCoverPage(options: PDFExportOptions) {
         const { companyName } = options;
-
-        // Header avec logo - on charge l'image directement
+        
+        // Header avec logo en base64
         try {
-            // Chemin relatif depuis la racine du projet
-            const logoPath = '/images/logo.png';
-            this.pdf.addImage(logoPath, 'PNG', this.margin, 20, 40, 40);
+            this.pdf.addImage(FINSIGHT_LOGO_BASE64, 'JPEG', this.margin, 20, 40, 40);
         } catch (e) {
             // Fallback: texte si l'image ne charge pas
             this.pdf.setFontSize(32);
             this.pdf.setTextColor(0, 102, 255);
             this.pdf.text('FinSight', this.margin, 40);
-        }
-
-        // Ligne de séparation
+        }        // Ligne de séparation
         this.pdf.setDrawColor(0, 102, 255);
         this.pdf.setLineWidth(1);
         this.pdf.line(this.margin, 70, this.pageWidth - this.margin, 70);
