@@ -60,7 +60,7 @@ export class FinancialPDFExporter {
      */
     private addCoverPage(options: PDFExportOptions) {
         const { companyName } = options;
-        
+
         // Header avec logo en base64
         try {
             this.pdf.addImage(FINSIGHT_LOGO_BASE64, 'JPEG', this.margin, 20, 40, 40);
@@ -146,8 +146,8 @@ export class FinancialPDFExporter {
         const sections = [
             { title: '1. Indicateurs Clés de Performance (KPIs)', page: 3 },
             { title: '2. Analyse Graphique', page: 4, condition: options.includeCharts },
-            { title: '3. Méthodologie et Formules', page: 5, condition: options.includeMethodology },
-            { title: '4. Recommandations', page: 6 }
+            { title: '3. Alertes & Recommandations', page: 5 },
+            { title: '4. Méthodologie et Formules', page: 6, condition: options.includeMethodology }
         ].filter(section => section.condition !== false);
 
         this.pdf.setFontSize(12);
@@ -383,12 +383,151 @@ export class FinancialPDFExporter {
             await this.addChartsPage();
         }
 
-        // 5. Méthodologie
+        // 5. Alertes & Recommandations
+        this.addAlertsPage(options);
+
+        // 6. Méthodologie
         if (options.includeMethodology) {
             this.addMethodologyPage();
         }
 
         return this.pdf;
+    }
+
+    /**
+     * Page Alertes & Recommandations
+     */
+    private addAlertsPage(options: PDFExportOptions): void {
+        this.pdf.addPage();
+        this.pageNumber++;
+        this.currentY = this.margin;
+
+        // Titre
+        this.pdf.setFontSize(24);
+        this.pdf.setFont('helvetica', 'bold');
+        this.pdf.setTextColor(30, 41, 59);
+        this.pdf.text('Alertes & Recommandations', this.margin, this.currentY);
+        this.currentY += 15;
+
+        // Calculer les KPIs pour les alertes
+        const revenue = options.kpis.find(k => k.title.includes('Chiffre'))?.value || '0';
+        const revenueNum = parseFloat(revenue.replace(/[^0-9.-]/g, ''));
+        
+        // Générer les alertes
+        const alerts: Array<{type: 'warning' | 'info' | 'success', title: string, message: string, action?: string}> = [];
+
+        // Alerte DSO (si > 60 jours)
+        const dsoKPI = options.kpis.find(k => k.title.includes('DSO'));
+        if (dsoKPI) {
+            const dsoValue = parseFloat(dsoKPI.value.replace(/[^0-9.-]/g, ''));
+            if (dsoValue > 60) {
+                alerts.push({
+                    type: 'warning',
+                    title: 'Délai de paiement élevé',
+                    message: `DSO à ${dsoValue.toFixed(0)} jours (objectif : < 45 jours)`,
+                    action: 'Relancer les factures de plus de 60 jours'
+                });
+            }
+        }
+
+        // Alerte Cash Flow négatif
+        const cashKPI = options.kpis.find(k => k.title.includes('Cash'));
+        if (cashKPI) {
+            const cashValue = parseFloat(cashKPI.value.replace(/[^0-9.-]/g, ''));
+            if (cashValue < 0) {
+                alerts.push({
+                    type: 'warning',
+                    title: 'Trésorerie négative',
+                    message: `Cash flow à ${cashValue.toLocaleString('fr-FR')} €`,
+                    action: 'Priorité : accélérer les encaissements'
+                });
+            } else if (cashValue > 0) {
+                alerts.push({
+                    type: 'success',
+                    title: 'Trésorerie positive',
+                    message: `Cash flow sain à ${cashValue.toLocaleString('fr-FR')} €`
+                });
+            }
+        }
+
+        // Alerte Marge faible
+        const margeKPI = options.kpis.find(k => k.title.includes('Marge'));
+        if (margeKPI) {
+            const margeValue = parseFloat(margeKPI.value.replace(/[^0-9.-]/g, ''));
+            if (margeValue < 10) {
+                alerts.push({
+                    type: 'warning',
+                    title: 'Marge nette faible',
+                    message: `Marge à ${margeValue.toFixed(1)}% (objectif : > 15%)`,
+                    action: 'Analyser les charges et optimiser les coûts'
+                });
+            }
+        }
+
+        // Si pas d'alertes, message positif
+        if (alerts.length === 0) {
+            alerts.push({
+                type: 'success',
+                title: 'Situation saine',
+                message: 'Aucune alerte critique détectée sur la période'
+            });
+        }
+
+        // Afficher les alertes
+        alerts.forEach(alert => {
+            // Encadré coloré
+            const boxHeight = alert.action ? 30 : 22;
+            
+            // Couleur selon type
+            let bgColor: [number, number, number] = [239, 246, 255]; // bleu clair
+            let borderColor: [number, number, number] = [59, 130, 246];
+            let iconColor: [number, number, number] = [37, 99, 235];
+            
+            if (alert.type === 'warning') {
+                bgColor = [254, 243, 199]; // orange clair
+                borderColor = [251, 191, 36];
+                iconColor = [217, 119, 6];
+            } else if (alert.type === 'success') {
+                bgColor = [220, 252, 231]; // vert clair
+                borderColor = [34, 197, 94];
+                iconColor = [22, 163, 74];
+            }
+
+            this.pdf.setFillColor(...bgColor);
+            this.pdf.setDrawColor(...borderColor);
+            this.pdf.setLineWidth(0.5);
+            this.pdf.roundedRect(this.margin, this.currentY, this.pageWidth - 2 * this.margin, boxHeight, 2, 2, 'FD');
+
+            // Icône
+            this.pdf.setFontSize(16);
+            this.pdf.setTextColor(...iconColor);
+            const icon = alert.type === 'warning' ? '⚠' : alert.type === 'success' ? '✓' : 'ⓘ';
+            this.pdf.text(icon, this.margin + 5, this.currentY + 7);
+
+            // Titre
+            this.pdf.setFontSize(12);
+            this.pdf.setFont('helvetica', 'bold');
+            this.pdf.setTextColor(30, 41, 59);
+            this.pdf.text(alert.title, this.margin + 15, this.currentY + 7);
+
+            // Message
+            this.pdf.setFontSize(10);
+            this.pdf.setFont('helvetica', 'normal');
+            this.pdf.setTextColor(71, 85, 105);
+            this.pdf.text(alert.message, this.margin + 15, this.currentY + 14);
+
+            // Action recommandée
+            if (alert.action) {
+                this.pdf.setFontSize(9);
+                this.pdf.setFont('helvetica', 'italic');
+                this.pdf.setTextColor(100, 116, 139);
+                this.pdf.text(`→ ${alert.action}`, this.margin + 15, this.currentY + 22);
+            }
+
+            this.currentY += boxHeight + 8;
+        });
+
+        this.addPageFooter();
     }
 
     /**
@@ -408,6 +547,9 @@ export class FinancialPDFExporter {
         this.currentY += 15;
 
         try {
+            // ✅ ATTENDRE que les graphiques React soient montés
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
             // Chercher les graphiques dans le DOM
             const chartElements = [
                 { id: 'cash-flow-chart', title: 'Évolution Trésorerie' },
@@ -420,7 +562,8 @@ export class FinancialPDFExporter {
             for (const chart of chartElements) {
                 const element = document.getElementById(chart.id);
 
-                if (element) {
+                if (element && element.querySelector('svg, canvas')) {
+                    // ✅ Vérifier qu'il y a bien un graphique (SVG ou Canvas)
                     // Titre du graphique
                     this.pdf.setFontSize(14);
                     this.pdf.setFont('helvetica', 'bold');
@@ -434,6 +577,7 @@ export class FinancialPDFExporter {
                         scale: 2,
                         backgroundColor: '#ffffff',
                         logging: false,
+                        useCORS: true, // ✅ Supporter les images cross-origin
                     });
 
                     // Convertir en image
@@ -457,7 +601,7 @@ export class FinancialPDFExporter {
                     this.currentY += imgHeight + 15;
                     chartsAdded++;
                 } else {
-                    console.warn(`Graphique "${chart.id}" non trouvé dans le DOM`);
+                    console.warn(`Graphique "${chart.id}" non trouvé ou vide dans le DOM`);
                 }
             }
 
@@ -467,6 +611,9 @@ export class FinancialPDFExporter {
                 this.pdf.setFont('helvetica', 'normal');
                 this.pdf.setTextColor(148, 163, 184);
                 this.pdf.text('Aucun graphique disponible pour le moment.', this.margin, this.currentY);
+                this.pdf.setFontSize(10);
+                this.currentY += 10;
+                this.pdf.text('Les graphiques nécessitent des données enrichies (dates échéance, coûts, etc.)', this.margin, this.currentY);
             }
         } catch (error) {
             console.error('Erreur lors de la capture des graphiques:', error);

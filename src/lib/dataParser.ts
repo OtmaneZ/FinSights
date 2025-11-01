@@ -410,7 +410,7 @@ function parseRecords(
                 id: `record-${Date.now()}-${i}`,
                 date: dateValue,
                 description: descCol !== undefined ? cols[descCol].trim() : `Transaction ${i}`,
-                amount: Math.abs(amountValue),
+                amount: Math.abs(amountValue), // Toujours positif
                 type: amountValue >= 0 ? 'income' : 'expense',
                 sourceId: 'csv-import',
                 confidence: 0.8,
@@ -520,11 +520,11 @@ export function processFinancialData(records: FinancialRecord[], sourceId: strin
     const expenses = records.filter(r => r.type === 'expense');
 
     const totalIncome = income.reduce((sum, r) => sum + r.amount, 0);
-    const totalExpenses = expenses.reduce((sum, r) => sum + r.amount, 0);
+    const totalExpenses = expenses.reduce((sum, r) => sum + r.amount, 0); // ✅ Les expenses sont en positif
 
     // ✅ Utiliser la fonction de cash flow correcte
     const cashFlowData = calculateOperatingCashFlow(records);
-    const netCashFlow = cashFlowData.netCashFlow;
+    const netCashFlow = totalIncome - totalExpenses; // ✅ Cash flow = revenus - charges
 
     // Détection période
     const dates = records.map(r => r.date).filter(d => d instanceof Date);

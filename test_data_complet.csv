@@ -1,0 +1,24 @@
+Date,Description,Montant,Compte,Reference,Client,Date_echeance,Statut_paiement,Categorie,Prix_vente,Cout_unitaire
+01/09/2024,"Vente produit A",1250.50,COMPTA001,VT-2024-001,"Décathlon France",15/09/2024,Payé,Ventes,1500,900
+05/09/2024,"Achat matériel bureau",-450.00,COMPTA001,ACH-2024-001,"Bureau Vallée",20/09/2024,Payé,Charges,0,450
+10/09/2024,"Prestations consulting",2800.00,COMPTA001,PREST-2024-001,"Airbus Defense",25/09/2024,Payé,Services,3200,1800
+15/09/2024,"Loyer septembre",-1200.00,COMPTA001,LOYER-2024-09,"SCI Immobilier",01/09/2024,Payé,Charges,0,1200
+18/09/2024,"Vente produit B",850.75,COMPTA001,VT-2024-002,"Leroy Merlin",03/10/2024,En attente,Ventes,1000,600
+20/09/2024,"Frais télécom",-89.99,COMPTA001,TEL-2024-09,"Orange Business",30/09/2024,Payé,Charges,0,89.99
+22/09/2024,"Subvention innovation",5000.00,COMPTA001,SUB-2024-001,"Région Occitanie",22/09/2024,Payé,Autres,5000,0
+25/09/2024,"Salaires équipe",-8500.00,COMPTA001,SAL-2024-09,"URSSAF",30/09/2024,Payé,Charges,0,8500
+28/09/2024,"Vente produit C",1100.25,COMPTA001,VT-2024-003,"Carrefour Supply",13/10/2024,En attente,Ventes,1300,750
+01/10/2024,"Vente produit A",1250.50,COMPTA001,VT-2024-004,"Décathlon France",15/10/2024,Payé,Ventes,1500,900
+02/10/2024,"Achat matériel bureau",-450.00,COMPTA001,ACH-2024-002,"Bureau Vallée",17/10/2024,Payé,Charges,0,450
+03/10/2024,"Prestations consulting",2800.00,COMPTA001,PREST-2024-002,"Airbus Defense",18/10/2024,Payé,Services,3200,1800
+05/10/2024,"Loyer octobre",-1200.00,COMPTA001,LOYER-2024-10,"SCI Immobilier",01/10/2024,Payé,Charges,0,1200
+07/10/2024,"Vente produit B",850.75,COMPTA001,VT-2024-005,"Leroy Merlin",22/10/2024,En attente,Ventes,1000,600
+10/10/2024,"Frais télécom",-89.99,COMPTA001,TEL-2024-10,"Orange Business",31/10/2024,En cours,Charges,0,89.99
+12/10/2024,"Subvention innovation",3000.00,COMPTA001,SUB-2024-002,"Région Occitanie",12/10/2024,Payé,Autres,3000,0
+15/10/2024,"Salaires équipe",-8500.00,COMPTA001,SAL-2024-10,"URSSAF",31/10/2024,Payé,Charges,0,8500
+18/10/2024,"Vente produit C",1100.25,COMPTA001,VT-2024-006,"Carrefour Supply",02/11/2024,En attente,Ventes,1300,750
+20/10/2024,"Assurance entreprise",-350.00,COMPTA001,ASS-2024-10,"AXA Entreprises",20/10/2024,Payé,Charges,0,350
+22/10/2024,"Prestations développement",3200.00,COMPTA001,DEV-2024-001,"Thales Digital",06/11/2024,En attente,Services,3800,2100
+25/10/2024,"Facture électricité",-125.50,COMPTA001,ELEC-2024-10,"EDF Entreprises",10/11/2024,En cours,Charges,0,125.50
+28/10/2024,"Vente produit D",975.00,COMPTA001,VT-2024-007,"Décathlon France",12/11/2024,En attente,Ventes,1150,650
+30/10/2024,"Maintenance serveurs",-280.00,COMPTA001,MAINT-2024-10,"OVHcloud",15/11/2024,En cours,Charges,0,280
