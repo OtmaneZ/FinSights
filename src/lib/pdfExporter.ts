@@ -11,6 +11,7 @@
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { FINSIGHT_LOGO_BASE64 } from './logo';
 
 export interface PDFExportOptions {
     companyName: string;
@@ -58,102 +59,70 @@ export class FinancialPDFExporter {
      * Page de couverture professionnelle
      */
     private addCoverPage(options: PDFExportOptions) {
-        // Background gradient (simulé avec rectangles)
-        this.pdf.setFillColor(0, 102, 255); // Bleu
-        this.pdf.rect(0, 0, this.pageWidth, this.pageHeight / 3, 'F');
+        const { companyName } = options;
 
-        // Logo FinSight (à charger depuis /public/images/finsight-logo.png)
+        // Header avec logo - on charge l'image directement
         try {
-            // Logo centré en haut
-            const logoWidth = 40;
-            const logoHeight = 40;
-            const logoX = (this.pageWidth - logoWidth) / 2;
-            // Note: Nécessite que le logo soit converti en base64 ou chargé
-            // this.pdf.addImage(logoBase64, 'PNG', logoX, 30, logoWidth, logoHeight);
-
-            // Placeholder pour le logo (rectangle bleu foncé)
-            this.pdf.setFillColor(0, 51, 153);
-            this.pdf.roundedRect(logoX, 30, logoWidth, logoHeight, 5, 5, 'F');
-
-            // Icône "éclair" stylisée au centre du rectangle
-            this.pdf.setFontSize(28);
-            this.pdf.setTextColor(255, 255, 255);
-            this.pdf.text('⚡', logoX + 15, 55);
-        } catch (error) {
-            console.log('Logo non disponible, utilisation placeholder');
+            // Chemin relatif depuis la racine du projet
+            const logoPath = '/images/logo.png';
+            this.pdf.addImage(logoPath, 'PNG', this.margin, 20, 40, 40);
+        } catch (e) {
+            // Fallback: texte si l'image ne charge pas
+            this.pdf.setFontSize(32);
+            this.pdf.setTextColor(0, 102, 255);
+            this.pdf.text('FinSight', this.margin, 40);
         }
 
+        // Ligne de séparation
+        this.pdf.setDrawColor(0, 102, 255);
+        this.pdf.setLineWidth(1);
+        this.pdf.line(this.margin, 70, this.pageWidth - this.margin, 70);
+
         // Titre principal
-        this.pdf.setFontSize(32);
+        this.pdf.setFontSize(28);
         this.pdf.setFont('helvetica', 'bold');
-        this.pdf.setTextColor(255, 255, 255);
-        const title = 'Rapport Financier';
-        const titleWidth = this.pdf.getTextWidth(title);
-        this.pdf.text(title, (this.pageWidth - titleWidth) / 2, 85);
+        this.pdf.setTextColor(30, 41, 59);
+        this.pdf.text('Rapport Financier', this.pageWidth / 2, 100, { align: 'center' });
 
-        // Sous-titre avec nom entreprise
-        this.pdf.setFontSize(20);
+        // Nom de l'entreprise
+        this.pdf.setFontSize(18);
         this.pdf.setFont('helvetica', 'normal');
-        const companyWidth = this.pdf.getTextWidth(options.companyName);
-        this.pdf.text(options.companyName, (this.pageWidth - companyWidth) / 2, 95);
+        this.pdf.setTextColor(71, 85, 105);
+        this.pdf.text(companyName, this.pageWidth / 2, 120, { align: 'center' });
 
-        // Période
+        // Période du rapport
         this.pdf.setFontSize(14);
-        this.pdf.setTextColor(200, 220, 255);
-        const periodText = `Période : ${options.reportPeriod.start.toLocaleDateString('fr-FR')} - ${options.reportPeriod.end.toLocaleDateString('fr-FR')}`;
-        const periodWidth = this.pdf.getTextWidth(periodText);
-        this.pdf.text(periodText, (this.pageWidth - periodWidth) / 2, 105);
+        this.pdf.setTextColor(100, 116, 139);
+        const periodText = `Periode: ${options.reportPeriod.start.toLocaleDateString('fr-FR')} - ${options.reportPeriod.end.toLocaleDateString('fr-FR')}`;
+        this.pdf.text(periodText, this.pageWidth / 2, 135, { align: 'center' });
 
-        // Section blanche
-        this.pdf.setFillColor(255, 255, 255);
-        this.pdf.rect(0, this.pageHeight / 3, this.pageWidth, (this.pageHeight * 2) / 3, 'F');
+        // Informations du rapport
+        const infoY = 170;
+        this.pdf.setFontSize(10);
+        this.pdf.setTextColor(100, 116, 139);
 
-        // Informations générales
-        this.pdf.setFontSize(12);
-        this.pdf.setTextColor(51, 65, 85);
-        this.pdf.setFont('helvetica', 'normal');
-
-        const infoY = 130;
         const infoLines = [
-            `📅 Date de génération : ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}`,
-            `📊 Type de rapport : Analyse financière complète`,
-            `🔒 Confidentialité : ${options.confidential ? 'CONFIDENTIEL - Usage interne uniquement' : 'Document interne'}`,
-            `🤖 Généré par : FinSight - Tableau de bord financier intelligent`
+            `Date : ${new Date().toLocaleDateString('fr-FR')}`,
+            `Type : Analyse Financiere Augmentee`,
+            `Confidentialite : ${options.confidential ? 'Document confidentiel' : 'Document interne'}`,
+            `Genere par : FinSight AI Platform`
         ];
 
         infoLines.forEach((line, index) => {
-            this.pdf.text(line, this.margin, infoY + (index * 10));
+            this.pdf.text(line, this.pageWidth / 2, infoY + (index * 8), { align: 'center' });
         });
 
-        // Barre de séparation
-        this.pdf.setDrawColor(226, 232, 240);
-        this.pdf.setLineWidth(0.5);
-        this.pdf.line(this.margin, 175, this.pageWidth - this.margin, 175);
-
-        // Avertissement légal
-        this.pdf.setFontSize(9);
-        this.pdf.setTextColor(100, 116, 139);
-        this.pdf.setFont('helvetica', 'italic');
-        const disclaimer = [
-            'Ce document contient des informations financières sensibles.',
-            'Toute diffusion non autorisée est strictement interdite.',
-            'Les calculs sont basés sur les données fournies et les formules standard (PCG 2025).'
-        ];
-
-        disclaimer.forEach((line, index) => {
-            const lineWidth = this.pdf.getTextWidth(line);
-            this.pdf.text(line, (this.pageWidth - lineWidth) / 2, 185 + (index * 5));
-        });
-
-        // Footer de la couverture
-        this.pdf.setFontSize(10);
+        // Footer
+        this.pdf.setFontSize(8);
         this.pdf.setTextColor(148, 163, 184);
-        this.pdf.setFont('helvetica', 'normal');
-        const footerText = 'FinSight © 2025 - Analyse financière augmentée par IA';
-        const footerWidth = this.pdf.getTextWidth(footerText);
-        this.pdf.text(footerText, (this.pageWidth - footerWidth) / 2, this.pageHeight - 10);
+        this.pdf.text(
+            'Ce document contient des informations confidentielles',
+            this.pageWidth / 2,
+            this.pageHeight - 20,
+            { align: 'center' }
+        );
 
-        this.pageNumber = 1;
+        this.addPageFooter();
     }
 
     /**
