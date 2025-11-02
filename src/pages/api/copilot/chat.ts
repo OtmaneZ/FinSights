@@ -1,5 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { analyzeDataCapabilities, generateAdaptiveResponse } from '@/lib/adaptiveCapabilities'
+import {
+    formatTresorerieResponse,
+    formatMargeResponse,
+    formatDSOResponse,
+    formatPerformanceAnalysis,
+    formatRisqueDetection,
+    formatScenarioSimulation,
+    formatExecutiveSummary
+} from '@/lib/aiFormatters'
 
 // Types pour les requêtes copilot
 interface CopilotRequest {
@@ -168,11 +177,11 @@ async function generateResponse(message: string, financialContext: string | null
     }
 
     if (messageLower.includes('trésorerie') || messageLower.includes('cash') || messageLower.includes('liquidité')) {
-        return generateCashFlowAnalysis(financialContext)
+        return generateCashFlowAnalysis(financialContext, finSightData)
     }
 
     if (messageLower.includes('marge') || messageLower.includes('margin') || messageLower.includes('rentabilité')) {
-        return generateMarginAnalysis(financialContext)
+        return generateMarginAnalysis(financialContext, finSightData)
     }
 
     if (messageLower.includes('dso') || messageLower.includes('délai') || messageLower.includes('paiement')) {
@@ -233,11 +242,12 @@ Souhaitez-vous que j'approfondisse un aspect particulier ?`
 /**
  * Analyse de la trésorerie
  */
-function generateCashFlowAnalysis(context: string): string {
-    return `💰 **Analyse Trésorerie**
+function generateCashFlowAnalysis(context: string, finSightData: any): string {
+    if (finSightData?.kpis?.cashFlow) {
+        const response = formatTresorerieResponse(finSightData.kpis.cashFlow)
+        return `💰 **Analyse Trésorerie**
 
-Situation actuelle :
-${context}
+${response}
 
 **Éléments d'analyse :**
 - 🔄 Flux entrants vs sortants
@@ -250,16 +260,25 @@ ${context}
 - Anticiper les besoins de financement
 
 Voulez-vous une projection de trésorerie détaillée ?`
+    }
+
+    return `💰 **Analyse Trésorerie**
+
+Situation actuelle :
+${context}
+
+Importez plus de données historiques pour une analyse plus précise.`
 }
 
 /**
  * Analyse de la marge
  */
-function generateMarginAnalysis(context: string): string {
-    return `📉 **Analyse Rentabilité**
+function generateMarginAnalysis(context: string, finSightData: any): string {
+    if (finSightData?.kpis?.margin) {
+        const response = formatMargeResponse(finSightData.kpis.margin)
+        return `� **Analyse Rentabilité**
 
-Vos marges actuelles :
-${context}
+${response}
 
 **Leviers d'optimisation :**
 - 💰 Prix de vente et politique tarifaire
@@ -271,36 +290,41 @@ ${context}
 - Identifier les écarts de performance
 
 Souhaitez-vous une analyse détaillée par produit/service ?`
+    }
+
+    return `📊 **Analyse Rentabilité**
+
+Vos marges actuelles :
+${context}
+
+Importez une colonne "Catégorie" ou "COGS" pour un calcul précis des marges.`
 }
 
 /**
  * Analyse DSO avec vraies données
  */
 function generateDSOAnalysis(context: string, finSightData: any): string {
-    // Extraire les vraies données DSO
-    let dsoValue = 'Non calculé';
-    let dsoChange = '';
-    let recordCount = 0;
-    let periodLabel = 'Période inconnue';
-    let canCalculateDSO = false;
-
     if (finSightData?.kpis?.dso) {
-        dsoValue = finSightData.kpis.dso.formatted || finSightData.kpis.dso.value;
-        dsoChange = finSightData.kpis.dso.changeFormatted || '';
-        canCalculateDSO = true;
+        const response = formatDSOResponse(finSightData.kpis.dso)
+        return `⏰ **Analyse Délais de Paiement**
+
+${response}
+
+**Actions d'optimisation :**
+- 🎯 Relances automatisées
+- 💳 Faciliter les modes de paiement
+- ⚡ Incitations paiement anticipé
+- 📋 Conditions commerciales adaptées
+
+**Impact :** Réduire votre DSO de 10 jours peut libérer des milliers d'euros de trésorerie.
+
+Voulez-vous une simulation d'impact ?`
     }
 
-    if (finSightData?.recordCount) {
-        recordCount = finSightData.recordCount;
-    }
+    const recordCount = finSightData?.recordCount || 0
+    const periodLabel = finSightData?.period?.label || 'Période inconnue'
 
-    if (finSightData?.period?.label) {
-        periodLabel = finSightData.period.label;
-    }
-
-    // Si on ne peut pas calculer le DSO, expliquer pourquoi
-    if (!canCalculateDSO) {
-        return `⏱️ **Analyse Délais de Paiement**
+    return `⏱️ **Analyse Délais de Paiement**
 
 ❌ **Je ne peux pas calculer votre DSO avec ces données**
 
@@ -320,39 +344,7 @@ function generateDSOAnalysis(context: string, finSightData: any): string {
 - 📊 Répartition par clients et montants
 - 📈 Évolution mensuelle des ventes
 
-Voulez-vous que j'analyse un autre aspect de vos finances ?`;
-    }
-
-    // Si on peut calculer le DSO (code existant)
-    let impactEstimate = '';
-    if (finSightData?.kpis?.revenue?.value && typeof finSightData.kpis.revenue.value === 'number') {
-        const monthlyRevenue = finSightData.kpis.revenue.value;
-        const impactReduction10j = Math.round((monthlyRevenue / 30) * 10);
-        impactEstimate = `- Une réduction de 10 jours libérerait environ ${impactReduction10j.toLocaleString('fr-FR')} € de trésorerie`;
-    } else {
-        impactEstimate = '- Une réduction de 10 jours libère de la trésorerie';
-    }
-
-    return `⏱️ **Analyse Délais de Paiement**
-
-**Votre DSO actuel : ${dsoValue}** ${dsoChange ? `(${dsoChange})` : ''}
-📊 Période analysée: ${periodLabel}
-📈 ${recordCount} transactions analysées
-${finSightData?.levelInfo?.description ? `💡 ${finSightData.levelInfo.description}` : ''}
-
-**Impact trésorerie :**
-${impactEstimate}
-- Amélioration du BFR et du cash-flow opérationnel
-
-**Actions concrètes recommandées :**
-- 📞 Relances clients systématiques dès J+15
-- 💳 Faciliter les paiements (CB, virement instantané)
-- 📋 Réviser conditions de paiement (30j → 15j nets)
-- 🎯 Focus sur les gros montants en retard
-
-${recordCount < 50 ? '💡 **Conseil** : Importez plus de données historiques pour des recommandations personnalisées.' : ''}
-
-Voulez-vous un plan d'action détaillé pour réduire votre DSO ?`
+Voulez-vous que j'analyse un autre aspect de vos finances ?`
 }
 
 /**

@@ -255,6 +255,36 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         ]
     },
 
+    CHARGES: {
+        id: 'CHARGES',
+        title: 'Charges',
+        shortName: 'Dépenses totales',
+        category: 'rentabilite',
+        definition: 'Total des dépenses engagées pour faire fonctionner l\'entreprise. Inclut achats, salaires, loyers, marketing, etc.',
+        formula: 'Charges = Achats + Charges fixes + Charges variables',
+        formulaExplanation: 'Achats = COGS (marchandises) | Fixes = Loyers, salaires, assurances | Variables = Marketing, commissions',
+        interpretation: {
+            excellent: '< 70% du CA → Marge nette > 30% (très rentable)',
+            good: '70-85% du CA → Marge nette 15-30% (rentable)',
+            warning: '85-95% du CA → Marge nette 5-15% (faible)',
+            critical: '> 95% du CA → Marge < 5% (risque perte)'
+        },
+        benchmarks: [
+            { sector: 'Services', min: '60%', median: '75%', max: '85%', unit: '% du CA' },
+            { sector: 'Commerce', min: '85%', median: '92%', max: '97%', unit: '% du CA' },
+            { sector: 'Industrie', min: '75%', median: '85%', max: '92%', unit: '% du CA' },
+            { sector: 'SaaS', min: '50%', median: '70%', max: '85%', unit: '% du CA' }
+        ],
+        example: 'CA 500k€, Charges 400k€ → 80% du CA → Marge nette 20%',
+        relatedKPIs: ['MARGE_NETTE', 'MARGE_BRUTE', 'EBITDA'],
+        actionableInsights: [
+            'Catégoriser : Fixes vs Variables vs COGS',
+            'Ratio charges fixes < 40% du CA pour résilience',
+            'Automatiser pour réduire charges opérationnelles',
+            'Négocier contrats annuels (-10 à -20%)'
+        ]
+    },
+
     ROTATION_STOCKS: {
         id: 'ROTATION_STOCKS',
         title: 'Rotation des Stocks',
@@ -314,10 +344,13 @@ export function searchGlossary(query: string): FinancialGlossaryEntry[] {
 
 /**
  * Mapping KPI → ID Glossaire
+ * Map les titres exacts des KPIs du dashboard vers les IDs du glossaire
  */
 export const KPI_TO_GLOSSARY_MAP: Record<string, string> = {
     "Chiffre d'Affaires": 'CA',
+    "Charges": 'CHARGES',
     "DSO Clients": 'DSO',
+    "BFR Estimé": 'BFR',
     "BFR": 'BFR',
     "Cash Flow Net": 'CASH_FLOW',
     "Marge Brute": 'MARGE_BRUTE',

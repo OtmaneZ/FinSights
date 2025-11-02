@@ -412,9 +412,9 @@ export class FinancialPDFExporter {
         // Calculer les KPIs pour les alertes
         const revenue = options.kpis.find(k => k.title.includes('Chiffre'))?.value || '0';
         const revenueNum = parseFloat(revenue.replace(/[^0-9.-]/g, ''));
-        
+
         // Générer les alertes
-        const alerts: Array<{type: 'warning' | 'info' | 'success', title: string, message: string, action?: string}> = [];
+        const alerts: Array<{ type: 'warning' | 'info' | 'success', title: string, message: string, action?: string }> = [];
 
         // Alerte DSO (si > 60 jours)
         const dsoKPI = options.kpis.find(k => k.title.includes('DSO'));
@@ -477,12 +477,12 @@ export class FinancialPDFExporter {
         alerts.forEach(alert => {
             // Encadré coloré
             const boxHeight = alert.action ? 30 : 22;
-            
+
             // Couleur selon type
             let bgColor: [number, number, number] = [239, 246, 255]; // bleu clair
             let borderColor: [number, number, number] = [59, 130, 246];
             let iconColor: [number, number, number] = [37, 99, 235];
-            
+
             if (alert.type === 'warning') {
                 bgColor = [254, 243, 199]; // orange clair
                 borderColor = [251, 191, 36];
@@ -547,8 +547,9 @@ export class FinancialPDFExporter {
         this.currentY += 15;
 
         try {
-            // ✅ ATTENDRE que les graphiques React soient montés
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // ✅ ATTENDRE PLUS LONGTEMPS - Recharts a besoin de temps pour renderer les SVG
+            console.log('📊 Attente 3s pour le rendu complet des graphiques Recharts...');
+            await new Promise(resolve => setTimeout(resolve, 3000));
 
             // Chercher les graphiques dans le DOM
             const chartElements = [
@@ -561,6 +562,12 @@ export class FinancialPDFExporter {
 
             for (const chart of chartElements) {
                 const element = document.getElementById(chart.id);
+                console.log(`🔍 Recherche graphique "${chart.id}":`, {
+                    elementTrouve: !!element,
+                    aSVG: !!element?.querySelector('svg'),
+                    aCanvas: !!element?.querySelector('canvas'),
+                    innerHTML: element?.innerHTML.substring(0, 100)
+                });
 
                 if (element && element.querySelector('svg, canvas')) {
                     // ✅ Vérifier qu'il y a bien un graphique (SVG ou Canvas)

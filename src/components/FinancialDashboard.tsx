@@ -35,27 +35,6 @@ import EmptyDashboardState from './EmptyDashboardState';
 // Import KPITooltip
 import KPITooltip from './KPITooltip';
 
-// Import dynamique des charts avec stratégie robuste
-const CashFlowChart = dynamic(() => import('./charts/CashFlowChart').catch(() => ({ default: () => <div className="finsight-chart-fallback">📊 Graphique temporairement indisponible</div> })), {
-    ssr: false,
-    loading: () => <div className="finsight-chart-loading">🔄 Chargement du graphique...</div>
-});
-
-const DSOClientChart = dynamic(() => import('./charts/DSOClientChart').catch(() => ({ default: () => <div className="finsight-chart-fallback">📈 Graphique temporairement indisponible</div> })), {
-    ssr: false,
-    loading: () => <div className="finsight-chart-loading">🔄 Chargement du graphique...</div>
-});
-
-const MarginAnalysisChart = dynamic(() => import('./charts/MarginAnalysisChart').catch(() => ({ default: () => <div className="finsight-chart-fallback">📉 Graphique temporairement indisponible</div> })), {
-    ssr: false,
-    loading: () => <div className="finsight-chart-loading">🔄 Chargement du graphique...</div>
-});
-
-const WhatIfSimulator = dynamic(() => import('./charts/WhatIfSimulator').catch(() => ({ default: () => <div className="finsight-chart-fallback">🎛️ Simulateur temporairement indisponible</div> })), {
-    ssr: false,
-    loading: () => <div className="finsight-chart-loading">🔄 Chargement du simulateur...</div>
-});
-
 interface KPI {
     title: string
     value: string
@@ -216,6 +195,7 @@ export default function FinancialDashboard() {
                 setFinSightData(result.data);
                 setRawData(result.data.records || []);
                 setIsDataLoaded(true);
+                console.log('✅ rawData défini dans contexte:', result.data.records?.length, 'enregistrements');
             }
 
             // DEBUG: Vérifier ce qui arrive
@@ -289,16 +269,18 @@ export default function FinancialDashboard() {
     const getTopClients = () => {
         if (!rawData || !rawData.length) return [];
 
-        // Grouper par contrepartie et calculer les totaux
-        const clientTotals = rawData.reduce((acc: any, record: any) => {
-            const client = record.counterparty || record.description || 'Client inconnu';
-            if (!acc[client]) {
-                acc[client] = { name: client, total: 0, count: 0 };
-            }
-            acc[client].total += Math.abs(record.amount);
-            acc[client].count += 1;
-            return acc;
-        }, {});
+        // Grouper par contrepartie et calculer les totaux (SEULEMENT les revenus)
+        const clientTotals = rawData
+            .filter((record: any) => record.type === 'income') // ✅ Exclure les charges (URSSAF, etc.)
+            .reduce((acc: any, record: any) => {
+                const client = record.counterparty || record.description || 'Client inconnu';
+                if (!acc[client]) {
+                    acc[client] = { name: client, total: 0, count: 0 };
+                }
+                acc[client].total += record.amount;
+                acc[client].count += 1;
+                return acc;
+            }, {});
 
         // Trier et prendre le top 5
         return Object.values(clientTotals)
@@ -338,6 +320,7 @@ export default function FinancialDashboard() {
             configValue: dashboardConfig?.[element],
             result: !dashboardConfig ? false : dashboardConfig[element] as boolean
         });
+
         if (!dashboardConfig) return false; // ✅ Si pas de config, on n'affiche RIEN (sauf KPIs de base)
         return dashboardConfig[element] as boolean;
     }
@@ -355,11 +338,21 @@ export default function FinancialDashboard() {
         const kpi = kpis.find(k => k.title.includes(kpiTitle));
         if (!kpi) return undefined;
 
-        // Parser la valeur (ex: "45 jours" → 45, "12.5%" → 12.5)
-        const match = kpi.value.match(/[\d,.]+/);
+        // Parser la valeur (ex: "45 jours" → 45, "12.5%" → 12.5, "50 510 €" → 50510)
+        // Supprimer tous les espaces, puis extraire les chiffres et virgules/points
+        const cleanValue = kpi.value.replace(/\s/g, '');
+        const match = cleanValue.match(/[\d,.]+/);
         if (!match) return undefined;
 
         return parseFloat(match[0].replace(',', '.'));
+    };
+
+    // ✅ Calculer le % de Cash Flow pour le benchmark (Cash Flow / CA * 100)
+    const getCashFlowPercentage = (): number => {
+        const cashFlow = getKPINumericValue('Cash Flow');
+        const revenue = getKPINumericValue('Affaires'); // "Chiffre d'Affaires"
+        if (!cashFlow || !revenue || revenue === 0) return 0;
+        return (cashFlow / revenue) * 100;
     };
 
     return (
@@ -574,7 +567,7 @@ export default function FinancialDashboard() {
                                 {companySector && kpi.title.includes('Cash Flow') && (
                                     <BenchmarkBar
                                         kpiName="CASH_FLOW"
-                                        currentValue={getKPINumericValue('Cash') || 0}
+                                        currentValue={getCashFlowPercentage()}
                                         sector={companySector}
                                         unit="%"
                                         inverse={false}
@@ -593,7 +586,7 @@ export default function FinancialDashboard() {
                     {kpis.length > 0 && (
                         <AlertsPanel
                             dso={getKPINumericValue('DSO')}
-                            cashFlow={getKPINumericValue('Cash')}
+                            cashFlow={getKPINumericValue('Cash Flow')}
                             netMargin={getKPINumericValue('Marge')}
                             bfr={getKPINumericValue('BFR')}
                         />
@@ -709,25 +702,6 @@ export default function FinancialDashboard() {
                             <div className="text-center py-8 text-gray-500">
                                 <p>💡 Recommandations nécessitent plus de données d'historique</p>
                                 <p className="text-sm">Importez plusieurs mois pour des recommandations personnalisées</p>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Charts interactifs - Section avancée */}
-                    {shouldShowElement('showAdvancedCharts') && (
-                        <div className="finsight-advanced-charts">
-                            <h3 className="finsight-charts-title">📊 Analyses Avancées</h3>
-                            <div className="finsight-charts-grid">
-                                <div id="cash-flow-chart">
-                                    <CashFlowChart />
-                                </div>
-                                <div id="dso-client-chart">
-                                    <DSOClientChart />
-                                </div>
-                                <div id="margin-analysis-chart">
-                                    <MarginAnalysisChart />
-                                </div>
-                                <WhatIfSimulator />
                             </div>
                         </div>
                     )}

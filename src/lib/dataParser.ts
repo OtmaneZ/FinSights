@@ -26,7 +26,8 @@ import {
     calculateNetMargin,
     calculateGrossMargin,
     calculateDSOFromTransactions,
-    calculateOperatingCashFlow
+    calculateOperatingCashFlow,
+    calculatePeriodVariations
 } from './financialFormulas';
 
 // Configuration par défaut
@@ -223,6 +224,16 @@ function detectColumns(headers: string[], sampleData: string[], config: ParseCon
             });
         }
 
+        // Détection de la colonne catégorie
+        else if (isCategoryColumn(headerLower)) {
+            mappings.push({
+                sourceColumn: header,
+                targetField: 'category',
+                confidence: 0.9,
+                dataType: 'string'
+            });
+        }
+
         // Détection de la colonne description
         else if (isDescriptionColumn(headerLower, samples)) {
             mappings.push({
@@ -305,6 +316,11 @@ function isAccountColumn(header: string): boolean {
 function isClientColumn(header: string): boolean {
     const clientKeywords = ['client', 'contrepartie', 'counterparty', 'customer', 'fournisseur', 'supplier', 'beneficiaire'];
     return clientKeywords.some(keyword => header.includes(keyword));
+}
+
+function isCategoryColumn(header: string): boolean {
+    const categoryKeywords = ['category', 'categorie', 'catégorie', 'type', 'classe'];
+    return categoryKeywords.some(keyword => header.includes(keyword));
 }
 
 function isReferenceColumn(header: string): boolean {
@@ -396,6 +412,11 @@ function parseRecords(
             const dateValue = parseDate(cols[dateCol]);
             const amountValue = parseAmount(cols[amountCol]);
 
+            // 🔍 DEBUG: Logger la valeur brute et parsée
+            if (i <= 3) {
+                console.log(`🔍 Ligne ${i}: "${cols[amountCol]}" → ${amountValue} (type: ${amountValue >= 0 ? 'income' : 'expense'})`);
+            }
+
             if (!dateValue || isNaN(amountValue)) {
                 errors.push({
                     row: i + 1,
@@ -406,12 +427,37 @@ function parseRecords(
                 continue;
             }
 
+            // ✅ Détecter le type AVANT de prendre la valeur absolue
+            let transactionType: 'income' | 'expense' = amountValue >= 0 ? 'income' : 'expense';
+
+            // ✅ FALLBACK: Utiliser la description ou catégorie si montant positif suspect
+            const description = descCol !== undefined ? cols[descCol].trim().toLowerCase() : '';
+            const categoryCol = headers.findIndex(h => h.toLowerCase() === 'categorie' || h.toLowerCase() === 'category');
+            const category = categoryCol >= 0 && cols[categoryCol] ? cols[categoryCol].trim().toLowerCase() : '';
+
+            // Mots-clés pour détecter les charges
+            const expenseKeywords = ['achat', 'frais', 'loyer', 'salaire', 'charge', 'facture', 'assurance', 'maintenance', 'abonnement', 'infrastructure', 'marketing'];
+            const expenseCategories = ['charges', 'infrastructure', 'marketing', 'expense', 'cost'];
+
+            if (transactionType === 'income') {
+                // Si le montant est positif mais la description/catégorie suggère une charge
+                const isExpenseByDescription = expenseKeywords.some(keyword => description.includes(keyword));
+                const isExpenseByCategory = expenseCategories.some(cat => category.includes(cat));
+
+                if (isExpenseByDescription || isExpenseByCategory) {
+                    transactionType = 'expense';
+                    console.log(`🔍 Correction: "${description}" détecté comme CHARGE (malgré montant positif)`);
+                }
+            }
+
+            const absoluteAmount = Math.abs(amountValue);
+
             const record: FinancialRecord = {
                 id: `record-${Date.now()}-${i}`,
                 date: dateValue,
                 description: descCol !== undefined ? cols[descCol].trim() : `Transaction ${i}`,
-                amount: Math.abs(amountValue), // Toujours positif
-                type: amountValue >= 0 ? 'income' : 'expense',
+                amount: absoluteAmount,
+                type: transactionType,
                 sourceId: 'csv-import',
                 confidence: 0.8,
                 rawData: {}
@@ -431,6 +477,59 @@ function parseRecords(
             const referenceCol = columnMap.get('reference');
             if (referenceCol !== undefined && cols[referenceCol]) {
                 record.reference = cols[referenceCol].trim();
+            }
+
+            // ✅ Ajouter Date_echeance si disponible
+            const dueDateCol = headers.findIndex(h =>
+                h.toLowerCase().includes('echeance') ||
+                h.toLowerCase().includes('due') ||
+                h.toLowerCase().includes('échéance')
+            );
+
+            if (i === 1) {
+                console.log('🔍 HEADERS:', headers);
+                console.log('🔍 dueDateCol index:', dueDateCol);
+                console.log('🔍 Valeur brute Date_echeance:', cols[dueDateCol]);
+            }
+
+            if (dueDateCol >= 0 && cols[dueDateCol]) {
+                const dueDateRaw = cols[dueDateCol];
+                const dueDate = parseDate(dueDateRaw);
+
+                if (i === 1) {
+                    console.log('🔍 parseDate result:', {
+                        raw: dueDateRaw,
+                        parsed: dueDate,
+                        recordDate: record.date,
+                        sameDate: dueDate?.getTime() === record.date.getTime()
+                    });
+                }
+
+                if (dueDate) {
+                    (record as any).dueDate = dueDate;
+                    if (i <= 5) {
+                        console.log(`✅ Ligne ${i} dueDate ajouté:`, {
+                            description: record.description.substring(0, 30),
+                            date: record.date.toISOString().split('T')[0],
+                            dueDate: dueDate.toISOString().split('T')[0],
+                            diffJours: Math.floor((dueDate.getTime() - record.date.getTime()) / (1000 * 60 * 60 * 24))
+                        });
+                    }
+                } else {
+                    if (i === 1) console.log('⚠️ parseDate a échoué pour dueDate:', dueDateRaw);
+                }
+            } else {
+                if (i === 1) console.log('❌ Colonne Date_echeance NON trouvée. dueDateCol:', dueDateCol, 'headers:', headers);
+            }
+
+            // ✅ Ajouter Categorie si disponible
+            const categoryColIndex = headers.findIndex(h =>
+                h.toLowerCase() === 'categorie' ||
+                h.toLowerCase() === 'category' ||
+                h.toLowerCase() === 'catégorie'
+            );
+            if (categoryColIndex >= 0 && cols[categoryColIndex]) {
+                (record as any).category = cols[categoryColIndex].trim();
             }
 
             records.push(record);
@@ -560,6 +659,9 @@ export function processFinancialData(records: FinancialRecord[], sourceId: strin
     // ✅ Calculer DSO avec vraie formule
     const dsoValue = calculateDSOFromTransactions(records);
 
+    // ✅ Calculer variations période N vs N-1
+    const variations = calculatePeriodVariations(records);
+
     const kpis: FinancialKPIs = {
         revenue: totalIncome,
         expenses: totalExpenses,
@@ -572,9 +674,10 @@ export function processFinancialData(records: FinancialRecord[], sourceId: strin
             expense: categoryStats.filter(c => c.type === 'expense').slice(0, 5)
         },
         trends: {
-            revenueGrowth: 0, // TODO: calculer vs période précédente
-            expenseGrowth: 0,
-            marginTrend: 0
+            revenueGrowth: variations.revenue,
+            expenseGrowth: variations.expenses,
+            marginTrend: variations.netMargin,
+            cashFlowGrowth: variations.cashFlow
         }
     };
 
@@ -707,7 +810,7 @@ export function generateDashboardKPIs(data: ProcessedData) {
         {
             title: 'Charges',
             value: `${Math.round(kpis.expenses).toLocaleString('fr-FR')} €`,
-            change: `${kpis.trends.expenseGrowth.toFixed(1)}%`,
+            change: `${(-kpis.trends.expenseGrowth).toFixed(1)}%`, // ✅ Inverser le signe (baisse = positif)
             changeType: kpis.trends.expenseGrowth < 0 ? 'positive' : kpis.trends.expenseGrowth > 0 ? 'negative' : 'neutral',
             description: 'Total des dépenses',
             confidence: data.qualityMetrics.accuracy
@@ -723,8 +826,8 @@ export function generateDashboardKPIs(data: ProcessedData) {
         {
             title: 'Cash Flow Net',
             value: `${Math.round(summary.netCashFlow).toLocaleString('fr-FR')} €`,
-            change: `${kpis.trends.marginTrend.toFixed(1)}%`,
-            changeType: summary.netCashFlow > 0 ? 'positive' : 'negative',
+            change: `${(kpis.trends.cashFlowGrowth || 0).toFixed(1)}%`,
+            changeType: (kpis.trends.cashFlowGrowth || 0) > 0 ? 'positive' : (kpis.trends.cashFlowGrowth || 0) < 0 ? 'negative' : 'neutral',
             description: 'Flux de trésorerie net',
             confidence: data.qualityMetrics.completeness
         }

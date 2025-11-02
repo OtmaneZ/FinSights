@@ -6,7 +6,8 @@ import {
     calculateGrossMargin,
     calculateNetMargin,
     estimateReceivables,
-    estimatePayables
+    estimatePayables,
+    extractCOGS
 } from './financialFormulas';
 
 // Détection granulaire des capacités réelles
@@ -20,6 +21,17 @@ export function detectCapabilities(mappings: ColumnMapping[], records: Financial
     const hasCategory = detectedFields.includes('category');
     const hasAccount = detectedFields.includes('account');
     const hasReference = detectedFields.includes('reference');
+
+    // ✅ DÉTECTION INTELLIGENTE : Vérifier si dueDate existe dans les records
+    const hasDueDateField = records.some(r => (r as any).dueDate !== undefined && (r as any).dueDate !== null);
+    const incomeWithDueDates = records.filter(r => r.type === 'income' && (r as any).dueDate).length;
+
+    console.log('🔍 detectCapabilities - dueDate:', {
+        hasDueDateField,
+        incomeWithDueDates,
+        totalIncome: records.filter(r => r.type === 'income').length,
+        sampleDueDate: records.find(r => (r as any).dueDate) ? (records.find(r => (r as any).dueDate) as any).dueDate : 'N/A'
+    });
 
     // Analyse de la richesse des données réelles
     const recordCount = records.length;
@@ -39,13 +51,12 @@ export function detectCapabilities(mappings: ColumnMapping[], records: Financial
         // Capacités conditionnelles précises
         canShowTopClients: hasCounterparty && uniqueCounterparties >= 2,
         canShowCategoryAnalysis: hasCategory && uniqueCategories >= 2,
-        canShowDSO: false, // Nécessite dates d'échéance (pas dans nos données)
+        canShowDSO: hasDueDateField && incomeWithDueDates >= 3, // ✅ Détection automatique des dates d'échéance
         canShowMonthlyTrends: monthsSpan >= 2 && recordCount >= 10,
 
         // Capacités avancées (désactivées - données insuffisantes)
         canShowProjections: false, // Nécessite historique > 6 mois
         canShowAlerts: false, // Nécessite règles business configurées
-        canShowAdvancedCharts: false, // Nécessite segments/produits
         canShowAIInsights: false, // Nécessite données enrichies
 
         // Métadonnées pour le feedback utilisateur
@@ -90,9 +101,6 @@ export function getDashboardConfig(capabilities: ReturnType<typeof detectCapabil
         showCategoryAnalysis: capabilities.canShowCategoryAnalysis,
         showDSO: capabilities.canShowDSO,
 
-        // Graphiques conditionnels
-        showAdvancedCharts: capabilities.canShowMonthlyTrends,
-
         // Fonctionnalités désactivées (pas assez de données)
         showProductMargin: false,
         showRatios: false,
@@ -112,6 +120,9 @@ export function getDashboardConfig(capabilities: ReturnType<typeof detectCapabil
 // Génération des KPIs selon les capacités réelles
 export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof detectCapabilities>) {
     const kpis = [];
+
+    // ✅ Extraire les COGS pour calculer la marge brute
+    const cogsData = extractCOGS(data.records);
 
     // ✅ KPI 1 : Chiffre d'Affaires
     kpis.push({
@@ -133,18 +144,31 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         confidence: data.qualityMetrics.accuracy
     });
 
-    // ✅ KPI 3 : Marge Nette (FORMULE CORRIGÉE)
+    // ✅ KPI 3 : Marge Brute (NOUVEAU - si COGS détectés)
+    if (cogsData.cogs > 0) {
+        const grossMarginPercent = calculateGrossMargin(data.kpis.revenue, cogsData.cogs);
+        kpis.push({
+            title: 'Marge Brute',
+            value: `${grossMarginPercent.toFixed(1)}%`,
+            change: cogsData.method,
+            changeType: grossMarginPercent > 50 ? 'positive' : grossMarginPercent > 30 ? 'neutral' : 'negative',
+            description: `CA - Coûts d'achat (${Math.round(cogsData.cogs).toLocaleString('fr-FR')} €)`,
+            confidence: cogsData.confidence
+        });
+    }
+
+    // ✅ KPI 4 : Marge Nette (FORMULE CORRIGÉE)
     const netMarginPercent = calculateNetMargin(data.kpis.revenue, data.kpis.expenses);
     kpis.push({
         title: 'Marge Nette',
         value: `${netMarginPercent.toFixed(1)}%`,
         change: `${data.kpis.trends.marginTrend.toFixed(1)}pt`,
         changeType: netMarginPercent > 20 ? 'positive' : netMarginPercent > 10 ? 'neutral' : 'negative',
-        description: 'Rentabilité nette',
+        description: 'Rentabilité nette après toutes charges',
         confidence: data.qualityMetrics.consistency
     });
 
-    // ✅ KPI 4 : Cash Flow Net
+    // ✅ KPI 5 : Cash Flow Net
     kpis.push({
         title: 'Cash Flow Net',
         value: `${Math.round(data.summary.netCashFlow).toLocaleString('fr-FR')} €`,
@@ -154,31 +178,34 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         confidence: data.qualityMetrics.completeness
     });
 
-    // ✅ KPI 5 : DSO - Délai de paiement clients (FORMULE CORRIGÉE)
-    if (capabilities.canShowDSO || data.records.length > 0) {
+    // ✅ KPI 6 : DSO - Délai de paiement clients (FORMULE AMÉLIORÉE + LOGS DEBUG)
+    if (data.records.length > 0) {
         const dsoValue = calculateDSOFromTransactions(data.records);
         kpis.push({
             title: 'DSO Clients',
             value: `${dsoValue} jours`,
-            change: '-2j',
+            change: dsoValue < 45 ? 'Excellent' : dsoValue < 60 ? 'Bon' : 'À surveiller',
             changeType: dsoValue < 45 ? 'positive' : dsoValue < 60 ? 'neutral' : 'negative',
-            description: 'Délai moyen de paiement',
-            confidence: 0.7 // Estimation depuis transactions
+            description: capabilities.canShowDSO
+                ? 'Délai moyen de paiement réel'
+                : 'Délai moyen de paiement (estimation)',
+            confidence: capabilities.canShowDSO ? 0.95 : 0.7
         });
     }
 
-    // ✅ KPI 6 : BFR - Besoin en Fonds de Roulement (NOUVEAU)
+    // ✅ KPI 7 : BFR - Besoin en Fonds de Roulement (FORMULE AMÉLIORÉE)
     if (data.records.length > 10) {
         const bfrData = calculateEstimatedBFR(data.records, data.kpis.revenue);
         const bfrRatio = data.kpis.revenue > 0 ? (bfrData.bfr / data.kpis.revenue) * 100 : 0;
 
         kpis.push({
-            title: 'BFR',
+            title: 'BFR Estimé',
             value: `${Math.round(bfrData.bfr).toLocaleString('fr-FR')} €`,
-            change: `${bfrRatio.toFixed(1)}% du CA`,
+            change: `${Math.abs(bfrRatio).toFixed(1)}% du CA`,
             changeType: bfrRatio < 15 ? 'positive' : bfrRatio < 25 ? 'neutral' : 'negative',
-            description: bfrData.method,
-            confidence: bfrData.confidence
+            description: `${bfrData.method} (confiance: ${Math.round(bfrData.confidence * 100)}%)`,
+            confidence: bfrData.confidence,
+            tooltip: `Créances: ${bfrData.details.estimatedReceivables.toLocaleString('fr-FR')} € | Dettes: ${bfrData.details.estimatedPayables.toLocaleString('fr-FR')} €`
         });
     }
 

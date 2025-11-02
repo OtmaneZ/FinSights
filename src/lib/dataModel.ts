@@ -85,6 +85,7 @@ export interface FinancialKPIs {
         revenueGrowth: number;
         expenseGrowth: number;
         marginTrend: number;
+        cashFlowGrowth?: number;
     };
 }
 
@@ -192,7 +193,6 @@ export interface DashboardConfig {
     level: DataLevel;
     showTopClients: boolean;
     showDSO: boolean;
-    showAdvancedCharts: boolean;
     showCategoryAnalysis: boolean;
     showProductMargin: boolean;
     showRatios: boolean;

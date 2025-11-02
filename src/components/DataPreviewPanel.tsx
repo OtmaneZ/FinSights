@@ -11,6 +11,7 @@ interface DataPreviewPanelProps {
     rawData: Array<{
         date: Date;
         amount: number;
+        type?: 'income' | 'expense';
         counterparty?: string;
         category?: string;
         description?: string;
@@ -32,13 +33,14 @@ export const DataPreviewPanel: React.FC<DataPreviewPanelProps> = ({ rawData, com
             rawData.filter((d) => d.counterparty).map((d) => d.counterparty)
         );
 
+        // ✅ FIX: Utiliser record.type au lieu de record.amount (qui est toujours positif)
         const totalRevenue = rawData
-            .filter((d) => d.amount > 0)
+            .filter((d) => d.type === 'income')
             .reduce((sum, d) => sum + d.amount, 0);
 
         const totalExpenses = rawData
-            .filter((d) => d.amount < 0)
-            .reduce((sum, d) => sum + Math.abs(d.amount), 0);
+            .filter((d) => d.type === 'expense')
+            .reduce((sum, d) => sum + d.amount, 0);
 
         const categories = new Set(rawData.filter((d) => d.category).map((d) => d.category));
 
@@ -151,7 +153,7 @@ export const DataPreviewPanel: React.FC<DataPreviewPanelProps> = ({ rawData, com
                         {formatCurrency(stats.netCashFlow)}
                     </div>
                     <div className="text-xs text-orange-600 mt-1">
-                        Revenus: {formatCurrency(stats.totalRevenue)}
+                        Charges: {formatCurrency(stats.totalExpenses)}
                     </div>
                 </div>
             </div>
