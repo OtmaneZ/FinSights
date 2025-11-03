@@ -1,40 +1,40 @@
 Date,Description,Montant,Client,Date_echeance,Statut_paiement,Categorie,Prix_vente,Cout_unitaire
 01/08/2024,Vente Licence SaaS Enterprise,15000.00,Décathlon France,15/08/2024,Payé,Ventes,18000,12000
-03/08/2024,Achat serveurs cloud AWS,-2800.00,Amazon Web Services,03/08/2024,Payé,Infrastructure,0,2800
+03/08/2024,Achat serveurs cloud AWS,-2800.00,Amazon Web Services,03/08/2024,Payé,Infrastructure IT,0,2800
 05/08/2024,Prestations consulting stratégique,8500.00,Airbus Defense,20/08/2024,Payé,Services,10000,6500
-07/08/2024,Loyer bureaux août,-3500.00,SCI Immobilier,01/08/2024,Payé,Charges,0,3500
+07/08/2024,Loyer bureaux août,-3500.00,SCI Immobilier,01/08/2024,Payé,Immobilier,0,3500
 10/08/2024,Vente Formation 10 personnes,4500.00,Leroy Merlin,25/08/2024,Payé,Services,5000,3200
-12/08/2024,Frais télécom et internet,-450.00,Orange Business,31/08/2024,Payé,Charges,0,450
+12/08/2024,Frais télécom et internet,-450.00,Orange Business,31/08/2024,Payé,Télécoms,0,450
 15/08/2024,Subvention innovation région,12000.00,Région Occitanie,15/08/2024,Payé,Autres,12000,0
-18/08/2024,Salaires équipe technique,-18500.00,URSSAF,31/08/2024,Payé,Charges,0,18500
+18/08/2024,Salaires équipe technique,-18500.00,URSSAF,31/08/2024,Payé,Masse Salariale,0,18500
 20/08/2024,Vente Produit Premium A,6800.00,Carrefour Supply,05/09/2024,En attente,Ventes,8000,5200
-22/08/2024,Assurance RC professionnelle,-850.00,AXA Entreprises,22/08/2024,Payé,Charges,0,850
+22/08/2024,Assurance RC professionnelle,-850.00,AXA Entreprises,22/08/2024,Payé,Assurances,0,850
 25/08/2024,Prestations développement mobile,12000.00,Thales Digital,10/09/2024,En attente,Services,14000,9500
-28/08/2024,Facture électricité,-680.00,EDF Entreprises,15/09/2024,En cours,Charges,0,680
+28/08/2024,Facture électricité,-680.00,EDF Entreprises,15/09/2024,En cours,Immobilier,0,680
 30/08/2024,Vente Produit Standard B,3200.00,Décathlon France,15/09/2024,En attente,Ventes,4000,2600
-01/09/2024,Maintenance infrastructure IT,-1200.00,OVHcloud,01/09/2024,Payé,Infrastructure,0,1200
+01/09/2024,Maintenance infrastructure IT,-1200.00,OVHcloud,01/09/2024,Payé,Infrastructure IT,0,1200
 03/09/2024,Vente Licence SaaS Pro,8500.00,Auchan Retail,18/09/2024,Payé,Ventes,10000,6800
 05/09/2024,Frais marketing Google Ads,-2400.00,Google Ireland,05/09/2024,Payé,Marketing,0,2400
 08/09/2024,Prestations audit sécurité,5500.00,Sopra Steria,23/09/2024,En cours,Services,6500,4200
-10/09/2024,Achat licences logicielles,-1800.00,Microsoft France,10/09/2024,Payé,Infrastructure,0,1800
+10/09/2024,Achat licences logicielles,-1800.00,Microsoft France,10/09/2024,Payé,Infrastructure IT,0,1800
 12/09/2024,Vente Formation Data Science,9500.00,Capgemini,27/09/2024,En attente,Services,11000,7200
-15/09/2024,Salaires équipe commerciale,-12000.00,URSSAF,30/09/2024,Payé,Charges,0,12000
+15/09/2024,Salaires équipe commerciale,-12000.00,URSSAF,30/09/2024,Payé,Masse Salariale,0,12000
 18/09/2024,Vente Produit Premium C,5400.00,Leroy Merlin,03/10/2024,Payé,Ventes,6500,4100
-20/09/2024,Frais déplacement équipe,-950.00,SNCF,20/09/2024,Payé,Charges,0,950
+20/09/2024,Frais déplacement équipe,-950.00,SNCF,20/09/2024,Payé,Mobilité,0,950
 22/09/2024,Subvention French Tech,8000.00,BPI France,22/09/2024,Payé,Autres,8000,0
 25/09/2024,Prestations UX/UI Design,4200.00,Publicis Sapient,10/10/2024,En attente,Services,5000,3200
-28/09/2024,Maintenance matériel bureau,-380.00,Bureau Vallée,28/09/2024,Payé,Charges,0,380
+28/09/2024,Maintenance matériel bureau,-380.00,Bureau Vallée,28/09/2024,Payé,Services Pro,0,380
 30/09/2024,Vente Licence SaaS Basic,3200.00,Casino Distribution,15/10/2024,En cours,Ventes,4000,2500
-01/10/2024,Loyer bureaux octobre,-3500.00,SCI Immobilier,01/10/2024,Payé,Charges,0,3500
+01/10/2024,Loyer bureaux octobre,-3500.00,SCI Immobilier,01/10/2024,Payé,Immobilier,0,3500
 03/10/2024,Vente Produit Standard D,2800.00,Monoprix,18/10/2024,En attente,Ventes,3500,2200
-05/10/2024,Frais comptabilité expert,-1200.00,Cabinet Mazars,05/10/2024,Payé,Services,0,1200
+05/10/2024,Frais comptabilité expert,-1200.00,Cabinet Mazars,05/10/2024,Payé,Services Pro,0,1200
 08/10/2024,Prestations consulting digital,11000.00,Accenture,23/10/2024,En cours,Services,13000,8500
-10/10/2024,Achat matériel informatique,-3200.00,Apple France,10/10/2024,Payé,Infrastructure,0,3200
+10/10/2024,Achat matériel informatique,-3200.00,Apple France,10/10/2024,Payé,Infrastructure IT,0,3200
 12/10/2024,Vente Formation cybersécurité,7500.00,Orange Cyberdefense,27/10/2024,Payé,Services,9000,5800
-15/10/2024,Salaires équipe support,-8500.00,URSSAF,31/10/2024,Payé,Charges,0,8500
+15/10/2024,Salaires équipe support,-8500.00,URSSAF,31/10/2024,Payé,Masse Salariale,0,8500
 18/10/2024,Vente Produit Premium E,8200.00,Décathlon France,02/11/2024,En attente,Ventes,10000,6400
-20/10/2024,Frais hébergement web,-580.00,OVHcloud,20/10/2024,Payé,Infrastructure,0,580
+20/10/2024,Frais hébergement web,-580.00,OVHcloud,20/10/2024,Payé,Infrastructure IT,0,580
 22/10/2024,Prestations développement IA,15000.00,Capgemini,06/11/2024,En attente,Services,18000,11500
-25/10/2024,Facture eau et charges,-420.00,Veolia,10/11/2024,En cours,Charges,0,420
+25/10/2024,Facture eau et charges,-420.00,Veolia,10/11/2024,En cours,Immobilier,0,420
 28/10/2024,Vente Licence SaaS Enterprise,16500.00,Airbus Defense,12/11/2024,En attente,Ventes,20000,13000
-30/10/2024,Maintenance serveurs cloud,-980.00,AWS,15/11/2024,En cours,Infrastructure,0,980
+30/10/2024,Maintenance serveurs cloud,-980.00,AWS,15/11/2024,En cours,Infrastructure IT,0,980

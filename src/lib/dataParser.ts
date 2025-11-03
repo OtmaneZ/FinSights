@@ -532,6 +532,17 @@ function parseRecords(
                 (record as any).category = cols[categoryColIndex].trim();
             }
 
+            // ✅ Ajouter Statut_paiement si disponible
+            const statusColIndex = headers.findIndex(h =>
+                h.toLowerCase().includes('statut') ||
+                h.toLowerCase().includes('status') ||
+                h.toLowerCase().includes('paiement') ||
+                h.toLowerCase().includes('payment')
+            );
+            if (statusColIndex >= 0 && cols[statusColIndex]) {
+                (record as any).paymentStatus = cols[statusColIndex].trim();
+            }
+
             records.push(record);
 
         } catch (error) {

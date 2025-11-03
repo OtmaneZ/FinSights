@@ -31,6 +31,8 @@ import { CashFlowEvolutionChart } from './charts/CashFlowEvolutionChart';
 import { ExpenseBreakdownChart } from './charts/ExpenseBreakdownChart';
 import { MarginEvolutionChart } from './charts/MarginEvolutionChart';
 import { TopClientsVerticalChart } from './charts/TopClientsVerticalChart';
+import { OutstandingInvoicesChart } from './charts/OutstandingInvoicesChart';
+import { PaymentStatusChart } from './charts/PaymentStatusChart';
 
 // Import AICopilot
 import AICopilot from './AICopilot';
@@ -447,6 +449,66 @@ export default function FinancialDashboard() {
         }));
     };
 
+    // ✅ Préparer données Top 5 Créances en Attente (Outstanding Invoices)
+    const getTopOutstandingInvoices = () => {
+        if (!rawData || rawData.length === 0) return [];
+
+        // Filtrer uniquement revenues non payés (En attente ou En cours)
+        const unpaidInvoices = rawData.filter((r: any) => {
+            const isIncome = r.type === 'income';
+            const hasStatus = r.paymentStatus !== undefined && r.paymentStatus !== null;
+            const isUnpaid = r.paymentStatus === 'En attente' || r.paymentStatus === 'En cours';
+            return isIncome && isUnpaid;
+        });
+
+        if (unpaidInvoices.length === 0) return [];
+
+        // Date actuelle pour calcul retard (CSV contient données 2024)
+        const today = new Date('2024-11-03');
+
+        return unpaidInvoices
+            .map((r: any) => {
+                const dueDate = r.dueDate ? new Date(r.dueDate) : null;
+                const daysLate = dueDate ? Math.floor((today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)) : 0;
+
+                return {
+                    name: r.counterparty || r.description || 'Client inconnu',
+                    value: r.amount,
+                    daysLate,
+                    dueDate: dueDate ? dueDate.toLocaleDateString('fr-FR') : 'N/A',
+                    isLate: daysLate > 0
+                };
+            })
+            .sort((a, b) => {
+                // Tri hybride: d'abord par urgence (en retard vs pas en retard), puis par montant
+                if (a.daysLate > 0 && b.daysLate <= 0) return -1; // a en retard, b pas encore échu → a d'abord
+                if (a.daysLate <= 0 && b.daysLate > 0) return 1;  // b en retard, a pas encore échu → b d'abord
+                // Si même catégorie (tous deux en retard ou tous deux pas échus), trier par montant
+                return b.value - a.value;
+            })
+            .slice(0, 5);
+    };
+
+    // ✅ Préparer données Statuts de Paiement
+    const getPaymentStatusData = (): Array<{ status: string; amount: number; count: number }> => {
+        if (!rawData || rawData.length === 0) return [];
+
+        const statusGroups = rawData.reduce((acc: any, r: any) => {
+            const status = r.paymentStatus || 'Inconnu';
+            if (!acc[status]) {
+                acc[status] = { status, amount: 0, count: 0 };
+            }
+            acc[status].amount += Math.abs(r.amount);
+            acc[status].count += 1;
+            return acc;
+        }, {});
+
+        return (Object.values(statusGroups) as Array<{ status: string; amount: number; count: number }>).sort((a, b) => {
+            const order: { [key: string]: number } = { 'Payé': 1, 'En attente': 2, 'En cours': 3 };
+            return (order[a.status] || 99) - (order[b.status] || 99);
+        });
+    };
+
 
     return (
         <div className="finsight-dashboard-container" ref={dashboardRef}>
@@ -692,7 +754,7 @@ export default function FinancialDashboard() {
                             <div className="bg-white rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ArrowTrendingUpIcon className="w-5 h-5 text-orange-600" />
-                                    Évolution Trésorerie
+                                    Flux de Trésorerie Mensuels
                                 </h3>
                                 <CashFlowEvolutionChart data={getMonthlyData()} />
                                 <p className="text-xs text-gray-500 mt-3 text-center">
@@ -704,7 +766,7 @@ export default function FinancialDashboard() {
                             <div className="bg-white rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <BanknotesIcon className="w-5 h-5 text-orange-600" />
-                                    Répartition des Charges
+                                    Structure des Dépenses
                                 </h3>
                                 {getCategoryBreakdown().length > 0 ? (
                                     <>
@@ -724,7 +786,7 @@ export default function FinancialDashboard() {
                             <div className="bg-white rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ArrowTrendingUpIcon className="w-5 h-5 text-blue-600" />
-                                    Évolution Marge Nette
+                                    Rentabilité dans le Temps
                                 </h3>
                                 {getMarginData().length > 0 ? (
                                     <>
@@ -739,20 +801,71 @@ export default function FinancialDashboard() {
                                     </div>
                                 )}
                             </div>
+
+                            {/* Chart 4: Top 5 Clients par Chiffre d'Affaires */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <CheckCircleIcon className="w-5 h-5 text-green-600" />
+                                    Concentration Commerciale — Top 5
+                                </h3>
+                                {getTopClientsBarData().length > 0 ? (
+                                    <>
+                                        <TopClientsVerticalChart data={getTopClientsBarData()} />
+                                        <p className="text-xs text-gray-500 mt-3 text-center">
+                                            Analyse de la dépendance client et diversification du portefeuille
+                                        </p>
+                                    </>
+                                ) : (
+                                    <div className="h-[280px] flex items-center justify-center text-gray-400">
+                                        Pas de clients à afficher
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     )}
 
-                    {/* Chart Pleine Largeur: Top 5 Clients */}
-                    {rawData && rawData.length > 0 && getTopClientsBarData().length > 0 && (
-                        <div className="bg-white rounded-lg shadow-lg p-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                <CheckCircleIcon className="w-5 h-5 text-green-600" />
-                                Top 5 Clients par Chiffre d'Affaires
-                            </h3>
-                            <TopClientsVerticalChart data={getTopClientsBarData()} />
-                            <p className="text-xs text-gray-500 mt-3 text-center">
-                                Principaux clients contributeurs au chiffre d'affaires (barres verticales)
-                            </p>
+                    {/* Charts Row 2 (2 cols) - Charts 5 & 6 */}
+                    {rawData && rawData.length > 0 && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Chart 5: Top 5 Créances en Attente */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <ExclamationTriangleIcon className="w-5 h-5 text-orange-600" />
+                                    Créances Prioritaires — Par Urgence
+                                </h3>
+                                {getTopOutstandingInvoices().length > 0 ? (
+                                    <>
+                                        <OutstandingInvoicesChart data={getTopOutstandingInvoices()} />
+                                        <p className="text-xs text-gray-500 mt-3 text-center">
+                                            Factures impayées triées par impact financier — Couleur = niveau d'urgence
+                                        </p>
+                                    </>
+                                ) : (
+                                    <div className="h-[280px] flex items-center justify-center text-gray-400">
+                                        Aucune créance en attente
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Chart 6: Statuts de Paiement */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <ClockIcon className="w-5 h-5 text-purple-600" />
+                                    Cycle d'Encaissement
+                                </h3>
+                                {getPaymentStatusData().length > 0 ? (
+                                    <>
+                                        <PaymentStatusChart data={getPaymentStatusData()} />
+                                        <p className="text-xs text-gray-500 mt-3 text-center">
+                                            Suivi du workflow de facturation et état des recouvrements
+                                        </p>
+                                    </>
+                                ) : (
+                                    <div className="h-[320px] flex items-center justify-center text-gray-400">
+                                        Pas de données de paiement
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     )}
 
