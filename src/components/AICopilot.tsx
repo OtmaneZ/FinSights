@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useFinancialData } from '@/lib/financialContext'
+import { generateAutoSummary, generateSmartSuggestions } from '@/lib/copilot/prompts'
 
 interface Message {
     id: string
@@ -11,19 +12,46 @@ interface Message {
 }
 
 export default function AICopilot() {
-    const { finSightData, rawData, isDataLoaded } = useFinancialData()
-    const [messages, setMessages] = useState<Message[]>([
-        {
-            id: '1',
-            content: isDataLoaded
-                ? 'Bonjour ! Je suis votre copilote FinSight. Vos données financières sont chargées. Posez-moi des questions sur votre trésorerie, marges, DSO, ou demandez-moi une simulation.'
-                : 'Bonjour ! Je suis votre copilote FinSight. Uploadez d\'abord vos données CSV dans le Dashboard, puis revenez ici pour poser vos questions financières.',
-            isUser: false,
-            timestamp: new Date()
-        }
-    ])
+    const { rawData, isDataLoaded } = useFinancialData()
+    const [messages, setMessages] = useState<Message[]>([])
     const [input, setInput] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const [autoSummaryGenerated, setAutoSummaryGenerated] = useState(false)
+    const messagesEndRef = useRef<HTMLDivElement>(null)
+
+    // Auto-scroll vers le bas quand nouveaux messages
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages])
+
+    // Générer auto-summary quand données chargées
+    useEffect(() => {
+        if (isDataLoaded && rawData && rawData.length > 0 && !autoSummaryGenerated) {
+            const summary = generateAutoSummary(rawData)
+            const summaryMessage: Message = {
+                id: Date.now().toString(),
+                content: summary,
+                isUser: false,
+                timestamp: new Date()
+            }
+            setMessages([summaryMessage])
+            setAutoSummaryGenerated(true)
+        }
+    }, [isDataLoaded, rawData, autoSummaryGenerated])
+
+    // Suggestions dynamiques basées sur les données
+    const suggestions = rawData && rawData.length > 0
+        ? generateSmartSuggestions(rawData)
+        : [
+            "Comment fonctionne FinSight ?",
+            "Quelles données puis-je analyser ?",
+            "Qu'est-ce que le DSO ?",
+            "Comment améliorer ma trésorerie ?"
+        ]
 
     const handleSend = async () => {
         if (!input.trim()) return
@@ -40,7 +68,6 @@ export default function AICopilot() {
         setIsLoading(true)
 
         try {
-            // ✅ Appel unique à l'API backend - plus de logique dupliquée !
             const response = await fetch('/api/copilot/chat', {
                 method: 'POST',
                 headers: {
@@ -48,16 +75,16 @@ export default function AICopilot() {
                 },
                 body: JSON.stringify({
                     message: input,
-                    context: {
-                        finSightData,
-                        rawData,
-                        conversationHistory: messages.slice(-5) // Derniers 5 messages pour contexte
-                    }
+                    rawData: rawData || [],
+                    conversationHistory: messages.slice(-5).map(m => ({
+                        role: m.isUser ? 'user' as const : 'assistant' as const,
+                        content: m.content
+                    }))
                 })
             })
 
             if (!response.ok) {
-                throw new Error('Erreur lors de la communication avec l\'IA')
+                throw new Error(`Erreur HTTP: ${response.status}`)
             }
 
             const result = await response.json()
@@ -77,7 +104,7 @@ export default function AICopilot() {
             console.error('❌ Erreur Copilot:', error)
             const errorMessage: Message = {
                 id: (Date.now() + 1).toString(),
-                content: `Désolé, j'ai rencontré une erreur : ${error instanceof Error ? error.message : 'Erreur inconnue'}. Veuillez réessayer.`,
+                content: `⚠️ Erreur : ${error instanceof Error ? error.message : 'Erreur serveur'}. Vérifie que ta clé OpenAI est configurée dans \`.env.local\`.`,
                 isUser: false,
                 timestamp: new Date()
             }
@@ -87,22 +114,60 @@ export default function AICopilot() {
         }
     }
 
+    const handleSuggestionClick = (suggestion: string) => {
+        setInput(suggestion)
+    }
+
     return (
-        <div className="bg-white rounded-lg shadow-lg max-w-4xl mx-auto">
-            <div className="border-b border-gray-200 px-6 py-4">
-                <h2 className="text-xl font-semibold text-gray-900">Copilote IA FinSight</h2>
-                <p className="text-sm text-gray-600">Posez vos questions financières en langage naturel</p>
+        <div className="bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <span className="text-2xl">🤖</span>
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold text-white">Copilote IA FinSight</h2>
+                        <p className="text-sm text-blue-100">Propulsé par GPT-4o • Analyse temps réel</p>
+                    </div>
+                </div>
             </div>
 
-            <div className="h-96 overflow-y-auto px-6 py-4 space-y-4">
+            {/* Messages */}
+            <div className="h-[500px] overflow-y-auto px-6 py-4 space-y-4 bg-gray-50">
+                {messages.length === 0 && !isDataLoaded && (
+                    <div className="text-center py-12">
+                        <div className="text-6xl mb-4">📊</div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            Prêt à analyser tes finances
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                            Upload ton fichier CSV ci-dessus, puis reviens ici pour poser tes questions
+                        </p>
+                    </div>
+                )}
+
                 {messages.map((message) => (
                     <div key={message.id} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${message.isUser
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-100 text-gray-900'
+                        <div className={`max-w-[75%] rounded-2xl px-5 py-3 ${message.isUser
+                            ? 'bg-blue-600 text-white shadow-lg'
+                            : 'bg-white border-2 border-gray-200 text-gray-900 shadow-md'
                             }`}>
-                            <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                            <p className="text-xs mt-1 opacity-70">
+                            <div className="prose prose-sm max-w-none">
+                                {message.isUser ? (
+                                    <p className="text-sm font-medium whitespace-pre-wrap">{message.content}</p>
+                                ) : (
+                                    <div
+                                        className="text-sm whitespace-pre-wrap markdown-content"
+                                        dangerouslySetInnerHTML={{
+                                            __html: message.content
+                                                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                                .replace(/\n/g, '<br />')
+                                        }}
+                                    />
+                                )}
+                            </div>
+                            <p className={`text-xs mt-2 ${message.isUser ? 'text-blue-100' : 'text-gray-500'}`}>
                                 {message.timestamp.toLocaleTimeString('fr-FR', {
                                     hour: '2-digit',
                                     minute: '2-digit'
@@ -111,75 +176,67 @@ export default function AICopilot() {
                         </div>
                     </div>
                 ))}
+
                 {isLoading && (
                     <div className="flex justify-start">
-                        <div className="bg-gray-100 text-gray-900 max-w-xs lg:max-w-md px-4 py-2 rounded-lg">
-                            <p className="text-sm">🤖 En train d'analyser...</p>
+                        <div className="bg-white border-2 border-gray-200 rounded-2xl px-5 py-3 shadow-md">
+                            <div className="flex items-center gap-2">
+                                <div className="flex gap-1">
+                                    <span className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                                    <span className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                                    <span className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                                </div>
+                                <p className="text-sm text-gray-600 ml-2">IA en train d'analyser...</p>
+                            </div>
                         </div>
                     </div>
                 )}
+
+                <div ref={messagesEndRef} />
             </div>
 
-            <div className="border-t border-gray-200 px-6 py-4">
-                <div className="flex space-x-4">
+            {/* Input zone */}
+            <div className="border-t border-gray-200 bg-white px-6 py-4">
+                <div className="flex gap-3 mb-3">
                     <input
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                        placeholder="Tapez votre question... (ex: Quel est mon DSO ?)"
-                        className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
+                        placeholder="Pose ta question... (ex: Quel est mon DSO ?)"
+                        className="flex-1 border-2 border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         disabled={isLoading}
                     />
                     <button
                         onClick={handleSend}
                         disabled={isLoading || !input.trim()}
-                        className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
                     >
-                        {isLoading ? '...' : 'Envoyer'}
+                        {isLoading ? '⏳' : 'Envoyer'}
                     </button>
                 </div>
 
-                {/* Suggestions rapides */}
-                <div className="mt-3 flex flex-wrap gap-2">
-                    <button
-                        onClick={() => setInput('Quel est mon chiffre d\'affaires ?')}
-                        className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
-                    >
-                        Chiffre d'affaires
-                    </button>
-                    <button
-                        onClick={() => setInput('Comment va ma trésorerie ?')}
-                        className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
-                    >
-                        Trésorerie
-                    </button>
-                    <button
-                        onClick={() => setInput('Quel est mon délai moyen de paiement client ?')}
-                        className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
-                    >
-                        DSO clients
-                    </button>
-                    <button
-                        onClick={() => setInput('Quels sont mes risques actuels ?')}
-                        className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
-                    >
-                        Analyse des risques
-                    </button>
-                    <button
-                        onClick={() => setInput('Comment ma performance se compare au secteur ?')}
-                        className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
-                    >
-                        Benchmark secteur
-                    </button>
-                    <button
-                        onClick={() => setInput('Quelle est ma capacité d\'investissement ?')}
-                        className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
-                    >
-                        Capacité d'investissement
-                    </button>
+                {/* Suggestions Pills */}
+                <div className="flex flex-wrap gap-2">
+                    {suggestions.map((suggestion, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handleSuggestionClick(suggestion)}
+                            className="text-xs bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-blue-700 px-4 py-2 rounded-full border border-blue-200 transition-all hover:shadow-md font-medium"
+                            disabled={isLoading}
+                        >
+                            {suggestion.length > 60 ? suggestion.substring(0, 60) + '...' : suggestion}
+                        </button>
+                    ))}
                 </div>
             </div>
+
+            <style jsx>{`
+                .markdown-content strong {
+                    font-weight: 600;
+                    color: #1f2937;
+                }
+            `}</style>
         </div>
     )
 }
