@@ -26,6 +26,11 @@ import { AlertsPanel } from './AlertsPanel';
 import { CompanyInfoModal, CompanySector } from './CompanyInfoModal';
 import { DataPreviewPanel } from './DataPreviewPanel';
 
+// Import Charts
+import { CashFlowEvolutionChart } from './charts/CashFlowEvolutionChart';
+import { ExpenseBreakdownChart } from './charts/ExpenseBreakdownChart';
+import { TopClientsChart } from './charts/TopClientsChart';
+
 // Import AICopilot
 import AICopilot from './AICopilot';
 
@@ -355,6 +360,65 @@ export default function FinancialDashboard() {
         return (cashFlow / revenue) * 100;
     };
 
+    // ✅ Préparer données mensuelles pour CashFlowEvolutionChart
+    const getMonthlyData = () => {
+        if (!rawData || rawData.length === 0) return [];
+
+        const monthlyStats = rawData.reduce((acc: any, record: any) => {
+            const month = new Date(record.date).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+            if (!acc[month]) {
+                acc[month] = { month, revenue: 0, expenses: 0 };
+            }
+
+            if (record.type === 'income') {
+                acc[month].revenue += record.amount;
+            } else {
+                acc[month].expenses += record.amount;
+            }
+
+            return acc;
+        }, {});
+
+        return Object.values(monthlyStats).map((m: any) => ({
+            ...m,
+            cashFlow: m.revenue - m.expenses
+        }));
+    };
+
+    // ✅ Préparer répartition des charges par catégorie pour ExpenseBreakdownChart
+    const getCategoryBreakdown = () => {
+        if (!rawData || rawData.length === 0) return [];
+
+        const expenses = rawData.filter((r: any) => r.type === 'expense');
+        if (expenses.length === 0) return [];
+
+        const categoryTotals = expenses.reduce((acc: any, r: any) => {
+            const cat = r.category || 'Autres';
+            acc[cat] = (acc[cat] || 0) + r.amount;
+            return acc;
+        }, {});
+
+        const total = expenses.reduce((sum: number, r: any) => sum + r.amount, 0);
+
+        return Object.entries(categoryTotals)
+            .map(([name, value]: [string, any]) => ({
+                name,
+                value,
+                percentage: ((value / total) * 100).toFixed(1)
+            }))
+            .sort((a, b) => b.value - a.value); // Trier par montant décroissant
+    };
+
+    // ✅ Préparer données Top Clients pour TopClientsChart
+    const getTopClientsChartData = () => {
+        const clients = getTopClients();
+        return clients.map(client => ({
+            name: client.name,
+            value: client.value,
+            total: parseFloat(client.value.replace(/[^\d]/g, ''))
+        }));
+    };
+
     return (
         <div className="finsight-dashboard-container" ref={dashboardRef}>
             {/* Header with Period Selector */}
@@ -590,6 +654,63 @@ export default function FinancialDashboard() {
                             netMargin={getKPINumericValue('Marge')}
                             bfr={getKPINumericValue('BFR')}
                         />
+                    )}
+
+                    {/* ✅ Section Charts Financiers */}
+                    {rawData && rawData.length > 0 && (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                            {/* Chart 1: Cash Flow Evolution */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <ArrowTrendingUpIcon className="w-5 h-5 text-orange-600" />
+                                    📈 Évolution Trésorerie
+                                </h3>
+                                <CashFlowEvolutionChart data={getMonthlyData()} />
+                                <p className="text-xs text-gray-500 mt-3 text-center">
+                                    Revenus, charges et cash flow net par mois
+                                </p>
+                            </div>
+
+                            {/* Chart 2: Répartition des Charges */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <BanknotesIcon className="w-5 h-5 text-orange-600" />
+                                    🥧 Répartition des Charges
+                                </h3>
+                                {getCategoryBreakdown().length > 0 ? (
+                                    <>
+                                        <ExpenseBreakdownChart data={getCategoryBreakdown()} />
+                                        <p className="text-xs text-gray-500 mt-3 text-center">
+                                            Charges ventilées par catégorie
+                                        </p>
+                                    </>
+                                ) : (
+                                    <div className="h-[280px] flex items-center justify-center text-gray-400">
+                                        Pas de charges à afficher
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Chart 3: Top Clients */}
+                            <div className="bg-white rounded-lg shadow-lg p-6 lg:col-span-2">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <CheckCircleIcon className="w-5 h-5 text-orange-600" />
+                                    🎯 Top 5 Clients (Visuellement)
+                                </h3>
+                                {getTopClientsChartData().length > 0 ? (
+                                    <>
+                                        <TopClientsChart data={getTopClientsChartData()} />
+                                        <p className="text-xs text-gray-500 mt-3 text-center">
+                                            Principaux clients contributeurs au chiffre d'affaires
+                                        </p>
+                                    </>
+                                ) : (
+                                    <div className="h-[250px] flex items-center justify-center text-gray-400">
+                                        Pas de clients à afficher
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     )}
 
                     {/* Quick Insights */}
