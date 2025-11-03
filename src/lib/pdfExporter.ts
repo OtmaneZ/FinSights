@@ -39,6 +39,12 @@ export class FinancialPDFExporter {
     private pageNumber: number = 1;
     private footerHeight: number = 15;
 
+    // Suivi des numéros de pages pour le sommaire
+    private pageKPIs: number = 0;
+    private pageCharts: number = 0;
+    private pageAlerts: number = 0;
+    private pageMethodology: number = 0;
+
     // Couleurs FinSight
     private colors = {
         primary: '#0066FF',      // Bleu principal
@@ -48,6 +54,17 @@ export class FinancialPDFExporter {
         text: '#334155',         // Texte
         border: '#E2E8F0'        // Bordure
     };
+
+    /**
+     * Nettoie les espaces insécables et caractères spéciaux pour jsPDF
+     */
+    private cleanText(text: string): string {
+        return text
+            .replace(/\u00A0/g, ' ')  // Espace insécable → espace normal
+            .replace(/\u202F/g, ' ')  // Espace fine insécable → espace normal
+            .replace(/[\u2000-\u200B]/g, ' ')  // Autres espaces Unicode → espace normal
+            .trim();
+    }
 
     constructor() {
         this.pdf = new jsPDF('p', 'mm', 'a4');
@@ -122,14 +139,18 @@ export class FinancialPDFExporter {
     }
 
     /**
-     * Table des matières
+     * Table des matières (insérée à la page 2 APRÈS génération de toutes les sections)
      */
-    private addTableOfContents(options: PDFExportOptions) {
-        this.pdf.addPage();
-        this.pageNumber++;
+    private insertTableOfContents(options: PDFExportOptions) {
+        // Insérer une nouvelle page à la position 2 (après la couverture)
+        this.pdf.insertPage(2);
+
+        // Sauvegarder currentY et se positionner sur la page 2
+        const savedY = this.currentY;
         this.currentY = this.margin;
 
         // Titre
+        this.pdf.setPage(2);
         this.pdf.setFontSize(20);
         this.pdf.setFont('helvetica', 'bold');
         this.pdf.setTextColor(30, 41, 59);
@@ -142,12 +163,12 @@ export class FinancialPDFExporter {
         this.pdf.line(this.margin, this.currentY, this.pageWidth - this.margin, this.currentY);
         this.currentY += 10;
 
-        // Sections
+        // Sections (numéros de pages dynamiques)
         const sections = [
-            { title: '1. Indicateurs Clés de Performance (KPIs)', page: 3 },
-            { title: '2. Analyse Graphique', page: 4, condition: options.includeCharts },
-            { title: '3. Alertes & Recommandations', page: 5 },
-            { title: '4. Méthodologie et Formules', page: 6, condition: options.includeMethodology }
+            { title: '1. Indicateurs Clés de Performance (KPIs)', page: this.pageKPIs },
+            { title: '2. Analyse Graphique', page: this.pageCharts, condition: options.includeCharts },
+            { title: '3. Alertes & Recommandations', page: this.pageAlerts },
+            { title: '4. Méthodologie et Formules', page: this.pageMethodology, condition: options.includeMethodology }
         ].filter(section => section.condition !== false);
 
         this.pdf.setFontSize(12);
@@ -173,7 +194,23 @@ export class FinancialPDFExporter {
             this.currentY += 10;
         });
 
-        this.addPageFooter();
+        // Footer sur la page 2
+        this.pdf.setPage(2);
+        this.pdf.setFontSize(8);
+        this.pdf.setTextColor(148, 163, 184);
+        this.pdf.text(
+            `FinSight - Finance Augmentée`,
+            this.margin,
+            this.pageHeight - 10
+        );
+        this.pdf.text(
+            `Page 2`,
+            this.pageWidth - this.margin - 20,
+            this.pageHeight - 10
+        );
+
+        // Restaurer currentY
+        this.currentY = savedY;
     }
 
     /**
@@ -182,6 +219,7 @@ export class FinancialPDFExporter {
     private addKPIsPage(options: PDFExportOptions) {
         this.pdf.addPage();
         this.pageNumber++;
+        this.pageKPIs = this.pageNumber; // ✅ Enregistrer le numéro de page
         this.currentY = this.margin;
 
         // Titre
@@ -210,24 +248,24 @@ export class FinancialPDFExporter {
             this.pdf.setFontSize(11);
             this.pdf.setFont('helvetica', 'bold');
             this.pdf.setTextColor(71, 85, 105);
-            this.pdf.text(kpi.title, x + 5, y + 8);
+            this.pdf.text(this.cleanText(kpi.title), x + 5, y + 8);
 
-            // Valeur
+            // Valeur (nettoyer les espaces insécables)
             this.pdf.setFontSize(18);
             this.pdf.setFont('helvetica', 'bold');
             this.pdf.setTextColor(0, 102, 255);
-            this.pdf.text(kpi.value, x + 5, y + 20);
+            this.pdf.text(this.cleanText(kpi.value), x + 5, y + 20);
 
             // Variation
             this.pdf.setFontSize(10);
             this.pdf.setFont('helvetica', 'normal');
             this.pdf.setTextColor(34, 197, 94); // Vert
-            this.pdf.text(kpi.change, x + 5, y + 28);
+            this.pdf.text(this.cleanText(kpi.change), x + 5, y + 28);
 
             // Description
             this.pdf.setFontSize(8);
             this.pdf.setTextColor(100, 116, 139);
-            const descLines = this.pdf.splitTextToSize(kpi.description, kpiWidth - 10);
+            const descLines = this.pdf.splitTextToSize(this.cleanText(kpi.description), kpiWidth - 10);
             this.pdf.text(descLines[0] || '', x + 5, y + 33);
 
             // Passage à la colonne/ligne suivante
@@ -248,6 +286,7 @@ export class FinancialPDFExporter {
     private addMethodologyPage() {
         this.pdf.addPage();
         this.pageNumber++;
+        this.pageMethodology = this.pageNumber; // ✅ Enregistrer le numéro de page
         this.currentY = this.margin;
 
         // Titre
@@ -372,8 +411,8 @@ export class FinancialPDFExporter {
         // 1. Page de couverture
         this.addCoverPage(options);
 
-        // 2. Table des matières
-        this.addTableOfContents(options);
+        // 2. ESPACE RÉSERVÉ pour la table des matières (on la générera à la fin)
+        // Pour l'instant, on passe directement aux KPIs
 
         // 3. KPIs
         this.addKPIsPage(options);
@@ -391,6 +430,9 @@ export class FinancialPDFExporter {
             this.addMethodologyPage();
         }
 
+        // 7. MAINTENANT on insère la table des matières à la page 2
+        this.insertTableOfContents(options);
+
         return this.pdf;
     }
 
@@ -400,6 +442,7 @@ export class FinancialPDFExporter {
     private addAlertsPage(options: PDFExportOptions): void {
         this.pdf.addPage();
         this.pageNumber++;
+        this.pageAlerts = this.pageNumber; // ✅ Enregistrer le numéro de page
         this.currentY = this.margin;
 
         // Titre
@@ -508,20 +551,20 @@ export class FinancialPDFExporter {
             this.pdf.setFontSize(12);
             this.pdf.setFont('helvetica', 'bold');
             this.pdf.setTextColor(30, 41, 59);
-            this.pdf.text(alert.title, this.margin + 15, this.currentY + 7);
+            this.pdf.text(this.cleanText(alert.title), this.margin + 15, this.currentY + 7);
 
             // Message
             this.pdf.setFontSize(10);
             this.pdf.setFont('helvetica', 'normal');
             this.pdf.setTextColor(71, 85, 105);
-            this.pdf.text(alert.message, this.margin + 15, this.currentY + 14);
+            this.pdf.text(this.cleanText(alert.message), this.margin + 15, this.currentY + 14);
 
             // Action recommandée
             if (alert.action) {
                 this.pdf.setFontSize(9);
                 this.pdf.setFont('helvetica', 'italic');
                 this.pdf.setTextColor(100, 116, 139);
-                this.pdf.text(`→ ${alert.action}`, this.margin + 15, this.currentY + 22);
+                this.pdf.text(`→ ${this.cleanText(alert.action)}`, this.margin + 15, this.currentY + 22);
             }
 
             this.currentY += boxHeight + 8;
@@ -536,6 +579,7 @@ export class FinancialPDFExporter {
     private async addChartsPage(): Promise<void> {
         this.pdf.addPage();
         this.pageNumber++;
+        this.pageCharts = this.pageNumber; // ✅ Enregistrer le numéro de page
         this.currentY = this.margin;
 
         // Titre de la page
@@ -551,11 +595,20 @@ export class FinancialPDFExporter {
             console.log('📊 Attente 3s pour le rendu complet des graphiques Recharts...');
             await new Promise(resolve => setTimeout(resolve, 3000));
 
+            // ✅ FORCER le scroll pour que les graphiques lazy-load se chargent
+            window.scrollTo(0, document.body.scrollHeight);
+            await new Promise(resolve => setTimeout(resolve, 500));
+            window.scrollTo(0, 0);
+            await new Promise(resolve => setTimeout(resolve, 500));
+
             // Chercher les graphiques dans le DOM
             const chartElements = [
-                { id: 'cash-flow-chart', title: 'Évolution Trésorerie' },
-                { id: 'dso-client-chart', title: 'DSO par Client' },
-                { id: 'margin-analysis-chart', title: 'Analyse des Marges' }
+                { id: 'expense-breakdown-chart', title: 'Structure des Dépenses' },
+                { id: 'margin-evolution-chart', title: 'Évolution de la Marge Nette' },
+                { id: 'cashflow-evolution-chart', title: 'Évolution du Cash Flow' },
+                { id: 'top-clients-chart', title: 'Concentration Commerciale — Top 5' },
+                { id: 'outstanding-invoices-chart', title: 'Créances Prioritaires' },
+                { id: 'payment-status-chart', title: 'Cycle d\'Encaissement' },
             ];
 
             let chartsAdded = 0;
@@ -570,22 +623,100 @@ export class FinancialPDFExporter {
                 });
 
                 if (element && element.querySelector('svg, canvas')) {
+                    // ✅ Nouvelle page tous les 2 graphiques pour assurer titre + chart ensemble
+                    if (chartsAdded > 0 && chartsAdded % 2 === 0) {
+                        this.addPageFooter();
+                        this.pdf.addPage();
+                        this.pageNumber++;
+                        this.currentY = this.margin;
+                    }
+
                     // ✅ Vérifier qu'il y a bien un graphique (SVG ou Canvas)
                     // Titre du graphique
                     this.pdf.setFontSize(14);
                     this.pdf.setFont('helvetica', 'bold');
                     this.pdf.setTextColor(51, 65, 85);
-                    this.pdf.text(chart.title, this.margin, this.currentY);
+                    this.pdf.text(this.cleanText(chart.title), this.margin, this.currentY);
 
                     this.currentY += 8;
 
-                    // Capturer le graphique avec html2canvas
+                    // Convertir les SVG en Canvas AVANT la capture (pour Recharts)
+                    const svgs = element.querySelectorAll('svg');
+                    const originalSvgs: { svg: SVGElement; parent: HTMLElement; canvas?: HTMLCanvasElement }[] = [];
+
+                    for (const svg of Array.from(svgs)) {
+                        try {
+                            // Créer un canvas de remplacement
+                            const canvas = document.createElement('canvas');
+                            const bbox = svg.getBoundingClientRect();
+                            const viewBox = svg.getAttribute('viewBox');
+
+                            // Définir les dimensions
+                            if (viewBox) {
+                                const [, , width, height] = viewBox.split(' ').map(Number);
+                                canvas.width = width * 2; // Scale 2x for quality
+                                canvas.height = height * 2;
+                                canvas.style.width = `${bbox.width}px`;
+                                canvas.style.height = `${bbox.height}px`;
+                            } else {
+                                canvas.width = bbox.width * 2;
+                                canvas.height = bbox.height * 2;
+                                canvas.style.width = `${bbox.width}px`;
+                                canvas.style.height = `${bbox.height}px`;
+                            }
+
+                            // Sérialiser le SVG
+                            const serializer = new XMLSerializer();
+                            const svgString = serializer.serializeToString(svg);
+                            const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                            const url = URL.createObjectURL(svgBlob);
+
+                            // Créer une image temporaire
+                            const img = new Image();
+                            await new Promise<void>((resolve, reject) => {
+                                img.onload = () => {
+                                    const ctx = canvas.getContext('2d');
+                                    if (ctx) {
+                                        ctx.scale(2, 2); // Scale for quality
+                                        ctx.drawImage(img, 0, 0);
+                                    }
+                                    URL.revokeObjectURL(url);
+                                    resolve();
+                                };
+                                img.onerror = () => {
+                                    URL.revokeObjectURL(url);
+                                    reject(new Error('Failed to load SVG image'));
+                                };
+                                img.src = url;
+                            });
+
+                            // Sauvegarder l'original et remplacer par canvas
+                            const parent = svg.parentElement!;
+                            originalSvgs.push({ svg: svg as SVGElement, parent, canvas });
+                            parent.replaceChild(canvas, svg);
+                        } catch (error) {
+                            console.warn('Failed to convert SVG to canvas:', error);
+                        }
+                    }
+
+                    // Attendre un peu pour que le DOM se mette à jour
+                    await new Promise(resolve => setTimeout(resolve, 100));
+
+                    // Capturer le graphique avec html2canvas (maintenant avec des canvas au lieu de SVG)
                     const canvas = await html2canvas(element, {
                         scale: 2,
                         backgroundColor: '#ffffff',
                         logging: false,
-                        useCORS: true, // ✅ Supporter les images cross-origin
+                        useCORS: true,
+                        allowTaint: true
                     });
+
+                    // Restaurer les SVG originaux
+                    for (const { svg, parent, canvas: replacementCanvas } of originalSvgs) {
+                        if (replacementCanvas && replacementCanvas.parentElement) {
+                            parent.replaceChild(svg, replacementCanvas);
+                        }
+                    }
 
                     // Convertir en image
                     const imgData = canvas.toDataURL('image/png');
@@ -594,18 +725,10 @@ export class FinancialPDFExporter {
                     const imgWidth = this.pageWidth - 2 * this.margin;
                     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-                    // Vérifier si on a assez d'espace, sinon nouvelle page
-                    if (this.currentY + imgHeight > this.pageHeight - this.footerHeight - 10) {
-                        this.addPageFooter();
-                        this.pdf.addPage();
-                        this.pageNumber++;
-                        this.currentY = this.margin;
-                    }
-
-                    // Ajouter l'image
+                    // Ajouter l'image (pas besoin de vérifier l'espace, on a déjà une nouvelle page si nécessaire)
                     this.pdf.addImage(imgData, 'PNG', this.margin, this.currentY, imgWidth, imgHeight);
 
-                    this.currentY += imgHeight + 15;
+                    this.currentY += imgHeight + 20; // 20px d'espacement entre graphiques
                     chartsAdded++;
                 } else {
                     console.warn(`Graphique "${chart.id}" non trouvé ou vide dans le DOM`);

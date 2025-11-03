@@ -868,7 +868,9 @@ export default function FinancialDashboard() {
                                         📈 {getCashFlowGrowth().displayText}
                                     </p>
                                 )}
-                                <CashFlowEvolutionChart data={getMonthlyData()} />
+                                <div id="cashflow-evolution-chart">
+                                    <CashFlowEvolutionChart data={getMonthlyData()} />
+                                </div>
                                 <p className="text-xs text-gray-500 mt-3 text-center">
                                     Revenus, charges et cash flow net par mois
                                 </p>
@@ -882,7 +884,9 @@ export default function FinancialDashboard() {
                                 </h3>
                                 {getCategoryBreakdown().length > 0 ? (
                                     <>
-                                        <ExpenseBreakdownChart data={getCategoryBreakdown()} />
+                                        <div id="expense-breakdown-chart">
+                                            <ExpenseBreakdownChart data={getCategoryBreakdown()} />
+                                        </div>
                                         <p className="text-xs text-gray-500 mt-3 text-center">
                                             Charges ventilées par catégorie
                                         </p>
@@ -908,7 +912,9 @@ export default function FinancialDashboard() {
                                                 📊 {getMarginGrowth().displayText}
                                             </p>
                                         )}
-                                        <MarginEvolutionChart data={getMarginData()} />
+                                        <div id="margin-evolution-chart">
+                                            <MarginEvolutionChart data={getMarginData()} />
+                                        </div>
                                         <p className="text-xs text-gray-500 mt-3 text-center">
                                             Progression vers l'objectif de rentabilité optimale
                                         </p>
@@ -928,7 +934,9 @@ export default function FinancialDashboard() {
                                 </h3>
                                 {getTopClientsBarData().length > 0 ? (
                                     <>
-                                        <TopClientsVerticalChart data={getTopClientsBarData()} />
+                                        <div id="top-clients-chart">
+                                            <TopClientsVerticalChart data={getTopClientsBarData()} />
+                                        </div>
                                         <p className="text-xs text-gray-500 mt-3 text-center">
                                             Analyse de la dépendance client et diversification du portefeuille
                                         </p>
@@ -962,7 +970,9 @@ export default function FinancialDashboard() {
                                 </h3>
                                 {getTopOutstandingInvoices().length > 0 ? (
                                     <>
-                                        <OutstandingInvoicesChart data={getTopOutstandingInvoices()} />
+                                        <div id="outstanding-invoices-chart">
+                                            <OutstandingInvoicesChart data={getTopOutstandingInvoices()} />
+                                        </div>
                                         <p className="text-xs text-gray-500 mt-3 text-center">
                                             Factures impayées triées par impact financier — Couleur = niveau d'urgence
                                         </p>
@@ -994,7 +1004,9 @@ export default function FinancialDashboard() {
                                                 ✅ {getCollectionRate().displayText}
                                             </p>
                                         )}
-                                        <PaymentStatusChart data={getPaymentStatusData()} />
+                                        <div id="payment-status-chart">
+                                            <PaymentStatusChart data={getPaymentStatusData()} />
+                                        </div>
                                         <p className="text-xs text-gray-500 mt-3 text-center">
                                             Suivi du workflow de facturation et état des recouvrements
                                         </p>
