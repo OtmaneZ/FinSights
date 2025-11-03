@@ -7,7 +7,8 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
-    ResponsiveContainer
+    ResponsiveContainer,
+    ReferenceLine
 } from 'recharts';
 
 interface MarginEvolutionChartProps {
@@ -51,6 +52,20 @@ export const MarginEvolutionChart: React.FC<MarginEvolutionChartProps> = ({ data
                 />
                 <Legend
                     wrapperStyle={{ fontSize: '14px', paddingTop: '20px' }}
+                />
+                {/* ✅ Ligne objectif à 75% */}
+                <ReferenceLine
+                    y={75}
+                    stroke="#10b981"
+                    strokeDasharray="5 5"
+                    strokeWidth={2}
+                    label={{
+                        value: 'Objectif 75%',
+                        position: 'right',
+                        fill: '#10b981',
+                        fontSize: 12,
+                        fontWeight: 600
+                    }}
                 />
                 <Line
                     type="monotone"

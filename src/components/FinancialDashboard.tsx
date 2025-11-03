@@ -389,6 +389,27 @@ export default function FinancialDashboard() {
         }));
     };
 
+    // ✅ Calculer croissance cash flow pour annotation
+    const getCashFlowGrowth = () => {
+        const monthlyData = getMonthlyData();
+        if (monthlyData.length < 2) return { growth: 0, firstMonth: 0, lastMonth: 0, displayText: '' };
+
+        const firstMonth = monthlyData[0];
+        const lastMonth = monthlyData[monthlyData.length - 1];
+
+        const firstCF = firstMonth.cashFlow;
+        const lastCF = lastMonth.cashFlow;
+
+        const growth = firstCF !== 0 ? ((lastCF - firstCF) / Math.abs(firstCF)) * 100 : 0;
+
+        return {
+            growth: growth.toFixed(0),
+            firstMonth: Math.round(firstCF / 1000),
+            lastMonth: Math.round(lastCF / 1000),
+            displayText: `${Math.round(firstCF / 1000)}k€ → ${Math.round(lastCF / 1000)}k€ (${growth > 0 ? '+' : ''}${growth.toFixed(0)}%)`
+        };
+    };
+
     // ✅ Préparer répartition des charges par catégorie pour ExpenseBreakdownChart
     const getCategoryBreakdown = () => {
         if (!rawData || rawData.length === 0) return [];
@@ -404,13 +425,31 @@ export default function FinancialDashboard() {
 
         const total = expenses.reduce((sum: number, r: any) => sum + r.amount, 0);
 
-        return Object.entries(categoryTotals)
+        const allCategories = Object.entries(categoryTotals)
             .map(([name, value]: [string, any]) => ({
                 name,
                 value,
                 percentage: ((value / total) * 100).toFixed(1)
             }))
             .sort((a, b) => b.value - a.value); // Trier par montant décroissant
+
+        // ✅ Regrouper les catégories < 3% en "Autres"
+        const threshold = 3.0;
+        const majorCategories = allCategories.filter(cat => parseFloat(cat.percentage) >= threshold);
+        const minorCategories = allCategories.filter(cat => parseFloat(cat.percentage) < threshold);
+
+        if (minorCategories.length > 0) {
+            const othersValue = minorCategories.reduce((sum, cat) => sum + cat.value, 0);
+            const othersPercentage = ((othersValue / total) * 100).toFixed(1);
+
+            majorCategories.push({
+                name: 'Autres',
+                value: othersValue,
+                percentage: othersPercentage
+            });
+        }
+
+        return majorCategories;
     };
 
     // ✅ Préparer données Top Clients pour TopClientsChart
@@ -440,6 +479,21 @@ export default function FinancialDashboard() {
         }));
     };
 
+    // ✅ Calculer progression marge pour affichage delta
+    const getMarginGrowth = () => {
+        const marginData = getMarginData();
+        if (marginData.length < 2) return { delta: 0, displayText: '' };
+
+        const firstMargin = marginData[0].marginPercentage;
+        const lastMargin = marginData[marginData.length - 1].marginPercentage;
+        const delta = lastMargin - firstMargin;
+
+        return {
+            delta: delta.toFixed(0),
+            displayText: `${delta > 0 ? '+' : ''}${delta.toFixed(0)} points vs ${marginData[0].month}`
+        };
+    };
+
     // ✅ Préparer données Top Clients pour TopClientsVerticalChart
     const getTopClientsBarData = () => {
         const clients = getTopClients();
@@ -447,6 +501,28 @@ export default function FinancialDashboard() {
             name: client.name,
             value: client.total // Utiliser directement le total numérique
         }));
+    };
+
+    // ✅ Calculer le CA total et % du Top 5
+    const getTopClientsPercentage = () => {
+        if (!rawData || rawData.length === 0) return { percentage: 0, topTotal: 0, totalCA: 0 };
+
+        // CA total = somme de tous les revenus
+        const totalCA = rawData
+            .filter((r: any) => r.type === 'income')
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
+
+        // Top 5 total
+        const topClients = getTopClients();
+        const topTotal = topClients.reduce((sum, client) => sum + client.total, 0);
+
+        const percentage = totalCA > 0 ? (topTotal / totalCA) * 100 : 0;
+
+        return {
+            percentage: percentage.toFixed(0),
+            topTotal,
+            totalCA
+        };
     };
 
     // ✅ Préparer données Top 5 Créances en Attente (Outstanding Invoices)
@@ -464,7 +540,7 @@ export default function FinancialDashboard() {
         if (unpaidInvoices.length === 0) return [];
 
         // Date actuelle pour calcul retard (CSV contient données 2024)
-        const today = new Date('2024-11-03');
+        const today = new Date('2024-11-30');
 
         return unpaidInvoices
             .map((r: any) => {
@@ -489,6 +565,19 @@ export default function FinancialDashboard() {
             .slice(0, 5);
     };
 
+    // ✅ Calculer le total de TOUTES les créances en attente (pas seulement Top 5)
+    const getTotalOutstandingInvoices = () => {
+        if (!rawData || rawData.length === 0) return 0;
+
+        return rawData
+            .filter((r: any) => {
+                const isIncome = r.type === 'income';
+                const isUnpaid = r.paymentStatus === 'En attente' || r.paymentStatus === 'En cours';
+                return isIncome && isUnpaid;
+            })
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
+    };
+
     // ✅ Préparer données Statuts de Paiement
     const getPaymentStatusData = (): Array<{ status: string; amount: number; count: number }> => {
         if (!rawData || rawData.length === 0) return [];
@@ -507,6 +596,23 @@ export default function FinancialDashboard() {
             const order: { [key: string]: number } = { 'Payé': 1, 'En attente': 2, 'En cours': 3 };
             return (order[a.status] || 99) - (order[b.status] || 99);
         });
+    };
+
+    // ✅ Calculer taux d'encaissement
+    const getCollectionRate = () => {
+        const statusData = getPaymentStatusData();
+        if (statusData.length === 0) return { rate: 0, displayText: '' };
+
+        const totalAmount = statusData.reduce((sum, s) => sum + s.amount, 0);
+        const paidData = statusData.find(s => s.status === 'Payé');
+        const paidAmount = paidData ? paidData.amount : 0;
+
+        const rate = totalAmount > 0 ? (paidAmount / totalAmount) * 100 : 0;
+
+        return {
+            rate: rate.toFixed(0),
+            displayText: `Taux d'encaissement : ${rate.toFixed(0)}%`
+        };
     };
 
 
@@ -756,6 +862,12 @@ export default function FinancialDashboard() {
                                     <ArrowTrendingUpIcon className="w-5 h-5 text-orange-600" />
                                     Flux de Trésorerie Mensuels
                                 </h3>
+                                {/* ✅ Mini résumé croissance */}
+                                {getCashFlowGrowth().growth !== '0' && (
+                                    <p className="text-sm text-green-600 font-medium mb-2">
+                                        📈 {getCashFlowGrowth().displayText}
+                                    </p>
+                                )}
                                 <CashFlowEvolutionChart data={getMonthlyData()} />
                                 <p className="text-xs text-gray-500 mt-3 text-center">
                                     Revenus, charges et cash flow net par mois
@@ -790,6 +902,12 @@ export default function FinancialDashboard() {
                                 </h3>
                                 {getMarginData().length > 0 ? (
                                     <>
+                                        {/* ✅ Delta marge */}
+                                        {getMarginGrowth().delta !== '0' && (
+                                            <p className="text-sm text-blue-600 font-medium mb-2">
+                                                📊 {getMarginGrowth().displayText}
+                                            </p>
+                                        )}
                                         <MarginEvolutionChart data={getMarginData()} />
                                         <p className="text-xs text-gray-500 mt-3 text-center">
                                             Évolution de la rentabilité dans le temps
@@ -814,6 +932,15 @@ export default function FinancialDashboard() {
                                         <p className="text-xs text-gray-500 mt-3 text-center">
                                             Analyse de la dépendance client et diversification du portefeuille
                                         </p>
+                                        {/* ✅ Afficher % du Top 5 */}
+                                        <div className="mt-3 p-2 bg-blue-50 rounded-lg border border-blue-200">
+                                            <p className="text-sm font-medium text-blue-800 text-center">
+                                                Top 5 = {getTopClientsPercentage().percentage}% du CA total
+                                                <span className="text-xs text-blue-600 ml-2">
+                                                    ({getTopClientsPercentage().topTotal.toLocaleString('fr-FR')} € / {getTopClientsPercentage().totalCA.toLocaleString('fr-FR')} €)
+                                                </span>
+                                            </p>
+                                        </div>
                                     </>
                                 ) : (
                                     <div className="h-[280px] flex items-center justify-center text-gray-400">
@@ -839,6 +966,12 @@ export default function FinancialDashboard() {
                                         <p className="text-xs text-gray-500 mt-3 text-center">
                                             Factures impayées triées par impact financier — Couleur = niveau d'urgence
                                         </p>
+                                        {/* ✅ Total créances en attente */}
+                                        <div className="mt-4 p-3 bg-red-50 rounded-lg border border-red-200">
+                                            <p className="text-sm font-semibold text-red-800 text-center">
+                                                💰 Total créances en attente : {getTotalOutstandingInvoices().toLocaleString('fr-FR')} €
+                                            </p>
+                                        </div>
                                     </>
                                 ) : (
                                     <div className="h-[280px] flex items-center justify-center text-gray-400">
@@ -855,6 +988,12 @@ export default function FinancialDashboard() {
                                 </h3>
                                 {getPaymentStatusData().length > 0 ? (
                                     <>
+                                        {/* ✅ Taux d'encaissement */}
+                                        {getCollectionRate().rate !== '0' && (
+                                            <p className="text-sm text-purple-600 font-medium mb-2">
+                                                ✅ {getCollectionRate().displayText}
+                                            </p>
+                                        )}
                                         <PaymentStatusChart data={getPaymentStatusData()} />
                                         <p className="text-xs text-gray-500 mt-3 text-center">
                                             Suivi du workflow de facturation et état des recouvrements
