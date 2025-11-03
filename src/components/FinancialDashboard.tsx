@@ -297,6 +297,7 @@ export default function FinancialDashboard() {
             .map((client: any) => ({
                 name: client.name,
                 value: `${client.total.toLocaleString('fr-FR')} €`,
+                total: client.total,  // ✅ Ajouter le total numérique pour les charts
                 count: client.count
             }));
     };
