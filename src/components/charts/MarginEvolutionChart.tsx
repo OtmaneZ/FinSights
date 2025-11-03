@@ -53,18 +53,19 @@ export const MarginEvolutionChart: React.FC<MarginEvolutionChartProps> = ({ data
                 <Legend
                     wrapperStyle={{ fontSize: '14px', paddingTop: '20px' }}
                 />
-                {/* ✅ Ligne objectif à 75% */}
+                {/* ✅ Ligne objectif à 80% (stretch goal SaaS mature) */}
                 <ReferenceLine
-                    y={75}
+                    y={80}
                     stroke="#10b981"
                     strokeDasharray="5 5"
                     strokeWidth={2}
                     label={{
-                        value: 'Objectif 75%',
-                        position: 'right',
+                        value: 'Objectif',
+                        position: 'top',
                         fill: '#10b981',
-                        fontSize: 12,
-                        fontWeight: 600
+                        fontSize: 13,
+                        fontWeight: 600,
+                        offset: 10
                     }}
                 />
                 <Line

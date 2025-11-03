@@ -898,7 +898,7 @@ export default function FinancialDashboard() {
                             <div className="bg-white rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ArrowTrendingUpIcon className="w-5 h-5 text-blue-600" />
-                                    Rentabilité dans le Temps
+                                    Évolution de la Marge Nette
                                 </h3>
                                 {getMarginData().length > 0 ? (
                                     <>
@@ -910,7 +910,7 @@ export default function FinancialDashboard() {
                                         )}
                                         <MarginEvolutionChart data={getMarginData()} />
                                         <p className="text-xs text-gray-500 mt-3 text-center">
-                                            Évolution de la rentabilité dans le temps
+                                            Progression vers l'objectif de rentabilité optimale
                                         </p>
                                     </>
                                 ) : (
