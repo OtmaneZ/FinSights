@@ -628,7 +628,7 @@ export default function FinancialDashboard() {
                                         inverse={false}
                                     />
                                 )}
-                                {companySector && kpi.title.includes('Cash Flow') && (
+                                {companySector && kpi.title.includes('Cash Flow') && !kpi.title.includes('Marge') && (
                                     <BenchmarkBar
                                         kpiName="CASH_FLOW"
                                         currentValue={getCashFlowPercentage()}
@@ -663,7 +663,7 @@ export default function FinancialDashboard() {
                             <div className="bg-white rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ArrowTrendingUpIcon className="w-5 h-5 text-orange-600" />
-                                    📈 Évolution Trésorerie
+                                    Évolution Trésorerie
                                 </h3>
                                 <CashFlowEvolutionChart data={getMonthlyData()} />
                                 <p className="text-xs text-gray-500 mt-3 text-center">
@@ -675,7 +675,7 @@ export default function FinancialDashboard() {
                             <div className="bg-white rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <BanknotesIcon className="w-5 h-5 text-orange-600" />
-                                    🥧 Répartition des Charges
+                                    Répartition des Charges
                                 </h3>
                                 {getCategoryBreakdown().length > 0 ? (
                                     <>
@@ -695,7 +695,7 @@ export default function FinancialDashboard() {
                             <div className="bg-white rounded-lg shadow-lg p-6 lg:col-span-2">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <CheckCircleIcon className="w-5 h-5 text-orange-600" />
-                                    🎯 Top 5 Clients (Visuellement)
+                                    Principaux Clients
                                 </h3>
                                 {getTopClientsChartData().length > 0 ? (
                                     <>
@@ -764,27 +764,6 @@ export default function FinancialDashboard() {
                                 <div className="text-center py-8 text-gray-500">
                                     <p>💡 Alertes nécessitent des règles business configurées</p>
                                     <p className="text-sm">Contactez notre équipe pour configurer vos seuils d'alerte</p>
-                                </div>
-                            </div>
-                        )}
-
-                        {shouldShowElement('showTopClients') && (
-                            <div className="finsight-analytics-card">
-                                <h3 className="finsight-analytics-title">🎯 Top 5 Clients</h3>
-                                <div className="finsight-client-ranking">
-                                    {getTopClients().length > 0 ? (
-                                        getTopClients().map((client, index) => (
-                                            <div key={index} className="finsight-client-item">
-                                                <span className="finsight-client-name">{client.name}</span>
-                                                <span className="finsight-client-value">{client.value}</span>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <div className="text-center py-8 text-gray-500">
-                                            <p>💡 Ajoutez une colonne "Client" ou "Contrepartie"</p>
-                                            <p className="text-sm">pour voir l'analyse des top clients</p>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         )}
