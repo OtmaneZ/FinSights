@@ -29,10 +29,8 @@ import { DataPreviewPanel } from './DataPreviewPanel';
 // Import Charts
 import { CashFlowEvolutionChart } from './charts/CashFlowEvolutionChart';
 import { ExpenseBreakdownChart } from './charts/ExpenseBreakdownChart';
-import { TopClientsChart } from './charts/TopClientsChart';
 import { MarginEvolutionChart } from './charts/MarginEvolutionChart';
-import { TopExpenseCategoriesChart } from './charts/TopExpenseCategoriesChart';
-import { PaymentTermsChart } from './charts/PaymentTermsChart';
+import { TopClientsVerticalChart } from './charts/TopClientsVerticalChart';
 
 // Import AICopilot
 import AICopilot from './AICopilot';
@@ -414,14 +412,6 @@ export default function FinancialDashboard() {
     };
 
     // ✅ Préparer données Top Clients pour TopClientsChart
-    const getTopClientsChartData = () => {
-        const clients = getTopClients();
-        return clients.map(client => ({
-            name: client.name,
-            value: client.value,
-            total: parseFloat(client.value.replace(/[^\d]/g, ''))
-        }));
-    };
 
     // ✅ Préparer données Marge Nette par mois pour MarginEvolutionChart
     const getMarginData = () => {
@@ -448,36 +438,13 @@ export default function FinancialDashboard() {
         }));
     };
 
-    // ✅ Préparer Top 5 Catégories de Charges pour TopExpenseCategoriesChart
-    const getTopExpenseCategories = () => {
-        if (!rawData || rawData.length === 0) return [];
-
-        const expenses = rawData.filter((r: any) => r.type === 'expense');
-        if (expenses.length === 0) return [];
-
-        const categoryTotals = expenses.reduce((acc: any, r: any) => {
-            const cat = r.category || 'Autres';
-            acc[cat] = (acc[cat] || 0) + r.amount;
-            return acc;
-        }, {});
-
-        const total = expenses.reduce((sum: number, r: any) => sum + r.amount, 0);
-
-        return Object.entries(categoryTotals)
-            .map(([category, amount]: [string, any]) => ({
-                category,
-                amount,
-                percentage: ((amount / total) * 100)
-            }))
-            .sort((a, b) => b.amount - a.amount)
-            .slice(0, 5);
-    };
-
-    // ✅ Calculer DSO et DPO pour PaymentTermsChart
-    const getPaymentTermsData = () => {
-        // Pour l'instant, retourner null car les données CSV n'ont pas de dates d'échéance
-        // TODO: Implémenter calcul réel quand données disponibles
-        return { dso: null, dpo: null };
+    // ✅ Préparer données Top Clients pour TopClientsVerticalChart
+    const getTopClientsBarData = () => {
+        const clients = getTopClients();
+        return clients.map(client => ({
+            name: client.name,
+            value: client.total // Utiliser directement le total numérique
+        }));
     };
 
 
@@ -772,58 +739,20 @@ export default function FinancialDashboard() {
                                     </div>
                                 )}
                             </div>
+                        </div>
+                    )}
 
-                            {/* Chart 4: Top 5 Catégories Charges */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                    <BanknotesIcon className="w-5 h-5 text-red-600" />
-                                    Top 5 Catégories de Charges
-                                </h3>
-                                {getTopExpenseCategories().length > 0 ? (
-                                    <>
-                                        <TopExpenseCategoriesChart data={getTopExpenseCategories()} />
-                                        <p className="text-xs text-gray-500 mt-3 text-center">
-                                            Principales catégories de dépenses
-                                        </p>
-                                    </>
-                                ) : (
-                                    <div className="h-[280px] flex items-center justify-center text-gray-400">
-                                        Pas de charges catégorisées
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Chart 5: Principaux Clients */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                    <CheckCircleIcon className="w-5 h-5 text-green-600" />
-                                    Principaux Clients
-                                </h3>
-                                {getTopClientsChartData().length > 0 ? (
-                                    <>
-                                        <TopClientsChart data={getTopClientsChartData()} />
-                                        <p className="text-xs text-gray-500 mt-3 text-center">
-                                            Principaux clients contributeurs au chiffre d'affaires
-                                        </p>
-                                    </>
-                                ) : (
-                                    <div className="h-[280px] flex items-center justify-center text-gray-400">
-                                        Pas de clients à afficher
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Chart 6: Délais de Paiement (DSO/DPO) */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                    <ClockIcon className="w-5 h-5 text-purple-600" />
-                                    Délais de Paiement
-                                </h3>
-                                <PaymentTermsChart data={getPaymentTermsData()} />
-                                <p className="text-xs text-gray-500 mt-3 text-center">
-                                    Comparaison DSO clients vs DPO fournisseurs
-                                </p>
-                            </div>
+                    {/* Chart Pleine Largeur: Top 5 Clients */}
+                    {rawData && rawData.length > 0 && getTopClientsBarData().length > 0 && (
+                        <div className="bg-white rounded-lg shadow-lg p-6">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                <CheckCircleIcon className="w-5 h-5 text-green-600" />
+                                Top 5 Clients par Chiffre d'Affaires
+                            </h3>
+                            <TopClientsVerticalChart data={getTopClientsBarData()} />
+                            <p className="text-xs text-gray-500 mt-3 text-center">
+                                Principaux clients contributeurs au chiffre d'affaires (barres verticales)
+                            </p>
                         </div>
                     )}
 
