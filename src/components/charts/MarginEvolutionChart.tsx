@@ -10,18 +10,16 @@ import {
     ResponsiveContainer
 } from 'recharts';
 
-interface CashFlowEvolutionChartProps {
+interface MarginEvolutionChartProps {
     data: Array<{
         month: string;
-        revenue: number;
-        expenses: number;
-        cashFlow: number;
+        marginPercentage: number;
     }>;
 }
 
-export const CashFlowEvolutionChart: React.FC<CashFlowEvolutionChartProps> = ({ data }) => {
-    const formatCurrency = (value: number) => {
-        return `${Math.round(value / 1000)}k€`;
+export const MarginEvolutionChart: React.FC<MarginEvolutionChartProps> = ({ data }) => {
+    const formatPercentage = (value: number) => {
+        return `${value.toFixed(1)}%`;
     };
 
     return (
@@ -39,10 +37,11 @@ export const CashFlowEvolutionChart: React.FC<CashFlowEvolutionChartProps> = ({ 
                 <YAxis
                     stroke="#64748b"
                     style={{ fontSize: '12px' }}
-                    tickFormatter={formatCurrency}
+                    tickFormatter={formatPercentage}
+                    domain={[0, 100]}
                 />
                 <Tooltip
-                    formatter={(value: number) => `${value.toLocaleString('fr-FR')} €`}
+                    formatter={(value: number) => `${value.toFixed(1)}%`}
                     contentStyle={{
                         backgroundColor: 'white',
                         border: '1px solid #e2e8f0',
@@ -55,29 +54,11 @@ export const CashFlowEvolutionChart: React.FC<CashFlowEvolutionChartProps> = ({ 
                 />
                 <Line
                     type="monotone"
-                    dataKey="revenue"
-                    stroke="#10b981"
-                    strokeWidth={2}
-                    name="Revenus"
-                    dot={{ r: 4 }}
-                    activeDot={{ r: 6 }}
-                />
-                <Line
-                    type="monotone"
-                    dataKey="expenses"
-                    stroke="#ef4444"
-                    strokeWidth={2}
-                    name="Charges"
-                    dot={{ r: 4 }}
-                    activeDot={{ r: 6 }}
-                />
-                <Line
-                    type="monotone"
-                    dataKey="cashFlow"
-                    stroke="#f59e0b"
+                    dataKey="marginPercentage"
+                    stroke="#3b82f6"
                     strokeWidth={3}
-                    name="Cash Flow Net"
-                    dot={{ r: 5 }}
+                    name="Marge Nette (%)"
+                    dot={{ r: 5, fill: '#3b82f6' }}
                     activeDot={{ r: 7 }}
                 />
             </LineChart>

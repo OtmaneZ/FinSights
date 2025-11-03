@@ -30,6 +30,9 @@ import { DataPreviewPanel } from './DataPreviewPanel';
 import { CashFlowEvolutionChart } from './charts/CashFlowEvolutionChart';
 import { ExpenseBreakdownChart } from './charts/ExpenseBreakdownChart';
 import { TopClientsChart } from './charts/TopClientsChart';
+import { MarginEvolutionChart } from './charts/MarginEvolutionChart';
+import { TopExpenseCategoriesChart } from './charts/TopExpenseCategoriesChart';
+import { PaymentTermsChart } from './charts/PaymentTermsChart';
 
 // Import AICopilot
 import AICopilot from './AICopilot';
@@ -419,6 +422,64 @@ export default function FinancialDashboard() {
         }));
     };
 
+    // ✅ Préparer données Marge Nette par mois pour MarginEvolutionChart
+    const getMarginData = () => {
+        if (!rawData || rawData.length === 0) return [];
+
+        const monthlyStats = rawData.reduce((acc: any, record: any) => {
+            const month = new Date(record.date).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+            if (!acc[month]) {
+                acc[month] = { month, revenue: 0, expenses: 0 };
+            }
+
+            if (record.type === 'income') {
+                acc[month].revenue += record.amount;
+            } else {
+                acc[month].expenses += record.amount;
+            }
+
+            return acc;
+        }, {});
+
+        return Object.values(monthlyStats).map((m: any) => ({
+            month: m.month,
+            marginPercentage: m.revenue > 0 ? ((m.revenue - m.expenses) / m.revenue) * 100 : 0
+        }));
+    };
+
+    // ✅ Préparer Top 5 Catégories de Charges pour TopExpenseCategoriesChart
+    const getTopExpenseCategories = () => {
+        if (!rawData || rawData.length === 0) return [];
+
+        const expenses = rawData.filter((r: any) => r.type === 'expense');
+        if (expenses.length === 0) return [];
+
+        const categoryTotals = expenses.reduce((acc: any, r: any) => {
+            const cat = r.category || 'Autres';
+            acc[cat] = (acc[cat] || 0) + r.amount;
+            return acc;
+        }, {});
+
+        const total = expenses.reduce((sum: number, r: any) => sum + r.amount, 0);
+
+        return Object.entries(categoryTotals)
+            .map(([category, amount]: [string, any]) => ({
+                category,
+                amount,
+                percentage: ((amount / total) * 100)
+            }))
+            .sort((a, b) => b.amount - a.amount)
+            .slice(0, 5);
+    };
+
+    // ✅ Calculer DSO et DPO pour PaymentTermsChart
+    const getPaymentTermsData = () => {
+        // Pour l'instant, retourner null car les données CSV n'ont pas de dates d'échéance
+        // TODO: Implémenter calcul réel quand données disponibles
+        return { dso: null, dpo: null };
+    };
+
+
     return (
         <div className="finsight-dashboard-container" ref={dashboardRef}>
             {/* Header with Period Selector */}
@@ -691,10 +752,50 @@ export default function FinancialDashboard() {
                                 )}
                             </div>
 
-                            {/* Chart 3: Top Clients */}
-                            <div className="bg-white rounded-lg shadow-lg p-6 lg:col-span-2">
+                            {/* Chart 3: Marge Nette Evolution */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                    <CheckCircleIcon className="w-5 h-5 text-orange-600" />
+                                    <ArrowTrendingUpIcon className="w-5 h-5 text-blue-600" />
+                                    Évolution Marge Nette
+                                </h3>
+                                {getMarginData().length > 0 ? (
+                                    <>
+                                        <MarginEvolutionChart data={getMarginData()} />
+                                        <p className="text-xs text-gray-500 mt-3 text-center">
+                                            Évolution de la rentabilité dans le temps
+                                        </p>
+                                    </>
+                                ) : (
+                                    <div className="h-[280px] flex items-center justify-center text-gray-400">
+                                        Pas assez de données historiques
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Chart 4: Top 5 Catégories Charges */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <BanknotesIcon className="w-5 h-5 text-red-600" />
+                                    Top 5 Catégories de Charges
+                                </h3>
+                                {getTopExpenseCategories().length > 0 ? (
+                                    <>
+                                        <TopExpenseCategoriesChart data={getTopExpenseCategories()} />
+                                        <p className="text-xs text-gray-500 mt-3 text-center">
+                                            Principales catégories de dépenses
+                                        </p>
+                                    </>
+                                ) : (
+                                    <div className="h-[280px] flex items-center justify-center text-gray-400">
+                                        Pas de charges catégorisées
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Chart 5: Principaux Clients */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <CheckCircleIcon className="w-5 h-5 text-green-600" />
                                     Principaux Clients
                                 </h3>
                                 {getTopClientsChartData().length > 0 ? (
@@ -705,10 +806,22 @@ export default function FinancialDashboard() {
                                         </p>
                                     </>
                                 ) : (
-                                    <div className="h-[250px] flex items-center justify-center text-gray-400">
+                                    <div className="h-[280px] flex items-center justify-center text-gray-400">
                                         Pas de clients à afficher
                                     </div>
                                 )}
+                            </div>
+
+                            {/* Chart 6: Délais de Paiement (DSO/DPO) */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <ClockIcon className="w-5 h-5 text-purple-600" />
+                                    Délais de Paiement
+                                </h3>
+                                <PaymentTermsChart data={getPaymentTermsData()} />
+                                <p className="text-xs text-gray-500 mt-3 text-center">
+                                    Comparaison DSO clients vs DPO fournisseurs
+                                </p>
                             </div>
                         </div>
                     )}
