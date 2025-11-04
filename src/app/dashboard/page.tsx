@@ -11,7 +11,11 @@ export default function DashboardPage() {
                         <h1 className="finsight-brand">FinSight</h1>
                         <span className="finsight-brand-subtitle">Dashboard</span>
                     </div>
-                    <nav className="finsight-nav-menu finsight-nav-hidden">
+                    <nav className="finsight-nav-menu finsight-nav-hidden" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                        <a href="mailto:otmane@zineinsight.com" className="finsight-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span>📧</span>
+                            <span>otmane@zineinsight.com</span>
+                        </a>
                         <a href="/" className="finsight-nav-link">Accueil</a>
                         <a href="/methodologie" className="finsight-nav-link">Méthodologie</a>
                         <a href="https://zineinsight.com" className="finsight-nav-link" target="_blank" rel="noopener noreferrer">Zine Insight</a>

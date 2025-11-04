@@ -86,7 +86,11 @@ export default function Home() {
                             <span>FinSight</span>
                         </a>
                     </div>
-                    <nav className="finsight-nav-menu finsight-nav-hidden">
+                    <nav className="finsight-nav-menu finsight-nav-hidden" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                        <a href="mailto:otmane@zineinsight.com" className="finsight-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span>📧</span>
+                            <span>otmane@zineinsight.com</span>
+                        </a>
                         <a href="/dashboard" className="finsight-nav-link">Tester notre outil</a>
                         <a href="https://www.zineinsight.com" className="finsight-nav-link">ZineInsight.com</a>
                     </nav>
@@ -101,21 +105,44 @@ export default function Home() {
                             🎯 Test gratuit • Aucune inscription requise
                         </div>
                         <h1 className="finsight-section-title">
-                            Fini les heures perdues sur Excel
+                            Automatisez votre reporting financier
                             <span style={{ background: 'var(--gradient-revolutionary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}><br />Dashboard + IA financière instantanée</span>
                         </h1>
                         <p className="finsight-section-subtitle" style={{ maxWidth: '700px', margin: '0 auto' }}>
-                            De CSV bordélique à insights actionnables en 2 clics. Uploadez, visualisez, questionnez.
+                            Transformez vos exports comptables en tableaux de bord professionnels. Économisez 8h/mois de reporting manuel.
                         </p>
                         <div className="finsight-cta-buttons">
-                            <a href="/dashboard" className="finsight-btn finsight-btn-revolutionary">
-                                Tester Gratuitement
+                            <a href="/dashboard" className="finsight-btn finsight-btn-revolutionary" style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '20px 40px' }}>
+                                <span style={{ fontSize: '18px', fontWeight: '700' }}>Voir le Dashboard Démo</span>
+                                <span style={{ fontSize: '13px', opacity: '0.9', fontWeight: '400' }}>Dashboard complet • Démo interactive • 0 inscription</span>
                             </a>
                             <a href="#demo" className="finsight-btn finsight-btn-secondary" onClick={(e) => { e.preventDefault(); document.querySelector('.finsight-kpi-grid')?.scrollIntoView({ behavior: 'smooth' }); }}>
                                 Voir un exemple
                             </a>
                         </div>
 
+                    </div>
+                </div>
+
+                {/* Section Beta Privée */}
+                <div style={{ textAlign: 'center', marginTop: '5rem', marginBottom: '3rem', maxWidth: '900px', margin: '5rem auto 3rem' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 20px', background: 'rgba(16, 185, 129, 0.1)', borderRadius: '50px', border: '1px solid rgba(16, 185, 129, 0.3)', marginBottom: '1.5rem' }}>
+                        <span style={{ fontSize: '1.2rem' }}>🧪</span>
+                        <span style={{ color: '#10b981', fontWeight: '600', fontSize: '0.9rem' }}>En beta privée</span>
+                    </div>
+                    <h3 style={{ fontSize: '1.75rem', fontWeight: '700', color: '#fff', marginBottom: '1rem' }}>
+                        Testé par 5 PME françaises
+                    </h3>
+                    <p style={{ fontSize: '1.1rem', color: '#9ca3af', marginBottom: '2rem' }}>
+                        Secteurs : Services B2B, E-commerce, Distribution
+                    </p>
+                    <div style={{ display: 'inline-block', padding: '1.5rem 2rem', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
+                        <p style={{ color: '#60a5fa', fontSize: '1rem', fontStyle: 'italic' }}>
+                            💬 "2h de reporting économisées par semaine. L'IA répond mieux que mon expert-comptable."
+                        </p>
+                        <p style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '0.5rem' }}>
+                            — DAF, PME Services 8M€ CA
+                        </p>
                     </div>
                 </div>
 
@@ -180,6 +207,16 @@ export default function Home() {
                         <div className="finsight-kpi-label" style={{ marginBottom: '0.5rem' }}>Délai Moyen de Paiement</div>
                         <div className="finsight-kpi-trend finsight-trend-down">Dégradation de 5j ⚠️</div>
                     </div>
+                </div>
+
+                {/* Disclaimer Démo */}
+                <div style={{ textAlign: 'center', marginTop: '2rem', padding: '1rem 2rem', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px', border: '1px solid rgba(59, 130, 246, 0.3)', maxWidth: '700px', margin: '2rem auto' }}>
+                    <p style={{ color: '#93c5fd', fontSize: '0.95rem', marginBottom: '0.5rem' }}>
+                        📊 <strong>Exemple fictif</strong> : PME Services B2B - 5M€ CA annuel
+                    </p>
+                    <a href="/dashboard" style={{ color: '#60a5fa', fontSize: '0.9rem', textDecoration: 'underline', fontWeight: '600' }}>
+                        → Voir avec VOS données
+                    </a>
                 </div>
 
                 {/* AI Copilot Demo - NOUVEAU DESIGN INTERACTIF */}
@@ -407,6 +444,71 @@ export default function Home() {
                     </div>
                 </div>
 
+                {/* Comment ça marche - Process 4 étapes */}
+                <div style={{ marginTop: '6rem', marginBottom: '6rem' }}>
+                    <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                        <div style={{ display: 'inline-block', padding: '8px 20px', background: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '50px', fontSize: '13px', fontWeight: '600', color: '#3b82f6', marginBottom: '20px' }}>
+                            ⚡ Process Ultra-Rapide
+                        </div>
+                        <h2 style={{ fontSize: '36px', fontWeight: '700', marginBottom: '15px', color: '#fff' }}>
+                            Comment ça marche ?
+                        </h2>
+                        <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.6)', maxWidth: '600px', margin: '0 auto' }}>
+                            De l'upload à l'analyse avancée en 4 étapes simples
+                        </p>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px', maxWidth: '1200px', margin: '0 auto' }}>
+                        {/* Étape 1 */}
+                        <div style={{ position: 'relative', background: 'rgba(255, 255, 255, 0.03)', padding: '40px 30px', borderRadius: '20px', border: '1px solid rgba(255, 255, 255, 0.08)', textAlign: 'center' }}>
+                            <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', color: '#fff', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: '700', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)' }}>
+                                1
+                            </div>
+                            <div style={{ fontSize: '50px', marginBottom: '20px' }}>📤</div>
+                            <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: '#fff' }}>Importez votre CSV</h3>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.5)', lineHeight: '1.6' }}>
+                                Exportez vos données d'Excel ou de votre logiciel comptable. Glissez-déposez le fichier.
+                            </p>
+                        </div>
+
+                        {/* Étape 2 */}
+                        <div style={{ position: 'relative', background: 'rgba(255, 255, 255, 0.03)', padding: '40px 30px', borderRadius: '20px', border: '1px solid rgba(255, 255, 255, 0.08)', textAlign: 'center' }}>
+                            <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', color: '#fff', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: '700', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.4)' }}>
+                                2
+                            </div>
+                            <div style={{ fontSize: '50px', marginBottom: '20px' }}>🔄</div>
+                            <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: '#fff' }}>Analyse automatique</h3>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.5)', lineHeight: '1.6' }}>
+                                Notre IA structure vos données et calcule 15+ KPIs financiers en 30 secondes.
+                            </p>
+                        </div>
+
+                        {/* Étape 3 */}
+                        <div style={{ position: 'relative', background: 'rgba(255, 255, 255, 0.03)', padding: '40px 30px', borderRadius: '20px', border: '1px solid rgba(255, 255, 255, 0.08)', textAlign: 'center' }}>
+                            <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#fff', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: '700', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.4)' }}>
+                                3
+                            </div>
+                            <div style={{ fontSize: '50px', marginBottom: '20px' }}>📊</div>
+                            <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: '#fff' }}>Visualisez vos KPIs</h3>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.5)', lineHeight: '1.6' }}>
+                                Dashboard interactif avec graphiques temps réel : trésorerie, marges, DSO, top clients.
+                            </p>
+                        </div>
+
+                        {/* Étape 4 */}
+                        <div style={{ position: 'relative', background: 'rgba(255, 255, 255, 0.03)', padding: '40px 30px', borderRadius: '20px', border: '1px solid rgba(255, 255, 255, 0.08)', textAlign: 'center' }}>
+                            <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', color: '#fff', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: '700', boxShadow: '0 4px 12px rgba(245, 158, 11, 0.4)' }}>
+                                4
+                            </div>
+                            <div style={{ fontSize: '50px', marginBottom: '20px' }}>🤖</div>
+                            <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: '#fff' }}>Interrogez l'IA</h3>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.5)', lineHeight: '1.6' }}>
+                                Posez vos questions en français. L'IA analyse vos chiffres et répond en langage naturel.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Tunnel de Conversion */}
                 <div style={{
                     background: 'rgba(30, 41, 59, 0.3)',
@@ -464,15 +566,47 @@ export default function Home() {
                 </div>
             </div>
 
+            {/* Sécurité & Conformité */}
+            <div style={{ background: 'linear-gradient(135deg, rgba(15, 61, 122, 0.05) 0%, rgba(15, 61, 122, 0.02) 100%)', padding: '80px 20px', borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+                    <div style={{ display: 'inline-block', padding: '8px 20px', background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '50px', fontSize: '13px', fontWeight: '600', color: '#22c55e', marginBottom: '30px' }}>
+                        🔒 Sécurité & Conformité
+                    </div>
+                    <h2 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '20px', color: '#fff' }}>
+                        Vos données financières en sécurité
+                    </h2>
+                    <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.6)', marginBottom: '50px', maxWidth: '700px', margin: '0 auto 50px' }}>
+                        Conformité RGPD, hébergement France, chiffrement de bout-en-bout
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '30px', maxWidth: '900px', margin: '0 auto' }}>
+                        <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '30px', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                            <div style={{ fontSize: '40px', marginBottom: '15px' }}>🇫🇷</div>
+                            <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#fff' }}>Hébergement France</h3>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.5)' }}>Données stockées exclusivement sur serveurs français</p>
+                        </div>
+                        <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '30px', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                            <div style={{ fontSize: '40px', marginBottom: '15px' }}>🛡️</div>
+                            <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#fff' }}>Conformité RGPD</h3>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.5)' }}>Respect total du règlement européen sur les données</p>
+                        </div>
+                        <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '30px', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                            <div style={{ fontSize: '40px', marginBottom: '15px' }}>🔐</div>
+                            <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#fff' }}>Chiffrement SSL</h3>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.5)' }}>Protocole AES-256 pour vos données sensibles</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* Footer */}
             <footer className="finsight-footer">
                 <div className="finsight-footer-content">
                     <div className="finsight-footer-center">
                         <p className="finsight-footer-main">
-                            Outil développé par <span className="finsight-footer-highlight">Otmane Boulahia</span> — <a href="https://www.zineinsight.com" className="finsight-footer-brand text-blue-600 hover:underline">ZineInsight.com</a>
+                            🚀 Propulsé par <a href="https://www.zineinsight.com" className="finsight-footer-brand text-blue-600 hover:underline font-bold">ZineInsight</a> — Dashboards sur-mesure pour PME/ETI
                         </p>
                         <p className="finsight-footer-sub">
-                            FinSight © 2025. Testez gratuitement notre vision • <a href="https://www.zineinsight.com" className="text-blue-600 hover:underline">Dashboards sur-mesure</a>
+                            Outil développé par <span className="finsight-footer-highlight">Otmane Boulahia</span> • FinSight © 2025 • Outil de démonstration
                         </p>
                     </div>
                 </div>

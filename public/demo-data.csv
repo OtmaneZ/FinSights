@@ -1,0 +1,127 @@
+Date,Description,Montant,Client,Date_echeance,Statut_paiement,Categorie,Prix_vente,Cout_unitaire
+01/08/2024,Licence SaaS Enterprise Q3/2024 - 500 users,14892.45,Décathlon France,15/08/2024,Payé,Ventes,17870.94,11894.12
+02/08/2024,Licence SaaS Pro - Menuiserie Martin,899.00,Menuiserie Martin SARL,17/08/2024,Payé,Ventes,899.00,599.33
+03/08/2024,Achat serveurs cloud AWS - EC2 instances,-2847.92,Amazon Web Services,03/08/2024,Payé,Infrastructure IT,0,2847.92
+03/08/2024,Formation Excel Avancé - 6 participants,780.00,Boulangerie La Mie Dorée,18/08/2024,Payé,Services,780.00,468.00
+04/08/2024,Consulting stratégie digitale - Mission août,8234.50,Airbus Defense,20/08/2024,Payé,Services,9881.40,6587.60
+05/08/2024,Licence SaaS Basic - Pharmacie Centrale,299.00,Pharmacie Centrale,20/08/2024,Payé,Ventes,299.00,199.33
+06/08/2024,Abonnement Notion Team mensuel,-16.99,Notion Labs Inc,06/08/2024,Payé,Infrastructure IT,0,16.99
+07/08/2024,Loyer bureaux août - 120m² Bd Haussmann,-3500.00,SCI Immobilier Haussmann,01/08/2024,Payé,Immobilier,0,3500.00
+07/08/2024,Consulting RH - Recrutement dev senior,1450.00,Cabinet Expertise RH,22/08/2024,Payé,Services,1450.00,870.00
+08/08/2024,Licence SaaS Pro - Garage Moderne Auto,899.00,Garage Moderne Auto,23/08/2024,Payé,Ventes,899.00,599.33
+09/08/2024,Formation Power BI - 8 participants,1240.00,SARL Martinet Consulting,24/08/2024,Payé,Services,1240.00,744.00
+10/08/2024,Vente Formation équipe 10 personnes - React,4387.50,Leroy Merlin,25/08/2024,Payé,Services,4865.00,3510.00
+11/08/2024,Licence SaaS Basic - Coiffure Elegance,299.00,Coiffure Elegance,26/08/2024,Payé,Ventes,299.00,199.33
+12/08/2024,Frais télécom et internet - Fibre pro 1Gb/s,-456.78,Orange Business Services,31/08/2024,Payé,Télécoms,0,456.78
+12/08/2024,Café réunion client Airbus,-34.50,Starbucks République,12/08/2024,Payé,Mobilité,0,34.50
+13/08/2024,Licence SaaS Enterprise - PME Transport,12450.00,TransExpress Logistique,28/08/2024,Payé,Ventes,13695.00,9958.00
+14/08/2024,Consulting cybersécurité - Audit complet,2890.00,Cabinet Expertise Cyber,29/08/2024,Payé,Services,3179.00,2312.00
+15/08/2024,Subvention innovation région - R&D IA,12000.00,Région Occitanie,15/08/2024,Payé,Autres,12000.00,0.00
+15/08/2024,Déplacement Paris-Toulouse A/R - Mission Airbus,-187.60,SNCF Mobilités,15/08/2024,Payé,Mobilité,0,187.60
+16/08/2024,Licence SaaS Pro - Restaurant Le Gourmet,899.00,Restaurant Le Gourmet,31/08/2024,Payé,Ventes,899.00,599.33
+17/08/2024,Formation Python débutant - 5 participants,950.00,EURL Digital Start,01/09/2024,Payé,Services,950.00,570.00
+18/08/2024,Salaires équipe technique août - 4 devs,-18534.12,URSSAF Île-de-France,31/08/2024,Payé,Masse Salariale,0,18534.12
+19/08/2024,Licence SaaS Basic - Pressing Express,299.00,Pressing Express,03/09/2024,Payé,Ventes,299.00,199.33
+20/08/2024,Vente Produit Premium A - Module Analytics,6723.45,Carrefour Supply Chain,05/09/2024,En attente,Ventes,7896.00,5378.76
+21/08/2024,Abonnement Figma Professional,-45.00,Figma Inc,21/08/2024,Payé,Infrastructure IT,0,45.00
+22/08/2024,Assurance RC professionnelle annuelle,-867.50,AXA Entreprises France,22/08/2024,Payé,Assurances,0,867.50
+22/08/2024,Licence SaaS Pro - Agence Immo Plus,899.00,Agence Immo Plus,07/09/2024,Payé,Ventes,899.00,599.33
+23/08/2024,Consulting UX/UI - Refonte site web,1680.00,Studio Créatif Design,08/09/2024,Payé,Services,1848.00,1344.00
+24/08/2024,Formation SQL avancé - 4 participants,760.00,Comptoir des Artisans,09/09/2024,Payé,Services,760.00,456.00
+25/08/2024,Prestations développement mobile iOS/Android,11892.30,Thales Digital Factory,10/09/2024,En attente,Services,13881.42,9513.84
+26/08/2024,Licence SaaS Basic - Opticien Regard,299.00,Opticien Regard,11/09/2024,Payé,Ventes,299.00,199.33
+27/08/2024,Déjeuner négociation contrat Thales,-89.40,Le Comptoir du Relais,27/08/2024,Payé,Mobilité,0,89.40
+28/08/2024,Facture électricité août - Bureaux,-687.23,EDF Entreprises,15/09/2024,En cours,Immobilier,0,687.23
+28/08/2024,Licence SaaS Pro - Cabinet Avocat Dupont,899.00,Cabinet Avocat Dupont,13/09/2024,Payé,Ventes,899.00,599.33
+29/08/2024,Formation JavaScript ES6 - 7 participants,1330.00,Startup Tech Innov,14/09/2024,Payé,Services,1330.00,798.00
+30/08/2024,Vente Produit Standard B - Module Base,3156.78,Décathlon France,15/09/2024,En attente,Ventes,3942.25,2525.42
+31/08/2024,Abonnement Slack Business+,-123.50,Slack Technologies,31/08/2024,Payé,Télécoms,0,123.50
+01/09/2024,Maintenance infrastructure IT - Support 24/7,-1234.56,OVHcloud SAS,01/09/2024,Payé,Infrastructure IT,0,1234.56
+01/09/2024,Licence SaaS Basic - Fleuriste Roses,299.00,Fleuriste Les Roses,16/09/2024,Payé,Ventes,299.00,199.33
+02/09/2024,Consulting marketing digital - SEO/SEA,1890.00,Agence Web Marketing,17/09/2024,Payé,Services,2079.00,1512.00
+03/09/2024,Vente Licence SaaS Pro - PME industrielle,8423.67,Auchan Retail Division,18/09/2024,Payé,Ventes,9266.04,6738.94
+04/09/2024,Formation Data Science - 6 participants,1140.00,Institut Formation Pro,19/09/2024,Payé,Services,1140.00,684.00
+05/09/2024,Frais marketing Google Ads - Campagne Q3,-2456.89,Google Ireland Limited,05/09/2024,Payé,Marketing,0,2456.89
+05/09/2024,Licence SaaS Basic - Librairie Pages,299.00,Librairie Les Pages,20/09/2024,Payé,Ventes,299.00,199.33
+06/09/2024,Taxi aéroport mission client,-67.80,G7 Taxis,06/09/2024,Payé,Mobilité,0,67.80
+07/09/2024,Licence SaaS Pro - Architecte Bâti Concept,899.00,Architecte Bâti Concept,22/09/2024,Payé,Ventes,899.00,599.33
+08/09/2024,Prestations audit sécurité - Pentest complet,5387.90,Sopra Steria Cybersec,23/09/2024,En cours,Services,6426.48,4310.32
+09/09/2024,Formation TypeScript - 5 participants,950.00,Dev Academy Paris,24/09/2024,Payé,Services,950.00,570.00
+10/09/2024,Achat licences Microsoft 365 - 15 users,-1823.45,Microsoft France SARL,10/09/2024,Payé,Infrastructure IT,0,1823.45
+10/09/2024,Licence SaaS Basic - Traiteur Saveurs,299.00,Traiteur Les Saveurs,25/09/2024,Payé,Ventes,299.00,199.33
+11/09/2024,Consulting transformation digitale,2340.00,Cabinet Transform Digital,26/09/2024,Payé,Services,2574.00,1872.00
+12/09/2024,Vente Formation Data Science équipe - 12 pers,9387.60,Capgemini Invent,27/09/2024,En attente,Services,10726.44,7510.08
+13/09/2024,Licence SaaS Enterprise - ETI Logistique,15670.00,Groupe Logistique Express,28/09/2024,Payé,Ventes,17237.00,12536.00
+14/09/2024,Abonnement GitHub Teams,-234.00,GitHub Inc,14/09/2024,Payé,Infrastructure IT,0,234.00
+15/09/2024,Salaires équipe commerciale sept - 3 commerciaux,-12087.34,URSSAF Île-de-France,30/09/2024,Payé,Masse Salariale,0,12087.34
+15/09/2024,Licence SaaS Basic - Vétérinaire AnimaCare,299.00,Vétérinaire AnimaCare,30/09/2024,Payé,Ventes,299.00,199.33
+16/09/2024,Formation Cloud AWS - 4 participants,1520.00,PME TechSolutions,01/10/2024,Payé,Services,1520.00,912.00
+17/09/2024,Déplacement Lyon mission client - TGV A/R,-145.30,SNCF Voyageurs,17/09/2024,Payé,Mobilité,0,145.30
+18/09/2024,Vente Produit Premium C - Analytics Pro,5289.12,Leroy Merlin Digital,03/10/2024,Payé,Ventes,6346.94,4231.30
+19/09/2024,Licence SaaS Pro - Expert Comptable Ledger,899.00,Expert Comptable Ledger,04/10/2024,Payé,Ventes,899.00,599.33
+20/09/2024,Frais déplacement équipe - Missions clients sept,-967.45,Diverses dépenses,20/09/2024,Payé,Mobilité,0,967.45
+20/09/2024,Formation Docker & Kubernetes - 6 participants,1140.00,Startup DevOps Lab,05/10/2024,Payé,Services,1140.00,684.00
+21/09/2024,Licence SaaS Basic - Kinésithérapeute Santé,299.00,Kiné Santé Plus,06/10/2024,Payé,Ventes,299.00,199.33
+22/09/2024,Subvention French Tech - Programme accélération,8000.00,Bpifrance Financement,22/09/2024,Payé,Autres,8000.00,0.00
+23/09/2024,Consulting data analytics - BI Dashboard,1780.00,Data Insight Consulting,07/10/2024,Payé,Services,1958.00,1424.00
+24/09/2024,Licence SaaS Pro - Agence Communication Pixel,899.00,Agence Pixel Creative,08/10/2024,Payé,Ventes,899.00,599.33
+25/09/2024,Prestations UX/UI Design - App mobile refonte,4123.80,Publicis Sapient France,10/10/2024,En attente,Services,4948.56,3299.04
+26/09/2024,Formation React Native - 5 participants,950.00,Mobile Dev Academy,11/10/2024,Payé,Services,950.00,570.00
+27/09/2024,Abonnement Zoom Business - 50 licences,-189.90,Zoom Video Communications,27/09/2024,Payé,Télécoms,0,189.90
+28/09/2024,Maintenance matériel bureau - Imprimantes/PC,-392.67,Bureau Vallée Services,28/09/2024,Payé,Services Pro,0,392.67
+28/09/2024,Licence SaaS Basic - Pâtisserie Gourmande,299.00,Pâtisserie La Gourmande,13/10/2024,Payé,Ventes,299.00,199.33
+29/09/2024,Consulting RGPD - Mise en conformité,2450.00,Cabinet Juridique DPO,14/10/2024,Payé,Services,2695.00,1960.00
+30/09/2024,Vente Licence SaaS Basic - PME Distribution,3123.45,Casino Distribution,15/10/2024,En cours,Ventes,3435.80,2498.76
+01/10/2024,Loyer bureaux octobre - 120m² Bd Haussmann,-3500.00,SCI Immobilier Haussmann,01/10/2024,Payé,Immobilier,0,3500.00
+01/10/2024,Licence SaaS Pro - Notaire Office Legalis,899.00,Notaire Office Legalis,16/10/2024,Payé,Ventes,899.00,599.33
+02/10/2024,Formation Node.js avancé - 7 participants,1330.00,Dev School Paris,17/10/2024,Payé,Services,1330.00,798.00
+03/10/2024,Vente Produit Standard D - Module CRM,2734.56,Monoprix Franchise,18/10/2024,En attente,Ventes,3281.47,2187.65
+04/10/2024,Abonnement Adobe Creative Cloud Teams,-345.67,Adobe Systems Inc,04/10/2024,Payé,Infrastructure IT,0,345.67
+05/10/2024,Frais comptabilité expert - Bilan annuel,-1234.00,Cabinet Mazars et Associés,05/10/2024,Payé,Services Pro,0,1234.00
+05/10/2024,Licence SaaS Basic - Salon Coiffure Tendance,299.00,Salon Coiffure Tendance,20/10/2024,Payé,Ventes,299.00,199.33
+06/10/2024,Consulting DevOps - CI/CD Pipeline,1890.00,DevOps Consulting Pro,21/10/2024,Payé,Services,2079.00,1512.00
+07/10/2024,Licence SaaS Enterprise - Retail chain,18900.00,Enseigne Distribution Nationale,22/10/2024,Payé,Ventes,20790.00,15120.00
+08/10/2024,Prestations consulting digital transformation,10823.70,Accenture Technology,23/10/2024,En cours,Services,12988.44,8658.96
+09/10/2024,Formation Vue.js - 6 participants,1140.00,Web Dev Institute,24/10/2024,Payé,Services,1140.00,684.00
+10/10/2024,Achat matériel informatique - MacBook Pro M3,-3267.89,Apple France SARL,10/10/2024,Payé,Infrastructure IT,0,3267.89
+10/10/2024,Licence SaaS Basic - Agence Voyage Evasion,299.00,Agence Voyage Evasion,25/10/2024,Payé,Ventes,299.00,199.33
+11/10/2024,Déjeuner séminaire équipe - Team building,-234.70,Restaurant Le Bistrot,11/10/2024,Payé,Mobilité,0,234.70
+12/10/2024,Vente Formation cybersécurité - 15 participants,7389.50,Orange Cyberdefense,27/10/2024,Payé,Services,8866.40,5911.60
+13/10/2024,Licence SaaS Pro - Médecin Docteur Martin,899.00,Cabinet Médical Dr Martin,28/10/2024,Payé,Ventes,899.00,599.33
+14/10/2024,Consulting cloud migration - AWS to Azure,2670.00,Cloud Expert Consulting,29/10/2024,Payé,Services,2937.00,2136.00
+15/10/2024,Salaires équipe support oct - 2 tech support,-8623.45,URSSAF Île-de-France,31/10/2024,Payé,Masse Salariale,0,8623.45
+15/10/2024,Licence SaaS Basic - Bijouterie Précieux,299.00,Bijouterie Le Précieux,30/10/2024,Payé,Ventes,299.00,199.33
+16/10/2024,Formation GraphQL - 5 participants,950.00,API Academy,31/10/2024,Payé,Services,950.00,570.00
+17/10/2024,Abonnement Dropbox Business Advanced,-278.90,Dropbox Inc,17/10/2024,Payé,Infrastructure IT,0,278.90
+18/10/2024,Vente Produit Premium E - Dashboard Analytics,8067.34,Décathlon France,02/11/2024,En attente,Ventes,9680.81,6453.87
+19/10/2024,Licence SaaS Pro - Psychologue Cabinet Esprit,899.00,Psychologue Cabinet Esprit,03/11/2024,Payé,Ventes,899.00,599.33
+20/10/2024,Frais hébergement web - VPS Cloud dédiés,-589.12,OVHcloud SAS,20/10/2024,Payé,Infrastructure IT,0,589.12
+20/10/2024,Formation Machine Learning - 8 participants,1520.00,AI Learning Institute,04/11/2024,Payé,Services,1520.00,912.00
+21/10/2024,Licence SaaS Basic - Électricien Pro Volt,299.00,Électricien Pro Volt,05/11/2024,Payé,Ventes,299.00,199.33
+22/10/2024,Prestations développement IA - NLP chatbot,14823.60,Capgemini Engineering,06/11/2024,En attente,Services,17788.32,11858.88
+23/10/2024,Consulting SEO - Audit technique complet,1560.00,Agence SEO Performance,07/11/2024,Payé,Services,1716.00,1248.00
+24/10/2024,Licence SaaS Enterprise - Groupe BTP,21450.00,Groupe Construction BTP,08/11/2024,Payé,Ventes,23595.00,17160.00
+25/10/2024,Facture eau et charges oct - Bureaux,-428.73,Veolia Eau Île-de-France,10/11/2024,En cours,Immobilier,0,428.73
+25/10/2024,Formation Scrum Master - 10 participants,1900.00,Agile Training Center,09/11/2024,Payé,Services,1900.00,1140.00
+26/10/2024,Licence SaaS Basic - Dentiste Cabinet Sourire,299.00,Dentiste Cabinet Sourire,11/11/2024,Payé,Ventes,299.00,199.33
+27/10/2024,Déplacement Marseille - Vol A/R mission,-298.50,Air France,27/10/2024,Payé,Mobilité,0,298.50
+28/10/2024,Vente Licence SaaS Enterprise - Aerospace,16289.45,Airbus Defense & Space,12/11/2024,En attente,Ventes,19547.34,13031.56
+29/10/2024,Licence SaaS Pro - Ostéopathe Bien-Être,899.00,Ostéopathe Bien-Être,13/11/2024,Payé,Ventes,899.00,599.33
+30/10/2024,Maintenance serveurs cloud - Monitoring 24/7,-1023.67,Amazon Web Services,15/11/2024,En cours,Infrastructure IT,0,1023.67
+30/10/2024,Formation DevSecOps - 6 participants,1140.00,Security Dev Academy,14/11/2024,Payé,Services,1140.00,684.00
+31/10/2024,Licence SaaS Basic - Restaurant Pizzeria,299.00,Pizzeria Bella Vita,16/11/2024,Payé,Ventes,299.00,199.33
+01/11/2024,Consulting Product Management - Roadmap Q4,2340.00,Product Consulting Group,17/11/2024,Payé,Services,2574.00,1872.00
+02/11/2024,Licence SaaS Pro - Agence Immobilière Habitat,899.00,Agence Habitat Immobilier,18/11/2024,Payé,Ventes,899.00,599.33
+03/11/2024,Abonnement LinkedIn Sales Navigator Teams,-567.80,LinkedIn Corporation,03/11/2024,Payé,Marketing,0,567.80
+04/11/2024,Formation Angular - 7 participants,1330.00,Frontend Mastery School,19/11/2024,En attente,Services,1330.00,798.00
+05/11/2024,Licence SaaS Basic - Tatoueur Art Ink,299.00,Tatoueur Art Ink Studio,20/11/2024,En attente,Ventes,299.00,199.33
+06/11/2024,Consulting blockchain - Smart contracts audit,3450.00,Blockchain Experts Labs,21/11/2024,En attente,Services,3795.00,2760.00
+07/11/2024,Licence SaaS Enterprise - Financial services,28900.00,Société Générale Digital,22/11/2024,En attente,Ventes,31790.00,23120.00
+08/11/2024,Frais publicité Meta Ads - Campagne lead gen,-1834.56,Meta Platforms Ireland,08/11/2024,Payé,Marketing,0,1834.56
+09/11/2024,Formation AWS Solutions Architect - 5 pers,2375.00,Cloud Certification Academy,23/11/2024,En attente,Services,2375.00,1425.00
+10/11/2024,Licence SaaS Pro - Coach Sportif FitLife,899.00,Coach Sportif FitLife,24/11/2024,En attente,Ventes,899.00,599.33
+11/11/2024,Consulting transformation agile - Framework,2890.00,Agile Transformation Partners,25/11/2024,En attente,Services,3179.00,2312.00
+12/11/2024,Déplacement Bordeaux TGV - Mission client,-167.90,SNCF Voyageurs,12/11/2024,Payé,Mobilité,0,167.90
+13/11/2024,Licence SaaS Basic - Photographe Studio Photo,299.00,Studio Photo Lumière,26/11/2024,En attente,Ventes,299.00,199.33
+14/11/2024,Formation Kubernetes CKA - 4 participants,1900.00,Container Training Institute,27/11/2024,En attente,Services,1900.00,1140.00
+15/11/2024,Salaires équipe technique nov - 4 devs,-18723.89,URSSAF Île-de-France,30/11/2024,En attente,Masse Salariale,0,18723.89

@@ -67,6 +67,62 @@ export default function FinancialDashboard() {
     const [showCompanyModal, setShowCompanyModal] = useState(false)
     const [companyName, setCompanyName] = useState('')
     const [companySector, setCompanySector] = useState<CompanySector>('services')
+    const [isDemoMode, setIsDemoMode] = useState(false)
+    const [isAutoLoading, setIsAutoLoading] = useState(true)
+
+    // 🚀 AUTO-LOAD DÉMO au premier chargement
+    useEffect(() => {
+        const loadDemoData = async () => {
+            if (isDataLoaded) {
+                setIsAutoLoading(false);
+                return;
+            }
+
+            setIsAutoLoading(true);
+
+            try {
+                const response = await fetch('/demo-data.csv');
+                const csvText = await response.text();
+
+                // Simuler un fichier pour utiliser la même logique d'upload
+                const apiResponse = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fileContent: csvText,
+                        fileName: 'demo-data.csv',
+                        fileType: 'text/csv'
+                    })
+                });
+
+                const result = await apiResponse.json();
+
+                if (apiResponse.ok) {
+                    setKpis(result.data.kpis);
+                    setFinSightData(result.data.financialData || result.data.processedData);
+                    setRawData(result.data.records || result.data.rawData || []);
+                    setDashboardConfig(result.data.dashboardConfig || result.data.config);
+                    setLevelInfo(result.data.levelInfo);
+                    setUpgradeMessages(result.data.upgradeMessages || []);
+                    setIsDataLoaded(true);
+                    setIsDemoMode(true);
+                    setCompanyName('PME Services B2B');
+                    setCompanySector('services');
+                    console.log('✅ Démo chargée avec succès:', result.data);
+                    console.log('✅ rawData défini:', result.data.records?.length || 0, 'enregistrements');
+                } else {
+                    console.error('❌ Erreur API upload:', result);
+                }
+            } catch (error) {
+                console.error('❌ Erreur chargement démo:', error);
+            } finally {
+                setIsAutoLoading(false);
+            }
+        };
+
+        loadDemoData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         // ✅ État initial vide - pas de données factices
@@ -721,13 +777,138 @@ export default function FinancialDashboard() {
                 </div>
             )}
 
-            {/* ✅ État vide avec explications - Affiché avant upload */}
-            {kpis.length === 0 && !showUploadZone && (
+            {/* 🎯 BANDEAU MODE DÉMO - Sticky en haut */}
+            {isDemoMode && kpis.length > 0 && (
+                <div style={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 40,
+                    background: 'linear-gradient(135deg, rgba(15, 61, 122, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%)',
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: '12px',
+                    padding: '20px',
+                    marginBottom: '24px',
+                    border: '2px solid rgba(251, 191, 36, 0.3)',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+                        <div style={{ flex: 1 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                                <span style={{ fontSize: '24px' }}>💡</span>
+                                <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#fff', margin: 0 }}>
+                                    MODE DÉMONSTRATION
+                                </h3>
+                            </div>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.9)', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+                                Vous visualisez une <strong>PME Services B2B</strong> (8M€ CA • 120 transactions)
+                            </p>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.95)', fontWeight: '600', margin: 0 }}>
+                                ✨ Impressionné par les résultats ? Obtenez votre dashboard personnalisé :
+                            </p>
+                        </div>
+                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                            <a
+                                href="mailto:otmane@zineinsight.com"
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+                                    color: '#1f2937',
+                                    padding: '12px 24px',
+                                    borderRadius: '8px',
+                                    fontSize: '14px',
+                                    fontWeight: '700',
+                                    textDecoration: 'none',
+                                    boxShadow: '0 4px 12px rgba(251, 191, 36, 0.4)',
+                                    transition: 'transform 0.2s'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                            >
+                                📧 otmane@zineinsight.com
+                            </a>
+                            <button
+                                onClick={() => {
+                                    setIsDemoMode(false);
+                                    setIsDataLoaded(false);
+                                    setIsAutoLoading(false);
+                                    setKpis([]);
+                                    setRawData([]);
+                                    setShowUploadZone(true);
+                                }}
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    background: 'rgba(255, 255, 255, 0.15)',
+                                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                                    color: '#fff',
+                                    padding: '12px 20px',
+                                    borderRadius: '8px',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                                }}
+                            >
+                                🔄 Tester mes données
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 🔄 LOADER - Pendant chargement auto de la démo */}
+            {isAutoLoading && (
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '60vh',
+                    gap: '24px'
+                }}>
+                    <div style={{
+                        width: '80px',
+                        height: '80px',
+                        border: '6px solid rgba(59, 130, 246, 0.2)',
+                        borderTop: '6px solid #3b82f6',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite'
+                    }}></div>
+                    <div style={{ textAlign: 'center' }}>
+                        <h3 style={{ fontSize: '24px', fontWeight: '700', color: '#1f2937', marginBottom: '8px' }}>
+                            Chargement de la démonstration
+                        </h3>
+                        <p style={{ fontSize: '16px', color: '#6b7280' }}>
+                            Préparation du dashboard avec données fictives...
+                        </p>
+                    </div>
+                    <style dangerouslySetInnerHTML={{
+                        __html: `
+                            @keyframes spin {
+                                0% { transform: rotate(0deg); }
+                                100% { transform: rotate(360deg); }
+                            }
+                        `
+                    }} />
+                </div>
+            )}
+
+            {/* ✅ État vide avec explications - Affiché seulement si pas en auto-load */}
+            {!isAutoLoading && kpis.length === 0 && !showUploadZone && (
                 <EmptyDashboardState />
             )}
 
             {/* ✅ Contenu principal - Affiché seulement après upload de données */}
-            {kpis.length > 0 && (
+            {!isAutoLoading && kpis.length > 0 && (
                 <>
                     {/* Badge Niveau Détecté */}
                     {levelInfo && (
