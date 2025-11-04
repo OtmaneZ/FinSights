@@ -716,7 +716,7 @@ export default function FinancialDashboard() {
 
             {/* 🔒 Modal Upload sur RDV */}
             {showUploadModal && (
-                <div 
+                <div
                     style={{
                         position: 'fixed',
                         top: 0,
@@ -733,7 +733,7 @@ export default function FinancialDashboard() {
                     }}
                     onClick={() => setShowUploadModal(false)}
                 >
-                    <div 
+                    <div
                         style={{
                             background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
                             borderRadius: '24px',
@@ -1020,50 +1020,6 @@ export default function FinancialDashboard() {
             {/* ✅ Contenu principal - Affiché seulement après upload de données */}
             {!isAutoLoading && kpis.length > 0 && (
                 <>
-                    {/* Badge Niveau Détecté */}
-                    {levelInfo && (
-                        <div className={`mb-6 p-4 rounded-lg border-2 ${levelInfo.level === 'basic' ? 'bg-blue-50 border-blue-300' :
-                            levelInfo.level === 'intermediate' ? 'bg-blue-100 border-blue-400' :
-                                'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-400'
-                            }`}>
-                            <div className="flex items-center justify-between flex-wrap gap-4">
-                                <div className="flex items-center gap-3">
-                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${levelInfo.level === 'basic' ? 'bg-blue-500' :
-                                        levelInfo.level === 'intermediate' ? 'bg-blue-600' :
-                                            'bg-gradient-to-br from-purple-600 to-indigo-600'
-                                        }`}>
-                                        <span className="text-xl font-bold text-white">
-                                            {levelInfo.level === 'basic' ? '1' :
-                                                levelInfo.level === 'intermediate' ? '2' : '3'}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold text-gray-900">
-                                            {levelInfo.level === 'basic' ? '📊 Niveau Basique' :
-                                                levelInfo.level === 'intermediate' ? '📈 Niveau Enrichi' :
-                                                    '🚀 Niveau Complet'}
-                                        </div>
-                                        <div className="text-sm text-gray-600">{levelInfo.description}</div>
-                                    </div>
-                                </div>
-                                {levelInfo.level !== 'advanced' && levelInfo.suggestions && levelInfo.suggestions.length > 0 && (
-                                    <div className="text-sm max-w-md">
-                                        <span className="text-gray-600">💡 </span>
-                                        <span className="text-gray-700">
-                                            {levelInfo.suggestions[0]}
-                                        </span>
-                                    </div>
-                                )}
-                                {levelInfo.level === 'advanced' && (
-                                    <div className="flex items-center gap-2 text-sm font-semibold text-purple-700">
-                                        <span>🎉</span>
-                                        <span>Toutes les analyses sont disponibles !</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
                     {/* KPI Grid */}
                     <div className="finsight-kpi-grid" data-count={kpis.length}>
                         {kpis.map((kpi, index) => (
@@ -1359,8 +1315,8 @@ export default function FinancialDashboard() {
 
                         {shouldShowElement('showAlerts') && (
                             <div className="finsight-analytics-card">
-                                <h3 className="finsight-analytics-title">⚡ Alertes Actives</h3>
-                                <div className="text-center py-8 text-gray-500">
+                                <h3 className="finsight-analytics-title" style={{ color: '#60a5fa' }}>⚡ Alertes Actives</h3>
+                                <div className="text-center py-8" style={{ color: '#94a3b8' }}>
                                     <p>💡 Alertes nécessitent des règles business configurées</p>
                                     <p className="text-sm">Contactez notre équipe pour configurer vos seuils d'alerte</p>
                                 </div>

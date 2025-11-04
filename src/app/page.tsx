@@ -548,7 +548,7 @@ export default function Home() {
                             🚀 Propulsé par <a href="https://www.zineinsight.com" className="finsight-footer-brand text-blue-600 hover:underline font-bold">ZineInsight</a> — Dashboards sur-mesure pour PME/ETI
                         </p>
                         <p className="finsight-footer-sub">
-                            Outil développé par <span className="finsight-footer-highlight">Otmane Boulahia</span> • FinSight © 2025 • Outil de démonstration
+                            FinSight © 2025 • Outil de démonstration
                         </p>
                     </div>
                 </div>
