@@ -1,34 +1,34 @@
-# 🎯 ROADMAP FINSIGHT - VERSION PROFESSIONNELLE
-**Objectif :** Transformer la démo technique en outil utilisable par des DAF/CFO
+# 🎯 ROADMAP FINSIGHT - DEMO IMPROVEMENTS
+**Objective:** Enhance the technical demo to showcase advanced capabilities
 
 ---
 
-## 📊 **ÉTAT ACTUEL : 38/100**
+## 📊 **CURRENT STATE: Strong Frontend Demo**
 
-### ✅ **Points forts**
-- Architecture code propre (TypeScript, modulaire)
-- Upload CSV fonctionnel avec états bien gérés
-- Empty state pédagogique (3 niveaux, templates téléchargeables)
-- Dark theme moderne et cohérent
-- Système adaptatif intelligent (concept validé)
+### ✅ **Strengths**
+- Clean code architecture (TypeScript, modular)
+- Functional CSV upload with proper state management
+- Educational empty states (3 levels, downloadable templates)
+- Modern dark theme with consistent design
+- Smart adaptive system (validated concept)
 
-### ❌ **Blockers critiques**
-1. **Graphiques = fake data** (pas connectés aux vraies données uploadées)
-2. **Formules KPIs incorrectes** (DSO calculé avec `fréquence × 30` au lieu de `Créances/CA × 365`)
-3. **Pas de crédibilité métier finance** (termes approximatifs, calculs non-standard)
-4. **Export PDF trop basique** (pas de logo, pas de méthodologie)
-5. **Copilot IA non validé** sur questions métier réelles
+### 🔧 **Areas for Enhancement**
+1. **Chart data connection** - Connect all charts to actual uploaded data
+2. **KPI formula accuracy** - Use industry-standard financial calculations
+3. **Financial terminology** - Ensure correct French finance terms
+4. **PDF export polish** - Add branding and methodology sections
+5. **AI Copilot validation** - Test with realistic financial queries
 
 ---
 
-## 🚀 **PHASE URGENTE (1-2 semaines) - Objectif : 70/100**
+## 🚀 **ENHANCEMENT PHASE (Priority Improvements)**
 
-### **1. Connecter TOUS les graphiques aux vraies données** 🔥🔥🔥
-**Fichiers à modifier :**
-- `/src/components/charts/CashFlowChart.tsx` → Remplacer `cashFlowData` hardcodé
-- `/src/components/charts/DSOClientChart.tsx` → Utiliser `rawData` du contexte
-- `/src/components/charts/MarginAnalysisChart.tsx` → Calculer marges réelles
-- `/src/components/charts/WhatIfSimulator.tsx` → Simulations sur vraies données
+### **1. Connect all charts to real uploaded data** 🔥🔥🔥
+**Files to modify:**
+- `/src/components/charts/CashFlowChart.tsx` → Replace hardcoded `cashFlowData`
+- `/src/components/charts/DSOClientChart.tsx` → Use `rawData` from context
+- `/src/components/charts/MarginAnalysisChart.tsx` → Calculate real margins
+- `/src/components/charts/WhatIfSimulator.tsx` → Simulations on actual data
 
 **Résultat attendu :**
 ```tsx
@@ -48,19 +48,19 @@ const cashFlowData = useMemo(() => {
 
 ---
 
-### **2. Corriger formules KPIs financiers** 🔥🔥🔥
-**Fichier à modifier :** `/src/lib/dashboardConfig.ts`
+### **2. Improve financial KPI formulas** 🔥🔥🔥
+**File to modify:** `/src/lib/dashboardConfig.ts`
 
-**Formules à implémenter correctement :**
+**Formulas to implement correctly:**
 
 #### **DSO (Days Sales Outstanding)**
 ```ts
-// ❌ INCORRECT (actuel)
+// ❌ CURRENT (simplified)
 value: `${Math.round(transactionFrequency * 30)} jours`
 
-// ✅ CORRECT
-const dso = (creancesClients / chiffreAffaires) * 365;
-// Créances clients = Σ factures non encaissées avec date_échéance dépassée
+// ✅ IMPROVED (industry standard)
+const dso = (receivables / revenue) * 365;
+// receivables = unpaid invoices past due date
 ```
 
 #### **Marge Brute**

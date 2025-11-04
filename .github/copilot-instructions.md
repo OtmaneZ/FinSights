@@ -1,36 +1,39 @@
-# FinSight - Augmented Finance Platform
+# FinSight - Financial Analysis Demo
 
 ## Project Overview
-FinSight is a SaaS platform providing augmented finance capabilities for CFOs and finance directors in French PMEs and ETIs. The platform combines financial data consolidation, AI-powered analysis, and predictive forecasting.
+FinSight is a **functional demo/prototype** showcasing modern web development skills applied to financial data analysis. It demonstrates AI integration, data visualization, and interactive dashboard capabilities for CFO/finance use cases.
+
+**This is a portfolio project, not a commercial SaaS product.**
 
 ## Tech Stack
 - **Frontend**: Next.js 14 with React, TypeScript, Tailwind CSS
-- **Backend**: Node.js with Express, TypeScript
-- **Database**: PostgreSQL with Prisma ORM
-- **AI/ML**: OpenAI GPT integration, custom forecasting models
-- **Authentication**: NextAuth.js
-- **Data Integration**: APIs for banks, accounting systems, Excel import
+- **API Routes**: Next.js API handlers for data processing
+- **AI Integration**: OpenAI GPT-4 API
+- **Data Visualization**: Recharts
+- **Data Processing**: Excel/CSV parsing with client-side processing
+- **Styling**: Tailwind CSS with custom financial UI components
 
-## Key Features
-1. **Automated Data Consolidation**: Bank, accounting, and Excel data import
-2. **AI-Powered Analysis**: Anomaly detection, margin analysis, payment delays
-3. **Dynamic Forecasting**: Cash flow projections, stress testing, scenario modeling
-4. **AI Copilot**: Natural language financial queries and insights
-5. **Real-time Dashboards**: Financial KPIs and executive reporting
+## Demo Features
+1. **CSV/Excel Import**: Drag-and-drop file upload with automatic parsing
+2. **Financial Dashboard**: Interactive KPIs (revenue, margin, cash flow, DSO)
+3. **AI Copilot**: Natural language financial queries powered by GPT-4
+4. **Data Visualizations**: Charts for cash flow, expenses, margins, top clients
+5. **Sector Benchmarks**: Visual comparison bars for industry standards
+6. **PDF Export**: Generate financial reports from dashboard data
 
 ## Development Guidelines
 - Use TypeScript throughout the project
-- Follow clean architecture principles
-- Implement comprehensive error handling
-- Use proper French localization for finance terminology
-- Focus on financial data security and GDPR compliance
-- Optimize for performance with large financial datasets
+- Follow React best practices and hooks patterns
+- Implement proper error handling and loading states
+- Use French financial terminology correctly
+- Focus on responsive design and UX polish
+- Keep data processing client-side (in-memory, no database)
 
-## Architecture
+## Project Structure
 ```
-/frontend - Next.js application
-/backend - Express API server
-/shared - Shared types and utilities
-/ai-engine - ML models and AI integration
-/data-connectors - External system integrations
+/src/app - Next.js app router pages
+/src/components - React components (dashboard, charts, copilot)
+/src/lib - Utilities (parsers, formulas, config)
+/src/pages/api - Next.js API routes (upload, insights, chat)
+/public - Static assets and demo data
 ```
