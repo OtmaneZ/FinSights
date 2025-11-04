@@ -13,9 +13,8 @@ export default function Home() {
                         </a>
                     </div>
                     <nav className="finsight-nav-menu finsight-nav-hidden" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                        <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="finsight-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span>�</span>
-                            <span>Prendre rendez-vous</span>
+                        <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="finsight-nav-link">
+                            Prendre rendez-vous
                         </a>
                         <a href="/dashboard" className="finsight-nav-link">Démo</a>
                         <a href="/methodologie" className="finsight-nav-link">Méthodologie</a>
