@@ -76,6 +76,9 @@ export const MarginEvolutionChart: React.FC<MarginEvolutionChartProps> = ({ data
                     name="Marge Nette (%)"
                     dot={{ r: 5, fill: '#3b82f6' }}
                     activeDot={{ r: 7 }}
+                    animationDuration={1200}
+                    animationBegin={0}
+                    isAnimationActive={true}
                 />
             </LineChart>
         </ResponsiveContainer>

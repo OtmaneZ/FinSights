@@ -2,6 +2,8 @@ import './globals.css'
 import '../styles/finsight-revolutionary.css'
 import { Inter } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
+import { ThemeProvider } from '@/lib/themeContext'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,11 +31,14 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="fr">
+        <html lang="fr" suppressHydrationWarning>
             <body className={inter.className}>
-                <FinancialDataProvider>
-                    {children}
-                </FinancialDataProvider>
+                <ThemeProvider>
+                    <FinancialDataProvider>
+                        <ThemeToggle />
+                        {children}
+                    </FinancialDataProvider>
+                </ThemeProvider>
             </body>
         </html>
     )

@@ -61,6 +61,9 @@ export const CashFlowEvolutionChart: React.FC<CashFlowEvolutionChartProps> = ({ 
                     name="Revenus"
                     dot={{ r: 4 }}
                     activeDot={{ r: 6 }}
+                    animationDuration={1000}
+                    animationBegin={0}
+                    isAnimationActive={true}
                 />
                 <Line
                     type="monotone"
@@ -70,6 +73,9 @@ export const CashFlowEvolutionChart: React.FC<CashFlowEvolutionChartProps> = ({ 
                     name="Charges"
                     dot={{ r: 4 }}
                     activeDot={{ r: 6 }}
+                    animationDuration={1000}
+                    animationBegin={200}
+                    isAnimationActive={true}
                 />
                 <Line
                     type="monotone"
@@ -79,6 +85,9 @@ export const CashFlowEvolutionChart: React.FC<CashFlowEvolutionChartProps> = ({ 
                     name="Cash Flow Net"
                     dot={{ r: 5 }}
                     activeDot={{ r: 7 }}
+                    animationDuration={1000}
+                    animationBegin={400}
+                    isAnimationActive={true}
                 />
             </LineChart>
         </ResponsiveContainer>

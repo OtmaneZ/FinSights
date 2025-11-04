@@ -50,7 +50,13 @@ export function TopClientsVerticalChart({ data }: TopClientsVerticalChartProps) 
                         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                     }}
                 />
-                <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                <Bar
+                    dataKey="value"
+                    radius={[8, 8, 0, 0]}
+                    animationDuration={1000}
+                    animationBegin={0}
+                    isAnimationActive={true}
+                >
                     {data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}

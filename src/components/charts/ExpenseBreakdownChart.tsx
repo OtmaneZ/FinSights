@@ -93,6 +93,9 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({ da
                             outerRadius={110}
                             fill="#8884d8"
                             dataKey="value"
+                            animationDuration={800}
+                            animationBegin={0}
+                            isAnimationActive={true}
                         >
                             {data.map((entry, index) => (
                                 <Cell

@@ -93,6 +93,42 @@
     --ease-revolutionary: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* ===== LIGHT THEME ===== */
+.light {
+    /* 🌞 LIGHT THEME COLORS */
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #94a3b8;
+
+    /* Glass effect adapté au mode clair */
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(148, 163, 184, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.1);
+    --glass-card: rgba(255, 255, 255, 0.9);
+    --glass-premium: rgba(255, 255, 255, 0.95);
+}
+
+/* ===== DARK THEME (par défaut) ===== */
+.dark {
+    /* 🌙 DARK THEME COLORS */
+    --bg-primary: #0a0a0b;
+    --bg-secondary: #1a1a1d;
+    --bg-tertiary: #2d2d30;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-tertiary: #808080;
+
+    /* Glass effect mode sombre */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --glass-card: rgba(255, 255, 255, 0.05);
+    --glass-premium: rgba(255, 255, 255, 0.15);
+}
+
 /* ===== FINSIGHT BODY ADAPTATION ===== */
 .finsight-body {
     background:
@@ -1570,4 +1606,44 @@
     content: '"';
     color: var(--revolution-primary);
     font-weight: var(--font-weight-bold);
+}
+
+/* ===== LIGHT THEME SPECIFIC ADJUSTMENTS ===== */
+.light .finsight-body {
+    background:
+        radial-gradient(ellipse at top left, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at top right, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(0, 212, 170, 0.05) 0%, transparent 50%),
+        var(--bg-primary);
+}
+
+.light .finsight-body::before {
+    background-image:
+        radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(0, 212, 170, 0.03) 0%, transparent 50%);
+}
+
+/* Amélioration de la lisibilité des cartes en mode clair */
+.light .finsight-card {
+    background: var(--bg-secondary);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+.light .finsight-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.light .finsight-kpi-card {
+    background: var(--bg-secondary);
+    border: 1px solid #e2e8f0;
+}
+
+/* Adaptation des graphiques pour le mode clair */
+.light .recharts-cartesian-grid-horizontal line,
+.light .recharts-cartesian-grid-vertical line {
+    stroke: #e2e8f0;
+}
+
+.light .recharts-text {
+    fill: var(--text-secondary);
 }
