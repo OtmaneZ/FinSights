@@ -68,62 +68,80 @@ export default function FinancialDashboard() {
     const [companyName, setCompanyName] = useState('')
     const [companySector, setCompanySector] = useState<CompanySector>('services')
     const [isDemoMode, setIsDemoMode] = useState(false)
-    const [isAutoLoading, setIsAutoLoading] = useState(true)
+    const [isLoadingDemo, setIsLoadingDemo] = useState(false)
+    const [loadingProgress, setLoadingProgress] = useState(0)
+    const [loadingMessage, setLoadingMessage] = useState('')
     const [showUploadModal, setShowUploadModal] = useState(false) // ✅ Modal upload sur RDV
 
-    // 🚀 AUTO-LOAD DÉMO au premier chargement
-    useEffect(() => {
-        const loadDemoData = async () => {
-            if (isDataLoaded) {
-                setIsAutoLoading(false);
-                return;
+    // 🎯 Fonction pour charger la démo avec animation
+    const handleLoadDemo = async () => {
+        setIsLoadingDemo(true);
+        setLoadingProgress(0);
+        setLoadingMessage('📤 Chargement du fichier démo...');
+
+        try {
+            // Animation de progression
+            setLoadingProgress(20);
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const response = await fetch('/demo-data.csv');
+            const csvText = await response.text();
+
+            setLoadingProgress(40);
+            setLoadingMessage('🔍 Analyse des données...');
+            await new Promise(resolve => setTimeout(resolve, 700));
+
+            setLoadingProgress(60);
+            setLoadingMessage('📊 Calcul des KPIs...');
+
+            const apiResponse = await fetch('/api/upload', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fileContent: csvText,
+                    fileName: 'demo-data.csv',
+                    fileType: 'text/csv'
+                })
+            });
+
+            const result = await apiResponse.json();
+
+            setLoadingProgress(80);
+            setLoadingMessage('✨ Génération du dashboard...');
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            if (apiResponse.ok) {
+                setKpis(result.data.kpis);
+                setFinSightData(result.data.financialData || result.data.processedData);
+                setRawData(result.data.records || result.data.rawData || []);
+                setDashboardConfig(result.data.dashboardConfig || result.data.config);
+                setLevelInfo(result.data.levelInfo);
+                setUpgradeMessages(result.data.upgradeMessages || []);
+                setIsDataLoaded(true);
+                setIsDemoMode(true);
+                setCompanyName('PME Services B2B');
+                setCompanySector('services');
+
+                setLoadingProgress(100);
+                setLoadingMessage('✅ Dashboard prêt !');
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                console.log('✅ Démo chargée avec succès:', result.data);
+            } else {
+                console.error('❌ Erreur API upload:', result);
+                setLoadingMessage('❌ Erreur lors du chargement');
             }
-
-            setIsAutoLoading(true);
-
-            try {
-                const response = await fetch('/demo-data.csv');
-                const csvText = await response.text();
-
-                // Simuler un fichier pour utiliser la même logique d'upload
-                const apiResponse = await fetch('/api/upload', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        fileContent: csvText,
-                        fileName: 'demo-data.csv',
-                        fileType: 'text/csv'
-                    })
-                });
-
-                const result = await apiResponse.json();
-
-                if (apiResponse.ok) {
-                    setKpis(result.data.kpis);
-                    setFinSightData(result.data.financialData || result.data.processedData);
-                    setRawData(result.data.records || result.data.rawData || []);
-                    setDashboardConfig(result.data.dashboardConfig || result.data.config);
-                    setLevelInfo(result.data.levelInfo);
-                    setUpgradeMessages(result.data.upgradeMessages || []);
-                    setIsDataLoaded(true);
-                    setIsDemoMode(true);
-                    setCompanyName('PME Services B2B');
-                    setCompanySector('services');
-                    console.log('✅ Démo chargée avec succès:', result.data);
-                    console.log('✅ rawData défini:', result.data.records?.length || 0, 'enregistrements');
-                } else {
-                    console.error('❌ Erreur API upload:', result);
-                }
-            } catch (error) {
-                console.error('❌ Erreur chargement démo:', error);
-            } finally {
-                setIsAutoLoading(false);
-            }
-        };
-
-        loadDemoData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        } catch (error) {
+            console.error('❌ Erreur chargement démo:', error);
+            setLoadingMessage('❌ Erreur lors du chargement');
+        } finally {
+            setTimeout(() => {
+                setIsLoadingDemo(false);
+                setLoadingProgress(0);
+                setLoadingMessage('');
+            }, 500);
+        }
+    };
 
     useEffect(() => {
         // ✅ État initial vide - pas de données factices
@@ -978,8 +996,8 @@ export default function FinancialDashboard() {
                 </div>
             )}
 
-            {/* 🔄 LOADER - Pendant chargement auto de la démo */}
-            {isAutoLoading && (
+            {/* 🎬 Animation de chargement démo */}
+            {isLoadingDemo && (
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -996,12 +1014,28 @@ export default function FinancialDashboard() {
                         borderRadius: '50%',
                         animation: 'spin 1s linear infinite'
                     }}></div>
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{ textAlign: 'center', width: '100%', maxWidth: '400px' }}>
                         <h3 style={{ fontSize: '24px', fontWeight: '700', color: '#1f2937', marginBottom: '8px' }}>
-                            Chargement de la démonstration
+                            {loadingMessage}
                         </h3>
-                        <p style={{ fontSize: '16px', color: '#6b7280' }}>
-                            Préparation du dashboard avec données de démonstration...
+                        <div style={{
+                            width: '100%',
+                            height: '8px',
+                            background: 'rgba(59, 130, 246, 0.1)',
+                            borderRadius: '999px',
+                            overflow: 'hidden',
+                            marginTop: '16px'
+                        }}>
+                            <div style={{
+                                width: `${loadingProgress}%`,
+                                height: '100%',
+                                background: 'linear-gradient(90deg, #3b82f6 0%, #2563eb 100%)',
+                                borderRadius: '999px',
+                                transition: 'width 0.3s ease'
+                            }}></div>
+                        </div>
+                        <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '12px' }}>
+                            {loadingProgress}% complété
                         </p>
                     </div>
                     <style dangerouslySetInnerHTML={{
@@ -1015,13 +1049,217 @@ export default function FinancialDashboard() {
                 </div>
             )}
 
-            {/* ✅ État vide avec explications - Affiché seulement si pas en auto-load */}
-            {!isAutoLoading && kpis.length === 0 && !showUploadZone && (
-                <EmptyDashboardState />
+            {/* ✅ État vide avec zone upload + Bouton démo */}
+            {!isLoadingDemo && kpis.length === 0 && !showUploadZone && (
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '60vh',
+                    gap: '48px',
+                    padding: '48px 24px',
+                    maxWidth: '800px',
+                    margin: '0 auto'
+                }}>
+                    {/* Titre principal */}
+                    <div style={{ textAlign: 'center' }}>
+                        <h2 style={{
+                            fontSize: '32px',
+                            fontWeight: '700',
+                            color: '#1f2937',
+                            marginBottom: '16px'
+                        }}>
+                            Votre Dashboard s'adapte à vos données
+                        </h2>
+                        <p style={{
+                            fontSize: '18px',
+                            color: '#6b7280',
+                            lineHeight: '1.6'
+                        }}>
+                            FinSight analyse automatiquement votre fichier et génère les KPIs pertinents.
+                        </p>
+                    </div>
+
+                    {/* Zone upload */}
+                    <div style={{
+                        width: '100%',
+                        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%)',
+                        border: '2px solid rgba(99, 102, 241, 0.2)',
+                        borderRadius: '16px',
+                        padding: '48px 32px',
+                        textAlign: 'center'
+                    }}>
+                        <div style={{ marginBottom: '24px' }}>
+                            <div style={{
+                                width: '80px',
+                                height: '80px',
+                                margin: '0 auto 16px',
+                                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                                borderRadius: '20px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '40px'
+                            }}>
+                                ☁️
+                            </div>
+                            <h3 style={{
+                                fontSize: '24px',
+                                fontWeight: '600',
+                                color: '#1f2937',
+                                marginBottom: '8px'
+                            }}>
+                                Commencez par uploader vos données
+                            </h3>
+                            <p style={{
+                                fontSize: '14px',
+                                color: '#6b7280'
+                            }}>
+                                Glissez votre fichier CSV/Excel ou cliquez pour sélectionner
+                            </p>
+                        </div>
+
+                        <div style={{
+                            position: 'relative',
+                            marginBottom: '20px'
+                        }}>
+                            <input
+                                type="file"
+                                accept=".xlsx,.xls,.csv"
+                                style={{
+                                    position: 'absolute',
+                                    inset: '0',
+                                    width: '100%',
+                                    height: '100%',
+                                    opacity: 0,
+                                    cursor: 'pointer'
+                                }}
+                                onChange={(e) => {
+                                    const event = new CustomEvent('fileSelected', { detail: e.target.files });
+                                    window.dispatchEvent(event);
+                                }}
+                            />
+                            <div style={{
+                                border: '2px dashed rgba(99, 102, 241, 0.4)',
+                                borderRadius: '12px',
+                                padding: '48px 24px',
+                                background: 'rgba(255, 255, 255, 0.5)',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.6)';
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.8)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.4)';
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.5)';
+                            }}>
+                                <div style={{
+                                    fontSize: '20px',
+                                    fontWeight: '600',
+                                    color: '#6366f1',
+                                    marginBottom: '8px'
+                                }}>
+                                    📂 Cliquez ici ou glissez votre fichier
+                                </div>
+                                <div style={{
+                                    fontSize: '12px',
+                                    color: '#9ca3af'
+                                }}>
+                                    Formats supportés : .xlsx, .xls, .csv (max 10MB)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            gap: '24px',
+                            fontSize: '12px',
+                            color: '#6b7280'
+                        }}>
+                            <span>🔒 100% sécurisé</span>
+                            <span>⚡ Analyse instantanée</span>
+                            <span>🎯 KPIs auto-générés</span>
+                        </div>
+                    </div>
+
+                    {/* Séparateur "ou" */}
+                    <div style={{
+                        position: 'relative',
+                        width: '100%',
+                        textAlign: 'center'
+                    }}>
+                        <div style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: 0,
+                            right: 0,
+                            height: '1px',
+                            background: 'linear-gradient(90deg, transparent, #e5e7eb 50%, transparent)'
+                        }}></div>
+                        <span style={{
+                            position: 'relative',
+                            background: '#f9fafb',
+                            padding: '0 24px',
+                            fontSize: '16px',
+                            color: '#9ca3af',
+                            fontWeight: '500'
+                        }}>
+                            ou
+                        </span>
+                    </div>
+
+                    {/* Bouton démo */}
+                    <div style={{
+                        width: '100%',
+                        textAlign: 'center'
+                    }}>
+                        <button
+                            onClick={handleLoadDemo}
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                padding: '18px 40px',
+                                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '12px',
+                                fontSize: '17px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                boxShadow: '0 4px 20px rgba(99, 102, 241, 0.4)'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.boxShadow = '0 8px 32px rgba(99, 102, 241, 0.5)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(99, 102, 241, 0.4)';
+                            }}
+                        >
+                            <span style={{ fontSize: '28px' }}>📊</span>
+                            <span>Voir la démo avec données fictives PME Services</span>
+                        </button>
+
+                        <p style={{
+                            fontSize: '13px',
+                            color: '#9ca3af',
+                            marginTop: '16px'
+                        }}>
+                            Données de démonstration • 243k€ CA • 4 mois de transactions • Secteur Services
+                        </p>
+                    </div>
+                </div>
             )}
 
             {/* ✅ Contenu principal - Affiché seulement après upload de données */}
-            {!isAutoLoading && kpis.length > 0 && (
+            {!isLoadingDemo && kpis.length > 0 && (
                 <>
                     {/* KPI Grid */}
                     <div className="finsight-kpi-grid" data-count={kpis.length}>
