@@ -19,7 +19,6 @@ export default function DashboardPage() {
                             Prendre rendez-vous
                         </a>
                         <a href="/" className="finsight-nav-link">Accueil</a>
-                        <a href="/methodologie" className="finsight-nav-link">Méthodologie</a>
                         <a href="https://www.zineinsight.com" className="finsight-nav-link">ZineInsight</a>
                     </nav>
                 </div>
@@ -37,7 +36,10 @@ export default function DashboardPage() {
                 <div className="finsight-footer-content">
                     <div className="finsight-footer-center">
                         <p className="finsight-footer-main">
-                            Solution développée par <span className="finsight-footer-highlight">Otmane Boulahia</span> — <span className="finsight-footer-brand">Zine Insight</span>
+                            🚀 Propulsé par <a href="https://www.zineinsight.com" className="finsight-footer-brand text-blue-600 hover:underline font-bold">ZineInsight</a> — Dashboards sur-mesure pour PME/ETI
+                        </p>
+                        <p className="finsight-footer-sub">
+                            FinSight © 2025
                         </p>
                     </div>
                 </div>

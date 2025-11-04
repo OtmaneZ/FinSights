@@ -17,7 +17,6 @@ export default function Home() {
                             Prendre rendez-vous
                         </a>
                         <a href="/dashboard" className="finsight-nav-link">Démo</a>
-                        <a href="/methodologie" className="finsight-nav-link">Méthodologie</a>
                         <a href="https://www.zineinsight.com" className="finsight-nav-link">ZineInsight</a>
                     </nav>
                 </div>
@@ -382,10 +381,10 @@ export default function Home() {
                             <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', color: '#fff', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: '700', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)' }}>
                                 1
                             </div>
-                            <div style={{ fontSize: '50px', marginBottom: '20px' }}>📤</div>
-                            <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: '#fff' }}>Importez votre CSV</h3>
+                            <div style={{ fontSize: '50px', marginBottom: '20px' }}>�️</div>
+                            <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '12px', color: '#fff' }}>Cliquez sur "Voir la démo"</h3>
                             <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.5)', lineHeight: '1.6' }}>
-                                Exportez vos données d'Excel ou de votre logiciel comptable. Glissez-déposez le fichier.
+                                Testez immédiatement avec nos données fictives PME Services (243k€ CA, 4 mois de transactions).
                             </p>
                         </div>
 
