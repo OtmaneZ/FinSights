@@ -13,9 +13,9 @@ export default function Home() {
                         </a>
                     </div>
                     <nav className="finsight-nav-menu finsight-nav-hidden" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                        <a href="mailto:otmane@zineinsight.com" className="finsight-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span>📧</span>
-                            <span>otmane@zineinsight.com</span>
+                        <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="finsight-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span>�</span>
+                            <span>Prendre rendez-vous</span>
                         </a>
                         <a href="/dashboard" className="finsight-nav-link">Démo</a>
                         <a href="/methodologie" className="finsight-nav-link">Méthodologie</a>
@@ -494,7 +494,9 @@ export default function Home() {
                         </div>
 
                         <a
-                            href="mailto:otmane@zineinsight.com?subject=Demande%20de%20devis%20-%20Dashboard%20Sur-Mesure&body=Bonjour%20Otmane%2C%0A%0AJe%20suis%20int%C3%A9ress%C3%A9(e)%20par%20un%20dashboard%20financier%20sur-mesure%20pour%20mon%20entreprise.%0A%0ANom%20de%20l'entreprise%20%3A%0ASecteur%20d'activit%C3%A9%20%3A%0ABesoins%20sp%C3%A9cifiques%20%3A%0A%0AMerci%20!"
+                            href="https://calendly.com/zineinsight"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             style={{
                                 display: 'inline-block',
                                 padding: '16px 40px',

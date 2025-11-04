@@ -69,6 +69,7 @@ export default function FinancialDashboard() {
     const [companySector, setCompanySector] = useState<CompanySector>('services')
     const [isDemoMode, setIsDemoMode] = useState(false)
     const [isAutoLoading, setIsAutoLoading] = useState(true)
+    const [showUploadModal, setShowUploadModal] = useState(false) // ✅ Modal upload sur RDV
 
     // 🚀 AUTO-LOAD DÉMO au premier chargement
     useEffect(() => {
@@ -704,7 +705,7 @@ export default function FinancialDashboard() {
                         <span>{isExporting ? 'Export...' : 'Export PDF'}</span>
                     </button>
                     <button
-                        onClick={() => setShowUploadZone(!showUploadZone)}
+                        onClick={() => setShowUploadModal(true)}
                         className="finsight-btn finsight-btn-secondary"
                     >
                         <CloudArrowUpIcon className="finsight-icon-sm" />
@@ -713,66 +714,173 @@ export default function FinancialDashboard() {
                 </div>
             </div>
 
-            {/* Zone d'Upload */}
-            {showUploadZone && (
-                <div className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6">
-                    <div className="text-center">
-                        <CloudArrowUpIcon className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                            Importer vos données financières
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-4">
-                            Déposez vos fichiers Excel (.xlsx, .xls) ou CSV pour actualiser votre dashboard
-                        </p>
+            {/* 🔒 Modal Upload sur RDV */}
+            {showUploadModal && (
+                <div 
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: 'rgba(0, 0, 0, 0.7)',
+                        backdropFilter: 'blur(4px)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 9999,
+                        padding: '20px'
+                    }}
+                    onClick={() => setShowUploadModal(false)}
+                >
+                    <div 
+                        style={{
+                            background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+                            borderRadius: '24px',
+                            maxWidth: '600px',
+                            width: '100%',
+                            padding: '48px 40px',
+                            boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)',
+                            border: '1px solid rgba(59, 130, 246, 0.3)',
+                            position: 'relative'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Bouton fermer */}
+                        <button
+                            onClick={() => setShowUploadModal(false)}
+                            style={{
+                                position: 'absolute',
+                                top: '20px',
+                                right: '20px',
+                                background: 'rgba(255, 255, 255, 0.1)',
+                                border: 'none',
+                                borderRadius: '50%',
+                                width: '36px',
+                                height: '36px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                color: '#fff',
+                                fontSize: '20px',
+                                transition: 'all 0.2s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+                        >
+                            ✕
+                        </button>
 
-                        {uploadStatus === 'idle' && (
-                            <div className="relative">
-                                <input
-                                    type="file"
-                                    accept=".xlsx,.xls,.csv"
-                                    onChange={(e) => handleFileUpload(e.target.files)}
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                />
-                                <div className="border-2 border-dashed border-blue-300 rounded-lg p-8 hover:border-blue-400 transition-colors cursor-pointer">
-                                    <div className="text-blue-600 font-medium">
-                                        📁 Cliquez pour sélectionner ou glissez vos fichiers ici
-                                    </div>
-                                    <div className="text-xs text-gray-500 mt-2">
-                                        Formats supportés : .xlsx, .xls, .csv (max 10MB)
-                                    </div>
+                        {/* Icône */}
+                        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                            <div style={{ fontSize: '64px', marginBottom: '16px' }}>💎</div>
+                            <h3 style={{ fontSize: '28px', fontWeight: '700', color: '#fff', marginBottom: '12px' }}>
+                                Analyse de VOS données
+                            </h3>
+                            <p style={{ fontSize: '16px', color: 'rgba(255, 255, 255, 0.7)', lineHeight: '1.6' }}>
+                                Cette fonctionnalité est disponible uniquement sur rendez-vous pour garantir une analyse optimale et personnalisée.
+                            </p>
+                        </div>
+
+                        {/* Bénéfices */}
+                        <div style={{ marginBottom: '32px' }}>
+                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '16px', padding: '12px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px' }}>
+                                <span style={{ fontSize: '24px' }}>✓</span>
+                                <div>
+                                    <strong style={{ color: '#60a5fa', fontSize: '15px' }}>Audit gratuit de 30 min</strong>
+                                    <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)', margin: '4px 0 0' }}>
+                                        Analyse de vos besoins avec un expert
+                                    </p>
                                 </div>
                             </div>
-                        )}
-
-                        {uploadStatus === 'uploading' && (
-                            <div className="text-center p-8">
-                                <div className="animate-spin h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-                                <div className="text-blue-600 font-medium">Traitement en cours...</div>
-                                <div className="text-sm text-gray-500">Analyse et intégration de vos données</div>
+                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '16px', padding: '12px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px' }}>
+                                <span style={{ fontSize: '24px' }}>✓</span>
+                                <div>
+                                    <strong style={{ color: '#60a5fa', fontSize: '15px' }}>Configuration personnalisée</strong>
+                                    <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)', margin: '4px 0 0' }}>
+                                        Dashboard adapté à votre système comptable
+                                    </p>
+                                </div>
                             </div>
-                        )}
-
-                        {uploadStatus === 'success' && (
-                            <div className="text-center p-8">
-                                <CheckCircleIcon className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                                <div className="text-green-600 font-medium text-lg">✅ Import réussi !</div>
-                                <div className="text-sm text-gray-600">Vos données ont été intégrées au dashboard</div>
+                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px' }}>
+                                <span style={{ fontSize: '24px' }}>✓</span>
+                                <div>
+                                    <strong style={{ color: '#60a5fa', fontSize: '15px' }}>Formation & support inclus</strong>
+                                    <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)', margin: '4px 0 0' }}>
+                                        Prise en main complète de votre outil
+                                    </p>
+                                </div>
                             </div>
-                        )}
-
-                        {uploadStatus === 'error' && (
-                            <div className="text-center p-8">
-                                <ExclamationTriangleIcon className="h-12 w-12 text-red-600 mx-auto mb-4" />
-                                <div className="text-red-600 font-medium">❌ Erreur d'import</div>
-                                <div className="text-sm text-gray-500">Format non supporté. Utilisez .xlsx, .xls ou .csv</div>
-                            </div>
-                        )}
-
-                        <div className="mt-4 flex justify-center space-x-4 text-xs text-gray-500">
-                            <span>🔒 Données sécurisées</span>
-                            <span>⚡ Traitement instantané</span>
-                            <span>🎯 KPIs auto-générés</span>
                         </div>
+
+                        {/* CTAs */}
+                        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                            <a
+                                href="https://calendly.com/zineinsight"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                    flex: '1',
+                                    minWidth: '200px',
+                                    padding: '16px 24px',
+                                    background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                                    color: '#fff',
+                                    fontSize: '16px',
+                                    fontWeight: '700',
+                                    borderRadius: '12px',
+                                    textDecoration: 'none',
+                                    textAlign: 'center',
+                                    transition: 'all 0.3s',
+                                    boxShadow: '0 4px 20px rgba(59, 130, 246, 0.4)',
+                                    cursor: 'pointer',
+                                    border: 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-2px)';
+                                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(59, 130, 246, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(59, 130, 246, 0.4)';
+                                }}
+                            >
+                                📅 Prendre rendez-vous
+                            </a>
+                            <a
+                                href="mailto:otmane@zineinsight.com?subject=Analyse de mes données financières&body=Bonjour Otmane,%0A%0AJe suis intéressé(e) par l'analyse de mes données financières avec FinSight.%0A%0APouvez-vous me recontacter pour discuter de mes besoins ?%0A%0AMerci !"
+                                style={{
+                                    flex: '1',
+                                    minWidth: '200px',
+                                    padding: '16px 24px',
+                                    background: 'rgba(255, 255, 255, 0.1)',
+                                    color: '#fff',
+                                    fontSize: '16px',
+                                    fontWeight: '600',
+                                    borderRadius: '12px',
+                                    textDecoration: 'none',
+                                    textAlign: 'center',
+                                    transition: 'all 0.3s',
+                                    border: '2px solid rgba(255, 255, 255, 0.2)',
+                                    cursor: 'pointer'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                                }}
+                            >
+                                � Nous contacter
+                            </a>
+                        </div>
+
+                        {/* Note de bas */}
+                        <p style={{ marginTop: '24px', textAlign: 'center', fontSize: '13px', color: 'rgba(255, 255, 255, 0.5)' }}>
+                            🔒 Vos données restent 100% confidentielles
+                        </p>
                     </div>
                 </div>
             )}
@@ -808,7 +916,9 @@ export default function FinancialDashboard() {
                         </div>
                         <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
                             <a
-                                href="mailto:otmane@zineinsight.com"
+                                href="https://calendly.com/zineinsight"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 style={{
                                     display: 'inline-flex',
                                     alignItems: 'center',
@@ -826,7 +936,7 @@ export default function FinancialDashboard() {
                                 onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
                                 onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                             >
-                                📧 otmane@zineinsight.com
+                                � Prendre rendez-vous
                             </a>
                             <button
                                 onClick={() => {

@@ -275,10 +275,12 @@ export default function MethodologyPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
-                        href="mailto:otmane@zineinsight.com?subject=Audit gratuit FinSight Dashboard&body=Bonjour Otmane,%0A%0AJe souhaiterais programmer un audit gratuit pour évaluer mes besoins en dashboard financier.%0A%0AMon contexte:%0A- Entreprise: %0A- Secteur: %0A- CA approximatif: %0A- Problématiques actuelles: %0A%0AMerci"
+                        href="https://calendly.com/zineinsight"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
                     >
-                        📧 Audit Gratuit
+                        � Prendre rendez-vous
                     </a>
                     <a
                         href="https://calendly.com/otmane-zineinsight/audit-dashboard"
