@@ -8,7 +8,10 @@ export default function DashboardPage() {
             <header className="finsight-header">
                 <div className="finsight-nav-container">
                     <div className="finsight-brand-container">
-                        <h1 className="finsight-brand">FinSight</h1>
+                        <a href="/" className="finsight-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <img src="/images/zineinsights_logo.jpeg" alt="FinSight Logo" style={{ width: '40px', height: '40px', borderRadius: '8px' }} />
+                            <span>FinSight</span>
+                        </a>
                         <span className="finsight-brand-subtitle">Dashboard</span>
                     </div>
                     <nav className="finsight-nav-menu finsight-nav-hidden" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
@@ -18,7 +21,7 @@ export default function DashboardPage() {
                         </a>
                         <a href="/" className="finsight-nav-link">Accueil</a>
                         <a href="/methodologie" className="finsight-nav-link">Méthodologie</a>
-                        <a href="https://zineinsight.com" className="finsight-nav-link" target="_blank" rel="noopener noreferrer">Zine Insight</a>
+                        <a href="https://www.zineinsight.com" className="finsight-nav-link">ZineInsight</a>
                     </nav>
                 </div>
             </header>

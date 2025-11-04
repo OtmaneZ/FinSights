@@ -18,7 +18,8 @@ export default function Home() {
                             <span>otmane@zineinsight.com</span>
                         </a>
                         <a href="/dashboard" className="finsight-nav-link">Démo</a>
-                        <a href="https://www.zineinsight.com" className="finsight-nav-link">ZineInsight.com</a>
+                        <a href="/methodologie" className="finsight-nav-link">Méthodologie</a>
+                        <a href="https://www.zineinsight.com" className="finsight-nav-link">ZineInsight</a>
                     </nav>
                 </div>
             </header>
