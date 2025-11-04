@@ -911,7 +911,7 @@ export default function FinancialDashboard() {
                                 Vous visualisez une <strong>PME Services B2B</strong> (8M€ CA • 120 transactions)
                             </p>
                             <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.95)', fontWeight: '600', margin: 0 }}>
-                                ✨ Impressionné par les résultats ? Obtenez votre dashboard personnalisé :
+                                📊 Obtenez votre dashboard personnalisé :
                             </p>
                         </div>
                         <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -936,40 +936,9 @@ export default function FinancialDashboard() {
                                 onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
                                 onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                             >
-                                � Prendre rendez-vous
+                                📅 Prendre rendez-vous
                             </a>
-                            <button
-                                onClick={() => {
-                                    setIsDemoMode(false);
-                                    setIsDataLoaded(false);
-                                    setIsAutoLoading(false);
-                                    setKpis([]);
-                                    setRawData([]);
-                                    setShowUploadZone(true);
-                                }}
-                                style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '8px',
-                                    background: 'rgba(255, 255, 255, 0.15)',
-                                    border: '1px solid rgba(255, 255, 255, 0.3)',
-                                    color: '#fff',
-                                    padding: '12px 20px',
-                                    borderRadius: '8px',
-                                    fontSize: '14px',
-                                    fontWeight: '600',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
-                                }}
-                            >
-                                🔄 Tester mes données
-                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -998,7 +967,7 @@ export default function FinancialDashboard() {
                             Chargement de la démonstration
                         </h3>
                         <p style={{ fontSize: '16px', color: '#6b7280' }}>
-                            Préparation du dashboard avec données fictives...
+                            Préparation du dashboard avec données de démonstration...
                         </p>
                     </div>
                     <style dangerouslySetInnerHTML={{

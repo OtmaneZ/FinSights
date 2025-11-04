@@ -69,13 +69,13 @@ export default function Home() {
                                 <div style={{ fontSize: '1.3rem', fontWeight: '700', color: '#60a5fa', marginBottom: '4px' }}>Master</div>
                                 <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Finance Internationale</div>
                             </div>
-                            
+
                             <div style={{ padding: '16px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '12px', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
                                 <div style={{ fontSize: '2rem', marginBottom: '8px' }}>👨‍🏫</div>
                                 <div style={{ fontSize: '1.3rem', fontWeight: '700', color: '#a78bfa', marginBottom: '4px' }}>10 ans</div>
                                 <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Enseignant Finance</div>
                             </div>
-                            
+
                             <div style={{ padding: '16px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '12px', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
                                 <div style={{ fontSize: '2rem', marginBottom: '8px' }}>💻</div>
                                 <div style={{ fontSize: '1.3rem', fontWeight: '700', color: '#4ade80', marginBottom: '4px' }}>Data Scientist</div>
@@ -85,7 +85,7 @@ export default function Home() {
 
                         <div style={{ display: 'inline-block', padding: '1.5rem 2rem', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', border: '1px solid rgba(59, 130, 246, 0.2)', marginTop: '1.5rem' }}>
                             <p style={{ color: '#60a5fa', fontSize: '1rem', fontStyle: 'italic', lineHeight: '1.6' }}>
-                                � "Après avoir enseigné la finance pendant 10 ans, j'ai compris qu'il manquait un outil :<br />
+                                "Après avoir enseigné la finance pendant 10 ans, j'ai compris qu'il manquait un outil :<br />
                                 <strong style={{ color: '#93c5fd' }}>un dashboard qui parle le langage des dirigeants, pas celui des tableurs Excel</strong>."
                             </p>
                             <p style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '0.75rem' }}>
@@ -100,7 +100,7 @@ export default function Home() {
                     <h3 style={{ fontSize: '2rem', fontWeight: '700', color: '#fff', textAlign: 'center', marginBottom: '3rem' }}>
                         Pourquoi j'ai créé FinSight ?
                     </h3>
-                    
+
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '3rem' }}>
                         {/* Problème constaté */}
                         <div style={{ background: 'rgba(239, 68, 68, 0.1)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
@@ -356,7 +356,7 @@ export default function Home() {
                                     e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 99, 235, 0.3)';
                                 }}
                             >
-                                � Voir la démo complète
+                                Voir la démo complète
                             </a>
                         </div>
                     </div>
@@ -653,17 +653,17 @@ export default function Home() {
                         <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🇫🇷</div>
                         <p style={{ color: '#cbd5e1', fontSize: '0.95rem', fontWeight: '600' }}>Membre France Digitale</p>
                     </div>
-                    
+
                     <div style={{ background: 'rgba(148, 163, 184, 0.1)', borderRadius: '12px', padding: '1.5rem', border: '1px solid rgba(148, 163, 184, 0.2)', textAlign: 'center' }}>
                         <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🐍</div>
                         <p style={{ color: '#cbd5e1', fontSize: '0.95rem', fontWeight: '600' }}>PyData Paris 2025</p>
                     </div>
-                    
+
                     <div style={{ background: 'rgba(148, 163, 184, 0.1)', borderRadius: '12px', padding: '1.5rem', border: '1px solid rgba(148, 163, 184, 0.2)', textAlign: 'center' }}>
                         <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📊</div>
                         <p style={{ color: '#cbd5e1', fontSize: '0.95rem', fontWeight: '600' }}>Portfolio Optimization</p>
                     </div>
-                    
+
                     <div style={{ background: 'rgba(148, 163, 184, 0.1)', borderRadius: '12px', padding: '1.5rem', border: '1px solid rgba(148, 163, 184, 0.2)', textAlign: 'center' }}>
                         <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>💡</div>
                         <p style={{ color: '#cbd5e1', fontSize: '0.95rem', fontWeight: '600' }}>KPIs Analysis</p>
@@ -675,9 +675,9 @@ export default function Home() {
                         🚀 <strong style={{ color: '#c7d2fe' }}>Founder @ ZineInsights</strong> (août 2025 - présent)<br />
                         <span style={{ color: '#a5b4fc', fontSize: '1rem' }}>Data & Finance Strategist | Pilotage de la Performance</span>
                     </p>
-                    <a 
-                        href="https://www.linkedin.com/in/otmane-boulahia-553bb6363/" 
-                        target="_blank" 
+                    <a
+                        href="https://www.linkedin.com/in/otmane-boulahia-553bb6363/"
+                        target="_blank"
                         rel="noopener noreferrer"
                         style={{
                             display: 'inline-flex',
@@ -695,7 +695,7 @@ export default function Home() {
                         }}
                     >
                         <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                         </svg>
                         Voir mon profil LinkedIn
                     </a>
