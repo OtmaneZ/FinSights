@@ -37,7 +37,11 @@
 
 **🌐 Try it now:** [finsight.zineinsight.com](https://finsight.zineinsight.com)
 
-- Click **"Voir la démo"** to load sample data (fictional SME with 243k€ revenue)
+**Choose from 3 realistic financial scenarios:**
+- 🟢 **PME Services** (Healthy): 243k€ revenue, solid margins, 20% overdue
+- 🟠 **Startup SaaS** (Struggling): 24k€ revenue, 82% overdue invoices, cash burn
+- 🚀 **Scale-up Tech** (Hypergrowth): 1.2M€ revenue, Series A funding, CAC40 clients
+
 - Test the **AI Copilot** with questions like:
   - "Quelle est la part de Société Générale Digital dans le CA ?"
   - "Comment se compare la marge au benchmark SaaS B2B ?"
