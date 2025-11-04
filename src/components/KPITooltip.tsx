@@ -18,11 +18,7 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
     const glossaryId = KPI_TO_GLOSSARY_MAP[kpiTitle];
     const glossaryEntry = glossaryId ? getGlossaryEntry(glossaryId) : null;
 
-    // Si pas de définition dans le glossaire, ne rien afficher
-    if (!glossaryEntry) {
-        return <>{children}</>;
-    }
-
+    // ✅ Hook AVANT le return conditionnel (règle React)
     useEffect(() => {
         if (isOpen && tooltipRef.current && triggerRef.current) {
             const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -37,6 +33,11 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
             }
         }
     }, [isOpen]);
+
+    // Si pas de définition dans le glossaire, ne rien afficher
+    if (!glossaryEntry) {
+        return <>{children}</>;
+    }
 
     const getRiskLevelColor = (value: number, thresholds: any) => {
         // TODO: Implémenter logique de comparaison avec seuils
