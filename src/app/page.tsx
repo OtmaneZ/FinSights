@@ -61,7 +61,7 @@ export default function Home() {
                     </p>
                     <div style={{ display: 'inline-block', padding: '1.5rem 2rem', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
                         <p style={{ color: '#60a5fa', fontSize: '1rem', fontStyle: 'italic' }}>
-                            💬 "2h de reporting économisées par semaine. L'IA répond mieux que mon expert-comptable."
+                            💬 "Enfin un outil qui me donne une vision claire en temps réel. Fini les heures perdues sur Excel."
                         </p>
                         <p style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '0.5rem' }}>
                             — DAF, PME Services 8M€ CA
