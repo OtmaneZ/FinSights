@@ -598,6 +598,96 @@ export default function Home() {
                 </div>
             </div>
 
+            {/* Section Tarifs Sur-Mesure */}
+            <div style={{ background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(15, 61, 122, 0.05) 100%)', padding: '100px 20px', borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
+                    <div style={{ display: 'inline-block', padding: '8px 20px', background: 'rgba(59, 130, 246, 0.15)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '50px', fontSize: '13px', fontWeight: '600', color: '#60a5fa', marginBottom: '30px' }}>
+                        💼 Dashboards Sur-Mesure
+                    </div>
+                    <h2 style={{ fontSize: '42px', fontWeight: '700', marginBottom: '25px', color: '#fff', lineHeight: '1.2' }}>
+                        Tarifs adaptés à votre projet
+                    </h2>
+                    <p style={{ fontSize: '18px', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '50px', maxWidth: '700px', margin: '0 auto 50px', lineHeight: '1.6' }}>
+                        Chaque entreprise a des besoins uniques. Nous construisons votre solution financière personnalisée.
+                    </p>
+
+                    {/* Pricing Box */}
+                    <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '50px 40px', borderRadius: '24px', border: '2px solid rgba(59, 130, 246, 0.2)', maxWidth: '600px', margin: '0 auto 50px', position: 'relative', overflow: 'hidden' }}>
+                        <div style={{ position: 'absolute', top: '0', right: '0', background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', padding: '8px 20px', borderBottomLeftRadius: '16px', fontSize: '12px', fontWeight: '700', color: '#fff' }}>
+                            ⭐ SUR-MESURE
+                        </div>
+                        <div style={{ fontSize: '48px', fontWeight: '800', color: '#3b82f6', marginBottom: '10px' }}>
+                            À partir de 2 500€
+                        </div>
+                        <p style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.5)', marginBottom: '40px' }}>
+                            Projet complet • Tarif selon complexité
+                        </p>
+
+                        <div style={{ textAlign: 'left', marginBottom: '40px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', padding: '12px', background: 'rgba(34, 197, 94, 0.05)', borderRadius: '8px' }}>
+                                <span style={{ fontSize: '20px' }}>✓</span>
+                                <span style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.85)' }}><strong>Analyse gratuite</strong> de vos besoins (30 min)</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', padding: '12px', background: 'rgba(34, 197, 94, 0.05)', borderRadius: '8px' }}>
+                                <span style={{ fontSize: '20px' }}>✓</span>
+                                <span style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.85)' }}><strong>Devis personnalisé</strong> sous 48h</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', padding: '12px', background: 'rgba(34, 197, 94, 0.05)', borderRadius: '8px' }}>
+                                <span style={{ fontSize: '20px' }}>✓</span>
+                                <span style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.85)' }}><strong>Accompagnement</strong> de A à Z</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', background: 'rgba(34, 197, 94, 0.05)', borderRadius: '8px' }}>
+                                <span style={{ fontSize: '20px' }}>✓</span>
+                                <span style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.85)' }}><strong>Formation</strong> & documentation incluses</span>
+                            </div>
+                        </div>
+
+                        <a 
+                            href="mailto:otmane@zineinsight.com?subject=Demande%20de%20devis%20-%20Dashboard%20Sur-Mesure&body=Bonjour%20Otmane%2C%0A%0AJe%20suis%20int%C3%A9ress%C3%A9(e)%20par%20un%20dashboard%20financier%20sur-mesure%20pour%20mon%20entreprise.%0A%0ANom%20de%20l'entreprise%20%3A%0ASecteur%20d'activit%C3%A9%20%3A%0ABesoins%20sp%C3%A9cifiques%20%3A%0A%0AMerci%20!" 
+                            style={{ 
+                                display: 'inline-block',
+                                padding: '16px 40px',
+                                background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                                color: '#fff',
+                                fontSize: '16px',
+                                fontWeight: '700',
+                                borderRadius: '12px',
+                                textDecoration: 'none',
+                                transition: 'all 0.3s ease',
+                                boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)',
+                                cursor: 'pointer'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.boxShadow = '0 8px 30px rgba(59, 130, 246, 0.4)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(59, 130, 246, 0.3)';
+                            }}
+                        >
+                            📧 Demander un devis gratuit
+                        </a>
+                    </div>
+
+                    {/* Trust Elements */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '30px', maxWidth: '800px', margin: '0 auto' }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '32px', marginBottom: '10px' }}>⚡</div>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Livraison sous<br/><strong style={{ color: '#fff' }}>2-4 semaines</strong></p>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '32px', marginBottom: '10px' }}>💎</div>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Tarifs basés sur<br/><strong style={{ color: '#fff' }}>TJM 667€</strong></p>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '32px', marginBottom: '10px' }}>🎯</div>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>100% adapté<br/><strong style={{ color: '#fff' }}>à vos besoins</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* Footer */}
             <footer className="finsight-footer">
                 <div className="finsight-footer-content">
