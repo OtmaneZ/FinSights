@@ -1,64 +1,65 @@
 Date,Description,Montant,Client,Date_echeance,Statut_paiement,Categorie,Prix_vente,Cout_unitaire
-01/08/2024,Licence SaaS Pro - Restaurant Le Comptoir,899.00,Restaurant Le Comptoir,15/08/2024,En attente,Ventes,899.00,719.20
-02/08/2024,Licence SaaS Basic - Boulangerie Martin,299.00,Boulangerie Martin,17/08/2024,En attente,Ventes,299.00,269.10
-03/08/2024,Achat serveurs cloud AWS - EC2 instances,-2847.92,Amazon Web Services,03/08/2024,Payé,Infrastructure IT,0,2847.92
+01/08/2024,Licence SaaS Pro - Restaurant Le Comptoir,899.00,Restaurant Le Comptoir,15/08/2024,Payé,Ventes,899.00,719.20
+02/08/2024,Licence SaaS Basic - Boulangerie Martin,299.00,Boulangerie Martin,17/08/2024,En attente,Ventes,299.00,239.20
+03/08/2024,Achat serveurs cloud AWS - EC2 instances,-1847.92,Amazon Web Services,03/08/2024,Payé,Infrastructure IT,0,1847.92
 04/08/2024,Consulting technique - Débug urgent,1200.00,PME Industrie Local,20/08/2024,En attente,Services,1200.00,960.00
-05/08/2024,Licence SaaS Basic - Garage Auto Express,299.00,Garage Auto Express,22/08/2024,En attente,Ventes,299.00,269.10
+05/08/2024,Licence SaaS Basic - Garage Auto Express,299.00,Garage Auto Express,22/08/2024,En attente,Ventes,299.00,239.20
 06/08/2024,Abonnement Notion Team mensuel,-16.99,Notion Labs Inc,06/08/2024,Payé,Infrastructure IT,0,16.99
 07/08/2024,Loyer bureaux août - 80m² Banlieue,-2200.00,SCI Location Banlieue,01/08/2024,Payé,Immobilier,0,2200.00
-08/08/2024,Licence SaaS Pro - Pharmacie Santé Plus,899.00,Pharmacie Santé Plus,25/08/2024,En attente,Ventes,899.00,719.20
+08/08/2024,Licence SaaS Pro - Pharmacie Santé Plus,899.00,Pharmacie Santé Plus,25/08/2024,Payé,Ventes,899.00,719.20
 09/08/2024,Formation basique Excel - 3 participants,450.00,TPE Menuiserie Bois,28/08/2024,En attente,Services,450.00,360.00
 10/08/2024,Frais télécom et internet - Fibre 100Mb/s,-89.90,Orange Business Services,31/08/2024,Payé,Télécoms,0,89.90
-12/08/2024,Licence SaaS Basic - Fleuriste Roses,299.00,Fleuriste Les Roses,05/09/2024,En attente,Ventes,299.00,269.10
+12/08/2024,Licence SaaS Basic - Fleuriste Roses,299.00,Fleuriste Les Roses,05/09/2024,En attente,Ventes,299.00,239.20
 14/08/2024,Consulting dépannage IT,800.00,Commerce Local Textile,10/09/2024,En attente,Services,800.00,640.00
 15/08/2024,Déplacement client Paris - Train,-67.80,SNCF Mobilités,15/08/2024,Payé,Mobilité,0,67.80
-18/08/2024,Salaires équipe août - 2 devs + 1 commercial,-14200.00,URSSAF Île-de-France,31/08/2024,Payé,Masse Salariale,0,14200.00
-19/08/2024,Licence SaaS Basic - Coiffure Style,299.00,Salon Coiffure Style,12/09/2024,En attente,Ventes,299.00,269.10
+18/08/2024,Salaires équipe août - 2 devs + 1 commercial,-9200.00,URSSAF Île-de-France,31/08/2024,Payé,Masse Salariale,0,9200.00
+19/08/2024,Licence SaaS Basic - Coiffure Style,299.00,Salon Coiffure Style,12/09/2024,En attente,Ventes,299.00,239.20
 20/08/2024,Vente Module Basic - Fonctionnalités limitées,1500.00,Petite Épicerie Bio,15/09/2024,En attente,Ventes,1500.00,1200.00
 21/08/2024,Abonnement Figma Professional,-45.00,Figma Inc,21/08/2024,Payé,Infrastructure IT,0,45.00
 22/08/2024,Assurance RC pro annuelle - Tarif startup,-567.00,AXA Entreprises,22/08/2024,Payé,Assurances,0,567.00
-25/08/2024,Licence SaaS Pro - Cabinet Kiné Santé,899.00,Cabinet Kiné Santé,20/09/2024,En attente,Ventes,899.00,719.20
+25/08/2024,Licence SaaS Pro - Cabinet Kiné Santé,899.00,Cabinet Kiné Santé,20/09/2024,Payé,Ventes,899.00,719.20
 27/08/2024,Café réunion prospect - Non conclu,-28.50,Starbucks,27/08/2024,Payé,Mobilité,0,28.50
-28/08/2024,Facture électricité août - Petit bureau,-234.50,EDF Entreprises,15/09/2024,En cours,Immobilier,0,234.50
+28/08/2024,Facture électricité août - Petit bureau,-134.50,EDF Entreprises,15/09/2024,Payé,Immobilier,0,134.50
 30/08/2024,Vente Formation basique - 4 participants,600.00,Association Locale,25/09/2024,En attente,Services,600.00,480.00
 31/08/2024,Abonnement Slack Standard,-89.00,Slack Technologies,31/08/2024,Payé,Télécoms,0,89.00
 01/09/2024,Maintenance cloud - VPS basique,-234.00,OVHcloud SAS,01/09/2024,Payé,Infrastructure IT,0,234.00
-02/09/2024,Licence SaaS Basic - Pressing Express,299.00,Pressing Express,28/09/2024,En attente,Ventes,299.00,269.10
-05/09/2024,Frais marketing Facebook Ads - Budget serré,-450.00,Meta Platforms Ireland,05/09/2024,Payé,Marketing,0,450.00
+02/09/2024,Licence SaaS Basic - Pressing Express,299.00,Pressing Express,28/09/2024,En attente,Ventes,299.00,239.20
+05/09/2024,Frais marketing Facebook Ads - Budget serré,-350.00,Meta Platforms Ireland,05/09/2024,Payé,Marketing,0,350.00
 07/09/2024,Licence SaaS Pro - Agence Immo Quartier,899.00,Agence Immo Quartier,05/10/2024,En attente,Ventes,899.00,719.20
 08/09/2024,Consulting dépannage - Bug production,950.00,Startup Tech Local,10/10/2024,En attente,Services,950.00,760.00
-10/09/2024,Achat licences Office 365 - 5 users,-456.00,Microsoft France SARL,10/09/2024,Payé,Infrastructure IT,0,456.00
-12/09/2024,Vente Module Standard - PME locale,2100.00,Commerce Proximité,15/10/2024,En attente,Ventes,2100.00,1680.00
-14/09/2024,Abonnement GitHub Basic,-78.00,GitHub Inc,14/09/2024,Payé,Infrastructure IT,0,78.00
-15/09/2024,Salaires septembre - 2 devs + 1 commercial,-14200.00,URSSAF Île-de-France,30/09/2024,En cours,Masse Salariale,0,14200.00
-18/09/2024,Licence SaaS Basic - Vétérinaire AnimaCare,299.00,Vétérinaire AnimaCare,20/10/2024,En attente,Ventes,299.00,269.10
-20/09/2024,Déplacement prospect Lyon - TGV A/R,-145.00,SNCF Voyageurs,20/09/2024,Payé,Mobilité,0,145.00
-22/09/2024,Licence SaaS Pro - Expert Comptable Solo,899.00,Expert Comptable Dupuis,25/10/2024,En attente,Ventes,899.00,719.20
-25/09/2024,Consulting urgence - Perte données,1800.00,PME Distribution,30/10/2024,En attente,Services,1800.00,1440.00
-27/09/2024,Abonnement Zoom Basic - 10 licences,-123.00,Zoom Video Communications,27/09/2024,Payé,Télécoms,0,123.00
-28/09/2024,Maintenance matériel - Réparation PC,-267.00,Bureau Vallée Services,28/09/2024,Payé,Services Pro,0,267.00
-01/10/2024,Loyer bureaux octobre - 80m² Banlieue,-2200.00,SCI Location Banlieue,01/10/2024,En cours,Immobilier,0,2200.00
-03/10/2024,Licence SaaS Basic - Librairie Pages,299.00,Librairie Pages,05/11/2024,En attente,Ventes,299.00,269.10
-05/10/2024,Frais comptabilité - Bilan annuel,-890.00,Cabinet Comptable Local,05/10/2024,Payé,Services Pro,0,890.00
-07/10/2024,Vente Module Basic - Artisan,1200.00,Plomberie Chauffage Pro,10/11/2024,En attente,Ventes,1200.00,960.00
-08/10/2024,Licence SaaS Pro - Notaire Cabinet,899.00,Notaire Office Local,12/11/2024,En attente,Ventes,899.00,719.20
-10/10/2024,Achat écran + clavier - Poste dev,-456.00,LDLC Pro,10/10/2024,Payé,Infrastructure IT,0,456.00
-12/10/2024,Formation dépannage - 2 participants,300.00,Artisan Électricien,15/11/2024,En attente,Services,300.00,240.00
-14/10/2024,Licence SaaS Basic - Opticien Regard,299.00,Opticien Regard,18/11/2024,En attente,Ventes,299.00,269.10
-15/10/2024,Salaires octobre - 2 devs + 1 commercial,-14200.00,URSSAF Île-de-France,31/10/2024,En cours,Masse Salariale,0,14200.00
-17/10/2024,Abonnement Dropbox Standard,-89.00,Dropbox Inc,17/10/2024,Payé,Infrastructure IT,0,89.00
+10/09/2024,Achat licences Office 365 - 5 users,-356.00,Microsoft France SARL,10/09/2024,Payé,Infrastructure IT,0,356.00
+12/09/2024,Licence SaaS Pro - Restaurant Gastronomie,899.00,Restaurant Gastronomie,20/10/2024,Payé,Ventes,899.00,719.20
+14/09/2024,Formation PowerBI - 2 participants,780.00,PME Commerce,25/10/2024,En attente,Services,780.00,624.00
+15/09/2024,Salaires septembre - 2 devs + 1 commercial,-9200.00,URSSAF Île-de-France,30/09/2024,Payé,Masse Salariale,0,9200.00
+17/09/2024,Licence SaaS Basic - Vétérinaire,299.00,Clinique Vétérinaire,30/10/2024,En attente,Ventes,299.00,239.20
+19/09/2024,Frais comptable septembre,-890.00,Cabinet Expert-Comptable,19/09/2024,Payé,Services Externes,0,890.00
+20/09/2024,Licence SaaS Pro - Avocat Cabinet,899.00,Cabinet Avocat Droit,05/11/2024,En attente,Ventes,899.00,719.20
+22/09/2024,Déplacement salon startup - Billets train,-156.00,SNCF Mobilités,22/09/2024,Payé,Mobilité,0,156.00
+25/09/2024,Vente Module Standard - TPE,1350.00,Artisan Plomberie,10/11/2024,En attente,Ventes,1350.00,1080.00
+27/09/2024,Abonnement GitHub Teams,-234.00,GitHub Inc,27/09/2024,Payé,Infrastructure IT,0,234.00
+28/09/2024,Licence SaaS Basic - Opticien,299.00,Opticien Vision,15/11/2024,En attente,Ventes,299.00,239.20
+30/09/2024,Facture gaz septembre,-78.00,Engie Pro,15/10/2024,Payé,Immobilier,0,78.00
+01/10/2024,Loyer bureaux octobre - 80m² Banlieue,-2200.00,SCI Location Banlieue,01/10/2024,Payé,Immobilier,0,2200.00
+03/10/2024,Licence SaaS Pro - Expert-Comptable,899.00,Cabinet Compta Plus,20/11/2024,Payé,Ventes,899.00,719.20
+05/10/2024,Consulting technique - Migration données,1100.00,PME Services,25/11/2024,En attente,Services,1100.00,880.00
+07/10/2024,Frais télécom octobre,-89.90,Orange Business Services,31/10/2024,Payé,Télécoms,0,89.90
+09/10/2024,Licence SaaS Basic - Architecte,299.00,Cabinet Architecture,28/11/2024,En attente,Ventes,299.00,239.20
+11/10/2024,Abonnement Zoom Pro,-145.00,Zoom Video Communications,11/10/2024,Payé,Télécoms,0,145.00
+13/10/2024,Licence SaaS Pro - Kinésithérapeute,899.00,Cabinet Kiné Sport,30/11/2024,En attente,Ventes,899.00,719.20
+15/10/2024,Salaires octobre - 2 devs + 1 commercial,-9200.00,URSSAF Île-de-France,31/10/2024,Payé,Masse Salariale,0,9200.00
+17/10/2024,Vente Formation Analytics - 3 personnes,690.00,TPE Retail,05/12/2024,En attente,Services,690.00,552.00
 19/10/2024,Licence SaaS Pro - Médecin Cabinet,899.00,Cabinet Médical Quartier,22/11/2024,En attente,Ventes,899.00,719.20
 20/10/2024,Frais hébergement web - Serveur mutualisé,-78.00,OVHcloud SAS,20/10/2024,Payé,Infrastructure IT,0,78.00
 22/10/2024,Vente Module Standard - Commerce local,1650.00,Boucherie Tradition,25/11/2024,En attente,Ventes,1650.00,1320.00
-25/10/2024,Facture eau octobre - Bureaux,-89.00,Veolia Eau,10/11/2024,En cours,Immobilier,0,89.00
+25/10/2024,Facture eau octobre - Bureaux,-89.00,Veolia Eau,10/11/2024,Payé,Immobilier,0,89.00
 27/10/2024,Déplacement prospect - Essence + parking,-67.00,Diverses dépenses,27/10/2024,Payé,Mobilité,0,67.00
-28/10/2024,Licence SaaS Basic - Dentiste,299.00,Cabinet Dentaire Sourire,28/11/2024,En attente,Ventes,299.00,269.10
-30/10/2024,Maintenance cloud - Backup mensuel,-156.00,Amazon Web Services,15/11/2024,En cours,Infrastructure IT,0,156.00
+28/10/2024,Licence SaaS Basic - Dentiste,299.00,Cabinet Dentaire Sourire,28/11/2024,Payé,Ventes,299.00,239.20
+30/10/2024,Maintenance cloud - Backup mensuel,-156.00,Amazon Web Services,15/11/2024,Payé,Infrastructure IT,0,156.00
 01/11/2024,Consulting dépannage rapide,700.00,Restaurant Bistronomie,30/11/2024,En attente,Services,700.00,560.00
-03/11/2024,Abonnement LinkedIn Basic,-234.00,LinkedIn Corporation,03/11/2024,Payé,Marketing,0,234.00
-05/11/2024,Licence SaaS Basic - Tatoueur Studio,299.00,Tatoueur Art Studio,05/12/2024,En attente,Ventes,299.00,269.10
+03/11/2024,Abonnement LinkedIn Basic,-134.00,LinkedIn Corporation,03/11/2024,Payé,Marketing,0,134.00
+05/11/2024,Licence SaaS Basic - Tatoueur Studio,299.00,Tatoueur Art Studio,05/12/2024,En attente,Ventes,299.00,239.20
 07/11/2024,Vente Formation urgente - 3 participants,450.00,TPE Commerce,08/12/2024,En attente,Services,450.00,360.00
 10/11/2024,Licence SaaS Pro - Psychologue Cabinet,899.00,Psychologue Cabinet,10/12/2024,En attente,Ventes,899.00,719.20
 12/11/2024,Déplacement rendez-vous - Métro + taxi,-34.00,Diverses dépenses,12/11/2024,Payé,Mobilité,0,34.00
-14/11/2024,Licence SaaS Basic - Photographe,299.00,Studio Photo Local,15/12/2024,En attente,Ventes,299.00,269.10
-15/11/2024,Salaires novembre - 2 devs + 1 commercial,-14200.00,URSSAF Île-de-France,30/11/2024,En attente,Masse Salariale,0,14200.00
+14/11/2024,Licence SaaS Basic - Photographe,299.00,Studio Photo Local,15/12/2024,En attente,Ventes,299.00,239.20
+15/11/2024,Salaires novembre - 2 devs + 1 commercial,-9200.00,URSSAF Île-de-France,30/11/2024,Payé,Masse Salariale,0,9200.00

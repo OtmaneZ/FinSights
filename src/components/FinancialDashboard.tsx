@@ -72,19 +72,45 @@ export default function FinancialDashboard() {
     const [loadingProgress, setLoadingProgress] = useState(0)
     const [loadingMessage, setLoadingMessage] = useState('')
     const [showUploadModal, setShowUploadModal] = useState(false) // ✅ Modal upload sur RDV
+    const [selectedScenario, setSelectedScenario] = useState<'saine' | 'difficulte' | 'croissance'>('saine')
 
     // 🎯 Fonction pour charger la démo avec animation
-    const handleLoadDemo = async () => {
+    const handleLoadDemo = async (scenario: 'saine' | 'difficulte' | 'croissance' = 'saine') => {
         setIsLoadingDemo(true);
         setLoadingProgress(0);
-        setLoadingMessage('📤 Chargement du fichier démo...');
+        setSelectedScenario(scenario);
+
+        // Messages personnalisés par scénario
+        const scenarioConfig = {
+            saine: {
+                file: '/demo-data.csv',
+                loadingMsg: '📤 Chargement données PME Services...',
+                companyName: 'PME Services B2B',
+                sector: 'services' as CompanySector
+            },
+            difficulte: {
+                file: '/demo-startup-difficulte.csv',
+                loadingMsg: '📤 Chargement données Startup SaaS...',
+                companyName: 'Startup SaaS',
+                sector: 'saas' as CompanySector
+            },
+            croissance: {
+                file: '/demo-scaleup-croissance.csv',
+                loadingMsg: '📤 Chargement données Scale-up Tech...',
+                companyName: 'Scale-up Tech',
+                sector: 'saas' as CompanySector
+            }
+        };
+
+        const config = scenarioConfig[scenario];
+        setLoadingMessage(config.loadingMsg);
 
         try {
             // Animation de progression
             setLoadingProgress(20);
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            const response = await fetch('/demo-data.csv');
+            const response = await fetch(config.file);
             const csvText = await response.text();
 
             setLoadingProgress(40);
@@ -99,7 +125,7 @@ export default function FinancialDashboard() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     fileContent: csvText,
-                    fileName: 'demo-data.csv',
+                    fileName: config.file.split('/').pop(),
                     fileType: 'text/csv'
                 })
             });
@@ -119,8 +145,8 @@ export default function FinancialDashboard() {
                 setUpgradeMessages(result.data.upgradeMessages || []);
                 setIsDataLoaded(true);
                 setIsDemoMode(true);
-                setCompanyName('PME Services B2B');
-                setCompanySector('services');
+                setCompanyName(config.companyName);
+                setCompanySector(config.sector);
 
                 setLoadingProgress(100);
                 setLoadingMessage('✅ Dashboard prêt !');
@@ -1082,48 +1108,137 @@ export default function FinancialDashboard() {
                         </p>
                     </div>
 
-                    {/* Bouton démo */}
+                    {/* Sélecteur de scénarios de démo */}
                     <div style={{
                         width: '100%',
                         textAlign: 'center'
                     }}>
-                        <button
-                            onClick={handleLoadDemo}
-                            style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '12px',
-                                padding: '20px 44px',
-                                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '14px',
-                                fontSize: '18px',
-                                fontWeight: '600',
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease',
-                                boxShadow: '0 8px 24px rgba(99, 102, 241, 0.4)'
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-3px)';
-                                e.currentTarget.style.boxShadow = '0 12px 36px rgba(99, 102, 241, 0.5)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = '0 8px 24px rgba(99, 102, 241, 0.4)';
-                            }}
-                        >
-                            <span style={{ fontSize: '28px' }}>📊</span>
-                            <span>Voir la démo avec données fictives PME Services</span>
-                        </button>
+                        <h3 style={{
+                            fontSize: '20px',
+                            fontWeight: '600',
+                            color: '#1f2937',
+                            marginBottom: '24px'
+                        }}>
+                            Choisissez un scénario de démonstration
+                        </h3>
+
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                            gap: '16px',
+                            maxWidth: '900px',
+                            margin: '0 auto'
+                        }}>
+                            {/* Scénario 1: PME Saine */}
+                            <button
+                                onClick={() => handleLoadDemo('saine')}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    padding: '24px 20px',
+                                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '16px',
+                                    fontSize: '16px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 8px 24px rgba(16, 185, 129, 0.3)',
+                                    textAlign: 'center'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-4px)';
+                                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(16, 185, 129, 0.4)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(16, 185, 129, 0.3)';
+                                }}
+                            >
+                                <span style={{ fontSize: '36px', marginBottom: '12px' }}>🟢</span>
+                                <span style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>PME Services</span>
+                                <span style={{ fontSize: '14px', opacity: 0.9, lineHeight: '1.4' }}>Santé financière solide</span>
+                                <span style={{ fontSize: '13px', opacity: 0.8, marginTop: '8px' }}>243k€ CA • Marges saines</span>
+                            </button>
+
+                            {/* Scénario 2: Startup Difficulté */}
+                            <button
+                                onClick={() => handleLoadDemo('difficulte')}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    padding: '24px 20px',
+                                    background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '16px',
+                                    fontSize: '16px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 8px 24px rgba(245, 158, 11, 0.3)',
+                                    textAlign: 'center'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-4px)';
+                                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(245, 158, 11, 0.4)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(245, 158, 11, 0.3)';
+                                }}
+                            >
+                                <span style={{ fontSize: '36px', marginBottom: '12px' }}>🟠</span>
+                                <span style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Startup SaaS</span>
+                                <span style={{ fontSize: '14px', opacity: 0.9, lineHeight: '1.4' }}>Difficulté trésorerie</span>
+                                <span style={{ fontSize: '13px', opacity: 0.8, marginTop: '8px' }}>30k€ CA • Créances bloquées</span>
+                            </button>
+
+                            {/* Scénario 3: Scale-up Croissance */}
+                            <button
+                                onClick={() => handleLoadDemo('croissance')}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    padding: '24px 20px',
+                                    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '16px',
+                                    fontSize: '16px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 8px 24px rgba(99, 102, 241, 0.3)',
+                                    textAlign: 'center'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-4px)';
+                                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(99, 102, 241, 0.4)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(99, 102, 241, 0.3)';
+                                }}
+                            >
+                                <span style={{ fontSize: '36px', marginBottom: '12px' }}>🚀</span>
+                                <span style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>Scale-up Tech</span>
+                                <span style={{ fontSize: '14px', opacity: 0.9, lineHeight: '1.4' }}>Hypercroissance</span>
+                                <span style={{ fontSize: '13px', opacity: 0.8, marginTop: '8px' }}>1.2M€ CA • Série A 500k€</span>
+                            </button>
+                        </div>
 
                         <p style={{
                             fontSize: '14px',
                             color: '#9ca3af',
-                            marginTop: '20px',
+                            marginTop: '24px',
                             lineHeight: '1.6'
                         }}>
-                            Données de démonstration • 243k€ CA • 4 mois de transactions • Secteur Services
+                            Données de démonstration • 4 mois de transactions • Format CSV réaliste
                         </p>
                     </div>
                 </div>
