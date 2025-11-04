@@ -158,7 +158,7 @@ export default function AICopilot() {
                     <div key={message.id} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-[75%] rounded-2xl px-5 py-3 ${message.isUser
                             ? 'bg-blue-600 text-white shadow-lg'
-                            : 'bg-white border-2 border-gray-200 text-gray-900 shadow-md'
+                            : 'bg-gradient-to-br from-blue-50/50 to-indigo-50/50 border-2 border-blue-200 text-gray-900 shadow-md'
                             }`}>
                             <div className="prose prose-sm max-w-none">
                                 {message.isUser ? (
@@ -229,7 +229,7 @@ export default function AICopilot() {
                         <button
                             key={index}
                             onClick={() => handleSuggestionClick(suggestion)}
-                            className="text-xs bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-blue-700 px-4 py-2 rounded-full border border-blue-200 transition-all hover:shadow-md font-medium"
+                            className="text-sm bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-blue-700 px-5 py-2.5 rounded-full border border-blue-200 transition-all hover:shadow-md font-medium"
                             disabled={isLoading}
                         >
                             {suggestion.length > 60 ? suggestion.substring(0, 60) + '...' : suggestion}
@@ -241,7 +241,7 @@ export default function AICopilot() {
             <style jsx>{`
                 .markdown-content strong {
                     font-weight: 600;
-                    color: #1f2937;
+                    color: #1e40af;
                 }
             `}</style>
         </div>
