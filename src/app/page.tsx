@@ -17,7 +17,7 @@ export default function Home() {
                             <span>📧</span>
                             <span>otmane@zineinsight.com</span>
                         </a>
-                        <a href="/dashboard" className="finsight-nav-link">Tester notre outil</a>
+                        <a href="/dashboard" className="finsight-nav-link">Démo</a>
                         <a href="https://www.zineinsight.com" className="finsight-nav-link">ZineInsight.com</a>
                     </nav>
                 </div>
@@ -40,7 +40,7 @@ export default function Home() {
                         <div className="finsight-cta-buttons">
                             <a href="/dashboard" className="finsight-btn finsight-btn-revolutionary" style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '20px 40px' }}>
                                 <span style={{ fontSize: '18px', fontWeight: '700' }}>Voir le Dashboard Démo</span>
-                                <span style={{ fontSize: '13px', opacity: '0.9', fontWeight: '400' }}>Dashboard complet • Démo interactive • 0 inscription</span>
+                                <span style={{ fontSize: '13px', opacity: '0.9', fontWeight: '400' }}>Dashboard complet • Démo interactive • Aucune inscription</span>
                             </a>
                         </div>
 
