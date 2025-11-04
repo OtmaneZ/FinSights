@@ -8,6 +8,19 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
     title: 'FinSight - Finance Augmentée',
     description: 'Plateforme de finance augmentée pour DAF modernes',
+    manifest: '/manifest.json',
+    themeColor: '#3b82f6',
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: 'FinSight'
+    },
+    viewport: {
+        width: 'device-width',
+        initialScale: 1,
+        maximumScale: 1,
+        userScalable: false
+    }
 }
 
 export default function RootLayout({

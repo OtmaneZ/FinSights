@@ -82,7 +82,7 @@ export default function FinancialDashboard() {
 
         window.addEventListener('fileSelected', handleFileSelected);
         return () => window.removeEventListener('fileSelected', handleFileSelected);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Fonction d'export PDF professionnelle
