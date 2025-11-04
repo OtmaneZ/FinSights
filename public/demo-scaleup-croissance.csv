@@ -1,0 +1,65 @@
+Date,Description,Montant,Client,Date_echeance,Statut_paiement,Categorie,Prix_vente,Cout_unitaire
+01/08/2024,Licence SaaS Enterprise - Corporate Deal,8500.00,BNP Paribas Digital,15/08/2024,Payé,Ventes,10200.00,6800.00
+02/08/2024,Licence SaaS Pro - Scale-up Tech,899.00,Scale-up FinTech Paris,17/08/2024,Payé,Ventes,899.00,539.40
+03/08/2024,Achat infrastructure AWS - Multi-region,-4200.00,Amazon Web Services,03/08/2024,Payé,Infrastructure IT,0,4200.00
+04/08/2024,Consulting stratégie growth - Mission Q3,12000.00,Carrefour Digital Lab,18/08/2024,Payé,Services,14400.00,9600.00
+05/08/2024,Licence SaaS Enterprise - Retail Chain,15600.00,Auchan Retail France,20/08/2024,Payé,Ventes,18720.00,12480.00
+06/08/2024,Formation équipe 20 personnes - Leadership,3800.00,Leroy Merlin Academy,22/08/2024,Payé,Services,3800.00,2280.00
+07/08/2024,Loyer bureaux août - 200m² Paris Centre,-5800.00,SCI Immobilier Opéra,01/08/2024,Payé,Immobilier,0,5800.00
+08/08/2024,Licence SaaS Enterprise - Aerospace,18900.00,Airbus Innovation,25/08/2024,Payé,Ventes,22680.00,15120.00
+09/08/2024,Levée fonds Série A - Premier closing,150000.00,Bpifrance Investissement,09/08/2024,Payé,Autres,150000.00,0.00
+10/08/2024,Recrutement développeurs seniors - 3 profils,-8900.00,Cabinet Hays Tech,31/08/2024,Payé,Masse Salariale,0,8900.00
+12/08/2024,Licence SaaS Pro - Fast-growing startup,899.00,Startup EdTech Scale,28/08/2024,Payé,Ventes,899.00,539.40
+14/08/2024,Consulting cybersécurité - SOC 2 compliance,8900.00,Thales Cyber Solutions,30/08/2024,Payé,Services,10680.00,7120.00
+15/08/2024,Subvention innovation deeptech - IA,25000.00,Région Île-de-France,15/08/2024,Payé,Autres,25000.00,0.00
+16/08/2024,Licence SaaS Enterprise - Banking sector,24500.00,Société Générale Digital,05/09/2024,Payé,Ventes,29400.00,19600.00
+18/08/2024,Salaires équipe tech août - 6 devs seniors,-28900.00,URSSAF Île-de-France,31/08/2024,Payé,Masse Salariale,0,28900.00
+20/08/2024,Vente Solution Enterprise - CAC40 client,45000.00,Total Energies Digital,10/09/2024,Payé,Ventes,54000.00,36000.00
+21/08/2024,Infrastructure cloud - Kubernetes cluster,-3400.00,Google Cloud Platform,21/08/2024,Payé,Infrastructure IT,0,3400.00
+22/08/2024,Assurance D&O dirigeants - Scale-up,-2100.00,Hiscox Assurances,22/08/2024,Payé,Assurances,0,2100.00
+25/08/2024,Licence SaaS Enterprise - Healthcare,19800.00,Sanofi Digital Health,15/09/2024,Payé,Ventes,23760.00,15840.00
+27/08/2024,Formation Product Management - 15 personnes,4500.00,Orange Innovation,18/09/2024,Payé,Services,4500.00,2700.00
+28/08/2024,Recrutement VP Sales + 2 commerciaux,-12300.00,Michael Page Executive,31/08/2024,Payé,Masse Salariale,0,12300.00
+30/08/2024,Vente Module Premium - Corporate,28000.00,Décathlon Tech Hub,20/09/2024,Payé,Ventes,33600.00,22400.00
+31/08/2024,Marketing automation - HubSpot Enterprise,-1890.00,HubSpot Inc,31/08/2024,Payé,Marketing,0,1890.00
+01/09/2024,Licence SaaS Enterprise - Energy sector,32000.00,Engie Digital Factory,22/09/2024,Payé,Ventes,38400.00,25600.00
+02/09/2024,Consulting cloud architecture - Multi-cloud,15600.00,Capgemini Invent,25/09/2024,Payé,Services,18720.00,12480.00
+05/09/2024,Frais marketing LinkedIn Ads - Scale campaign,-4500.00,LinkedIn Corporation,05/09/2024,Payé,Marketing,0,4500.00
+07/09/2024,Licence SaaS Enterprise - Manufacturing,21000.00,Renault Digital,28/09/2024,Payé,Ventes,25200.00,16800.00
+08/09/2024,Infrastructure CDN + Security - Cloudflare,-2300.00,Cloudflare Inc,08/09/2024,Payé,Infrastructure IT,0,2300.00
+10/09/2024,Recrutement CTO + Lead Dev - Executive search,-15600.00,Heidrick & Struggles,30/09/2024,Payé,Masse Salariale,0,15600.00
+12/09/2024,Vente Formation Enterprise - 30 participants,12000.00,LVMH Digital Academy,05/10/2024,Payé,Services,12000.00,7200.00
+14/09/2024,DevOps tooling - GitLab Ultimate,-890.00,GitLab Inc,14/09/2024,Payé,Infrastructure IT,0,890.00
+15/09/2024,Salaires sept - 8 devs + 3 commerciaux + PM,-42600.00,URSSAF Île-de-France,30/09/2024,Payé,Masse Salariale,0,42600.00
+18/09/2024,Licence SaaS Enterprise - Luxury retail,38000.00,Hermès Digital,10/10/2024,Payé,Ventes,45600.00,30400.00
+20/09/2024,Consulting transformation digitale - Strategic,24000.00,Accenture Strategy,15/10/2024,Payé,Services,28800.00,19200.00
+22/09/2024,Levée fonds Série A - Second closing,200000.00,Bpifrance Large Venture,22/09/2024,Payé,Autres,200000.00,0.00
+25/09/2024,Licence SaaS Enterprise - Insurance,29000.00,AXA Digital Services,20/10/2024,Payé,Ventes,34800.00,23200.00
+27/09/2024,Business intelligence - Tableau Enterprise,-2400.00,Salesforce Tableau,27/09/2024,Payé,Infrastructure IT,0,2400.00
+28/09/2024,Recrutement équipe data - 4 Data Scientists,-18900.00,Robert Half Technology,30/09/2024,Payé,Masse Salariale,0,18900.00
+01/10/2024,Loyer bureaux octobre - 250m² Paris Centre,-6500.00,SCI Immobilier Opéra,01/10/2024,Payé,Immobilier,0,6500.00
+03/10/2024,Licence SaaS Enterprise - Automotive,42000.00,PSA Groupe Digital,18/10/2024,Payé,Ventes,50400.00,33600.00
+05/10/2024,Consulting M&A advisory - Due diligence,-8900.00,KPMG Corporate Finance,05/10/2024,Payé,Services Pro,0,8900.00
+07/10/2024,Vente Solution Enterprise - Fortune 500,65000.00,Michelin Digital,25/10/2024,Payé,Ventes,78000.00,52000.00
+08/10/2024,Licence SaaS Enterprise - Logistics,35000.00,DHL Supply Chain Tech,28/10/2024,Payé,Ventes,42000.00,28000.00
+10/10/2024,Infrastructure - MacBook Pro M3 × 10 devs,-32000.00,Apple France SARL,10/10/2024,Payé,Infrastructure IT,0,32000.00
+12/10/2024,Formation cybersécurité - 25 participants,8500.00,Thales Academy,30/10/2024,Payé,Services,8500.00,5100.00
+14/10/2024,Licence SaaS Enterprise - Pharma,48000.00,Sanofi R&D Digital,05/11/2024,Payé,Ventes,57600.00,38400.00
+15/10/2024,Salaires oct - 12 devs + 5 commerciaux + équipe,-58900.00,URSSAF Île-de-France,31/10/2024,Payé,Masse Salariale,0,58900.00
+17/10/2024,Marketing events - VivaTech booth + sponsoring,-12000.00,Viva Technology,17/10/2024,Payé,Marketing,0,12000.00
+19/10/2024,Licence SaaS Enterprise - Media & Entertainment,38000.00,Publicis Groupe Digital,10/11/2024,Payé,Ventes,45600.00,30400.00
+20/10/2024,Infrastructure - AWS Reserved Instances,-8900.00,Amazon Web Services,20/10/2024,Payé,Infrastructure IT,0,8900.00
+22/10/2024,Vente Formation Leadership - 40 executives,18000.00,Orange Business Services,15/11/2024,Payé,Services,18000.00,10800.00
+24/10/2024,Licence SaaS Enterprise - Aerospace defense,52000.00,Safran Aircraft Engines,18/11/2024,Payé,Ventes,62400.00,41600.00
+25/10/2024,Consulting product strategy - Roadmap 2025,28000.00,BCG Digital Ventures,20/11/2024,Payé,Services,33600.00,22400.00
+27/10/2024,Recrutement VP Engineering + équipe,-24500.00,Egon Zehnder Executive,31/10/2024,Payé,Masse Salariale,0,24500.00
+28/10/2024,Licence SaaS Enterprise - Financial services,68000.00,BNP Paribas Corporate,25/11/2024,Payé,Ventes,81600.00,54400.00
+30/10/2024,Infrastructure - Datadog Enterprise monitoring,-4500.00,Datadog Inc,15/11/2024,Payé,Infrastructure IT,0,4500.00
+01/11/2024,Vente Solution Premium - International deal,85000.00,Airbus Operations,30/11/2024,Payé,Ventes,102000.00,68000.00
+03/11/2024,Marketing - Google Ads Enterprise campaign,-8900.00,Google Ireland Limited,03/11/2024,Payé,Marketing,0,8900.00
+05/11/2024,Licence SaaS Enterprise - Retail luxury,58000.00,LVMH Digital Innovation,05/12/2024,En attente,Ventes,69600.00,46400.00
+07/11/2024,Consulting AI/ML - Custom model development,42000.00,Capgemini Engineering,10/12/2024,En attente,Services,50400.00,33600.00
+10/11/2024,Levée fonds Série A - Final closing,150000.00,Eurazeo Venture,10/11/2024,Payé,Autres,150000.00,0.00
+12/11/2024,Licence SaaS Enterprise - Energy transition,72000.00,Total Energies Ventures,15/12/2024,En attente,Ventes,86400.00,57600.00
+14/11/2024,Infrastructure - Multi-region deployment,-12000.00,Google Cloud Platform,14/11/2024,Payé,Infrastructure IT,0,12000.00
+15/11/2024,Salaires nov - 15 devs + 7 commerciaux + ops,-74500.00,URSSAF Île-de-France,30/11/2024,En attente,Masse Salariale,0,74500.00
