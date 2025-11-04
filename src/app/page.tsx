@@ -81,7 +81,10 @@ export default function Home() {
             <header className="finsight-header">
                 <div className="finsight-nav-container">
                     <div className="finsight-brand-container">
-                        <a href="/" className="finsight-brand">FinSight</a>
+                        <a href="/" className="finsight-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <img src="/images/zineinsights_logo.jpeg" alt="FinSight Logo" style={{ width: '40px', height: '40px', borderRadius: '8px' }} />
+                            <span>FinSight</span>
+                        </a>
                     </div>
                     <nav className="finsight-nav-menu finsight-nav-hidden">
                         <a href="/dashboard" className="finsight-nav-link">Tester notre outil</a>

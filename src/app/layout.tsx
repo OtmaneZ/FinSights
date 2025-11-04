@@ -9,7 +9,7 @@ export const metadata = {
     title: 'FinSight - Finance Augmentée',
     description: 'Plateforme de finance augmentée pour DAF modernes',
     manifest: '/manifest.json',
-    themeColor: '#3b82f6',
+    themeColor: '#0F3D7A',
     appleWebApp: {
         capable: true,
         statusBarStyle: 'default',

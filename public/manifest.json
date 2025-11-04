@@ -1,42 +1,56 @@
 {
-  "name": "FinSight - Finance Augmentée",
-  "short_name": "FinSight",
-  "description": "Dashboard financier intelligent pour PME/ETI avec IA intégrée",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "categories": ["finance", "business", "productivity"],
-  "screenshots": [],
-  "shortcuts": [
-    {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "Accéder au tableau de bord",
-      "url": "/dashboard",
-      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Copilot IA",
-      "short_name": "Copilot",
-      "description": "Poser une question au copilot",
-      "url": "/dashboard#copilot",
-      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
-    }
-  ]
+    "name": "FinSight - Finance Augmentée",
+    "short_name": "FinSight",
+    "description": "Dashboard financier intelligent pour PME/ETI avec IA intégrée",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#0F3D7A",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "finance",
+        "business",
+        "productivity"
+    ],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "Dashboard",
+            "short_name": "Dashboard",
+            "description": "Accéder au tableau de bord",
+            "url": "/dashboard",
+            "icons": [
+                {
+                    "src": "/icon-192x192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Copilot IA",
+            "short_name": "Copilot",
+            "description": "Poser une question au copilot",
+            "url": "/dashboard#copilot",
+            "icons": [
+                {
+                    "src": "/icon-192x192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
 }
