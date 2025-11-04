@@ -51,14 +51,14 @@ export default async function handler(
                 success: true,
                 response: `🤖 **Mode Démo** (clé OpenAI manquante)
 
-Ta question : "${message}"
+Votre question : "${message}"
 
-Pour activer l'IA complète, ajoute ta clé OpenAI dans \`.env.local\`:
+Pour activer l'IA complète, ajoutez votre clé OpenAI dans \`.env.local\`:
 \`\`\`
 OPENAI_API_KEY=sk-...
 \`\`\`
 
-En attendant, voici ce que je peux dire sur tes données :
+En attendant, voici ce que je peux dire sur vos données :
 ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune donnée chargée'}`
             })
         }

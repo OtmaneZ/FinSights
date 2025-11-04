@@ -110,7 +110,7 @@ export default function AICopilot() {
             console.error('❌ Erreur Copilot:', error)
             const errorMessage: Message = {
                 id: (Date.now() + 1).toString(),
-                content: `⚠️ Erreur : ${error instanceof Error ? error.message : 'Erreur serveur'}. Vérifie que ta clé OpenAI est configurée dans \`.env.local\`.`,
+                content: `⚠️ Erreur : ${error instanceof Error ? error.message : 'Erreur serveur'}. Vérifiez que votre clé OpenAI est configurée dans \`.env.local\`.`,
                 isUser: false,
                 timestamp: new Date()
             }
@@ -146,10 +146,10 @@ export default function AICopilot() {
                     <div className="text-center py-12">
                         <div className="text-6xl mb-4">📊</div>
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                            Prêt à analyser tes finances
+                            Prêt à analyser vos finances
                         </h3>
                         <p className="text-sm text-gray-600">
-                            Upload ton fichier CSV ci-dessus, puis reviens ici pour poser tes questions
+                            Importez votre fichier CSV ci-dessus, puis posez vos questions ici
                         </p>
                     </div>
                 )}
@@ -210,7 +210,7 @@ export default function AICopilot() {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-                        placeholder="Pose ta question... (ex: Quel est mon DSO ?)"
+                        placeholder="Posez votre question... (ex: Quel est mon DSO ?)"
                         className="flex-1 border-2 border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         disabled={isLoading}
                     />
