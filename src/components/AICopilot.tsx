@@ -52,9 +52,9 @@ export default function AICopilot() {
         ? generateSmartSuggestions(rawData)
         : [
             "Qu'est-ce que FinSight ?",
-            "Analyse l'évolution de ma trésorerie",
-            "Quels sont mes plus gros clients ?",
-            "Comment améliorer mon DSO ?"
+            "Analysez l'évolution de la trésorerie",
+            "Quels sont les plus gros clients ?",
+            "Comment améliorer la rentabilité ?"
         ]
 
     const handleSend = async () => {
@@ -210,7 +210,7 @@ export default function AICopilot() {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-                        placeholder="Posez votre question... (ex: Quel est mon DSO ?)"
+                        placeholder="Posez votre question... (ex: Quelle est ma marge nette ?)"
                         className="flex-1 border-2 border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         disabled={isLoading}
                     />

@@ -265,12 +265,12 @@ export function generateSmartSuggestions(rawData: any[]): string[] {
     );
     if (creancesEnRetard.length > 0) {
         const topCreance = creancesEnRetard.sort((a, b) => b.amount - a.amount)[0];
-        suggestions.push(`${topCreance.counterparty} me doit ${topCreance.amount.toLocaleString('fr-FR')} € depuis ${topCreance.daysLate}j, je relance comment ?`);
+        suggestions.push(`${topCreance.counterparty} doit ${topCreance.amount.toLocaleString('fr-FR')} € depuis ${topCreance.daysLate}j, comment relancer ?`);
     }
 
     // DSO si disponible
     if (revenus.length > 0 && revenus[0].dueDate) {
-        suggestions.push("Analyse mon cycle de paiement client");
+        suggestions.push("Analysez le cycle de paiement client");
     }
 
     // Concentration client
@@ -282,19 +282,19 @@ export function generateSmartSuggestions(rawData: any[]): string[] {
     const topClient = Object.entries(clientTotals).sort(([, a]: any, [, b]: any) => b - a)[0];
     if (topClient) {
         const [client] = topClient;
-        suggestions.push(`Quelle est la part de ${client} dans mon CA ?`);
+        suggestions.push(`Quelle est la part de ${client} dans le CA ?`);
     }
 
     // Structure de coûts
     if (charges.length > 0) {
-        suggestions.push("Quels sont mes 3 plus gros postes de dépenses ?");
+        suggestions.push("Quels sont les 3 plus gros postes de dépenses ?");
     }
 
     // Marge
-    suggestions.push("Ma marge nette est-elle bonne pour mon secteur ?");
+    suggestions.push("La marge nette est-elle bonne pour le secteur ?");
 
     // Toujours proposer benchmark
-    suggestions.push("Comment je me compare au benchmark SaaS B2B ?");
+    suggestions.push("Comment se comparer au benchmark SaaS B2B ?");
 
     return suggestions.slice(0, 6); // Max 6 suggestions
 }
