@@ -270,7 +270,7 @@ export function generateSmartSuggestions(rawData: any[]): string[] {
 
     // DSO si disponible
     if (revenus.length > 0 && revenus[0].dueDate) {
-        suggestions.push("Quel est mon DSO actuel ?");
+        suggestions.push("Analyse mon cycle de paiement client");
     }
 
     // Concentration client
@@ -282,12 +282,12 @@ export function generateSmartSuggestions(rawData: any[]): string[] {
     const topClient = Object.entries(clientTotals).sort(([, a]: any, [, b]: any) => b - a)[0];
     if (topClient) {
         const [client] = topClient;
-        suggestions.push(`Si je perds ${client}, quel impact sur ma trésorerie ?`);
+        suggestions.push(`Quelle est la part de ${client} dans mon CA ?`);
     }
 
     // Structure de coûts
     if (charges.length > 0) {
-        suggestions.push("Comment optimiser ma structure de coûts ?");
+        suggestions.push("Quels sont mes 3 plus gros postes de dépenses ?");
     }
 
     // Marge

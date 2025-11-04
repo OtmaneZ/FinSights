@@ -17,16 +17,20 @@ export default function AICopilot() {
     const [input, setInput] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [autoSummaryGenerated, setAutoSummaryGenerated] = useState(false)
+    const [shouldAutoScroll, setShouldAutoScroll] = useState(false)
     const messagesEndRef = useRef<HTMLDivElement>(null)
 
-    // Auto-scroll vers le bas quand nouveaux messages
+    // Auto-scroll vers le bas UNIQUEMENT après interaction utilisateur
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
 
     useEffect(() => {
-        scrollToBottom()
-    }, [messages])
+        if (shouldAutoScroll) {
+            scrollToBottom()
+            setShouldAutoScroll(false)
+        }
+    }, [messages, shouldAutoScroll])
 
     // Générer auto-summary quand données chargées
     useEffect(() => {
@@ -47,10 +51,10 @@ export default function AICopilot() {
     const suggestions = rawData && rawData.length > 0
         ? generateSmartSuggestions(rawData)
         : [
-            "Comment fonctionne FinSight ?",
-            "Quelles données puis-je analyser ?",
-            "Qu'est-ce que le DSO ?",
-            "Comment améliorer ma trésorerie ?"
+            "Qu'est-ce que FinSight ?",
+            "Analyse l'évolution de ma trésorerie",
+            "Quels sont mes plus gros clients ?",
+            "Comment améliorer mon DSO ?"
         ]
 
     const handleSend = async () => {
@@ -66,6 +70,7 @@ export default function AICopilot() {
         setMessages(prev => [...prev, userMessage])
         setInput('')
         setIsLoading(true)
+        setShouldAutoScroll(true) // ✅ Active scroll après envoi message
 
         try {
             const response = await fetch('/api/copilot/chat', {
@@ -97,6 +102,7 @@ export default function AICopilot() {
                     timestamp: new Date()
                 }
                 setMessages(prev => [...prev, aiResponse])
+                setShouldAutoScroll(true) // ✅ Scroll après réponse IA
             } else {
                 throw new Error(result.error || 'Erreur inconnue')
             }
@@ -109,6 +115,7 @@ export default function AICopilot() {
                 timestamp: new Date()
             }
             setMessages(prev => [...prev, errorMessage])
+            setShouldAutoScroll(true) // ✅ Scroll même sur erreur
         } finally {
             setIsLoading(false)
         }
