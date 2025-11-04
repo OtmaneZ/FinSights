@@ -355,7 +355,7 @@ export default function FinancialDashboard() {
     // ✅ AMÉLIORATION 3: Tooltip intelligent pour "Excellent"
     const getBenchmarkTooltip = (kpiTitle: string, value: number, level: string): string => {
         if (!companySector) return '';
-        
+
         if (kpiTitle.includes('Marge Nette')) {
             return `Votre marge (${value.toFixed(1)}%) dépasse 95% des entreprises ${companySector}.\nMédiane secteur: 10% | Vous: ${value.toFixed(1)}%`;
         }

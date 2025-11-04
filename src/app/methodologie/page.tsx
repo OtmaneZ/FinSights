@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation'
 
 export default function Methodology() {
     const router = useRouter()
-    
+
     useEffect(() => {
         router.push('/')
     }, [router])
-    
+
     return null
 }
