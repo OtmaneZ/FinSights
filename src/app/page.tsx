@@ -674,15 +674,15 @@ export default function Home() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '30px', maxWidth: '800px', margin: '0 auto' }}>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '32px', marginBottom: '10px' }}>⚡</div>
-                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Livraison sous<br/><strong style={{ color: '#fff' }}>2-4 semaines</strong></p>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Livraison express<br/><strong style={{ color: '#fff' }}>7-14 jours</strong></p>
                         </div>
                         <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontSize: '32px', marginBottom: '10px' }}>💎</div>
-                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Tarifs basés sur<br/><strong style={{ color: '#fff' }}>TJM 667€</strong></p>
+                            <div style={{ fontSize: '32px', marginBottom: '10px' }}>🎓</div>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Certifié Data Analytics<br/><strong style={{ color: '#fff' }}>LeWagon 2025</strong></p>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '32px', marginBottom: '10px' }}>🎯</div>
-                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>100% adapté<br/><strong style={{ color: '#fff' }}>à vos besoins</strong></p>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Formation & support<br/><strong style={{ color: '#fff' }}>inclus</strong></p>
                         </div>
                     </div>
                 </div>
