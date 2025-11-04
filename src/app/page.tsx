@@ -1,80 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-
 export default function Home() {
-    const [cashFlow, setCashFlow] = useState(150000)
-    const [animatedCashFlow, setAnimatedCashFlow] = useState(0)
-    const [animatedMargin, setAnimatedMargin] = useState(0)
-    const [animatedDSO, setAnimatedDSO] = useState(0)
-    const [isVisible, setIsVisible] = useState(false)
-    const kpiRef = useRef<HTMLDivElement>(null)
-
-    // Animation au scroll
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting && !isVisible) {
-                    setIsVisible(true)
-                }
-            },
-            { threshold: 0.2 }
-        )
-
-        if (kpiRef.current) {
-            observer.observe(kpiRef.current)
-        }
-
-        return () => observer.disconnect()
-    }, [isVisible])
-
-    // Animations des compteurs
-    useEffect(() => {
-        if (!isVisible) return
-
-        // Animation CashFlow
-        const cashFlowDuration = 2000
-        const cashFlowSteps = 60
-        const cashFlowIncrement = 150000 / cashFlowSteps
-        let cashFlowCount = 0
-
-        const cashFlowTimer = setInterval(() => {
-            cashFlowCount++
-            setAnimatedCashFlow(Math.min(Math.floor(cashFlowCount * cashFlowIncrement), 150000))
-            if (cashFlowCount >= cashFlowSteps) clearInterval(cashFlowTimer)
-        }, cashFlowDuration / cashFlowSteps)
-
-        // Animation Marge
-        const marginDuration = 1800
-        const marginSteps = 50
-        const marginIncrement = 42.8 / marginSteps
-        let marginCount = 0
-
-        const marginTimer = setInterval(() => {
-            marginCount++
-            setAnimatedMargin(Math.min(marginCount * marginIncrement, 42.8))
-            if (marginCount >= marginSteps) clearInterval(marginTimer)
-        }, marginDuration / marginSteps)
-
-        // Animation DSO
-        const dsoDuration = 1600
-        const dsoSteps = 47
-        const dsoIncrement = 47 / dsoSteps
-        let dsoCount = 0
-
-        const dsoTimer = setInterval(() => {
-            dsoCount++
-            setAnimatedDSO(Math.min(Math.floor(dsoCount * dsoIncrement), 47))
-            if (dsoCount >= dsoSteps) clearInterval(dsoTimer)
-        }, dsoDuration / dsoSteps)
-
-        return () => {
-            clearInterval(cashFlowTimer)
-            clearInterval(marginTimer)
-            clearInterval(dsoTimer)
-        }
-    }, [isVisible])
-
     return (
         <main className="finsight-body">
             {/* Header */}
@@ -144,79 +70,6 @@ export default function Home() {
                             — DAF, PME Services 8M€ CA
                         </p>
                     </div>
-                </div>
-
-                {/* Key Metrics Dashboard Preview */}
-                <div ref={kpiRef} className="finsight-kpi-grid" style={{ marginTop: '4rem', marginBottom: '3rem', gap: '2rem' }}>
-                    <div className="finsight-kpi-card" style={{
-                        padding: '2rem 1.5rem',
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        cursor: 'pointer'
-                    }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'scale(1.05) translateY(-5px)'
-                            e.currentTarget.style.boxShadow = '0 20px 50px rgba(59, 130, 246, 0.3)'
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'scale(1) translateY(0)'
-                            e.currentTarget.style.boxShadow = ''
-                        }}>
-                        <div className="finsight-kpi-value" style={{ marginBottom: '0.75rem' }}>
-                            {animatedCashFlow.toLocaleString('fr-FR')} €
-                        </div>
-                        <div className="finsight-kpi-label" style={{ marginBottom: '0.5rem' }}>Trésorerie Actuelle</div>
-                        <div className="finsight-kpi-trend finsight-trend-up">Projection : 168k€ à 90j</div>
-                    </div>
-
-                    <div className="finsight-kpi-card" style={{
-                        padding: '2rem 1.5rem',
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        cursor: 'pointer'
-                    }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'scale(1.05) translateY(-5px)'
-                            e.currentTarget.style.boxShadow = '0 20px 50px rgba(34, 197, 94, 0.3)'
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'scale(1) translateY(0)'
-                            e.currentTarget.style.boxShadow = ''
-                        }}>
-                        <div className="finsight-kpi-value" style={{ marginBottom: '0.75rem' }}>
-                            {animatedMargin.toFixed(1)}%
-                        </div>
-                        <div className="finsight-kpi-label" style={{ marginBottom: '0.5rem' }}>Marge Brute</div>
-                        <div className="finsight-kpi-trend finsight-trend-down">-2.3% vs mois précédent</div>
-                    </div>
-
-                    <div className="finsight-kpi-card finsight-card-alert" style={{
-                        padding: '2rem 1.5rem',
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        cursor: 'pointer'
-                    }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'scale(1.05) translateY(-5px)'
-                            e.currentTarget.style.boxShadow = '0 20px 50px rgba(251, 146, 60, 0.3)'
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'scale(1) translateY(0)'
-                            e.currentTarget.style.boxShadow = ''
-                        }}>
-                        <div className="finsight-kpi-value" style={{ marginBottom: '0.75rem' }}>
-                            {animatedDSO} j
-                        </div>
-                        <div className="finsight-kpi-label" style={{ marginBottom: '0.5rem' }}>Délai Moyen de Paiement</div>
-                        <div className="finsight-kpi-trend finsight-trend-down">Dégradation de 5j ⚠️</div>
-                    </div>
-                </div>
-
-                {/* Disclaimer Démo */}
-                <div style={{ textAlign: 'center', marginTop: '2rem', padding: '1rem 2rem', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px', border: '1px solid rgba(59, 130, 246, 0.3)', maxWidth: '700px', margin: '2rem auto' }}>
-                    <p style={{ color: '#93c5fd', fontSize: '0.95rem', marginBottom: '0.5rem' }}>
-                        📊 <strong>Exemple fictif</strong> : PME Services B2B - 5M€ CA annuel
-                    </p>
-                    <a href="/dashboard" style={{ color: '#60a5fa', fontSize: '0.9rem', textDecoration: 'underline', fontWeight: '600' }}>
-                        → Voir avec VOS données
-                    </a>
                 </div>
 
                 {/* AI Copilot Demo - NOUVEAU DESIGN INTERACTIF */}
@@ -642,9 +495,9 @@ export default function Home() {
                             </div>
                         </div>
 
-                        <a 
-                            href="mailto:otmane@zineinsight.com?subject=Demande%20de%20devis%20-%20Dashboard%20Sur-Mesure&body=Bonjour%20Otmane%2C%0A%0AJe%20suis%20int%C3%A9ress%C3%A9(e)%20par%20un%20dashboard%20financier%20sur-mesure%20pour%20mon%20entreprise.%0A%0ANom%20de%20l'entreprise%20%3A%0ASecteur%20d'activit%C3%A9%20%3A%0ABesoins%20sp%C3%A9cifiques%20%3A%0A%0AMerci%20!" 
-                            style={{ 
+                        <a
+                            href="mailto:otmane@zineinsight.com?subject=Demande%20de%20devis%20-%20Dashboard%20Sur-Mesure&body=Bonjour%20Otmane%2C%0A%0AJe%20suis%20int%C3%A9ress%C3%A9(e)%20par%20un%20dashboard%20financier%20sur-mesure%20pour%20mon%20entreprise.%0A%0ANom%20de%20l'entreprise%20%3A%0ASecteur%20d'activit%C3%A9%20%3A%0ABesoins%20sp%C3%A9cifiques%20%3A%0A%0AMerci%20!"
+                            style={{
                                 display: 'inline-block',
                                 padding: '16px 40px',
                                 background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
@@ -674,15 +527,15 @@ export default function Home() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '30px', maxWidth: '800px', margin: '0 auto' }}>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '32px', marginBottom: '10px' }}>⚡</div>
-                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Livraison express<br/><strong style={{ color: '#fff' }}>7-14 jours</strong></p>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Livraison express<br /><strong style={{ color: '#fff' }}>7-14 jours</strong></p>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '32px', marginBottom: '10px' }}>🎓</div>
-                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Certifié Data Analytics<br/><strong style={{ color: '#fff' }}>LeWagon 2025</strong></p>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Certifié Data Analytics<br /><strong style={{ color: '#fff' }}>LeWagon 2025</strong></p>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '32px', marginBottom: '10px' }}>🎯</div>
-                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Formation & support<br/><strong style={{ color: '#fff' }}>inclus</strong></p>
+                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Formation & support<br /><strong style={{ color: '#fff' }}>inclus</strong></p>
                         </div>
                     </div>
                 </div>
