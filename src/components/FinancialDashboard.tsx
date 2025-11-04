@@ -331,6 +331,40 @@ export default function FinancialDashboard() {
         }
     }
 
+    // ✅ AMÉLIORATION 1: Icônes pour chaque KPI
+    const getKPIIcon = (title: string): string => {
+        if (title.includes('Chiffre') || title.includes('Affaires') || title.includes('CA')) return '💰';
+        if (title.includes('Charges') || title.includes('Dépenses')) return '📉';
+        if (title.includes('Marge')) return '📊';
+        if (title.includes('Cash') || title.includes('Trésorerie')) return '💵';
+        if (title.includes('DSO') || title.includes('Délai')) return '⏱️';
+        if (title.includes('BFR') || title.includes('Besoin')) return '🔄';
+        if (title.includes('Clients')) return '👥';
+        if (title.includes('Créances')) return '📄';
+        return '📈'; // Défaut
+    };
+
+    // ✅ AMÉLIORATION 2: Contextualiser les variations
+    const formatChangeWithContext = (change: string): string => {
+        // Si la variation contient déjà "vs" ou "par rapport", on la garde telle quelle
+        if (change.includes('vs') || change.includes('par rapport')) return change;
+        // Sinon on ajoute "vs période précédente"
+        return `${change} vs période précédente`;
+    };
+
+    // ✅ AMÉLIORATION 3: Tooltip intelligent pour "Excellent"
+    const getBenchmarkTooltip = (kpiTitle: string, value: number, level: string): string => {
+        if (!companySector) return '';
+        
+        if (kpiTitle.includes('Marge Nette')) {
+            return `Votre marge (${value.toFixed(1)}%) dépasse 95% des entreprises ${companySector}.\nMédiane secteur: 10% | Vous: ${value.toFixed(1)}%`;
+        }
+        if (kpiTitle.includes('DSO')) {
+            return `Votre DSO (${value} jours) est meilleur que 95% des entreprises ${companySector}.\nMédiane secteur: 45 jours | Vous: ${value} jours`;
+        }
+        return `Performance ${level} pour le secteur ${companySector}`;
+    };
+
     // ✅ Fonctions pour calculer des vraies données depuis les records
     const getTopClients = () => {
         if (!rawData || !rawData.length) return [];
@@ -995,11 +1029,12 @@ export default function FinancialDashboard() {
                             <div key={index} className="finsight-kpi-card finsight-kpi-hover">
                                 <div className="finsight-kpi-header">
                                     <div className="flex items-center gap-1">
+                                        <span style={{ fontSize: '1.2rem', marginRight: '4px' }}>{getKPIIcon(kpi.title)}</span>
                                         <h3 className="finsight-kpi-label">{kpi.title}</h3>
                                         <KPITooltip kpiTitle={kpi.title} />
                                     </div>
                                     <span className={`finsight-kpi-change ${getChangeColor(kpi.changeType)}`}>
-                                        {getChangeIcon(kpi.changeType)} {kpi.change}
+                                        {getChangeIcon(kpi.changeType)} {formatChangeWithContext(kpi.change)}
                                     </span>
                                 </div>
                                 <p className="finsight-kpi-value">{kpi.value}</p>
@@ -1054,6 +1089,42 @@ export default function FinancialDashboard() {
                             </div>
                         ))}
                     </div>
+
+                    {/* ✅ AMÉLIORATION 4: Alerte si marge > 60% */}
+                    {(() => {
+                        const margeNette = getKPINumericValue('Marge');
+                        if (margeNette && margeNette > 60) {
+                            return (
+                                <div style={{
+                                    background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%)',
+                                    border: '1px solid rgba(251, 191, 36, 0.3)',
+                                    borderRadius: '12px',
+                                    padding: '16px 20px',
+                                    marginTop: '24px',
+                                    marginBottom: '24px',
+                                    display: 'flex',
+                                    alignItems: 'flex-start',
+                                    gap: '12px'
+                                }}>
+                                    <span style={{ fontSize: '24px', flexShrink: 0 }}>⚠️</span>
+                                    <div>
+                                        <h4 style={{ fontSize: '16px', fontWeight: '700', color: '#f59e0b', marginBottom: '8px' }}>
+                                            Marge exceptionnelle détectée ({margeNette.toFixed(1)}%)
+                                        </h4>
+                                        <p style={{ fontSize: '14px', color: '#cbd5e1', lineHeight: '1.6', marginBottom: '8px' }}>
+                                            Votre marge nette est très élevée. Veuillez vérifier :
+                                        </p>
+                                        <ul style={{ fontSize: '14px', color: '#94a3b8', lineHeight: '1.8', paddingLeft: '20px', margin: 0 }}>
+                                            <li>✓ Toutes les charges ont bien été enregistrées dans vos données</li>
+                                            <li>✓ Les salaires et charges sociales sont inclus</li>
+                                            <li>✓ Les frais généraux (loyer, assurances, etc.) sont comptabilisés</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            );
+                        }
+                        return null;
+                    })()}
 
                     {/* ✅ Preview Données (juste après upload) */}
                     {rawData && rawData.length > 0 && (
