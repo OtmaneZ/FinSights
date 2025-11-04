@@ -125,7 +125,7 @@ export default function Home() {
                             <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>💰</div>
                             <h4 style={{ fontSize: '1.3rem', fontWeight: '700', color: '#3b82f6', marginBottom: '1rem' }}>Le ROI</h4>
                             <p style={{ color: '#cbd5e1', fontSize: '1rem', lineHeight: '1.6' }}>
-                                <strong style={{ color: '#60a5fa' }}>10h économisées/mois</strong> × TJM DAF (600€) = <strong style={{ color: '#93c5fd' }}>6000€/mois de valeur</strong> vs 99€/mois d'abonnement.
+                                <strong style={{ color: '#60a5fa' }}>10h économisées/mois</strong> × TJM DAF (600€) = <strong style={{ color: '#93c5fd' }}>6000€/mois économisés</strong>. Investissement unique <strong style={{ color: '#60a5fa' }}>2500€</strong> → Rentabilisé en 2 semaines.
                             </p>
                         </div>
                     </div>
@@ -638,13 +638,6 @@ export default function Home() {
                         <h4 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#4ade80', marginBottom: '0.5rem' }}>Data Analytics</h4>
                         <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>LeWagon Bootcamp (2025)<br />Python • SQL • Data Viz</p>
                     </div>
-
-                    {/* IBM */}
-                    <div style={{ background: 'rgba(236, 72, 153, 0.1)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(236, 72, 153, 0.3)', textAlign: 'center' }}>
-                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔬</div>
-                        <h4 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#ec4899', marginBottom: '0.5rem' }}>IBM Data Science</h4>
-                        <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Certification (2024)<br />Machine Learning • Analytics</p>
-                    </div>
                 </div>
 
                 {/* Engagement communauté */}
@@ -710,7 +703,7 @@ export default function Home() {
                             🚀 Propulsé par <a href="https://www.zineinsight.com" className="finsight-footer-brand text-blue-600 hover:underline font-bold">ZineInsight</a> — Dashboards sur-mesure pour PME/ETI
                         </p>
                         <p className="finsight-footer-sub">
-                            FinSight © 2025 • Outil de démonstration
+                            FinSight © 2025
                         </p>
                     </div>
                 </div>
