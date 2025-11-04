@@ -42,9 +42,6 @@ export default function Home() {
                                 <span style={{ fontSize: '18px', fontWeight: '700' }}>Voir le Dashboard Démo</span>
                                 <span style={{ fontSize: '13px', opacity: '0.9', fontWeight: '400' }}>Dashboard complet • Démo interactive • 0 inscription</span>
                             </a>
-                            <a href="#demo" className="finsight-btn finsight-btn-secondary" onClick={(e) => { e.preventDefault(); document.querySelector('.finsight-kpi-grid')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                                Voir un exemple
-                            </a>
                         </div>
 
                     </div>
@@ -76,7 +73,7 @@ export default function Home() {
                 <div className="finsight-copilot-demo" style={{ marginTop: '4rem', marginBottom: '4rem' }}>
                     <div className="text-center mb-8">
                         <h3 className="finsight-demo-title" style={{ marginBottom: '1rem', fontSize: '1.75rem', fontWeight: '700', color: '#fff' }}>
-                            Posez vos questions en français
+                            Posez vos questions
                         </h3>
                         <p style={{ fontSize: '1.1rem', color: '#9ca3af' }}>
                             L'IA analyse vos vraies données et répond instantanément
@@ -291,7 +288,7 @@ export default function Home() {
                                     e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 99, 235, 0.3)';
                                 }}
                             >
-                                💬 Tester avec mes données
+                                � Voir la démo complète
                             </a>
                         </div>
                     </div>
@@ -311,7 +308,7 @@ export default function Home() {
                         </p>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px', maxWidth: '1200px', margin: '0 auto' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '30px', maxWidth: '900px', margin: '0 auto' }}>
                         {/* Étape 1 */}
                         <div style={{ position: 'relative', background: 'rgba(255, 255, 255, 0.03)', padding: '40px 30px', borderRadius: '20px', border: '1px solid rgba(255, 255, 255, 0.08)', textAlign: 'center' }}>
                             <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', color: '#fff', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: '700', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)' }}>
@@ -374,13 +371,13 @@ export default function Home() {
                 }}>
                     <div className="max-w-4xl mx-auto text-center px-6">
                         <h3 className="text-3xl font-bold mb-6" style={{ lineHeight: '1.2', color: '#fff' }}>
-                            Imaginez la même puissance sur VOS processus métier
+                            Besoin d'un dashboard sur-mesure pour votre entreprise ?
                         </h3>
                         <p className="text-xl mb-4" style={{ lineHeight: '1.6', color: '#cbd5e1' }}>
                             📞 <strong style={{ color: '#60a5fa' }}>Audit gratuit de 30min avec un expert</strong>
                         </p>
                         <p className="text-lg mb-8" style={{ lineHeight: '1.6', color: '#94a3b8' }}>
-                            Nous analysons votre cas et vous montrons ce qui est possible
+                            Nous analysons vos besoins et construisons la solution adaptée à votre activité
                         </p>
                         <div className="flex justify-center gap-4 mb-6 flex-wrap">
                             <a
