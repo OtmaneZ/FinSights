@@ -31,11 +31,11 @@ export default function Home() {
                             🎯 Test gratuit • Aucune inscription requise
                         </div>
                         <h1 className="finsight-section-title">
-                            Automatisez votre reporting financier
-                            <span style={{ background: 'var(--gradient-revolutionary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}><br />Dashboard + IA financière instantanée</span>
+                            Finance Augmentée pour DAF/CFO
+                            <span style={{ background: 'var(--gradient-revolutionary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}><br />Dashboard IA + Copilote conversationnel</span>
                         </h1>
-                        <p className="finsight-section-subtitle" style={{ maxWidth: '700px', margin: '0 auto' }}>
-                            Transformez vos exports comptables en tableaux de bord professionnels. Économisez 8h/mois de reporting manuel.
+                        <p className="finsight-section-subtitle" style={{ maxWidth: '750px', margin: '0 auto' }}>
+                            Transformez vos données financières en décisions stratégiques. <strong>Master Finance + 10 ans d'expertise + Data Science</strong> pour créer l'outil de pilotage que les dirigeants attendent.
                         </p>
                         <div className="finsight-cta-buttons">
                             <a href="/dashboard" className="finsight-btn finsight-btn-revolutionary" style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '20px 40px' }}>
@@ -47,24 +47,92 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* Section Beta Privée */}
-                <div style={{ textAlign: 'center', marginTop: '5rem', marginBottom: '3rem', maxWidth: '900px', margin: '5rem auto 3rem' }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 20px', background: 'rgba(16, 185, 129, 0.1)', borderRadius: '50px', border: '1px solid rgba(16, 185, 129, 0.3)', marginBottom: '1.5rem' }}>
-                        <span style={{ fontSize: '1.2rem' }}>🧪</span>
-                        <span style={{ color: '#10b981', fontWeight: '600', fontSize: '0.9rem' }}>En beta privée</span>
-                    </div>
-                    <h3 style={{ fontSize: '1.75rem', fontWeight: '700', color: '#fff', marginBottom: '1rem' }}>
-                        Testé par 5 PME françaises
-                    </h3>
-                    <p style={{ fontSize: '1.1rem', color: '#9ca3af', marginBottom: '2rem' }}>
-                        Secteurs : Services B2B, E-commerce, Distribution
-                    </p>
-                    <div style={{ display: 'inline-block', padding: '1.5rem 2rem', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
-                        <p style={{ color: '#60a5fa', fontSize: '1rem', fontStyle: 'italic' }}>
-                            💬 "Enfin un outil qui me donne une vision claire en temps réel. Fini les heures perdues sur Excel."
+                {/* Section Parcours Authentique */}
+                <div style={{ background: 'rgba(30, 41, 59, 0.3)', borderRadius: '16px', padding: '3rem 2rem', marginTop: '5rem', marginBottom: '4rem', border: '1px solid rgba(148, 163, 184, 0.2)', maxWidth: '900px', margin: '5rem auto 4rem' }}>
+                    <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 20px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '50px', border: '1px solid rgba(139, 92, 246, 0.3)', marginBottom: '1.5rem' }}>
+                            <span style={{ fontSize: '1.2rem' }}>👨‍💻</span>
+                            <span style={{ color: '#a78bfa', fontWeight: '600', fontSize: '0.9rem' }}>Projet Final LeWagon 2025</span>
+                        </div>
+                        <h3 style={{ fontSize: '1.75rem', fontWeight: '700', color: '#fff', marginBottom: '1.5rem', lineHeight: '1.3' }}>
+                            Master Finance + 10 ans d'expertise<br />→ Finance Augmentée par IA
+                        </h3>
+                        <p style={{ fontSize: '1.1rem', color: '#cbd5e1', marginBottom: '2rem', lineHeight: '1.6', maxWidth: '700px', margin: '0 auto 2rem' }}>
+                            Diplômé d'un <strong style={{ color: '#60a5fa' }}>Master Finance Internationale</strong> (Université Côte d'Azur),<br />
+                            j'ai enseigné 10 ans avant de me former à la <strong style={{ color: '#60a5fa' }}>Data Science</strong> (LeWagon, IBM).<br />
+                            <span style={{ fontSize: '1.05rem', color: '#94a3b8', marginTop: '0.5rem', display: 'block' }}>J'ai créé l'outil de pilotage financier que j'aurais voulu avoir en tant que formateur.</span>
                         </p>
-                        <p style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-                            — DAF, PME Services 8M€ CA
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', marginTop: '2rem', maxWidth: '650px', margin: '2rem auto 2rem' }}>
+                            <div style={{ padding: '16px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
+                                <div style={{ fontSize: '2rem', marginBottom: '8px' }}>🎓</div>
+                                <div style={{ fontSize: '1.3rem', fontWeight: '700', color: '#60a5fa', marginBottom: '4px' }}>Master</div>
+                                <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Finance Internationale</div>
+                            </div>
+                            
+                            <div style={{ padding: '16px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '12px', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+                                <div style={{ fontSize: '2rem', marginBottom: '8px' }}>👨‍🏫</div>
+                                <div style={{ fontSize: '1.3rem', fontWeight: '700', color: '#a78bfa', marginBottom: '4px' }}>10 ans</div>
+                                <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Enseignant Finance</div>
+                            </div>
+                            
+                            <div style={{ padding: '16px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '12px', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
+                                <div style={{ fontSize: '2rem', marginBottom: '8px' }}>💻</div>
+                                <div style={{ fontSize: '1.3rem', fontWeight: '700', color: '#4ade80', marginBottom: '4px' }}>Data Scientist</div>
+                                <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>LeWagon + IBM</div>
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'inline-block', padding: '1.5rem 2rem', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '12px', border: '1px solid rgba(59, 130, 246, 0.2)', marginTop: '1.5rem' }}>
+                            <p style={{ color: '#60a5fa', fontSize: '1rem', fontStyle: 'italic', lineHeight: '1.6' }}>
+                                � "Après avoir enseigné la finance pendant 10 ans, j'ai compris qu'il manquait un outil :<br />
+                                <strong style={{ color: '#93c5fd' }}>un dashboard qui parle le langage des dirigeants, pas celui des tableurs Excel</strong>."
+                            </p>
+                            <p style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '0.75rem' }}>
+                                — Otmane Boulahia, Founder ZineInsights
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Section ROI Crédible */}
+                <div style={{ maxWidth: '1100px', margin: '5rem auto 4rem', padding: '0 1rem' }}>
+                    <h3 style={{ fontSize: '2rem', fontWeight: '700', color: '#fff', textAlign: 'center', marginBottom: '3rem' }}>
+                        Pourquoi j'ai créé FinSight ?
+                    </h3>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '3rem' }}>
+                        {/* Problème constaté */}
+                        <div style={{ background: 'rgba(239, 68, 68, 0.1)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+                            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>⏱️</div>
+                            <h4 style={{ fontSize: '1.3rem', fontWeight: '700', color: '#ef4444', marginBottom: '1rem' }}>Le problème</h4>
+                            <p style={{ color: '#cbd5e1', fontSize: '1rem', lineHeight: '1.6' }}>
+                                En formant des DAF/RAF, j'ai constaté qu'ils passent <strong style={{ color: '#f87171' }}>8-12h/mois</strong> sur Excel pour des reporting manuels au lieu d'analyser et décider.
+                            </p>
+                        </div>
+
+                        {/* Solution apportée */}
+                        <div style={{ background: 'rgba(34, 197, 94, 0.1)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(34, 197, 94, 0.3)' }}>
+                            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>⚡</div>
+                            <h4 style={{ fontSize: '1.3rem', fontWeight: '700', color: '#22c55e', marginBottom: '1rem' }}>La solution</h4>
+                            <p style={{ color: '#cbd5e1', fontSize: '1rem', lineHeight: '1.6' }}>
+                                Import Excel/CSV → Dashboard automatique en <strong style={{ color: '#4ade80' }}>3 minutes</strong>. Copilote IA pour interroger vos données en langage naturel.
+                            </p>
+                        </div>
+
+                        {/* ROI réaliste */}
+                        <div style={{ background: 'rgba(59, 130, 246, 0.1)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
+                            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>💰</div>
+                            <h4 style={{ fontSize: '1.3rem', fontWeight: '700', color: '#3b82f6', marginBottom: '1rem' }}>Le ROI</h4>
+                            <p style={{ color: '#cbd5e1', fontSize: '1rem', lineHeight: '1.6' }}>
+                                <strong style={{ color: '#60a5fa' }}>10h économisées/mois</strong> × TJM DAF (600€) = <strong style={{ color: '#93c5fd' }}>6000€/mois de valeur</strong> vs 99€/mois d'abonnement.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style={{ textAlign: 'center', padding: '2rem', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '16px', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
+                        <p style={{ fontSize: '1.15rem', color: '#c4b5fd', lineHeight: '1.7', maxWidth: '800px', margin: '0 auto' }}>
+                            🎯 <strong style={{ color: '#a78bfa' }}>Mon objectif :</strong> Rendre la finance augmentée accessible aux PME/ETI qui n'ont pas les moyens d'un ERP coûteux ou d'une équipe BI. Un dashboard qui <strong style={{ color: '#fff' }}>se configure en 10 minutes</strong>, pas en 3 mois.
                         </p>
                     </div>
                 </div>
@@ -537,6 +605,100 @@ export default function Home() {
                             <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>Formation & support<br /><strong style={{ color: '#fff' }}>inclus</strong></p>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* Section Crédibilité & Credentials LinkedIn-vérifiables */}
+            <div style={{ maxWidth: '1100px', margin: '5rem auto 6rem', padding: '0 1rem' }}>
+                <h3 style={{ fontSize: '2rem', fontWeight: '700', color: '#fff', textAlign: 'center', marginBottom: '1rem' }}>
+                    Qui suis-je ?
+                </h3>
+                <p style={{ fontSize: '1.1rem', color: '#94a3b8', textAlign: 'center', marginBottom: '3rem', maxWidth: '700px', margin: '0 auto 3rem' }}>
+                    Credentials vérifiables sur <a href="https://www.linkedin.com/in/otmane-boulahia-553bb6363/" target="_blank" rel="noopener noreferrer" style={{ color: '#60a5fa', textDecoration: 'underline' }}>LinkedIn</a>
+                </p>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '3rem' }}>
+                    {/* Diplôme */}
+                    <div style={{ background: 'rgba(59, 130, 246, 0.1)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(59, 130, 246, 0.3)', textAlign: 'center' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎓</div>
+                        <h4 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#60a5fa', marginBottom: '0.5rem' }}>Master Finance Internationale</h4>
+                        <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Université Côte d'Azur<br />Mention Bien (2011-2013)</p>
+                    </div>
+
+                    {/* Enseignement */}
+                    <div style={{ background: 'rgba(139, 92, 246, 0.1)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(139, 92, 246, 0.3)', textAlign: 'center' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>👨‍🏫</div>
+                        <h4 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#a78bfa', marginBottom: '0.5rem' }}>10 ans d'enseignement</h4>
+                        <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Éducation nationale<br />Finance & Gestion (2015-2025)</p>
+                    </div>
+
+                    {/* LeWagon */}
+                    <div style={{ background: 'rgba(34, 197, 94, 0.1)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(34, 197, 94, 0.3)', textAlign: 'center' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💻</div>
+                        <h4 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#4ade80', marginBottom: '0.5rem' }}>Data Analytics</h4>
+                        <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>LeWagon Bootcamp (2025)<br />Python • SQL • Data Viz</p>
+                    </div>
+
+                    {/* IBM */}
+                    <div style={{ background: 'rgba(236, 72, 153, 0.1)', borderRadius: '16px', padding: '2rem', border: '1px solid rgba(236, 72, 153, 0.3)', textAlign: 'center' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔬</div>
+                        <h4 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#ec4899', marginBottom: '0.5rem' }}>IBM Data Science</h4>
+                        <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Certification (2024)<br />Machine Learning • Analytics</p>
+                    </div>
+                </div>
+
+                {/* Engagement communauté */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '3rem' }}>
+                    <div style={{ background: 'rgba(148, 163, 184, 0.1)', borderRadius: '12px', padding: '1.5rem', border: '1px solid rgba(148, 163, 184, 0.2)', textAlign: 'center' }}>
+                        <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🇫🇷</div>
+                        <p style={{ color: '#cbd5e1', fontSize: '0.95rem', fontWeight: '600' }}>Membre France Digitale</p>
+                    </div>
+                    
+                    <div style={{ background: 'rgba(148, 163, 184, 0.1)', borderRadius: '12px', padding: '1.5rem', border: '1px solid rgba(148, 163, 184, 0.2)', textAlign: 'center' }}>
+                        <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🐍</div>
+                        <p style={{ color: '#cbd5e1', fontSize: '0.95rem', fontWeight: '600' }}>PyData Paris 2025</p>
+                    </div>
+                    
+                    <div style={{ background: 'rgba(148, 163, 184, 0.1)', borderRadius: '12px', padding: '1.5rem', border: '1px solid rgba(148, 163, 184, 0.2)', textAlign: 'center' }}>
+                        <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📊</div>
+                        <p style={{ color: '#cbd5e1', fontSize: '0.95rem', fontWeight: '600' }}>Portfolio Optimization</p>
+                    </div>
+                    
+                    <div style={{ background: 'rgba(148, 163, 184, 0.1)', borderRadius: '12px', padding: '1.5rem', border: '1px solid rgba(148, 163, 184, 0.2)', textAlign: 'center' }}>
+                        <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>💡</div>
+                        <p style={{ color: '#cbd5e1', fontSize: '0.95rem', fontWeight: '600' }}>KPIs Analysis</p>
+                    </div>
+                </div>
+
+                <div style={{ textAlign: 'center', padding: '2rem', background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)', borderRadius: '16px', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
+                    <p style={{ fontSize: '1.1rem', color: '#e0e7ff', lineHeight: '1.7', maxWidth: '750px', margin: '0 auto 1.5rem' }}>
+                        🚀 <strong style={{ color: '#c7d2fe' }}>Founder @ ZineInsights</strong> (août 2025 - présent)<br />
+                        <span style={{ color: '#a5b4fc', fontSize: '1rem' }}>Data & Finance Strategist | Pilotage de la Performance</span>
+                    </p>
+                    <a 
+                        href="https://www.linkedin.com/in/otmane-boulahia-553bb6363/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '12px 28px',
+                            background: '#0077b5',
+                            color: '#fff',
+                            borderRadius: '8px',
+                            textDecoration: 'none',
+                            fontSize: '1rem',
+                            fontWeight: '600',
+                            transition: 'all 0.3s ease',
+                            boxShadow: '0 4px 12px rgba(0, 119, 181, 0.3)'
+                        }}
+                    >
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                        Voir mon profil LinkedIn
+                    </a>
                 </div>
             </div>
 
