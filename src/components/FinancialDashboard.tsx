@@ -598,10 +598,10 @@ export default function FinancialDashboard() {
         const kpi = kpis.find(k => k.title.includes(kpiTitle));
         if (!kpi) return undefined;
 
-        // Parser la valeur (ex: "45 jours" → 45, "12.5%" → 12.5, "50 510 €" → 50510)
-        // Supprimer tous les espaces, puis extraire les chiffres et virgules/points
+        // Parser la valeur (ex: "45 jours" → 45, "12.5%" → 12.5, "-134.7%" → -134.7, "50 510 €" → 50510)
+        // Supprimer tous les espaces, puis extraire les chiffres et virgules/points (avec signe optionnel)
         const cleanValue = kpi.value.replace(/\s/g, '');
-        const match = cleanValue.match(/[\d,.]+/);
+        const match = cleanValue.match(/-?[\d,.]+/);
         if (!match) return undefined;
 
         return parseFloat(match[0].replace(',', '.'));
@@ -1732,7 +1732,7 @@ export default function FinancialDashboard() {
                         </div>
                     )}
 
-                    {/* ✅ AMÉLIORATION 4: Alerte si marge > 60% */}
+                    {/* ✅ AMÉLIORATION 4: Alerte si marge > 60% (et positive) */}
                     {(() => {
                         const margeNette = getKPINumericValue('Marge');
                         if (margeNette && margeNette > 60) {

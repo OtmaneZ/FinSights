@@ -163,7 +163,7 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         title: 'Marge Nette',
         value: `${netMarginPercent.toFixed(1)}%`,
         change: `${data.kpis.trends.marginTrend.toFixed(1)}pt`,
-        changeType: netMarginPercent > 20 ? 'positive' : netMarginPercent > 10 ? 'neutral' : 'negative',
+        changeType: data.kpis.trends.marginTrend > 0 ? 'positive' : data.kpis.trends.marginTrend < 0 ? 'negative' : 'neutral',
         description: 'Rentabilité nette après toutes charges',
         confidence: data.qualityMetrics.consistency
     });

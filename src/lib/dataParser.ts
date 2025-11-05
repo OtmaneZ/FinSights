@@ -830,8 +830,8 @@ export function generateDashboardKPIs(data: ProcessedData) {
             title: 'Marge Nette',
             value: `${kpis.marginPercentage.toFixed(1)}%`,
             change: `${kpis.trends.marginTrend.toFixed(1)}pt`,
-            changeType: kpis.marginPercentage > 20 ? 'positive' : kpis.marginPercentage > 10 ? 'neutral' : 'negative',
-            description: 'Marge bénéficiaire',
+            changeType: kpis.trends.marginTrend > 0 ? 'positive' : kpis.trends.marginTrend < 0 ? 'negative' : 'neutral',
+            description: 'Rentabilité nette après toutes charges',
             confidence: data.qualityMetrics.consistency
         },
         {
