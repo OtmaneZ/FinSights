@@ -74,10 +74,11 @@ export default function FinancialDashboard() {
     const [showUploadModal, setShowUploadModal] = useState(false) // ✅ Modal upload sur RDV
     const [selectedScenario, setSelectedScenario] = useState<'saine' | 'difficulte' | 'croissance'>('saine')
 
-    // 🔮 States pour simulation What-If
+    // 🔮 States pour simulation What-If (3 simulations liées aux KPIs)
     const [showSimulation, setShowSimulation] = useState(false)
-    const [depensesReduction, setDepensesReduction] = useState(0) // 0 à 30%
-    const [dsoReduction, setDsoReduction] = useState(0) // 0 à 15 jours
+    const [chargesReduction, setChargesReduction] = useState(0) // 0 à 30% - Impact Marge
+    const [paiementsAcceleration, setPaiementsAcceleration] = useState(0) // 0 à 15 jours - Impact Cash Flow
+    const [prixAugmentation, setPrixAugmentation] = useState(0) // 0 à 15% - Impact CA
     const [simulatedKPIs, setSimulatedKPIs] = useState<KPI[]>([])
 
     // 🎯 Fonction pour charger la démo avec animation
@@ -359,58 +360,99 @@ export default function FinancialDashboard() {
         };
     };
 
-    // 🔮 Fonction de calcul des KPIs simulés
+    // 🔮 Fonction de calcul des KPIs simulés (3 simulations liées aux KPIs)
     const calculateSimulatedKPIs = () => {
         if (!isDataLoaded || kpis.length === 0 || !rawData) return;
 
-        // Extraire les valeurs actuelles des KPIs
-        const currentRevenue = parseFloat(kpis.find(k => k.title.includes('Chiffre d\'Affaires'))?.value.replace(/[^0-9.-]/g, '') || '0');
-        const currentMargin = parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^0-9.-]/g, '') || '0');
-        const currentCashFlow = parseFloat(kpis.find(k => k.title.includes('Trésorerie'))?.value.replace(/[^0-9.-]/g, '') || '0');
-        const currentDSO = parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^0-9.-]/g, '') || '0');
+        // 📊 Extraire les valeurs actuelles des KPIs
+        const caKPI = kpis.find(k => k.title.includes('Chiffre d\'Affaires'));
+        const chargesKPI = kpis.find(k => k.title.includes('Charges'));
+        const margeKPI = kpis.find(k => k.title.includes('Marge'));
+        const cashFlowKPI = kpis.find(k => k.title.includes('Cash Flow') || k.title.includes('Trésorerie'));
 
-        // Calculer les totaux depuis rawData
+        const currentCA = parseFloat(caKPI?.value.replace(/[^0-9.-]/g, '') || '0');
+        const currentCharges = parseFloat(chargesKPI?.value.replace(/[^0-9.-]/g, '') || '0');
+        const currentMarge = parseFloat(margeKPI?.value.replace(/[^0-9.-]/g, '') || '0');
+        const currentCashFlow = parseFloat(cashFlowKPI?.value.replace(/[^0-9.-]/g, '') || '0');
+
+        // 💰 Calculer depuis rawData réel
+        const totalRevenue = rawData
+            .filter((r: any) => r.type === 'income')
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
+        
         const totalExpenses = rawData
             .filter((r: any) => r.type === 'expense')
             .reduce((sum: number, r: any) => sum + Math.abs(r.amount), 0);
 
-        // 🎯 Appliquer la simulation réduction dépenses
-        const newExpenses = totalExpenses * (1 - depensesReduction / 100);
-        const newMargin = ((currentRevenue - newExpenses) / currentRevenue) * 100;
-        const marginDiff = newMargin - currentMargin;
+        const pendingInvoices = rawData
+            .filter((r: any) => r.type === 'income' && r.paymentStatus === 'En attente')
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
 
-        // 🎯 Appliquer la simulation réduction DSO
-        const newDSO = Math.max(0, currentDSO - dsoReduction);
-        const cashLiberated = (currentRevenue / 365) * dsoReduction;
+        // 🎯 SIMULATION 1: Réduction charges → Impact Marge
+        const newCharges = totalExpenses * (1 - chargesReduction / 100);
+        const economiesCharges = totalExpenses - newCharges;
+        const newMarge = ((totalRevenue - newCharges) / totalRevenue) * 100;
+        const margeDiff = newMarge - currentMarge;
+
+        // 🎯 SIMULATION 2: Accélération paiements → Impact Cash Flow
+        const daysAcceleration = paiementsAcceleration;
+        const cashLiberated = (pendingInvoices / 30) * daysAcceleration; // Cash libéré par jour
         const newCashFlow = currentCashFlow + cashLiberated;
-        const cashFlowDiff = cashLiberated;
 
-        // Créer les KPIs simulés
+        // 🎯 SIMULATION 3: Augmentation prix → Impact CA
+        const newCA = totalRevenue * (1 + prixAugmentation / 100);
+        const caDiff = newCA - totalRevenue;
+
+        // 📊 Créer les KPIs simulés
         const simulated: KPI[] = kpis.map(kpi => {
+            // KPI CA
+            if (kpi.title.includes('Chiffre d\'Affaires')) {
+                if (prixAugmentation > 0) {
+                    return {
+                        ...kpi,
+                        value: `${Math.round(newCA).toLocaleString('fr-FR')} €`,
+                        change: `+${Math.round(caDiff).toLocaleString('fr-FR')} € vs actuel`,
+                        changeType: 'positive' as const
+                    };
+                }
+            }
+            
+            // KPI Charges
+            if (kpi.title.includes('Charges')) {
+                if (chargesReduction > 0) {
+                    return {
+                        ...kpi,
+                        value: `${Math.round(newCharges).toLocaleString('fr-FR')} €`,
+                        change: `-${Math.round(economiesCharges).toLocaleString('fr-FR')} € vs actuel`,
+                        changeType: 'positive' as const
+                    };
+                }
+            }
+            
+            // KPI Marge
             if (kpi.title.includes('Marge')) {
-                return {
-                    ...kpi,
-                    value: `${newMargin.toFixed(1)}%`,
-                    change: `${marginDiff > 0 ? '+' : ''}${marginDiff.toFixed(1)}% vs actuel`,
-                    changeType: marginDiff > 0 ? 'positive' : marginDiff < 0 ? 'negative' : 'neutral'
-                };
+                if (chargesReduction > 0) {
+                    return {
+                        ...kpi,
+                        value: `${newMarge.toFixed(1)}%`,
+                        change: `+${margeDiff.toFixed(1)}% = +${Math.round(economiesCharges).toLocaleString('fr-FR')} €`,
+                        changeType: 'positive' as const
+                    };
+                }
             }
-            if (kpi.title.includes('Trésorerie')) {
-                return {
-                    ...kpi,
-                    value: `${newCashFlow.toLocaleString('fr-FR')} €`,
-                    change: `${cashFlowDiff > 0 ? '+' : ''}${cashFlowDiff.toLocaleString('fr-FR')} € vs actuel`,
-                    changeType: cashFlowDiff > 0 ? 'positive' : 'neutral'
-                };
+            
+            // KPI Cash Flow
+            if (kpi.title.includes('Cash Flow') || kpi.title.includes('Trésorerie')) {
+                if (paiementsAcceleration > 0) {
+                    return {
+                        ...kpi,
+                        value: `${Math.round(newCashFlow).toLocaleString('fr-FR')} €`,
+                        change: `+${Math.round(cashLiberated).toLocaleString('fr-FR')} € libérés`,
+                        changeType: 'positive' as const
+                    };
+                }
             }
-            if (kpi.title.includes('DSO')) {
-                return {
-                    ...kpi,
-                    value: `${Math.round(newDSO)} jours`,
-                    change: `-${dsoReduction} jours vs actuel`,
-                    changeType: dsoReduction > 0 ? 'positive' : 'neutral'
-                };
-            }
+            
             return kpi;
         });
 
@@ -419,12 +461,12 @@ export default function FinancialDashboard() {
 
     // 🔄 Recalculer les KPIs simulés quand les sliders changent
     useEffect(() => {
-        if (depensesReduction > 0 || dsoReduction > 0) {
+        if (chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) {
             calculateSimulatedKPIs();
         } else {
             setSimulatedKPIs([]);
         }
-    }, [depensesReduction, dsoReduction, kpis]);
+    }, [chargesReduction, paiementsAcceleration, prixAugmentation, kpis, rawData]);
 
     // ✅ KPIs chargés seulement depuis l'upload - pas de données factices par défaut
     // useEffect(() => {
@@ -1385,7 +1427,7 @@ export default function FinancialDashboard() {
                         ))}
                     </div>
 
-                    {/* 🔮 SIMULATION WHAT-IF PANEL */}
+                    {/* 🔮 SIMULATION WHAT-IF PANEL - 3 simulations liées aux KPIs */}
                     {isDataLoaded && (
                         <div style={{
                             marginTop: '32px',
@@ -1397,12 +1439,12 @@ export default function FinancialDashboard() {
                             position: 'relative',
                             overflow: 'hidden'
                         }}>
-                            {/* Header avec toggle */}
+                            {/* Header */}
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
-                                marginBottom: showSimulation ? '24px' : '0'
+                                marginBottom: showSimulation ? '28px' : '0'
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                     <span style={{ fontSize: '28px' }}>🔮</span>
@@ -1411,7 +1453,7 @@ export default function FinancialDashboard() {
                                             Simulation What-If
                                         </h3>
                                         <p style={{ fontSize: '14px', color: '#94a3b8', margin: 0 }}>
-                                            Explorez l'impact de vos décisions sur vos KPIs
+                                            Mesurez l'impact financier de vos décisions en temps réel
                                         </p>
                                     </div>
                                 </div>
@@ -1433,119 +1475,203 @@ export default function FinancialDashboard() {
                                 </button>
                             </div>
 
-                            {/* Contenu des sliders */}
+                            {/* 3 Simulations */}
                             {showSimulation && (
                                 <div style={{
                                     display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                                    gap: '24px',
-                                    marginTop: '24px'
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                                    gap: '20px'
                                 }}>
-                                    {/* Slider 1: Réduction dépenses */}
+                                    {/* SIMULATION 1: Réduction Charges → Marge */}
                                     <div style={{
-                                        background: 'rgba(15, 23, 42, 0.5)',
+                                        background: 'rgba(15, 23, 42, 0.6)',
                                         borderRadius: '12px',
                                         padding: '20px',
-                                        border: '1px solid rgba(99, 102, 241, 0.1)'
+                                        border: chargesReduction > 0 ? '2px solid rgba(16, 185, 129, 0.4)' : '1px solid rgba(99, 102, 241, 0.15)'
                                     }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                                            <span style={{ fontSize: '20px' }}>💰</span>
-                                            <h4 style={{ fontSize: '16px', fontWeight: '600', color: '#e2e8f0', margin: 0 }}>
-                                                Réduction des dépenses
-                                            </h4>
+                                        <div style={{ marginBottom: '16px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '24px' }}>💰</span>
+                                                <h4 style={{ fontSize: '16px', fontWeight: '700', color: '#e2e8f0', margin: 0 }}>
+                                                    Optimisation des charges
+                                                </h4>
+                                            </div>
+                                            <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: '1.4', margin: 0 }}>
+                                                Impact sur <strong style={{ color: '#10b981' }}>Marge Nette</strong>
+                                            </p>
                                         </div>
-                                        <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px', lineHeight: '1.4' }}>
-                                            Simulez une optimisation de vos coûts opérationnels
-                                        </p>
-                                        <div style={{ marginBottom: '12px' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                                <span style={{ fontSize: '14px', color: '#cbd5e1' }}>Réduction</span>
-                                                <span style={{ fontSize: '18px', fontWeight: '700', color: '#6366f1' }}>
-                                                    {depensesReduction}%
+
+                                        <div style={{ marginBottom: '16px' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '13px', color: '#cbd5e1' }}>Réduction</span>
+                                                <span style={{ fontSize: '20px', fontWeight: '700', color: chargesReduction > 0 ? '#10b981' : '#6366f1' }}>
+                                                    -{chargesReduction}%
                                                 </span>
                                             </div>
                                             <input
                                                 type="range"
                                                 min="0"
                                                 max="30"
-                                                step="1"
-                                                value={depensesReduction}
-                                                onChange={(e) => setDepensesReduction(Number(e.target.value))}
+                                                step="5"
+                                                value={chargesReduction}
+                                                onChange={(e) => setChargesReduction(Number(e.target.value))}
                                                 style={{
                                                     width: '100%',
                                                     height: '6px',
                                                     borderRadius: '3px',
-                                                    background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${(depensesReduction / 30) * 100}%, rgba(99, 102, 241, 0.2) ${(depensesReduction / 30) * 100}%, rgba(99, 102, 241, 0.2) 100%)`,
+                                                    background: `linear-gradient(to right, #10b981 0%, #10b981 ${(chargesReduction / 30) * 100}%, rgba(99, 102, 241, 0.2) ${(chargesReduction / 30) * 100}%, rgba(99, 102, 241, 0.2) 100%)`,
                                                     outline: 'none',
                                                     cursor: 'pointer'
                                                 }}
                                             />
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
+                                                <span style={{ fontSize: '11px', color: '#64748b' }}>0%</span>
+                                                <span style={{ fontSize: '11px', color: '#64748b' }}>30%</span>
+                                            </div>
                                         </div>
-                                        {depensesReduction > 0 && simulatedKPIs.length > 0 && (
+
+                                        {chargesReduction > 0 && simulatedKPIs.length > 0 && (
                                             <div style={{
-                                                marginTop: '16px',
-                                                padding: '12px',
-                                                background: 'rgba(16, 185, 129, 0.1)',
+                                                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.1) 100%)',
                                                 borderRadius: '8px',
-                                                border: '1px solid rgba(16, 185, 129, 0.2)'
+                                                padding: '12px',
+                                                border: '1px solid rgba(16, 185, 129, 0.3)'
                                             }}>
-                                                <p style={{ fontSize: '13px', color: '#10b981', fontWeight: '600', margin: 0 }}>
-                                                    📊 Impact: {simulatedKPIs.find(k => k.title.includes('Marge'))?.change}
+                                                <p style={{ fontSize: '12px', color: '#10b981', fontWeight: '600', marginBottom: '6px' }}>
+                                                    � Impact:
+                                                </p>
+                                                <p style={{ fontSize: '14px', color: '#e2e8f0', fontWeight: '700', margin: 0 }}>
+                                                    {simulatedKPIs.find(k => k.title.includes('Marge'))?.change || 'Calcul...'}
                                                 </p>
                                             </div>
                                         )}
                                     </div>
 
-                                    {/* Slider 2: Réduction DSO */}
+                                    {/* SIMULATION 2: Accélération Paiements → Cash Flow */}
                                     <div style={{
-                                        background: 'rgba(15, 23, 42, 0.5)',
+                                        background: 'rgba(15, 23, 42, 0.6)',
                                         borderRadius: '12px',
                                         padding: '20px',
-                                        border: '1px solid rgba(99, 102, 241, 0.1)'
+                                        border: paiementsAcceleration > 0 ? '2px solid rgba(139, 92, 246, 0.4)' : '1px solid rgba(99, 102, 241, 0.15)'
                                     }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                                            <span style={{ fontSize: '20px' }}>⏱️</span>
-                                            <h4 style={{ fontSize: '16px', fontWeight: '600', color: '#e2e8f0', margin: 0 }}>
-                                                Amélioration délai paiement
-                                            </h4>
+                                        <div style={{ marginBottom: '16px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '24px' }}>⚡</span>
+                                                <h4 style={{ fontSize: '16px', fontWeight: '700', color: '#e2e8f0', margin: 0 }}>
+                                                    Accélération paiements
+                                                </h4>
+                                            </div>
+                                            <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: '1.4', margin: 0 }}>
+                                                Impact sur <strong style={{ color: '#8b5cf6' }}>Cash Flow Net</strong>
+                                            </p>
                                         </div>
-                                        <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px', lineHeight: '1.4' }}>
-                                            Réduisez votre DSO et libérez du cash
-                                        </p>
-                                        <div style={{ marginBottom: '12px' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                                <span style={{ fontSize: '14px', color: '#cbd5e1' }}>Réduction DSO</span>
-                                                <span style={{ fontSize: '18px', fontWeight: '700', color: '#8b5cf6' }}>
-                                                    -{dsoReduction} jours
+
+                                        <div style={{ marginBottom: '16px' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '13px', color: '#cbd5e1' }}>Gain de délai</span>
+                                                <span style={{ fontSize: '20px', fontWeight: '700', color: paiementsAcceleration > 0 ? '#8b5cf6' : '#6366f1' }}>
+                                                    -{paiementsAcceleration} jours
                                                 </span>
                                             </div>
                                             <input
                                                 type="range"
                                                 min="0"
                                                 max="15"
-                                                step="1"
-                                                value={dsoReduction}
-                                                onChange={(e) => setDsoReduction(Number(e.target.value))}
+                                                step="3"
+                                                value={paiementsAcceleration}
+                                                onChange={(e) => setPaiementsAcceleration(Number(e.target.value))}
                                                 style={{
                                                     width: '100%',
                                                     height: '6px',
                                                     borderRadius: '3px',
-                                                    background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${(dsoReduction / 15) * 100}%, rgba(139, 92, 246, 0.2) ${(dsoReduction / 15) * 100}%, rgba(139, 92, 246, 0.2) 100%)`,
+                                                    background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${(paiementsAcceleration / 15) * 100}%, rgba(99, 102, 241, 0.2) ${(paiementsAcceleration / 15) * 100}%, rgba(99, 102, 241, 0.2) 100%)`,
                                                     outline: 'none',
                                                     cursor: 'pointer'
                                                 }}
                                             />
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
+                                                <span style={{ fontSize: '11px', color: '#64748b' }}>0j</span>
+                                                <span style={{ fontSize: '11px', color: '#64748b' }}>15j</span>
+                                            </div>
                                         </div>
-                                        {dsoReduction > 0 && simulatedKPIs.length > 0 && (
+
+                                        {paiementsAcceleration > 0 && simulatedKPIs.length > 0 && (
                                             <div style={{
-                                                marginTop: '16px',
-                                                padding: '12px',
-                                                background: 'rgba(16, 185, 129, 0.1)',
+                                                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(109, 40, 217, 0.1) 100%)',
                                                 borderRadius: '8px',
-                                                border: '1px solid rgba(16, 185, 129, 0.2)'
+                                                padding: '12px',
+                                                border: '1px solid rgba(139, 92, 246, 0.3)'
                                             }}>
-                                                <p style={{ fontSize: '13px', color: '#10b981', fontWeight: '600', margin: 0 }}>
-                                                    💵 Cash libéré: {simulatedKPIs.find(k => k.title.includes('Trésorerie'))?.change}
+                                                <p style={{ fontSize: '12px', color: '#a78bfa', fontWeight: '600', marginBottom: '6px' }}>
+                                                    💵 Cash libéré:
+                                                </p>
+                                                <p style={{ fontSize: '14px', color: '#e2e8f0', fontWeight: '700', margin: 0 }}>
+                                                    {simulatedKPIs.find(k => k.title.includes('Cash Flow') || k.title.includes('Trésorerie'))?.change || 'Calcul...'}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* SIMULATION 3: Augmentation Prix → CA */}
+                                    <div style={{
+                                        background: 'rgba(15, 23, 42, 0.6)',
+                                        borderRadius: '12px',
+                                        padding: '20px',
+                                        border: prixAugmentation > 0 ? '2px solid rgba(251, 191, 36, 0.4)' : '1px solid rgba(99, 102, 241, 0.15)'
+                                    }}>
+                                        <div style={{ marginBottom: '16px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '24px' }}>📈</span>
+                                                <h4 style={{ fontSize: '16px', fontWeight: '700', color: '#e2e8f0', margin: 0 }}>
+                                                    Augmentation tarifaire
+                                                </h4>
+                                            </div>
+                                            <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: '1.4', margin: 0 }}>
+                                                Impact sur <strong style={{ color: '#fbbf24' }}>Chiffre d'Affaires</strong>
+                                            </p>
+                                        </div>
+
+                                        <div style={{ marginBottom: '16px' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '13px', color: '#cbd5e1' }}>Hausse prix</span>
+                                                <span style={{ fontSize: '20px', fontWeight: '700', color: prixAugmentation > 0 ? '#fbbf24' : '#6366f1' }}>
+                                                    +{prixAugmentation}%
+                                                </span>
+                                            </div>
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="15"
+                                                step="5"
+                                                value={prixAugmentation}
+                                                onChange={(e) => setPrixAugmentation(Number(e.target.value))}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '6px',
+                                                    borderRadius: '3px',
+                                                    background: `linear-gradient(to right, #fbbf24 0%, #fbbf24 ${(prixAugmentation / 15) * 100}%, rgba(99, 102, 241, 0.2) ${(prixAugmentation / 15) * 100}%, rgba(99, 102, 241, 0.2) 100%)`,
+                                                    outline: 'none',
+                                                    cursor: 'pointer'
+                                                }}
+                                            />
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
+                                                <span style={{ fontSize: '11px', color: '#64748b' }}>0%</span>
+                                                <span style={{ fontSize: '11px', color: '#64748b' }}>15%</span>
+                                            </div>
+                                        </div>
+
+                                        {prixAugmentation > 0 && simulatedKPIs.length > 0 && (
+                                            <div style={{
+                                                background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%)',
+                                                borderRadius: '8px',
+                                                padding: '12px',
+                                                border: '1px solid rgba(251, 191, 36, 0.3)'
+                                            }}>
+                                                <p style={{ fontSize: '12px', color: '#fbbf24', fontWeight: '600', marginBottom: '6px' }}>
+                                                    � CA additionnel:
+                                                </p>
+                                                <p style={{ fontSize: '14px', color: '#e2e8f0', fontWeight: '700', margin: 0 }}>
+                                                    {simulatedKPIs.find(k => k.title.includes('Chiffre d\'Affaires'))?.change || 'Calcul...'}
                                                 </p>
                                             </div>
                                         )}
@@ -1554,12 +1680,13 @@ export default function FinancialDashboard() {
                             )}
 
                             {/* Bouton Reset */}
-                            {showSimulation && (depensesReduction > 0 || dsoReduction > 0) && (
-                                <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                            {showSimulation && (chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
+                                <div style={{ marginTop: '24px', textAlign: 'center' }}>
                                     <button
                                         onClick={() => {
-                                            setDepensesReduction(0);
-                                            setDsoReduction(0);
+                                            setChargesReduction(0);
+                                            setPaiementsAcceleration(0);
+                                            setPrixAugmentation(0);
                                         }}
                                         style={{
                                             background: 'rgba(239, 68, 68, 0.1)',
@@ -1579,27 +1706,27 @@ export default function FinancialDashboard() {
                                             e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)';
                                         }}
                                     >
-                                        🔄 Réinitialiser la simulation
+                                        🔄 Réinitialiser toutes les simulations
                                     </button>
                                 </div>
                             )}
 
                             {/* Badge Mode Simulation actif */}
-                            {(depensesReduction > 0 || dsoReduction > 0) && (
+                            {(chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
                                 <div style={{
                                     position: 'absolute',
                                     top: '16px',
-                                    right: '16px',
-                                    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                                    right: showSimulation ? '180px' : '16px',
+                                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                                     borderRadius: '20px',
                                     padding: '6px 14px',
                                     fontSize: '12px',
                                     fontWeight: '700',
                                     color: 'white',
-                                    boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+                                    boxShadow: '0 4px 12px rgba(16, 185, 129, 0.4)',
                                     animation: 'pulse 2s ease-in-out infinite'
                                 }}>
-                                    📊 Simulation active
+                                    📊 {[chargesReduction > 0 && '1', paiementsAcceleration > 0 && '2', prixAugmentation > 0 && '3'].filter(Boolean).length} simulation{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''} active{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''}
                                 </div>
                             )}
                         </div>
