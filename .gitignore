@@ -25,6 +25,7 @@ coverage/
 *.swo
 *~
 
-# Fichiers personnels (notes, réflexions)
+# Fichiers personnels (notes, réflexions, plan de bataille)
 REFLEXION_OTMANE.md
+FEATURES_WAOUW.md
 test-pinecone.js
