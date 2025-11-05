@@ -35,6 +35,10 @@ import { TopClientsVerticalChart } from './charts/TopClientsVerticalChart';
 import { OutstandingInvoicesChart } from './charts/OutstandingInvoicesChart';
 import { PaymentStatusChart } from './charts/PaymentStatusChart';
 
+// 🎨 Import D3.js Advanced Charts
+import { SankeyFlowChart } from './charts/SankeyFlowChart';
+import { SunburstExpensesChart } from './charts/SunburstExpensesChart';
+
 // Import AICopilot
 import AICopilot from './AICopilot';
 
@@ -754,6 +758,91 @@ export default function FinancialDashboard() {
         }
 
         return majorCategories;
+    };
+
+    // 🎨 TODO 6: Fonction getSankeyData() pour formater données Sankey (Revenus → Charges → Cash Flow)
+    const getSankeyData = () => {
+        if (!rawData || rawData.length === 0) return { nodes: [], links: [] };
+
+        // Calculer totaux
+        const totalRevenue = rawData
+            .filter((r: any) => r.type === 'income')
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
+
+        const totalExpenses = rawData
+            .filter((r: any) => r.type === 'expense')
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
+
+        const cashFlow = totalRevenue - totalExpenses;
+
+        // Nodes: [Revenus, Charges, Cash Flow Net]
+        const nodes = [
+            { name: 'Revenus' },
+            { name: 'Charges' },
+            { name: 'Cash Flow Net' }
+        ];
+
+        // Links: Revenus → Charges, Revenus → Cash Flow
+        const links = [
+            { source: 0, target: 1, value: totalExpenses }, // Revenus → Charges
+            { source: 0, target: 2, value: Math.max(0, cashFlow) } // Revenus → Cash Flow (si positif)
+        ];
+
+        return { nodes, links };
+    };
+
+    // 🎨 TODO 7: Fonction getSunburstData() pour structure hiérarchique expenses
+    const getSunburstData = () => {
+        if (!rawData || rawData.length === 0) {
+            return {
+                name: 'Dépenses',
+                children: []
+            };
+        }
+
+        const expenses = rawData.filter((r: any) => r.type === 'expense');
+        if (expenses.length === 0) {
+            return {
+                name: 'Dépenses',
+                children: []
+            };
+        }
+
+        // Regrouper par catégorie et sous-catégorie
+        const categoryMap = expenses.reduce((acc: any, r: any) => {
+            const category = r.category || 'Autres';
+            const subcategory = r.subcategory || r.description || 'Divers';
+
+            if (!acc[category]) {
+                acc[category] = {};
+            }
+
+            if (!acc[category][subcategory]) {
+                acc[category][subcategory] = 0;
+            }
+
+            acc[category][subcategory] += r.amount;
+
+            return acc;
+        }, {});
+
+        // Construire structure hiérarchique
+        const children = Object.entries(categoryMap).map(([categoryName, subcategories]: [string, any]) => {
+            const categoryChildren = Object.entries(subcategories).map(([subcategoryName, value]: [string, any]) => ({
+                name: subcategoryName,
+                value
+            }));
+
+            return {
+                name: categoryName,
+                children: categoryChildren
+            };
+        });
+
+        return {
+            name: 'Dépenses',
+            children
+        };
     };
 
     // ✅ Préparer données Top Clients pour TopClientsChart
@@ -1854,11 +1943,11 @@ export default function FinancialDashboard() {
                     {/* ✅ Section Charts Financiers */}
                     {rawData && rawData.length > 0 && (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                            {/* Chart 1: Cash Flow Evolution */}
+                            {/* Chart 1: 🎨 Sankey Flow Chart (D3.js) - Flux de trésorerie */}
                             <div className="bg-white rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ArrowTrendingUpIcon className="w-5 h-5 text-orange-600" />
-                                    Flux de Trésorerie Mensuels
+                                    Flux de Trésorerie (Sankey)
                                 </h3>
                                 {/* ✅ Mini résumé croissance */}
                                 {getCashFlowGrowth().growth !== '0' && (
@@ -1866,6 +1955,42 @@ export default function FinancialDashboard() {
                                         📈 {getCashFlowGrowth().displayText}
                                     </p>
                                 )}
+                                <div id="sankey-flow-chart">
+                                    <SankeyFlowChart data={getSankeyData()} />
+                                </div>
+                                <p className="text-xs text-gray-500 mt-3 text-center">
+                                    Visualisation des flux: Revenus → Charges → Cash Flow Net
+                                </p>
+                            </div>
+
+                            {/* Chart 2: 🎨 Sunburst Expenses Chart (D3.js) - Répartition des Charges */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <BanknotesIcon className="w-5 h-5 text-orange-600" />
+                                    Structure des Dépenses (Sunburst)
+                                </h3>
+                                {getCategoryBreakdown().length > 0 ? (
+                                    <>
+                                        <div id="sunburst-expenses-chart">
+                                            <SunburstExpensesChart data={getSunburstData()} />
+                                        </div>
+                                        <p className="text-xs text-gray-500 mt-3 text-center">
+                                            Hiérarchie interactive: catégories et sous-catégories (cliquez pour zoomer)
+                                        </p>
+                                    </>
+                                ) : (
+                                    <div className="h-[280px] flex items-center justify-center text-gray-400">
+                                        Pas de charges à afficher
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Chart 3: Cash Flow Evolution (Recharts - kept for comparison) */}
+                            <div className="bg-white rounded-lg shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <ArrowTrendingUpIcon className="w-5 h-5 text-blue-600" />
+                                    Évolution Mensuelle (Recharts)
+                                </h3>
                                 <div id="cashflow-evolution-chart">
                                     <CashFlowEvolutionChart data={getMonthlyData()} />
                                 </div>
@@ -1874,11 +1999,11 @@ export default function FinancialDashboard() {
                                 </p>
                             </div>
 
-                            {/* Chart 2: Répartition des Charges */}
+                            {/* Chart 4: Expense Breakdown (Recharts - kept for comparison) */}
                             <div className="bg-white rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                    <BanknotesIcon className="w-5 h-5 text-orange-600" />
-                                    Structure des Dépenses
+                                    <BanknotesIcon className="w-5 h-5 text-purple-600" />
+                                    Répartition Charges (Recharts)
                                 </h3>
                                 {getCategoryBreakdown().length > 0 ? (
                                     <>
@@ -1886,7 +2011,7 @@ export default function FinancialDashboard() {
                                             <ExpenseBreakdownChart data={getCategoryBreakdown()} />
                                         </div>
                                         <p className="text-xs text-gray-500 mt-3 text-center">
-                                            Charges ventilées par catégorie
+                                            Charges ventilées par catégorie (vue alternative)
                                         </p>
                                     </>
                                 ) : (

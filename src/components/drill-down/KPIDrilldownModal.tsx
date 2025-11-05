@@ -21,7 +21,7 @@ interface KPIDrilldownModalProps {
 
 export function KPIDrilldownModal({ state, actions, rawData }: KPIDrilldownModalProps) {
     // ⚠️ Hooks MUST be called before any conditional return
-    
+
     // Déterminer le type d'agrégation selon le KPI
     const drillDownType = state.selectedKPI ? getDrillDownType(state.selectedKPI) : 'client';
 
