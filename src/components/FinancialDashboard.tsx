@@ -9,6 +9,7 @@ import { DashboardConfig, DataLevelInfo } from '@/lib/dataModel';
 import { getUpgradeMessages } from '@/lib/dashboardConfig';
 import { useFinancialData } from '@/lib/financialContext';
 import { FinancialPDFExporter } from '@/lib/pdfExporter';
+import { FinancialExcelExporter } from '@/lib/excelExporter';
 import {
     BanknotesIcon,
     ArrowTrendingUpIcon,
@@ -234,6 +235,51 @@ export default function FinancialDashboard() {
         } catch (error) {
             console.error('Erreur lors de l\'export PDF:', error);
             alert('Erreur lors de l\'export PDF. Veuillez réessayer.');
+        }
+        setIsExporting(false);
+    };
+
+    // Fonction d'export Excel
+    const exportToExcel = async () => {
+        if (kpis.length === 0) return;
+
+        setIsExporting(true);
+        try {
+            const exporter = new FinancialExcelExporter();
+
+            const excelOptions = {
+                companyName: companyName || 'Entreprise',
+                reportPeriod: {
+                    start: rawData && rawData.length > 0
+                        ? new Date(Math.min(...rawData.map((r: any) => new Date(r.date).getTime())))
+                        : new Date(),
+                    end: rawData && rawData.length > 0
+                        ? new Date(Math.max(...rawData.map((r: any) => new Date(r.date).getTime())))
+                        : new Date()
+                },
+                kpis: kpis.map(kpi => ({
+                    title: kpi.title,
+                    value: kpi.value,
+                    change: kpi.change,
+                    description: kpi.description,
+                    changeType: kpi.changeType
+                })),
+                rawData: rawData && rawData.length > 0 ? rawData.map((r: any) => ({
+                    date: r.date,
+                    description: r.description,
+                    amount: r.amount,
+                    client: r.client,
+                    category: r.category,
+                    status: r.paymentStatus
+                })) : [],
+                includeRawData: true
+            };
+
+            await exporter.generate(excelOptions);
+
+        } catch (error) {
+            console.error('Erreur lors de l\'export Excel:', error);
+            alert('Erreur lors de l\'export Excel. Veuillez réessayer.');
         }
         setIsExporting(false);
     };
@@ -896,6 +942,19 @@ export default function FinancialDashboard() {
                     >
                         <DocumentArrowDownIcon className="finsight-icon-sm" />
                         <span>{isExporting ? 'Export...' : 'Export PDF'}</span>
+                    </button>
+                    <button
+                        onClick={exportToExcel}
+                        disabled={isExporting}
+                        className="finsight-btn finsight-btn-secondary"
+                        style={{
+                            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                            color: 'white',
+                            border: 'none'
+                        }}
+                    >
+                        <DocumentArrowDownIcon className="finsight-icon-sm" />
+                        <span>{isExporting ? 'Export...' : 'Export Excel'}</span>
                     </button>
                     <button
                         onClick={() => setShowUploadModal(true)}
