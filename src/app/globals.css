@@ -31,6 +31,7 @@ body {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -41,6 +42,7 @@ body {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -52,6 +54,7 @@ body {
         opacity: 0;
         transform: scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -62,6 +65,7 @@ body {
     0% {
         background-position: -1000px 0;
     }
+
     100% {
         background-position: 1000px 0;
     }
@@ -83,21 +87,36 @@ body {
 }
 
 /* Stagger animation pour items */
-.drill-down-item:nth-child(1) { animation-delay: 0.05s; }
-.drill-down-item:nth-child(2) { animation-delay: 0.1s; }
-.drill-down-item:nth-child(3) { animation-delay: 0.15s; }
-.drill-down-item:nth-child(4) { animation-delay: 0.2s; }
-.drill-down-item:nth-child(5) { animation-delay: 0.25s; }
-.drill-down-item:nth-child(n+6) { animation-delay: 0.3s; }
+.drill-down-item:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.drill-down-item:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.drill-down-item:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.drill-down-item:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.drill-down-item:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.drill-down-item:nth-child(n+6) {
+    animation-delay: 0.3s;
+}
 
 /* Loading skeleton */
 .skeleton-loading {
-    background: linear-gradient(
-        90deg,
-        rgba(99, 102, 241, 0.05) 0%,
-        rgba(99, 102, 241, 0.15) 50%,
-        rgba(99, 102, 241, 0.05) 100%
-    );
+    background: linear-gradient(90deg,
+            rgba(99, 102, 241, 0.05) 0%,
+            rgba(99, 102, 241, 0.15) 50%,
+            rgba(99, 102, 241, 0.05) 100%);
     background-size: 2000px 100%;
     animation: shimmer 2s infinite linear;
 }
