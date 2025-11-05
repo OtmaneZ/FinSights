@@ -821,7 +821,7 @@ export function generateDashboardKPIs(data: ProcessedData) {
         {
             title: 'Charges',
             value: `${Math.round(kpis.expenses).toLocaleString('fr-FR')} €`,
-            change: `${(-kpis.trends.expenseGrowth).toFixed(1)}%`, // ✅ Inverser le signe (baisse = positif)
+            change: `${kpis.trends.expenseGrowth.toFixed(1)}%`, // Vrai signe : négatif = baisse
             changeType: kpis.trends.expenseGrowth < 0 ? 'positive' : kpis.trends.expenseGrowth > 0 ? 'negative' : 'neutral',
             description: 'Total des dépenses',
             confidence: data.qualityMetrics.accuracy
