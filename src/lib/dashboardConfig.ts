@@ -129,7 +129,7 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         title: 'Chiffre d\'Affaires',
         value: `${Math.round(data.kpis.revenue).toLocaleString('fr-FR')} €`,
         change: `${data.kpis.trends.revenueGrowth.toFixed(1)}%`,
-        changeType: data.kpis.trends.revenueGrowth > 0 ? 'positive' : 'negative',
+        changeType: data.kpis.trends.revenueGrowth > 0 ? 'positive' : data.kpis.trends.revenueGrowth < 0 ? 'negative' : 'neutral',
         description: `Période: ${data.summary.period.start.toLocaleDateString('fr-FR')} à ${data.summary.period.end.toLocaleDateString('fr-FR')}`,
         confidence: data.qualityMetrics.accuracy
     });
@@ -139,7 +139,7 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         title: 'Charges',
         value: `${Math.round(data.kpis.expenses).toLocaleString('fr-FR')} €`,
         change: `${data.kpis.trends.expenseGrowth.toFixed(1)}%`, // Garder le vrai signe : négatif = baisse
-        changeType: data.kpis.trends.expenseGrowth < 0 ? 'positive' : 'negative', // Baisse = vert (positif)
+        changeType: data.kpis.trends.expenseGrowth < 0 ? 'positive' : data.kpis.trends.expenseGrowth > 0 ? 'negative' : 'neutral', // Baisse = vert
         description: 'Total des dépenses',
         confidence: data.qualityMetrics.accuracy
     });
@@ -172,8 +172,8 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
     kpis.push({
         title: 'Cash Flow Net',
         value: `${Math.round(data.summary.netCashFlow).toLocaleString('fr-FR')} €`,
-        change: `${data.kpis.trends.marginTrend.toFixed(1)}%`,
-        changeType: data.summary.netCashFlow > 0 ? 'positive' : 'negative',
+        change: `${(data.kpis.trends.cashFlowGrowth || 0).toFixed(1)}%`,
+        changeType: (data.kpis.trends.cashFlowGrowth || 0) > 0 ? 'positive' : (data.kpis.trends.cashFlowGrowth || 0) < 0 ? 'negative' : 'neutral',
         description: 'Flux de trésorerie net',
         confidence: data.qualityMetrics.completeness
     });

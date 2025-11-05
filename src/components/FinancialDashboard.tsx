@@ -1100,9 +1100,6 @@ export default function FinancialDashboard() {
                                     MODE DÉMONSTRATION
                                 </h3>
                             </div>
-                            <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.9)', margin: '0 0 12px 0', lineHeight: '1.5' }}>
-                                Vous visualisez une <strong>PME Services B2B</strong> (8M€ CA • 120 transactions)
-                            </p>
                             <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.95)', fontWeight: '600', margin: 0 }}>
                                 📊 Obtenez votre dashboard personnalisé :
                             </p>
