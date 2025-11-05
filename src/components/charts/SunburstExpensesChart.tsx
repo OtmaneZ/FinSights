@@ -33,8 +33,21 @@ export function SunburstExpensesChart({ data, width = 600, height = 600 }: Sunbu
     useEffect(() => {
         if (!svgRef.current || !containerRef.current || !data) return;
 
-        // Clear previous chart
-        d3.select(svgRef.current).selectAll('*').remove();
+        // Clear previous chart with fade-out
+        const svg = d3.select(svgRef.current);
+        svg.selectAll('*')
+            .transition()
+            .duration(200)
+            .style('opacity', 0)
+            .remove();
+
+        // Delay for smooth transition
+        setTimeout(() => {
+            renderChart();
+        }, 250);
+
+        function renderChart() {
+            if (!svgRef.current || !containerRef.current) return;
 
         const svg = d3.select(svgRef.current);
         const radius = Math.min(width, height) / 2;
@@ -99,6 +112,8 @@ export function SunburstExpensesChart({ data, width = 600, height = 600 }: Sunbu
             .style('cursor', 'pointer')
             .on('mouseover', function (event, d) {
                 d3.select(this)
+                    .transition()
+                    .duration(150)
                     .attr('fill-opacity', 1)
                     .attr('stroke-width', 3);
 
@@ -120,6 +135,8 @@ export function SunburstExpensesChart({ data, width = 600, height = 600 }: Sunbu
             })
             .on('mouseout', function () {
                 d3.select(this)
+                    .transition()
+                    .duration(150)
                     .attr('fill-opacity', 0.9)
                     .attr('stroke-width', 2);
                 hideTooltip(tooltip);
@@ -202,15 +219,31 @@ export function SunburstExpensesChart({ data, width = 600, height = 600 }: Sunbu
         // Click on center to reset
         svg.on('click', () => focus(root as any));
 
+        // 🎨 Animate entrance with staggered transitions
+        path.style('opacity', 0)
+            .transition()
+            .duration(800)
+            .delay((d, i) => i * 20)
+            .style('opacity', 0.9);
+
+        centerText.selectAll('text')
+            .style('opacity', 0)
+            .transition()
+            .duration(600)
+            .delay(400)
+            .style('opacity', 1);
+
         // Cleanup
         return () => {
             tooltip.remove();
         };
+        } // Close renderChart function
+
     }, [data, width, height]);
 
     return (
-        <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <svg ref={svgRef} style={{ width: '100%', height: 'auto' }} />
+        <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '450px', minHeight: '400px' }}>
+            <svg ref={svgRef} style={{ width: '100%', height: '100%', display: 'block' }} />
             <div style={{
                 position: 'absolute',
                 bottom: '10px',

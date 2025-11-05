@@ -31,8 +31,21 @@ export function SankeyFlowChart({ data, width = 800, height = 400 }: SankeyFlowC
     useEffect(() => {
         if (!svgRef.current || !containerRef.current || !data.nodes.length) return;
 
-        // Clear previous chart
-        d3.select(svgRef.current).selectAll('*').remove();
+        // Clear previous chart with fade-out
+        const svg = d3.select(svgRef.current);
+        svg.selectAll('*')
+            .transition()
+            .duration(200)
+            .style('opacity', 0)
+            .remove();
+
+        // Delay for smooth transition
+        setTimeout(() => {
+            renderChart();
+        }, 250);
+
+        function renderChart() {
+            if (!svgRef.current || !containerRef.current) return;
 
         const svg = d3.select(svgRef.current);
         const margin = { top: 20, right: 150, bottom: 20, left: 150 };
@@ -92,8 +105,13 @@ export function SankeyFlowChart({ data, width = 800, height = 400 }: SankeyFlowC
             .attr('stroke-width', d => Math.max(1, d.width || 0))
             .attr('fill', 'none')
             .attr('opacity', 0.4)
+            .style('cursor', 'pointer')
             .on('mouseover', function (event, d) {
-                d3.select(this).attr('opacity', 0.7);
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr('opacity', 0.7)
+                    .attr('stroke-width', (d.width || 0) * 1.2);
                 const sourceNode = d.source as SankeyNode<{ name: string }, { source: number; target: number; value: number }>;
                 const targetNode = d.target as SankeyNode<{ name: string }, { source: number; target: number; value: number }>;
                 showTooltip(
@@ -108,8 +126,12 @@ export function SankeyFlowChart({ data, width = 800, height = 400 }: SankeyFlowC
                     .style('left', `${event.pageX + 10}px`)
                     .style('top', `${event.pageY - 10}px`);
             })
-            .on('mouseout', function () {
-                d3.select(this).attr('opacity', 0.4);
+            .on('mouseout', function (event, d) {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr('opacity', 0.4)
+                    .attr('stroke-width', Math.max(1, d.width || 0));
                 hideTooltip(tooltip);
             });
 
@@ -131,7 +153,11 @@ export function SankeyFlowChart({ data, width = 800, height = 400 }: SankeyFlowC
             .attr('rx', 4)
             .style('cursor', 'pointer')
             .on('mouseover', function (event, d) {
-                d3.select(this).attr('opacity', 0.8);
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr('opacity', 0.8)
+                    .attr('stroke-width', 3);
                 const incoming = (d.value || 0);
                 const outgoing = d.sourceLinks?.reduce((sum, l) => sum + (l.value || 0), 0) || 0;
                 showTooltip(
@@ -149,7 +175,11 @@ export function SankeyFlowChart({ data, width = 800, height = 400 }: SankeyFlowC
                     .style('top', `${event.pageY - 10}px`);
             })
             .on('mouseout', function () {
-                d3.select(this).attr('opacity', 1);
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr('opacity', 1)
+                    .attr('stroke-width', 2);
                 hideTooltip(tooltip);
             });
 
@@ -175,15 +205,38 @@ export function SankeyFlowChart({ data, width = 800, height = 400 }: SankeyFlowC
             .attr('fill', '#94a3b8')
             .text(d => formatCurrency(d.value || 0));
 
+        // 🎨 Animate entrance with staggered transitions
+        link.style('opacity', 0)
+            .transition()
+            .duration(800)
+            .delay((d, i) => i * 50)
+            .style('opacity', 0.4);
+
+        node.select('rect')
+            .style('opacity', 0)
+            .transition()
+            .duration(600)
+            .delay((d, i) => i * 100)
+            .style('opacity', 1);
+
+        node.selectAll('text')
+            .style('opacity', 0)
+            .transition()
+            .duration(500)
+            .delay((d, i) => i * 100 + 200)
+            .style('opacity', 1);
+
         // Cleanup
         return () => {
             tooltip.remove();
         };
+        } // Close renderChart function
+
     }, [data, width, height]);
 
     return (
-        <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <svg ref={svgRef} style={{ width: '100%', height: 'auto' }} />
+        <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '400px', minHeight: '300px' }}>
+            <svg ref={svgRef} style={{ width: '100%', height: '100%', display: 'block' }} />
         </div>
     );
 }
