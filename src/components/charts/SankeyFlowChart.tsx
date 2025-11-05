@@ -235,7 +235,7 @@ export function SankeyFlowChart({ data, width = 800, height = 400 }: SankeyFlowC
     }, [data, width, height]);
 
     return (
-        <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '400px', minHeight: '300px' }}>
+        <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '380px', minHeight: '300px', overflow: 'hidden' }}>
             <svg ref={svgRef} style={{ width: '100%', height: '100%', display: 'block' }} />
         </div>
     );

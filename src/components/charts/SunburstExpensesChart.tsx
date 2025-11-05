@@ -50,7 +50,8 @@ export function SunburstExpensesChart({ data, width = 600, height = 600 }: Sunbu
             if (!svgRef.current || !containerRef.current) return;
 
         const svg = d3.select(svgRef.current);
-        const radius = Math.min(width, height) / 2;
+        // 🔧 Fix: Reduce radius to fit container with padding
+        const radius = Math.min(width, height) / 2 - 40; // 40px padding
 
         // Set responsive viewBox
         setResponsiveViewBox(svg, width, height);
@@ -242,7 +243,7 @@ export function SunburstExpensesChart({ data, width = 600, height = 600 }: Sunbu
     }, [data, width, height]);
 
     return (
-        <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '450px', minHeight: '400px' }}>
+        <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '380px', minHeight: '350px', overflow: 'hidden' }}>
             <svg ref={svgRef} style={{ width: '100%', height: '100%', display: 'block' }} />
             <div style={{
                 position: 'absolute',
@@ -251,7 +252,8 @@ export function SunburstExpensesChart({ data, width = 600, height = 600 }: Sunbu
                 transform: 'translateX(-50%)',
                 fontSize: '11px',
                 color: '#94a3b8',
-                textAlign: 'center'
+                textAlign: 'center',
+                pointerEvents: 'none'
             }}>
                 💡 Cliquez sur un segment pour zoomer
             </div>
