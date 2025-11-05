@@ -2,7 +2,7 @@
  * Types et interfaces pour le système de détection d'anomalies ML
  */
 
-export type AnomalyType = 
+export type AnomalyType =
     | 'amount_outlier'        // Montant suspect (>> moyenne)
     | 'payment_delay'         // Retard de paiement
     | 'category_spike'        // Spike inhabituel dans catégorie

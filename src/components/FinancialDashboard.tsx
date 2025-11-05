@@ -879,7 +879,7 @@ export default function FinancialDashboard() {
             });
 
             setAnomalies(result.anomalies);
-            
+
             // Auto-show panel si anomalies critiques ou high
             const criticalCount = result.summary.byRisk.critical + result.summary.byRisk.high;
             if (criticalCount > 0 && !showAnomalies) {

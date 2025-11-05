@@ -1,6 +1,6 @@
 /**
  * Détecteur d'anomalies financières avec Machine Learning côté client
- * 
+ *
  * Algorithmes:
  * 1. Z-Score: Détection montants suspects (>> moyenne)
  * 2. IQR Outliers: Détection patterns multi-dimensionnels
@@ -8,13 +8,13 @@
  */
 
 import * as stats from 'simple-statistics';
-import type { 
-    Anomaly, 
-    AnomalyType, 
-    RiskLevel, 
-    DetectionConfig, 
+import type {
+    Anomaly,
+    AnomalyType,
+    RiskLevel,
+    DetectionConfig,
     DetectionResult,
-    DEFAULT_CONFIG 
+    DEFAULT_CONFIG
 } from './types';
 
 /**
@@ -89,7 +89,7 @@ export class AnomalyDetector {
 
         // Analyser revenues
         anomalies.push(...this.analyzeAmounts(revenues, 'revenue'));
-        
+
         // Analyser expenses
         anomalies.push(...this.analyzeAmounts(expenses, 'expense'));
 
@@ -210,7 +210,7 @@ export class AnomalyDetector {
 
             records.forEach((record, index) => {
                 const amount = Math.abs(record.amount || record.Montant || 0);
-                
+
                 // Si montant > 2.5× la moyenne de la catégorie
                 if (amount > mean * this.config.categorySpikeFactor && mean > 0) {
                     const factor = amount / mean;
