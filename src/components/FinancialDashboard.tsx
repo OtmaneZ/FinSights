@@ -74,6 +74,12 @@ export default function FinancialDashboard() {
     const [showUploadModal, setShowUploadModal] = useState(false) // ✅ Modal upload sur RDV
     const [selectedScenario, setSelectedScenario] = useState<'saine' | 'difficulte' | 'croissance'>('saine')
 
+    // 🔮 States pour simulation What-If
+    const [showSimulation, setShowSimulation] = useState(false)
+    const [depensesReduction, setDepensesReduction] = useState(0) // 0 à 30%
+    const [dsoReduction, setDsoReduction] = useState(0) // 0 à 15 jours
+    const [simulatedKPIs, setSimulatedKPIs] = useState<KPI[]>([])
+
     // 🎯 Fonction pour charger la démo avec animation
     const handleLoadDemo = async (scenario: 'saine' | 'difficulte' | 'croissance' = 'saine') => {
         setIsLoadingDemo(true);
@@ -352,6 +358,73 @@ export default function FinancialDashboard() {
             data: [] // Vide - les vraies données viennent de handleFileUpload
         };
     };
+
+    // 🔮 Fonction de calcul des KPIs simulés
+    const calculateSimulatedKPIs = () => {
+        if (!isDataLoaded || kpis.length === 0 || !rawData) return;
+
+        // Extraire les valeurs actuelles des KPIs
+        const currentRevenue = parseFloat(kpis.find(k => k.title.includes('Chiffre d\'Affaires'))?.value.replace(/[^0-9.-]/g, '') || '0');
+        const currentMargin = parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^0-9.-]/g, '') || '0');
+        const currentCashFlow = parseFloat(kpis.find(k => k.title.includes('Trésorerie'))?.value.replace(/[^0-9.-]/g, '') || '0');
+        const currentDSO = parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^0-9.-]/g, '') || '0');
+
+        // Calculer les totaux depuis rawData
+        const totalExpenses = rawData
+            .filter((r: any) => r.type === 'expense')
+            .reduce((sum: number, r: any) => sum + Math.abs(r.amount), 0);
+
+        // 🎯 Appliquer la simulation réduction dépenses
+        const newExpenses = totalExpenses * (1 - depensesReduction / 100);
+        const newMargin = ((currentRevenue - newExpenses) / currentRevenue) * 100;
+        const marginDiff = newMargin - currentMargin;
+
+        // 🎯 Appliquer la simulation réduction DSO
+        const newDSO = Math.max(0, currentDSO - dsoReduction);
+        const cashLiberated = (currentRevenue / 365) * dsoReduction;
+        const newCashFlow = currentCashFlow + cashLiberated;
+        const cashFlowDiff = cashLiberated;
+
+        // Créer les KPIs simulés
+        const simulated: KPI[] = kpis.map(kpi => {
+            if (kpi.title.includes('Marge')) {
+                return {
+                    ...kpi,
+                    value: `${newMargin.toFixed(1)}%`,
+                    change: `${marginDiff > 0 ? '+' : ''}${marginDiff.toFixed(1)}% vs actuel`,
+                    changeType: marginDiff > 0 ? 'positive' : marginDiff < 0 ? 'negative' : 'neutral'
+                };
+            }
+            if (kpi.title.includes('Trésorerie')) {
+                return {
+                    ...kpi,
+                    value: `${newCashFlow.toLocaleString('fr-FR')} €`,
+                    change: `${cashFlowDiff > 0 ? '+' : ''}${cashFlowDiff.toLocaleString('fr-FR')} € vs actuel`,
+                    changeType: cashFlowDiff > 0 ? 'positive' : 'neutral'
+                };
+            }
+            if (kpi.title.includes('DSO')) {
+                return {
+                    ...kpi,
+                    value: `${Math.round(newDSO)} jours`,
+                    change: `-${dsoReduction} jours vs actuel`,
+                    changeType: dsoReduction > 0 ? 'positive' : 'neutral'
+                };
+            }
+            return kpi;
+        });
+
+        setSimulatedKPIs(simulated);
+    };
+
+    // 🔄 Recalculer les KPIs simulés quand les sliders changent
+    useEffect(() => {
+        if (depensesReduction > 0 || dsoReduction > 0) {
+            calculateSimulatedKPIs();
+        } else {
+            setSimulatedKPIs([]);
+        }
+    }, [depensesReduction, dsoReduction, kpis]);
 
     // ✅ KPIs chargés seulement depuis l'upload - pas de données factices par défaut
     // useEffect(() => {
@@ -1247,7 +1320,7 @@ export default function FinancialDashboard() {
                 <>
                     {/* KPI Grid */}
                     <div className="finsight-kpi-grid" data-count={kpis.length}>
-                        {kpis.map((kpi, index) => (
+                        {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis).map((kpi, index) => (
                             <div key={index} className="finsight-kpi-card finsight-kpi-hover">
                                 <div className="finsight-kpi-header">
                                     <div className="flex items-center gap-1">
@@ -1311,6 +1384,226 @@ export default function FinancialDashboard() {
                             </div>
                         ))}
                     </div>
+
+                    {/* 🔮 SIMULATION WHAT-IF PANEL */}
+                    {isDataLoaded && (
+                        <div style={{
+                            marginTop: '32px',
+                            marginBottom: '32px',
+                            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)',
+                            border: '1px solid rgba(99, 102, 241, 0.2)',
+                            borderRadius: '16px',
+                            padding: '24px',
+                            position: 'relative',
+                            overflow: 'hidden'
+                        }}>
+                            {/* Header avec toggle */}
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                marginBottom: showSimulation ? '24px' : '0'
+                            }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                    <span style={{ fontSize: '28px' }}>🔮</span>
+                                    <div>
+                                        <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#e2e8f0', marginBottom: '4px' }}>
+                                            Simulation What-If
+                                        </h3>
+                                        <p style={{ fontSize: '14px', color: '#94a3b8', margin: 0 }}>
+                                            Explorez l'impact de vos décisions sur vos KPIs
+                                        </p>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setShowSimulation(!showSimulation)}
+                                    style={{
+                                        background: showSimulation ? 'rgba(99, 102, 241, 0.2)' : 'rgba(99, 102, 241, 0.1)',
+                                        border: '1px solid rgba(99, 102, 241, 0.3)',
+                                        borderRadius: '8px',
+                                        padding: '8px 16px',
+                                        color: '#a5b4fc',
+                                        fontSize: '14px',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s ease'
+                                    }}
+                                >
+                                    {showSimulation ? '▼ Réduire' : '▶ Développer'}
+                                </button>
+                            </div>
+
+                            {/* Contenu des sliders */}
+                            {showSimulation && (
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                                    gap: '24px',
+                                    marginTop: '24px'
+                                }}>
+                                    {/* Slider 1: Réduction dépenses */}
+                                    <div style={{
+                                        background: 'rgba(15, 23, 42, 0.5)',
+                                        borderRadius: '12px',
+                                        padding: '20px',
+                                        border: '1px solid rgba(99, 102, 241, 0.1)'
+                                    }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                                            <span style={{ fontSize: '20px' }}>💰</span>
+                                            <h4 style={{ fontSize: '16px', fontWeight: '600', color: '#e2e8f0', margin: 0 }}>
+                                                Réduction des dépenses
+                                            </h4>
+                                        </div>
+                                        <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px', lineHeight: '1.4' }}>
+                                            Simulez une optimisation de vos coûts opérationnels
+                                        </p>
+                                        <div style={{ marginBottom: '12px' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '14px', color: '#cbd5e1' }}>Réduction</span>
+                                                <span style={{ fontSize: '18px', fontWeight: '700', color: '#6366f1' }}>
+                                                    {depensesReduction}%
+                                                </span>
+                                            </div>
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="30"
+                                                step="1"
+                                                value={depensesReduction}
+                                                onChange={(e) => setDepensesReduction(Number(e.target.value))}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '6px',
+                                                    borderRadius: '3px',
+                                                    background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${(depensesReduction / 30) * 100}%, rgba(99, 102, 241, 0.2) ${(depensesReduction / 30) * 100}%, rgba(99, 102, 241, 0.2) 100%)`,
+                                                    outline: 'none',
+                                                    cursor: 'pointer'
+                                                }}
+                                            />
+                                        </div>
+                                        {depensesReduction > 0 && simulatedKPIs.length > 0 && (
+                                            <div style={{
+                                                marginTop: '16px',
+                                                padding: '12px',
+                                                background: 'rgba(16, 185, 129, 0.1)',
+                                                borderRadius: '8px',
+                                                border: '1px solid rgba(16, 185, 129, 0.2)'
+                                            }}>
+                                                <p style={{ fontSize: '13px', color: '#10b981', fontWeight: '600', margin: 0 }}>
+                                                    📊 Impact: {simulatedKPIs.find(k => k.title.includes('Marge'))?.change}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Slider 2: Réduction DSO */}
+                                    <div style={{
+                                        background: 'rgba(15, 23, 42, 0.5)',
+                                        borderRadius: '12px',
+                                        padding: '20px',
+                                        border: '1px solid rgba(99, 102, 241, 0.1)'
+                                    }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                                            <span style={{ fontSize: '20px' }}>⏱️</span>
+                                            <h4 style={{ fontSize: '16px', fontWeight: '600', color: '#e2e8f0', margin: 0 }}>
+                                                Amélioration délai paiement
+                                            </h4>
+                                        </div>
+                                        <p style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px', lineHeight: '1.4' }}>
+                                            Réduisez votre DSO et libérez du cash
+                                        </p>
+                                        <div style={{ marginBottom: '12px' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '14px', color: '#cbd5e1' }}>Réduction DSO</span>
+                                                <span style={{ fontSize: '18px', fontWeight: '700', color: '#8b5cf6' }}>
+                                                    -{dsoReduction} jours
+                                                </span>
+                                            </div>
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="15"
+                                                step="1"
+                                                value={dsoReduction}
+                                                onChange={(e) => setDsoReduction(Number(e.target.value))}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '6px',
+                                                    borderRadius: '3px',
+                                                    background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${(dsoReduction / 15) * 100}%, rgba(139, 92, 246, 0.2) ${(dsoReduction / 15) * 100}%, rgba(139, 92, 246, 0.2) 100%)`,
+                                                    outline: 'none',
+                                                    cursor: 'pointer'
+                                                }}
+                                            />
+                                        </div>
+                                        {dsoReduction > 0 && simulatedKPIs.length > 0 && (
+                                            <div style={{
+                                                marginTop: '16px',
+                                                padding: '12px',
+                                                background: 'rgba(16, 185, 129, 0.1)',
+                                                borderRadius: '8px',
+                                                border: '1px solid rgba(16, 185, 129, 0.2)'
+                                            }}>
+                                                <p style={{ fontSize: '13px', color: '#10b981', fontWeight: '600', margin: 0 }}>
+                                                    💵 Cash libéré: {simulatedKPIs.find(k => k.title.includes('Trésorerie'))?.change}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Bouton Reset */}
+                            {showSimulation && (depensesReduction > 0 || dsoReduction > 0) && (
+                                <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                                    <button
+                                        onClick={() => {
+                                            setDepensesReduction(0);
+                                            setDsoReduction(0);
+                                        }}
+                                        style={{
+                                            background: 'rgba(239, 68, 68, 0.1)',
+                                            border: '1px solid rgba(239, 68, 68, 0.3)',
+                                            borderRadius: '8px',
+                                            padding: '10px 20px',
+                                            color: '#f87171',
+                                            fontSize: '14px',
+                                            fontWeight: '600',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s ease'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)';
+                                        }}
+                                    >
+                                        🔄 Réinitialiser la simulation
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Badge Mode Simulation actif */}
+                            {(depensesReduction > 0 || dsoReduction > 0) && (
+                                <div style={{
+                                    position: 'absolute',
+                                    top: '16px',
+                                    right: '16px',
+                                    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                                    borderRadius: '20px',
+                                    padding: '6px 14px',
+                                    fontSize: '12px',
+                                    fontWeight: '700',
+                                    color: 'white',
+                                    boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+                                    animation: 'pulse 2s ease-in-out infinite'
+                                }}>
+                                    📊 Simulation active
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     {/* ✅ AMÉLIORATION 4: Alerte si marge > 60% */}
                     {(() => {
