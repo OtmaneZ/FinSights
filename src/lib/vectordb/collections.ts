@@ -1,6 +1,6 @@
 /**
  * GESTION DES COLLECTIONS VECTORIELLES
- * 
+ *
  * Store et search dans Pinecone pour :
  * - Conversations copilot (mémoire contextuelle)
  * - Transactions (détection similarités)

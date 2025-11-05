@@ -1,6 +1,6 @@
 /**
  * GÉNÉRATION D'EMBEDDINGS avec OpenAI
- * 
+ *
  * Convertit du texte en vecteurs pour la recherche sémantique
  */
 

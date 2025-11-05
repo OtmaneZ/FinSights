@@ -1,6 +1,6 @@
 /**
  * CLIENT PINECONE - Mémoire Vectorielle
- * 
+ *
  * Permet de stocker et rechercher :
  * - Historique des conversations avec le copilot
  * - Transactions similaires

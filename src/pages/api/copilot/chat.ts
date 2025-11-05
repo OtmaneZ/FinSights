@@ -54,7 +54,7 @@ export default async function handler(
                 const similarConvs = await searchSimilarConversations(message, companyName, 3);
                 if (similarConvs.length > 0) {
                     contextFromMemory = '\n\n💭 Mémoire (conversations similaires passées):\n' +
-                        similarConvs.map((conv, i) => 
+                        similarConvs.map((conv, i) =>
                             `${i + 1}. ${conv.metadata.message} → ${conv.metadata.response.substring(0, 100)}...`
                         ).join('\n');
                     console.log(`🧠 ${similarConvs.length} conversations similaires trouvées`);
