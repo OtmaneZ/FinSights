@@ -39,6 +39,11 @@ import { PaymentStatusChart } from './charts/PaymentStatusChart';
 import { SankeyFlowChart } from './charts/SankeyFlowChart';
 import { SunburstExpensesChart } from './charts/SunburstExpensesChart';
 
+// 🤖 Import ML Anomaly Detection
+import { AnomalyPanel } from './AnomalyPanel';
+import { detectAnomalies } from '@/lib/ml/anomalyDetector';
+import type { Anomaly } from '@/lib/ml/types';
+
 // Import AICopilot
 import AICopilot from './AICopilot';
 
@@ -92,6 +97,10 @@ export default function FinancialDashboard() {
 
     // 🎯 Hook drill-down interactif
     const [drillDownState, drillDownActions] = useDrilldown();
+
+    // 🤖 ML Anomaly Detection states
+    const [anomalies, setAnomalies] = useState<Anomaly[]>([]);
+    const [showAnomalies, setShowAnomalies] = useState(false);
 
     // 🎯 Fonction pour charger la démo avec animation
     const handleLoadDemo = async (scenario: 'saine' | 'difficulte' | 'croissance' = 'saine') => {
@@ -204,6 +213,14 @@ export default function FinancialDashboard() {
         return () => window.removeEventListener('fileSelected', handleFileSelected);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // 🤖 Détecter anomalies automatiquement quand rawData change
+    useEffect(() => {
+        if (rawData && rawData.length > 0) {
+            detectAnomaliesFromData();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [rawData]);
 
     // Fonction d'export PDF professionnelle
     const exportToPDF = async () => {
@@ -843,6 +860,37 @@ export default function FinancialDashboard() {
             name: 'Dépenses',
             children
         };
+    };
+
+    // 🤖 TODO 6: Fonction detectAnomaliesFromData() - Détection ML automatique
+    const detectAnomaliesFromData = () => {
+        if (!rawData || rawData.length === 0) {
+            setAnomalies([]);
+            return;
+        }
+
+        try {
+            const result = detectAnomalies(rawData, {
+                zScoreThreshold: 3,
+                iqrMultiplier: 1.5,
+                paymentDelayDays: 30,
+                categorySpikeFactor: 2.5,
+                minConfidence: 0.7
+            });
+
+            setAnomalies(result.anomalies);
+            
+            // Auto-show panel si anomalies critiques ou high
+            const criticalCount = result.summary.byRisk.critical + result.summary.byRisk.high;
+            if (criticalCount > 0 && !showAnomalies) {
+                setShowAnomalies(true);
+            }
+
+            console.log(`🤖 ML Anomaly Detection: ${result.anomalies.length} anomalies détectées en ${result.executionTime}ms`);
+        } catch (error) {
+            console.error('Erreur détection anomalies:', error);
+            setAnomalies([]);
+        }
     };
 
     // ✅ Préparer données Top Clients pour TopClientsChart
@@ -1938,6 +1986,44 @@ export default function FinancialDashboard() {
                             netMargin={getKPINumericValue('Marge')}
                             bfr={getKPINumericValue('BFR')}
                         />
+                    )}
+
+                    {/* 🤖 Section ML Anomaly Detection */}
+                    {rawData && rawData.length > 0 && anomalies.length > 0 && (
+                        <div className="mb-8">
+                            <div className="flex items-center justify-between mb-4">
+                                <button
+                                    onClick={() => setShowAnomalies(!showAnomalies)}
+                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-red-600 transition-all shadow-lg"
+                                >
+                                    <ExclamationTriangleIcon className="w-5 h-5" />
+                                    {anomalies.length} Anomalie{anomalies.length > 1 ? 's' : ''} Détectée{anomalies.length > 1 ? 's' : ''}
+                                    <span className="text-xs bg-white/20 px-2 py-0.5 rounded">ML</span>
+                                </button>
+                                {showAnomalies && (
+                                    <p className="text-xs text-gray-500">
+                                        Détection automatique via Machine Learning (Z-score, IQR, patterns)
+                                    </p>
+                                )}
+                            </div>
+                            {showAnomalies && (
+                                <div style={{ animation: 'slideDown 0.3s ease-out' }}>
+                                    <AnomalyPanel
+                                        anomalies={anomalies}
+                                        onDismiss={(id) => {
+                                            setAnomalies(prev => prev.filter(a => a.id !== id));
+                                        }}
+                                        onInvestigate={(anomaly) => {
+                                            console.log('Investigate:', anomaly);
+                                            // TODO: Ouvrir drill-down sur l'entité concernée
+                                            if (anomaly.metadata?.client) {
+                                                // Option: ouvrir drill-down automatiquement
+                                            }
+                                        }}
+                                    />
+                                </div>
+                            )}
+                        </div>
                     )}
 
                     {/* ✅ Section Charts Financiers */}

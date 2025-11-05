@@ -49,195 +49,195 @@ export function SunburstExpensesChart({ data, width = 600, height = 600 }: Sunbu
         function renderChart() {
             if (!svgRef.current || !containerRef.current) return;
 
-        const svg = d3.select(svgRef.current);
-        // 🔧 Fix: Reduce radius to fit container with padding
-        const radius = Math.min(width, height) / 2 - 40; // 40px padding
+            const svg = d3.select(svgRef.current);
+            // 🔧 Fix: Reduce radius to fit container with padding
+            const radius = Math.min(width, height) / 2 - 40; // 40px padding
 
-        // Set responsive viewBox
-        setResponsiveViewBox(svg, width, height);
+            // Set responsive viewBox
+            setResponsiveViewBox(svg, width, height);
 
-        // Create tooltip
-        const tooltip = createTooltip(containerRef.current);
+            // Create tooltip
+            const tooltip = createTooltip(containerRef.current);
 
-        // Main group centered
-        const g = svg.append('g')
-            .attr('transform', `translate(${width / 2},${height / 2})`);
+            // Main group centered
+            const g = svg.append('g')
+                .attr('transform', `translate(${width / 2},${height / 2})`);
 
-        // Create hierarchy
-        const root = d3.hierarchy(data)
-            .sum(d => d.value || 0)
-            .sort((a, b) => (b.value || 0) - (a.value || 0));
+            // Create hierarchy
+            const root = d3.hierarchy(data)
+                .sum(d => d.value || 0)
+                .sort((a, b) => (b.value || 0) - (a.value || 0));
 
-        // Create partition layout
-        const partition = d3.partition<SunburstNode>()
-            .size([2 * Math.PI, radius]);
+            // Create partition layout
+            const partition = d3.partition<SunburstNode>()
+                .size([2 * Math.PI, radius]);
 
-        partition(root);
+            partition(root);
 
-        // Arc generator
-        const arc = d3.arc<d3.HierarchyRectangularNode<SunburstNode>>()
-            .startAngle(d => d.x0)
-            .endAngle(d => d.x1)
-            .innerRadius(d => d.y0)
-            .outerRadius(d => d.y1)
-            .padAngle(0.005)
-            .padRadius(radius / 2)
-            .cornerRadius(3);
+            // Arc generator
+            const arc = d3.arc<d3.HierarchyRectangularNode<SunburstNode>>()
+                .startAngle(d => d.x0)
+                .endAngle(d => d.x1)
+                .innerRadius(d => d.y0)
+                .outerRadius(d => d.y1)
+                .padAngle(0.005)
+                .padRadius(radius / 2)
+                .cornerRadius(3);
 
-        // Color scale
-        const color = d3.scaleOrdinal<string>()
-            .domain(root.children?.map(d => d.data.name) || [])
-            .range([
-                '#6366f1', '#8b5cf6', '#ec4899', '#f59e0b',
-                '#10b981', '#3b82f6', '#06b6d4', '#f97316'
-            ]);
+            // Color scale
+            const color = d3.scaleOrdinal<string>()
+                .domain(root.children?.map(d => d.data.name) || [])
+                .range([
+                    '#6366f1', '#8b5cf6', '#ec4899', '#f59e0b',
+                    '#10b981', '#3b82f6', '#06b6d4', '#f97316'
+                ]);
 
-        // Calculate total for percentages
-        const total = root.value || 1;
+            // Calculate total for percentages
+            const total = root.value || 1;
 
-        // Draw arcs
-        const path = g.append('g')
-            .selectAll('path')
-            .data(root.descendants().filter(d => d.depth > 0))
-            .join('path')
-            .attr('fill', d => {
-                // Use parent color for children
-                let node = d;
-                while (node.depth > 1) node = node.parent!;
-                return d3.color(color(node.data.name))!.darker(d.depth * 0.3).toString();
-            })
-            .attr('fill-opacity', 0.9)
-            .attr('d', d => arc(d as any))
-            .attr('stroke', '#fff')
-            .attr('stroke-width', 2)
-            .style('cursor', 'pointer')
-            .on('mouseover', function (event, d) {
-                d3.select(this)
-                    .transition()
-                    .duration(150)
-                    .attr('fill-opacity', 1)
-                    .attr('stroke-width', 3);
-
-                const percentage = ((d.value || 0) / total) * 100;
-                const ancestors = d.ancestors().map(a => a.data.name).reverse().slice(1);
-
-                showTooltip(
-                    tooltip,
-                    `<strong style="font-size: 14px">${ancestors.join(' › ')}</strong><br/>` +
-                    `Montant: ${formatCurrency(d.value || 0)}<br/>` +
-                    `Part: ${formatPercent(percentage)}`,
-                    event
-                );
-            })
-            .on('mousemove', (event) => {
-                tooltip
-                    .style('left', `${event.pageX + 10}px`)
-                    .style('top', `${event.pageY - 10}px`);
-            })
-            .on('mouseout', function () {
-                d3.select(this)
-                    .transition()
-                    .duration(150)
-                    .attr('fill-opacity', 0.9)
-                    .attr('stroke-width', 2);
-                hideTooltip(tooltip);
-            })
-            .on('click', (event, d) => {
-                // Focus on clicked segment
-                event.stopPropagation();
-                focus(d as any);
-            });
-
-        // Add center label
-        const centerText = g.append('g')
-            .attr('pointer-events', 'none')
-            .attr('text-anchor', 'middle');
-
-        centerText.append('text')
-            .attr('y', -10)
-            .attr('font-size', '16px')
-            .attr('font-weight', '700')
-            .attr('fill', '#e2e8f0')
-            .text('Total Dépenses');
-
-        centerText.append('text')
-            .attr('y', 15)
-            .attr('font-size', '24px')
-            .attr('font-weight', '700')
-            .attr('fill', FINSIGHT_COLORS.primary)
-            .text(formatCurrency(total));
-
-        // Focus function for drill-down
-        function focus(p: any) {
-            root.each((d: any) => {
-                const target = {
-                    x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
-                    x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
-                    y0: Math.max(0, d.y0 - p.depth),
-                    y1: Math.max(0, d.y1 - p.depth)
-                };
-                d.target = target;
-            });
-
-            const t = standardTransition();
-
-            path.transition(t as any)
-                .tween('data', function (d: any) {
-                    const i = d3.interpolate(d.current, d.target);
-                    return function (t) {
-                        d.current = i(t);
-                    };
+            // Draw arcs
+            const path = g.append('g')
+                .selectAll('path')
+                .data(root.descendants().filter(d => d.depth > 0))
+                .join('path')
+                .attr('fill', d => {
+                    // Use parent color for children
+                    let node = d;
+                    while (node.depth > 1) node = node.parent!;
+                    return d3.color(color(node.data.name))!.darker(d.depth * 0.3).toString();
                 })
-                .attrTween('d', function (d: any) {
-                    return () => arc(d as any) || '';
+                .attr('fill-opacity', 0.9)
+                .attr('d', d => arc(d as any))
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2)
+                .style('cursor', 'pointer')
+                .on('mouseover', function (event, d) {
+                    d3.select(this)
+                        .transition()
+                        .duration(150)
+                        .attr('fill-opacity', 1)
+                        .attr('stroke-width', 3);
+
+                    const percentage = ((d.value || 0) / total) * 100;
+                    const ancestors = d.ancestors().map(a => a.data.name).reverse().slice(1);
+
+                    showTooltip(
+                        tooltip,
+                        `<strong style="font-size: 14px">${ancestors.join(' › ')}</strong><br/>` +
+                        `Montant: ${formatCurrency(d.value || 0)}<br/>` +
+                        `Part: ${formatPercent(percentage)}`,
+                        event
+                    );
+                })
+                .on('mousemove', (event) => {
+                    tooltip
+                        .style('left', `${event.pageX + 10}px`)
+                        .style('top', `${event.pageY - 10}px`);
+                })
+                .on('mouseout', function () {
+                    d3.select(this)
+                        .transition()
+                        .duration(150)
+                        .attr('fill-opacity', 0.9)
+                        .attr('stroke-width', 2);
+                    hideTooltip(tooltip);
+                })
+                .on('click', (event, d) => {
+                    // Focus on clicked segment
+                    event.stopPropagation();
+                    focus(d as any);
                 });
 
-            // Update center text
+            // Add center label
+            const centerText = g.append('g')
+                .attr('pointer-events', 'none')
+                .attr('text-anchor', 'middle');
+
+            centerText.append('text')
+                .attr('y', -10)
+                .attr('font-size', '16px')
+                .attr('font-weight', '700')
+                .attr('fill', '#e2e8f0')
+                .text('Total Dépenses');
+
+            centerText.append('text')
+                .attr('y', 15)
+                .attr('font-size', '24px')
+                .attr('font-weight', '700')
+                .attr('fill', FINSIGHT_COLORS.primary)
+                .text(formatCurrency(total));
+
+            // Focus function for drill-down
+            function focus(p: any) {
+                root.each((d: any) => {
+                    const target = {
+                        x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+                        x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+                        y0: Math.max(0, d.y0 - p.depth),
+                        y1: Math.max(0, d.y1 - p.depth)
+                    };
+                    d.target = target;
+                });
+
+                const t = standardTransition();
+
+                path.transition(t as any)
+                    .tween('data', function (d: any) {
+                        const i = d3.interpolate(d.current, d.target);
+                        return function (t) {
+                            d.current = i(t);
+                        };
+                    })
+                    .attrTween('d', function (d: any) {
+                        return () => arc(d as any) || '';
+                    });
+
+                // Update center text
+                centerText.selectAll('text')
+                    .transition(t as any)
+                    .on('end', function () {
+                        if (p.depth === 0) {
+                            d3.select(this)
+                                .filter(':first-child')
+                                .text('Total Dépenses');
+                            d3.select(this)
+                                .filter(':last-child')
+                                .text(formatCurrency(total));
+                        } else {
+                            d3.select(this)
+                                .filter(':first-child')
+                                .text(p.data.name);
+                            d3.select(this)
+                                .filter(':last-child')
+                                .text(formatCurrency(p.value || 0));
+                        }
+                    });
+            }
+
+            // Initialize current positions
+            root.each((d: any) => d.current = { x0: d.x0, x1: d.x1, y0: d.y0, y1: d.y1 });
+
+            // Click on center to reset
+            svg.on('click', () => focus(root as any));
+
+            // 🎨 Animate entrance with staggered transitions
+            path.style('opacity', 0)
+                .transition()
+                .duration(800)
+                .delay((d, i) => i * 20)
+                .style('opacity', 0.9);
+
             centerText.selectAll('text')
-                .transition(t as any)
-                .on('end', function () {
-                    if (p.depth === 0) {
-                        d3.select(this)
-                            .filter(':first-child')
-                            .text('Total Dépenses');
-                        d3.select(this)
-                            .filter(':last-child')
-                            .text(formatCurrency(total));
-                    } else {
-                        d3.select(this)
-                            .filter(':first-child')
-                            .text(p.data.name);
-                        d3.select(this)
-                            .filter(':last-child')
-                            .text(formatCurrency(p.value || 0));
-                    }
-                });
-        }
+                .style('opacity', 0)
+                .transition()
+                .duration(600)
+                .delay(400)
+                .style('opacity', 1);
 
-        // Initialize current positions
-        root.each((d: any) => d.current = { x0: d.x0, x1: d.x1, y0: d.y0, y1: d.y1 });
-
-        // Click on center to reset
-        svg.on('click', () => focus(root as any));
-
-        // 🎨 Animate entrance with staggered transitions
-        path.style('opacity', 0)
-            .transition()
-            .duration(800)
-            .delay((d, i) => i * 20)
-            .style('opacity', 0.9);
-
-        centerText.selectAll('text')
-            .style('opacity', 0)
-            .transition()
-            .duration(600)
-            .delay(400)
-            .style('opacity', 1);
-
-        // Cleanup
-        return () => {
-            tooltip.remove();
-        };
+            // Cleanup
+            return () => {
+                tooltip.remove();
+            };
         } // Close renderChart function
 
     }, [data, width, height]);

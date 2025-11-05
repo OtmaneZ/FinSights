@@ -47,189 +47,189 @@ export function SankeyFlowChart({ data, width = 800, height = 400 }: SankeyFlowC
         function renderChart() {
             if (!svgRef.current || !containerRef.current) return;
 
-        const svg = d3.select(svgRef.current);
-        const margin = { top: 20, right: 150, bottom: 20, left: 150 };
-        const innerWidth = width - margin.left - margin.right;
-        const innerHeight = height - margin.top - margin.bottom;
+            const svg = d3.select(svgRef.current);
+            const margin = { top: 20, right: 150, bottom: 20, left: 150 };
+            const innerWidth = width - margin.left - margin.right;
+            const innerHeight = height - margin.top - margin.bottom;
 
-        // Set responsive viewBox
-        setResponsiveViewBox(svg, width, height);
+            // Set responsive viewBox
+            setResponsiveViewBox(svg, width, height);
 
-        // Create gradients
-        createLinearGradient(svg, 'revenue-gradient', FINSIGHT_COLORS.success, '#059669', 0);
-        createLinearGradient(svg, 'expense-gradient', FINSIGHT_COLORS.danger, '#dc2626', 0);
-        createLinearGradient(svg, 'cashflow-gradient', FINSIGHT_COLORS.primary, FINSIGHT_COLORS.secondary, 0);
+            // Create gradients
+            createLinearGradient(svg, 'revenue-gradient', FINSIGHT_COLORS.success, '#059669', 0);
+            createLinearGradient(svg, 'expense-gradient', FINSIGHT_COLORS.danger, '#dc2626', 0);
+            createLinearGradient(svg, 'cashflow-gradient', FINSIGHT_COLORS.primary, FINSIGHT_COLORS.secondary, 0);
 
-        // Create tooltip
-        const tooltip = createTooltip(containerRef.current);
+            // Create tooltip
+            const tooltip = createTooltip(containerRef.current);
 
-        // Main group
-        const g = svg.append('g')
-            .attr('transform', `translate(${margin.left},${margin.top})`);
+            // Main group
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
 
-        // Create Sankey generator
-        const sankeyGenerator = sankey<{ name: string }, { source: number; target: number; value: number }>()
-            .nodeWidth(20)
-            .nodePadding(20)
-            .extent([[0, 0], [innerWidth, innerHeight]]);
+            // Create Sankey generator
+            const sankeyGenerator = sankey<{ name: string }, { source: number; target: number; value: number }>()
+                .nodeWidth(20)
+                .nodePadding(20)
+                .extent([[0, 0], [innerWidth, innerHeight]]);
 
-        // Generate layout
-        const { nodes, links } = sankeyGenerator({
-            nodes: data.nodes.map(d => ({ ...d })),
-            links: data.links.map(d => ({ ...d }))
-        });
-
-        // Color function based on node index
-        const getNodeColor = (node: SankeyNode<{ name: string }, { source: number; target: number; value: number }>) => {
-            const nodeIndex = nodes.indexOf(node);
-            if (nodeIndex === 0) return 'url(#revenue-gradient)'; // Revenus
-            if (node.name.includes('Cash')) return 'url(#cashflow-gradient)'; // Cash Flow
-            return 'url(#expense-gradient)'; // Dépenses
-        };
-
-        const getLinkColor = (link: SankeyLink<{ name: string }, { source: number; target: number; value: number }>) => {
-            const sourceNode = link.source as SankeyNode<{ name: string }, { source: number; target: number; value: number }>;
-            const nodeIndex = nodes.indexOf(sourceNode);
-            if (nodeIndex === 0) return FINSIGHT_COLORS.success; // From Revenus
-            return FINSIGHT_COLORS.danger; // From Dépenses
-        };
-
-        // Draw links
-        const link = g.append('g')
-            .selectAll('.link')
-            .data(links)
-            .join('path')
-            .attr('class', 'link')
-            .attr('d', sankeyLinkHorizontal())
-            .attr('stroke', d => getLinkColor(d))
-            .attr('stroke-width', d => Math.max(1, d.width || 0))
-            .attr('fill', 'none')
-            .attr('opacity', 0.4)
-            .style('cursor', 'pointer')
-            .on('mouseover', function (event, d) {
-                d3.select(this)
-                    .transition()
-                    .duration(200)
-                    .attr('opacity', 0.7)
-                    .attr('stroke-width', (d.width || 0) * 1.2);
-                const sourceNode = d.source as SankeyNode<{ name: string }, { source: number; target: number; value: number }>;
-                const targetNode = d.target as SankeyNode<{ name: string }, { source: number; target: number; value: number }>;
-                showTooltip(
-                    tooltip,
-                    `<strong>${sourceNode.name}</strong> → <strong>${targetNode.name}</strong><br/>` +
-                    `Montant: ${formatCurrency(d.value || 0)}`,
-                    event
-                );
-            })
-            .on('mousemove', (event) => {
-                tooltip
-                    .style('left', `${event.pageX + 10}px`)
-                    .style('top', `${event.pageY - 10}px`);
-            })
-            .on('mouseout', function (event, d) {
-                d3.select(this)
-                    .transition()
-                    .duration(200)
-                    .attr('opacity', 0.4)
-                    .attr('stroke-width', Math.max(1, d.width || 0));
-                hideTooltip(tooltip);
+            // Generate layout
+            const { nodes, links } = sankeyGenerator({
+                nodes: data.nodes.map(d => ({ ...d })),
+                links: data.links.map(d => ({ ...d }))
             });
 
-        // Draw nodes
-        const node = g.append('g')
-            .selectAll('.node')
-            .data(nodes)
-            .join('g')
-            .attr('class', 'node');
+            // Color function based on node index
+            const getNodeColor = (node: SankeyNode<{ name: string }, { source: number; target: number; value: number }>) => {
+                const nodeIndex = nodes.indexOf(node);
+                if (nodeIndex === 0) return 'url(#revenue-gradient)'; // Revenus
+                if (node.name.includes('Cash')) return 'url(#cashflow-gradient)'; // Cash Flow
+                return 'url(#expense-gradient)'; // Dépenses
+            };
 
-        node.append('rect')
-            .attr('x', d => d.x0 || 0)
-            .attr('y', d => d.y0 || 0)
-            .attr('height', d => (d.y1 || 0) - (d.y0 || 0))
-            .attr('width', d => (d.x1 || 0) - (d.x0 || 0))
-            .attr('fill', d => getNodeColor(d))
-            .attr('stroke', '#fff')
-            .attr('stroke-width', 2)
-            .attr('rx', 4)
-            .style('cursor', 'pointer')
-            .on('mouseover', function (event, d) {
-                d3.select(this)
-                    .transition()
-                    .duration(200)
-                    .attr('opacity', 0.8)
-                    .attr('stroke-width', 3);
-                const incoming = (d.value || 0);
-                const outgoing = d.sourceLinks?.reduce((sum, l) => sum + (l.value || 0), 0) || 0;
-                showTooltip(
-                    tooltip,
-                    `<strong style="font-size: 14px">${d.name}</strong><br/>` +
-                    `Total: ${formatCurrency(incoming)}<br/>` +
-                    (outgoing > 0 ? `Sortant: ${formatCurrency(outgoing)}<br/>` : '') +
-                    (incoming - outgoing > 0 ? `<span style="color: ${FINSIGHT_COLORS.success}">Net: ${formatCurrency(incoming - outgoing)}</span>` : ''),
-                    event
-                );
-            })
-            .on('mousemove', (event) => {
-                tooltip
-                    .style('left', `${event.pageX + 10}px`)
-                    .style('top', `${event.pageY - 10}px`);
-            })
-            .on('mouseout', function () {
-                d3.select(this)
-                    .transition()
-                    .duration(200)
-                    .attr('opacity', 1)
-                    .attr('stroke-width', 2);
-                hideTooltip(tooltip);
-            });
+            const getLinkColor = (link: SankeyLink<{ name: string }, { source: number; target: number; value: number }>) => {
+                const sourceNode = link.source as SankeyNode<{ name: string }, { source: number; target: number; value: number }>;
+                const nodeIndex = nodes.indexOf(sourceNode);
+                if (nodeIndex === 0) return FINSIGHT_COLORS.success; // From Revenus
+                return FINSIGHT_COLORS.danger; // From Dépenses
+            };
 
-        // Add node labels
-        node.append('text')
-            .attr('x', d => ((d.x0 || 0) < innerWidth / 2) ? (d.x1 || 0) + 8 : (d.x0 || 0) - 8)
-            .attr('y', d => ((d.y1 || 0) + (d.y0 || 0)) / 2)
-            .attr('dy', '0.35em')
-            .attr('text-anchor', d => ((d.x0 || 0) < innerWidth / 2) ? 'start' : 'end')
-            .attr('font-size', '13px')
-            .attr('font-weight', '600')
-            .attr('fill', '#e2e8f0')
-            .text(d => d.name);
+            // Draw links
+            const link = g.append('g')
+                .selectAll('.link')
+                .data(links)
+                .join('path')
+                .attr('class', 'link')
+                .attr('d', sankeyLinkHorizontal())
+                .attr('stroke', d => getLinkColor(d))
+                .attr('stroke-width', d => Math.max(1, d.width || 0))
+                .attr('fill', 'none')
+                .attr('opacity', 0.4)
+                .style('cursor', 'pointer')
+                .on('mouseover', function (event, d) {
+                    d3.select(this)
+                        .transition()
+                        .duration(200)
+                        .attr('opacity', 0.7)
+                        .attr('stroke-width', (d.width || 0) * 1.2);
+                    const sourceNode = d.source as SankeyNode<{ name: string }, { source: number; target: number; value: number }>;
+                    const targetNode = d.target as SankeyNode<{ name: string }, { source: number; target: number; value: number }>;
+                    showTooltip(
+                        tooltip,
+                        `<strong>${sourceNode.name}</strong> → <strong>${targetNode.name}</strong><br/>` +
+                        `Montant: ${formatCurrency(d.value || 0)}`,
+                        event
+                    );
+                })
+                .on('mousemove', (event) => {
+                    tooltip
+                        .style('left', `${event.pageX + 10}px`)
+                        .style('top', `${event.pageY - 10}px`);
+                })
+                .on('mouseout', function (event, d) {
+                    d3.select(this)
+                        .transition()
+                        .duration(200)
+                        .attr('opacity', 0.4)
+                        .attr('stroke-width', Math.max(1, d.width || 0));
+                    hideTooltip(tooltip);
+                });
 
-        // Add value labels on nodes
-        node.append('text')
-            .attr('x', d => ((d.x0 || 0) < innerWidth / 2) ? (d.x1 || 0) + 8 : (d.x0 || 0) - 8)
-            .attr('y', d => ((d.y1 || 0) + (d.y0 || 0)) / 2 + 16)
-            .attr('dy', '0.35em')
-            .attr('text-anchor', d => ((d.x0 || 0) < innerWidth / 2) ? 'start' : 'end')
-            .attr('font-size', '11px')
-            .attr('font-weight', '500')
-            .attr('fill', '#94a3b8')
-            .text(d => formatCurrency(d.value || 0));
+            // Draw nodes
+            const node = g.append('g')
+                .selectAll('.node')
+                .data(nodes)
+                .join('g')
+                .attr('class', 'node');
 
-        // 🎨 Animate entrance with staggered transitions
-        link.style('opacity', 0)
-            .transition()
-            .duration(800)
-            .delay((d, i) => i * 50)
-            .style('opacity', 0.4);
+            node.append('rect')
+                .attr('x', d => d.x0 || 0)
+                .attr('y', d => d.y0 || 0)
+                .attr('height', d => (d.y1 || 0) - (d.y0 || 0))
+                .attr('width', d => (d.x1 || 0) - (d.x0 || 0))
+                .attr('fill', d => getNodeColor(d))
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2)
+                .attr('rx', 4)
+                .style('cursor', 'pointer')
+                .on('mouseover', function (event, d) {
+                    d3.select(this)
+                        .transition()
+                        .duration(200)
+                        .attr('opacity', 0.8)
+                        .attr('stroke-width', 3);
+                    const incoming = (d.value || 0);
+                    const outgoing = d.sourceLinks?.reduce((sum, l) => sum + (l.value || 0), 0) || 0;
+                    showTooltip(
+                        tooltip,
+                        `<strong style="font-size: 14px">${d.name}</strong><br/>` +
+                        `Total: ${formatCurrency(incoming)}<br/>` +
+                        (outgoing > 0 ? `Sortant: ${formatCurrency(outgoing)}<br/>` : '') +
+                        (incoming - outgoing > 0 ? `<span style="color: ${FINSIGHT_COLORS.success}">Net: ${formatCurrency(incoming - outgoing)}</span>` : ''),
+                        event
+                    );
+                })
+                .on('mousemove', (event) => {
+                    tooltip
+                        .style('left', `${event.pageX + 10}px`)
+                        .style('top', `${event.pageY - 10}px`);
+                })
+                .on('mouseout', function () {
+                    d3.select(this)
+                        .transition()
+                        .duration(200)
+                        .attr('opacity', 1)
+                        .attr('stroke-width', 2);
+                    hideTooltip(tooltip);
+                });
 
-        node.select('rect')
-            .style('opacity', 0)
-            .transition()
-            .duration(600)
-            .delay((d, i) => i * 100)
-            .style('opacity', 1);
+            // Add node labels
+            node.append('text')
+                .attr('x', d => ((d.x0 || 0) < innerWidth / 2) ? (d.x1 || 0) + 8 : (d.x0 || 0) - 8)
+                .attr('y', d => ((d.y1 || 0) + (d.y0 || 0)) / 2)
+                .attr('dy', '0.35em')
+                .attr('text-anchor', d => ((d.x0 || 0) < innerWidth / 2) ? 'start' : 'end')
+                .attr('font-size', '13px')
+                .attr('font-weight', '600')
+                .attr('fill', '#e2e8f0')
+                .text(d => d.name);
 
-        node.selectAll('text')
-            .style('opacity', 0)
-            .transition()
-            .duration(500)
-            .delay((d, i) => i * 100 + 200)
-            .style('opacity', 1);
+            // Add value labels on nodes
+            node.append('text')
+                .attr('x', d => ((d.x0 || 0) < innerWidth / 2) ? (d.x1 || 0) + 8 : (d.x0 || 0) - 8)
+                .attr('y', d => ((d.y1 || 0) + (d.y0 || 0)) / 2 + 16)
+                .attr('dy', '0.35em')
+                .attr('text-anchor', d => ((d.x0 || 0) < innerWidth / 2) ? 'start' : 'end')
+                .attr('font-size', '11px')
+                .attr('font-weight', '500')
+                .attr('fill', '#94a3b8')
+                .text(d => formatCurrency(d.value || 0));
 
-        // Cleanup
-        return () => {
-            tooltip.remove();
-        };
+            // 🎨 Animate entrance with staggered transitions
+            link.style('opacity', 0)
+                .transition()
+                .duration(800)
+                .delay((d, i) => i * 50)
+                .style('opacity', 0.4);
+
+            node.select('rect')
+                .style('opacity', 0)
+                .transition()
+                .duration(600)
+                .delay((d, i) => i * 100)
+                .style('opacity', 1);
+
+            node.selectAll('text')
+                .style('opacity', 0)
+                .transition()
+                .duration(500)
+                .delay((d, i) => i * 100 + 200)
+                .style('opacity', 1);
+
+            // Cleanup
+            return () => {
+                tooltip.remove();
+            };
         } // Close renderChart function
 
     }, [data, width, height]);
