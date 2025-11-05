@@ -44,6 +44,10 @@ import EmptyDashboardState from './EmptyDashboardState';
 // Import KPITooltip
 import KPITooltip from './KPITooltip';
 
+// Import Drill-Down
+import { useDrilldown } from '@/hooks/useDrilldown';
+import { KPIDrilldownModal } from './drill-down/KPIDrilldownModal';
+
 interface KPI {
     title: string
     value: string
@@ -81,6 +85,9 @@ export default function FinancialDashboard() {
     const [paiementsAcceleration, setPaiementsAcceleration] = useState(0) // 0 à 15 jours - Impact Cash Flow
     const [prixAugmentation, setPrixAugmentation] = useState(0) // 0 à 15% - Impact CA
     const [simulatedKPIs, setSimulatedKPIs] = useState<KPI[]>([])
+
+    // 🎯 Hook drill-down interactif
+    const [drillDownState, drillDownActions] = useDrilldown();
 
     // 🎯 Fonction pour charger la démo avec animation
     const handleLoadDemo = async (scenario: 'saine' | 'difficulte' | 'croissance' = 'saine') => {
@@ -1419,7 +1426,12 @@ export default function FinancialDashboard() {
                     {/* KPI Grid */}
                     <div className="finsight-kpi-grid" data-count={kpis.length}>
                         {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis).map((kpi, index) => (
-                            <div key={index} className="finsight-kpi-card finsight-kpi-hover">
+                            <div
+                                key={index}
+                                className="finsight-kpi-card finsight-kpi-hover"
+                                onClick={() => drillDownActions.openDrillDown(kpi.title)}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 <div className="finsight-kpi-header">
                                     <div className="flex items-center gap-1">
                                         <span style={{ fontSize: '1.2rem', marginRight: '4px' }}>{getKPIIcon(kpi.title)}</span>
@@ -2111,6 +2123,13 @@ export default function FinancialDashboard() {
                 isOpen={showCompanyModal}
                 onClose={() => setShowCompanyModal(false)}
                 onSubmit={handleCompanyInfoSubmit}
+            />
+
+            {/* 🎯 Modal Drill-Down Interactif */}
+            <KPIDrilldownModal
+                state={drillDownState}
+                actions={drillDownActions}
+                rawData={rawData || []}
             />
         </div>
     )
