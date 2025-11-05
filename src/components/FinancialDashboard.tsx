@@ -379,7 +379,7 @@ export default function FinancialDashboard() {
         const totalRevenue = rawData
             .filter((r: any) => r.type === 'income')
             .reduce((sum: number, r: any) => sum + r.amount, 0);
-        
+
         const totalExpenses = rawData
             .filter((r: any) => r.type === 'expense')
             .reduce((sum: number, r: any) => sum + Math.abs(r.amount), 0);
@@ -416,7 +416,7 @@ export default function FinancialDashboard() {
                     };
                 }
             }
-            
+
             // KPI Charges
             if (kpi.title.includes('Charges')) {
                 if (chargesReduction > 0) {
@@ -428,7 +428,7 @@ export default function FinancialDashboard() {
                     };
                 }
             }
-            
+
             // KPI Marge
             if (kpi.title.includes('Marge')) {
                 if (chargesReduction > 0) {
@@ -440,7 +440,7 @@ export default function FinancialDashboard() {
                     };
                 }
             }
-            
+
             // KPI Cash Flow
             if (kpi.title.includes('Cash Flow') || kpi.title.includes('Trésorerie')) {
                 if (paiementsAcceleration > 0) {
@@ -452,7 +452,7 @@ export default function FinancialDashboard() {
                     };
                 }
             }
-            
+
             return kpi;
         });
 

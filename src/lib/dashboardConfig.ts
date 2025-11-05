@@ -138,7 +138,7 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
     kpis.push({
         title: 'Charges',
         value: `${Math.round(data.kpis.expenses).toLocaleString('fr-FR')} €`,
-        change: `${data.kpis.trends.expenseGrowth.toFixed(1)}%`,
+        change: `${(-data.kpis.trends.expenseGrowth).toFixed(1)}%`, // ✅ Inverser le signe (baisse = positif)
         changeType: data.kpis.trends.expenseGrowth < 0 ? 'positive' : 'negative',
         description: 'Total des dépenses',
         confidence: data.qualityMetrics.accuracy
