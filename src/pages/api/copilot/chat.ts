@@ -1,10 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import OpenAI from 'openai'
 import { SYSTEM_PROMPT, buildFinancialContext } from '@/lib/copilot/prompts'
+import { storeConversation, searchSimilarConversations } from '@/lib/vectordb/collections'
 
 interface CopilotRequest {
     message: string
     rawData?: any[]
+    companyName?: string
     conversationHistory?: Array<{
         role: 'user' | 'assistant'
         content: string
@@ -29,7 +31,7 @@ export default async function handler(
     }
 
     try {
-        const { message, rawData, conversationHistory }: CopilotRequest = req.body
+        const { message, rawData, companyName, conversationHistory }: CopilotRequest = req.body
 
         if (!message || typeof message !== 'string' || message.trim().length === 0) {
             return res.status(400).json({
@@ -41,8 +43,26 @@ export default async function handler(
         console.log('🤖 Copilot v2.0 - Requête:', {
             message: message.substring(0, 100),
             hasData: !!rawData,
-            dataCount: rawData?.length || 0
+            dataCount: rawData?.length || 0,
+            company: companyName
         })
+
+        // 🧠 Rechercher conversations similaires dans Pinecone
+        let contextFromMemory = '';
+        if (process.env.PINECONE_API_KEY) {
+            try {
+                const similarConvs = await searchSimilarConversations(message, companyName, 3);
+                if (similarConvs.length > 0) {
+                    contextFromMemory = '\n\n💭 Mémoire (conversations similaires passées):\n' +
+                        similarConvs.map((conv, i) => 
+                            `${i + 1}. ${conv.metadata.message} → ${conv.metadata.response.substring(0, 100)}...`
+                        ).join('\n');
+                    console.log(`🧠 ${similarConvs.length} conversations similaires trouvées`);
+                }
+            } catch (err) {
+                console.warn('⚠️ Erreur mémoire vectorielle (non-bloquant):', err);
+            }
+        }
 
         // Pas de clé API ? Mode démo
         if (!process.env.OPENAI_API_KEY) {
@@ -80,7 +100,12 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
         if (rawData && rawData.length > 0) {
             messages.push({
                 role: 'system',
-                content: buildFinancialContext(rawData)
+                content: buildFinancialContext(rawData) + contextFromMemory
+            })
+        } else if (contextFromMemory) {
+            messages.push({
+                role: 'system',
+                content: contextFromMemory
             })
         }
 
@@ -112,6 +137,16 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
         const response = completion.choices[0].message.content || 'Désolé, je n\'ai pas pu générer de réponse.'
 
         console.log('✅ Réponse générée:', response.substring(0, 100) + '...')
+
+        // 💾 Stocker la conversation dans Pinecone (async, non-bloquant)
+        if (process.env.PINECONE_API_KEY && companyName) {
+            storeConversation(
+                companyName, // userId = companyName pour demo
+                companyName,
+                message,
+                response
+            ).catch(err => console.warn('⚠️ Erreur stockage conversation (non-bloquant):', err));
+        }
 
         return res.status(200).json({
             success: true,

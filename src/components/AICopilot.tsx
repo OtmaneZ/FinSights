@@ -81,6 +81,7 @@ export default function AICopilot() {
                 body: JSON.stringify({
                     message: input,
                     rawData: rawData || [],
+                    companyName: 'demo-user', // Pour la démo, utiliser un ID générique
                     conversationHistory: messages.slice(-5).map(m => ({
                         role: m.isUser ? 'user' as const : 'assistant' as const,
                         content: m.content
