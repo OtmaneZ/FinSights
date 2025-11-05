@@ -24,3 +24,7 @@ coverage/
 *.swp
 *.swo
 *~
+
+# Fichiers personnels (notes, réflexions)
+REFLEXION_OTMANE.md
+test-pinecone.js
