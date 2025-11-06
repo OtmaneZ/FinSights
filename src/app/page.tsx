@@ -45,7 +45,7 @@ export default function Home() {
                             href="/dashboard"
                             className="px-6 py-2.5 bg-accent-green hover:bg-accent-green-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
                         >
-                            Essayer
+                            Voir la démo
                         </Link>
                     </nav>
                 </div>
@@ -70,11 +70,15 @@ export default function Home() {
                     href="/dashboard"
                     className="inline-flex items-center gap-2 px-8 py-4 bg-accent-green hover:bg-accent-green-hover text-white rounded-xl font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1"
                 >
-                    Tester avec vos données
+                    Tester la démo
                     <ExternalLink className="w-5 h-5" />
                 </Link>
 
                 <p className="text-sm text-text-tertiary mt-6">
+                    3 scénarios réalistes : PME Services • Startup SaaS • Scale-up Tech
+                </p>
+
+                <p className="text-xs text-text-tertiary mt-3">
                     15 000+ lignes TypeScript • 7 features production • Open source
                 </p>
             </section>
@@ -104,15 +108,6 @@ export default function Home() {
                         <h3 className="text-2xl font-semibold mb-3">Import CSV/Excel</h3>
                         <p className="text-text-secondary leading-relaxed">
                             Drag & drop vos fichiers financiers, parsing automatique, 15+ KPIs calculés en temps réel
-                        </p>
-                    </div>
-
-                    {/* Feature 2 */}
-                    <div className="surface rounded-xl p-8 surface-hover">
-                        <Sparkles className="w-12 h-12 text-accent-green mb-4" />
-                        <h3 className="text-2xl font-semibold mb-3">AI Copilot</h3>
-                        <p className="text-text-secondary leading-relaxed">
-                            Interrogez vos données en langage naturel avec GPT-4o et mémoire vectorielle Pinecone
                         </p>
                     </div>
 
