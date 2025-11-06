@@ -44,13 +44,18 @@ export default function PresenceIndicator({ enabled = true }: PresenceIndicatorP
         // Presence events
         presenceChannel.bind('pusher:subscription_succeeded', (data: any) => {
             const initialMembers: PresenceMember[] = [];
-            data.members.each((member: any) => {
-                initialMembers.push({
-                    id: member.id,
-                    name: member.info.name,
-                    color: member.info.color,
+            // data.members est un objet, pas un tableau
+            // On doit itérer avec Object.keys ou for...in
+            if (data.members) {
+                Object.keys(data.members).forEach((userId) => {
+                    const member = data.members[userId];
+                    initialMembers.push({
+                        id: userId,
+                        name: member.name,
+                        color: member.color,
+                    });
                 });
-            });
+            }
             setMembers(initialMembers);
             console.log(`👥 ${initialMembers.length} users online`);
         });
