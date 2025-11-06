@@ -8,6 +8,7 @@ import {
     Mail,
     Users,
     FileBarChart,
+    Upload,
     Github,
     Linkedin,
     ExternalLink
@@ -97,7 +98,16 @@ export default function Home() {
             {/* Features Grid */}
             <section className="max-w-6xl mx-auto px-6 pb-32">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {/* Feature 1 */}
+                    {/* Feature 1 - Import CSV/Excel */}
+                    <div className="surface rounded-xl p-8 surface-hover">
+                        <Upload className="w-12 h-12 text-accent-blue mb-4" />
+                        <h3 className="text-2xl font-semibold mb-3">Import CSV/Excel</h3>
+                        <p className="text-text-secondary leading-relaxed">
+                            Drag & drop vos fichiers financiers, parsing automatique, 15+ KPIs calculés en temps réel
+                        </p>
+                    </div>
+
+                    {/* Feature 2 */}
                     <div className="surface rounded-xl p-8 surface-hover">
                         <Sparkles className="w-12 h-12 text-accent-green mb-4" />
                         <h3 className="text-2xl font-semibold mb-3">AI Copilot</h3>
@@ -108,6 +118,15 @@ export default function Home() {
 
                     {/* Feature 2 */}
                     <div className="surface rounded-xl p-8 surface-hover">
+                        <Sparkles className="w-12 h-12 text-accent-green mb-4" />
+                        <h3 className="text-2xl font-semibold mb-3">AI Copilot</h3>
+                        <p className="text-text-secondary leading-relaxed">
+                            Interrogez vos données en langage naturel avec GPT-4o et mémoire vectorielle Pinecone
+                        </p>
+                    </div>
+
+                    {/* Feature 3 */}
+                    <div className="surface rounded-xl p-8 surface-hover">
                         <TrendingUp className="w-12 h-12 text-accent-blue mb-4" />
                         <h3 className="text-2xl font-semibold mb-3">D3.js Charts</h3>
                         <p className="text-text-secondary leading-relaxed">
@@ -115,7 +134,7 @@ export default function Home() {
                         </p>
                     </div>
 
-                    {/* Feature 3 */}
+                    {/* Feature 4 */}
                     <div className="surface rounded-xl p-8 surface-hover">
                         <Mail className="w-12 h-12 text-accent-orange mb-4" />
                         <h3 className="text-2xl font-semibold mb-3">Email Alerts</h3>
@@ -124,7 +143,7 @@ export default function Home() {
                         </p>
                     </div>
 
-                    {/* Feature 4 */}
+                    {/* Feature 5 */}
                     <div className="surface rounded-xl p-8 surface-hover">
                         <Users className="w-12 h-12 text-accent-green mb-4" />
                         <h3 className="text-2xl font-semibold mb-3">Real-Time Collab</h3>
@@ -133,7 +152,7 @@ export default function Home() {
                         </p>
                     </div>
 
-                    {/* Feature 5 */}
+                    {/* Feature 6 */}
                     <div className="surface rounded-xl p-8 surface-hover">
                         <Zap className="w-12 h-12 text-accent-red mb-4" />
                         <h3 className="text-2xl font-semibold mb-3">ML Anomaly Detection</h3>
@@ -142,7 +161,7 @@ export default function Home() {
                         </p>
                     </div>
 
-                    {/* Feature 6 */}
+                    {/* Feature 7 - Export */}
                     <div className="surface rounded-xl p-8 surface-hover">
                         <FileBarChart className="w-12 h-12 text-accent-blue mb-4" />
                         <h3 className="text-2xl font-semibold mb-3">Export Pro</h3>

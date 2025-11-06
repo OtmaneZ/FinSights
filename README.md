@@ -59,18 +59,26 @@
 - **Sector benchmarks**: Visual bars comparing performance to industry standards
 - **Smart alerts**: ⚠️ Exceptional margins, overdue receivables, cash warnings
 
-### 🤖 **AI Copilot** (GPT-4)
+### 🤖 **AI Copilot** (GPT-4o)
 - **Conversational analysis**: Natural language questions in French
+- **Vector memory**: Pinecone integration for contextual awareness
 - **Financial expertise**: Specialized prompt engineering (professional tone, structured format)
 - **Actionable responses**: 📊 Findings → 🔍 Analysis → 💡 Priority actions
 - **Dynamic suggestions**: Questions adapted to your actual data
 
 ### 📈 **Advanced Visualizations**
 - **Cash Flow Evolution**: Time-series charts with projections
-- **Expense Breakdown**: Category-based analysis
+- **Expense Breakdown**: Category-based analysis with D3.js Sunburst
+- **Sankey Flows**: Interactive financial flows visualization
 - **Margin Trends**: Multi-month performance tracking
 - **Top Clients**: Commercial concentration analysis
 - **Receivables**: Outstanding invoices and payment delays
+
+### 🔔 **Real-Time Features**
+- **Collaboration**: Live presence indicators with Pusher
+- **Email Alerts**: Automated notifications via Resend
+- **Daily Cron**: Scheduled financial health reports
+- **ML Anomaly Detection**: 3 algorithms (Z-score, IQR, Moving Average)
 
 ### 🔒 **Data Processing**
 - **100% client-side**: Data stays in your browser
@@ -83,21 +91,33 @@
 
 ### **Frontend**
 - **Next.js 14**: React framework with App Router
+- **React**: UI component library
 - **TypeScript**: Strict typing for code robustness
 - **Tailwind CSS**: Modern responsive styling
 
 ### **AI & Analysis**
-- **OpenAI GPT-4**: Conversational financial copilot
+- **OpenAI GPT-4o**: Conversational financial copilot
+- **Pinecone**: Vector database for AI memory and semantic search
 - **Prompt Engineering**: Specialized finance-focused prompts (French terminology)
 - **Adaptive Analysis**: KPIs calculated based on available data columns
 
 ### **Data Visualization**
 - **Recharts**: Interactive charts (cash flow, margins, receivables)
+- **D3.js**: Advanced visualizations (Sankey flows, Sunburst expenses)
 - **Custom Components**: KPI cards with icons, benchmarks, tooltips
 - **Dark Mode**: Professional optimized interface
 
+### **Collaboration & Notifications**
+- **Pusher**: Real-time collaboration (presence, cursor tracking)
+- **Resend**: Email alerts and notifications
+- **Vercel Cron**: Daily automated alerts
+
 ### **Data Processing**
 - **Client-side processing**: All data stays in the browser (no database)
+- **Excel/CSV parsing**: Automatic file processing with validation
+
+### **Deployment**
+- **Vercel**: Serverless deployment with edge functions
 - **Excel/CSV parsing**: Automatic column detection and mapping
 - **API Routes**: Next.js serverless functions for OpenAI calls
 
