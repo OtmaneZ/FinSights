@@ -44,6 +44,11 @@ import { AnomalyPanel } from './AnomalyPanel';
 import { detectAnomalies } from '@/lib/ml/anomalyDetector';
 import type { Anomaly } from '@/lib/ml/types';
 
+// ⌨️ Import Command Palette & Keyboard Shortcuts
+import CommandPalette from './CommandPalette';
+import { useKeyboard } from '@/lib/useKeyboard';
+import { useTheme } from '@/lib/themeContext';
+
 // Import AICopilot
 import AICopilot from './AICopilot';
 
@@ -101,6 +106,11 @@ export default function FinancialDashboard() {
     // 🤖 ML Anomaly Detection states
     const [anomalies, setAnomalies] = useState<Anomaly[]>([]);
     const [showAnomalies, setShowAnomalies] = useState(false);
+
+    // ⌨️ Command Palette states
+    const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+    const { theme, toggleTheme } = useTheme();
+    const isDarkMode = theme === 'dark';
 
     // 🎯 Fonction pour charger la démo avec animation
     const handleLoadDemo = async (scenario: 'saine' | 'difficulte' | 'croissance' = 'saine') => {
@@ -221,6 +231,75 @@ export default function FinancialDashboard() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rawData]);
+
+    // ⌨️ Keyboard Shortcuts
+    useKeyboard({
+        shortcuts: [
+            {
+                key: 'k',
+                metaKey: true,
+                action: () => setIsCommandPaletteOpen(true),
+                description: 'Ouvrir palette de commandes'
+            },
+            {
+                key: 'e',
+                metaKey: true,
+                action: () => {
+                    // Trigger export PDF if data loaded
+                    if (isDataLoaded && kpis.length > 0) {
+                        const exportBtn = document.querySelector('[data-action="export-pdf"]') as HTMLButtonElement;
+                        exportBtn?.click();
+                    }
+                },
+                description: 'Exporter PDF'
+            },
+            {
+                key: 'e',
+                metaKey: true,
+                shiftKey: true,
+                action: () => {
+                    // Trigger export Excel if data loaded
+                    if (isDataLoaded && kpis.length > 0) {
+                        const exportBtn = document.querySelector('[data-action="export-excel"]') as HTMLButtonElement;
+                        exportBtn?.click();
+                    }
+                },
+                description: 'Exporter Excel'
+            },
+            {
+                key: 'a',
+                metaKey: true,
+                action: () => {
+                    const copilotSection = document.querySelector('[data-copilot]');
+                    copilotSection?.scrollIntoView({ behavior: 'smooth' });
+                },
+                description: 'Aller au Copilot IA'
+            },
+            {
+                key: 'm',
+                metaKey: true,
+                action: () => setShowAnomalies(prev => !prev),
+                description: 'Toggle Anomalies ML'
+            },
+            {
+                key: 'r',
+                metaKey: true,
+                action: () => {
+                    if (rawData && rawData.length > 0) {
+                        detectAnomaliesFromData();
+                    }
+                },
+                description: 'Actualiser données'
+            },
+            {
+                key: 't',
+                metaKey: true,
+                action: toggleTheme,
+                description: 'Toggle thème'
+            }
+        ],
+        enabled: isDataLoaded
+    });
 
     // Fonction d'export PDF professionnelle
     const exportToPDF = async () => {
@@ -1082,6 +1161,7 @@ export default function FinancialDashboard() {
                     <button
                         onClick={exportToPDF}
                         disabled={isExporting}
+                        data-action="export-pdf"
                         className="finsight-btn finsight-btn-revolutionary"
                     >
                         <DocumentArrowDownIcon className="finsight-icon-sm" />
@@ -1090,6 +1170,7 @@ export default function FinancialDashboard() {
                     <button
                         onClick={exportToExcel}
                         disabled={isExporting}
+                        data-action="export-excel"
                         className="finsight-btn finsight-btn-secondary"
                         style={{
                             background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
@@ -2325,7 +2406,7 @@ export default function FinancialDashboard() {
             )}
 
             {/* AI Copilot Section - Toujours visible */}
-            <div className="mb-12">
+            <div className="mb-12" data-copilot>
                 <AICopilot />
             </div>
 
@@ -2341,6 +2422,42 @@ export default function FinancialDashboard() {
                 state={drillDownState}
                 actions={drillDownActions}
                 rawData={rawData || []}
+            />
+
+            {/* ⌨️ Command Palette - Keyboard Shortcuts */}
+            <CommandPalette
+                isOpen={isCommandPaletteOpen}
+                onClose={() => setIsCommandPaletteOpen(false)}
+                onExportPDF={() => {
+                    setIsCommandPaletteOpen(false);
+                    const exportBtn = document.querySelector('[data-action="export-pdf"]') as HTMLButtonElement;
+                    exportBtn?.click();
+                }}
+                onExportExcel={() => {
+                    setIsCommandPaletteOpen(false);
+                    const exportBtn = document.querySelector('[data-action="export-excel"]') as HTMLButtonElement;
+                    exportBtn?.click();
+                }}
+                onOpenCopilot={() => {
+                    setIsCommandPaletteOpen(false);
+                    const copilotSection = document.querySelector('[data-copilot]');
+                    copilotSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                onToggleAnomalies={() => {
+                    setIsCommandPaletteOpen(false);
+                    setShowAnomalies(prev => !prev);
+                }}
+                onToggleTheme={() => {
+                    setIsCommandPaletteOpen(false);
+                    toggleTheme();
+                }}
+                onRefreshData={() => {
+                    setIsCommandPaletteOpen(false);
+                    if (rawData && rawData.length > 0) {
+                        detectAnomaliesFromData();
+                    }
+                }}
+                isDarkMode={isDarkMode}
             />
         </div>
     )
