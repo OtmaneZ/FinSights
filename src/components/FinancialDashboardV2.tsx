@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useFinancialData } from '@/lib/financialContext'
 import {
     TrendingUp,
@@ -9,7 +9,10 @@ import {
     Clock,
     Download,
     Upload,
-    FileText
+    FileText,
+    Sparkles,
+    AlertTriangle,
+    Zap
 } from 'lucide-react'
 
 // Import Charts
@@ -17,12 +20,51 @@ import { CashFlowEvolutionChart } from './charts/CashFlowEvolutionChart'
 import { ExpenseBreakdownChart } from './charts/ExpenseBreakdownChart'
 import { MarginEvolutionChart } from './charts/MarginEvolutionChart'
 import { TopClientsVerticalChart } from './charts/TopClientsVerticalChart'
+import { OutstandingInvoicesChart } from './charts/OutstandingInvoicesChart'
+import { PaymentStatusChart } from './charts/PaymentStatusChart'
+
+// Import D3 Advanced Charts
+import { SankeyFlowChart } from './charts/SankeyFlowChart'
+import { SunburstExpensesChart } from './charts/SunburstExpensesChart'
+
+// Import Components
+import { BenchmarkBar } from './BenchmarkBar'
+import { AlertsPanel } from './AlertsPanel'
+import { CompanyInfoModal, CompanySector } from './CompanyInfoModal'
+import { DataPreviewPanel } from './DataPreviewPanel'
+import { AnomalyPanel } from './AnomalyPanel'
+import CommandPalette from './CommandPalette'
 
 // Import AI Copilot
 import AICopilot from './AICopilot'
 
 // Import Empty State V2
 import EmptyDashboardStateV2 from './EmptyDashboardStateV2'
+
+// Import Drill-Down
+import { useDrilldown } from '@/hooks/useDrilldown'
+import { KPIDrilldownModal } from './drill-down/KPIDrilldownModal'
+
+// Import ML
+import { detectAnomalies } from '@/lib/ml/anomalyDetector'
+import type { Anomaly } from '@/lib/ml/types'
+
+// Import Hooks
+import { useKeyboard } from '@/lib/useKeyboard'
+import { useTheme } from '@/lib/themeContext'
+import { useRealtimeSync } from '@/lib/realtime/useRealtimeSync'
+
+// Import Real-Time Components
+import PresenceIndicator from './realtime/PresenceIndicator'
+import CursorTracker from './realtime/CursorTracker'
+import RealtimeToast, { ToastNotification } from './realtime/RealtimeToast'
+
+// Import Alert Settings
+import AlertSettings from './AlertSettings'
+
+// Import Exporters
+import { FinancialPDFExporter } from '@/lib/pdfExporter'
+import { FinancialExcelExporter } from '@/lib/excelExporter'
 
 interface KPI {
     title: string
@@ -37,6 +79,36 @@ export default function FinancialDashboardV2() {
     const [kpis, setKpis] = useState<KPI[]>([]);
     const [isExporting, setIsExporting] = useState(false);
     const [selectedPeriod, setSelectedPeriod] = useState('all');
+    const dashboardRef = useRef<HTMLDivElement>(null);
+
+    // Company Info states
+    const [showCompanyModal, setShowCompanyModal] = useState(false);
+    const [companyName, setCompanyName] = useState('');
+    const [companySector, setCompanySector] = useState<CompanySector>('services');
+
+    // Drill-down state
+    const [drillDownState, drillDownActions] = useDrilldown();
+
+    // ML Anomaly Detection states
+    const [anomalies, setAnomalies] = useState<Anomaly[]>([]);
+    const [showAnomalies, setShowAnomalies] = useState(false);
+
+    // Command Palette state
+    const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+    const { theme, toggleTheme } = useTheme();
+
+    // Real-Time states
+    const [toastNotifications, setToastNotifications] = useState<ToastNotification[]>([]);
+
+    // Alert Settings state
+    const [showAlertSettings, setShowAlertSettings] = useState(false);
+
+    // What-If Simulation states
+    const [showSimulation, setShowSimulation] = useState(false);
+    const [chargesReduction, setChargesReduction] = useState(0); // 0 à 30%
+    const [paiementsAcceleration, setPaiementsAcceleration] = useState(0); // 0 à 15 jours
+    const [prixAugmentation, setPrixAugmentation] = useState(0); // 0 à 15%
+    const [simulatedKPIs, setSimulatedKPIs] = useState<KPI[]>([]);
 
     // 🔧 Fonctions de préparation des données pour les charts
 
@@ -153,7 +225,94 @@ export default function FinancialDashboardV2() {
             }));
     };
 
-    // 🎨 Fonction pour obtenir l'icône selon le titre du KPI
+    // 🎨 Sankey Data - Revenus → Charges → Cash Flow
+    const getSankeyData = () => {
+        if (!rawData || rawData.length === 0) return { nodes: [], links: [] };
+
+        const totalRevenue = rawData
+            .filter((r: any) => r.type === 'income')
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
+
+        const totalExpenses = rawData
+            .filter((r: any) => r.type === 'expense')
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
+
+        const cashFlow = totalRevenue - totalExpenses;
+
+        const nodes = [
+            { name: 'Revenus' },
+            { name: 'Charges' },
+            { name: 'Cash Flow Net' }
+        ];
+
+        const links = [
+            { source: 0, target: 1, value: totalExpenses },
+            { source: 0, target: 2, value: Math.max(0, cashFlow) }
+        ];
+
+        return { nodes, links };
+    };
+
+    // 🎨 Sunburst Data - Structure hiérarchique expenses
+    const getSunburstData = () => {
+        if (!rawData || rawData.length === 0) {
+            return { name: 'Dépenses', children: [] };
+        }
+
+        const expenses = rawData.filter((r: any) => r.type === 'expense');
+        if (expenses.length === 0) {
+            return { name: 'Dépenses', children: [] };
+        }
+
+        const categoryMap = expenses.reduce((acc: any, r: any) => {
+            const category = r.category || 'Autres';
+            const subcategory = r.subcategory || r.description || 'Divers';
+
+            if (!acc[category]) {
+                acc[category] = {};
+            }
+
+            if (!acc[category][subcategory]) {
+                acc[category][subcategory] = 0;
+            }
+
+            acc[category][subcategory] += r.amount;
+
+            return acc;
+        }, {});
+
+        const children = Object.entries(categoryMap).map(([categoryName, subcategories]: [string, any]) => {
+            const categoryChildren = Object.entries(subcategories).map(([subcategoryName, value]: [string, any]) => ({
+                name: subcategoryName,
+                value
+            }));
+
+            return {
+                name: categoryName,
+                children: categoryChildren
+            };
+        });
+
+        return {
+            name: 'Dépenses',
+            children
+        };
+    };
+
+    // 🤖 ML Anomaly Detection
+    const detectAnomaliesFromData = async () => {
+        if (!rawData || rawData.length === 0) return;
+
+        try {
+            const result = await detectAnomalies(rawData);
+            setAnomalies(result.anomalies);
+            console.log(`🤖 ML: ${result.anomalies.length} anomalies détectées`);
+        } catch (error) {
+            console.error('Erreur détection anomalies:', error);
+        }
+    };
+
+    // 🎨 Get KPI Icon
     const getKPIIcon = (title: string) => {
         if (title.includes('Chiffre') || title.includes('Affaires') || title.includes('CA')) {
             return <DollarSign className="w-6 h-6" />
@@ -199,16 +358,88 @@ export default function FinancialDashboardV2() {
 
     // Export PDF
     const exportToPDF = async () => {
-        setIsExporting(true)
-        // TODO: Implement PDF export
-        setTimeout(() => setIsExporting(false), 1000)
+        if (!dashboardRef.current || kpis.length === 0) return;
+
+        setIsExporting(true);
+        try {
+            const exporter = new FinancialPDFExporter();
+
+            const pdfOptions = {
+                companyName: companyName || 'Entreprise',
+                reportPeriod: {
+                    start: rawData && rawData.length > 0
+                        ? new Date(Math.min(...rawData.map((r: any) => new Date(r.date).getTime())))
+                        : new Date(),
+                    end: rawData && rawData.length > 0
+                        ? new Date(Math.max(...rawData.map((r: any) => new Date(r.date).getTime())))
+                        : new Date()
+                },
+                kpis: kpis.map(kpi => ({
+                    title: kpi.title,
+                    value: kpi.value,
+                    change: kpi.change,
+                    description: kpi.description
+                })),
+                includeCharts: true,
+                includeMethodology: true,
+                confidential: true
+            };
+
+            await exporter.generate(pdfOptions);
+
+            const filename = `rapport-financier-${new Date().toISOString().split('T')[0]}.pdf`;
+            exporter.download(filename);
+
+        } catch (error) {
+            console.error('Erreur export PDF:', error);
+            alert('Erreur lors de l\'export PDF');
+        }
+        setIsExporting(false);
     }
 
     // Export Excel
     const exportToExcel = async () => {
-        setIsExporting(true)
-        // TODO: Implement Excel export
-        setTimeout(() => setIsExporting(false), 1000)
+        if (kpis.length === 0) return;
+
+        setIsExporting(true);
+        try {
+            const exporter = new FinancialExcelExporter();
+
+            const excelOptions = {
+                companyName: companyName || 'Entreprise',
+                reportPeriod: {
+                    start: rawData && rawData.length > 0
+                        ? new Date(Math.min(...rawData.map((r: any) => new Date(r.date).getTime())))
+                        : new Date(),
+                    end: rawData && rawData.length > 0
+                        ? new Date(Math.max(...rawData.map((r: any) => new Date(r.date).getTime())))
+                        : new Date()
+                },
+                kpis: kpis.map(kpi => ({
+                    title: kpi.title,
+                    value: kpi.value,
+                    change: kpi.change,
+                    description: kpi.description,
+                    changeType: kpi.changeType
+                })),
+                rawData: rawData && rawData.length > 0 ? rawData.map((r: any) => ({
+                    date: r.date,
+                    description: r.description,
+                    amount: r.amount,
+                    client: r.client,
+                    category: r.category,
+                    status: r.paymentStatus
+                })) : [],
+                includeRawData: true
+            };
+
+            await exporter.generate(excelOptions);
+
+        } catch (error) {
+            console.error('Erreur export Excel:', error);
+            alert('Erreur lors de l\'export Excel');
+        }
+        setIsExporting(false);
     }
 
     // Load demo scenario
@@ -257,13 +488,132 @@ export default function FinancialDashboardV2() {
         return () => window.removeEventListener('fileSelected', handleFileSelected)
     }, [])
 
+    // 🤖 Auto-detect anomalies when data changes
+    useEffect(() => {
+        if (rawData && rawData.length > 0) {
+            detectAnomaliesFromData();
+        }
+    }, [rawData]);
+
+    // 📡 Real-Time Sync
+    const addToast = (toast: Omit<ToastNotification, 'id'>) => {
+        const newToast = { ...toast, id: Date.now().toString() };
+        setToastNotifications(prev => [...prev, newToast]);
+    };
+
+    const { broadcastKPIUpdate, broadcastFileUpload, broadcastDrillDown } = useRealtimeSync({
+        enabled: isDataLoaded,
+        onKPIUpdate: (event) => {
+            addToast({
+                type: 'kpi-update',
+                title: 'KPI mis à jour',
+                message: `${event.kpiType} = ${event.value.toLocaleString()}€`,
+            });
+        },
+        onFileUpload: (event) => {
+            addToast({
+                type: 'file-upload',
+                title: 'Nouveau fichier',
+                message: `${event.userName} a importé ${event.fileName}`,
+            });
+        },
+        onDrillDown: (data) => {
+            console.log('Drill-down reçu:', data);
+        },
+        onAnomalyDetected: (data) => {
+            addToast({
+                type: 'anomaly',
+                title: 'Anomalie détectée',
+                message: data.description,
+            });
+        }
+    });
+
+    // ⌨️ Keyboard Shortcuts
+    useKeyboard({
+        shortcuts: [
+            {
+                key: 'k',
+                metaKey: true,
+                action: () => setIsCommandPaletteOpen(true),
+                description: 'Ouvrir palette de commandes'
+            },
+            {
+                key: 'e',
+                metaKey: true,
+                action: () => {
+                    if (isDataLoaded && kpis.length > 0) {
+                        exportToPDF();
+                    }
+                },
+                description: 'Exporter PDF'
+            },
+            {
+                key: 'e',
+                metaKey: true,
+                shiftKey: true,
+                action: () => {
+                    if (isDataLoaded && kpis.length > 0) {
+                        exportToExcel();
+                    }
+                },
+                description: 'Exporter Excel'
+            },
+            {
+                key: 'm',
+                metaKey: true,
+                action: () => setShowAnomalies(prev => !prev),
+                description: 'Toggle Anomalies ML'
+            },
+            {
+                key: 't',
+                metaKey: true,
+                action: toggleTheme,
+                description: 'Toggle thème'
+            },
+            {
+                key: 's',
+                metaKey: true,
+                action: () => setShowSimulation(prev => !prev),
+                description: 'Toggle What-If Simulation'
+            }
+        ],
+        enabled: isDataLoaded
+    });
+
     // Si pas de données, afficher Empty State
     if (!isDataLoaded) {
-        return <EmptyDashboardStateV2 onDemoLoad={loadDemoScenario} />
+        return (
+            <>
+                <EmptyDashboardStateV2 onDemoLoad={loadDemoScenario} />
+                {showCompanyModal && (
+                    <CompanyInfoModal
+                        isOpen={showCompanyModal}
+                        onClose={() => setShowCompanyModal(false)}
+                        onSubmit={(name: string, sector: CompanySector) => {
+                            setCompanyName(name);
+                            setCompanySector(sector);
+                            setShowCompanyModal(false);
+                        }}
+                    />
+                )}
+            </>
+        );
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div ref={dashboardRef} className="max-w-7xl mx-auto px-6 py-8">
+            {/* Real-Time Presence */}
+            {isDataLoaded && (
+                <>
+                    <PresenceIndicator />
+                    <CursorTracker />
+                    <RealtimeToast
+                        notifications={toastNotifications}
+                        onDismiss={(id) => setToastNotifications(prev => prev.filter(n => n.id !== id))}
+                    />
+                </>
+            )}
             {/* Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
                 <div>
@@ -310,21 +660,40 @@ export default function FinancialDashboardV2() {
             {/* KPIs Grid - Style Homepage Features */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
                 {kpis.map((kpi, index) => (
-                    <div key={index} className="surface rounded-xl p-6 surface-hover group">
+                    <div 
+                        key={index} 
+                        className="surface rounded-xl p-6 surface-hover group cursor-pointer"
+                        onClick={() => drillDownActions.openDrillDown(kpi.title)}
+                    >
                         <div className="flex items-center justify-between mb-4">
                             <div className="text-accent-gold transition-transform group-hover:scale-110">
                                 {getKPIIcon(kpi.title)}
                             </div>
-                            <span className={`text-sm font-semibold ${kpi.changeType === 'positive' ? 'text-accent-green' :
+                            <span className={`text-sm font-semibold ${
+                                kpi.changeType === 'positive' ? 'text-accent-green' :
                                 kpi.changeType === 'negative' ? 'text-accent-red' :
-                                    'text-text-tertiary'
-                                }`}>
+                                'text-text-tertiary'
+                            }`}>
                                 {kpi.change}
                             </span>
                         </div>
                         <h3 className="text-sm text-text-secondary mb-2">{kpi.title}</h3>
-                        <p className="text-3xl font-bold mb-1">{kpi.value}</p>
-                        <p className="text-xs text-text-tertiary">{kpi.description}</p>
+                        <p className="text-3xl font-bold mb-3">{kpi.value}</p>
+                        <p className="text-xs text-text-tertiary mb-4">{kpi.description}</p>
+
+                        {/* BenchmarkBar - Comparaison sectorielle */}
+                        <BenchmarkBar
+                            kpiName={
+                                kpi.title.includes('Marge') ? 'MARGE_NETTE' :
+                                kpi.title.includes('DSO') ? 'DSO' :
+                                kpi.title.includes('BFR') ? 'BFR' :
+                                'DSO'
+                            }
+                            currentValue={parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0}
+                            sector={companySector}
+                            unit={kpi.title.includes('%') ? '%' : kpi.title.includes('jours') ? 'jours' : '€'}
+                            inverse={kpi.title.includes('DSO')}
+                        />
                     </div>
                 ))}
             </div>
@@ -358,10 +727,279 @@ export default function FinancialDashboardV2() {
                 </div>
             )}
 
+            {/* 🎨 Charts Avancés D3.js - Sankey + Sunburst */}
+            {finSightData && rawData && rawData.length > 0 && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+                    {/* Sankey Flow Chart */}
+                    <div className="surface rounded-xl p-6">
+                        <div className="flex items-center gap-2 mb-6">
+                            <Sparkles className="w-5 h-5 text-accent-gold" />
+                            <h3 className="text-xl font-semibold">Flux Financier (Sankey)</h3>
+                        </div>
+                        <SankeyFlowChart data={getSankeyData()} />
+                    </div>
+
+                    {/* Sunburst Expenses Chart */}
+                    <div className="surface rounded-xl p-6">
+                        <div className="flex items-center gap-2 mb-6">
+                            <Sparkles className="w-5 h-5 text-accent-gold" />
+                            <h3 className="text-xl font-semibold">Hiérarchie Dépenses (Sunburst)</h3>
+                        </div>
+                        <SunburstExpensesChart data={getSunburstData()} />
+                    </div>
+                </div>
+            )}
+
+            {/* 🤖 ML Anomaly Detection Panel */}
+            {anomalies.length > 0 && (
+                <div className="mb-12">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2">
+                            <AlertTriangle className="w-5 h-5 text-accent-orange" />
+                            <h3 className="text-xl font-semibold">Anomalies Détectées ({anomalies.length})</h3>
+                        </div>
+                        <button
+                            onClick={() => setShowAnomalies(!showAnomalies)}
+                            className="text-sm text-accent-gold hover:text-accent-gold-hover transition-colors"
+                        >
+                            {showAnomalies ? 'Masquer' : 'Afficher'}
+                        </button>
+                    </div>
+                    {showAnomalies && <AnomalyPanel anomalies={anomalies} />}
+                </div>
+            )}
+
+            {/* 📊 Panels Additionnels */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+                {/* Data Preview Panel */}
+                <div className="surface rounded-xl p-6">
+                    <h3 className="text-xl font-semibold mb-6">Aperçu Données Brutes</h3>
+                    <DataPreviewPanel rawData={rawData || []} companyName={companyName} />
+                </div>
+
+                {/* Alerts Panel */}
+                <div className="surface rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-xl font-semibold">Alertes Intelligentes</h3>
+                        <button
+                            onClick={() => setShowAlertSettings(true)}
+                            className="text-sm text-accent-gold hover:text-accent-gold-hover"
+                        >
+                            Configurer
+                        </button>
+                    </div>
+                    <AlertsPanel
+                        dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                        cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                        netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                    />
+                </div>
+            </div>
+
+            {/* 🔮 What-If Simulation Panel */}
+            {isDataLoaded && (
+                <div className="mb-12 surface rounded-2xl p-8 relative overflow-hidden border-2 border-accent-gold-border/20 bg-gradient-to-br from-accent-gold-subtle/10 to-transparent">
+                    {/* Header */}
+                    <div className="flex justify-between items-center mb-8">
+                        <div className="flex items-center gap-3">
+                            <Zap className="w-7 h-7 text-accent-gold" />
+                            <div>
+                                <h3 className="text-2xl font-bold">Simulation What-If</h3>
+                                <p className="text-sm text-text-secondary mt-1">
+                                    Mesurez l'impact financier de vos décisions en temps réel
+                                </p>
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => setShowSimulation(!showSimulation)}
+                            className="px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-lg text-accent-gold font-semibold text-sm hover:bg-accent-gold-border/20 transition-all"
+                        >
+                            {showSimulation ? '▼ Réduire' : '▶ Développer'}
+                        </button>
+                    </div>
+
+                    {/* 3 Simulations */}
+                    {showSimulation && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {/* SIMULATION 1: Réduction Charges → Marge */}
+                            <div className={`surface rounded-xl p-5 transition-all ${chargesReduction > 0 ? 'border-2 border-accent-green' : ''}`}>
+                                <div className="mb-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="text-2xl">💰</span>
+                                        <h4 className="text-base font-bold">Optimisation charges</h4>
+                                    </div>
+                                    <p className="text-xs text-text-secondary">
+                                        Impact sur <strong className="text-accent-green">Marge Nette</strong>
+                                    </p>
+                                </div>
+
+                                <div className="mb-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-xs text-text-secondary">Réduction</span>
+                                        <span className={`text-xl font-bold ${chargesReduction > 0 ? 'text-accent-green' : 'text-accent-gold'}`}>
+                                            -{chargesReduction}%
+                                        </span>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="30"
+                                        step="5"
+                                        value={chargesReduction}
+                                        onChange={(e) => setChargesReduction(Number(e.target.value))}
+                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-green"
+                                    />
+                                    <div className="flex justify-between mt-1">
+                                        <span className="text-xs text-text-tertiary">0%</span>
+                                        <span className="text-xs text-text-tertiary">30%</span>
+                                    </div>
+                                </div>
+
+                                {chargesReduction > 0 && (
+                                    <div className="bg-accent-green-subtle border border-accent-green-border rounded-lg p-3">
+                                        <p className="text-xs text-text-secondary mb-1">Nouvelle marge estimée</p>
+                                        <p className="text-lg font-bold text-accent-green">
+                                            +{((chargesReduction / 100) * 15).toFixed(1)}% 📈
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* SIMULATION 2: Accélération Paiements → Cash Flow */}
+                            <div className={`surface rounded-xl p-5 transition-all ${paiementsAcceleration > 0 ? 'border-2 border-accent-blue' : ''}`}>
+                                <div className="mb-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="text-2xl">⚡</span>
+                                        <h4 className="text-base font-bold">Relance créances</h4>
+                                    </div>
+                                    <p className="text-xs text-text-secondary">
+                                        Impact sur <strong className="text-accent-blue">Cash Flow</strong>
+                                    </p>
+                                </div>
+
+                                <div className="mb-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-xs text-text-secondary">Réduction DSO</span>
+                                        <span className={`text-xl font-bold ${paiementsAcceleration > 0 ? 'text-accent-blue' : 'text-accent-gold'}`}>
+                                            -{paiementsAcceleration}j
+                                        </span>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="15"
+                                        step="3"
+                                        value={paiementsAcceleration}
+                                        onChange={(e) => setPaiementsAcceleration(Number(e.target.value))}
+                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-blue"
+                                    />
+                                    <div className="flex justify-between mt-1">
+                                        <span className="text-xs text-text-tertiary">0j</span>
+                                        <span className="text-xs text-text-tertiary">15j</span>
+                                    </div>
+                                </div>
+
+                                {paiementsAcceleration > 0 && (
+                                    <div className="bg-accent-blue-subtle border border-accent-blue-border rounded-lg p-3">
+                                        <p className="text-xs text-text-secondary mb-1">Cash récupéré</p>
+                                        <p className="text-lg font-bold text-accent-blue">
+                                            +{(paiementsAcceleration * 1000).toLocaleString()}€ 💸
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* SIMULATION 3: Augmentation Prix → CA */}
+                            <div className={`surface rounded-xl p-5 transition-all ${prixAugmentation > 0 ? 'border-2 border-accent-orange' : ''}`}>
+                                <div className="mb-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="text-2xl">📈</span>
+                                        <h4 className="text-base font-bold">Augmentation prix</h4>
+                                    </div>
+                                    <p className="text-xs text-text-secondary">
+                                        Impact sur <strong className="text-accent-orange">Chiffre d'Affaires</strong>
+                                    </p>
+                                </div>
+
+                                <div className="mb-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-xs text-text-secondary">Augmentation</span>
+                                        <span className={`text-xl font-bold ${prixAugmentation > 0 ? 'text-accent-orange' : 'text-accent-gold'}`}>
+                                            +{prixAugmentation}%
+                                        </span>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="15"
+                                        step="3"
+                                        value={prixAugmentation}
+                                        onChange={(e) => setPrixAugmentation(Number(e.target.value))}
+                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-orange"
+                                    />
+                                    <div className="flex justify-between mt-1">
+                                        <span className="text-xs text-text-tertiary">0%</span>
+                                        <span className="text-xs text-text-tertiary">15%</span>
+                                    </div>
+                                </div>
+
+                                {prixAugmentation > 0 && (
+                                    <div className="bg-accent-orange-subtle border border-accent-orange-border rounded-lg p-3">
+                                        <p className="text-xs text-text-secondary mb-1">CA additionnel estimé</p>
+                                        <p className="text-lg font-bold text-accent-orange">
+                                            +{((prixAugmentation / 100) * 100000).toLocaleString()}€ 🚀
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
             {/* AI Copilot */}
-            <div className="mb-12">
+            <div className="mb-12" data-copilot>
                 <AICopilot />
             </div>
+
+            {/* Modals & Overlays */}
+            {drillDownState.isOpen && (
+                <KPIDrilldownModal
+                    state={drillDownState}
+                    actions={drillDownActions}
+                    rawData={rawData || []}
+                />
+            )}
+
+            {isCommandPaletteOpen && (
+                <CommandPalette
+                    isOpen={isCommandPaletteOpen}
+                    onClose={() => setIsCommandPaletteOpen(false)}
+                    onExportPDF={() => exportToPDF()}
+                    onExportExcel={() => exportToExcel()}
+                    onToggleAnomalies={() => setShowAnomalies(!showAnomalies)}
+                    onToggleTheme={toggleTheme}
+                />
+            )}
+
+            {showAlertSettings && (
+                <AlertSettings
+                    isOpen={showAlertSettings}
+                    onClose={() => setShowAlertSettings(false)}
+                />
+            )}
+
+            {showCompanyModal && (
+                <CompanyInfoModal
+                    isOpen={showCompanyModal}
+                    onClose={() => setShowCompanyModal(false)}
+                    onSubmit={(name: string, sector: CompanySector) => {
+                        setCompanyName(name);
+                        setCompanySector(sector);
+                        setShowCompanyModal(false);
+                    }}
+                />
+            )}
         </div>
     )
 }
