@@ -49,6 +49,10 @@ import CommandPalette from './CommandPalette';
 import { useKeyboard } from '@/lib/useKeyboard';
 import { useTheme } from '@/lib/themeContext';
 
+// 📡 Import Real-Time Collaboration
+import PresenceIndicator from './realtime/PresenceIndicator';
+import CursorTracker from './realtime/CursorTracker';
+
 // Import AICopilot
 import AICopilot from './AICopilot';
 
@@ -1188,6 +1192,9 @@ export default function FinancialDashboard() {
                         <CloudArrowUpIcon className="finsight-icon-sm" />
                         <span>Importer Données</span>
                     </button>
+
+                    {/* 📡 Real-Time Presence Indicator */}
+                    <PresenceIndicator enabled={isDataLoaded} />
                 </div>
             </div>
 
@@ -2459,6 +2466,9 @@ export default function FinancialDashboard() {
                 }}
                 isDarkMode={isDarkMode}
             />
+
+            {/* 📡 Real-Time Cursor Tracking */}
+            <CursorTracker enabled={isDataLoaded} />
         </div>
     )
 }
