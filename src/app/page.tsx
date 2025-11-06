@@ -54,12 +54,12 @@ export default function Home() {
             </header>
 
             {/* Hero Section */}
-            <section className="max-w-5xl mx-auto px-6 pt-32 pb-20 text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-full mb-8">
+            <section className="max-w-5xl mx-auto px-6 pt-32 pb-40 text-center">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-full mb-8 animate-pulse">
                     <span className="text-accent-gold text-sm font-medium">Portfolio Project • Production-Ready</span>
                 </div>
 
-                <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
+                <h1 className="text-7xl md:text-8xl font-bold mb-6 tracking-tight leading-tight">
                     Dashboard Financier IA<br />
                     <span className="text-text-secondary">pour DAF & CFO</span>
                 </h1>
@@ -83,7 +83,7 @@ export default function Home() {
                         className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-border-strong text-text-primary rounded-xl font-semibold text-lg transition-all hover:bg-surface-elevated"
                     >
                         <Linkedin className="w-5 h-5" />
-                        Me contacter
+                        Discutons
                     </a>
                 </div>
 
@@ -92,86 +92,9 @@ export default function Home() {
                 </p>
             </section>
 
-            {/* Screenshot Section */}
-            <section className="max-w-6xl mx-auto px-6 pb-32">
-                <div className="glass rounded-2xl p-2 border-2 border-border-default">
-                    <img
-                        src="/images/dashboard-demo.png"
-                        alt="FinSight Dashboard"
-                        className="w-full rounded-xl"
-                        onError={(e) => {
-                            // Placeholder si pas d'image
-                            e.currentTarget.style.display = 'none';
-                            e.currentTarget.parentElement!.innerHTML = '<div class="w-full h-96 bg-surface-elevated rounded-xl flex items-center justify-center text-text-tertiary">Dashboard Screenshot (Coming Soon)</div>';
-                        }}
-                    />
-                </div>
-            </section>
-
-            {/* About Section */}
-            <section className="max-w-4xl mx-auto px-6 pb-32">
-                <div className="surface rounded-2xl p-12 text-center">
-                    <div className="mb-10">
-                        <h2 className="text-3xl font-bold mb-4">Créé par Otmane Boulahia</h2>
-                        <p className="text-xl text-text-secondary">
-                            Finance × Data Engineer
-                        </p>
-                    </div>
-
-                    <div className="flex flex-wrap justify-center gap-3 mb-10">
-                        {[
-                            'TypeScript',
-                            'Next.js',
-                            'Python',
-                            'SQL',
-                            'Power BI',
-                            'Finance d\'entreprise',
-                            'KPIs & Modélisation',
-                            'GPT-4o & Pinecone'
-                        ].map((skill) => (
-                            <span
-                                key={skill}
-                                className="px-4 py-2 bg-surface-elevated border border-border-default rounded-lg text-sm font-medium text-text-secondary"
-                            >
-                                {skill}
-                            </span>
-                        ))}
-                    </div>
-
-                    <div className="flex items-center justify-center gap-6">
-                        <a
-                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg"
-                        >
-                            <Linkedin className="w-5 h-5" />
-                            LinkedIn
-                        </a>
-                        <a
-                            href="https://github.com/OtmaneZ/FinSights"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
-                        >
-                            <Github className="w-5 h-5" />
-                            Code Source
-                        </a>
-                        <a
-                            href="https://calendly.com/zineinsight"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
-                        >
-                            Prendre RDV
-                        </a>
-                    </div>
-                </div>
-            </section>
-
             {/* Features Grid */}
             <section className="max-w-6xl mx-auto px-6 pb-32">
-                <h2 className="text-3xl font-bold text-center mb-12">6 Features Production</h2>
+                <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {/* Feature 1 - Import CSV/Excel */}
                     <div className="surface rounded-xl p-6 surface-hover">
@@ -229,30 +152,44 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Tech Stack */}
-            <section className="max-w-4xl mx-auto px-6 pb-32 text-center">
-                <h2 className="text-3xl font-bold mb-12">Stack Technique</h2>
-                <div className="flex flex-wrap justify-center gap-3">
-                    {[
-                        'Next.js 14',
-                        'React',
-                        'TypeScript',
-                        'Tailwind CSS',
-                        'OpenAI GPT-4o',
-                        'Pinecone',
-                        'Pusher',
-                        'Resend',
-                        'D3.js',
-                        'Recharts',
-                        'Vercel'
-                    ].map((tech) => (
-                        <span
-                            key={tech}
-                            className="px-4 py-2 bg-surface-elevated border border-border-default rounded-lg text-sm font-medium text-text-secondary hover:border-border-strong hover:text-text-primary transition-all"
+            {/* About Section */}
+            <section className="max-w-4xl mx-auto px-6 pb-32">
+                <div className="surface rounded-2xl p-12 text-center">
+                    <div className="mb-10">
+                        <h2 className="text-3xl font-bold mb-4">Créé par Otmane Boulahia</h2>
+                        <p className="text-xl text-text-secondary mb-6">
+                            Finance × Data × IA
+                        </p>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-6">
+                        <a
+                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg"
                         >
-                            {tech}
-                        </span>
-                    ))}
+                            <Linkedin className="w-5 h-5" />
+                            LinkedIn
+                        </a>
+                        <a
+                            href="https://github.com/OtmaneZ/FinSights"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
+                        >
+                            <Github className="w-5 h-5" />
+                            Code Source
+                        </a>
+                        <a
+                            href="https://calendly.com/zineinsight"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
+                        >
+                            Prendre RDV
+                        </a>
+                    </div>
                 </div>
             </section>
 
@@ -307,7 +244,7 @@ export default function Home() {
 
                     <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-text-tertiary">
                         <p>
-                            © 2025 Otmane Boulahia • Finance × Data Engineer •
+                            © 2025 Otmane Boulahia •
                             <a href="https://www.zineinsight.com" className="hover:text-text-secondary transition-colors ml-1">ZineInsight</a>
                         </p>
                     </div>

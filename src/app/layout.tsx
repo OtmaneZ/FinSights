@@ -2,8 +2,6 @@ import './globals.css'
 import '../styles/finsight-revolutionary.css'
 import { Inter } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
-import { ThemeProvider } from '@/lib/themeContext'
-import { ThemeToggle } from '@/components/ThemeToggle'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,7 +9,6 @@ export const metadata = {
     title: 'FinSight - Finance Augmentée',
     description: 'Plateforme de finance augmentée pour DAF modernes',
     manifest: '/manifest.json',
-    themeColor: '#0F3D7A',
     icons: {
         icon: [
             { url: '/favicon.ico' },
@@ -26,13 +23,15 @@ export const metadata = {
         capable: true,
         statusBarStyle: 'default',
         title: 'FinSight'
-    },
-    viewport: {
-        width: 'device-width',
-        initialScale: 1,
-        maximumScale: 1,
-        userScalable: false
     }
+}
+
+export const viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    themeColor: '#0F3D7A'
 }
 
 export default function RootLayout({
@@ -43,12 +42,9 @@ export default function RootLayout({
     return (
         <html lang="fr" suppressHydrationWarning>
             <body className={inter.className}>
-                <ThemeProvider>
-                    <FinancialDataProvider>
-                        <ThemeToggle />
-                        {children}
-                    </FinancialDataProvider>
-                </ThemeProvider>
+                <FinancialDataProvider>
+                    {children}
+                </FinancialDataProvider>
             </body>
         </html>
     )
