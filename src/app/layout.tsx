@@ -2,6 +2,7 @@ import './globals.css'
 import '../styles/finsight-revolutionary.css'
 import { Inter } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
+import { ThemeProvider } from '@/lib/themeContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -42,9 +43,11 @@ export default function RootLayout({
     return (
         <html lang="fr" suppressHydrationWarning>
             <body className={inter.className}>
-                <FinancialDataProvider>
-                    {children}
-                </FinancialDataProvider>
+                <ThemeProvider>
+                    <FinancialDataProvider>
+                        {children}
+                    </FinancialDataProvider>
+                </ThemeProvider>
             </body>
         </html>
     )

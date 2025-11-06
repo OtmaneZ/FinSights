@@ -54,42 +54,54 @@ export default function Home() {
             </header>
 
             {/* Hero Section */}
-            <section className="max-w-5xl mx-auto px-6 pt-32 pb-40 text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-full mb-8 animate-pulse">
-                    <span className="text-accent-gold text-sm font-medium">Portfolio Project • Production-Ready</span>
+            <section className="relative max-w-5xl mx-auto px-6 pt-32 pb-40 text-center">
+                {/* Radial gradient glow effect - Resend style */}
+                <div className="absolute inset-x-0 top-0 h-[600px] pointer-events-none overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-radial from-accent-gold/20 via-accent-gold/5 to-transparent blur-3xl"
+                        style={{
+                            background: 'radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 40%, transparent 70%)'
+                        }}>
+                    </div>
                 </div>
 
-                <h1 className="text-7xl md:text-8xl font-bold mb-6 tracking-tight leading-tight">
-                    Dashboard Financier IA<br />
-                    <span className="text-text-secondary">pour DAF & CFO</span>
-                </h1>
+                {/* Content */}
+                <div className="relative z-10">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-full mb-8 animate-pulse">
+                        <span className="text-accent-gold text-sm font-medium">Portfolio Project • Production-Ready</span>
+                    </div>
 
-                <p className="text-xl text-text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
-                    Analyse temps réel • AI Copilot conversationnel • Export automatisé
-                </p>
+                    <h1 className="text-7xl md:text-8xl font-bold mb-6 tracking-tight leading-tight">
+                        Dashboard Financier IA<br />
+                        <span className="text-text-secondary">pour DAF & CFO</span>
+                    </h1>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <Link
-                        href="/dashboard"
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-xl font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1"
-                    >
-                        Voir la démo live
-                        <ExternalLink className="w-5 h-5" />
-                    </Link>
-                    <a
-                        href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-border-strong text-text-primary rounded-xl font-semibold text-lg transition-all hover:bg-surface-elevated"
-                    >
-                        <Linkedin className="w-5 h-5" />
-                        Discutons
-                    </a>
+                    <p className="text-xl text-text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
+                        Analyse temps réel • AI Copilot conversationnel • Export automatisé
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Link
+                            href="/dashboard"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-xl font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1"
+                        >
+                            Voir la démo live
+                            <ExternalLink className="w-5 h-5" />
+                        </Link>
+                        <a
+                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-border-strong text-text-primary rounded-xl font-semibold text-lg transition-all hover:bg-surface-elevated"
+                        >
+                            <Linkedin className="w-5 h-5" />
+                            Discutons
+                        </a>
+                    </div>
+
+                    <p className="text-sm text-text-tertiary mt-8">
+                        3 scénarios réalistes : PME Services • Startup SaaS • Scale-up Tech
+                    </p>
                 </div>
-
-                <p className="text-sm text-text-tertiary mt-8">
-                    3 scénarios réalistes : PME Services • Startup SaaS • Scale-up Tech
-                </p>
             </section>
 
             {/* Features Grid */}
