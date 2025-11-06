@@ -82,10 +82,10 @@ export default function Home() {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link
                             href="/dashboard"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-xl font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1"
+                            className="inline-flex items-center gap-2 px-10 py-5 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-xl font-semibold text-xl transition-all hover:shadow-xl hover:-translate-y-1"
                         >
                             Voir la démo live
-                            <ExternalLink className="w-5 h-5" />
+                            <ExternalLink className="w-6 h-6" />
                         </Link>
                         <a
                             href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
@@ -109,8 +109,8 @@ export default function Home() {
                 <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {/* Feature 1 - Import CSV/Excel */}
-                    <div className="surface rounded-xl p-6 surface-hover">
-                        <Upload className="w-10 h-10 text-accent-gold mb-3" />
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <Upload className="w-10 h-10 text-accent-gold mb-3 transition-transform group-hover:scale-110" />
                         <h3 className="text-xl font-semibold mb-2">Import CSV/Excel</h3>
                         <p className="text-text-secondary text-sm leading-relaxed">
                             Drag & drop fichiers, parsing auto, 15+ KPIs calculés en temps réel
@@ -118,8 +118,8 @@ export default function Home() {
                     </div>
 
                     {/* Feature 2 - AI Copilot */}
-                    <div className="surface rounded-xl p-6 surface-hover">
-                        <Sparkles className="w-10 h-10 text-accent-gold mb-3" />
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <Sparkles className="w-10 h-10 text-accent-gold mb-3 transition-transform group-hover:scale-110" />
                         <h3 className="text-xl font-semibold mb-2">AI Copilot</h3>
                         <p className="text-text-secondary text-sm leading-relaxed">
                             Interrogez vos données en langage naturel avec GPT-4o et Pinecone
@@ -127,8 +127,8 @@ export default function Home() {
                     </div>
 
                     {/* Feature 3 - D3.js Charts */}
-                    <div className="surface rounded-xl p-6 surface-hover">
-                        <TrendingUp className="w-10 h-10 text-accent-gold mb-3" />
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <TrendingUp className="w-10 h-10 text-accent-gold mb-3 transition-transform group-hover:scale-110" />
                         <h3 className="text-xl font-semibold mb-2">D3.js Charts</h3>
                         <p className="text-text-secondary text-sm leading-relaxed">
                             Visualisations premium : Sankey flows, Sunburst, drill-down 3 niveaux
@@ -136,8 +136,8 @@ export default function Home() {
                     </div>
 
                     {/* Feature 4 - Notifications & Collab */}
-                    <div className="surface rounded-xl p-6 surface-hover">
-                        <Users className="w-10 h-10 text-accent-gold mb-3" />
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <Users className="w-10 h-10 text-accent-gold mb-3 transition-transform group-hover:scale-110" />
                         <h3 className="text-xl font-semibold mb-2">Notifications & Collab</h3>
                         <p className="text-text-secondary text-sm leading-relaxed">
                             Alertes email (Resend), collaboration temps réel (Pusher), cron daily
@@ -145,8 +145,8 @@ export default function Home() {
                     </div>
 
                     {/* Feature 5 - ML Anomaly Detection */}
-                    <div className="surface rounded-xl p-6 surface-hover">
-                        <Zap className="w-10 h-10 text-accent-gold mb-3" />
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <Zap className="w-10 h-10 text-accent-gold mb-3 transition-transform group-hover:scale-110" />
                         <h3 className="text-xl font-semibold mb-2">ML Anomaly Detection</h3>
                         <p className="text-text-secondary text-sm leading-relaxed">
                             3 algorithmes ML (Z-score, IQR, Moving Average) pour transactions suspectes
@@ -154,8 +154,8 @@ export default function Home() {
                     </div>
 
                     {/* Feature 6 - Export Pro */}
-                    <div className="surface rounded-xl p-6 surface-hover">
-                        <FileBarChart className="w-10 h-10 text-accent-gold mb-3" />
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <FileBarChart className="w-10 h-10 text-accent-gold mb-3 transition-transform group-hover:scale-110" />
                         <h3 className="text-xl font-semibold mb-2">Export Pro</h3>
                         <p className="text-text-secondary text-sm leading-relaxed">
                             Génération PDF/Excel automatisée avec formules financières PCG 2025
@@ -174,7 +174,7 @@ export default function Home() {
                         </p>
                     </div>
 
-                    <div className="flex items-center justify-center gap-6">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                         <a
                             href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                             target="_blank"
