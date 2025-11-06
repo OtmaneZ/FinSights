@@ -48,10 +48,16 @@
     /* Désactivé, placeholder */
 
     /* ==========================================
-     ACCENT COLORS - FINANCE THEME
+     ACCENT COLORS - PREMIUM THEME
      ========================================== */
 
-    /* Green - Positif (cash flow +, revenue growth) */
+    /* Gold - Premium, Primary accent (CTAs, highlights) */
+    --accent-gold: #d4af37;
+    --accent-gold-hover: #b8860b;
+    --accent-gold-subtle: rgba(212, 175, 55, 0.1);
+    --accent-gold-border: rgba(212, 175, 55, 0.3);
+
+    /* Green - Positif (success states, positive metrics) */
     --accent-green: #10b981;
     --accent-green-hover: #059669;
     --accent-green-subtle: rgba(16, 185, 129, 0.1);
@@ -217,8 +223,8 @@
 
 .surface-hover:hover {
     background: var(--surface-hover);
-    border-color: var(--border-strong);
-    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-gold-border);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.15);
     transform: translateY(-2px);
 }
 

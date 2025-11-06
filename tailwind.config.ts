@@ -31,6 +31,12 @@ const config: Config = {
                 'text-disabled': 'var(--text-disabled)',
 
                 // Design System - Accents
+                'accent-gold': {
+                    DEFAULT: 'var(--accent-gold)',
+                    hover: 'var(--accent-gold-hover)',
+                    subtle: 'var(--accent-gold-subtle)',
+                    border: 'var(--accent-gold-border)',
+                },
                 'accent-green': {
                     DEFAULT: 'var(--accent-green)',
                     hover: 'var(--accent-green-hover)',
