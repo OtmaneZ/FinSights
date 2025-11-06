@@ -110,6 +110,11 @@ export default function FinancialDashboardV2() {
     const [prixAugmentation, setPrixAugmentation] = useState(0); // 0 à 15%
     const [simulatedKPIs, setSimulatedKPIs] = useState<KPI[]>([]);
 
+    // Demo Loading states
+    const [isLoadingDemo, setIsLoadingDemo] = useState(false);
+    const [loadingProgress, setLoadingProgress] = useState(0);
+    const [loadingMessage, setLoadingMessage] = useState('');
+
     // 🔧 Fonctions de préparation des données pour les charts
 
     const getMonthlyData = () => {
@@ -540,38 +545,90 @@ export default function FinancialDashboardV2() {
         setIsExporting(false);
     }
 
-    // Load demo scenario
+    // Load demo scenario avec animation de progression
     const loadDemoScenario = async (scenario: 'saine' | 'difficulte' | 'croissance') => {
-        const scenarioFiles = {
-            saine: '/demo-data.csv',
-            difficulte: '/demo-startup-difficulte.csv',
-            croissance: '/demo-scaleup-croissance.csv'
-        }
+        setIsLoadingDemo(true);
+        setLoadingProgress(0);
+
+        const scenarioConfig = {
+            saine: {
+                file: '/demo-data.csv',
+                loadingMsg: '📤 Chargement données PME Services...',
+                companyName: 'PME Services B2B',
+                sector: 'services' as CompanySector
+            },
+            difficulte: {
+                file: '/demo-startup-difficulte.csv',
+                loadingMsg: '📤 Chargement données Startup SaaS...',
+                companyName: 'Startup SaaS',
+                sector: 'saas' as CompanySector
+            },
+            croissance: {
+                file: '/demo-scaleup-croissance.csv',
+                loadingMsg: '📤 Chargement données Scale-up Tech...',
+                companyName: 'Scale-up Tech',
+                sector: 'saas' as CompanySector
+            }
+        };
+
+        const config = scenarioConfig[scenario];
+        setLoadingMessage(config.loadingMsg);
 
         try {
-            const response = await fetch(scenarioFiles[scenario])
-            const csvText = await response.text()
+            // Animation de progression
+            setLoadingProgress(20);
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const response = await fetch(config.file);
+            const csvText = await response.text();
+
+            setLoadingProgress(40);
+            setLoadingMessage('🔍 Analyse des données...');
+            await new Promise(resolve => setTimeout(resolve, 700));
+
+            setLoadingProgress(60);
+            setLoadingMessage('📊 Calcul des KPIs...');
 
             const apiResponse = await fetch('/api/upload', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     fileContent: csvText,
-                    fileName: scenarioFiles[scenario].split('/').pop(),
+                    fileName: config.file.split('/').pop(),
                     fileType: 'text/csv'
                 })
-            })
+            });
 
-            const result = await apiResponse.json()
+            const result = await apiResponse.json();
+
+            setLoadingProgress(80);
+            setLoadingMessage('✨ Génération du dashboard...');
+            await new Promise(resolve => setTimeout(resolve, 500));
 
             if (apiResponse.ok) {
-                setKpis(result.data.kpis || [])
-                setFinSightData(result.data.financialData || result.data.processedData)
-                setRawData(result.data.records || result.data.rawData || [])
-                setIsDataLoaded(true)
+                setKpis(result.data.kpis || []);
+                setFinSightData(result.data.financialData || result.data.processedData);
+                setRawData(result.data.records || result.data.rawData || []);
+                setIsDataLoaded(true);
+                setCompanyName(config.companyName);
+                setCompanySector(config.sector);
+
+                setLoadingProgress(100);
+                setLoadingMessage('✅ Dashboard prêt !');
+                await new Promise(resolve => setTimeout(resolve, 300));
+            } else {
+                console.error('❌ Erreur API upload:', result);
+                setLoadingMessage('❌ Erreur lors du chargement');
             }
         } catch (error) {
-            console.error('Erreur chargement démo:', error)
+            console.error('❌ Erreur chargement démo:', error);
+            setLoadingMessage('❌ Erreur lors du chargement');
+        } finally {
+            setTimeout(() => {
+                setIsLoadingDemo(false);
+                setLoadingProgress(0);
+                setLoadingMessage('');
+            }, 500);
         }
     }
 
@@ -688,11 +745,36 @@ export default function FinancialDashboardV2() {
         enabled: isDataLoaded
     });
 
-    // Si pas de données, afficher Empty State
+    // Si pas de données, afficher Empty State ou Loading
     if (!isDataLoaded) {
         return (
             <>
-                <EmptyDashboardStateV2 onDemoLoad={loadDemoScenario} />
+                {/* Animation de chargement démo */}
+                {isLoadingDemo && (
+                    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
+                        <div className="w-20 h-20 border-4 border-accent-gold-border border-t-accent-gold rounded-full animate-spin"></div>
+                        <div className="text-center w-full max-w-md">
+                            <h3 className="text-2xl font-bold mb-2">
+                                {loadingMessage}
+                            </h3>
+                            <div className="w-full h-2 bg-surface-elevated rounded-full overflow-hidden mt-4">
+                                <div
+                                    className="h-full bg-gradient-to-r from-accent-gold to-accent-gold-hover rounded-full transition-all duration-300"
+                                    style={{ width: `${loadingProgress}%` }}
+                                ></div>
+                            </div>
+                            <p className="text-sm text-text-secondary mt-3">
+                                {loadingProgress}% complété
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Empty State - affiché seulement si pas en chargement */}
+                {!isLoadingDemo && (
+                    <EmptyDashboardStateV2 onDemoLoad={loadDemoScenario} />
+                )}
+
                 {showCompanyModal && (
                     <CompanyInfoModal
                         isOpen={showCompanyModal}
