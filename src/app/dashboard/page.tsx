@@ -1,45 +1,101 @@
-import FinancialDashboard from '@/components/FinancialDashboard'
+import FinancialDashboardV2 from '@/components/FinancialDashboardV2'
 import CTAFixed from '@/components/CTAFixed'
+import Link from 'next/link'
+import { Linkedin } from 'lucide-react'
 
 export default function DashboardPage() {
     return (
-        <main className="finsight-body">
-            {/* Header */}
-            <header className="finsight-header">
-                <div className="finsight-nav-container">
-                    <div className="finsight-brand-container">
-                        <a href="/" className="finsight-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <img src="/images/zineinsights_logo.jpeg" alt="FinSight Logo" style={{ width: '40px', height: '40px', borderRadius: '8px' }} />
-                            <span>FinSight</span>
+        <main className="min-h-screen bg-bg-primary text-text-primary">
+            {/* Header - Aligned with Homepage */}
+            <header className="border-b border-border-subtle backdrop-blur-sm bg-bg-primary/80 sticky top-0 z-50">
+                <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                    <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                        <img
+                            src="/images/zineinsights_logo.jpeg"
+                            alt="FinSight"
+                            className="w-10 h-10 rounded-lg"
+                        />
+                        <div>
+                            <span className="text-xl font-semibold">FinSight</span>
+                            <span className="text-xs text-text-tertiary ml-2">Dashboard</span>
+                        </div>
+                    </Link>
+                    <nav className="hidden md:flex items-center gap-8">
+                        <Link href="/" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
+                            Accueil
+                        </Link>
+                        <a
+                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium flex items-center gap-2"
+                        >
+                            <Linkedin className="w-4 h-4" />
+                            LinkedIn
                         </a>
-                        <span className="finsight-brand-subtitle">Dashboard</span>
-                    </div>
-                    <nav className="finsight-nav-menu finsight-nav-hidden" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                        <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="finsight-nav-link">
-                            Prendre rendez-vous
+                        <a
+                            href="https://calendly.com/zineinsight"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-6 py-2.5 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
+                        >
+                            Discutons
                         </a>
-                        <a href="/" className="finsight-nav-link">Accueil</a>
-                        <a href="https://www.zineinsight.com" className="finsight-nav-link">ZineInsight</a>
                     </nav>
                 </div>
             </header>
 
-            <div className="finsight-main">
-                <FinancialDashboard />
+            <div className="pt-4">
+                <FinancialDashboardV2 />
             </div>
 
             {/* CTA Fixe */}
             <CTAFixed />
 
-            {/* Footer */}
-            <footer className="finsight-footer">
-                <div className="finsight-footer-content">
-                    <div className="finsight-footer-center">
-                        <p className="finsight-footer-main">
-                            🚀 Propulsé par <a href="https://www.zineinsight.com" className="finsight-footer-brand text-blue-600 hover:underline font-bold">ZineInsight</a> — Dashboards sur-mesure pour PME/ETI
-                        </p>
-                        <p className="finsight-footer-sub">
-                            FinSight © 2025
+            {/* Footer - Aligned with Homepage */}
+            <footer className="border-t border-border-subtle py-12 bg-bg-primary">
+                <div className="max-w-6xl mx-auto px-6">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+                        <div className="flex items-center gap-3">
+                            <img
+                                src="/images/zineinsights_logo.jpeg"
+                                alt="FinSight"
+                                className="w-8 h-8 rounded-lg"
+                            />
+                            <div>
+                                <div className="text-lg font-semibold">FinSight</div>
+                                <div className="text-xs text-text-tertiary">by Otmane Boulahia</div>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-8">
+                            <Link href="/" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
+                                Accueil
+                            </Link>
+                            <a
+                                href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2 text-sm"
+                            >
+                                <Linkedin className="w-4 h-4" />
+                                LinkedIn
+                            </a>
+                            <a
+                                href="https://calendly.com/zineinsight"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-text-secondary hover:text-text-primary transition-colors text-sm"
+                            >
+                                Contact
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-text-tertiary">
+                        <p>
+                            © 2025 Otmane Boulahia •
+                            <a href="https://www.zineinsight.com" className="hover:text-text-secondary transition-colors ml-1">ZineInsight</a>
                         </p>
                     </div>
                 </div>
