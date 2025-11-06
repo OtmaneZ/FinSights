@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================
+   FINSIGHT DESIGN SYSTEM
+   ========================================== */
+@import '../styles/design-system.css';
+
+/* ==========================================
+   LEGACY VARIABLES (À SUPPRIMER PROGRESSIVEMENT)
+   ========================================== */
 :root {
     --background: #ffffff;
     --foreground: #171717;
