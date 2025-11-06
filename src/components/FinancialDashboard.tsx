@@ -18,7 +18,8 @@ import {
     DocumentArrowDownIcon,
     CalendarIcon,
     CloudArrowUpIcon,
-    CheckCircleIcon
+    CheckCircleIcon,
+    BellAlertIcon
 } from '@heroicons/react/24/outline';
 
 // Import nouveaux composants
@@ -54,6 +55,9 @@ import PresenceIndicator from './realtime/PresenceIndicator';
 import CursorTracker from './realtime/CursorTracker';
 import RealtimeToast, { ToastNotification } from './realtime/RealtimeToast';
 import { useRealtimeSync } from '@/lib/realtime/useRealtimeSync';
+
+// 🔔 Import Alert Settings
+import AlertSettings from './AlertSettings';
 
 // Import AICopilot
 import AICopilot from './AICopilot';
@@ -121,7 +125,10 @@ export default function FinancialDashboard() {
     // 📡 Real-Time Sync states
     const [toastNotifications, setToastNotifications] = useState<ToastNotification[]>([]);
 
-    // 📡 Real-Time Sync hook
+    // � Alert Settings state
+    const [showAlertSettings, setShowAlertSettings] = useState(false);
+
+    // �📡 Real-Time Sync hook
     const { broadcastKPIUpdate, broadcastFileUpload, broadcastDrillDown } = useRealtimeSync({
         enabled: isDataLoaded,
         onKPIUpdate: (event) => {
@@ -1243,7 +1250,20 @@ export default function FinancialDashboard() {
                         <span>Importer Données</span>
                     </button>
 
-                    {/* 📡 Real-Time Presence Indicator */}
+                    {/* � Alert Settings Button */}
+                    {isDataLoaded && (
+                        <button
+                            onClick={() => setShowAlertSettings(true)}
+                            className="finsight-btn finsight-btn-secondary relative group"
+                            title="Configurer les alertes email"
+                        >
+                            <BellAlertIcon className="finsight-icon-sm" />
+                            <span className="hidden md:inline">Alertes</span>
+                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                        </button>
+                    )}
+
+                    {/* �📡 Real-Time Presence Indicator */}
                     <PresenceIndicator enabled={isDataLoaded} />
                 </div>
             </div>
@@ -2524,6 +2544,13 @@ export default function FinancialDashboard() {
             <RealtimeToast
                 notifications={toastNotifications}
                 onDismiss={dismissToast}
+            />
+
+            {/* 🔔 Alert Settings Modal */}
+            <AlertSettings
+                isOpen={showAlertSettings}
+                onClose={() => setShowAlertSettings(false)}
+                companyName={companyName}
             />
         </div>
     )
