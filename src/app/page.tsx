@@ -30,23 +30,25 @@ export default function Home() {
                     </Link>
                     <nav className="hidden md:flex items-center gap-8">
                         <Link href="/dashboard" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
-                            Dashboard
+                            Démo Live
                         </Link>
                         <a
-                            href="https://github.com/OtmaneZ/FinSights"
+                            href="https://www.linkedin.com/in/otmane-boulahia"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium flex items-center gap-2"
                         >
-                            <Github className="w-4 h-4" />
-                            GitHub
+                            <Linkedin className="w-4 h-4" />
+                            LinkedIn
                         </a>
-                        <Link
-                            href="/dashboard"
+                        <a
+                            href="https://calendly.com/zineinsight"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="px-6 py-2.5 bg-accent-green hover:bg-accent-green-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
                         >
-                            Voir la démo
-                        </Link>
+                            Discutons
+                        </a>
                     </nav>
                 </div>
             </header>
@@ -54,32 +56,39 @@ export default function Home() {
             {/* Hero Section */}
             <section className="max-w-5xl mx-auto px-6 pt-32 pb-20 text-center">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-green-subtle border border-accent-green-border rounded-full mb-8">
-                    <span className="text-accent-green text-sm font-medium">Test gratuit • Aucune inscription</span>
+                    <span className="text-accent-green text-sm font-medium">Portfolio Project • Production-Ready</span>
                 </div>
 
                 <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
-                    Dashboard Financier<br />
-                    <span className="text-text-secondary">pour PME/ETI</span>
+                    Dashboard Financier IA<br />
+                    <span className="text-text-secondary">pour DAF & CFO</span>
                 </h1>
 
                 <p className="text-xl text-text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
-                    Analyse temps réel • AI Copilot conversationnel • Export automatisé
+                    Un projet démontrant mes compétences en finance, data engineering et IA
                 </p>
 
-                <Link
-                    href="/dashboard"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-accent-green hover:bg-accent-green-hover text-white rounded-xl font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1"
-                >
-                    Tester la démo
-                    <ExternalLink className="w-5 h-5" />
-                </Link>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Link
+                        href="/dashboard"
+                        className="inline-flex items-center gap-2 px-8 py-4 bg-accent-green hover:bg-accent-green-hover text-white rounded-xl font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1"
+                    >
+                        Voir la démo live
+                        <ExternalLink className="w-5 h-5" />
+                    </Link>
+                    <a
+                        href="https://www.linkedin.com/in/otmane-boulahia"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-border-strong text-text-primary rounded-xl font-semibold text-lg transition-all hover:bg-surface-elevated"
+                    >
+                        <Linkedin className="w-5 h-5" />
+                        Me contacter
+                    </a>
+                </div>
 
-                <p className="text-sm text-text-tertiary mt-6">
+                <p className="text-sm text-text-tertiary mt-8">
                     3 scénarios réalistes : PME Services • Startup SaaS • Scale-up Tech
-                </p>
-
-                <p className="text-xs text-text-tertiary mt-3">
-                    15 000+ lignes TypeScript • 7 features production • Open source
                 </p>
             </section>
 
@@ -99,8 +108,86 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* About Section */}
+            <section className="max-w-4xl mx-auto px-6 pb-32">
+                <div className="surface rounded-2xl p-12 text-center">
+                    <div className="mb-8">
+                        <h2 className="text-3xl font-bold mb-4">Créé par Otmane Boulahia</h2>
+                        <p className="text-xl text-text-secondary">
+                            Finance × Data Engineer
+                        </p>
+                    </div>
+
+                    <div className="max-w-2xl mx-auto mb-10">
+                        <p className="text-text-secondary leading-relaxed mb-4">
+                            10 ans d'expérience en finance d'entreprise (Master Finance Internationale) + formation intensive data science (Le Wagon, IBM).
+                        </p>
+                        <p className="text-text-secondary leading-relaxed">
+                            FinSight démontre mes compétences en développement full-stack, IA conversationnelle (GPT-4o),
+                            data engineering et expertise métier finance.
+                        </p>
+                    </div>
+
+                    <div className="flex flex-wrap justify-center gap-3 mb-10">
+                        {[
+                            'TypeScript',
+                            'Next.js',
+                            'Python',
+                            'SQL',
+                            'Power BI',
+                            'Finance d\'entreprise',
+                            'KPIs & Modélisation',
+                            'GPT-4o & Pinecone'
+                        ].map((skill) => (
+                            <span
+                                key={skill}
+                                className="px-4 py-2 bg-surface-elevated border border-border-default rounded-lg text-sm font-medium text-text-secondary"
+                            >
+                                {skill}
+                            </span>
+                        ))}
+                    </div>
+
+                    <div className="inline-flex items-center gap-2 px-6 py-3 bg-accent-green-subtle border border-accent-green-border rounded-lg">
+                        <span className="text-accent-green font-semibold">
+                            Disponible pour missions fractional finance engineering
+                        </span>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-6 mt-8">
+                        <a
+                            href="https://www.linkedin.com/in/otmane-boulahia"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg"
+                        >
+                            <Linkedin className="w-5 h-5" />
+                            LinkedIn
+                        </a>
+                        <a
+                            href="https://github.com/OtmaneZ/FinSights"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-border-strong text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
+                        >
+                            <Github className="w-5 h-5" />
+                            Code Source
+                        </a>
+                        <a
+                            href="https://calendly.com/zineinsight"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-border-strong text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
+                        >
+                            Prendre RDV
+                        </a>
+                    </div>
+                </div>
+            </section>
+
             {/* Features Grid */}
             <section className="max-w-6xl mx-auto px-6 pb-32">
+                <h2 className="text-3xl font-bold text-center mb-12">7 Features Production</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {/* Feature 1 - Import CSV/Excel */}
                     <div className="surface rounded-xl p-8 surface-hover">
@@ -204,22 +291,16 @@ export default function Home() {
                                 alt="FinSight"
                                 className="w-8 h-8 rounded-lg"
                             />
-                            <span className="text-lg font-semibold">FinSight</span>
+                            <div>
+                                <div className="text-lg font-semibold">FinSight</div>
+                                <div className="text-xs text-text-tertiary">by Otmane Boulahia</div>
+                            </div>
                         </div>
 
                         <div className="flex items-center gap-8">
                             <Link href="/dashboard" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
-                                Dashboard
+                                Démo Live
                             </Link>
-                            <a
-                                href="https://github.com/OtmaneZ/FinSights"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2 text-sm"
-                            >
-                                <Github className="w-4 h-4" />
-                                GitHub
-                            </a>
                             <a
                                 href="https://www.linkedin.com/in/otmane-boulahia"
                                 target="_blank"
@@ -228,6 +309,15 @@ export default function Home() {
                             >
                                 <Linkedin className="w-4 h-4" />
                                 LinkedIn
+                            </a>
+                            <a
+                                href="https://github.com/OtmaneZ/FinSights"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2 text-sm"
+                            >
+                                <Github className="w-4 h-4" />
+                                GitHub
                             </a>
                             <a
                                 href="https://calendly.com/zineinsight"
@@ -241,7 +331,10 @@ export default function Home() {
                     </div>
 
                     <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-text-tertiary">
-                        <p>© 2025 ZineInsight. Dashboards sur-mesure pour PME/ETI.</p>
+                        <p>
+                            © 2025 Otmane Boulahia • Finance × Data Engineer •
+                            <a href="https://www.zineinsight.com" className="hover:text-text-secondary transition-colors ml-1">ZineInsight</a>
+                        </p>
                     </div>
                 </div>
             </footer>
