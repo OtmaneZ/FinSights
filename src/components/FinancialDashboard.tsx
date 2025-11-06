@@ -52,6 +52,8 @@ import { useTheme } from '@/lib/themeContext';
 // 📡 Import Real-Time Collaboration
 import PresenceIndicator from './realtime/PresenceIndicator';
 import CursorTracker from './realtime/CursorTracker';
+import RealtimeToast, { ToastNotification } from './realtime/RealtimeToast';
+import { useRealtimeSync } from '@/lib/realtime/useRealtimeSync';
 
 // Import AICopilot
 import AICopilot from './AICopilot';
@@ -115,6 +117,51 @@ export default function FinancialDashboard() {
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
     const { theme, toggleTheme } = useTheme();
     const isDarkMode = theme === 'dark';
+
+    // 📡 Real-Time Sync states
+    const [toastNotifications, setToastNotifications] = useState<ToastNotification[]>([]);
+
+    // 📡 Real-Time Sync hook
+    const { broadcastKPIUpdate, broadcastFileUpload, broadcastDrillDown } = useRealtimeSync({
+        enabled: isDataLoaded,
+        onKPIUpdate: (event) => {
+            // Show toast notification
+            addToast({
+                type: 'kpi-update',
+                title: 'KPI mis à jour',
+                message: `${event.kpiType} = ${event.value.toLocaleString()}€`,
+            });
+        },
+        onFileUpload: (event) => {
+            // Show toast notification
+            addToast({
+                type: 'file-upload',
+                title: 'Nouveau fichier',
+                message: `${event.userName} a importé ${event.fileName}`,
+            });
+        },
+        onDrillDown: (data) => {
+            console.log('🔍 Drill-down event received:', data);
+        },
+        onAnomalyDetected: (data) => {
+            addToast({
+                type: 'anomaly',
+                title: 'Anomalie détectée',
+                message: data.message || 'Nouvelle anomalie ML détectée',
+            });
+        },
+    });
+
+    // Function to add toast notification
+    const addToast = (toast: Omit<ToastNotification, 'id'>) => {
+        const id = `toast-${Date.now()}`;
+        setToastNotifications(prev => [...prev, { ...toast, id }]);
+    };
+
+    // Function to dismiss toast
+    const dismissToast = (id: string) => {
+        setToastNotifications(prev => prev.filter(t => t.id !== id));
+    };
 
     // 🎯 Fonction pour charger la démo avec animation
     const handleLoadDemo = async (scenario: 'saine' | 'difficulte' | 'croissance' = 'saine') => {
@@ -492,6 +539,9 @@ export default function FinancialDashboard() {
             }
 
             setUploadStatus('success');
+
+            // 📡 Broadcast file upload event
+            broadcastFileUpload(file.name, file.size, companyName || 'Utilisateur');
 
             // ✅ Afficher le modal secteur après upload réussi
             setShowCompanyModal(true);
@@ -2469,6 +2519,12 @@ export default function FinancialDashboard() {
 
             {/* 📡 Real-Time Cursor Tracking */}
             <CursorTracker enabled={isDataLoaded} />
+
+            {/* 📡 Real-Time Toast Notifications */}
+            <RealtimeToast
+                notifications={toastNotifications}
+                onDismiss={dismissToast}
+            />
         </div>
     )
 }
