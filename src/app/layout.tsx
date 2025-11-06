@@ -1,5 +1,6 @@
 import './globals.css'
-import '../styles/finsight-revolutionary.css'
+// import '../styles/finsight-revolutionary.css' // ❌ Désactivé - Utiliser design-system.css à la place
+import '../styles/design-system.css'
 import { Inter } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
 import { ThemeProvider } from '@/lib/themeContext'
