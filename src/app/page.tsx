@@ -67,7 +67,7 @@ export default function Home() {
                 {/* Content */}
                 <div className="relative z-10">
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-full mb-8 animate-pulse">
-                        <span className="text-accent-gold text-sm font-medium">Portfolio Project • Production-Ready</span>
+                        <span className="text-accent-gold text-sm font-medium">Analyse Financière • Performance en Temps Réel</span>
                     </div>
 
                     <h1 className="text-7xl md:text-8xl font-bold mb-6 tracking-tight leading-tight">

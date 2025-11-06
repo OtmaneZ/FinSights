@@ -33,16 +33,16 @@ export default function CursorTracker({
     const channelRef = useRef<any>(null);
     const throttleRef = useRef<number | null>(null);
 
-    // Throttled broadcast mouse position (50ms)
+    // Throttled broadcast mouse position (200ms)
     const broadcastCursorPosition = useCallback((x: number, y: number) => {
         if (!channelRef.current) return;
 
-        // Throttle to 50ms
+        // Throttle to 200ms (reduced Pusher message consumption)
         if (throttleRef.current) return;
 
         throttleRef.current = window.setTimeout(() => {
             throttleRef.current = null;
-        }, 50);
+        }, 200);
 
         const event: CursorMoveEvent = {
             userId: 'me', // Will be replaced by Pusher with socket_id

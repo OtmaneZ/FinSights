@@ -28,33 +28,46 @@ const COLORS = [
 ];
 
 export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({ data }) => {
+    // Calculer le total pour les pourcentages
+    const total = data.reduce((sum, item) => sum + item.value, 0);
+
     // ✅ Custom label avec position ajustée pour Masse Salariale
     const renderLabel = (entry: any) => {
         const RADIAN = Math.PI / 180;
-        const { cx, cy, midAngle, outerRadius, name, percentage } = entry;
+        const { cx, cy } = entry;
+        const radius = 90 + (140 - 90) / 2 + 30; // Position à l'extérieur du donut
+        const x = cx + radius * Math.cos(-entry.midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-entry.midAngle * RADIAN);
 
-        // Position du label
-        let radius = outerRadius + 25;
-        let x = cx + radius * Math.cos(-midAngle * RADIAN);
-        let y = cy + radius * Math.sin(-midAngle * RADIAN);
+        // Calculer le pourcentage
+        const percentage = total > 0 ? ((entry.value / total) * 100) : 0;
 
-        // ✅ Ajustement spécial pour Masse Salariale (en haut)
-        if (name === 'Masse Salariale') {
-            // Décaler vers la gauche et un peu plus bas
-            x = cx - 40;
-            y = cy - outerRadius - 10;
+        // ✅ Position spéciale pour "Masse Salariale" si elle est en bas
+        if (entry.name === 'Masse Salariale' && entry.midAngle > 80 && entry.midAngle < 100) {
+            return (
+                <text
+                    x={x}
+                    y={y + 15} // Décalage vers le bas
+                    fill="#ffffff"
+                    textAnchor={x > cx ? 'start' : 'end'}
+                    dominantBaseline="central"
+                    style={{ fontSize: '14px', fontWeight: 'bold' }}
+                >
+                    {`${percentage.toFixed(0)}%`}
+                </text>
+            );
         }
 
         return (
             <text
                 x={x}
                 y={y}
-                fill="#1f2937"
+                fill="#ffffff"
                 textAnchor={x > cx ? 'start' : 'end'}
                 dominantBaseline="central"
-                style={{ fontSize: '14px', fontWeight: '600' }}
+                style={{ fontSize: '14px', fontWeight: 'bold' }}
             >
-                {`${percentage}%`}
+                {`${percentage.toFixed(0)}%`}
             </text>
         );
     };
@@ -78,8 +91,8 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({ da
     );
 
     return (
-        <div className="flex items-center" style={{ height: '280px' }}>
-            {/* ✅ Donut à gauche (70% de l'espace) */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '350px' }}>
+            {/* ✅ Graphique donut à gauche (70% de l'espace) */}
             <div style={{ width: '70%', height: '100%' }}>
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -89,8 +102,8 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({ da
                             cy="50%"
                             labelLine={false}
                             label={renderLabel}
-                            innerRadius={70}
-                            outerRadius={110}
+                            innerRadius={90}
+                            outerRadius={140}
                             fill="#8884d8"
                             dataKey="value"
                             animationDuration={800}
@@ -120,9 +133,9 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({ da
                             textAnchor="middle"
                             dominantBaseline="middle"
                             style={{
-                                fontSize: '24px',
+                                fontSize: '28px',
                                 fontWeight: 'bold',
-                                fill: '#1f2937'
+                                fill: '#ffffff'
                             }}
                         >
                             {totalExpenses.toLocaleString('fr-FR')} €
@@ -133,8 +146,8 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({ da
                             textAnchor="middle"
                             dominantBaseline="middle"
                             style={{
-                                fontSize: '12px',
-                                fill: '#6b7280'
+                                fontSize: '14px',
+                                fill: '#9ca3af'
                             }}
                         >
                             Total dépenses

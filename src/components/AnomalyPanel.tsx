@@ -12,6 +12,22 @@ import {
     EyeIcon
 } from '@heroicons/react/24/outline';
 
+// Format date to French format (DD/MM/YYYY)
+function formatDate(dateString: string): string {
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString; // Return original if invalid
+
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+
+        return `${day}/${month}/${year}`;
+    } catch {
+        return dateString; // Return original if parsing fails
+    }
+}
+
 interface AnomalyPanelProps {
     anomalies: Anomaly[];
     onDismiss?: (anomalyId: string) => void;
@@ -96,7 +112,7 @@ export function AnomalyPanel({ anomalies, onDismiss, onInvestigate }: AnomalyPan
                                             <span
                                                 className={`px-2 py-0.5 text-xs font-medium rounded cursor-help ${getRiskBadgeClass(anomaly.riskLevel)} ${anomaly.riskLevel === 'critical' ? 'anomaly-critical-pulse' : ''}`}
                                             >
-                                                {anomaly.riskLevel}
+                                                {getRiskLabel(anomaly.riskLevel)}
                                             </span>
                                             {/* Tooltip */}
                                             <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-10 w-48">
@@ -127,7 +143,7 @@ export function AnomalyPanel({ anomalies, onDismiss, onInvestigate }: AnomalyPan
                                         )}
                                         {anomaly.metadata?.date && (
                                             <span className="bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors">
-                                                📅 {anomaly.metadata.date}
+                                                📅 {formatDate(anomaly.metadata.date)}
                                             </span>
                                         )}
                                         <div className="relative group">

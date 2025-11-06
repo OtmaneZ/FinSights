@@ -12,7 +12,9 @@ import {
     FileText,
     Sparkles,
     AlertTriangle,
-    Zap
+    Zap,
+    Percent,
+    Wallet
 } from 'lucide-react'
 
 // Import Charts
@@ -56,7 +58,7 @@ import { useRealtimeSync } from '@/lib/realtime/useRealtimeSync'
 
 // Import Real-Time Components
 import PresenceIndicator from './realtime/PresenceIndicator'
-import CursorTracker from './realtime/CursorTracker'
+// import CursorTracker from './realtime/CursorTracker' // Disabled to reduce Pusher message consumption
 import RealtimeToast, { ToastNotification } from './realtime/RealtimeToast'
 
 // Import Alert Settings
@@ -102,6 +104,9 @@ export default function FinancialDashboardV2() {
 
     // Alert Settings state
     const [showAlertSettings, setShowAlertSettings] = useState(false);
+
+    // Upload Modal state (appointment booking)
+    const [showUploadModal, setShowUploadModal] = useState(false);
 
     // What-If Simulation states
     const [showSimulation, setShowSimulation] = useState(false);
@@ -421,10 +426,13 @@ export default function FinancialDashboardV2() {
             return <DollarSign className="w-6 h-6" />
         }
         if (title.includes('Marge')) {
-            return <TrendingUp className="w-6 h-6" />
+            return <Percent className="w-6 h-6" />
         }
         if (title.includes('Cash') || title.includes('Trésorerie')) {
-            return <TrendingDown className="w-6 h-6" />
+            return <Wallet className="w-6 h-6" />
+        }
+        if (title.includes('Charge')) {
+            return <FileText className="w-6 h-6" />
         }
         if (title.includes('DSO') || title.includes('Délai')) {
             return <Clock className="w-6 h-6" />
@@ -791,428 +799,616 @@ export default function FinancialDashboardV2() {
     }
 
     return (
-        <div ref={dashboardRef} className="max-w-7xl mx-auto px-6 py-8">
-            {/* Real-Time Presence */}
-            {isDataLoaded && (
-                <>
-                    <PresenceIndicator />
-                    <CursorTracker />
-                    <RealtimeToast
-                        notifications={toastNotifications}
-                        onDismiss={(id) => setToastNotifications(prev => prev.filter(n => n.id !== id))}
-                    />
-                </>
-            )}
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
-                <div>
-                    <h1 className="text-4xl font-bold mb-2">Tableau de Bord Financier</h1>
-                    <p className="text-text-secondary">Période Actuelle • Données en temps réel</p>
-                </div>
-
-                <div className="flex flex-wrap gap-3">
-                    <button
-                        onClick={exportToPDF}
-                        disabled={isExporting}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
-                    >
-                        <Download className="w-4 h-4" />
-                        {isExporting ? 'Export...' : 'Export PDF'}
-                    </button>
-
-                    <button
-                        onClick={exportToExcel}
-                        disabled={isExporting}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-accent-green hover:bg-accent-green-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
-                    >
-                        <FileText className="w-4 h-4" />
-                        {isExporting ? 'Export...' : 'Export Excel'}
-                    </button>
-
-                    <button
-                        onClick={() => document.getElementById('file-upload')?.click()}
-                        className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
-                    >
-                        <Upload className="w-4 h-4" />
-                        Importer Données
-                    </button>
-                    <input
-                        id="file-upload"
-                        type="file"
-                        accept=".csv,.xlsx,.xls"
-                        className="hidden"
-                        onChange={(e) => e.target.files && handleFileUpload(e.target.files)}
-                    />
+        <>
+            {/* Radial gradient glow effect - Resend style (full width, behind everything) */}
+            <div className="fixed inset-x-0 top-0 h-[800px] pointer-events-none overflow-hidden z-0">
+                <div
+                    className="absolute inset-0 blur-3xl"
+                    style={{
+                        background: 'radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 40%, transparent 70%)'
+                    }}>
                 </div>
             </div>
 
-            {/* KPIs Grid - Affiche simulatedKPIs si actifs, sinon kpis normaux */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-                {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis).map((kpi, index) => (
-                    <div
-                        key={index}
-                        className="surface rounded-xl p-6 surface-hover group cursor-pointer"
-                        onClick={() => drillDownActions.openDrillDown(kpi.title)}
-                    >
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="text-accent-gold transition-transform group-hover:scale-110">
-                                {getKPIIcon(kpi.title)}
-                            </div>
-                            <span className={`text-sm font-semibold ${kpi.changeType === 'positive' ? 'text-accent-green' :
-                                kpi.changeType === 'negative' ? 'text-accent-red' :
-                                    'text-text-tertiary'
-                                }`}>
-                                {kpi.change}
-                            </span>
-                        </div>
-                        <h3 className="text-sm text-text-secondary mb-2">{kpi.title}</h3>
-                        <p className="text-3xl font-bold mb-3">{kpi.value}</p>
-                        <p className="text-xs text-text-tertiary mb-4">{kpi.description}</p>
-
-                        {/* BenchmarkBar - Comparaison sectorielle */}
-                        <BenchmarkBar
-                            kpiName={
-                                kpi.title.includes('Marge') ? 'MARGE_NETTE' :
-                                    kpi.title.includes('DSO') ? 'DSO' :
-                                        kpi.title.includes('BFR') ? 'BFR' :
-                                            'DSO'
-                            }
-                            currentValue={parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0}
-                            sector={companySector}
-                            unit={kpi.title.includes('%') ? '%' : kpi.title.includes('jours') ? 'jours' : '€'}
-                            inverse={kpi.title.includes('DSO')}
+            <div ref={dashboardRef} className="max-w-7xl mx-auto px-6 py-8 relative z-10">
+                {/* Real-Time Presence */}
+                {isDataLoaded && (
+                    <>
+                        <PresenceIndicator />
+                        {/* <CursorTracker /> - Disabled to reduce Pusher message consumption */}
+                        <RealtimeToast
+                            notifications={toastNotifications}
+                            onDismiss={(id) => setToastNotifications(prev => prev.filter(n => n.id !== id))}
                         />
+                    </>
+                )}
+                {/* Header Section */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 relative z-10">
+                    <div>
+                        <h1 className="text-4xl font-bold mb-2">Tableau de Bord Financier</h1>
+                        <p className="text-text-secondary">Période Actuelle • Données en temps réel</p>
                     </div>
-                ))}
-            </div>
 
-            {/* 🔮 What-If Simulation Panel - Juste après KPIs pour montrer l'impact immédiat */}
-            {isDataLoaded && (
-                <div className="mb-8 surface rounded-2xl p-8 relative overflow-hidden border-2 border-accent-gold-border/20 bg-gradient-to-br from-accent-gold-subtle/10 to-transparent">
-                    {/* Badge Mode Simulation actif */}
-                    {(chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
-                        <div className="absolute top-4 right-4 bg-gradient-to-r from-accent-green to-accent-green-hover rounded-full px-3 py-1.5 text-xs font-bold text-white shadow-lg animate-pulse">
-                            📊 {[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length} simulation{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''} active{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''}
+                    <div className="flex flex-wrap gap-3">
+                        <button
+                            onClick={exportToPDF}
+                            disabled={isExporting}
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
+                        >
+                            <Download className="w-4 h-4" />
+                            {isExporting ? 'Export...' : 'Export PDF'}
+                        </button>
+
+                        <button
+                            onClick={exportToExcel}
+                            disabled={isExporting}
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-green hover:bg-accent-green-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
+                        >
+                            <FileText className="w-4 h-4" />
+                            {isExporting ? 'Export...' : 'Export Excel'}
+                        </button>
+
+                        <button
+                            onClick={() => setShowUploadModal(true)}
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
+                        >
+                            <Upload className="w-4 h-4" />
+                            Importer Données
+                        </button>
+                    </div>
+                </div>
+
+                {/* KPIs Grid - Affiche simulatedKPIs si actifs, sinon kpis normaux */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8 relative z-10">
+                    {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis).map((kpi, index) => (
+                        <div
+                            key={index}
+                            className="surface rounded-xl p-6 surface-hover group cursor-pointer"
+                            onClick={() => drillDownActions.openDrillDown(kpi.title)}
+                        >
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="text-accent-gold transition-transform group-hover:scale-110">
+                                    {getKPIIcon(kpi.title)}
+                                </div>
+                                <span className={`text-sm font-semibold ${kpi.changeType === 'positive' ? 'text-accent-green' :
+                                    kpi.changeType === 'negative' ? 'text-accent-red' :
+                                        'text-text-tertiary'
+                                    }`}>
+                                    {kpi.change}
+                                </span>
+                            </div>
+                            <h3 className="text-sm text-text-secondary mb-2">{kpi.title}</h3>
+                            <p className="text-3xl font-bold mb-3">{kpi.value}</p>
+                            <p className="text-xs text-text-tertiary mb-4">{kpi.description}</p>
+
+                            {/* BenchmarkBar - Comparaison sectorielle */}
+                            <BenchmarkBar
+                                kpiName={
+                                    kpi.title.includes('Marge') ? 'MARGE_NETTE' :
+                                        kpi.title.includes('DSO') ? 'DSO' :
+                                            kpi.title.includes('BFR') ? 'BFR' :
+                                                'DSO'
+                                }
+                                currentValue={parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0}
+                                sector={companySector}
+                                unit={kpi.title.includes('%') ? '%' : kpi.title.includes('jours') ? 'jours' : '€'}
+                                inverse={kpi.title.includes('DSO')}
+                            />
                         </div>
-                    )}
+                    ))}
+                </div>
 
-                    {/* Header */}
-                    <div className="flex justify-between items-center mb-8">
-                        <div className="flex items-center gap-3">
-                            <Zap className="w-7 h-7 text-accent-gold" />
-                            <div>
-                                <h3 className="text-2xl font-bold">Simulation What-If</h3>
-                                <p className="text-sm text-text-secondary mt-1">
-                                    Mesurez l'impact en temps réel sur les KPIs ci-dessus
-                                </p>
+                {/* 🔮 What-If Simulation Panel - Juste après KPIs pour montrer l'impact immédiat */}
+                {isDataLoaded && (
+                    <div className="mb-8 surface rounded-2xl p-8 relative overflow-hidden border-2 border-accent-gold-border/20 bg-gradient-to-br from-accent-gold-subtle/10 to-transparent">
+                        {/* Badge Mode Simulation actif */}
+                        {(chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
+                            <div className="absolute top-4 right-4 bg-gradient-to-r from-accent-green to-accent-green-hover rounded-full px-3 py-1.5 text-xs font-bold text-white shadow-lg animate-pulse">
+                                📊 {[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length} simulation{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''} active{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''}
+                            </div>
+                        )}
+
+                        {/* Header */}
+                        <div className="flex justify-between items-center mb-8">
+                            <div className="flex items-center gap-3">
+                                <Zap className="w-7 h-7 text-accent-gold" />
+                                <div>
+                                    <h3 className="text-2xl font-bold">Simulation What-If</h3>
+                                    <p className="text-sm text-text-secondary mt-1">
+                                        Mesurez l'impact en temps réel sur les KPIs ci-dessus
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                {(chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
+                                    <button
+                                        onClick={() => {
+                                            setChargesReduction(0);
+                                            setPaiementsAcceleration(0);
+                                            setPrixAugmentation(0);
+                                        }}
+                                        className="px-4 py-2 bg-accent-red-subtle border border-accent-red-border rounded-lg text-accent-red font-semibold text-xs hover:bg-accent-red-border/20 transition-all"
+                                    >
+                                        🔄 Reset
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => setShowSimulation(!showSimulation)}
+                                    className="px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-lg text-accent-gold font-semibold text-sm hover:bg-accent-gold-border/20 transition-all"
+                                >
+                                    {showSimulation ? '▼ Réduire' : '▶ Développer'}
+                                </button>
                             </div>
                         </div>
-                        <div className="flex items-center gap-3">
-                            {(chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
-                                <button
-                                    onClick={() => {
-                                        setChargesReduction(0);
-                                        setPaiementsAcceleration(0);
-                                        setPrixAugmentation(0);
-                                    }}
-                                    className="px-4 py-2 bg-accent-red-subtle border border-accent-red-border rounded-lg text-accent-red font-semibold text-xs hover:bg-accent-red-border/20 transition-all"
-                                >
-                                    🔄 Reset
-                                </button>
-                            )}
+
+                        {/* 3 Simulations */}
+                        {showSimulation && (
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {/* SIMULATION 1: Réduction Charges → Marge */}
+                                <div className={`surface rounded-xl p-5 transition-all ${chargesReduction > 0 ? 'border-2 border-accent-green' : ''}`}>
+                                    <div className="mb-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-2xl">💰</span>
+                                            <h4 className="text-base font-bold">Optimisation charges</h4>
+                                        </div>
+                                        <p className="text-xs text-text-secondary">
+                                            Impact sur <strong className="text-accent-green">Marge Nette</strong>
+                                        </p>
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <span className="text-xs text-text-secondary">Réduction</span>
+                                            <span className={`text-xl font-bold ${chargesReduction > 0 ? 'text-accent-green' : 'text-accent-gold'}`}>
+                                                -{chargesReduction}%
+                                            </span>
+                                        </div>
+                                        <div className="relative">
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="30"
+                                                step="5"
+                                                value={chargesReduction}
+                                                onChange={(e) => setChargesReduction(Number(e.target.value))}
+                                                className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-green"
+                                                style={{
+                                                    background: `linear-gradient(to right, #10b981 0%, #10b981 ${(chargesReduction / 30) * 100}%, rgba(255,255,255,0.1) ${(chargesReduction / 30) * 100}%, rgba(255,255,255,0.1) 100%)`
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="flex justify-between mt-1">
+                                            <span className="text-xs text-text-tertiary">0%</span>
+                                            <span className="text-xs text-text-tertiary">30%</span>
+                                        </div>
+                                    </div>
+
+                                    {chargesReduction > 0 && simulatedKPIs.length > 0 && (
+                                        <div className="bg-accent-green-subtle border border-accent-green-border rounded-lg p-3">
+                                            <p className="text-xs text-text-secondary mb-1">Impact Marge</p>
+                                            <p className="text-sm font-bold text-accent-green">
+                                                {simulatedKPIs.find(k => k.title.includes('Marge'))?.change || 'Calcul...'}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* SIMULATION 2: Accélération Paiements → Cash Flow */}
+                                <div className={`surface rounded-xl p-5 transition-all ${paiementsAcceleration > 0 ? 'border-2 border-accent-blue' : ''}`}>
+                                    <div className="mb-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-2xl">⚡</span>
+                                            <h4 className="text-base font-bold">Relance créances</h4>
+                                        </div>
+                                        <p className="text-xs text-text-secondary">
+                                            Impact sur <strong className="text-accent-blue">Cash Flow</strong>
+                                        </p>
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <span className="text-xs text-text-secondary">Réduction DSO</span>
+                                            <span className={`text-xl font-bold ${paiementsAcceleration > 0 ? 'text-accent-blue' : 'text-accent-gold'}`}>
+                                                -{paiementsAcceleration}j
+                                            </span>
+                                        </div>
+                                        <div className="relative">
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="15"
+                                                step="3"
+                                                value={paiementsAcceleration}
+                                                onChange={(e) => setPaiementsAcceleration(Number(e.target.value))}
+                                                className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-blue"
+                                                style={{
+                                                    background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${(paiementsAcceleration / 15) * 100}%, rgba(255,255,255,0.1) ${(paiementsAcceleration / 15) * 100}%, rgba(255,255,255,0.1) 100%)`
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="flex justify-between mt-1">
+                                            <span className="text-xs text-text-tertiary">0j</span>
+                                            <span className="text-xs text-text-tertiary">15j</span>
+                                        </div>
+                                    </div>
+
+                                    {paiementsAcceleration > 0 && simulatedKPIs.length > 0 && (
+                                        <div className="bg-accent-blue-subtle border border-accent-blue-border rounded-lg p-3">
+                                            <p className="text-xs text-text-secondary mb-1">Impact Cash Flow</p>
+                                            <p className="text-sm font-bold text-accent-blue">
+                                                {simulatedKPIs.find(k => k.title.includes('Cash Flow') || k.title.includes('Trésorerie'))?.change || 'Calcul...'}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* SIMULATION 3: Augmentation Prix → CA */}
+                                <div className={`surface rounded-xl p-5 transition-all ${prixAugmentation > 0 ? 'border-2 border-accent-orange' : ''}`}>
+                                    <div className="mb-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-2xl">📈</span>
+                                            <h4 className="text-base font-bold">Augmentation prix</h4>
+                                        </div>
+                                        <p className="text-xs text-text-secondary">
+                                            Impact sur <strong className="text-accent-orange">Chiffre d'Affaires</strong>
+                                        </p>
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <span className="text-xs text-text-secondary">Augmentation</span>
+                                            <span className={`text-xl font-bold ${prixAugmentation > 0 ? 'text-accent-orange' : 'text-accent-gold'}`}>
+                                                +{prixAugmentation}%
+                                            </span>
+                                        </div>
+                                        <div className="relative">
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="15"
+                                                step="3"
+                                                value={prixAugmentation}
+                                                onChange={(e) => setPrixAugmentation(Number(e.target.value))}
+                                                className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-orange"
+                                                style={{
+                                                    background: `linear-gradient(to right, #f97316 0%, #f97316 ${(prixAugmentation / 15) * 100}%, rgba(255,255,255,0.1) ${(prixAugmentation / 15) * 100}%, rgba(255,255,255,0.1) 100%)`
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="flex justify-between mt-1">
+                                            <span className="text-xs text-text-tertiary">0%</span>
+                                            <span className="text-xs text-text-tertiary">15%</span>
+                                        </div>
+                                    </div>
+
+                                    {prixAugmentation > 0 && simulatedKPIs.length > 0 && (
+                                        <div className="bg-accent-orange-subtle border border-accent-orange-border rounded-lg p-3">
+                                            <p className="text-xs text-text-secondary mb-1">Impact CA</p>
+                                            <p className="text-sm font-bold text-accent-orange">
+                                                {simulatedKPIs.find(k => k.title.includes('Chiffre d\'Affaires') || k.title.includes('CA'))?.change || 'Calcul...'}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* 📊 Alertes Intelligentes - Juste après What-If */}
+                {kpis.length > 0 && (
+                    <div className="mb-8 surface rounded-xl p-6">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-2">
+                                <AlertTriangle className="w-5 h-5 text-accent-orange" />
+                                <h3 className="text-xl font-semibold">Alertes Intelligentes</h3>
+                            </div>
                             <button
-                                onClick={() => setShowSimulation(!showSimulation)}
-                                className="px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-lg text-accent-gold font-semibold text-sm hover:bg-accent-gold-border/20 transition-all"
+                                onClick={() => setShowAlertSettings(true)}
+                                className="text-sm text-accent-gold hover:text-accent-gold-hover transition-colors"
                             >
-                                {showSimulation ? '▼ Réduire' : '▶ Développer'}
+                                Configurer
                             </button>
                         </div>
+                        <AlertsPanel
+                            dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                            cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                            netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                        />
                     </div>
+                )}
 
-                    {/* 3 Simulations */}
-                    {showSimulation && (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {/* SIMULATION 1: Réduction Charges → Marge */}
-                            <div className={`surface rounded-xl p-5 transition-all ${chargesReduction > 0 ? 'border-2 border-accent-green' : ''}`}>
-                                <div className="mb-4">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="text-2xl">💰</span>
-                                        <h4 className="text-base font-bold">Optimisation charges</h4>
-                                    </div>
-                                    <p className="text-xs text-text-secondary">
-                                        Impact sur <strong className="text-accent-green">Marge Nette</strong>
-                                    </p>
-                                </div>
-
-                                <div className="mb-4">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="text-xs text-text-secondary">Réduction</span>
-                                        <span className={`text-xl font-bold ${chargesReduction > 0 ? 'text-accent-green' : 'text-accent-gold'}`}>
-                                            -{chargesReduction}%
-                                        </span>
-                                    </div>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="30"
-                                        step="5"
-                                        value={chargesReduction}
-                                        onChange={(e) => setChargesReduction(Number(e.target.value))}
-                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-green"
-                                    />
-                                    <div className="flex justify-between mt-1">
-                                        <span className="text-xs text-text-tertiary">0%</span>
-                                        <span className="text-xs text-text-tertiary">30%</span>
-                                    </div>
-                                </div>
-
-                                {chargesReduction > 0 && simulatedKPIs.length > 0 && (
-                                    <div className="bg-accent-green-subtle border border-accent-green-border rounded-lg p-3">
-                                        <p className="text-xs text-text-secondary mb-1">Impact Marge</p>
-                                        <p className="text-sm font-bold text-accent-green">
-                                            {simulatedKPIs.find(k => k.title.includes('Marge'))?.change || 'Calcul...'}
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* SIMULATION 2: Accélération Paiements → Cash Flow */}
-                            <div className={`surface rounded-xl p-5 transition-all ${paiementsAcceleration > 0 ? 'border-2 border-accent-blue' : ''}`}>
-                                <div className="mb-4">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="text-2xl">⚡</span>
-                                        <h4 className="text-base font-bold">Relance créances</h4>
-                                    </div>
-                                    <p className="text-xs text-text-secondary">
-                                        Impact sur <strong className="text-accent-blue">Cash Flow</strong>
-                                    </p>
-                                </div>
-
-                                <div className="mb-4">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="text-xs text-text-secondary">Réduction DSO</span>
-                                        <span className={`text-xl font-bold ${paiementsAcceleration > 0 ? 'text-accent-blue' : 'text-accent-gold'}`}>
-                                            -{paiementsAcceleration}j
-                                        </span>
-                                    </div>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="15"
-                                        step="3"
-                                        value={paiementsAcceleration}
-                                        onChange={(e) => setPaiementsAcceleration(Number(e.target.value))}
-                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-blue"
-                                    />
-                                    <div className="flex justify-between mt-1">
-                                        <span className="text-xs text-text-tertiary">0j</span>
-                                        <span className="text-xs text-text-tertiary">15j</span>
-                                    </div>
-                                </div>
-
-                                {paiementsAcceleration > 0 && simulatedKPIs.length > 0 && (
-                                    <div className="bg-accent-blue-subtle border border-accent-blue-border rounded-lg p-3">
-                                        <p className="text-xs text-text-secondary mb-1">Impact Cash Flow</p>
-                                        <p className="text-sm font-bold text-accent-blue">
-                                            {simulatedKPIs.find(k => k.title.includes('Cash Flow') || k.title.includes('Trésorerie'))?.change || 'Calcul...'}
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* SIMULATION 3: Augmentation Prix → CA */}
-                            <div className={`surface rounded-xl p-5 transition-all ${prixAugmentation > 0 ? 'border-2 border-accent-orange' : ''}`}>
-                                <div className="mb-4">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="text-2xl">📈</span>
-                                        <h4 className="text-base font-bold">Augmentation prix</h4>
-                                    </div>
-                                    <p className="text-xs text-text-secondary">
-                                        Impact sur <strong className="text-accent-orange">Chiffre d'Affaires</strong>
-                                    </p>
-                                </div>
-
-                                <div className="mb-4">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="text-xs text-text-secondary">Augmentation</span>
-                                        <span className={`text-xl font-bold ${prixAugmentation > 0 ? 'text-accent-orange' : 'text-accent-gold'}`}>
-                                            +{prixAugmentation}%
-                                        </span>
-                                    </div>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="15"
-                                        step="3"
-                                        value={prixAugmentation}
-                                        onChange={(e) => setPrixAugmentation(Number(e.target.value))}
-                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-orange"
-                                    />
-                                    <div className="flex justify-between mt-1">
-                                        <span className="text-xs text-text-tertiary">0%</span>
-                                        <span className="text-xs text-text-tertiary">15%</span>
-                                    </div>
-                                </div>
-
-                                {prixAugmentation > 0 && simulatedKPIs.length > 0 && (
-                                    <div className="bg-accent-orange-subtle border border-accent-orange-border rounded-lg p-3">
-                                        <p className="text-xs text-text-secondary mb-1">Impact CA</p>
-                                        <p className="text-sm font-bold text-accent-orange">
-                                            {simulatedKPIs.find(k => k.title.includes('Chiffre d\'Affaires') || k.title.includes('CA'))?.change || 'Calcul...'}
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
+                {/* Charts Grid - Afficher uniquement si données disponibles */}
+                {finSightData && rawData && rawData.length > 0 && (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+                        {/* Cash Flow Chart */}
+                        <div className="surface rounded-xl p-6">
+                            <h3 className="text-xl font-semibold mb-6">Évolution Cash Flow</h3>
+                            <CashFlowEvolutionChart data={getMonthlyData()} />
                         </div>
-                    )}
+
+                        {/* Margin Chart */}
+                        <div className="surface rounded-xl p-6">
+                            <h3 className="text-xl font-semibold mb-6">Évolution Marge</h3>
+                            <MarginEvolutionChart data={getMarginData()} />
+                        </div>
+
+                        {/* Expense Breakdown */}
+                        <div className="surface rounded-xl p-6">
+                            <h3 className="text-xl font-semibold mb-6">Répartition Charges</h3>
+                            <ExpenseBreakdownChart data={getCategoryBreakdown()} />
+                        </div>
+
+                        {/* Top Clients */}
+                        <div className="surface rounded-xl p-6">
+                            <h3 className="text-xl font-semibold mb-6">Top Clients</h3>
+                            <TopClientsVerticalChart data={getTopClients()} />
+                        </div>
+                    </div>
+                )}
+
+                {/* 🎨 Charts Avancés D3.js - Sankey + Sunburst */}
+                {finSightData && rawData && rawData.length > 0 && (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+                        {/* Sankey Flow Chart */}
+                        <div className="surface rounded-xl p-6">
+                            <div className="flex items-center gap-2 mb-6">
+                                <Sparkles className="w-5 h-5 text-accent-gold" />
+                                <h3 className="text-xl font-semibold">Flux Financier (Sankey)</h3>
+                            </div>
+                            <SankeyFlowChart data={getSankeyData()} />
+                        </div>
+
+                        {/* Sunburst Expenses Chart */}
+                        <div className="surface rounded-xl p-6">
+                            <div className="flex items-center gap-2 mb-6">
+                                <Sparkles className="w-5 h-5 text-accent-gold" />
+                                <h3 className="text-xl font-semibold">Hiérarchie Dépenses (Sunburst)</h3>
+                            </div>
+                            <SunburstExpensesChart data={getSunburstData()} />
+                        </div>
+                    </div>
+                )}
+
+                {/* 🤖 ML Anomaly Detection Panel */}
+                {anomalies.length > 0 && (
+                    <div className="mb-12">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                                <AlertTriangle className="w-5 h-5 text-accent-orange" />
+                                <h3 className="text-xl font-semibold">Anomalies Détectées ({anomalies.length})</h3>
+                            </div>
+                            <button
+                                onClick={() => setShowAnomalies(!showAnomalies)}
+                                className="text-sm text-accent-gold hover:text-accent-gold-hover transition-colors"
+                            >
+                                {showAnomalies ? 'Masquer' : 'Afficher'}
+                            </button>
+                        </div>
+                        {showAnomalies && <AnomalyPanel anomalies={anomalies} />}
+                    </div>
+                )}
+
+                {/* 📊 Data Preview Panel */}
+                {rawData && rawData.length > 0 && (
+                    <div className="mb-8 surface rounded-xl p-6">
+                        <h3 className="text-xl font-semibold mb-6">Aperçu Données Brutes</h3>
+                        <DataPreviewPanel rawData={rawData} companyName={companyName} />
+                    </div>
+                )}
+
+                {/* AI Copilot */}
+                <div className="mb-12" data-copilot>
+                    <AICopilot />
                 </div>
-            )}
 
-            {/* 📊 Alertes Intelligentes - Juste après What-If */}
-            {kpis.length > 0 && (
-                <div className="mb-8 surface rounded-xl p-6">
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-2">
-                            <AlertTriangle className="w-5 h-5 text-accent-orange" />
-                            <h3 className="text-xl font-semibold">Alertes Intelligentes</h3>
-                        </div>
-                        <button
-                            onClick={() => setShowAlertSettings(true)}
-                            className="text-sm text-accent-gold hover:text-accent-gold-hover transition-colors"
-                        >
-                            Configurer
-                        </button>
-                    </div>
-                    <AlertsPanel
-                        dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                        cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                        netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                {/* Modals & Overlays */}
+                {drillDownState.isOpen && (
+                    <KPIDrilldownModal
+                        state={drillDownState}
+                        actions={drillDownActions}
+                        rawData={rawData || []}
                     />
-                </div>
-            )}
+                )}
 
-            {/* Charts Grid - Afficher uniquement si données disponibles */}
-            {finSightData && rawData && rawData.length > 0 && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                    {/* Cash Flow Chart */}
-                    <div className="surface rounded-xl p-6">
-                        <h3 className="text-xl font-semibold mb-6">Évolution Cash Flow</h3>
-                        <CashFlowEvolutionChart data={getMonthlyData()} />
-                    </div>
+                {isCommandPaletteOpen && (
+                    <CommandPalette
+                        isOpen={isCommandPaletteOpen}
+                        onClose={() => setIsCommandPaletteOpen(false)}
+                        onExportPDF={() => exportToPDF()}
+                        onExportExcel={() => exportToExcel()}
+                        onToggleAnomalies={() => setShowAnomalies(!showAnomalies)}
+                        onToggleTheme={toggleTheme}
+                    />
+                )}
 
-                    {/* Margin Chart */}
-                    <div className="surface rounded-xl p-6">
-                        <h3 className="text-xl font-semibold mb-6">Évolution Marge</h3>
-                        <MarginEvolutionChart data={getMarginData()} />
-                    </div>
+                {showAlertSettings && (
+                    <AlertSettings
+                        isOpen={showAlertSettings}
+                        onClose={() => setShowAlertSettings(false)}
+                    />
+                )}
 
-                    {/* Expense Breakdown */}
-                    <div className="surface rounded-xl p-6">
-                        <h3 className="text-xl font-semibold mb-6">Répartition Charges</h3>
-                        <ExpenseBreakdownChart data={getCategoryBreakdown()} />
-                    </div>
-
-                    {/* Top Clients */}
-                    <div className="surface rounded-xl p-6">
-                        <h3 className="text-xl font-semibold mb-6">Top Clients</h3>
-                        <TopClientsVerticalChart data={getTopClients()} />
-                    </div>
-                </div>
-            )}
-
-            {/* 🎨 Charts Avancés D3.js - Sankey + Sunburst */}
-            {finSightData && rawData && rawData.length > 0 && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                    {/* Sankey Flow Chart */}
-                    <div className="surface rounded-xl p-6">
-                        <div className="flex items-center gap-2 mb-6">
-                            <Sparkles className="w-5 h-5 text-accent-gold" />
-                            <h3 className="text-xl font-semibold">Flux Financier (Sankey)</h3>
-                        </div>
-                        <SankeyFlowChart data={getSankeyData()} />
-                    </div>
-
-                    {/* Sunburst Expenses Chart */}
-                    <div className="surface rounded-xl p-6">
-                        <div className="flex items-center gap-2 mb-6">
-                            <Sparkles className="w-5 h-5 text-accent-gold" />
-                            <h3 className="text-xl font-semibold">Hiérarchie Dépenses (Sunburst)</h3>
-                        </div>
-                        <SunburstExpensesChart data={getSunburstData()} />
-                    </div>
-                </div>
-            )}
-
-            {/* 🤖 ML Anomaly Detection Panel */}
-            {anomalies.length > 0 && (
-                <div className="mb-12">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                            <AlertTriangle className="w-5 h-5 text-accent-orange" />
-                            <h3 className="text-xl font-semibold">Anomalies Détectées ({anomalies.length})</h3>
-                        </div>
-                        <button
-                            onClick={() => setShowAnomalies(!showAnomalies)}
-                            className="text-sm text-accent-gold hover:text-accent-gold-hover transition-colors"
+                {/* 🔒 Modal Upload sur RDV */}
+                {showUploadModal && (
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'rgba(0, 0, 0, 0.7)',
+                            backdropFilter: 'blur(8px)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 1000,
+                            padding: '20px',
+                            overflowY: 'auto'
+                        }}
+                        onClick={() => setShowUploadModal(false)}
+                    >
+                        <div
+                            style={{
+                                background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+                                borderRadius: '20px',
+                                maxWidth: '550px',
+                                maxHeight: '90vh',
+                                width: '100%',
+                                padding: '32px 28px',
+                                position: 'relative',
+                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                                overflowY: 'auto'
+                            }}
+                            onClick={(e) => e.stopPropagation()}
                         >
-                            {showAnomalies ? 'Masquer' : 'Afficher'}
-                        </button>
+                            <button
+                                onClick={() => setShowUploadModal(false)}
+                                style={{
+                                    position: 'absolute',
+                                    top: '16px',
+                                    right: '16px',
+                                    background: 'rgba(255, 255, 255, 0.1)',
+                                    border: 'none',
+                                    color: '#fff',
+                                    width: '36px',
+                                    height: '36px',
+                                    borderRadius: '50%',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '18px',
+                                    transition: 'all 0.2s',
+                                    zIndex: 10
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+                                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+                            >
+                                ✕
+                            </button>
+
+                            {/* Header */}
+                            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                                <h3 style={{ fontSize: '24px', fontWeight: '700', color: '#fff', marginBottom: '12px' }}>
+                                    Analyse de VOS données
+                                </h3>
+                                <p style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.7)', lineHeight: '1.5' }}>
+                                    Cette fonctionnalité est disponible uniquement sur rendez-vous pour garantir une analyse optimale et personnalisée.
+                                </p>
+                            </div>
+
+                            {/* Bénéfices */}
+                            <div style={{ marginBottom: '24px' }}>
+                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '16px', padding: '12px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px' }}>
+                                    <span style={{ fontSize: '24px' }}>✓</span>
+                                    <div>
+                                        <strong style={{ color: '#60a5fa', fontSize: '15px' }}>Audit gratuit de 30 min</strong>
+                                        <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)', margin: '4px 0 0' }}>
+                                            Analyse de vos besoins avec un expert
+                                        </p>
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '16px', padding: '12px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px' }}>
+                                    <span style={{ fontSize: '24px' }}>✓</span>
+                                    <div>
+                                        <strong style={{ color: '#60a5fa', fontSize: '15px' }}>Configuration personnalisée</strong>
+                                        <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)', margin: '4px 0 0' }}>
+                                            Dashboard adapté à votre système comptable
+                                        </p>
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '12px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px' }}>
+                                    <span style={{ fontSize: '24px' }}>✓</span>
+                                    <div>
+                                        <strong style={{ color: '#60a5fa', fontSize: '15px' }}>Formation & support inclus</strong>
+                                        <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)', margin: '4px 0 0' }}>
+                                            Prise en main complète de votre outil
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* CTAs */}
+                            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        flex: '1',
+                                        minWidth: '200px',
+                                        padding: '16px 24px',
+                                        background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                                        color: '#fff',
+                                        fontSize: '16px',
+                                        fontWeight: '700',
+                                        borderRadius: '12px',
+                                        textDecoration: 'none',
+                                        textAlign: 'center',
+                                        transition: 'all 0.3s',
+                                        boxShadow: '0 4px 20px rgba(59, 130, 246, 0.4)',
+                                        cursor: 'pointer',
+                                        border: 'none'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-2px)';
+                                        e.currentTarget.style.boxShadow = '0 8px 30px rgba(59, 130, 246, 0.5)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(59, 130, 246, 0.4)';
+                                    }}
+                                >
+                                    📅 Prendre rendez-vous
+                                </a>
+                                <a
+                                    href="mailto:otmane@zineinsight.com?subject=Analyse de mes données financières&body=Bonjour Otmane,%0A%0AJe suis intéressé(e) par l'analyse de mes données financières avec FinSight.%0A%0APouvez-vous me recontacter pour discuter de mes besoins ?%0A%0AMerci !"
+                                    style={{
+                                        flex: '1',
+                                        minWidth: '200px',
+                                        padding: '16px 24px',
+                                        background: 'rgba(255, 255, 255, 0.1)',
+                                        color: '#fff',
+                                        fontSize: '16px',
+                                        fontWeight: '600',
+                                        borderRadius: '12px',
+                                        textDecoration: 'none',
+                                        textAlign: 'center',
+                                        transition: 'all 0.3s',
+                                        border: '2px solid rgba(255, 255, 255, 0.2)',
+                                        cursor: 'pointer'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                                    }}
+                                >
+                                    ✉️ Envoyer un email
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    {showAnomalies && <AnomalyPanel anomalies={anomalies} />}
-                </div>
-            )}
+                )}
 
-            {/* 📊 Data Preview Panel */}
-            {rawData && rawData.length > 0 && (
-                <div className="mb-8 surface rounded-xl p-6">
-                    <h3 className="text-xl font-semibold mb-6">Aperçu Données Brutes</h3>
-                    <DataPreviewPanel rawData={rawData} companyName={companyName} />
-                </div>
-            )}
-
-            {/* AI Copilot */}
-            <div className="mb-12" data-copilot>
-                <AICopilot />
+                {showCompanyModal && (
+                    <CompanyInfoModal
+                        isOpen={showCompanyModal}
+                        onClose={() => setShowCompanyModal(false)}
+                        onSubmit={(name: string, sector: CompanySector) => {
+                            setCompanyName(name);
+                            setCompanySector(sector);
+                            setShowCompanyModal(false);
+                        }}
+                    />
+                )}
             </div>
-
-            {/* Modals & Overlays */}
-            {drillDownState.isOpen && (
-                <KPIDrilldownModal
-                    state={drillDownState}
-                    actions={drillDownActions}
-                    rawData={rawData || []}
-                />
-            )}
-
-            {isCommandPaletteOpen && (
-                <CommandPalette
-                    isOpen={isCommandPaletteOpen}
-                    onClose={() => setIsCommandPaletteOpen(false)}
-                    onExportPDF={() => exportToPDF()}
-                    onExportExcel={() => exportToExcel()}
-                    onToggleAnomalies={() => setShowAnomalies(!showAnomalies)}
-                    onToggleTheme={toggleTheme}
-                />
-            )}
-
-            {showAlertSettings && (
-                <AlertSettings
-                    isOpen={showAlertSettings}
-                    onClose={() => setShowAlertSettings(false)}
-                />
-            )}
-
-            {showCompanyModal && (
-                <CompanyInfoModal
-                    isOpen={showCompanyModal}
-                    onClose={() => setShowCompanyModal(false)}
-                    onSubmit={(name: string, sector: CompanySector) => {
-                        setCompanyName(name);
-                        setCompanySector(sector);
-                        setShowCompanyModal(false);
-                    }}
-                />
-            )}
-        </div>
+        </>
     )
 }

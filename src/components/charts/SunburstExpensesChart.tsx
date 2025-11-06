@@ -255,7 +255,7 @@ export function SunburstExpensesChart({ data, width = 600, height = 600 }: Sunbu
                 textAlign: 'center',
                 pointerEvents: 'none'
             }}>
-                💡 Cliquez sur un segment pour zoomer
+                💡 Hiérarchie interactive des dépenses
             </div>
         </div>
     );
