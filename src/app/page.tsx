@@ -33,7 +33,7 @@ export default function Home() {
                             Démo Live
                         </Link>
                         <a
-                            href="https://www.linkedin.com/in/otmane-boulahia"
+                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium flex items-center gap-2"
@@ -65,7 +65,7 @@ export default function Home() {
                 </h1>
 
                 <p className="text-xl text-text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
-                    Un projet démontrant mes compétences en finance, data engineering et IA
+                    Analyse temps réel • AI Copilot conversationnel • Export automatisé
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -77,7 +77,7 @@ export default function Home() {
                         <ExternalLink className="w-5 h-5" />
                     </Link>
                     <a
-                        href="https://www.linkedin.com/in/otmane-boulahia"
+                        href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-border-strong text-text-primary rounded-xl font-semibold text-lg transition-all hover:bg-surface-elevated"
@@ -111,20 +111,10 @@ export default function Home() {
             {/* About Section */}
             <section className="max-w-4xl mx-auto px-6 pb-32">
                 <div className="surface rounded-2xl p-12 text-center">
-                    <div className="mb-8">
+                    <div className="mb-10">
                         <h2 className="text-3xl font-bold mb-4">Créé par Otmane Boulahia</h2>
                         <p className="text-xl text-text-secondary">
                             Finance × Data Engineer
-                        </p>
-                    </div>
-
-                    <div className="max-w-2xl mx-auto mb-10">
-                        <p className="text-text-secondary leading-relaxed mb-4">
-                            10 ans d'expérience en finance d'entreprise (Master Finance Internationale) + formation intensive data science (Le Wagon, IBM).
-                        </p>
-                        <p className="text-text-secondary leading-relaxed">
-                            FinSight démontre mes compétences en développement full-stack, IA conversationnelle (GPT-4o),
-                            data engineering et expertise métier finance.
                         </p>
                     </div>
 
@@ -148,15 +138,9 @@ export default function Home() {
                         ))}
                     </div>
 
-                    <div className="inline-flex items-center gap-2 px-6 py-3 bg-accent-green-subtle border border-accent-green-border rounded-lg">
-                        <span className="text-accent-green font-semibold">
-                            Disponible pour missions fractional finance engineering
-                        </span>
-                    </div>
-
-                    <div className="flex items-center justify-center gap-6 mt-8">
+                    <div className="flex items-center justify-center gap-6">
                         <a
-                            href="https://www.linkedin.com/in/otmane-boulahia"
+                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-6 py-3 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg"
@@ -302,7 +286,7 @@ export default function Home() {
                                 Démo Live
                             </Link>
                             <a
-                                href="https://www.linkedin.com/in/otmane-boulahia"
+                                href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2 text-sm"
