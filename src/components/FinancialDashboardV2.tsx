@@ -299,6 +299,104 @@ export default function FinancialDashboardV2() {
         };
     };
 
+    // 🔮 Calcul des KPIs simulés (What-If simulations en temps réel)
+    const calculateSimulatedKPIs = () => {
+        if (!isDataLoaded || kpis.length === 0 || !rawData) return;
+
+        // Extraire valeurs actuelles
+        const caKPI = kpis.find(k => k.title.includes('Chiffre d\'Affaires') || k.title.includes('CA'));
+        const chargesKPI = kpis.find(k => k.title.includes('Charges'));
+        const margeKPI = kpis.find(k => k.title.includes('Marge'));
+        const cashFlowKPI = kpis.find(k => k.title.includes('Cash Flow') || k.title.includes('Trésorerie'));
+
+        const currentCA = parseFloat(caKPI?.value.replace(/[^0-9.-]/g, '') || '0');
+        const currentCharges = parseFloat(chargesKPI?.value.replace(/[^0-9.-]/g, '') || '0');
+        const currentMarge = parseFloat(margeKPI?.value.replace(/[^0-9.-]/g, '') || '0');
+        const currentCashFlow = parseFloat(cashFlowKPI?.value.replace(/[^0-9.-]/g, '') || '0');
+
+        // Calculer depuis rawData
+        const totalRevenue = rawData
+            .filter((r: any) => r.type === 'income')
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
+
+        const totalExpenses = rawData
+            .filter((r: any) => r.type === 'expense')
+            .reduce((sum: number, r: any) => sum + Math.abs(r.amount), 0);
+
+        const pendingInvoices = rawData
+            .filter((r: any) => r.type === 'income' && r.paymentStatus === 'En attente')
+            .reduce((sum: number, r: any) => sum + r.amount, 0);
+
+        // SIMULATION 1: Réduction charges → Marge
+        const newCharges = totalExpenses * (1 - chargesReduction / 100);
+        const economiesCharges = totalExpenses - newCharges;
+        const newMarge = ((totalRevenue - newCharges) / totalRevenue) * 100;
+        const margeDiff = newMarge - currentMarge;
+
+        // SIMULATION 2: Accélération paiements → Cash Flow
+        const cashLiberated = (pendingInvoices / 30) * paiementsAcceleration;
+        const newCashFlow = currentCashFlow + cashLiberated;
+
+        // SIMULATION 3: Augmentation prix → CA
+        const newCA = totalRevenue * (1 + prixAugmentation / 100);
+        const caDiff = newCA - totalRevenue;
+
+        // Créer KPIs simulés
+        const simulated: KPI[] = kpis.map(kpi => {
+            // KPI CA
+            if (kpi.title.includes('Chiffre d\'Affaires') || kpi.title.includes('CA')) {
+                if (prixAugmentation > 0) {
+                    return {
+                        ...kpi,
+                        value: `${Math.round(newCA).toLocaleString('fr-FR')} €`,
+                        change: `+${Math.round(caDiff).toLocaleString('fr-FR')} € vs actuel`,
+                        changeType: 'positive' as const
+                    };
+                }
+            }
+
+            // KPI Charges
+            if (kpi.title.includes('Charges')) {
+                if (chargesReduction > 0) {
+                    return {
+                        ...kpi,
+                        value: `${Math.round(newCharges).toLocaleString('fr-FR')} €`,
+                        change: `-${Math.round(economiesCharges).toLocaleString('fr-FR')} € vs actuel`,
+                        changeType: 'positive' as const
+                    };
+                }
+            }
+
+            // KPI Marge
+            if (kpi.title.includes('Marge')) {
+                if (chargesReduction > 0) {
+                    return {
+                        ...kpi,
+                        value: `${newMarge.toFixed(1)}%`,
+                        change: `+${margeDiff.toFixed(1)}% = +${Math.round(economiesCharges).toLocaleString('fr-FR')} €`,
+                        changeType: 'positive' as const
+                    };
+                }
+            }
+
+            // KPI Cash Flow
+            if (kpi.title.includes('Cash Flow') || kpi.title.includes('Trésorerie')) {
+                if (paiementsAcceleration > 0) {
+                    return {
+                        ...kpi,
+                        value: `${Math.round(newCashFlow).toLocaleString('fr-FR')} €`,
+                        change: `+${Math.round(cashLiberated).toLocaleString('fr-FR')} € libérés`,
+                        changeType: 'positive' as const
+                    };
+                }
+            }
+
+            return kpi;
+        });
+
+        setSimulatedKPIs(simulated);
+    };
+
     // 🤖 ML Anomaly Detection
     const detectAnomaliesFromData = async () => {
         if (!rawData || rawData.length === 0) return;
@@ -495,7 +593,16 @@ export default function FinancialDashboardV2() {
         }
     }, [rawData]);
 
-    // 📡 Real-Time Sync
+    // � Recalculer KPIs simulés quand sliders changent
+    useEffect(() => {
+        if (chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) {
+            calculateSimulatedKPIs();
+        } else {
+            setSimulatedKPIs([]);
+        }
+    }, [chargesReduction, paiementsAcceleration, prixAugmentation, kpis, rawData]);
+
+    // �📡 Real-Time Sync
     const addToast = (toast: Omit<ToastNotification, 'id'>) => {
         const newToast = { ...toast, id: Date.now().toString() };
         setToastNotifications(prev => [...prev, newToast]);
@@ -657,11 +764,11 @@ export default function FinancialDashboardV2() {
                 </div>
             </div>
 
-            {/* KPIs Grid - Style Homepage Features */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
-                {kpis.map((kpi, index) => (
-                    <div 
-                        key={index} 
+            {/* KPIs Grid - Affiche simulatedKPIs si actifs, sinon kpis normaux */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis).map((kpi, index) => (
+                    <div
+                        key={index}
                         className="surface rounded-xl p-6 surface-hover group cursor-pointer"
                         onClick={() => drillDownActions.openDrillDown(kpi.title)}
                     >
@@ -669,11 +776,10 @@ export default function FinancialDashboardV2() {
                             <div className="text-accent-gold transition-transform group-hover:scale-110">
                                 {getKPIIcon(kpi.title)}
                             </div>
-                            <span className={`text-sm font-semibold ${
-                                kpi.changeType === 'positive' ? 'text-accent-green' :
+                            <span className={`text-sm font-semibold ${kpi.changeType === 'positive' ? 'text-accent-green' :
                                 kpi.changeType === 'negative' ? 'text-accent-red' :
-                                'text-text-tertiary'
-                            }`}>
+                                    'text-text-tertiary'
+                                }`}>
                                 {kpi.change}
                             </span>
                         </div>
@@ -685,9 +791,9 @@ export default function FinancialDashboardV2() {
                         <BenchmarkBar
                             kpiName={
                                 kpi.title.includes('Marge') ? 'MARGE_NETTE' :
-                                kpi.title.includes('DSO') ? 'DSO' :
-                                kpi.title.includes('BFR') ? 'BFR' :
-                                'DSO'
+                                    kpi.title.includes('DSO') ? 'DSO' :
+                                        kpi.title.includes('BFR') ? 'BFR' :
+                                            'DSO'
                             }
                             currentValue={parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0}
                             sector={companySector}
@@ -697,6 +803,211 @@ export default function FinancialDashboardV2() {
                     </div>
                 ))}
             </div>
+
+            {/* 🔮 What-If Simulation Panel - Juste après KPIs pour montrer l'impact immédiat */}
+            {isDataLoaded && (
+                <div className="mb-8 surface rounded-2xl p-8 relative overflow-hidden border-2 border-accent-gold-border/20 bg-gradient-to-br from-accent-gold-subtle/10 to-transparent">
+                    {/* Badge Mode Simulation actif */}
+                    {(chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
+                        <div className="absolute top-4 right-4 bg-gradient-to-r from-accent-green to-accent-green-hover rounded-full px-3 py-1.5 text-xs font-bold text-white shadow-lg animate-pulse">
+                            📊 {[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length} simulation{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''} active{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''}
+                        </div>
+                    )}
+
+                    {/* Header */}
+                    <div className="flex justify-between items-center mb-8">
+                        <div className="flex items-center gap-3">
+                            <Zap className="w-7 h-7 text-accent-gold" />
+                            <div>
+                                <h3 className="text-2xl font-bold">Simulation What-If</h3>
+                                <p className="text-sm text-text-secondary mt-1">
+                                    Mesurez l'impact en temps réel sur les KPIs ci-dessus
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            {(chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
+                                <button
+                                    onClick={() => {
+                                        setChargesReduction(0);
+                                        setPaiementsAcceleration(0);
+                                        setPrixAugmentation(0);
+                                    }}
+                                    className="px-4 py-2 bg-accent-red-subtle border border-accent-red-border rounded-lg text-accent-red font-semibold text-xs hover:bg-accent-red-border/20 transition-all"
+                                >
+                                    🔄 Reset
+                                </button>
+                            )}
+                            <button
+                                onClick={() => setShowSimulation(!showSimulation)}
+                                className="px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-lg text-accent-gold font-semibold text-sm hover:bg-accent-gold-border/20 transition-all"
+                            >
+                                {showSimulation ? '▼ Réduire' : '▶ Développer'}
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* 3 Simulations */}
+                    {showSimulation && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {/* SIMULATION 1: Réduction Charges → Marge */}
+                            <div className={`surface rounded-xl p-5 transition-all ${chargesReduction > 0 ? 'border-2 border-accent-green' : ''}`}>
+                                <div className="mb-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="text-2xl">💰</span>
+                                        <h4 className="text-base font-bold">Optimisation charges</h4>
+                                    </div>
+                                    <p className="text-xs text-text-secondary">
+                                        Impact sur <strong className="text-accent-green">Marge Nette</strong>
+                                    </p>
+                                </div>
+
+                                <div className="mb-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-xs text-text-secondary">Réduction</span>
+                                        <span className={`text-xl font-bold ${chargesReduction > 0 ? 'text-accent-green' : 'text-accent-gold'}`}>
+                                            -{chargesReduction}%
+                                        </span>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="30"
+                                        step="5"
+                                        value={chargesReduction}
+                                        onChange={(e) => setChargesReduction(Number(e.target.value))}
+                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-green"
+                                    />
+                                    <div className="flex justify-between mt-1">
+                                        <span className="text-xs text-text-tertiary">0%</span>
+                                        <span className="text-xs text-text-tertiary">30%</span>
+                                    </div>
+                                </div>
+
+                                {chargesReduction > 0 && simulatedKPIs.length > 0 && (
+                                    <div className="bg-accent-green-subtle border border-accent-green-border rounded-lg p-3">
+                                        <p className="text-xs text-text-secondary mb-1">Impact Marge</p>
+                                        <p className="text-sm font-bold text-accent-green">
+                                            {simulatedKPIs.find(k => k.title.includes('Marge'))?.change || 'Calcul...'}
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* SIMULATION 2: Accélération Paiements → Cash Flow */}
+                            <div className={`surface rounded-xl p-5 transition-all ${paiementsAcceleration > 0 ? 'border-2 border-accent-blue' : ''}`}>
+                                <div className="mb-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="text-2xl">⚡</span>
+                                        <h4 className="text-base font-bold">Relance créances</h4>
+                                    </div>
+                                    <p className="text-xs text-text-secondary">
+                                        Impact sur <strong className="text-accent-blue">Cash Flow</strong>
+                                    </p>
+                                </div>
+
+                                <div className="mb-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-xs text-text-secondary">Réduction DSO</span>
+                                        <span className={`text-xl font-bold ${paiementsAcceleration > 0 ? 'text-accent-blue' : 'text-accent-gold'}`}>
+                                            -{paiementsAcceleration}j
+                                        </span>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="15"
+                                        step="3"
+                                        value={paiementsAcceleration}
+                                        onChange={(e) => setPaiementsAcceleration(Number(e.target.value))}
+                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-blue"
+                                    />
+                                    <div className="flex justify-between mt-1">
+                                        <span className="text-xs text-text-tertiary">0j</span>
+                                        <span className="text-xs text-text-tertiary">15j</span>
+                                    </div>
+                                </div>
+
+                                {paiementsAcceleration > 0 && simulatedKPIs.length > 0 && (
+                                    <div className="bg-accent-blue-subtle border border-accent-blue-border rounded-lg p-3">
+                                        <p className="text-xs text-text-secondary mb-1">Impact Cash Flow</p>
+                                        <p className="text-sm font-bold text-accent-blue">
+                                            {simulatedKPIs.find(k => k.title.includes('Cash Flow') || k.title.includes('Trésorerie'))?.change || 'Calcul...'}
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* SIMULATION 3: Augmentation Prix → CA */}
+                            <div className={`surface rounded-xl p-5 transition-all ${prixAugmentation > 0 ? 'border-2 border-accent-orange' : ''}`}>
+                                <div className="mb-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="text-2xl">📈</span>
+                                        <h4 className="text-base font-bold">Augmentation prix</h4>
+                                    </div>
+                                    <p className="text-xs text-text-secondary">
+                                        Impact sur <strong className="text-accent-orange">Chiffre d'Affaires</strong>
+                                    </p>
+                                </div>
+
+                                <div className="mb-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-xs text-text-secondary">Augmentation</span>
+                                        <span className={`text-xl font-bold ${prixAugmentation > 0 ? 'text-accent-orange' : 'text-accent-gold'}`}>
+                                            +{prixAugmentation}%
+                                        </span>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="15"
+                                        step="3"
+                                        value={prixAugmentation}
+                                        onChange={(e) => setPrixAugmentation(Number(e.target.value))}
+                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-orange"
+                                    />
+                                    <div className="flex justify-between mt-1">
+                                        <span className="text-xs text-text-tertiary">0%</span>
+                                        <span className="text-xs text-text-tertiary">15%</span>
+                                    </div>
+                                </div>
+
+                                {prixAugmentation > 0 && simulatedKPIs.length > 0 && (
+                                    <div className="bg-accent-orange-subtle border border-accent-orange-border rounded-lg p-3">
+                                        <p className="text-xs text-text-secondary mb-1">Impact CA</p>
+                                        <p className="text-sm font-bold text-accent-orange">
+                                            {simulatedKPIs.find(k => k.title.includes('Chiffre d\'Affaires') || k.title.includes('CA'))?.change || 'Calcul...'}
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* 📊 Alertes Intelligentes - Juste après What-If */}
+            {kpis.length > 0 && (
+                <div className="mb-8 surface rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-2">
+                            <AlertTriangle className="w-5 h-5 text-accent-orange" />
+                            <h3 className="text-xl font-semibold">Alertes Intelligentes</h3>
+                        </div>
+                        <button
+                            onClick={() => setShowAlertSettings(true)}
+                            className="text-sm text-accent-gold hover:text-accent-gold-hover transition-colors"
+                        >
+                            Configurer
+                        </button>
+                    </div>
+                    <AlertsPanel
+                        dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                        cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                        netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                    />
+                </div>
+            )}
 
             {/* Charts Grid - Afficher uniquement si données disponibles */}
             {finSightData && rawData && rawData.length > 0 && (
@@ -769,191 +1080,11 @@ export default function FinancialDashboardV2() {
                 </div>
             )}
 
-            {/* 📊 Panels Additionnels */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                {/* Data Preview Panel */}
-                <div className="surface rounded-xl p-6">
+            {/* 📊 Data Preview Panel */}
+            {rawData && rawData.length > 0 && (
+                <div className="mb-8 surface rounded-xl p-6">
                     <h3 className="text-xl font-semibold mb-6">Aperçu Données Brutes</h3>
-                    <DataPreviewPanel rawData={rawData || []} companyName={companyName} />
-                </div>
-
-                {/* Alerts Panel */}
-                <div className="surface rounded-xl p-6">
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-xl font-semibold">Alertes Intelligentes</h3>
-                        <button
-                            onClick={() => setShowAlertSettings(true)}
-                            className="text-sm text-accent-gold hover:text-accent-gold-hover"
-                        >
-                            Configurer
-                        </button>
-                    </div>
-                    <AlertsPanel
-                        dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                        cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                        netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                    />
-                </div>
-            </div>
-
-            {/* 🔮 What-If Simulation Panel */}
-            {isDataLoaded && (
-                <div className="mb-12 surface rounded-2xl p-8 relative overflow-hidden border-2 border-accent-gold-border/20 bg-gradient-to-br from-accent-gold-subtle/10 to-transparent">
-                    {/* Header */}
-                    <div className="flex justify-between items-center mb-8">
-                        <div className="flex items-center gap-3">
-                            <Zap className="w-7 h-7 text-accent-gold" />
-                            <div>
-                                <h3 className="text-2xl font-bold">Simulation What-If</h3>
-                                <p className="text-sm text-text-secondary mt-1">
-                                    Mesurez l'impact financier de vos décisions en temps réel
-                                </p>
-                            </div>
-                        </div>
-                        <button
-                            onClick={() => setShowSimulation(!showSimulation)}
-                            className="px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-lg text-accent-gold font-semibold text-sm hover:bg-accent-gold-border/20 transition-all"
-                        >
-                            {showSimulation ? '▼ Réduire' : '▶ Développer'}
-                        </button>
-                    </div>
-
-                    {/* 3 Simulations */}
-                    {showSimulation && (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {/* SIMULATION 1: Réduction Charges → Marge */}
-                            <div className={`surface rounded-xl p-5 transition-all ${chargesReduction > 0 ? 'border-2 border-accent-green' : ''}`}>
-                                <div className="mb-4">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="text-2xl">💰</span>
-                                        <h4 className="text-base font-bold">Optimisation charges</h4>
-                                    </div>
-                                    <p className="text-xs text-text-secondary">
-                                        Impact sur <strong className="text-accent-green">Marge Nette</strong>
-                                    </p>
-                                </div>
-
-                                <div className="mb-4">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="text-xs text-text-secondary">Réduction</span>
-                                        <span className={`text-xl font-bold ${chargesReduction > 0 ? 'text-accent-green' : 'text-accent-gold'}`}>
-                                            -{chargesReduction}%
-                                        </span>
-                                    </div>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="30"
-                                        step="5"
-                                        value={chargesReduction}
-                                        onChange={(e) => setChargesReduction(Number(e.target.value))}
-                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-green"
-                                    />
-                                    <div className="flex justify-between mt-1">
-                                        <span className="text-xs text-text-tertiary">0%</span>
-                                        <span className="text-xs text-text-tertiary">30%</span>
-                                    </div>
-                                </div>
-
-                                {chargesReduction > 0 && (
-                                    <div className="bg-accent-green-subtle border border-accent-green-border rounded-lg p-3">
-                                        <p className="text-xs text-text-secondary mb-1">Nouvelle marge estimée</p>
-                                        <p className="text-lg font-bold text-accent-green">
-                                            +{((chargesReduction / 100) * 15).toFixed(1)}% 📈
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* SIMULATION 2: Accélération Paiements → Cash Flow */}
-                            <div className={`surface rounded-xl p-5 transition-all ${paiementsAcceleration > 0 ? 'border-2 border-accent-blue' : ''}`}>
-                                <div className="mb-4">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="text-2xl">⚡</span>
-                                        <h4 className="text-base font-bold">Relance créances</h4>
-                                    </div>
-                                    <p className="text-xs text-text-secondary">
-                                        Impact sur <strong className="text-accent-blue">Cash Flow</strong>
-                                    </p>
-                                </div>
-
-                                <div className="mb-4">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="text-xs text-text-secondary">Réduction DSO</span>
-                                        <span className={`text-xl font-bold ${paiementsAcceleration > 0 ? 'text-accent-blue' : 'text-accent-gold'}`}>
-                                            -{paiementsAcceleration}j
-                                        </span>
-                                    </div>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="15"
-                                        step="3"
-                                        value={paiementsAcceleration}
-                                        onChange={(e) => setPaiementsAcceleration(Number(e.target.value))}
-                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-blue"
-                                    />
-                                    <div className="flex justify-between mt-1">
-                                        <span className="text-xs text-text-tertiary">0j</span>
-                                        <span className="text-xs text-text-tertiary">15j</span>
-                                    </div>
-                                </div>
-
-                                {paiementsAcceleration > 0 && (
-                                    <div className="bg-accent-blue-subtle border border-accent-blue-border rounded-lg p-3">
-                                        <p className="text-xs text-text-secondary mb-1">Cash récupéré</p>
-                                        <p className="text-lg font-bold text-accent-blue">
-                                            +{(paiementsAcceleration * 1000).toLocaleString()}€ 💸
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* SIMULATION 3: Augmentation Prix → CA */}
-                            <div className={`surface rounded-xl p-5 transition-all ${prixAugmentation > 0 ? 'border-2 border-accent-orange' : ''}`}>
-                                <div className="mb-4">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="text-2xl">📈</span>
-                                        <h4 className="text-base font-bold">Augmentation prix</h4>
-                                    </div>
-                                    <p className="text-xs text-text-secondary">
-                                        Impact sur <strong className="text-accent-orange">Chiffre d'Affaires</strong>
-                                    </p>
-                                </div>
-
-                                <div className="mb-4">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="text-xs text-text-secondary">Augmentation</span>
-                                        <span className={`text-xl font-bold ${prixAugmentation > 0 ? 'text-accent-orange' : 'text-accent-gold'}`}>
-                                            +{prixAugmentation}%
-                                        </span>
-                                    </div>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="15"
-                                        step="3"
-                                        value={prixAugmentation}
-                                        onChange={(e) => setPrixAugmentation(Number(e.target.value))}
-                                        className="w-full h-2 bg-surface-elevated rounded-lg appearance-none cursor-pointer accent-accent-orange"
-                                    />
-                                    <div className="flex justify-between mt-1">
-                                        <span className="text-xs text-text-tertiary">0%</span>
-                                        <span className="text-xs text-text-tertiary">15%</span>
-                                    </div>
-                                </div>
-
-                                {prixAugmentation > 0 && (
-                                    <div className="bg-accent-orange-subtle border border-accent-orange-border rounded-lg p-3">
-                                        <p className="text-xs text-text-secondary mb-1">CA additionnel estimé</p>
-                                        <p className="text-lg font-bold text-accent-orange">
-                                            +{((prixAugmentation / 100) * 100000).toLocaleString()}€ 🚀
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
+                    <DataPreviewPanel rawData={rawData} companyName={companyName} />
                 </div>
             )}
 
