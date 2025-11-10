@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import OpenAI from 'openai'
 import { SYSTEM_PROMPT, buildFinancialContext } from '@/lib/copilot/prompts'
 import { storeConversation, searchSimilarConversations } from '@/lib/vectordb/collections'
+import { checkRateLimit, getClientIP } from '@/lib/rateLimit'
 
 interface CopilotRequest {
     message: string
@@ -17,6 +18,10 @@ interface CopilotResponse {
     success: boolean
     response?: string
     error?: string
+    rateLimitInfo?: {
+        remaining: number
+        resetTime: number
+    }
 }
 
 export default async function handler(
@@ -27,6 +32,25 @@ export default async function handler(
         return res.status(405).json({
             success: false,
             error: 'Méthode non autorisée'
+        })
+    }
+
+    // 🛡️ RATE LIMITING - Vérifier avant de traiter
+    const clientIP = getClientIP(req)
+    const rateLimit = checkRateLimit(clientIP, {
+        maxRequests: 10, // 10 requêtes max
+        windowMs: 60 * 60 * 1000 // par heure
+    })
+
+    if (!rateLimit.allowed) {
+        const resetDate = new Date(rateLimit.resetTime)
+        return res.status(429).json({
+            success: false,
+            error: `Limite de requêtes atteinte (10/heure). Réessayez après ${resetDate.toLocaleTimeString('fr-FR')}.`,
+            rateLimitInfo: {
+                remaining: 0,
+                resetTime: rateLimit.resetTime
+            }
         })
     }
 
@@ -44,7 +68,9 @@ export default async function handler(
             message: message.substring(0, 100),
             hasData: !!rawData,
             dataCount: rawData?.length || 0,
-            company: companyName
+            company: companyName,
+            ip: clientIP,
+            remaining: rateLimit.remaining
         })
 
         // 🧠 Rechercher conversations similaires dans Pinecone
