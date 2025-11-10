@@ -112,11 +112,11 @@ export default function FeaturesCarousel() {
                     {/* Slide Content */}
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Left: Image */}
-                        <div className="relative h-[400px] md:h-[500px] bg-gradient-to-br from-surface-elevated to-bg-secondary overflow-hidden">
+                        <div className="relative h-[400px] md:h-[500px] bg-gradient-to-br from-bg-secondary/50 to-surface-elevated/50 overflow-hidden flex items-center justify-center p-8">
                             <img
                                 src={slide.image}
                                 alt={slide.title}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain rounded-lg"
                             />
                         </div>
 
