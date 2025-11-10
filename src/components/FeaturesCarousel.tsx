@@ -113,7 +113,7 @@ export default function FeaturesCarousel() {
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Left: Image */}
                         <div className="relative h-[400px] md:h-[500px] bg-gradient-to-br from-surface-elevated to-bg-secondary overflow-hidden">
-                            <img 
+                            <img
                                 src={slide.image}
                                 alt={slide.title}
                                 className="w-full h-full object-cover"
