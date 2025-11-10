@@ -33,6 +33,9 @@ export default function Home() {
                         <Link href="/dashboard" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
                             Démo Live
                         </Link>
+                        <Link href="/services" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
+                            Nos Offres
+                        </Link>
                         <a
                             href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                             target="_blank"
@@ -82,21 +85,18 @@ export default function Home() {
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link
-                            href="/dashboard"
+                            href="/services"
                             className="inline-flex items-center gap-2 px-10 py-5 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-xl font-semibold text-xl transition-all hover:shadow-xl hover:-translate-y-1"
                         >
-                            Voir la démo live
+                            Voir nos offres
                             <ExternalLink className="w-6 h-6" />
                         </Link>
-                        <a
-                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <Link
+                            href="/dashboard"
                             className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-border-strong text-text-primary rounded-xl font-semibold text-lg transition-all hover:bg-surface-elevated"
                         >
-                            <Linkedin className="w-5 h-5" />
-                            Discutons
-                        </a>
+                            Essayer la démo
+                        </Link>
                     </div>
 
                     <p className="text-sm text-text-tertiary mt-8">
