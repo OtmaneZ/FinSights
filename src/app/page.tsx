@@ -13,6 +13,7 @@ import {
     Linkedin,
     ExternalLink
 } from 'lucide-react'
+import FeaturesCarousel from '@/components/FeaturesCarousel'
 
 export default function Home() {
     return (
@@ -103,6 +104,9 @@ export default function Home() {
                     </p>
                 </div>
             </section>
+
+            {/* Features Carousel - NEW */}
+            <FeaturesCarousel />
 
             {/* Features Grid */}
             <section className="max-w-6xl mx-auto px-6 pb-32">
