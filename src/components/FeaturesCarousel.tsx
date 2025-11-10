@@ -112,21 +112,12 @@ export default function FeaturesCarousel() {
                     {/* Slide Content */}
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Left: Image */}
-                        <div className="relative h-[400px] md:h-[500px] bg-gradient-to-br from-surface-elevated to-bg-secondary">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                {/* Placeholder for screenshot - will be replaced with actual images */}
-                                <div className="text-center p-12">
-                                    <div className="w-64 h-64 mx-auto rounded-2xl bg-gradient-to-br from-accent-gold/20 to-accent-gold/5 border-2 border-accent-gold/30 flex items-center justify-center mb-6">
-                                        <span className="text-6xl">{slide.badge.split(' ')[0]}</span>
-                                    </div>
-                                    <p className="text-sm text-text-tertiary">
-                                        📸 Screenshot à ajouter :<br />
-                                        <code className="text-xs bg-surface-elevated px-2 py-1 rounded mt-2 inline-block">
-                                            {slide.image}
-                                        </code>
-                                    </p>
-                                </div>
-                            </div>
+                        <div className="relative h-[400px] md:h-[500px] bg-gradient-to-br from-surface-elevated to-bg-secondary overflow-hidden">
+                            <img 
+                                src={slide.image}
+                                alt={slide.title}
+                                className="w-full h-full object-cover"
+                            />
                         </div>
 
                         {/* Right: Text Content */}
