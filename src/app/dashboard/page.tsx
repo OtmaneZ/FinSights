@@ -24,6 +24,9 @@ export default function DashboardPage() {
                         <Link href="/" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
                             Accueil
                         </Link>
+                        <Link href="/services" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
+                            Nos Offres
+                        </Link>
                         <a
                             href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                             target="_blank"
@@ -71,6 +74,9 @@ export default function DashboardPage() {
                         <div className="flex items-center gap-8">
                             <Link href="/" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
                                 Accueil
+                            </Link>
+                            <Link href="/services" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
+                                Nos Offres
                             </Link>
                             <a
                                 href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
