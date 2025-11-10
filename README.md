@@ -54,10 +54,12 @@
 ## ✨ **FEATURES DEMONSTRATED**
 
 ### 📊 **Automated Dashboard**
-- **Real-time KPIs**: Revenue, Cash Flow, Net Margin, DSO, Working Capital
+- **Real-time KPIs**: Revenue, Cash Flow, Net Margin, DSO, Working Capital (15+ KPIs)
+- **Granular capabilities detection**: Dashboard adapts precisely to available data columns (no more rigid "levels")
 - **Visual indicators**: Differentiated icons (💰📉📊💵), contextualized variations
-- **Sector benchmarks**: Visual bars comparing performance to industry standards
+- **Sector benchmarks**: Visual bars comparing performance to industry standards (Services, Commerce, Industrie, SaaS)
 - **Smart alerts**: ⚠️ Exceptional margins, overdue receivables, cash warnings
+- **Financial glossary tooltips**: Complete definitions, formulas, and benchmarks for each KPI (PCG 2025 compliant)
 
 ### 🤖 **AI Copilot** (GPT-4o)
 - **Conversational analysis**: Natural language questions in French
@@ -66,13 +68,13 @@
 - **Actionable responses**: 📊 Findings → 🔍 Analysis → 💡 Priority actions
 - **Dynamic suggestions**: Questions adapted to your actual data
 
-### 📈 **Advanced Visualizations**
-- **Cash Flow Evolution**: Time-series charts with projections
-- **Expense Breakdown**: Category-based analysis with D3.js Sunburst
+### 📈 **Advanced Visualizations** (Connected to Real Data)
+- **Cash Flow Evolution**: Time-series charts calculated from actual uploaded transactions
+- **Expense Breakdown**: Category-based analysis with D3.js Sunburst (dynamic from your data)
 - **Sankey Flows**: Interactive financial flows visualization
-- **Margin Trends**: Multi-month performance tracking
-- **Top Clients**: Commercial concentration analysis
-- **Receivables**: Outstanding invoices and payment delays
+- **Margin Trends**: Multi-month performance tracking (real calculations, no fake data)
+- **Top Clients**: Commercial concentration analysis from counterparty column
+- **Receivables**: Outstanding invoices and payment delays (auto-detected from dueDate field)
 
 ### 🔔 **Real-Time Features**
 - **Collaboration**: Live presence indicators with Pusher
