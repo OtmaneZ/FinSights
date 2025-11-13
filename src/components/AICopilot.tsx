@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useFinancialData } from '@/lib/financialContext'
-import { generateAutoSummary, generateSmartSuggestions } from '@/lib/copilot/prompts'
+import { generateAutoSummary } from '@/lib/copilot/prompts'
 
 interface Message {
     id: string
@@ -46,16 +46,6 @@ export default function AICopilot() {
             setAutoSummaryGenerated(true)
         }
     }, [isDataLoaded, rawData, autoSummaryGenerated])
-
-    // Suggestions dynamiques basées sur les données
-    const suggestions = rawData && rawData.length > 0
-        ? generateSmartSuggestions(rawData)
-        : [
-            "Qu'est-ce que FinSight ?",
-            "Analysez l'évolution de la trésorerie",
-            "Quels sont les plus gros clients ?",
-            "Comment améliorer la rentabilité ?"
-        ]
 
     const handleSend = async () => {
         if (!input.trim()) return
@@ -120,10 +110,6 @@ export default function AICopilot() {
         } finally {
             setIsLoading(false)
         }
-    }
-
-    const handleSuggestionClick = (suggestion: string) => {
-        setInput(suggestion)
     }
 
     return (
@@ -222,20 +208,6 @@ export default function AICopilot() {
                     >
                         {isLoading ? '⏳' : 'Envoyer'}
                     </button>
-                </div>
-
-                {/* Suggestions Pills */}
-                <div className="flex flex-wrap gap-2">
-                    {suggestions.map((suggestion, index) => (
-                        <button
-                            key={index}
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            className="text-sm bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-blue-700 px-5 py-2.5 rounded-full border border-blue-200 transition-all hover:shadow-md font-medium"
-                            disabled={isLoading}
-                        >
-                            {suggestion.length > 60 ? suggestion.substring(0, 60) + '...' : suggestion}
-                        </button>
-                    ))}
                 </div>
             </div>
 
