@@ -38,15 +38,15 @@ export default async function handler(
     // 🛡️ RATE LIMITING - Vérifier avant de traiter
     const clientIP = getClientIP(req)
     const rateLimit = checkRateLimit(clientIP, {
-        maxRequests: 10, // 10 requêtes max
-        windowMs: 60 * 60 * 1000 // par heure
+        maxRequests: 5, // 5 requêtes max
+        windowMs: 24 * 60 * 60 * 1000 // par jour (24h)
     })
 
     if (!rateLimit.allowed) {
         const resetDate = new Date(rateLimit.resetTime)
         return res.status(429).json({
             success: false,
-            error: `Limite de requêtes atteinte (10/heure). Réessayez après ${resetDate.toLocaleTimeString('fr-FR')}.`,
+            error: `Limite de démo atteinte (5 questions/jour).\nPour un accès complet, contactez-moi : contact@zineinsight.com`,
             rateLimitInfo: {
                 remaining: 0,
                 resetTime: rateLimit.resetTime
