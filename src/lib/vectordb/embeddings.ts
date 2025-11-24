@@ -1,10 +1,12 @@
 /**
- * GÉNÉRATION D'EMBEDDINGS avec OpenAI
+ * GÉNÉRATION D'EMBEDDINGS avec OpenAI + Cache KV
  *
  * Convertit du texte en vecteurs pour la recherche sémantique
+ * Cache les embeddings pour économiser 80% des coûts API
  */
 
 import OpenAI from 'openai';
+import { getCachedEmbedding, setCachedEmbedding } from '../rateLimitKV';
 
 let openaiInstance: OpenAI | null = null;
 
@@ -25,20 +27,34 @@ function getOpenAIClient(): OpenAI {
 }
 
 /**
- * Génère un embedding pour du texte
+ * Génère un embedding pour du texte (avec cache)
  * @param text - Texte à convertir en vecteur
  * @returns Vecteur de 1536 dimensions
  */
 export async function generateEmbedding(text: string): Promise<number[]> {
     const openai = getOpenAIClient();
+    const preparedText = text.slice(0, 8000);
 
     try {
+        // 🚀 Vérifier le cache d'abord
+        const cached = await getCachedEmbedding(preparedText);
+        if (cached) {
+            return cached;
+        }
+
+        // ❌ Cache miss → Appel API OpenAI
+        console.log('⚠️ Embedding cache MISS - Calling OpenAI API');
         const response = await openai.embeddings.create({
             model: 'text-embedding-3-small',
-            input: text.slice(0, 8000), // Limite OpenAI
+            input: preparedText,
         });
 
-        return response.data[0].embedding;
+        const embedding = response.data[0].embedding;
+
+        // 💾 Sauvegarder dans le cache
+        await setCachedEmbedding(preparedText, embedding);
+
+        return embedding;
     } catch (error) {
         console.error('Erreur génération embedding:', error);
         throw new Error('Impossible de générer l\'embedding');

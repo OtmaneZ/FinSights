@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import OpenAI from 'openai'
 import { SYSTEM_PROMPT, buildFinancialContext } from '@/lib/copilot/prompts'
 import { storeConversation, searchSimilarConversations } from '@/lib/vectordb/collections'
-import { checkRateLimit, getClientIP } from '@/lib/rateLimit'
+import { checkRateLimitKV, getClientIP } from '@/lib/rateLimitKV'
 
 interface CopilotRequest {
     message: string
@@ -20,7 +20,8 @@ interface CopilotResponse {
     error?: string
     rateLimitInfo?: {
         remaining: number
-        resetTime: number
+        total: number
+        calendlyUrl?: string
     }
 }
 
@@ -35,21 +36,18 @@ export default async function handler(
         })
     }
 
-    // 🛡️ RATE LIMITING - Vérifier avant de traiter
+    // 🛡️ RATE LIMITING avec Vercel KV - 5 requêtes TOTALES
     const clientIP = getClientIP(req)
-    const rateLimit = checkRateLimit(clientIP, {
-        maxRequests: 5, // 5 requêtes max
-        windowMs: 24 * 60 * 60 * 1000 // par jour (24h)
-    })
+    const rateLimit = await checkRateLimitKV(clientIP)
 
     if (!rateLimit.allowed) {
-        const resetDate = new Date(rateLimit.resetTime)
         return res.status(429).json({
             success: false,
-            error: `Limite de démo atteinte (5 questions/jour).\nPour un accès complet, contactez-moi : contact@zineinsight.com`,
+            error: `🔒 Limite de démo atteinte (${rateLimit.total} questions maximum).\n\n📅 Pour continuer l'analyse de vos données financières, réservez un échange :\n👉 ${rateLimit.calendlyUrl}\n\n💡 Nous pourrons discuter de vos besoins spécifiques et débloquer l'accès complet.`,
             rateLimitInfo: {
                 remaining: 0,
-                resetTime: rateLimit.resetTime
+                total: rateLimit.total,
+                calendlyUrl: rateLimit.calendlyUrl
             }
         })
     }
@@ -176,7 +174,12 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
 
         return res.status(200).json({
             success: true,
-            response
+            response,
+            rateLimitInfo: {
+                remaining: rateLimit.remaining,
+                total: rateLimit.total,
+                calendlyUrl: rateLimit.remaining === 0 ? rateLimit.calendlyUrl : undefined
+            }
         })
 
     } catch (error: any) {
