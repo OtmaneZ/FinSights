@@ -19,6 +19,23 @@ const nextConfig = {
         // your project has ESLint errors.
         ignoreDuringBuilds: false,
     },
+    // Fix: Skip API routes during static generation
+    experimental: {
+        serverActions: {
+            bodySizeLimit: '10mb',
+        },
+    },
+    // Disable static optimization for API routes
+    async headers() {
+        return [
+            {
+                source: '/api/:path*',
+                headers: [
+                    { key: 'Cache-Control', value: 'no-store, must-revalidate' },
+                ],
+            },
+        ];
+    },
 }
 
 module.exports = withPWA(nextConfig)

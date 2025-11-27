@@ -6,7 +6,18 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcryptjs';
-import { prisma } from '@/lib/prisma';
+import { PrismaClient } from '@prisma/client';
+
+// Lazy load Prisma to avoid build-time issues
+const getPrisma = () => {
+    const globalForPrisma = global as unknown as { prisma: PrismaClient };
+    if (!globalForPrisma.prisma) {
+        globalForPrisma.prisma = new PrismaClient({
+            log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+        });
+    }
+    return globalForPrisma.prisma;
+};
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -20,6 +31,8 @@ export const authOptions: NextAuthOptions = {
                 if (!credentials?.email || !credentials?.password) {
                     throw new Error('Email et mot de passe requis');
                 }
+
+                const prisma = getPrisma();
 
                 // Trouver l'utilisateur
                 const user = await prisma.user.findUnique({
