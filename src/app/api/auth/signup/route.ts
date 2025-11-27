@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { hash } from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
+import { sendWelcomeEmail, isEmailEnabled } from '@/lib/emails/emailService';
 
 export async function POST(req: NextRequest) {
     try {
@@ -58,8 +59,16 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        // TODO: Envoyer email de bienvenue (Resend)
-        // await sendWelcomeEmail(user.email, user.name);
+        // Envoyer email de bienvenue
+        if (isEmailEnabled()) {
+            await sendWelcomeEmail({
+                to: user.email,
+                userName: user.name || 'Utilisateur',
+                userEmail: user.email,
+            }).catch((error) => {
+                console.error('⚠️ Email bienvenue échoué (non-bloquant):', error);
+            });
+        }
 
         return NextResponse.json(
             {

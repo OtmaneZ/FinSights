@@ -7,8 +7,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
-import { stripe, getPlanFromPriceId } from '@/lib/stripe';
+import { stripe, getPlanFromPriceId, STRIPE_PRICES } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
+import {
+    sendUpgradeSuccessEmail,
+    sendPaymentFailedEmail,
+    isEmailEnabled,
+} from '@/lib/emails/emailService';
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -55,7 +60,7 @@ export async function POST(req: NextRequest) {
                 const plan = getPlanFromPriceId(priceId);
 
                 // Mettre à jour l'utilisateur
-                await prisma.user.update({
+                const updatedUser = await prisma.user.update({
                     where: { id: userId },
                     data: {
                         stripeCustomerId: session.customer as string,
@@ -68,7 +73,23 @@ export async function POST(req: NextRequest) {
 
                 console.log(`✅ User ${userId} upgraded to ${plan}`);
 
-                // TODO: Envoyer email de confirmation
+                // Envoyer email de confirmation d'upgrade
+                if (isEmailEnabled() && (plan === 'PRO' || plan === 'SCALE')) {
+                    const amount = plan === 'PRO' ? 79 : 199;
+                    const nextBillingDate = new Date(
+                        (subscription as any).current_period_end * 1000
+                    ).toLocaleDateString('fr-FR');
+
+                    await sendUpgradeSuccessEmail({
+                        to: updatedUser.email,
+                        userName: updatedUser.name || 'Utilisateur',
+                        plan: plan as 'PRO' | 'SCALE',
+                        amount,
+                        nextBillingDate,
+                    }).catch((error) => {
+                        console.error('⚠️ Email upgrade échoué (non-bloquant):', error);
+                    });
+                }
                 break;
             }
 
@@ -127,7 +148,24 @@ export async function POST(req: NextRequest) {
 
                 console.log(`⚠️ Payment failed for customer ${stripeCustomerId}`);
 
-                // TODO: Envoyer email "Échec de paiement"
+                // Récupérer l'utilisateur pour envoyer l'email
+                const user = await prisma.user.findFirst({
+                    where: { stripeCustomerId },
+                });
+
+                if (user && isEmailEnabled() && (user.plan === 'PRO' || user.plan === 'SCALE')) {
+                    const amount = user.plan === 'PRO' ? 79 : 199;
+
+                    await sendPaymentFailedEmail({
+                        to: user.email,
+                        userName: user.name || 'Utilisateur',
+                        plan: user.plan as 'PRO' | 'SCALE',
+                        amount,
+                        invoiceUrl: invoice.hosted_invoice_url || '',
+                    }).catch((error) => {
+                        console.error('⚠️ Email payment failed échoué (non-bloquant):', error);
+                    });
+                }
                 break;
             }
 

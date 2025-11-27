@@ -13,7 +13,6 @@ import {
     Linkedin,
     Github
 } from 'lucide-react'
-import FeaturesCarousel from '@/components/FeaturesCarousel'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Testimonials from '@/components/Testimonials'
@@ -61,9 +60,6 @@ export default function Home() {
                     </p>
                 </div>
             </section>
-
-            {/* Features Carousel - NEW */}
-            <FeaturesCarousel />
 
             {/* Features Grid */}
             <section className="max-w-6xl mx-auto px-6 pb-24">
