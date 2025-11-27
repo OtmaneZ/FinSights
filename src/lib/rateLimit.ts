@@ -1,5 +1,47 @@
-// Simple in-memory rate limiting
-// Pour une vraie prod, utiliser Redis ou Vercel KV
+/**
+ * Rate Limiting System with Vercel KV (Redis)
+ * Enforces limits based on user plan (FREE/PRO/SCALE)
+ */
+
+import { kv } from '@vercel/kv';
+import type { Plan } from '@prisma/client';
+
+// ============================================
+// RATE LIMITS BY PLAN (per day)
+// ============================================
+
+export const RATE_LIMITS = {
+    FREE: {
+        copilot_queries: 10,
+        api_calls: 0,
+        uploads: 10,
+        dashboards: 1,
+    },
+    PRO: {
+        copilot_queries: -1, // Unlimited
+        api_calls: 1000,
+        uploads: 100,
+        dashboards: 5,
+    },
+    SCALE: {
+        copilot_queries: -1, // Unlimited
+        api_calls: 10000,
+        uploads: 1000,
+        dashboards: -1, // Unlimited
+    },
+    ENTERPRISE: {
+        copilot_queries: -1,
+        api_calls: -1,
+        uploads: -1,
+        dashboards: -1,
+    },
+} as const;
+
+export type RateLimitAction = keyof typeof RATE_LIMITS.FREE;
+
+// ============================================
+// LEGACY IN-MEMORY (Fallback)
+// ============================================
 
 interface RateLimitEntry {
     count: number
@@ -8,15 +50,130 @@ interface RateLimitEntry {
 
 const rateLimitMap = new Map<string, RateLimitEntry>()
 
-interface RateLimitConfig {
-    maxRequests: number // Nombre max de requêtes
-    windowMs: number // Fenêtre de temps en millisecondes
+// ============================================
+// MAIN FUNCTIONS (Vercel KV)
+// ============================================
+
+interface RateLimitResult {
+    success: boolean;
+    current: number;
+    limit: number;
+    remaining: number;
+    resetAt: Date;
 }
 
-// Configuration par défaut : 10 requêtes par heure
+/**
+ * Check rate limit for user action (Vercel KV)
+ */
+export async function checkRateLimitKV(
+    userId: string,
+    action: RateLimitAction,
+    userPlan: Plan
+): Promise<RateLimitResult> {
+    const limit = RATE_LIMITS[userPlan][action];
+
+    // -1 means unlimited
+    if (limit === -1) {
+        return {
+            success: true,
+            current: 0,
+            limit: -1,
+            remaining: -1,
+            resetAt: getNextMidnight(),
+        };
+    }
+
+    const today = getToday();
+    const key = `ratelimit:${userId}:${action}:${today}`;
+
+    try {
+        const current = (await kv.get<number>(key)) || 0;
+
+        if (current >= limit) {
+            return {
+                success: false,
+                current,
+                limit,
+                remaining: 0,
+                resetAt: getNextMidnight(),
+            };
+        }
+
+        await kv.incr(key);
+        await kv.expire(key, 86400); // 24h
+
+        return {
+            success: true,
+            current: current + 1,
+            limit,
+            remaining: limit - current - 1,
+            resetAt: getNextMidnight(),
+        };
+    } catch (error) {
+        console.error('Rate limit check failed:', error);
+        return {
+            success: true,
+            current: 0,
+            limit,
+            remaining: limit,
+            resetAt: getNextMidnight(),
+        };
+    }
+}
+
+/**
+ * Get remaining quota for a user
+ */
+export async function getRemainingQuota(
+    userId: string,
+    action: RateLimitAction,
+    userPlan: Plan
+): Promise<{ current: number; limit: number; remaining: number }> {
+    const limit = RATE_LIMITS[userPlan][action];
+
+    if (limit === -1) {
+        return { current: 0, limit: -1, remaining: -1 };
+    }
+
+    const today = getToday();
+    const key = `ratelimit:${userId}:${action}:${today}`;
+
+    try {
+        const current = (await kv.get<number>(key)) || 0;
+        return {
+            current,
+            limit,
+            remaining: Math.max(0, limit - current),
+        };
+    } catch (error) {
+        console.error('Get quota failed:', error);
+        return { current: 0, limit, remaining: limit };
+    }
+}
+
+function getToday(): string {
+    return new Date().toISOString().split('T')[0];
+}
+
+function getNextMidnight(): Date {
+    const tomorrow = new Date();
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+    tomorrow.setUTCHours(0, 0, 0, 0);
+    return tomorrow;
+}
+
+// ============================================
+// LEGACY FUNCTIONS (In-memory fallback)
+// ============================================
+
+interface RateLimitConfig {
+    maxRequests: number
+    windowMs: number
+}
+
 const DEFAULT_CONFIG: RateLimitConfig = {
     maxRequests: 10,
-    windowMs: 60 * 60 * 1000 // 1 heure
+    windowMs: 60 * 60 * 1000
 }
 
 /**
