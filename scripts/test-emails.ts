@@ -3,6 +3,7 @@
  * Usage: tsx scripts/test-emails.ts
  */
 
+import 'dotenv/config'
 import {
     sendWelcomeEmail,
     sendUpgradeSuccessEmail,
