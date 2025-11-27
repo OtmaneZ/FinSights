@@ -288,6 +288,23 @@
     color: var(--accent-danger);
 }
 
+/* Legacy color aliases (backward compatibility) */
+.text-accent-green {
+    color: var(--accent-green);
+}
+
+.text-accent-red {
+    color: var(--accent-red);
+}
+
+.text-accent-orange {
+    color: var(--accent-orange);
+}
+
+.text-accent-blue {
+    color: var(--accent-blue);
+}
+
 /* Accent Backgrounds */
 .bg-accent-primary {
     background-color: var(--accent-primary);
@@ -308,6 +325,79 @@
 
 .bg-accent-danger {
     background-color: var(--accent-danger);
+}
+
+/* Legacy background aliases */
+.bg-accent-green {
+    background-color: var(--accent-green);
+}
+
+.bg-accent-green-subtle {
+    background-color: var(--accent-green-subtle);
+}
+
+.from-accent-green {
+    --tw-gradient-from: var(--accent-green);
+    --tw-gradient-to: rgb(16 124 16 / 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-accent-green-hover {
+    --tw-gradient-to: var(--accent-green-hover);
+}
+
+.bg-accent-red-subtle {
+    background-color: var(--accent-red-subtle);
+}
+
+.bg-accent-orange-subtle {
+    background-color: var(--accent-orange-subtle);
+}
+
+.bg-accent-blue-subtle {
+    background-color: var(--accent-blue-subtle);
+}
+
+/* Legacy border aliases */
+.border-accent-green {
+    border-color: var(--accent-green);
+}
+
+.border-accent-green-border {
+    border-color: var(--accent-green-border);
+}
+
+.border-accent-red-border {
+    border-color: var(--accent-red-border);
+}
+
+.border-accent-orange {
+    border-color: var(--accent-orange);
+}
+
+.border-accent-orange-border {
+    border-color: var(--accent-orange-border);
+}
+
+.border-accent-blue {
+    border-color: var(--accent-blue);
+}
+
+.border-accent-blue-border {
+    border-color: var(--accent-blue-border);
+}
+
+/* Accent utilities (range sliders) */
+.accent-accent-green {
+    accent-color: var(--accent-green);
+}
+
+.accent-accent-blue {
+    accent-color: var(--accent-blue);
+}
+
+.accent-accent-orange {
+    accent-color: var(--accent-orange);
 }
 
 /* Surface utilities */

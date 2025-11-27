@@ -84,9 +84,9 @@ export default function PricingCard({
                     return (
                         <li key={index} className="flex items-start gap-3">
                             {isIncluded ? (
-                                <Check className="w-5 h-5 text-accent-green flex-shrink-0 mt-0.5" />
+                                <Check className="w-5 h-5 text-accent-success flex-shrink-0 mt-0.5" />
                             ) : (
-                                <div className="w-5 h-5 flex-shrink-0 mt-0.5 text-text-disabled">✕</div>
+                                <div className="w-5 h-5 flex-shrink-0 mt-0.5 text-disabled">✕</div>
                             )}
                             <span className={`text-sm ${isIncluded ? 'text-primary' : 'text-tertiary'}`}>
                                 {cleanFeature}
