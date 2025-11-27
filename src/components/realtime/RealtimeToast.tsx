@@ -45,7 +45,7 @@ export default function RealtimeToast({ notifications, onDismiss }: RealtimeToas
             {notifications.map((notification) => (
                 <div
                     key={notification.id}
-                    className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 p-4 flex items-start gap-3 animate-slideInRight"
+                    className="surface dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 p-4 flex items-start gap-3 animate-slideInRight"
                 >
                     {/* Icon */}
                     <div className="flex-shrink-0">

@@ -220,7 +220,7 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
                                 <p className="text-slate-700 mb-3">{alert.message}</p>
 
                                 {alert.metric && (
-                                    <div className="mb-4 p-3 bg-white rounded-lg border border-slate-200">
+                                    <div className="mb-4 p-3 surface rounded-lg border border-slate-200">
                                         <div className="flex items-baseline gap-2">
                                             <span className="text-2xl font-bold text-slate-800">
                                                 {alert.metric.current.toFixed(alert.metric.unit === '€' ? 0 : 1)}

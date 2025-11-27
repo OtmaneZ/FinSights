@@ -66,7 +66,7 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
                     {/* Tooltip */}
                     <div
                         ref={tooltipRef}
-                        className={`absolute z-50 w-96 bg-white border-2 border-blue-200 rounded-xl shadow-2xl
+                        className={`absolute z-50 w-96 surface border-2 border-blue-200 rounded-xl shadow-2xl
                             ${position === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'}
                             left-1/2 transform -translate-x-1/2`}
                         style={{ maxHeight: '500px', overflowY: 'auto' }}
@@ -78,7 +78,7 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
                                     <h3 className="font-bold text-lg">{glossaryEntry.title}</h3>
                                     <p className="text-sm text-blue-100 mt-1">{glossaryEntry.shortName}</p>
                                 </div>
-                                <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-medium">
+                                <span className="px-3 py-1 surface/20 rounded-full text-xs font-medium">
                                     {glossaryEntry.category.charAt(0).toUpperCase() + glossaryEntry.category.slice(1)}
                                 </span>
                             </div>
@@ -101,7 +101,7 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
                                 <h4 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
                                     🧮 Formule de calcul
                                 </h4>
-                                <code className="block text-sm font-mono bg-white p-2 rounded border border-blue-300 text-blue-800 mb-2">
+                                <code className="block text-sm font-mono surface p-2 rounded border border-blue-300 text-blue-800 mb-2">
                                     {glossaryEntry.formula}
                                 </code>
                                 <p className="text-xs text-gray-600 leading-relaxed">

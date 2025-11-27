@@ -113,11 +113,11 @@ export default function AICopilot() {
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
+        <div className="surface rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 surface/20 rounded-full flex items-center justify-center">
                         <span className="text-2xl">🤖</span>
                     </div>
                     <div>
@@ -173,7 +173,7 @@ export default function AICopilot() {
 
                 {isLoading && (
                     <div className="flex justify-start">
-                        <div className="bg-white border-2 border-gray-200 rounded-2xl px-5 py-3 shadow-md">
+                        <div className="surface border-2 border-gray-200 rounded-2xl px-5 py-3 shadow-md">
                             <div className="flex items-center gap-2">
                                 <div className="flex gap-1">
                                     <span className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
@@ -190,7 +190,7 @@ export default function AICopilot() {
             </div>
 
             {/* Input zone */}
-            <div className="border-t border-gray-200 bg-white px-6 py-4">
+            <div className="border-t border-gray-200 surface px-6 py-4">
                 <div className="flex gap-3 mb-3">
                     <input
                         type="text"

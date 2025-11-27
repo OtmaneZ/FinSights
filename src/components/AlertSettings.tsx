@@ -137,7 +137,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-2xl transition-all">
+                                <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl surface dark:bg-gray-800 shadow-2xl transition-all">
                                     {/* Header */}
                                     <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
                                         <div className="flex items-center justify-between">
@@ -179,7 +179,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                                         setHasChanges(true);
                                                     }}
                                                     placeholder="votre@email.com"
-                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg surface dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                 />
                                                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                                     Les alertes seront envoyées à cette adresse
@@ -199,7 +199,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                                             setHasChanges(true);
                                                         }}
                                                         placeholder="Prénom Nom"
-                                                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg surface dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     />
                                                 </div>
 
@@ -215,7 +215,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                                             setHasChanges(true);
                                                         }}
                                                         placeholder="Nom de l'entreprise"
-                                                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg surface dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     />
                                                 </div>
                                             </div>
@@ -233,7 +233,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                                     <div
                                                         key={alert.type}
                                                         className={`border rounded-xl p-4 transition-all ${alert.enabled
-                                                                ? 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700/50'
+                                                                ? 'border-gray-200 dark:border-gray-700 surface dark:bg-gray-700/50'
                                                                 : 'border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 opacity-60'
                                                             }`}
                                                     >
@@ -266,7 +266,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                                                         onChange={() => toggleAlertEnabled(index)}
                                                                         className="sr-only peer"
                                                                     />
-                                                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:surface after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -283,7 +283,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                                                         onChange={(e) =>
                                                                             updateAlert(index, { threshold: parseFloat(e.target.value) || 0 })
                                                                         }
-                                                                        className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                                        className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg surface dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                                     />
                                                                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                                                         {formatThreshold(alert.type, alert.threshold)}
@@ -393,7 +393,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white shadow-2xl transition-all">
+                                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl surface shadow-2xl transition-all">
                                     <div className="border-b border-gray-200 px-6 py-4 bg-gray-50">
                                         <div className="flex items-center justify-between">
                                             <Dialog.Title className="text-lg font-semibold text-gray-900">
@@ -410,7 +410,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
 
                                     <div className="p-6 max-h-[80vh] overflow-y-auto bg-gray-100">
                                         <div
-                                            className="bg-white rounded-lg shadow-lg"
+                                            className="surface rounded-lg shadow-lg"
                                             dangerouslySetInnerHTML={{ __html: previewHTML }}
                                         />
                                     </div>

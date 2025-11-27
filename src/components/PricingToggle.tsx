@@ -22,7 +22,7 @@ export default function PricingToggle({ value, onChange }: PricingToggleProps) {
                 `}
             >
                 <div className={`
-                    absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300
+                    absolute top-0.5 w-6 h-6 surface rounded-full shadow-md transition-transform duration-300
                     ${value === 'yearly' ? 'translate-x-7' : 'translate-x-0.5'}
                 `} />
             </button>

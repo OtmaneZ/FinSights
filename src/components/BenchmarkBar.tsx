@@ -155,7 +155,7 @@ export const BenchmarkBar: React.FC<BenchmarkBarProps> = ({
                     className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-500"
                     style={{ left: `${position}%` }}
                 >
-                    <div className={`w-4 h-4 rounded-full border-2 border-white shadow-lg ${barColor}`} />
+                    <div className={`w-4 h-4 rounded-full border-2 border-slate-200 shadow-lg ${barColor}`} />
                 </div>
             </div>
 

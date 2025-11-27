@@ -75,7 +75,7 @@ export default function EmptyDashboardState() {
 
                 <div className="grid md:grid-cols-3 gap-6">
                     {/* Niveau 1 */}
-                    <div className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-blue-300 hover:shadow-lg transition-all">
+                    <div className="surface border-2 border-gray-200 rounded-xl p-6 hover:border-blue-300 hover:shadow-lg transition-all">
                         <div className="flex items-center gap-2 mb-4">
                             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                                 <span className="text-lg font-bold text-blue-600">1</span>
@@ -111,7 +111,7 @@ export default function EmptyDashboardState() {
                     </div>
 
                     {/* Niveau 2 */}
-                    <div className="bg-white border-2 border-blue-300 rounded-xl p-6 shadow-lg relative">
+                    <div className="surface border-2 border-blue-300 rounded-xl p-6 shadow-lg relative">
                         <div className="absolute -top-3 -right-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
                             Recommandé
                         </div>
@@ -218,7 +218,7 @@ export default function EmptyDashboardState() {
                                     a.download = 'template-niveau1-basique.csv';
                                     a.click();
                                 }}
-                                className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors"
+                                className="px-4 py-2 surface border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors"
                             >
                                 📄 Template Niveau 1
                             </button>
@@ -257,7 +257,7 @@ export default function EmptyDashboardState() {
 
             {/* FAQ Rapide */}
             <div className="max-w-3xl mx-auto">
-                <details className="bg-white border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors cursor-pointer">
+                <details className="surface border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors cursor-pointer">
                     <summary className="font-semibold text-gray-900 cursor-pointer">
                         ❓ Mes données sont sensibles, sont-elles sécurisées ?
                     </summary>
@@ -268,7 +268,7 @@ export default function EmptyDashboardState() {
                     </p>
                 </details>
 
-                <details className="bg-white border border-gray-200 rounded-lg p-4 mt-3 hover:border-blue-300 transition-colors cursor-pointer">
+                <details className="surface border border-gray-200 rounded-lg p-4 mt-3 hover:border-blue-300 transition-colors cursor-pointer">
                     <summary className="font-semibold text-gray-900 cursor-pointer">
                         ❓ Combien de lignes minimum faut-il ?
                     </summary>
@@ -279,7 +279,7 @@ export default function EmptyDashboardState() {
                     </p>
                 </details>
 
-                <details className="bg-white border border-gray-200 rounded-lg p-4 mt-3 hover:border-blue-300 transition-colors cursor-pointer">
+                <details className="surface border border-gray-200 rounded-lg p-4 mt-3 hover:border-blue-300 transition-colors cursor-pointer">
                     <summary className="font-semibold text-gray-900 cursor-pointer">
                         ❓ Puis-je passer d'un niveau à l'autre ?
                     </summary>

@@ -31,7 +31,7 @@ export default function MethodologyPage() {
             </div>
 
             {/* Process Overview */}
-            <div className="bg-white rounded-lg shadow-lg p-8">
+            <div className="surface rounded-lg shadow-lg p-8">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-6 text-center">
                     Process en 4 Étapes
                 </h3>
@@ -77,7 +77,7 @@ export default function MethodologyPage() {
 
             {/* Detailed Approach */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-white rounded-lg shadow-lg p-6">
+                <div className="surface rounded-lg shadow-lg p-6">
                     <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                         <DocumentTextIcon className="h-6 w-6 text-blue-600 mr-2" />
                         Livrables Inclus
@@ -122,7 +122,7 @@ export default function MethodologyPage() {
                     </ul>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-lg p-6">
+                <div className="surface rounded-lg shadow-lg p-6">
                     <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                         <ChartBarIcon className="h-6 w-6 text-green-600 mr-2" />
                         Expertise Technique
@@ -178,7 +178,7 @@ export default function MethodologyPage() {
                     Formules & Tarification
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-white rounded-lg p-6 shadow-md">
+                    <div className="surface rounded-lg p-6 shadow-md">
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">Dashboard Express</h4>
                         <div className="text-3xl font-bold text-blue-600 mb-4">1 800€</div>
                         <ul className="space-y-2 text-sm text-gray-600 mb-6">
@@ -194,7 +194,7 @@ export default function MethodologyPage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-lg p-6 shadow-md border-2 border-blue-500 relative">
+                    <div className="surface rounded-lg p-6 shadow-md border-2 border-blue-500 relative">
                         <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                             <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">Populaire</span>
                         </div>
@@ -214,7 +214,7 @@ export default function MethodologyPage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-lg p-6 shadow-md">
+                    <div className="surface rounded-lg p-6 shadow-md">
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">Solution Custom</h4>
                         <div className="text-3xl font-bold text-blue-600 mb-4">Sur devis</div>
                         <ul className="space-y-2 text-sm text-gray-600 mb-6">
@@ -234,7 +234,7 @@ export default function MethodologyPage() {
             </div>
 
             {/* Why Choose FinSight */}
-            <div className="bg-white rounded-lg shadow-lg p-8">
+            <div className="surface rounded-lg shadow-lg p-8">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-6 text-center">
                     Pourquoi Choisir FinSight ?
                 </h3>
@@ -278,7 +278,7 @@ export default function MethodologyPage() {
                         href="https://calendly.com/zineinsight"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                        className="surface text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
                     >
                         � Prendre rendez-vous
                     </a>

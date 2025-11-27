@@ -46,7 +46,7 @@ export function AnomalyPanel({ anomalies, onDismiss, onInvestigate }: AnomalyPan
 
     if (visibleAnomalies.length === 0) {
         return (
-            <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="surface rounded-lg shadow-lg p-6">
                 <div className="flex items-center justify-center text-green-600 gap-2">
                     <CheckCircleIcon className="w-6 h-6" />
                     <p className="text-sm font-semibold">Aucune anomalie détectée</p>
@@ -56,7 +56,7 @@ export function AnomalyPanel({ anomalies, onDismiss, onInvestigate }: AnomalyPan
     }
 
     return (
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="surface rounded-lg shadow-lg p-6">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                     <ExclamationTriangleIcon className="w-6 h-6 text-orange-600" />

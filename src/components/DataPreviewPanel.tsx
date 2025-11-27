@@ -87,7 +87,7 @@ export const DataPreviewPanel: React.FC<DataPreviewPanelProps> = ({ rawData, com
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6 mb-8">
+        <div className="surface rounded-xl shadow-lg border border-slate-200 p-6 mb-8">
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                     <CheckCircleIcon className="w-8 h-8 text-emerald-600" />

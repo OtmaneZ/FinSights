@@ -2156,7 +2156,7 @@ export default function FinancialDashboard() {
                                 >
                                     <ExclamationTriangleIcon className="w-5 h-5" />
                                     {anomalies.length} Anomalie{anomalies.length > 1 ? 's' : ''} Détectée{anomalies.length > 1 ? 's' : ''}
-                                    <span className="text-xs bg-white/20 px-2 py-0.5 rounded">ML</span>
+                                    <span className="text-xs surface/20 px-2 py-0.5 rounded">ML</span>
                                 </button>
                                 {showAnomalies && (
                                     <p className="text-xs text-gray-500">
@@ -2188,7 +2188,7 @@ export default function FinancialDashboard() {
                     {rawData && rawData.length > 0 && (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                             {/* Chart 1: 🎨 Sankey Flow Chart (D3.js) - Flux de trésorerie */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
+                            <div className="surface rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ArrowTrendingUpIcon className="w-5 h-5 text-orange-600" />
                                     Flux de Trésorerie (Sankey)
@@ -2208,7 +2208,7 @@ export default function FinancialDashboard() {
                             </div>
 
                             {/* Chart 2: 🎨 Sunburst Expenses Chart (D3.js) - Répartition des Charges */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
+                            <div className="surface rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <BanknotesIcon className="w-5 h-5 text-orange-600" />
                                     Structure des Dépenses (Sunburst)
@@ -2230,7 +2230,7 @@ export default function FinancialDashboard() {
                             </div>
 
                             {/* Chart 3: Cash Flow Evolution (Recharts - kept for comparison) */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
+                            <div className="surface rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ArrowTrendingUpIcon className="w-5 h-5 text-blue-600" />
                                     Évolution Mensuelle (Recharts)
@@ -2244,7 +2244,7 @@ export default function FinancialDashboard() {
                             </div>
 
                             {/* Chart 4: Expense Breakdown (Recharts - kept for comparison) */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
+                            <div className="surface rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <BanknotesIcon className="w-5 h-5 text-purple-600" />
                                     Répartition Charges (Recharts)
@@ -2266,7 +2266,7 @@ export default function FinancialDashboard() {
                             </div>
 
                             {/* Chart 3: Marge Nette Evolution */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
+                            <div className="surface rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ArrowTrendingUpIcon className="w-5 h-5 text-blue-600" />
                                     Évolution de la Marge Nette
@@ -2294,7 +2294,7 @@ export default function FinancialDashboard() {
                             </div>
 
                             {/* Chart 4: Top 5 Clients par Chiffre d'Affaires */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
+                            <div className="surface rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <CheckCircleIcon className="w-5 h-5 text-green-600" />
                                     Concentration Commerciale — Top 5
@@ -2330,7 +2330,7 @@ export default function FinancialDashboard() {
                     {rawData && rawData.length > 0 && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Chart 5: Top 5 Créances en Attente */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
+                            <div className="surface rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ExclamationTriangleIcon className="w-5 h-5 text-orange-600" />
                                     Créances Prioritaires — Par Urgence
@@ -2358,7 +2358,7 @@ export default function FinancialDashboard() {
                             </div>
 
                             {/* Chart 6: Statuts de Paiement */}
-                            <div className="bg-white rounded-lg shadow-lg p-6">
+                            <div className="surface rounded-lg shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                     <ClockIcon className="w-5 h-5 text-purple-600" />
                                     Cycle d'Encaissement
@@ -2389,7 +2389,7 @@ export default function FinancialDashboard() {
 
                     {/* Quick Insights */}
                     {shouldShowElement('showAIInsights') && (
-                        <div className="bg-white rounded-lg shadow-lg p-6">
+                        <div className="surface rounded-lg shadow-lg p-6">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">🎯 Actions Prioritaires IA</h3>
                             <div className="text-center py-8 text-gray-500">
                                 <p>💡 Insights IA nécessitent plus de données</p>
