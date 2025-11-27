@@ -12,7 +12,7 @@ export default function FAQPage() {
 
             {/* Hero Section */}
             <section className="max-w-4xl mx-auto px-6 pt-20 pb-12 text-center">
-                <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-accent-primary via-white to-accent-primary bg-clip-text text-transparent">
+                <h1 className="text-5xl font-bold mb-6 text-primary">
                     Questions fréquentes
                 </h1>
                 <p className="text-xl text-secondary max-w-2xl mx-auto">
