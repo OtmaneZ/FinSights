@@ -24,12 +24,6 @@ const config: Config = {
                 'border-default': 'var(--border-default)',
                 'border-strong': 'var(--border-strong)',
 
-                // Design System - Text
-                'primary': 'var(--text-primary)',
-                'secondary': 'var(--text-secondary)',
-                'tertiary': 'var(--text-tertiary)',
-                'disabled': 'var(--text-disabled)',
-
                 // Design System - Surfaces
                 'surface': 'var(--surface-elevated)',
 
