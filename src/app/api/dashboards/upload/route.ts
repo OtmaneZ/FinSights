@@ -5,6 +5,7 @@
 
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import { put } from '@vercel/blob';
 import { prisma } from '@/lib/prisma';
 import { checkRateLimitKV } from '@/lib/rateLimit';
@@ -14,7 +15,7 @@ import { checkRateLimitKV } from '@/lib/rateLimit';
 export async function POST(req: Request) {
     try {
         // Auth check
-        const session = await getServerSession();
+        const session = await getServerSession(authOptions);
         if (!session?.user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
