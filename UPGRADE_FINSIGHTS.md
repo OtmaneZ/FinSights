@@ -67,14 +67,31 @@
 
 - B4. API REST v1 publique (8h)
 - B5. Webhooks System (4h)
-- B8. Email Templates (3h) - Resend ready
+- ~~B8. Email Templates (3h)~~ ✅ **DONE** - Resend + 4 templates
 - B9. Analytics (4h) - Posthog
 - A5. Changelog page (2h)
 - A6. Blog + 4 articles SEO (12h)
 - A9. Calculateurs (DSO, BFR) (4h)
 - B7. Zapier integration (6h)
 
-**Score actuel** : 13.5/10 technique → **9/10 commercial** 🚀
+### ✅ EMAILS - 100% OPERATIONNEL ✅
+
+**Livré ce soir (28 nov) :**
+
+- ✅ **WelcomeEmail** : Onboarding avec features + CTA dashboard (trigger: signup)
+- ✅ **UpgradeSuccessEmail** : Confirmation PRO/SCALE + billing details (trigger: checkout.completed)
+- ✅ **PaymentFailedEmail** : Alert échec paiement + 7 jours grace period (trigger: invoice.payment_failed)
+- ✅ **UsageAlertEmail** : Quota 80%/90% + upgrade suggestions (trigger: rate limit)
+
+**Stack :**
+
+- Resend API + React Email components
+- Design corporate (blanc #f0f2f5 + bleu #0078d4)
+- 4 templates professionnels avec French copy
+- Non-blocking: tous les emails en `.catch()` pour résilience
+- Test script: `tsx scripts/test-emails.ts`
+
+**Score actuel** : 13.5/10 technique → **9.5/10 commercial** 🚀
 
 **🎯 PRODUIT 100% FACTURABLE** : Authentification + Paiement + Storage + Rate Limiting = COMPLET
 
