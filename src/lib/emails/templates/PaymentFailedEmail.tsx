@@ -37,7 +37,7 @@ export const PaymentFailedEmail = ({
                 {/* Logo & Header */}
                 <Section style={logoSection}>
                     <Img
-                        src="https://finsight.zineinsight.com/icon.svg"
+                        src="https://finsight.zineinsight.com/images/zineinsights_logo.jpeg"
                         width="48"
                         height="48"
                         alt="FinSight"
