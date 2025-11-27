@@ -9,11 +9,7 @@ import { put } from '@vercel/blob';
 import { prisma } from '@/lib/prisma';
 import { checkRateLimitKV } from '@/lib/rateLimit';
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
+// Next.js 14 App Router handles FormData/multipart natively, no config needed
 
 export async function POST(req: Request) {
     try {
