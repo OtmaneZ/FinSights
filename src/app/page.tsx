@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import {
     Sparkles,
     TrendingUp,
@@ -9,53 +8,17 @@ import {
     Users,
     FileBarChart,
     Upload,
-    Github,
-    Linkedin,
     ExternalLink
 } from 'lucide-react'
 import FeaturesCarousel from '@/components/FeaturesCarousel'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import Testimonials from '@/components/Testimonials'
 
 export default function Home() {
     return (
         <div className="min-h-screen bg-bg-primary text-text-primary font-sans">
-            {/* Header */}
-            <header className="border-b border-border-subtle backdrop-blur-sm bg-bg-primary/80 sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                        <img
-                            src="/images/zineinsights_logo.jpeg"
-                            alt="FinSight"
-                            className="w-10 h-10 rounded-lg"
-                        />
-                        <span className="text-xl font-semibold">FinSight</span>
-                    </Link>
-                    <nav className="hidden md:flex items-center gap-8">
-                        <Link href="/dashboard" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
-                            Démo Live
-                        </Link>
-                        <Link href="/services" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
-                            Nos Offres
-                        </Link>
-                        <a
-                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium flex items-center gap-2"
-                        >
-                            <Linkedin className="w-4 h-4" />
-                            LinkedIn
-                        </a>
-                        <a
-                            href="https://calendly.com/zineinsight"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-6 py-2.5 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
-                        >
-                            Discutons
-                        </a>
-                    </nav>
-                </div>
-            </header>
+            <Header />
 
             {/* Hero Section */}
             <section className="relative max-w-5xl mx-auto px-6 pt-32 pb-40 text-center">
@@ -209,63 +172,10 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Footer */}
-            <footer className="border-t border-border-subtle py-12">
-                <div className="max-w-6xl mx-auto px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-                        <div className="flex items-center gap-3">
-                            <img
-                                src="/images/zineinsights_logo.jpeg"
-                                alt="FinSight"
-                                className="w-8 h-8 rounded-lg"
-                            />
-                            <div>
-                                <div className="text-lg font-semibold">FinSight</div>
-                                <div className="text-xs text-text-tertiary">by Otmane Boulahia</div>
-                            </div>
-                        </div>
+            {/* Testimonials Section */}
+            <Testimonials />
 
-                        <div className="flex items-center gap-8">
-                            <Link href="/dashboard" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
-                                Démo Live
-                            </Link>
-                            <a
-                                href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2 text-sm"
-                            >
-                                <Linkedin className="w-4 h-4" />
-                                LinkedIn
-                            </a>
-                            <a
-                                href="https://github.com/OtmaneZ/FinSights"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2 text-sm"
-                            >
-                                <Github className="w-4 h-4" />
-                                GitHub
-                            </a>
-                            <a
-                                href="https://calendly.com/zineinsight"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-text-secondary hover:text-text-primary transition-colors text-sm"
-                            >
-                                Contact
-                            </a>
-                        </div>
-                    </div>
-
-                    <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-text-tertiary">
-                        <p>
-                            © 2025 Otmane Boulahia •
-                            <a href="https://www.zineinsight.com" className="hover:text-text-secondary transition-colors ml-1">ZineInsight</a>
-                        </p>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     )
 }

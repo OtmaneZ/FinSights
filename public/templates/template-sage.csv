@@ -1,0 +1,8 @@
+Date,Montant,Type,Contrepartie,Catégorie,Description,DateEchéance
+01/11/2024,15000,income,Client A,Vente,Facture #2024-001,30/11/2024
+05/11/2024,-3500,expense,Fournisseur B,Salaires,Salaire novembre,05/11/2024
+10/11/2024,8500,income,Client C,Vente,Facture #2024-002,10/12/2024
+15/11/2024,-1200,expense,EDF Pro,Charges fixes,Électricité novembre,15/11/2024
+20/11/2024,22000,income,Client D,Vente,Facture #2024-003,20/12/2024
+25/11/2024,-4500,expense,Fournisseur E,Services externes,Prestation consulting,25/11/2024
+30/11/2024,-800,expense,SFR Business,Charges fixes,Téléphonie novembre,30/11/2024

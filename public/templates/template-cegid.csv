@@ -1,0 +1,8 @@
+Date,Montant,Type,Contrepartie,Catégorie,Description,DateEchéance
+01/11/2024,18000,income,Société Générale,Prestations,Développement API,30/11/2024
+03/11/2024,-5000,expense,Talents IT,Salaires,Salaires développeurs,03/11/2024
+07/11/2024,12500,income,BNP Paribas,Prestations,Formation équipe,07/12/2024
+12/11/2024,-2000,expense,OVH Cloud,Infrastructure,Serveurs cloud novembre,12/11/2024
+18/11/2024,25000,income,Crédit Agricole,Prestations,Audit sécurité,18/12/2024
+22/11/2024,-1500,expense,Adobe,Licences,Creative Cloud équipe,22/11/2024
+28/11/2024,-800,expense,WeWork,Locaux,Coworking novembre,28/11/2024

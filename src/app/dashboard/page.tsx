@@ -1,5 +1,6 @@
 import FinancialDashboardV2 from '@/components/FinancialDashboardV2'
 import CTAFixed from '@/components/CTAFixed'
+import TutorialButton from '@/components/TutorialButton'
 import Link from 'next/link'
 import { Linkedin } from 'lucide-react'
 
@@ -51,6 +52,9 @@ export default function DashboardPage() {
             <div className="pt-4">
                 <FinancialDashboardV2 />
             </div>
+
+            {/* Tutorial Button */}
+            <TutorialButton />
 
             {/* CTA Fixe */}
             <CTAFixed />

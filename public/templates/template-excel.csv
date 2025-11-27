@@ -1,0 +1,8 @@
+Date,Montant,Type,Contrepartie,Catégorie,Description,DateEchéance
+01/11/2024,20000,income,Client entreprise,Revenus,Vente produits/services,30/11/2024
+05/11/2024,-5000,expense,Employés,Salaires,Masse salariale,05/11/2024
+10/11/2024,15000,income,Client PME,Revenus,Consulting,10/12/2024
+15/11/2024,-2000,expense,Fournisseur,Achats,Matières premières,15/11/2024
+20/11/2024,10000,income,Client startup,Revenus,Abonnement annuel,20/12/2024
+25/11/2024,-1500,expense,Prestataires,Services,Maintenance IT,25/11/2024
+30/11/2024,-800,expense,Charges,Fixes,Loyer + charges,30/11/2024

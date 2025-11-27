@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import TemplateDownload from './TemplateDownload'
 
 interface EmptyDashboardStateProps {
     onDemoLoad: (scenario: 'saine' | 'difficulte' | 'croissance') => void
@@ -284,6 +285,17 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                         </div>
                     </div>
                 )}
+
+                {/* Templates Download Section - Sous l'upload */}
+                <div className="mt-16">
+                    <div className="text-center mb-8">
+                        <h3 className="text-2xl font-bold mb-3">Pas de fichier prêt ?</h3>
+                        <p className="text-text-secondary">
+                            Téléchargez un template compatible avec votre logiciel comptable
+                        </p>
+                    </div>
+                    <TemplateDownload />
+                </div>
             </div>
         </>
     )

@@ -1,0 +1,119 @@
+// FinSight - Prisma Schema
+// Database: PostgreSQL (Vercel Postgres)
+// ORM: Prisma Client
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MODEL - Authentification & Plans
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String   // bcrypt hash (10 rounds)
+  plan      Plan     @default(FREE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  companies  Company[]
+  dashboards Dashboard[]
+  apiKeys    ApiKey[]
+
+  // Stripe Integration
+  stripeCustomerId       String?   @unique
+  stripeSubscriptionId   String?   @unique
+  stripePriceId          String?
+  stripeCurrentPeriodEnd DateTime?
+
+  @@index([email])
+  @@map("users")
+}
+
+// ============================================
+// COMPANY MODEL - Multi-entreprises
+// ============================================
+
+model Company {
+  id     String  @id @default(cuid())
+  name   String
+  sector String? // services, commerce, industrie, saas
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  dashboards Dashboard[]
+  createdAt  DateTime    @default(now())
+
+  @@index([userId])
+  @@map("companies")
+}
+
+// ============================================
+// DASHBOARD MODEL - Fichiers uploadés
+// ============================================
+
+model Dashboard {
+  id       String @id @default(cuid())
+  fileName String
+  fileUrl  String // Vercel Blob Storage URL
+
+  // Données JSON
+  rawData Json // Transactions parsées
+  kpis    Json // KPIs calculés
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("dashboards")
+}
+
+// ============================================
+// API KEY MODEL - API REST
+// ============================================
+
+model ApiKey {
+  id   String @id @default(cuid())
+  key  String @unique // Format: fsk_live_xxxxxxxxxxxxx
+  name String // "Production API", "Development"
+
+  userId   String
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastUsed DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([key])
+  @@map("api_keys")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Plan {
+  FREE
+  PRO
+  SCALE
+  ENTERPRISE
+}

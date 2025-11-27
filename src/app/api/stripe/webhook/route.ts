@@ -1,0 +1,146 @@
+/**
+ * API Route: Stripe Webhooks
+ * POST /api/stripe/webhook
+ * Gère les événements Stripe (payment success, subscription deleted, etc.)
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { headers } from 'next/headers';
+import Stripe from 'stripe';
+import { stripe, getPlanFromPriceId } from '@/lib/stripe';
+import { prisma } from '@/lib/prisma';
+
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+
+export async function POST(req: NextRequest) {
+    const body = await req.text();
+    const signature = headers().get('stripe-signature')!;
+
+    let event: Stripe.Event;
+
+    // Vérifier la signature Stripe
+    try {
+        event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    } catch (error: any) {
+        console.error('❌ Webhook signature invalide:', error.message);
+        return NextResponse.json(
+            { error: 'Webhook signature invalide' },
+            { status: 400 }
+        );
+    }
+
+    console.log(`✅ Webhook reçu: ${event.type}`);
+
+    // Gérer les événements
+    try {
+        switch (event.type) {
+            // ============================================
+            // CHECKOUT COMPLETED → Abonnement créé
+            // ============================================
+            case 'checkout.session.completed': {
+                const session = event.data.object as Stripe.Checkout.Session;
+                const userId = session.metadata?.userId;
+
+                if (!userId) {
+                    console.error('❌ userId manquant dans metadata');
+                    break;
+                }
+
+                // Récupérer les détails de l'abonnement
+                const subscription = await stripe.subscriptions.retrieve(
+                    session.subscription as string
+                );
+
+                const priceId = subscription.items.data[0].price.id;
+                const plan = getPlanFromPriceId(priceId);
+
+                // Mettre à jour l'utilisateur
+                await prisma.user.update({
+                    where: { id: userId },
+                    data: {
+                        stripeCustomerId: session.customer as string,
+                        stripeSubscriptionId: subscription.id,
+                        stripePriceId: priceId,
+                        stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                        plan,
+                    },
+                });
+
+                console.log(`✅ User ${userId} upgraded to ${plan}`);
+
+                // TODO: Envoyer email de confirmation
+                break;
+            }
+
+            // ============================================
+            // SUBSCRIPTION UPDATED → Changement de plan
+            // ============================================
+            case 'customer.subscription.updated': {
+                const subscription = event.data.object as Stripe.Subscription;
+                const stripeCustomerId = subscription.customer as string;
+
+                const priceId = subscription.items.data[0].price.id;
+                const plan = getPlanFromPriceId(priceId);
+
+                await prisma.user.updateMany({
+                    where: { stripeCustomerId },
+                    data: {
+                        stripePriceId: priceId,
+                        stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                        plan,
+                    },
+                });
+
+                console.log(`✅ Subscription updated for customer ${stripeCustomerId}`);
+                break;
+            }
+
+            // ============================================
+            // SUBSCRIPTION DELETED → Retour au plan FREE
+            // ============================================
+            case 'customer.subscription.deleted': {
+                const subscription = event.data.object as Stripe.Subscription;
+                const stripeCustomerId = subscription.customer as string;
+
+                await prisma.user.updateMany({
+                    where: { stripeCustomerId },
+                    data: {
+                        stripeSubscriptionId: null,
+                        stripePriceId: null,
+                        stripeCurrentPeriodEnd: null,
+                        plan: 'FREE',
+                    },
+                });
+
+                console.log(`✅ User downgraded to FREE (customer ${stripeCustomerId})`);
+
+                // TODO: Envoyer email "Votre abonnement a expiré"
+                break;
+            }
+
+            // ============================================
+            // INVOICE PAYMENT FAILED → Alerte utilisateur
+            // ============================================
+            case 'invoice.payment_failed': {
+                const invoice = event.data.object as Stripe.Invoice;
+                const stripeCustomerId = invoice.customer as string;
+
+                console.log(`⚠️ Payment failed for customer ${stripeCustomerId}`);
+
+                // TODO: Envoyer email "Échec de paiement"
+                break;
+            }
+
+            default:
+                console.log(`ℹ️ Unhandled event: ${event.type}`);
+        }
+
+        return NextResponse.json({ received: true });
+    } catch (error: any) {
+        console.error('❌ Erreur webhook:', error);
+        return NextResponse.json(
+            { error: error.message },
+            { status: 500 }
+        );
+    }
+}

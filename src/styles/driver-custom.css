@@ -1,0 +1,96 @@
+/* ============================================
+   DRIVER.JS CUSTOM THEME - FINSIGHT STYLE
+   ============================================ */
+
+/* Override driver.js default styles */
+.driver-popover {
+    background: var(--surface-elevated) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: 12px !important;
+    box-shadow: var(--shadow-2xl) !important;
+    padding: 0 !important;
+}
+
+.driver-popover-title {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    padding: 20px 20px 12px 20px !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.driver-popover-description {
+    color: var(--text-secondary) !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    padding: 16px 20px !important;
+}
+
+.driver-popover-footer {
+    background: transparent !important;
+    padding: 12px 20px 20px 20px !important;
+    border-top: 1px solid var(--border-subtle) !important;
+}
+
+.driver-popover-progress-text {
+    color: var(--text-tertiary) !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+.driver-popover-btn {
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s !important;
+}
+
+.driver-popover-next-btn {
+    background: var(--accent-gold) !important;
+    color: white !important;
+    border: none !important;
+}
+
+.driver-popover-next-btn:hover {
+    background: var(--accent-gold-hover) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.driver-popover-prev-btn {
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border-default) !important;
+}
+
+.driver-popover-prev-btn:hover {
+    background: var(--surface-hover) !important;
+    border-color: var(--border-strong) !important;
+    color: var(--text-primary) !important;
+}
+
+.driver-popover-close-btn {
+    color: var(--text-tertiary) !important;
+}
+
+.driver-popover-close-btn:hover {
+    color: var(--text-primary) !important;
+}
+
+/* Highlighted element */
+.driver-active-element {
+    outline: 3px solid var(--accent-gold) !important;
+    border-radius: 8px !important;
+}
+
+/* Overlay */
+.driver-overlay {
+    background: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(2px) !important;
+}
+
+/* Arrow */
+.driver-popover-arrow {
+    border-color: var(--surface-elevated) !important;
+}

@@ -1,0 +1,8 @@
+Date,Montant,Type,Contrepartie,Catégorie,Description,DateEchéance
+02/11/2024,9500,income,Amazon France,Ventes,Commissions marketplace,02/12/2024
+06/11/2024,-3200,expense,Stock Logistique,Achats,Stock produits,06/11/2024
+11/11/2024,14000,income,Cdiscount,Ventes,Commissions novembre,11/12/2024
+16/11/2024,-2500,expense,Colissimo Pro,Logistique,Expéditions novembre,16/11/2024
+21/11/2024,18500,income,Fnac,Ventes,Commissions,21/12/2024
+26/11/2024,-4000,expense,Fournisseur Chine,Achats,Nouvelle collection,26/11/2024
+29/11/2024,-600,expense,Stripe,Frais bancaires,Commissions paiements,29/11/2024
