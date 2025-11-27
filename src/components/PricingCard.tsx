@@ -31,11 +31,11 @@ export default function PricingCard({
     return (
         <div className={`
             relative surface rounded-2xl p-8
-            ${highlight ? 'ring-2 ring-accent-gold shadow-2xl scale-105' : 'surface-hover'}
+            ${highlight ? 'ring-2 ring-accent-primary shadow-2xl scale-105' : 'surface-hover'}
             transition-all duration-300 hover:scale-105
         `}>
             {popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent-gold rounded-full text-xs font-bold text-white">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent-primary rounded-full text-xs font-bold text-white">
                     POPULAIRE
                 </div>
             )}
@@ -50,14 +50,14 @@ export default function PricingCard({
                     ) : (
                         <>
                             <span className="text-5xl font-bold">{displayPrice}€</span>
-                            <span className="text-text-secondary text-sm">
+                            <span className="text-secondary text-sm">
                                 {billingPeriod === 'yearly' ? '/an' : '/mois'}
                             </span>
                         </>
                     )}
                 </div>
                 {monthlyEquivalent && (
-                    <p className="text-sm text-text-tertiary mt-1">
+                    <p className="text-sm text-tertiary mt-1">
                         Soit {monthlyEquivalent}€/mois
                     </p>
                 )}
@@ -68,8 +68,8 @@ export default function PricingCard({
                 className={`
                     w-full py-3 rounded-lg font-semibold text-sm transition-all mb-8
                     ${highlight
-                        ? 'bg-accent-gold hover:bg-accent-gold-hover text-white shadow-lg hover:shadow-xl'
-                        : 'border-2 border-border-default hover:border-accent-gold-border text-text-primary hover:bg-surface-elevated'
+                        ? 'bg-accent-primary hover:bg-accent-primary-hover text-white shadow-lg hover:shadow-xl'
+                        : 'border-2 border-border-default hover:border-accent-primary-border text-primary hover:bg-surface-elevated'
                     }
                 `}
             >
@@ -88,7 +88,7 @@ export default function PricingCard({
                             ) : (
                                 <div className="w-5 h-5 flex-shrink-0 mt-0.5 text-text-disabled">✕</div>
                             )}
-                            <span className={`text-sm ${isIncluded ? 'text-text-primary' : 'text-text-tertiary'}`}>
+                            <span className={`text-sm ${isIncluded ? 'text-primary' : 'text-tertiary'}`}>
                                 {cleanFeature}
                             </span>
                         </li>

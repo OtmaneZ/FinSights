@@ -100,15 +100,15 @@ function FAQAccordionItem({ item, isOpen, onToggle }: FAQAccordionItemProps) {
                 onClick={onToggle}
                 className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-surface-hover transition-colors"
             >
-                <span className="font-semibold text-text-primary pr-4">{item.question}</span>
+                <span className="font-semibold text-primary pr-4">{item.question}</span>
                 <ChevronDown
-                    className={`w-5 h-5 text-accent-gold flex-shrink-0 transition-transform ${
+                    className={`w-5 h-5 text-accent-primary flex-shrink-0 transition-transform ${
                         isOpen ? 'rotate-180' : ''
                     }`}
                 />
             </button>
             {isOpen && (
-                <div className="px-6 pb-5 text-text-secondary text-sm leading-relaxed border-t border-border-subtle">
+                <div className="px-6 pb-5 text-secondary text-sm leading-relaxed border-t border-border-subtle">
                     <p className="pt-4">{item.answer}</p>
                 </div>
             )}
@@ -147,13 +147,13 @@ export default function FAQAccordion() {
         <div>
             {/* Search Bar */}
             <div className="relative mb-12">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary" />
                 <input
                     type="text"
                     placeholder="Rechercher une question..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 surface rounded-xl border-2 border-border-default focus:border-accent-gold-border outline-none text-text-primary placeholder-text-tertiary transition-colors"
+                    className="w-full pl-12 pr-4 py-4 surface rounded-xl border-2 border-border-default focus:border-accent-primary-border outline-none text-primary placeholder-text-tertiary transition-colors"
                 />
             </div>
 
@@ -178,12 +178,12 @@ export default function FAQAccordion() {
 
             {filteredData.length === 0 && (
                 <div className="text-center py-12">
-                    <p className="text-text-secondary">
+                    <p className="text-secondary">
                         Aucune question trouvée pour "{searchQuery}"
                     </p>
                     <button
                         onClick={() => setSearchQuery('')}
-                        className="mt-4 text-accent-gold hover:text-accent-gold-hover transition-colors"
+                        className="mt-4 text-accent-primary hover:text-accent-primary-hover transition-colors"
                     >
                         Réinitialiser la recherche
                     </button>

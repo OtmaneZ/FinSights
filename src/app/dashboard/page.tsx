@@ -6,9 +6,9 @@ import { Linkedin } from 'lucide-react'
 
 export default function DashboardPage() {
     return (
-        <main className="min-h-screen bg-bg-primary text-text-primary">
+        <main className="min-h-screen bg-primary text-primary">
             {/* Header - Aligned with Homepage */}
-            <header className="border-b border-border-subtle backdrop-blur-sm bg-bg-primary/80 sticky top-0 z-50">
+            <header className="border-b border-border-subtle backdrop-blur-sm bg-primary/80 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                         <img
@@ -18,21 +18,21 @@ export default function DashboardPage() {
                         />
                         <div>
                             <span className="text-xl font-semibold">FinSight</span>
-                            <span className="text-xs text-text-tertiary ml-2">Dashboard</span>
+                            <span className="text-xs text-tertiary ml-2">Dashboard</span>
                         </div>
                     </Link>
                     <nav className="hidden md:flex items-center gap-8">
-                        <Link href="/" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
+                        <Link href="/" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                             Accueil
                         </Link>
-                        <Link href="/services" className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium">
+                        <Link href="/services" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                             Nos Offres
                         </Link>
                         <a
                             href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium flex items-center gap-2"
+                            className="text-secondary hover:text-primary transition-colors text-sm font-medium flex items-center gap-2"
                         >
                             <Linkedin className="w-4 h-4" />
                             LinkedIn
@@ -41,7 +41,7 @@ export default function DashboardPage() {
                             href="https://calendly.com/zineinsight"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-6 py-2.5 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
+                            className="px-6 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
                         >
                             Discutons
                         </a>
@@ -60,7 +60,7 @@ export default function DashboardPage() {
             <CTAFixed />
 
             {/* Footer - Aligned with Homepage */}
-            <footer className="border-t border-border-subtle py-12 bg-bg-primary">
+            <footer className="border-t border-border-subtle py-12 bg-primary">
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                         <div className="flex items-center gap-3">
@@ -71,22 +71,22 @@ export default function DashboardPage() {
                             />
                             <div>
                                 <div className="text-lg font-semibold">FinSight</div>
-                                <div className="text-xs text-text-tertiary">by Otmane Boulahia</div>
+                                <div className="text-xs text-tertiary">by Otmane Boulahia</div>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-8">
-                            <Link href="/" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
+                            <Link href="/" className="text-secondary hover:text-primary transition-colors text-sm">
                                 Accueil
                             </Link>
-                            <Link href="/services" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
+                            <Link href="/services" className="text-secondary hover:text-primary transition-colors text-sm">
                                 Nos Offres
                             </Link>
                             <a
                                 href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2 text-sm"
+                                className="text-secondary hover:text-primary transition-colors flex items-center gap-2 text-sm"
                             >
                                 <Linkedin className="w-4 h-4" />
                                 LinkedIn
@@ -95,17 +95,17 @@ export default function DashboardPage() {
                                 href="https://calendly.com/zineinsight"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-text-secondary hover:text-text-primary transition-colors text-sm"
+                                className="text-secondary hover:text-primary transition-colors text-sm"
                             >
                                 Contact
                             </a>
                         </div>
                     </div>
 
-                    <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-text-tertiary">
+                    <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-tertiary">
                         <p>
                             © 2025 Otmane Boulahia •
-                            <a href="https://www.zineinsight.com" className="hover:text-text-secondary transition-colors ml-1">ZineInsight</a>
+                            <a href="https://www.zineinsight.com" className="hover:text-secondary transition-colors ml-1">ZineInsight</a>
                         </p>
                     </div>
                 </div>

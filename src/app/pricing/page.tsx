@@ -93,18 +93,18 @@ export default function PricingPage() {
     ]
 
     return (
-        <div className="min-h-screen bg-bg-primary text-text-primary font-sans">
+        <div className="min-h-screen bg-primary text-primary font-sans">
             <Header />
 
             {/* Hero Section */}
             <section className="max-w-6xl mx-auto px-6 pt-20 pb-12 text-center">
-                <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-accent-gold via-white to-accent-gold bg-clip-text text-transparent">
+                <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-accent-primary via-white to-accent-primary bg-clip-text text-transparent">
                     Choisissez votre plan
                 </h1>
-                <p className="text-xl text-text-secondary max-w-2xl mx-auto mb-4">
+                <p className="text-xl text-secondary max-w-2xl mx-auto mb-4">
                     Des tarifs transparents pour chaque étape de votre croissance
                 </p>
-                <p className="text-sm text-text-tertiary">
+                <p className="text-sm text-tertiary">
                     Pas d'engagement • Annulation à tout moment • Support en français
                 </p>
             </section>
@@ -146,31 +146,31 @@ export default function PricingPage() {
                 <div className="space-y-6">
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">Puis-je changer de plan à tout moment ?</h3>
-                        <p className="text-text-secondary text-sm">
+                        <p className="text-secondary text-sm">
                             Oui, vous pouvez upgrader immédiatement. Pour un downgrade, il prend effet à la fin de la période en cours.
                         </p>
                     </div>
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">Mes données sont-elles sécurisées ?</h3>
-                        <p className="text-text-secondary text-sm">
+                        <p className="text-secondary text-sm">
                             Absolument. Chiffrement SSL, hébergement EU (Vercel), conformité RGPD. En version gratuite, les données restent en local uniquement.
                         </p>
                     </div>
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">Quels formats de fichiers acceptez-vous ?</h3>
-                        <p className="text-text-secondary text-sm">
+                        <p className="text-secondary text-sm">
                             CSV et Excel (.xlsx, .xls). Nous fournissons des templates pour Sage, Cegid, QuickBooks et Excel générique.
                         </p>
                     </div>
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">L'IA GPT-4 a-t-elle accès à mes données ?</h3>
-                        <p className="text-text-secondary text-sm">
+                        <p className="text-secondary text-sm">
                             Oui, mais uniquement en contexte chiffré pour répondre à vos questions. Vos données ne sont jamais stockées chez OpenAI.
                         </p>
                     </div>
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">Proposez-vous des réductions pour les ONG ou éducation ?</h3>
-                        <p className="text-text-secondary text-sm">
+                        <p className="text-secondary text-sm">
                             Oui, contactez-nous pour un tarif adapté aux organisations à but non lucratif et établissements d'enseignement.
                         </p>
                     </div>
@@ -181,13 +181,13 @@ export default function PricingPage() {
             <section className="max-w-4xl mx-auto px-6 pb-32 text-center">
                 <div className="surface rounded-2xl p-12">
                     <h2 className="text-3xl font-bold mb-4">Prêt à transformer votre analyse financière ?</h2>
-                    <p className="text-text-secondary mb-8">
+                    <p className="text-secondary mb-8">
                         Rejoignez les DAF modernes qui automatisent leur reporting
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <a
                             href="/dashboard"
-                            className="px-8 py-4 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold transition-all hover:shadow-xl"
+                            className="px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all hover:shadow-xl"
                         >
                             Essayer gratuitement
                         </a>
@@ -195,7 +195,7 @@ export default function PricingPage() {
                             href="https://calendly.com/zineinsight"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-8 py-4 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold transition-all hover:bg-surface-elevated"
+                            className="px-8 py-4 border-2 border-border-default hover:border-accent-primary-border text-primary rounded-lg font-semibold transition-all hover:bg-surface-elevated"
                         >
                             Planifier une démo
                         </a>

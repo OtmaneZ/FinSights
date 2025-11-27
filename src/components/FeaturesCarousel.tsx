@@ -101,7 +101,7 @@ export default function FeaturesCarousel() {
                 <h2 className="text-4xl md:text-5xl font-bold mb-4">
                     Fonctionnalités Clés
                 </h2>
-                <p className="text-xl text-text-secondary">
+                <p className="text-xl text-secondary">
                     Découvrez tout ce que FinSight peut faire pour votre analyse financière
                 </p>
             </div>
@@ -122,24 +122,24 @@ export default function FeaturesCarousel() {
 
                         {/* Right: Text Content */}
                         <div className="p-8 md:p-12 flex flex-col justify-center">
-                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-gold-subtle border border-accent-gold-border rounded-full mb-6 w-fit">
-                                <span className="text-accent-gold text-sm font-medium">{slide.badge}</span>
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-6 w-fit">
+                                <span className="text-accent-primary text-sm font-medium">{slide.badge}</span>
                             </div>
 
                             <h3 className="text-3xl md:text-4xl font-bold mb-4">
                                 {slide.title}
                             </h3>
 
-                            <p className="text-lg text-text-secondary mb-8">
+                            <p className="text-lg text-secondary mb-8">
                                 {slide.description}
                             </p>
 
                             {/* Slide Progress */}
-                            <div className="flex items-center gap-2 text-sm text-text-tertiary">
+                            <div className="flex items-center gap-2 text-sm text-tertiary">
                                 <span className="font-mono">{String(currentSlide + 1).padStart(2, '0')}</span>
                                 <div className="flex-1 h-1 bg-border-subtle rounded-full overflow-hidden">
                                     <div
-                                        className="h-full bg-accent-gold transition-all duration-300"
+                                        className="h-full bg-accent-primary transition-all duration-300"
                                         style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
                                     />
                                 </div>
@@ -152,18 +152,18 @@ export default function FeaturesCarousel() {
                 {/* Navigation Arrows */}
                 <button
                     onClick={goToPrevious}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-elevated border border-border-subtle hover:border-accent-gold hover:bg-accent-gold-subtle transition-all flex items-center justify-center group"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-elevated border border-border-subtle hover:border-accent-primary hover:bg-accent-primary-subtle transition-all flex items-center justify-center group"
                     aria-label="Slide précédent"
                 >
-                    <ChevronLeft className="w-6 h-6 text-text-secondary group-hover:text-accent-gold" />
+                    <ChevronLeft className="w-6 h-6 text-secondary group-hover:text-accent-primary" />
                 </button>
 
                 <button
                     onClick={goToNext}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-elevated border border-border-subtle hover:border-accent-gold hover:bg-accent-gold-subtle transition-all flex items-center justify-center group"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-surface-elevated border border-border-subtle hover:border-accent-primary hover:bg-accent-primary-subtle transition-all flex items-center justify-center group"
                     aria-label="Slide suivant"
                 >
-                    <ChevronRight className="w-6 h-6 text-text-secondary group-hover:text-accent-gold" />
+                    <ChevronRight className="w-6 h-6 text-secondary group-hover:text-accent-primary" />
                 </button>
 
                 {/* Dots Navigation */}
@@ -173,7 +173,7 @@ export default function FeaturesCarousel() {
                             key={index}
                             onClick={() => goToSlide(index)}
                             className={`h-2 rounded-full transition-all ${index === currentSlide
-                                ? 'w-8 bg-accent-gold'
+                                ? 'w-8 bg-accent-primary'
                                 : 'w-2 bg-border-subtle hover:bg-border-default'
                                 }`}
                             aria-label={`Aller au slide ${index + 1}`}
@@ -184,7 +184,7 @@ export default function FeaturesCarousel() {
                 {/* Auto-play indicator */}
                 {isAutoPlaying && (
                     <div className="text-center mt-4">
-                        <span className="text-xs text-text-tertiary">
+                        <span className="text-xs text-tertiary">
                             ⏱️ Défilement automatique actif
                         </span>
                     </div>

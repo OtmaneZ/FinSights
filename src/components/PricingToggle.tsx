@@ -10,7 +10,7 @@ interface PricingToggleProps {
 export default function PricingToggle({ value, onChange }: PricingToggleProps) {
     return (
         <div className="flex items-center justify-center gap-3 mb-12">
-            <span className={`text-sm font-medium ${value === 'monthly' ? 'text-text-primary' : 'text-text-secondary'}`}>
+            <span className={`text-sm font-medium ${value === 'monthly' ? 'text-primary' : 'text-secondary'}`}>
                 Mensuel
             </span>
             
@@ -18,7 +18,7 @@ export default function PricingToggle({ value, onChange }: PricingToggleProps) {
                 onClick={() => onChange(value === 'monthly' ? 'yearly' : 'monthly')}
                 className={`
                     relative w-14 h-7 rounded-full transition-all duration-300
-                    ${value === 'yearly' ? 'bg-accent-gold' : 'bg-surface-elevated border-2 border-border-default'}
+                    ${value === 'yearly' ? 'bg-accent-primary' : 'bg-surface-elevated border-2 border-border-default'}
                 `}
             >
                 <div className={`
@@ -27,7 +27,7 @@ export default function PricingToggle({ value, onChange }: PricingToggleProps) {
                 `} />
             </button>
             
-            <span className={`text-sm font-medium ${value === 'yearly' ? 'text-text-primary' : 'text-text-secondary'}`}>
+            <span className={`text-sm font-medium ${value === 'yearly' ? 'text-primary' : 'text-secondary'}`}>
                 Annuel
             </span>
             

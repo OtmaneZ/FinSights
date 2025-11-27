@@ -16,25 +16,25 @@ export default function Footer() {
                         />
                         <div>
                             <div className="text-lg font-semibold">FinSight</div>
-                            <div className="text-xs text-text-tertiary">by Otmane Boulahia</div>
+                            <div className="text-xs text-tertiary">by Otmane Boulahia</div>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-8">
-                        <Link href="/dashboard" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
+                        <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-sm">
                             Démo Live
                         </Link>
-                        <Link href="/pricing" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
+                        <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm">
                             Tarifs
                         </Link>
-                        <Link href="/faq" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
+                        <Link href="/faq" className="text-secondary hover:text-primary transition-colors text-sm">
                             FAQ
                         </Link>
                         <a
                             href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2 text-sm"
+                            className="text-secondary hover:text-primary transition-colors flex items-center gap-2 text-sm"
                         >
                             <Linkedin className="w-4 h-4" />
                             LinkedIn
@@ -43,7 +43,7 @@ export default function Footer() {
                             href="https://github.com/OtmaneZ/FinSights"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-text-secondary hover:text-text-primary transition-colors flex items-center gap-2 text-sm"
+                            className="text-secondary hover:text-primary transition-colors flex items-center gap-2 text-sm"
                         >
                             <Github className="w-4 h-4" />
                             GitHub
@@ -52,17 +52,17 @@ export default function Footer() {
                             href="https://calendly.com/zineinsight"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-text-secondary hover:text-text-primary transition-colors text-sm"
+                            className="text-secondary hover:text-primary transition-colors text-sm"
                         >
                             Contact
                         </a>
                     </div>
                 </div>
 
-                <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-text-tertiary">
+                <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-tertiary">
                     <p>
                         © 2025 Otmane Boulahia •
-                        <a href="https://www.zineinsight.com" className="hover:text-text-secondary transition-colors ml-1">ZineInsight</a>
+                        <a href="https://www.zineinsight.com" className="hover:text-secondary transition-colors ml-1">ZineInsight</a>
                     </p>
                 </div>
             </div>

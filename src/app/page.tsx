@@ -20,7 +20,7 @@ import Testimonials from '@/components/Testimonials'
 
 export default function Home() {
     return (
-        <div className="min-h-screen bg-bg-primary text-text-primary font-sans">
+        <div className="min-h-screen bg-primary text-primary font-sans">
             <Header />
 
             {/* Hero Section */}
@@ -31,12 +31,12 @@ export default function Home() {
                         <span className="text-accent-primary text-sm font-semibold">Analyse Financière • Performance en Temps Réel</span>
                     </div>
 
-                    <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight leading-tight text-text-primary">
+                    <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight leading-tight text-primary">
                         Dashboard Financier<br />
                         <span className="text-accent-primary">pour DAF & CFO</span>
                     </h1>
 
-                    <p className="text-xl text-text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
+                    <p className="text-xl text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
                         Analyse temps réel • AI Copilot conversationnel • Export automatisé
                     </p>
 
@@ -49,14 +49,14 @@ export default function Home() {
                         </Link>
                         <Link
                             href="/services"
-                            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-accent-primary text-text-primary rounded-lg font-semibold text-base transition-all hover:bg-surface-elevated"
+                            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold text-base transition-all hover:bg-surface-elevated"
                         >
                             Voir nos offres
                             <ExternalLink className="w-5 h-5" />
                         </Link>
                     </div>
 
-                    <p className="text-sm text-text-tertiary mt-8">
+                    <p className="text-sm text-tertiary mt-8">
                         3 scénarios réalistes : PME Services • Startup SaaS • Scale-up Tech
                     </p>
                 </div>
@@ -67,13 +67,13 @@ export default function Home() {
 
             {/* Features Grid */}
             <section className="max-w-6xl mx-auto px-6 pb-24">
-                <h2 className="text-2xl font-bold text-center mb-10 text-text-primary">Fonctionnalités</h2>
+                <h2 className="text-2xl font-bold text-center mb-10 text-primary">Fonctionnalités</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {/* Feature 1 - Import CSV/Excel */}
                     <div className="surface rounded-xl p-6 surface-hover group">
                         <Upload className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-text-primary">Import CSV/Excel</h3>
-                        <p className="text-text-secondary text-sm leading-relaxed">
+                        <h3 className="text-lg font-semibold mb-2 text-primary">Import CSV/Excel</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
                             Drag & drop fichiers, parsing auto, 15+ KPIs calculés en temps réel
                         </p>
                     </div>
@@ -81,8 +81,8 @@ export default function Home() {
                     {/* Feature 2 - AI Copilot */}
                     <div className="surface rounded-xl p-6 surface-hover group">
                         <Sparkles className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-text-primary">AI Copilot</h3>
-                        <p className="text-text-secondary text-sm leading-relaxed">
+                        <h3 className="text-lg font-semibold mb-2 text-primary">AI Copilot</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
                             Interrogez vos données en langage naturel avec GPT-4o et Pinecone
                         </p>
                     </div>
@@ -90,8 +90,8 @@ export default function Home() {
                     {/* Feature 3 - D3.js Charts */}
                     <div className="surface rounded-xl p-6 surface-hover group">
                         <TrendingUp className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-text-primary">D3.js Charts</h3>
-                        <p className="text-text-secondary text-sm leading-relaxed">
+                        <h3 className="text-lg font-semibold mb-2 text-primary">D3.js Charts</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
                             Visualisations premium : Sankey flows, Sunburst, drill-down 3 niveaux
                         </p>
                     </div>
@@ -99,8 +99,8 @@ export default function Home() {
                     {/* Feature 4 - Notifications & Collab */}
                     <div className="surface rounded-xl p-6 surface-hover group">
                         <Users className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-text-primary">Notifications & Collab</h3>
-                        <p className="text-text-secondary text-sm leading-relaxed">
+                        <h3 className="text-lg font-semibold mb-2 text-primary">Notifications & Collab</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
                             Alertes email (Resend), collaboration temps réel (Pusher), cron daily
                         </p>
                     </div>
@@ -108,17 +108,17 @@ export default function Home() {
                     {/* Feature 5 - ML Anomaly Detection */}
                     <div className="surface rounded-xl p-6 surface-hover group">
                         <Zap className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-text-primary">ML Anomaly Detection</h3>
-                        <p className="text-text-secondary text-sm leading-relaxed">
+                        <h3 className="text-lg font-semibold mb-2 text-primary">ML Anomaly Detection</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
                             3 algorithmes ML (Z-score, IQR, Moving Average) pour transactions suspectes
                         </p>
                     </div>
 
                     {/* Feature 6 - Export Pro */}
                     <div className="surface rounded-xl p-6 surface-hover group">
-                        <FileBarChart className="w-10 h-10 text-accent-gold mb-3 transition-transform group-hover:scale-110" />
+                        <FileBarChart className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
                         <h3 className="text-xl font-semibold mb-2">Export Pro</h3>
-                        <p className="text-text-secondary text-sm leading-relaxed">
+                        <p className="text-secondary text-sm leading-relaxed">
                             Génération PDF/Excel automatisée avec formules financières PCG 2025
                         </p>
                     </div>
@@ -130,7 +130,7 @@ export default function Home() {
                 <div className="surface rounded-2xl p-12 text-center">
                     <div className="mb-10">
                         <h2 className="text-3xl font-bold mb-4">Créé par Otmane Boulahia</h2>
-                        <p className="text-xl text-text-secondary mb-6">
+                        <p className="text-xl text-secondary mb-6">
                             Finance × Data × IA
                         </p>
                     </div>
@@ -149,7 +149,7 @@ export default function Home() {
                             href="https://github.com/OtmaneZ/FinSights"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-primary text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
                         >
                             <Github className="w-5 h-5" />
                             Code Source
@@ -158,7 +158,7 @@ export default function Home() {
                             href="https://calendly.com/zineinsight"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-primary text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
                         >
                             Prendre RDV
                         </a>

@@ -42,7 +42,7 @@ export default function SignInPage() {
     }
 
     return (
-        <div className="min-h-screen bg-bg-primary text-text-primary font-sans flex flex-col">
+        <div className="min-h-screen bg-primary text-primary font-sans flex flex-col">
             <Header />
 
             {/* Hero Section avec glow effect */}
@@ -50,7 +50,7 @@ export default function SignInPage() {
                 <div className="relative w-full max-w-md">
                     {/* Radial gradient glow */}
                     <div className="absolute inset-x-0 -top-40 h-96 pointer-events-none">
-                        <div className="absolute inset-0 bg-gradient-radial from-accent-gold/15 via-accent-gold/5 to-transparent blur-3xl"></div>
+                        <div className="absolute inset-0 bg-gradient-radial from-accent-primary/15 via-accent-primary/5 to-transparent blur-3xl"></div>
                     </div>
 
                     {/* Card */}
@@ -58,7 +58,7 @@ export default function SignInPage() {
                         {/* Header */}
                         <div className="text-center mb-8">
                             <h1 className="text-3xl font-bold mb-2">Connexion</h1>
-                            <p className="text-text-secondary text-sm">
+                            <p className="text-secondary text-sm">
                                 Accédez à votre dashboard financier
                             </p>
                         </div>
@@ -79,7 +79,7 @@ export default function SignInPage() {
                                     Email
                                 </label>
                                 <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary" />
                                     <input
                                         id="email"
                                         type="email"
@@ -87,7 +87,7 @@ export default function SignInPage() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="vous@exemple.com"
                                         required
-                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent-gold focus:ring-2 focus:ring-accent-gold/20 transition-all"
+                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-primary placeholder:text-tertiary focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all"
                                     />
                                 </div>
                             </div>
@@ -98,7 +98,7 @@ export default function SignInPage() {
                                     Mot de passe
                                 </label>
                                 <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary" />
                                     <input
                                         id="password"
                                         type="password"
@@ -107,7 +107,7 @@ export default function SignInPage() {
                                         placeholder="••••••••"
                                         required
                                         minLength={8}
-                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent-gold focus:ring-2 focus:ring-accent-gold/20 transition-all"
+                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-primary placeholder:text-tertiary focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all"
                                     />
                                 </div>
                             </div>
@@ -116,7 +116,7 @@ export default function SignInPage() {
                             <div className="flex justify-end">
                                 <Link
                                     href="/auth/reset-password"
-                                    className="text-sm text-accent-gold hover:text-accent-gold-hover transition-colors"
+                                    className="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors"
                                 >
                                     Mot de passe oublié ?
                                 </Link>
@@ -126,7 +126,7 @@ export default function SignInPage() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-3 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="w-full py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {isLoading ? (
                                     <>
@@ -145,7 +145,7 @@ export default function SignInPage() {
                                 <div className="w-full border-t border-border-default"></div>
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-4 bg-bg-primary text-text-tertiary">
+                                <span className="px-4 bg-primary text-tertiary">
                                     Pas encore de compte ?
                                 </span>
                             </div>
@@ -154,20 +154,20 @@ export default function SignInPage() {
                         {/* Sign Up Link */}
                         <Link
                             href="/auth/signup"
-                            className="block w-full py-3 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold transition-all hover:bg-surface-elevated text-center"
+                            className="block w-full py-3 border-2 border-border-default hover:border-accent-primary-border text-primary rounded-lg font-semibold transition-all hover:bg-surface-elevated text-center"
                         >
                             Créer un compte gratuit
                         </Link>
                     </div>
 
                     {/* Help Text */}
-                    <p className="text-center text-sm text-text-tertiary mt-6">
+                    <p className="text-center text-sm text-tertiary mt-6">
                         En vous connectant, vous acceptez nos{' '}
-                        <Link href="/legal/terms" className="text-accent-gold hover:underline">
+                        <Link href="/legal/terms" className="text-accent-primary hover:underline">
                             conditions d'utilisation
                         </Link>
                         {' '}et notre{' '}
-                        <Link href="/legal/privacy" className="text-accent-gold hover:underline">
+                        <Link href="/legal/privacy" className="text-accent-primary hover:underline">
                             politique de confidentialité
                         </Link>
                         .

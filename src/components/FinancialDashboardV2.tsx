@@ -760,18 +760,18 @@ export default function FinancialDashboardV2() {
                 {/* Animation de chargement démo */}
                 {isLoadingDemo && (
                     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
-                        <div className="w-20 h-20 border-4 border-accent-gold-border border-t-accent-gold rounded-full animate-spin"></div>
+                        <div className="w-20 h-20 border-4 border-accent-primary-border border-t-accent-primary rounded-full animate-spin"></div>
                         <div className="text-center w-full max-w-md">
                             <h3 className="text-2xl font-bold mb-2">
                                 {loadingMessage}
                             </h3>
                             <div className="w-full h-2 bg-surface-elevated rounded-full overflow-hidden mt-4">
                                 <div
-                                    className="h-full bg-gradient-to-r from-accent-gold to-accent-gold-hover rounded-full transition-all duration-300"
+                                    className="h-full bg-gradient-to-r from-accent-primary to-accent-primary-hover rounded-full transition-all duration-300"
                                     style={{ width: `${loadingProgress}%` }}
                                 ></div>
                             </div>
-                            <p className="text-sm text-text-secondary mt-3">
+                            <p className="text-sm text-secondary mt-3">
                                 {loadingProgress}% complété
                             </p>
                         </div>
@@ -816,8 +816,8 @@ export default function FinancialDashboardV2() {
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold mb-2 text-text-primary">Tableau de Bord Financier</h1>
-                        <p className="text-text-secondary text-sm">Période Actuelle • Données en temps réel</p>
+                        <h1 className="text-3xl font-bold mb-2 text-primary">Tableau de Bord Financier</h1>
+                        <p className="text-secondary text-sm">Période Actuelle • Données en temps réel</p>
                     </div>
 
                     <div className="flex flex-wrap gap-3">
@@ -841,7 +841,7 @@ export default function FinancialDashboardV2() {
 
                         <button
                             onClick={() => setShowUploadModal(true)}
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-primary-border text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
                         >
                             <Upload className="w-4 h-4" />
                             Importer Données
@@ -859,23 +859,23 @@ export default function FinancialDashboardV2() {
                         >
                             {/* Header: Titre + Variation (pattern Excel/Power BI) */}
                             <div className="flex items-start justify-between mb-3">
-                                <h3 className="text-base font-semibold text-text-primary leading-tight">
+                                <h3 className="text-base font-semibold text-primary leading-tight">
                                     {kpi.title}
                                 </h3>
                                 <span className={`text-base font-bold ml-2 flex-shrink-0 ${
                                     kpi.changeType === 'positive' ? 'text-accent-success' :
                                     kpi.changeType === 'negative' ? 'text-accent-danger' :
-                                    'text-text-secondary'
+                                    'text-secondary'
                                 }`}>
                                     {kpi.change}
                                 </span>
                             </div>
 
                             {/* Valeur principale - GROS et lisible */}
-                            <p className="text-4xl font-bold mb-2 text-text-primary">{kpi.value}</p>
+                            <p className="text-4xl font-bold mb-2 text-primary">{kpi.value}</p>
 
                             {/* Description contextuelle - lisible */}
-                            <p className="text-sm text-text-secondary mb-3 leading-relaxed">{kpi.description}</p>
+                            <p className="text-sm text-secondary mb-3 leading-relaxed">{kpi.description}</p>
 
                             {/* BenchmarkBar - Comparaison sectorielle */}
                             <BenchmarkBar
@@ -896,7 +896,7 @@ export default function FinancialDashboardV2() {
 
                 {/* 🔮 What-If Simulation Panel - Juste après KPIs pour montrer l'impact immédiat */}
                 {isDataLoaded && (
-                    <div className="mb-8 surface rounded-2xl p-8 relative overflow-hidden border-2 border-accent-gold-border/20 bg-gradient-to-br from-accent-gold-subtle/10 to-transparent">
+                    <div className="mb-8 surface rounded-2xl p-8 relative overflow-hidden border-2 border-accent-primary-border/20 bg-gradient-to-br from-accent-primary-subtle/10 to-transparent">
                         {/* Badge Mode Simulation actif */}
                         {(chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
                             <div className="absolute top-4 right-4 bg-gradient-to-r from-accent-green to-accent-green-hover rounded-full px-3 py-1.5 text-xs font-bold text-white shadow-lg animate-pulse">
@@ -907,10 +907,10 @@ export default function FinancialDashboardV2() {
                         {/* Header */}
                         <div className="flex justify-between items-center mb-8">
                             <div className="flex items-center gap-3">
-                                <Zap className="w-7 h-7 text-accent-gold" />
+                                <Zap className="w-7 h-7 text-accent-primary" />
                                 <div>
                                     <h3 className="text-2xl font-bold">Simulation What-If</h3>
-                                    <p className="text-sm text-text-secondary mt-1">
+                                    <p className="text-sm text-secondary mt-1">
                                         Mesurez l'impact en temps réel sur les KPIs ci-dessus
                                     </p>
                                 </div>
@@ -930,7 +930,7 @@ export default function FinancialDashboardV2() {
                                 )}
                                 <button
                                     onClick={() => setShowSimulation(!showSimulation)}
-                                    className="px-4 py-2 bg-accent-gold-subtle border border-accent-gold-border rounded-lg text-accent-gold font-semibold text-sm hover:bg-accent-gold-border/20 transition-all"
+                                    className="px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-lg text-accent-primary font-semibold text-sm hover:bg-accent-primary-border/20 transition-all"
                                 >
                                     {showSimulation ? '▼ Réduire' : '▶ Développer'}
                                 </button>
@@ -947,15 +947,15 @@ export default function FinancialDashboardV2() {
                                             <span className="text-2xl">💰</span>
                                             <h4 className="text-base font-bold">Optimisation charges</h4>
                                         </div>
-                                        <p className="text-xs text-text-secondary">
+                                        <p className="text-xs text-secondary">
                                             Impact sur <strong className="text-accent-green">Marge Nette</strong>
                                         </p>
                                     </div>
 
                                     <div className="mb-4">
                                         <div className="flex justify-between items-center mb-2">
-                                            <span className="text-xs text-text-secondary">Réduction</span>
-                                            <span className={`text-xl font-bold ${chargesReduction > 0 ? 'text-accent-green' : 'text-accent-gold'}`}>
+                                            <span className="text-xs text-secondary">Réduction</span>
+                                            <span className={`text-xl font-bold ${chargesReduction > 0 ? 'text-accent-green' : 'text-accent-primary'}`}>
                                                 -{chargesReduction}%
                                             </span>
                                         </div>
@@ -974,14 +974,14 @@ export default function FinancialDashboardV2() {
                                             />
                                         </div>
                                         <div className="flex justify-between mt-1">
-                                            <span className="text-xs text-text-tertiary">0%</span>
-                                            <span className="text-xs text-text-tertiary">30%</span>
+                                            <span className="text-xs text-tertiary">0%</span>
+                                            <span className="text-xs text-tertiary">30%</span>
                                         </div>
                                     </div>
 
                                     {chargesReduction > 0 && simulatedKPIs.length > 0 && (
                                         <div className="bg-accent-green-subtle border border-accent-green-border rounded-lg p-3">
-                                            <p className="text-xs text-text-secondary mb-1">Impact Marge</p>
+                                            <p className="text-xs text-secondary mb-1">Impact Marge</p>
                                             <p className="text-sm font-bold text-accent-green">
                                                 {simulatedKPIs.find(k => k.title.includes('Marge'))?.change || 'Calcul...'}
                                             </p>
@@ -996,15 +996,15 @@ export default function FinancialDashboardV2() {
                                             <span className="text-2xl">⚡</span>
                                             <h4 className="text-base font-bold">Relance créances</h4>
                                         </div>
-                                        <p className="text-xs text-text-secondary">
+                                        <p className="text-xs text-secondary">
                                             Impact sur <strong className="text-accent-blue">Cash Flow</strong>
                                         </p>
                                     </div>
 
                                     <div className="mb-4">
                                         <div className="flex justify-between items-center mb-2">
-                                            <span className="text-xs text-text-secondary">Réduction DSO</span>
-                                            <span className={`text-xl font-bold ${paiementsAcceleration > 0 ? 'text-accent-blue' : 'text-accent-gold'}`}>
+                                            <span className="text-xs text-secondary">Réduction DSO</span>
+                                            <span className={`text-xl font-bold ${paiementsAcceleration > 0 ? 'text-accent-blue' : 'text-accent-primary'}`}>
                                                 -{paiementsAcceleration}j
                                             </span>
                                         </div>
@@ -1023,14 +1023,14 @@ export default function FinancialDashboardV2() {
                                             />
                                         </div>
                                         <div className="flex justify-between mt-1">
-                                            <span className="text-xs text-text-tertiary">0j</span>
-                                            <span className="text-xs text-text-tertiary">15j</span>
+                                            <span className="text-xs text-tertiary">0j</span>
+                                            <span className="text-xs text-tertiary">15j</span>
                                         </div>
                                     </div>
 
                                     {paiementsAcceleration > 0 && simulatedKPIs.length > 0 && (
                                         <div className="bg-accent-blue-subtle border border-accent-blue-border rounded-lg p-3">
-                                            <p className="text-xs text-text-secondary mb-1">Impact Cash Flow</p>
+                                            <p className="text-xs text-secondary mb-1">Impact Cash Flow</p>
                                             <p className="text-sm font-bold text-accent-blue">
                                                 {simulatedKPIs.find(k => k.title.includes('Cash Flow') || k.title.includes('Trésorerie'))?.change || 'Calcul...'}
                                             </p>
@@ -1045,15 +1045,15 @@ export default function FinancialDashboardV2() {
                                             <span className="text-2xl">📈</span>
                                             <h4 className="text-base font-bold">Augmentation prix</h4>
                                         </div>
-                                        <p className="text-xs text-text-secondary">
+                                        <p className="text-xs text-secondary">
                                             Impact sur <strong className="text-accent-orange">Chiffre d'Affaires</strong>
                                         </p>
                                     </div>
 
                                     <div className="mb-4">
                                         <div className="flex justify-between items-center mb-2">
-                                            <span className="text-xs text-text-secondary">Augmentation</span>
-                                            <span className={`text-xl font-bold ${prixAugmentation > 0 ? 'text-accent-orange' : 'text-accent-gold'}`}>
+                                            <span className="text-xs text-secondary">Augmentation</span>
+                                            <span className={`text-xl font-bold ${prixAugmentation > 0 ? 'text-accent-orange' : 'text-accent-primary'}`}>
                                                 +{prixAugmentation}%
                                             </span>
                                         </div>
@@ -1072,14 +1072,14 @@ export default function FinancialDashboardV2() {
                                             />
                                         </div>
                                         <div className="flex justify-between mt-1">
-                                            <span className="text-xs text-text-tertiary">0%</span>
-                                            <span className="text-xs text-text-tertiary">15%</span>
+                                            <span className="text-xs text-tertiary">0%</span>
+                                            <span className="text-xs text-tertiary">15%</span>
                                         </div>
                                     </div>
 
                                     {prixAugmentation > 0 && simulatedKPIs.length > 0 && (
                                         <div className="bg-accent-orange-subtle border border-accent-orange-border rounded-lg p-3">
-                                            <p className="text-xs text-text-secondary mb-1">Impact CA</p>
+                                            <p className="text-xs text-secondary mb-1">Impact CA</p>
                                             <p className="text-sm font-bold text-accent-orange">
                                                 {simulatedKPIs.find(k => k.title.includes('Chiffre d\'Affaires') || k.title.includes('CA'))?.change || 'Calcul...'}
                                             </p>
@@ -1101,7 +1101,7 @@ export default function FinancialDashboardV2() {
                             </div>
                             <button
                                 onClick={() => setShowAlertSettings(true)}
-                                className="text-sm text-accent-gold hover:text-accent-gold-hover transition-colors"
+                                className="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors"
                             >
                                 Configurer
                             </button>
@@ -1149,7 +1149,7 @@ export default function FinancialDashboardV2() {
                         {/* Sankey Flow Chart */}
                         <div className="surface rounded-xl p-6">
                             <div className="flex items-center gap-2 mb-6">
-                                <Sparkles className="w-5 h-5 text-accent-gold" />
+                                <Sparkles className="w-5 h-5 text-accent-primary" />
                                 <h3 className="text-xl font-semibold">Flux Financier (Sankey)</h3>
                             </div>
                             <SankeyFlowChart data={getSankeyData()} />
@@ -1158,7 +1158,7 @@ export default function FinancialDashboardV2() {
                         {/* Sunburst Expenses Chart */}
                         <div className="surface rounded-xl p-6">
                             <div className="flex items-center gap-2 mb-6">
-                                <Sparkles className="w-5 h-5 text-accent-gold" />
+                                <Sparkles className="w-5 h-5 text-accent-primary" />
                                 <h3 className="text-xl font-semibold">Hiérarchie Dépenses (Sunburst)</h3>
                             </div>
                             <SunburstExpensesChart data={getSunburstData()} />
@@ -1176,7 +1176,7 @@ export default function FinancialDashboardV2() {
                             </div>
                             <button
                                 onClick={() => setShowAnomalies(!showAnomalies)}
-                                className="text-sm text-accent-gold hover:text-accent-gold-hover transition-colors"
+                                className="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors"
                             >
                                 {showAnomalies ? 'Masquer' : 'Afficher'}
                             </button>

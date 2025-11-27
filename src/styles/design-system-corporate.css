@@ -18,14 +18,14 @@
     /* ==========================================
      BACKGROUNDS - Light & Professional
      ========================================== */
-    --background-primary: #f8f9fa;
-    /* Gris très clair (page background) - plus doux que blanc pur */
+    --background-primary: #f0f2f5;
+    /* Gris clair (page background) - meilleur contraste avec blanc */
     --background-secondary: #ffffff;
     /* Blanc pur (sections principales) */
     --surface-elevated: #ffffff;
     /* Cards, panels, modals - blanc avec shadow */
-    --surface-hover: #f1f3f5;
-    /* Hover states - gris subtil */
+    --surface-hover: #e8ebed;
+    /* Hover states - gris plus visible */
 
     /* ==========================================
      BORDERS & DIVIDERS - Subtle but visible
@@ -404,6 +404,7 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -414,6 +415,7 @@
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

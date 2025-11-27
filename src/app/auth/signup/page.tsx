@@ -85,7 +85,7 @@ export default function SignUpPage() {
     }
 
     return (
-        <div className="min-h-screen bg-bg-primary text-text-primary font-sans flex flex-col">
+        <div className="min-h-screen bg-primary text-primary font-sans flex flex-col">
             <Header />
 
             {/* Hero Section avec glow effect */}
@@ -93,7 +93,7 @@ export default function SignUpPage() {
                 <div className="relative w-full max-w-md">
                     {/* Radial gradient glow */}
                     <div className="absolute inset-x-0 -top-40 h-96 pointer-events-none">
-                        <div className="absolute inset-0 bg-gradient-radial from-accent-gold/15 via-accent-gold/5 to-transparent blur-3xl"></div>
+                        <div className="absolute inset-0 bg-gradient-radial from-accent-primary/15 via-accent-primary/5 to-transparent blur-3xl"></div>
                     </div>
 
                     {/* Card */}
@@ -101,22 +101,22 @@ export default function SignUpPage() {
                         {/* Header */}
                         <div className="text-center mb-8">
                             <h1 className="text-3xl font-bold mb-2">Créer un compte</h1>
-                            <p className="text-text-secondary text-sm">
+                            <p className="text-secondary text-sm">
                                 Commencez gratuitement, sans carte bancaire
                             </p>
                         </div>
 
                         {/* Benefits Pills */}
                         <div className="flex flex-wrap gap-2 mb-6 justify-center">
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-gold-subtle border border-accent-gold-border rounded-full text-xs text-accent-gold">
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-primary-subtle border border-accent-primary-border rounded-full text-xs text-accent-primary">
                                 <CheckCircle className="w-3.5 h-3.5" />
                                 Dashboard complet
                             </div>
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-gold-subtle border border-accent-gold-border rounded-full text-xs text-accent-gold">
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-primary-subtle border border-accent-primary-border rounded-full text-xs text-accent-primary">
                                 <CheckCircle className="w-3.5 h-3.5" />
                                 10 questions IA/mois
                             </div>
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-gold-subtle border border-accent-gold-border rounded-full text-xs text-accent-gold">
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-primary-subtle border border-accent-primary-border rounded-full text-xs text-accent-primary">
                                 <CheckCircle className="w-3.5 h-3.5" />
                                 Aucun engagement
                             </div>
@@ -138,7 +138,7 @@ export default function SignUpPage() {
                                     Nom complet
                                 </label>
                                 <div className="relative">
-                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary" />
                                     <input
                                         id="name"
                                         name="name"
@@ -147,7 +147,7 @@ export default function SignUpPage() {
                                         onChange={handleChange}
                                         placeholder="Jean Dupont"
                                         required
-                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent-gold focus:ring-2 focus:ring-accent-gold/20 transition-all"
+                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-primary placeholder:text-tertiary focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all"
                                     />
                                 </div>
                             </div>
@@ -158,7 +158,7 @@ export default function SignUpPage() {
                                     Email professionnel
                                 </label>
                                 <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary" />
                                     <input
                                         id="email"
                                         name="email"
@@ -167,7 +167,7 @@ export default function SignUpPage() {
                                         onChange={handleChange}
                                         placeholder="vous@entreprise.com"
                                         required
-                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent-gold focus:ring-2 focus:ring-accent-gold/20 transition-all"
+                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-primary placeholder:text-tertiary focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all"
                                     />
                                 </div>
                             </div>
@@ -178,7 +178,7 @@ export default function SignUpPage() {
                                     Mot de passe
                                 </label>
                                 <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary" />
                                     <input
                                         id="password"
                                         name="password"
@@ -188,10 +188,10 @@ export default function SignUpPage() {
                                         placeholder="••••••••"
                                         required
                                         minLength={8}
-                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent-gold focus:ring-2 focus:ring-accent-gold/20 transition-all"
+                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-primary placeholder:text-tertiary focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all"
                                     />
                                 </div>
-                                <p className="text-xs text-text-tertiary mt-1.5">
+                                <p className="text-xs text-tertiary mt-1.5">
                                     Minimum 8 caractères
                                 </p>
                             </div>
@@ -202,7 +202,7 @@ export default function SignUpPage() {
                                     Confirmer le mot de passe
                                 </label>
                                 <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary" />
                                     <input
                                         id="confirmPassword"
                                         name="confirmPassword"
@@ -212,7 +212,7 @@ export default function SignUpPage() {
                                         placeholder="••••••••"
                                         required
                                         minLength={8}
-                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent-gold focus:ring-2 focus:ring-accent-gold/20 transition-all"
+                                        className="w-full pl-11 pr-4 py-3 bg-surface-elevated border border-border-default rounded-lg text-primary placeholder:text-tertiary focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all"
                                     />
                                 </div>
                             </div>
@@ -221,7 +221,7 @@ export default function SignUpPage() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-3 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="w-full py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {isLoading ? (
                                     <>
@@ -240,7 +240,7 @@ export default function SignUpPage() {
                                 <div className="w-full border-t border-border-default"></div>
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-4 bg-bg-primary text-text-tertiary">
+                                <span className="px-4 bg-primary text-tertiary">
                                     Déjà un compte ?
                                 </span>
                             </div>
@@ -249,20 +249,20 @@ export default function SignUpPage() {
                         {/* Sign In Link */}
                         <Link
                             href="/auth/signin"
-                            className="block w-full py-3 border-2 border-border-default hover:border-accent-gold-border text-text-primary rounded-lg font-semibold transition-all hover:bg-surface-elevated text-center"
+                            className="block w-full py-3 border-2 border-border-default hover:border-accent-primary-border text-primary rounded-lg font-semibold transition-all hover:bg-surface-elevated text-center"
                         >
                             Se connecter
                         </Link>
                     </div>
 
                     {/* Help Text */}
-                    <p className="text-center text-sm text-text-tertiary mt-6">
+                    <p className="text-center text-sm text-tertiary mt-6">
                         En créant un compte, vous acceptez nos{' '}
-                        <Link href="/legal/terms" className="text-accent-gold hover:underline">
+                        <Link href="/legal/terms" className="text-accent-primary hover:underline">
                             conditions d'utilisation
                         </Link>
                         {' '}et notre{' '}
-                        <Link href="/legal/privacy" className="text-accent-gold hover:underline">
+                        <Link href="/legal/privacy" className="text-accent-primary hover:underline">
                             politique de confidentialité
                         </Link>
                         .
