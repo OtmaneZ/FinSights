@@ -6,7 +6,6 @@ if (!process.env.RESEND_API_KEY) {
 
 export const resend = new Resend(process.env.RESEND_API_KEY)
 
-// Use Resend's onboarding domain for testing (verified by default)
-// Replace with your verified domain in production
-export const FROM_EMAIL = 'FinSight <onboarding@resend.dev>'
+// Production domain - verify on resend.com/domains first
+export const FROM_EMAIL = 'FinSight <noreply@finsight.zineinsight.com>'
 export const REPLY_TO_EMAIL = 'support@zineinsight.com'
