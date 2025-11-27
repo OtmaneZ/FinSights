@@ -800,17 +800,8 @@ export default function FinancialDashboardV2() {
 
     return (
         <>
-            {/* Radial gradient glow effect - Resend style (full width, behind everything) */}
-            <div className="fixed inset-x-0 top-0 h-[800px] pointer-events-none overflow-hidden z-0">
-                <div
-                    className="absolute inset-0 blur-3xl"
-                    style={{
-                        background: 'radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 40%, transparent 70%)'
-                    }}>
-                </div>
-            </div>
-
-            <div ref={dashboardRef} className="max-w-7xl mx-auto px-6 py-8 relative z-10">
+            {/* Container principal - Design corporate épuré */}
+            <div ref={dashboardRef} className="max-w-7xl mx-auto px-6 py-8">
                 {/* Real-Time Presence */}
                 {isDataLoaded && (
                     <>
@@ -823,17 +814,17 @@ export default function FinancialDashboardV2() {
                     </>
                 )}
                 {/* Header Section */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 relative z-10">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
                     <div>
-                        <h1 className="text-4xl font-bold mb-2">Tableau de Bord Financier</h1>
-                        <p className="text-text-secondary">Période Actuelle • Données en temps réel</p>
+                        <h1 className="text-3xl font-bold mb-2 text-text-primary">Tableau de Bord Financier</h1>
+                        <p className="text-text-secondary text-sm">Période Actuelle • Données en temps réel</p>
                     </div>
 
                     <div className="flex flex-wrap gap-3">
                         <button
                             onClick={exportToPDF}
                             disabled={isExporting}
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-gold hover:bg-accent-gold-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-md disabled:opacity-50"
                         >
                             <Download className="w-4 h-4" />
                             {isExporting ? 'Export...' : 'Export PDF'}
@@ -842,7 +833,7 @@ export default function FinancialDashboardV2() {
                         <button
                             onClick={exportToExcel}
                             disabled={isExporting}
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-green hover:bg-accent-green-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-success hover:bg-accent-success-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-md disabled:opacity-50"
                         >
                             <FileText className="w-4 h-4" />
                             {isExporting ? 'Export...' : 'Export Excel'}
@@ -858,28 +849,33 @@ export default function FinancialDashboardV2() {
                     </div>
                 </div>
 
-                {/* KPIs Grid - Affiche simulatedKPIs si actifs, sinon kpis normaux */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8 relative z-10">
+                {/* KPIs Grid - Layout CFO-friendly: 3 colonnes, plus dense */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 relative z-10">
                     {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis).map((kpi, index) => (
                         <div
                             key={index}
                             className="surface rounded-xl p-6 surface-hover group cursor-pointer"
                             onClick={() => drillDownActions.openDrillDown(kpi.title)}
                         >
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="text-accent-gold transition-transform group-hover:scale-110">
-                                    {getKPIIcon(kpi.title)}
-                                </div>
-                                <span className={`text-sm font-semibold ${kpi.changeType === 'positive' ? 'text-accent-green' :
-                                    kpi.changeType === 'negative' ? 'text-accent-red' :
-                                        'text-text-tertiary'
-                                    }`}>
+                            {/* Header: Titre + Variation (pattern Excel/Power BI) */}
+                            <div className="flex items-start justify-between mb-3">
+                                <h3 className="text-base font-semibold text-text-primary leading-tight">
+                                    {kpi.title}
+                                </h3>
+                                <span className={`text-base font-bold ml-2 flex-shrink-0 ${
+                                    kpi.changeType === 'positive' ? 'text-accent-success' :
+                                    kpi.changeType === 'negative' ? 'text-accent-danger' :
+                                    'text-text-secondary'
+                                }`}>
                                     {kpi.change}
                                 </span>
                             </div>
-                            <h3 className="text-sm text-text-secondary mb-2">{kpi.title}</h3>
-                            <p className="text-3xl font-bold mb-3">{kpi.value}</p>
-                            <p className="text-xs text-text-tertiary mb-4">{kpi.description}</p>
+
+                            {/* Valeur principale - GROS et lisible */}
+                            <p className="text-4xl font-bold mb-2 text-text-primary">{kpi.value}</p>
+
+                            {/* Description contextuelle - lisible */}
+                            <p className="text-sm text-text-secondary mb-3 leading-relaxed">{kpi.description}</p>
 
                             {/* BenchmarkBar - Comparaison sectorielle */}
                             <BenchmarkBar

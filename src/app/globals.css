@@ -3,9 +3,15 @@
 @tailwind utilities;
 
 /* ==========================================
-   FINSIGHT DESIGN SYSTEM
+   FINSIGHT CORPORATE DESIGN SYSTEM
    ========================================== */
-@import '../styles/design-system.css';
+@import '../styles/design-system-corporate.css';
+
+/* ==========================================
+   ANCIEN DESIGN SYSTEM (dark theme)
+   Décommenter pour rollback au design noir/gold
+   ========================================== */
+/* @import '../styles/design-system.css'; */
 
 /* ==========================================
    LEGACY VARIABLES (À SUPPRIMER PROGRESSIVEMENT)

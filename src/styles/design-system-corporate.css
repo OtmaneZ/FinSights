@@ -1,0 +1,449 @@
+/* ============================================
+   FINSIGHT CORPORATE DESIGN SYSTEM
+   ============================================
+
+   Design Philosophy:
+   - Professional & Trustworthy (CFO-friendly)
+   - Power BI / Excel modern aesthetic
+   - Light backgrounds for readability
+   - Dense information display
+   - Corporate blue accent
+   - Clean, no-nonsense approach
+
+   Inspiration: Power BI, Tableau, QuickBooks, Sage
+   Target: CFO, DAF, Finance Directors
+   ============================================ */
+
+:root {
+    /* ==========================================
+     BACKGROUNDS - Light & Professional
+     ========================================== */
+    --background-primary: #f8f9fa;
+    /* Gris très clair (page background) - plus doux que blanc pur */
+    --background-secondary: #ffffff;
+    /* Blanc pur (sections principales) */
+    --surface-elevated: #ffffff;
+    /* Cards, panels, modals - blanc avec shadow */
+    --surface-hover: #f1f3f5;
+    /* Hover states - gris subtil */
+
+    /* ==========================================
+     BORDERS & DIVIDERS - Subtle but visible
+     ========================================== */
+    --border-subtle: #e9ecef;
+    /* Bordures très discrètes */
+    --border-default: #dee2e6;
+    /* Bordures normales */
+    --border-strong: #adb5bd;
+    /* Focus, active states */
+
+    /* ==========================================
+     TEXT COLORS - Dark on Light
+     ========================================== */
+    --text-primary: #212529;
+    /* Noir profond - titres, texte important */
+    --text-secondary: #6c757d;
+    /* Gris moyen - labels, descriptions */
+    --text-tertiary: #adb5bd;
+    /* Gris clair - metadata, timestamps */
+    --text-disabled: #dee2e6;
+    /* Désactivé, placeholder */
+
+    /* ==========================================
+     ACCENT COLORS - Corporate Professional
+     ========================================== */
+
+    /* Primary Blue - Corporate (CTAs, primary actions) */
+    --accent-primary: #0078d4;
+    /* Microsoft/Power BI blue */
+    --accent-primary-hover: #106ebe;
+    --accent-primary-subtle: rgba(0, 120, 212, 0.1);
+    --accent-primary-border: rgba(0, 120, 212, 0.3);
+
+    /* Success Green - Positive metrics */
+    --accent-success: #107c10;
+    /* Vert sobre, pas fluo */
+    --accent-success-hover: #0e6b0e;
+    --accent-success-subtle: rgba(16, 124, 16, 0.1);
+    --accent-success-border: rgba(16, 124, 16, 0.3);
+
+    /* Warning Orange - Alerts, attention */
+    --accent-warning: #f59e0b;
+    /* Orange garde (compatible ancien) */
+    --accent-warning-hover: #d97706;
+    --accent-warning-subtle: rgba(245, 158, 11, 0.1);
+    --accent-warning-border: rgba(245, 158, 11, 0.3);
+
+    /* Danger Red - Negative metrics, errors */
+    --accent-danger: #d13438;
+    /* Rouge sobre Microsoft */
+    --accent-danger-hover: #a72327;
+    --accent-danger-subtle: rgba(209, 52, 56, 0.1);
+    --accent-danger-border: rgba(209, 52, 56, 0.3);
+
+    /* Info Blue - Neutral data, information */
+    --accent-info: #0078d4;
+    /* Même que primary pour cohérence */
+    --accent-info-hover: #106ebe;
+    --accent-info-subtle: rgba(0, 120, 212, 0.08);
+    --accent-info-border: rgba(0, 120, 212, 0.2);
+
+    /* ==========================================
+     LEGACY COMPATIBILITY - Mapping ancien système
+     ========================================== */
+    /* Gold → Primary Blue */
+    --accent-gold: var(--accent-primary);
+    --accent-gold-hover: var(--accent-primary-hover);
+    --accent-gold-subtle: var(--accent-primary-subtle);
+    --accent-gold-border: var(--accent-primary-border);
+
+    /* Green → Success */
+    --accent-green: var(--accent-success);
+    --accent-green-hover: var(--accent-success-hover);
+    --accent-green-subtle: var(--accent-success-subtle);
+    --accent-green-border: var(--accent-success-border);
+
+    /* Red → Danger */
+    --accent-red: var(--accent-danger);
+    --accent-red-hover: var(--accent-danger-hover);
+    --accent-red-subtle: var(--accent-danger-subtle);
+    --accent-red-border: var(--accent-danger-border);
+
+    /* Orange → Warning (identique) */
+    --accent-orange: var(--accent-warning);
+    --accent-orange-hover: var(--accent-warning-hover);
+    --accent-orange-subtle: var(--accent-warning-subtle);
+    --accent-orange-border: var(--accent-warning-border);
+
+    /* Blue → Info/Primary */
+    --accent-blue: var(--accent-info);
+    --accent-blue-hover: var(--accent-info-hover);
+    --accent-blue-subtle: var(--accent-info-subtle);
+    --accent-blue-border: var(--accent-info-border);
+
+    /* ==========================================
+     SHADOWS - Subtle elevation
+     ========================================== */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.12);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+
+    /* ==========================================
+     SPACING SCALE (identique ancien système)
+     ========================================== */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-20: 80px;
+    --space-24: 96px;
+    --space-32: 128px;
+
+    /* ==========================================
+     TYPOGRAPHY (identique ancien système)
+     ========================================== */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-lg: 18px;
+    --text-xl: 20px;
+    --text-2xl: 24px;
+    --text-3xl: 30px;
+    --text-4xl: 36px;
+    --text-5xl: 48px;
+    --text-6xl: 60px;
+
+    --font-light: 300;
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+
+    /* Line Heights */
+    --leading-tight: 1.25;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.75;
+
+    /* ==========================================
+     BORDER RADIUS (identique ancien système)
+     ========================================== */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 24px;
+    --radius-full: 9999px;
+
+    /* ==========================================
+     CHART COLORS - Data Visualization
+     ========================================== */
+    --chart-primary: #0078d4;
+    /* Bleu principal */
+    --chart-success: #107c10;
+    /* Vert revenus */
+    --chart-danger: #d13438;
+    /* Rouge dépenses */
+    --chart-warning: #f59e0b;
+    /* Orange warnings */
+    --chart-neutral: #6c757d;
+    /* Gris axes */
+    --chart-grid: #e9ecef;
+    /* Grille charts */
+
+    /* Multi-series charts palette */
+    --chart-series-1: #0078d4;
+    --chart-series-2: #107c10;
+    --chart-series-3: #8b5cf6;
+    --chart-series-4: #f59e0b;
+    --chart-series-5: #d13438;
+    --chart-series-6: #06b6d4;
+    --chart-series-7: #ec4899;
+    --chart-series-8: #6c757d;
+}
+
+/* ==========================================
+   UTILITY CLASSES - Tailwind-like
+   ========================================== */
+
+/* Backgrounds */
+.bg-primary {
+    background-color: var(--background-primary);
+}
+
+.bg-secondary {
+    background-color: var(--background-secondary);
+}
+
+.surface {
+    background-color: var(--surface-elevated);
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-sm);
+}
+
+.surface-hover {
+    transition: all 0.2s ease;
+}
+
+.surface-hover:hover {
+    background-color: var(--surface-hover);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-strong);
+}
+
+/* Borders */
+.border-subtle {
+    border-color: var(--border-subtle);
+}
+
+.border-default {
+    border-color: var(--border-default);
+}
+
+.border-strong {
+    border-color: var(--border-strong);
+}
+
+/* Text Colors */
+.text-primary {
+    color: var(--text-primary);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+.text-tertiary {
+    color: var(--text-tertiary);
+}
+
+/* Accent Text */
+.text-accent-primary {
+    color: var(--accent-primary);
+}
+
+.text-accent-success {
+    color: var(--accent-success);
+}
+
+.text-accent-warning {
+    color: var(--accent-warning);
+}
+
+.text-accent-danger {
+    color: var(--accent-danger);
+}
+
+/* ==========================================
+   COMPONENT PATTERNS - Common UI elements
+   ========================================== */
+
+/* Card component */
+.card {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-strong);
+}
+
+/* Button primary */
+.btn-primary {
+    background: var(--accent-primary);
+    color: white;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-semibold);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: var(--accent-primary-hover);
+    box-shadow: var(--shadow-md);
+}
+
+/* Button secondary */
+.btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-semibold);
+    border: 2px solid var(--border-default);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent-primary);
+    background: var(--accent-primary-subtle);
+}
+
+/* Badge */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+}
+
+.badge-primary {
+    background: var(--accent-primary-subtle);
+    color: var(--accent-primary);
+    border: 1px solid var(--accent-primary-border);
+}
+
+.badge-success {
+    background: var(--accent-success-subtle);
+    color: var(--accent-success);
+    border: 1px solid var(--accent-success-border);
+}
+
+.badge-warning {
+    background: var(--accent-warning-subtle);
+    color: var(--accent-warning);
+    border: 1px solid var(--accent-warning-border);
+}
+
+.badge-danger {
+    background: var(--accent-danger-subtle);
+    color: var(--accent-danger);
+    border: 1px solid var(--accent-danger-border);
+}
+
+/* ==========================================
+   RESPONSIVE UTILITIES
+   ========================================== */
+
+/* Container max-widths */
+.container-sm {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.container-md {
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+.container-lg {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.container-xl {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   ANIMATION UTILITIES
+   ========================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+/* ==========================================
+   PRINT STYLES - Professional reports
+   ========================================== */
+
+@media print {
+    :root {
+        --background-primary: #ffffff;
+        --surface-elevated: #ffffff;
+    }
+
+    .surface {
+        box-shadow: none;
+        border: 1px solid #dee2e6;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+}
