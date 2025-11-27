@@ -25,50 +25,47 @@ const config: Config = {
                 'border-strong': 'var(--border-strong)',
 
                 // Design System - Text
-                'text-primary': 'var(--text-primary)',
-                'text-secondary': 'var(--text-secondary)',
-                'text-tertiary': 'var(--text-tertiary)',
-                'text-disabled': 'var(--text-disabled)',
+                'primary': 'var(--text-primary)',
+                'secondary': 'var(--text-secondary)',
+                'tertiary': 'var(--text-tertiary)',
+                'disabled': 'var(--text-disabled)',
 
-                // Design System - Accents
-                'accent-gold': {
-                    DEFAULT: 'var(--accent-gold)',
-                    hover: 'var(--accent-gold-hover)',
-                    subtle: 'var(--accent-gold-subtle)',
-                    border: 'var(--accent-gold-border)',
+                // Design System - Surfaces
+                'surface': 'var(--surface-elevated)',
+
+                // Design System - Accents (Corporate Theme)
+                'accent-primary': {
+                    DEFAULT: 'var(--accent-primary)',
+                    hover: 'var(--accent-primary-hover)',
+                    subtle: 'var(--accent-primary-subtle)',
+                    border: 'var(--accent-primary-border)',
                 },
-                'accent-green': {
-                    DEFAULT: 'var(--accent-green)',
-                    hover: 'var(--accent-green-hover)',
-                    subtle: 'var(--accent-green-subtle)',
-                    border: 'var(--accent-green-border)',
+                'accent-success': {
+                    DEFAULT: 'var(--accent-success)',
+                    hover: 'var(--accent-success-hover)',
+                    subtle: 'var(--accent-success-subtle)',
+                    border: 'var(--accent-success-border)',
                 },
-                'accent-red': {
-                    DEFAULT: 'var(--accent-red)',
-                    hover: 'var(--accent-red-hover)',
-                    subtle: 'var(--accent-red-subtle)',
-                    border: 'var(--accent-red-border)',
+                'accent-warning': {
+                    DEFAULT: 'var(--accent-warning)',
+                    hover: 'var(--accent-warning-hover)',
+                    subtle: 'var(--accent-warning-subtle)',
+                    border: 'var(--accent-warning-border)',
                 },
-                'accent-orange': {
-                    DEFAULT: 'var(--accent-orange)',
-                    hover: 'var(--accent-orange-hover)',
-                    subtle: 'var(--accent-orange-subtle)',
-                    border: 'var(--accent-orange-border)',
+                'accent-danger': {
+                    DEFAULT: 'var(--accent-danger)',
+                    hover: 'var(--accent-danger-hover)',
+                    subtle: 'var(--accent-danger-subtle)',
+                    border: 'var(--accent-danger-border)',
                 },
-                'accent-blue': {
-                    DEFAULT: 'var(--accent-blue)',
-                    hover: 'var(--accent-blue-hover)',
-                    subtle: 'var(--accent-blue-subtle)',
-                    border: 'var(--accent-blue-border)',
+                'accent-info': {
+                    DEFAULT: 'var(--accent-info)',
+                    hover: 'var(--accent-info-hover)',
+                    subtle: 'var(--accent-info-subtle)',
+                    border: 'var(--accent-info-border)',
                 },
 
-                // Legacy financial (compatible)
-                primary: {
-                    50: '#eff6ff',
-                    500: '#3b82f6',
-                    600: '#2563eb',
-                    700: '#1d4ed8',
-                },
+                // Legacy financial colors (backward compatible)
                 financial: {
                     green: '#10b981',
                     red: '#ef4444',

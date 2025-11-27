@@ -267,6 +267,10 @@
     color: var(--text-tertiary);
 }
 
+.text-disabled {
+    color: var(--text-disabled);
+}
+
 /* Accent Text */
 .text-accent-primary {
     color: var(--accent-primary);
@@ -282,6 +286,70 @@
 
 .text-accent-danger {
     color: var(--accent-danger);
+}
+
+/* Accent Backgrounds */
+.bg-accent-primary {
+    background-color: var(--accent-primary);
+}
+
+.bg-accent-primary:hover,
+.hover\:bg-accent-primary-hover:hover {
+    background-color: var(--accent-primary-hover);
+}
+
+.bg-accent-success {
+    background-color: var(--accent-success);
+}
+
+.bg-accent-warning {
+    background-color: var(--accent-warning);
+}
+
+.bg-accent-danger {
+    background-color: var(--accent-danger);
+}
+
+/* Surface utilities */
+.bg-surface-elevated,
+.hover\:bg-surface-elevated:hover {
+    background-color: var(--surface-elevated);
+}
+
+/* Border utilities */
+.border-border-subtle {
+    border-color: var(--border-subtle);
+}
+
+.border-border-default {
+    border-color: var(--border-default);
+}
+
+.hover\:border-accent-primary:hover {
+    border-color: var(--accent-primary);
+}
+
+.hover\:border-accent-primary-border:hover {
+    border-color: var(--accent-primary-border);
+}
+
+/* Fill & Stroke for SVG icons */
+.fill-accent-primary {
+    fill: var(--accent-primary);
+}
+
+.stroke-accent-primary {
+    stroke: var(--accent-primary);
+}
+
+/* Placeholder text */
+.placeholder-text-tertiary::placeholder {
+    color: var(--text-tertiary);
+}
+
+/* Focus states */
+.focus\:border-accent-primary-border:focus {
+    border-color: var(--accent-primary-border);
 }
 
 /* ==========================================
