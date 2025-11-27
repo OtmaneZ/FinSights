@@ -1,6 +1,6 @@
 import './globals.css'
 // import '../styles/finsight-revolutionary.css' // ❌ Désactivé - Utiliser design-system.css à la place
-import '../styles/design-system.css'
+// import '../styles/design-system.css' // ❌ DARK THEME - Désactivé pour corporate theme
 import '../styles/driver-custom.css'
 import { Inter } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
