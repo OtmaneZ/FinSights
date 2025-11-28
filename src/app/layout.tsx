@@ -7,6 +7,7 @@ import { FinancialDataProvider } from '@/lib/financialContext'
 import { ThemeProvider } from '@/lib/themeContext'
 import SessionProvider from '@/components/SessionProvider'
 import Analytics from '@/components/Analytics'
+import CookieConsent from '@/components/CookieConsent'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -49,15 +50,16 @@ export default function RootLayout({
             <body className={inter.className}>
                 {/* Google Tag Manager (noscript) */}
                 <noscript>
-                    <iframe 
+                    <iframe
                         src="https://www.googletagmanager.com/ns.html?id=GTM-58BZSL7W"
-                        height="0" 
-                        width="0" 
-                        style={{display: 'none', visibility: 'hidden'}}
+                        height="0"
+                        width="0"
+                        style={{ display: 'none', visibility: 'hidden' }}
                     />
                 </noscript>
-                
+
                 <Analytics />
+                <CookieConsent />
                 <SessionProvider>
                     <ThemeProvider>
                         <FinancialDataProvider>

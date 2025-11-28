@@ -47,6 +47,19 @@ export default function Footer() {
                     </div>
                 </div>
 
+                {/* Legal Links */}
+                <div className="mt-6 flex flex-wrap justify-center gap-6 text-xs text-tertiary">
+                    <Link href="/politique-confidentialite" className="hover:text-secondary transition-colors">
+                        Politique de confidentialité
+                    </Link>
+                    <Link href="/cookies" className="hover:text-secondary transition-colors">
+                        Cookies
+                    </Link>
+                    <Link href="/mentions-legales" className="hover:text-secondary transition-colors">
+                        Mentions légales
+                    </Link>
+                </div>
+
                 <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-tertiary">
                     <p>
                         © 2025 Otmane Boulahia •
