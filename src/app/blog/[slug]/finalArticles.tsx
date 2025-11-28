@@ -1,13 +1,12 @@
-import { BlogArticleData } from '@/lib/seo'
-
-export const finalArticles: Record<string, BlogArticleData> = {
+export const finalArticles = {
     'ratio-liquidite-interpretation': {
         slug: 'ratio-liquidite-interpretation',
         title: 'Les 3 Ratios de Liquidité : Définition, Formule et Interprétation (2025)',
         description: 'Guide complet sur les ratios de liquidité générale, restreinte et immédiate. Formules, seuils et analyse pour PME et startups.',
         category: 'Trésorerie',
-        readTime: 8,
-        publishedDate: '2025-01-15',
+        readTime: '8 min',
+        date: '2025-01-15',
+        keywords: ['ratio liquidité', 'current ratio', 'quick ratio', 'cash ratio', 'trésorerie', 'PME'],
         content: (
             <>
                 <p className="lead">
@@ -444,8 +443,9 @@ export const finalArticles: Record<string, BlogArticleData> = {
         title: 'Budget Prévisionnel vs Dashboard IA : Le Match (2025)',
         description: 'Comparatif détaillé entre Excel et les dashboards financiers nouvelle génération. Temps gagné, précision et ROI pour PME.',
         category: 'KPIs',
-        readTime: 7,
-        publishedDate: '2025-01-16',
+        readTime: '7 min',
+        date: '2025-01-16',
+        keywords: ['budget prévisionnel', 'Excel', 'dashboard IA', 'ROI', 'PME', 'automatisation'],
         content: (
             <>
                 <p className="lead">
