@@ -469,7 +469,7 @@ export default function FinancialDashboardV2() {
                 setFinSightData(result.data.financialData || result.data.processedData)
                 setRawData(result.data.records || result.data.rawData || [])
                 setIsDataLoaded(true)
-                
+
                 // ✨ Show upload success banner
                 setShowUploadBanner(true)
             }
@@ -632,7 +632,7 @@ export default function FinancialDashboardV2() {
                 changeType: kpi.changeType as 'positive' | 'negative' | 'neutral',
                 description: kpi.description
             })));
-            
+
             // Wrapper ProcessedData → FinSightDataModel pour compatibility
             const finSightModel: any = {
                 id: `demo-${scenario}-${Date.now()}`,
@@ -646,7 +646,7 @@ export default function FinancialDashboardV2() {
                 },
                 ...processedData
             };
-            
+
             setFinSightData(finSightModel);
             setRawData(processedData.records || []);
             setIsDataLoaded(true);
@@ -901,8 +901,8 @@ export default function FinancialDashboardV2() {
                                     {kpi.title}
                                 </h3>
                                 <span className={`text-base font-bold ml-2 flex-shrink-0 ${kpi.changeType === 'positive' ? 'text-accent-success' :
-                                        kpi.changeType === 'negative' ? 'text-accent-danger' :
-                                            'text-secondary'
+                                    kpi.changeType === 'negative' ? 'text-accent-danger' :
+                                        'text-secondary'
                                     }`}>
                                     {kpi.change}
                                 </span>
@@ -1011,8 +1011,8 @@ export default function FinancialDashboardV2() {
                                             />
                                         </div>
                                         <div className="flex justify-between mt-1">
-                                            <span className="text-xs text-tertiary">0%</span>
-                                            <span className="text-xs text-tertiary">30%</span>
+                                            <span className="text-xs text-secondary font-medium">0%</span>
+                                            <span className="text-xs text-secondary font-medium">30%</span>
                                         </div>
                                     </div>
 
@@ -1060,8 +1060,8 @@ export default function FinancialDashboardV2() {
                                             />
                                         </div>
                                         <div className="flex justify-between mt-1">
-                                            <span className="text-xs text-tertiary">0j</span>
-                                            <span className="text-xs text-tertiary">15j</span>
+                                            <span className="text-xs text-secondary font-medium">0j</span>
+                                            <span className="text-xs text-secondary font-medium">15j</span>
                                         </div>
                                     </div>
 
@@ -1109,8 +1109,8 @@ export default function FinancialDashboardV2() {
                                             />
                                         </div>
                                         <div className="flex justify-between mt-1">
-                                            <span className="text-xs text-tertiary">0%</span>
-                                            <span className="text-xs text-tertiary">15%</span>
+                                            <span className="text-xs text-secondary font-medium">0%</span>
+                                            <span className="text-xs text-secondary font-medium">15%</span>
                                         </div>
                                     </div>
 
