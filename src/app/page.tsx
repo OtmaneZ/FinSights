@@ -140,47 +140,6 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* About Section */}
-            <section className="max-w-4xl mx-auto px-6 pb-32">
-                <div className="surface rounded-2xl p-12 text-center">
-                    <div className="mb-10">
-                        <h2 className="text-3xl font-bold mb-4">Créé par Otmane Boulahia</h2>
-                        <p className="text-xl text-secondary mb-6">
-                            Finance × Data × IA
-                        </p>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-                        <a
-                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg"
-                        >
-                            <Linkedin className="w-5 h-5" />
-                            LinkedIn
-                        </a>
-                        <a
-                            href="https://github.com/OtmaneZ/FinSights"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
-                        >
-                            <Github className="w-5 h-5" />
-                            Code Source
-                        </a>
-                        <a
-                            href="https://calendly.com/zineinsight"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
-                        >
-                            Prendre RDV
-                        </a>
-                    </div>
-                </div>
-            </section>
-
             {/* Testimonials Section */}
             <Testimonials />
 
