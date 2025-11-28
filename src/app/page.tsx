@@ -24,38 +24,26 @@ export default function Home() {
 
             {/* Hero Section */}
             <section className="relative max-w-5xl mx-auto px-6 pt-24 pb-32 text-center">
-                {/* Social Proof Badge */}
-                <div className="flex items-center justify-center gap-6 mb-8 text-sm text-secondary">
-                    <div className="flex items-center gap-2">
-                        <span className="text-accent-primary font-bold text-lg">3</span>
-                        <span>scénarios démo</span>
-                    </div>
-                    <div className="w-px h-4 bg-border-default"></div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-accent-primary font-bold text-lg">10s</span>
-                        <span>upload → résultats</span>
-                    </div>
-                    <div className="w-px h-4 bg-border-default"></div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-accent-primary font-bold text-lg">15+</span>
-                        <span>KPIs financiers</span>
-                    </div>
+                {/* Trust Badge */}
+                <div className="inline-flex items-center gap-3 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-8 text-sm">
+                    <span className="text-accent-primary font-semibold">⚡ 10 secondes</span>
+                    <div className="w-px h-4 bg-accent-primary-border"></div>
+                    <span className="text-accent-primary font-semibold">🔒 RGPD France</span>
+                    <div className="w-px h-4 bg-accent-primary-border"></div>
+                    <span className="text-accent-primary font-semibold">⭐ 4.8/5 CFO</span>
                 </div>
 
                 {/* Content */}
                 <div>
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-8">
-                        <span className="text-accent-primary text-sm font-semibold">Analyse Financière • Performance en Temps Réel</span>
-                    </div>
 
                     <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight leading-tight text-primary">
-                        Dashboard Financier<br />
-                        <span className="text-accent-primary">pour DAF & CFO</span>
+                        Trésorerie OK ou pas ?<br />
+                        <span className="text-accent-primary">Réponse en 10 secondes.</span>
                     </h1>
 
                     <p className="text-xl text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
-                        Transformez vos exports comptables en insights actionnables.<br />
-                        <span className="text-accent-primary font-semibold">IA + Finance</span> pour une analyse moderne et précise.
+                        Uploadez votre export Sage/Cegid. 15 KPIs calculés automatiquement.<br />
+                        <span className="font-semibold text-primary">Vous savez si vous tenez 6 mois</span> — sans Excel, sans formules.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -63,19 +51,19 @@ export default function Home() {
                             href="/auth/signup"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-base transition-all hover:shadow-lg"
                         >
-                            <Sparkles className="w-5 h-5" />
-                            Créer compte gratuit
+                            <Zap className="w-5 h-5" />
+                            Diagnostic Gratuit →
                         </Link>
                         <Link
                             href="/dashboard"
                             className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold text-base transition-all hover:bg-surface-elevated"
                         >
-                            Essayer la démo
+                            Voir démo (30 sec)
                         </Link>
                     </div>
 
                     <p className="text-sm text-tertiary mt-8">
-                        ✅ 100% sécurisé • ✅ Données en France • ✅ Sans engagement
+                        ⚡ Sans installation • 🔒 RGPD conforme • ✓ Sans engagement
                     </p>
                 </div>
             </section>

@@ -13,9 +13,33 @@ import CookieConsent from '@/components/CookieConsent'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-    title: 'FinSight - Finance Augmentée',
-    description: 'Plateforme de finance augmentée pour DAF modernes',
+    title: 'FinSight - Dashboard Financier IA pour CFO & DAF | Analyse Excel Automatisée',
+    description: 'Dashboard financier intelligent pour CFO et DAF. Uploadez vos exports comptables (Sage, Cegid, QuickBooks), l\'IA calcule 15 KPIs et détecte les anomalies automatiquement. Essai gratuit.',
+    keywords: ['dashboard financier', 'CFO', 'DAF', 'KPI financiers', 'analyse comptable', 'IA finance', 'Excel automatisation', 'DSO', 'BFR', 'trésorerie'],
+    authors: [{ name: 'FinSight' }],
+    creator: 'FinSight',
+    publisher: 'FinSight',
     manifest: '/manifest.json',
+    openGraph: {
+      type: 'website',
+      locale: 'fr_FR',
+      url: 'https://finsight.zineinsight.com',
+      siteName: 'FinSight',
+      title: 'FinSight - Dashboard Financier IA pour CFO & DAF',
+      description: 'Transformez vos exports comptables en insights actionnables avec l\'IA. 15 KPIs calculés automatiquement, détection d\'anomalies, copilot finance.',
+      images: [{
+        url: 'https://finsight.zineinsight.com/images/og-default.png',
+        width: 1200,
+        height: 630,
+        alt: 'FinSight Dashboard Financier'
+      }]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'FinSight - Dashboard Financier IA pour CFO & DAF',
+      description: 'Transformez vos exports comptables en insights actionnables avec l\'IA',
+      images: ['https://finsight.zineinsight.com/images/og-default.png']
+    },
     icons: {
         icon: [
             { url: '/favicon.ico' },

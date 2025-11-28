@@ -115,3 +115,42 @@ export function trackScrollDepth(page: string, depth: 25 | 50 | 75 | 100) {
         })
     }
 }
+
+/**
+ * Track signup start (user clicks signup button)
+ */
+export function trackSignupStart(source: string) {
+    if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'signup_start', {
+            event_category: 'Acquisition',
+            event_label: source,
+            signup_source: source
+        })
+    }
+}
+
+/**
+ * Track signup complete (user successfully creates account)
+ */
+export function trackSignupComplete(method: string) {
+    if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'sign_up', {
+            event_category: 'Acquisition',
+            method: method // 'email', 'google', etc.
+        })
+    }
+}
+
+/**
+ * Track demo view (video or interactive demo)
+ */
+export function trackDemoView(demoType: 'video' | 'interactive', source: string) {
+    if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'demo_view', {
+            event_category: 'Acquisition',
+            event_label: `${demoType} from ${source}`,
+            demo_type: demoType,
+            demo_source: source
+        })
+    }
+}
