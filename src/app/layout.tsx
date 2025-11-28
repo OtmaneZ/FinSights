@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
 import { ThemeProvider } from '@/lib/themeContext'
 import SessionProvider from '@/components/SessionProvider'
+import Analytics from '@/components/Analytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -46,6 +47,17 @@ export default function RootLayout({
     return (
         <html lang="fr" suppressHydrationWarning>
             <body className={inter.className}>
+                {/* Google Tag Manager (noscript) */}
+                <noscript>
+                    <iframe 
+                        src="https://www.googletagmanager.com/ns.html?id=GTM-58BZSL7W"
+                        height="0" 
+                        width="0" 
+                        style={{display: 'none', visibility: 'hidden'}}
+                    />
+                </noscript>
+                
+                <Analytics />
                 <SessionProvider>
                     <ThemeProvider>
                         <FinancialDataProvider>

@@ -27,27 +27,15 @@ export default function Footer() {
                         <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm">
                             Tarifs
                         </Link>
-                        <Link href="/faq" className="text-secondary hover:text-primary transition-colors text-sm">
-                            FAQ
+                        <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-sm">
+                            Blog
                         </Link>
-                        <a
-                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-secondary hover:text-primary transition-colors flex items-center gap-2 text-sm"
-                        >
-                            <Linkedin className="w-4 h-4" />
-                            LinkedIn
-                        </a>
-                        <a
-                            href="https://github.com/OtmaneZ/FinSights"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-secondary hover:text-primary transition-colors flex items-center gap-2 text-sm"
-                        >
-                            <Github className="w-4 h-4" />
-                            GitHub
-                        </a>
+                        <Link href="/calculateurs/dso" className="text-secondary hover:text-primary transition-colors text-sm">
+                            Calculateurs
+                        </Link>
+                        <Link href="/changelog" className="text-secondary hover:text-primary transition-colors text-sm">
+                            Changelog
+                        </Link>
                         <a
                             href="https://calendly.com/zineinsight"
                             target="_blank"

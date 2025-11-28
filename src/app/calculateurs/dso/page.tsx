@@ -193,7 +193,13 @@ export default function CalculateurDSO() {
                                 <p className="text-sm text-secondary mb-3 text-center">
                                     Comparaison avec le secteur {secteur}
                                 </p>
-                                <BenchmarkBar value={dso} sector={secteur as any} />
+                                <BenchmarkBar 
+                                    kpiName="DSO" 
+                                    currentValue={dso} 
+                                    sector={secteur as any}
+                                    unit="jours"
+                                    inverse={true}
+                                />
                             </div>
 
                             <div className={`p-4 rounded-lg border-2 ${interpretation.bgCouleur}`}>

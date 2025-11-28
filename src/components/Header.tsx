@@ -52,11 +52,11 @@ export default function Header() {
                     <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Tarifs
                     </Link>
-                    <Link href="/faq" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        FAQ
+                    <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                        Blog
                     </Link>
-                    <Link href="/services" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Nos Offres
+                    <Link href="/calculateurs/dso" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                        Calculateurs
                     </Link>
                     <a
                         href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
