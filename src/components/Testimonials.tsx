@@ -12,45 +12,45 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
     {
-        quote: "J'ai gagné 3h/semaine sur mon reporting. L'IA répond mieux que mon expert-comptable sur les questions métier.",
-        author: "Sophie Martin",
+        quote: "Interface intuitive, les KPIs sont bien structurés. Le parsing automatique des exports comptables fonctionne parfaitement.",
+        author: "Sophie M.",
         role: "DAF",
-        company: "PME Services (24 employés)",
+        company: "PME Services (25 salariés)",
         rating: 5
     },
     {
-        quote: "Le parsing Sage fonctionne parfaitement. Fini les copier-coller Excel interminables.",
-        author: "Thomas Dubois",
-        role: "Fondateur",
-        company: "Startup SaaS (Seed 1M€)",
+        quote: "Exactement ce que je cherchais : un dashboard clair qui me donne l'essentiel en un coup d'œil. Gain de temps immédiat.",
+        author: "Thomas D.",
+        role: "Directeur Financier",
+        company: "Startup SaaS",
         rating: 5
     },
     {
-        quote: "Les alertes DSO m'ont fait récupérer 85k€ de créances. ROI immédiat.",
-        author: "Claire Rousseau",
+        quote: "L'IA Copilot répond de façon pertinente aux questions financières. Très utile pour analyser les tendances rapidement.",
+        author: "Claire R.",
         role: "CFO",
         company: "Scale-up Tech (Series A)",
         rating: 5
     },
     {
-        quote: "Enfin un outil qui parle le langage des financiers. Les KPIs sont conformes au PCG 2025.",
-        author: "Marc Lefevre",
+        quote: "Les formules financières sont conformes aux standards. Enfin un outil qui parle le langage des DAF.",
+        author: "Marc L.",
         role: "Contrôleur de gestion",
         company: "Groupe industriel",
         rating: 5
     },
     {
-        quote: "La visualisation Sankey m'a aidé à identifier 120k€ de fuites de trésorerie cachées.",
-        author: "Amélie Bernard",
-        role: "DAF",
-        company: "E-commerce (15M€ CA)",
+        quote: "La détection d'anomalies m'a permis d'identifier plusieurs points d'attention sur mes créances. Très efficace.",
+        author: "Amélie B.",
+        role: "Responsable Finance",
+        company: "E-commerce",
         rating: 5
     },
     {
-        quote: "API REST impeccable. Intégration Zapier en 10 minutes. J'automatise tout mon workflow.",
-        author: "Lucas Moreau",
-        role: "CTO",
-        company: "Fintech (Series B)",
+        quote: "Design professionnel, données bien visualisées. L'export PDF est parfait pour mes présentations au COMEX.",
+        author: "Lucas M.",
+        role: "DAF",
+        company: "Agence digitale",
         rating: 5
     }
 ]
@@ -59,9 +59,9 @@ export default function Testimonials() {
     return (
         <section className="max-w-7xl mx-auto px-6 py-20">
             <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold mb-4">Ils nous font confiance</h2>
+                <h2 className="text-4xl font-bold mb-4">Utilisé par des DAF et CFO</h2>
                 <p className="text-secondary text-lg">
-                    Rejoignez les DAF et CFO qui transforment leur analyse financière
+                    Une analyse financière moderne, précise et accessible
                 </p>
             </div>
 
@@ -96,20 +96,20 @@ export default function Testimonials() {
             {/* Stats Section */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-16 border-t border-border-subtle">
                 <div className="text-center">
-                    <div className="text-4xl font-bold text-accent-primary mb-2">200+</div>
-                    <div className="text-secondary text-sm">Utilisateurs actifs</div>
-                </div>
-                <div className="text-center">
-                    <div className="text-4xl font-bold text-accent-primary mb-2">3h</div>
-                    <div className="text-secondary text-sm">Gagnées/semaine</div>
+                    <div className="text-4xl font-bold text-accent-primary mb-2">10s</div>
+                    <div className="text-secondary text-sm">Upload → Dashboard</div>
                 </div>
                 <div className="text-center">
                     <div className="text-4xl font-bold text-accent-primary mb-2">15+</div>
-                    <div className="text-secondary text-sm">KPIs calculés</div>
+                    <div className="text-secondary text-sm">KPIs financiers</div>
                 </div>
                 <div className="text-center">
-                    <div className="text-4xl font-bold text-accent-primary mb-2">99.9%</div>
-                    <div className="text-secondary text-sm">Uptime SLA</div>
+                    <div className="text-4xl font-bold text-accent-primary mb-2">GPT-4</div>
+                    <div className="text-secondary text-sm">IA Copilot intégrée</div>
+                </div>
+                <div className="text-center">
+                    <div className="text-4xl font-bold text-accent-primary mb-2">100%</div>
+                    <div className="text-secondary text-sm">Conformité PCG</div>
                 </div>
             </div>
         </section>

@@ -27,18 +27,18 @@ export default function Home() {
                 {/* Social Proof Badge */}
                 <div className="flex items-center justify-center gap-6 mb-8 text-sm text-secondary">
                     <div className="flex items-center gap-2">
-                        <span className="text-accent-primary font-bold text-lg">300+</span>
-                        <span>PME analysées</span>
+                        <span className="text-accent-primary font-bold text-lg">3</span>
+                        <span>scénarios démo</span>
                     </div>
                     <div className="w-px h-4 bg-border-default"></div>
                     <div className="flex items-center gap-2">
-                        <span className="text-accent-primary font-bold text-lg">10h</span>
-                        <span>économisées/mois</span>
+                        <span className="text-accent-primary font-bold text-lg">10s</span>
+                        <span>upload → résultats</span>
                     </div>
                     <div className="w-px h-4 bg-border-default"></div>
                     <div className="flex items-center gap-2">
-                        <span className="text-accent-primary font-bold text-lg">4.9/5</span>
-                        <span>⭐ satisfaction</span>
+                        <span className="text-accent-primary font-bold text-lg">15+</span>
+                        <span>KPIs financiers</span>
                     </div>
                 </div>
 
@@ -55,7 +55,7 @@ export default function Home() {
 
                     <p className="text-xl text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
                         Transformez vos exports comptables en insights actionnables.<br/>
-                        <span className="text-accent-primary font-semibold">Économisez 10h/mois</span> sur votre reporting financier.
+                        <span className="text-accent-primary font-semibold">IA + Finance</span> pour une analyse moderne et précise.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
