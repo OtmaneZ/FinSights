@@ -20,6 +20,9 @@ export const metadata = {
     creator: 'FinSight',
     publisher: 'FinSight',
     manifest: '/manifest.json',
+    verification: {
+        google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || '', // Add GSC verification code here
+    },
     openGraph: {
       type: 'website',
       locale: 'fr_FR',
