@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next'
+import { BLOG_ARTICLES } from '@/lib/seo'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://finsight.zineinsight.com'
   
-  return [
+  // Static pages
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
@@ -35,17 +37,47 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/blog/calcul-dso-formule-2025`,
-      lastModified: new Date('2025-11-28'),
-      changeFrequency: 'monthly',
-      priority: 0.9,
+      url: `${baseUrl}/changelog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.5,
     },
     {
-      url: `${baseUrl}/blog/5-kpis-financiers-pme`,
-      lastModified: new Date('2025-11-28'),
+      url: `${baseUrl}/faq`,
+      lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.9,
+      priority: 0.6,
     },
+    {
+      url: `${baseUrl}/methodologie`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/politique-confidentialite`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/cookies`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+  ]
+
+  // Blog articles (dynamically generated from BLOG_ARTICLES)
+  const blogPages: MetadataRoute.Sitemap = BLOG_ARTICLES.map((article) => ({
+    url: `${baseUrl}/blog/${article.slug}`,
+    lastModified: new Date(article.date),
+    changeFrequency: 'monthly' as const,
+    priority: 0.9,
+  }))
+
+  // Calculators
+  const calculators: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/calculateurs/dso`,
       lastModified: new Date(),
@@ -58,17 +90,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.9,
     },
-    {
-      url: `${baseUrl}/changelog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/faq`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
   ]
+
+  return [...staticPages, ...blogPages, ...calculators]
 }
+

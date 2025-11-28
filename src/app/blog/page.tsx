@@ -30,6 +30,70 @@ const blogPosts: BlogPost[] = [
         date: '28 novembre 2025',
         readTime: '6 min',
         category: 'Gestion'
+    },
+    {
+        slug: 'bfr-formule-optimisation',
+        title: 'BFR : formule de calcul et optimisation 2025',
+        description: 'Tout savoir sur le Besoin en Fonds de Roulement : calcul, interprétation et leviers d\'optimisation',
+        date: '28 novembre 2025',
+        readTime: '10 min',
+        category: 'Trésorerie'
+    },
+    {
+        slug: 'marge-nette-vs-brute',
+        title: 'Marge nette vs marge brute : différences et calculs',
+        description: 'Comprenez la différence entre marge brute et marge nette avec formules et benchmarks sectoriels',
+        date: '28 novembre 2025',
+        readTime: '7 min',
+        category: 'Rentabilité'
+    },
+    {
+        slug: 'cash-flow-previsionnel-pme',
+        title: 'Cash flow prévisionnel : méthode pratique pour PME',
+        description: 'Guide complet pour construire un cash flow prévisionnel fiable et anticiper vos besoins de trésorerie',
+        date: '28 novembre 2025',
+        readTime: '9 min',
+        category: 'Trésorerie'
+    },
+    {
+        slug: 'top-7-kpis-startups-saas',
+        title: 'Top 7 KPIs financiers pour startups SaaS',
+        description: 'Les indicateurs essentiels pour piloter une startup SaaS : MRR, Churn, CAC, LTV et plus',
+        date: '28 novembre 2025',
+        readTime: '8 min',
+        category: 'SaaS'
+    },
+    {
+        slug: 'creances-clients-reduire-impayes',
+        title: 'Créances clients : comment réduire les impayés',
+        description: 'Stratégies concrètes pour améliorer le recouvrement et diminuer les retards de paiement',
+        date: '28 novembre 2025',
+        readTime: '7 min',
+        category: 'Recouvrement'
+    },
+    {
+        slug: 'tresorerie-pme-5-erreurs-eviter',
+        title: 'Trésorerie PME : 5 erreurs à éviter',
+        description: 'Les erreurs fréquentes qui mettent en péril la trésorerie des PME et comment les éviter',
+        date: '28 novembre 2025',
+        readTime: '6 min',
+        category: 'Trésorerie'
+    },
+    {
+        slug: 'ratio-liquidite-interpretation',
+        title: 'Ratio de liquidité : interpréter les résultats',
+        description: 'Comprendre les ratios de liquidité et évaluer la santé financière de votre entreprise',
+        date: '28 novembre 2025',
+        readTime: '8 min',
+        category: 'Analyse'
+    },
+    {
+        slug: 'budget-previsionnel-dashboard-ia',
+        title: 'Budget prévisionnel : template Excel vs dashboard IA',
+        description: 'Comparaison des méthodes pour construire et suivre votre budget prévisionnel efficacement',
+        date: '28 novembre 2025',
+        readTime: '7 min',
+        category: 'Outils'
     }
 ]
 
