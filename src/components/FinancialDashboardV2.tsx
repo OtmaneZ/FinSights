@@ -625,7 +625,13 @@ export default function FinancialDashboardV2() {
             await new Promise(resolve => setTimeout(resolve, 500));
 
             // Mise à jour state
-            setKpis(kpis || []);
+            setKpis((kpis || []).map((kpi: any) => ({
+                title: kpi.title,
+                value: kpi.value,
+                change: kpi.change,
+                changeType: kpi.changeType as 'positive' | 'negative' | 'neutral',
+                description: kpi.description
+            })));
             setFinSightData(processedData);
             setRawData(processedData.records || []);
             setIsDataLoaded(true);

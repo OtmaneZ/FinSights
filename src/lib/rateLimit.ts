@@ -15,7 +15,7 @@ export const RATE_LIMITS = {
     FREE: {
         copilot_queries: 10,    // 10 questions/jour
         api_calls: 0,           // Pas d'API REST
-        uploads: 5,             // 5 uploads/mois (protection storage)
+        uploads: 10,            // 10 uploads/mois (tester sérieusement = 2-3 fichiers/semaine)
         dashboards: 1,          // 1 entreprise
     },
     PRO: {

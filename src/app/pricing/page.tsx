@@ -18,7 +18,7 @@ export default function PricingPage() {
             priceYearly: 0,
             features: [
                 '✅ 1 entreprise',
-                '✅ 5 uploads CSV/mois',
+                '✅ 10 uploads CSV/mois',
                 '✅ Dashboard complet (15 KPIs)',
                 '✅ 10 questions IA/jour',
                 '✅ Export PDF avec watermark',
