@@ -125,6 +125,28 @@
 
 ---
 
+## 📁 **PROJECT STRUCTURE**
+
+```
+finsights/
+├── src/
+│   ├── app/              # Next.js 14 App Router
+│   │   ├── api/         # API routes (upload, insights, auth)
+│   │   ├── dashboard/   # Dashboard pages
+│   │   └── services/    # Services page
+│   ├── components/       # React components
+│   ├── lib/             # Utilities (parsers, formulas, AI)
+│   └── styles/          # CSS design system
+├── config/              # Configuration files
+├── docs/                # Documentation
+├── prisma/              # Database schema
+├── public/              # Static assets
+├── scripts/             # Utility scripts
+└── tests/               # Test files
+```
+
+---
+
 ## 🚀 **INSTALLATION & SETUP**
 
 ### Prerequisites

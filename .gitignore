@@ -1,32 +1,46 @@
+# Dependencies
 node_modules/
+
+# Next.js
 .next/
+dist/
+build/
+
+# Environment files
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Vercel
 .vercel
+
+# Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+
+# OS files
 .DS_Store
-*.tsbuildinfo
-next-env.d.ts
-dist/
-build/
-.env
-.env.example
-coverage/
-.nyc_output/
-.vscode/
-.idea/
 *.swp
 *.swo
 *~
 
-# Fichiers personnels (notes, réflexions, plan de bataille)
-REFLEXION_OTMANE.md
-FEATURES_WAOUW.md
-DESIGN.md
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Testing
+coverage/
+.nyc_output/
+
+# IDE
+.vscode/
+.idea/
+
+# Archive (old exports, personal notes)
+docs/archive/
 test-pinecone.js
