@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { BookOpen, Calculator, Filter, Search } from 'lucide-react'
+import { BookOpen, Calculator, Filter, Search, FileSpreadsheet } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { BLOG_ARTICLES } from '@/lib/seo'
@@ -60,6 +60,69 @@ export default function RessourcesPage() {
                         Articles, calculateurs et guides pratiques pour optimiser la gestion financière de votre PME
                     </p>
                 </div>
+
+                {/* Templates Excel - NEW */}
+                <section className="mb-16">
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3">
+                            <FileSpreadsheet className="w-6 h-6 text-accent-primary" />
+                            <h2 className="text-3xl font-bold">Templates Excel Professionnels</h2>
+                        </div>
+                        <Link
+                            href="/ressources/templates"
+                            className="inline-flex items-center gap-2 px-4 py-2 text-accent-primary hover:underline font-medium"
+                        >
+                            Voir tous les templates →
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <Link
+                            href="/ressources/templates"
+                            className="surface rounded-2xl p-6 border-2 border-border-default hover:border-accent-primary transition-all group"
+                        >
+                            <div className="text-4xl mb-4">📊</div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
+                                Budget Prévisionnel 2025
+                            </h3>
+                            <p className="text-secondary text-sm mb-4">
+                                12 mois de prévisions avec formules automatiques et graphiques
+                            </p>
+                            <span className="text-accent-primary text-sm font-medium">
+                                Télécharger (.xlsx) →
+                            </span>
+                        </Link>
+                        <Link
+                            href="/ressources/templates"
+                            className="surface rounded-2xl p-6 border-2 border-border-default hover:border-accent-primary transition-all group"
+                        >
+                            <div className="text-4xl mb-4">⏱️</div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
+                                Tracker DSO Clients
+                            </h3>
+                            <p className="text-secondary text-sm mb-4">
+                                Suivi des délais de paiement avec alertes conditionnelles
+                            </p>
+                            <span className="text-accent-primary text-sm font-medium">
+                                Télécharger (.xlsx) →
+                            </span>
+                        </Link>
+                        <Link
+                            href="/ressources/templates"
+                            className="surface rounded-2xl p-6 border-2 border-border-default hover:border-accent-primary transition-all group"
+                        >
+                            <div className="text-4xl mb-4">💰</div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
+                                Dashboard Cash Flow
+                            </h3>
+                            <p className="text-secondary text-sm mb-4">
+                                Pilotez votre trésorerie avec projections 6 mois
+                            </p>
+                            <span className="text-accent-primary text-sm font-medium">
+                                Télécharger (.xlsx) →
+                            </span>
+                        </Link>
+                    </div>
+                </section>
 
                 {/* Calculateurs */}
                 <section className="mb-16">
@@ -130,10 +193,10 @@ export default function RessourcesPage() {
                                         </p>
                                         <div className="flex items-center justify-between text-sm">
                                             <span className="text-tertiary">
-                                                {new Date(article.date).toLocaleDateString('fr-FR', { 
-                                                    day: 'numeric', 
-                                                    month: 'long', 
-                                                    year: 'numeric' 
+                                                {new Date(article.date).toLocaleDateString('fr-FR', {
+                                                    day: 'numeric',
+                                                    month: 'long',
+                                                    year: 'numeric'
                                                 })}
                                             </span>
                                             <span className="text-accent-primary font-semibold group-hover:underline">

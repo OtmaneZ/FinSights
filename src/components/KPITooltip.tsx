@@ -39,8 +39,8 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
         return <>{children}</>;
     }
 
+    // Feature en développement : comparaison avec seuils sectoriels
     const getRiskLevelColor = (value: number, thresholds: any) => {
-        // TODO: Implémenter logique de comparaison avec seuils
         return 'text-gray-600';
     };
 

@@ -72,6 +72,7 @@ import KPITooltip from './KPITooltip';
 // Import Drill-Down
 import { useDrilldown } from '@/hooks/useDrilldown';
 import { KPIDrilldownModal } from './drill-down/KPIDrilldownModal';
+import { logger } from '@/lib/logger';
 
 interface KPI {
     title: string
@@ -150,7 +151,7 @@ export default function FinancialDashboard() {
             });
         },
         onDrillDown: (data) => {
-            console.log('🔍 Drill-down event received:', data);
+            logger.debug('Drill-down event received:', data);
         },
         onAnomalyDetected: (data) => {
             addToast({
@@ -250,13 +251,13 @@ export default function FinancialDashboard() {
                 setLoadingMessage('✅ Dashboard prêt !');
                 await new Promise(resolve => setTimeout(resolve, 300));
 
-                console.log('✅ Démo chargée avec succès:', result.data);
+                logger.info('Démo chargée avec succès');
             } else {
-                console.error('❌ Erreur API upload:', result);
+                logger.error('Erreur API upload:', result);
                 setLoadingMessage('❌ Erreur lors du chargement');
             }
         } catch (error) {
-            console.error('❌ Erreur chargement démo:', error);
+            logger.error('Erreur chargement démo:', error);
             setLoadingMessage('❌ Erreur lors du chargement');
         } finally {
             setTimeout(() => {
@@ -401,7 +402,7 @@ export default function FinancialDashboard() {
             exporter.download(filename);
 
         } catch (error) {
-            console.error('Erreur lors de l\'export PDF:', error);
+            logger.error('Erreur lors de l\'export PDF:', error);
             alert('Erreur lors de l\'export PDF. Veuillez réessayer.');
         }
         setIsExporting(false);
@@ -446,7 +447,7 @@ export default function FinancialDashboard() {
             await exporter.generate(excelOptions);
 
         } catch (error) {
-            console.error('Erreur lors de l\'export Excel:', error);
+            logger.error('Erreur lors de l\'export Excel:', error);
             alert('Erreur lors de l\'export Excel. Veuillez réessayer.');
         }
         setIsExporting(false);
@@ -526,15 +527,13 @@ export default function FinancialDashboard() {
                 setFinSightData(result.data);
                 setRawData(result.data.records || []);
                 setIsDataLoaded(true);
-                console.log('✅ rawData défini dans contexte:', result.data.records?.length, 'enregistrements');
+                logger.debug('rawData défini dans contexte:', result.data.records?.length, 'enregistrements');
             }
 
-            // DEBUG: Vérifier ce qui arrive
-            console.log('🔍 Debug result.data:', {
+            // Vérifier la configuration
+            logger.debug('Configuration:', {
                 levelInfo: result.data.levelInfo,
                 dashboardConfig: result.data.dashboardConfig,
-                hasLevelInfo: !!result.data.levelInfo,
-                hasDashboardConfig: !!result.data.dashboardConfig,
                 recordsCount: result.data.records?.length || 0
             });
 
@@ -1005,7 +1004,7 @@ export default function FinancialDashboard() {
         };
     };
 
-    // 🤖 TODO 6: Fonction detectAnomaliesFromData() - Détection ML automatique
+    // Fonction detectAnomaliesFromData() - Détection ML automatique
     const detectAnomaliesFromData = () => {
         if (!rawData || rawData.length === 0) {
             setAnomalies([]);
@@ -1029,9 +1028,9 @@ export default function FinancialDashboard() {
                 setShowAnomalies(true);
             }
 
-            console.log(`🤖 ML Anomaly Detection: ${result.anomalies.length} anomalies détectées en ${result.executionTime}ms`);
+            logger.debug(`ML Anomaly Detection: ${result.anomalies.length} anomalies détectées en ${result.executionTime}ms`);
         } catch (error) {
-            console.error('Erreur détection anomalies:', error);
+            logger.error('Erreur détection anomalies:', error);
             setAnomalies([]);
         }
     };
@@ -2175,8 +2174,8 @@ export default function FinancialDashboard() {
                                             setAnomalies(prev => prev.filter(a => a.id !== id));
                                         }}
                                         onInvestigate={(anomaly) => {
-                                            console.log('Investigate:', anomaly);
-                                            // TODO: Ouvrir drill-down sur l'entité concernée
+                                            logger.debug('Investigate anomaly:', anomaly);
+                                            // Feature drill-down en développement
                                             if (anomaly.metadata?.client) {
                                                 // Option: ouvrir drill-down automatiquement
                                             }
