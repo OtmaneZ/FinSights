@@ -1,4 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import { FinSightDataModel, AIAlert, AIRecommendation, AIResponse } from '@/lib/dataModel';
 
 // Configuration OpenAI - à remplacer par vos clés
@@ -15,6 +17,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
+
+    // 🔐 AUTH CHECK - Optional but recommended
+    const session = await getServerSession(req, res, authOptions);
+    const isAuthenticated = !!session?.user;
+
+    // Note: API insights peut rester publique pour la démo
+    // Si tu veux la restreindre, décommente ci-dessous:
+    // if (!isAuthenticated) {
+    //     return res.status(401).json({ error: 'Unauthorized' });
+    // }
 
     try {
         const { data, query, type = 'full_analysis' }: InsightsRequest = req.body;

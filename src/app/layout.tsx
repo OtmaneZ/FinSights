@@ -4,6 +4,7 @@ import './globals.css'
 import '../styles/driver-custom.css'
 import { Inter } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
+import { CompanyProvider } from '@/lib/companyContext'
 import { ThemeProvider } from '@/lib/themeContext'
 import SessionProvider from '@/components/SessionProvider'
 import Analytics from '@/components/Analytics'
@@ -61,11 +62,13 @@ export default function RootLayout({
                 <Analytics />
                 <CookieConsent />
                 <SessionProvider>
-                    <ThemeProvider>
-                        <FinancialDataProvider>
-                            {children}
-                        </FinancialDataProvider>
-                    </ThemeProvider>
+                    <CompanyProvider>
+                        <ThemeProvider>
+                            <FinancialDataProvider>
+                                {children}
+                            </FinancialDataProvider>
+                        </ThemeProvider>
+                    </CompanyProvider>
                 </SessionProvider>
             </body>
         </html>

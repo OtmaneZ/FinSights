@@ -9,6 +9,7 @@ import { authOptions } from '@/lib/auth';
 import { put } from '@vercel/blob';
 import { prisma } from '@/lib/prisma';
 import { checkRateLimitKV } from '@/lib/rateLimit';
+import { triggerWebhook } from '@/lib/webhooks';
 
 // Next.js 14 App Router handles FormData/multipart natively, no config needed
 
@@ -85,6 +86,17 @@ export async function POST(req: Request) {
                 rawData,
                 kpis,
             },
+        });
+
+        // Trigger webhook: dashboard.created
+        await triggerWebhook(userId, 'dashboard.created', {
+            dashboardId: dashboard.id,
+            fileName: dashboard.fileName,
+            companyId: dashboard.companyId,
+            kpis,
+        }).catch((err) => {
+            console.error('Webhook trigger error:', err);
+            // Don't fail upload if webhook fails
         });
 
         return NextResponse.json({

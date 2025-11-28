@@ -5,6 +5,9 @@ import Link from 'next/link'
 import { Calculator, TrendingUp, ArrowRight, AlertCircle, CheckCircle, Info } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import StructuredData from '@/components/StructuredData'
+import { generateHowToJsonLd } from '@/lib/seo'
+import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 
 export default function CalculateurBFR() {
     const [stocks, setStocks] = useState<string>('')
@@ -13,6 +16,35 @@ export default function CalculateurBFR() {
     const [ca, setCA] = useState<string>('')
     const [bfr, setBFR] = useState<number | null>(null)
     const [joursCA, setJoursCA] = useState<number | null>(null)
+
+    // Structured data for SEO
+    const structuredData = generateHowToJsonLd({
+        name: 'Calculer son BFR (Besoin en Fonds de Roulement)',
+        description: 'Guide pas à pas pour calculer le besoin en fonds de roulement et optimiser sa trésorerie',
+        slug: 'bfr',
+        steps: [
+            {
+                name: 'Identifier vos stocks',
+                text: 'Calculez la valeur totale de vos stocks (matières premières, produits finis, marchandises)'
+            },
+            {
+                name: 'Calculer vos créances clients',
+                text: 'Additionnez toutes les factures émises non encore encaissées'
+            },
+            {
+                name: 'Évaluer vos dettes fournisseurs',
+                text: 'Totalisez les factures fournisseurs non encore réglées'
+            },
+            {
+                name: 'Appliquer la formule BFR',
+                text: 'BFR = Stocks + Créances clients - Dettes fournisseurs'
+            },
+            {
+                name: 'Analyser le résultat',
+                text: 'Un BFR négatif est excellent (vos fournisseurs financent votre activité). Un BFR positif doit être financé.'
+            }
+        ]
+    })
 
     const calculer = () => {
         const stocksNum = parseFloat(stocks) || 0
@@ -29,6 +61,15 @@ export default function CalculateurBFR() {
         } else {
             setJoursCA(null)
         }
+
+        // Track calculator usage
+        trackCalculatorUse('BFR', bfrCalcule, {
+            stocks: stocksNum,
+            creances: creancesNum,
+            dettes: dettesNum,
+            ca: caNum,
+            joursCA: joursCA || 0
+        })
     }
 
     const reset = () => {
@@ -106,6 +147,7 @@ export default function CalculateurBFR() {
 
     return (
         <div className="min-h-screen bg-primary text-primary font-sans">
+            <StructuredData data={structuredData} />
             <Header />
 
             <div className="max-w-4xl mx-auto px-6 py-12">
@@ -398,6 +440,7 @@ export default function CalculateurBFR() {
                                 </ul>
                                 <Link
                                     href="/dashboard"
+                                    onClick={() => trackCTAClick('calculateur-bfr', '/dashboard', 'essayer-gratuitement')}
                                     className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-lg transition-all hover:shadow-lg"
                                 >
                                     Essayer gratuitement

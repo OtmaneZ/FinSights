@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useFinancialData } from '@/lib/financialContext'
+import { useActiveCompany } from '@/lib/companyContext'
 import {
     TrendingUp,
     TrendingDown,
@@ -15,7 +17,9 @@ import {
     AlertTriangle,
     Zap,
     Percent,
-    Wallet
+    Wallet,
+    FolderOpen,
+    Database
 } from 'lucide-react'
 
 // Import Charts
@@ -85,11 +89,18 @@ interface KPI {
 
 export default function FinancialDashboardV2() {
     const { data: session } = useSession();
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const { finSightData, setFinSightData, rawData, setRawData, isDataLoaded, setIsDataLoaded } = useFinancialData();
+    const { activeCompanyId } = useActiveCompany();
     const [kpis, setKpis] = useState<KPI[]>([]);
     const [isExporting, setIsExporting] = useState(false);
     const [selectedPeriod, setSelectedPeriod] = useState('all');
     const dashboardRef = useRef<HTMLDivElement>(null);
+
+    // Loading saved dashboard state
+    const [loadingSavedDashboard, setLoadingSavedDashboard] = useState(false);
+    const [loadedDashboardId, setLoadedDashboardId] = useState<string | null>(null);
 
     // Company Info states
     const [showCompanyModal, setShowCompanyModal] = useState(false);
@@ -453,29 +464,45 @@ export default function FinancialDashboardV2() {
         if (!files || files.length === 0) return
 
         const file = files[0]
-        const formData = new FormData()
-        formData.append('file', file)
 
-        try {
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData
-            })
+        // Read file content
+        const reader = new FileReader()
 
-            const result = await response.json()
+        reader.onload = async (e) => {
+            const fileContent = e.target?.result as string
 
-            if (response.ok) {
-                setKpis(result.data.kpis || [])
-                setFinSightData(result.data.financialData || result.data.processedData)
-                setRawData(result.data.records || result.data.rawData || [])
-                setIsDataLoaded(true)
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fileContent,
+                        fileName: file.name,
+                        fileType: file.type,
+                        companyId: activeCompanyId // ✅ Pass active company ID
+                    })
+                })
 
-                // ✨ Show upload success banner
-                setShowUploadBanner(true)
+                const result = await response.json()
+
+                if (response.ok) {
+                    setKpis(result.data.kpis || [])
+                    setFinSightData(result.data.financialData || result.data.processedData)
+                    setRawData(result.data.records || result.data.rawData || [])
+                    setIsDataLoaded(true)
+
+                    // Clear the loaded dashboard badge (new upload = new dashboard)
+                    setLoadedDashboardId(null)
+
+                    // ✨ Show upload success banner
+                    setShowUploadBanner(true)
+                }
+            } catch (error) {
+                console.error('Erreur upload:', error)
             }
-        } catch (error) {
-            console.error('Erreur upload:', error)
         }
+
+        reader.readAsText(file)
     }
 
     // Export PDF
@@ -564,6 +591,73 @@ export default function FinancialDashboardV2() {
         }
         setIsExporting(false);
     }
+
+    // 💾 LOAD SAVED DASHBOARD from API
+    const loadSavedDashboard = async (dashboardId: string) => {
+        setLoadingSavedDashboard(true);
+        setIsLoadingDemo(true);
+        setLoadingProgress(0);
+        setLoadingMessage('📂 Chargement du dashboard...');
+
+        try {
+            setLoadingProgress(30);
+
+            // Fetch dashboard from API
+            const response = await fetch(`/api/dashboards?id=${dashboardId}`);
+
+            if (!response.ok) {
+                throw new Error('Dashboard introuvable');
+            }
+
+            const data = await response.json();
+            const dashboard = data.dashboard;
+
+            setLoadingProgress(60);
+            setLoadingMessage('📊 Reconstruction des KPIs...');
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Load data from saved dashboard
+            if (dashboard.kpis && Array.isArray(dashboard.kpis)) {
+                setKpis(dashboard.kpis.map((kpi: any) => ({
+                    title: kpi.title,
+                    value: kpi.value,
+                    change: kpi.change,
+                    changeType: kpi.changeType as 'positive' | 'negative' | 'neutral',
+                    description: kpi.description
+                })));
+            }
+
+            if (dashboard.rawData && Array.isArray(dashboard.rawData)) {
+                setRawData(dashboard.rawData);
+            }
+
+            // Set company info from dashboard
+            if (dashboard.company) {
+                setCompanyName(dashboard.company.name);
+                setCompanySector(dashboard.company.sector as CompanySector);
+            }
+
+            // Set the loaded dashboard ID for the badge
+            setLoadedDashboardId(dashboardId);
+
+            setLoadingProgress(90);
+            setLoadingMessage('✨ Finalisation...');
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            setIsDataLoaded(true);
+            setLoadingProgress(100);
+
+            console.log(`✅ Dashboard "${dashboard.fileName}" chargé depuis DB`);
+
+        } catch (error) {
+            console.error('❌ Erreur chargement dashboard:', error);
+            alert('Impossible de charger ce dashboard. Il a peut-être été supprimé.');
+            router.push('/dashboard/list');
+        } finally {
+            setLoadingSavedDashboard(false);
+            setIsLoadingDemo(false);
+        }
+    };
 
     // Load demo scenario avec animation de progression
     const loadDemoScenario = async (scenario: 'saine' | 'difficulte' | 'croissance') => {
@@ -675,7 +769,15 @@ export default function FinancialDashboardV2() {
         }
     }, [rawData]);
 
-    // � Recalculer KPIs simulés quand sliders changent
+    // 🔄 Load saved dashboard if ?id= parameter exists
+    useEffect(() => {
+        const dashboardId = searchParams?.get('id');
+        if (dashboardId && !isDataLoaded && !loadingSavedDashboard) {
+            loadSavedDashboard(dashboardId);
+        }
+    }, [searchParams]);
+
+    // 🎨 Recalculer KPIs simulés quand sliders changent
     useEffect(() => {
         if (chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) {
             calculateSimulatedKPIs();
@@ -841,11 +943,28 @@ export default function FinancialDashboardV2() {
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold mb-2 text-primary">Tableau de Bord Financier</h1>
+                        <div className="flex items-center gap-3 mb-2">
+                            <h1 className="text-3xl font-bold text-primary">Tableau de Bord Financier</h1>
+                            {loadedDashboardId && (
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-accent-primary/10 text-accent-primary border border-accent-primary/20">
+                                    <Database className="w-3.5 h-3.5" />
+                                    Dashboard sauvegardé
+                                </span>
+                            )}
+                        </div>
                         <p className="text-secondary text-sm">Période Actuelle • Données en temps réel</p>
                     </div>
 
                     <div className="flex flex-wrap gap-3">
+                        {/* Bouton Mes Dashboards - NEW */}
+                        <button
+                            onClick={() => router.push('/dashboard/list')}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-accent-primary text-accent-primary hover:bg-accent-primary-subtle rounded-lg font-semibold text-sm transition-all"
+                        >
+                            <FolderOpen className="w-4 h-4" />
+                            Mes Dashboards
+                        </button>
+
                         <button
                             onClick={exportToPDF}
                             disabled={isExporting}

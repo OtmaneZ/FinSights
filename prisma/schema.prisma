@@ -29,6 +29,7 @@ model User {
   companies  Company[]
   dashboards Dashboard[]
   apiKeys    ApiKey[]
+  webhooks   Webhook[]
 
   // Stripe Integration
   stripeCustomerId       String?   @unique
@@ -105,6 +106,60 @@ model ApiKey {
   @@index([userId])
   @@index([key])
   @@map("api_keys")
+}
+
+// ============================================
+// WEBHOOK MODEL - Real-time Events
+// ============================================
+
+model Webhook {
+  id     String  @id @default(cuid())
+  url    String  // Endpoint URL to POST events
+  secret String  // Webhook signing secret
+  active Boolean @default(true)
+
+  // Event subscriptions (array of event types)
+  events String[] // ["dashboard.created", "dashboard.updated", "kpi.threshold_reached"]
+
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastTriggered DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  logs WebhookLog[]
+
+  @@index([userId])
+  @@index([active])
+  @@map("webhooks")
+}
+
+// ============================================
+// WEBHOOK LOG MODEL - Delivery History
+// ============================================
+
+model WebhookLog {
+  id String @id @default(cuid())
+
+  webhookId String
+  webhook   Webhook @relation(fields: [webhookId], references: [id], onDelete: Cascade)
+
+  event       String // "dashboard.created"
+  payload     Json   // Event data sent
+  statusCode  Int?   // HTTP response code
+  response    String? // Response body
+  success     Boolean
+  attempts    Int    @default(1) // Retry count
+  errorReason String?
+
+  createdAt DateTime @default(now())
+
+  @@index([webhookId])
+  @@index([createdAt])
+  @@index([success])
+  @@map("webhook_logs")
 }
 
 // ============================================

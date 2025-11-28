@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { Linkedin, User, LogOut, Crown, Settings } from 'lucide-react'
+import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { useState, useRef, useEffect } from 'react'
+import { CompanySwitcher } from './CompanySwitcher'
 
 export default function Header() {
     const { data: session, status } = useSession()
@@ -72,80 +73,113 @@ export default function Header() {
                     {status === 'loading' ? (
                         <div className="w-24 h-10 bg-surface-elevated animate-pulse rounded-lg" />
                     ) : session ? (
-                        // User logged in - Show dropdown
-                        <div className="relative" ref={dropdownRef}>
-                            <button
-                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="flex items-center gap-3 px-4 py-2 bg-surface-elevated hover:bg-surface-hover border border-border-default rounded-lg transition-all"
-                            >
-                                {/* Plan Badge */}
-                                <span className={`px-2 py-0.5 text-xs font-semibold rounded border ${getPlanBadgeColor(session.user?.plan || 'FREE')}`}>
-                                    {session.user?.plan || 'FREE'}
-                                </span>
+                        // User logged in - Show CompanySwitcher + User dropdown
+                        <div className="flex items-center gap-3">
+                            {/* Company Switcher */}
+                            <CompanySwitcher />
 
-                                {/* User Avatar */}
-                                <div className="w-8 h-8 bg-accent-primary text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                                    {session.user?.name?.[0]?.toUpperCase() || session.user?.email?.[0]?.toUpperCase() || 'U'}
-                                </div>
-                            </button>
+                            {/* User Dropdown */}
+                            <div className="relative" ref={dropdownRef}>
+                                <button
+                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                    className="flex items-center gap-3 px-4 py-2 bg-surface-elevated hover:bg-surface-hover border border-border-default rounded-lg transition-all"
+                                >
+                                    {/* Plan Badge */}
+                                    <span className={`px-2 py-0.5 text-xs font-semibold rounded border ${getPlanBadgeColor(session.user?.plan || 'FREE')}`}>
+                                        {session.user?.plan || 'FREE'}
+                                    </span>
 
-                            {/* Dropdown Menu */}
-                            {isDropdownOpen && (
-                                <div className="absolute right-0 mt-2 w-56 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50">
-                                    {/* User Info */}
-                                    <div className="px-4 py-3 border-b border-border-default">
-                                        <p className="text-sm font-semibold text-primary truncate">
-                                            {session.user?.name || 'Utilisateur'}
-                                        </p>
-                                        <p className="text-xs text-tertiary truncate">
-                                            {session.user?.email}
-                                        </p>
+                                    {/* User Avatar */}
+                                    <div className="w-8 h-8 bg-accent-primary text-white rounded-full flex items-center justify-center font-semibold text-sm">
+                                        {session.user?.name?.[0]?.toUpperCase() || session.user?.email?.[0]?.toUpperCase() || 'U'}
                                     </div>
+                                </button>
 
-                                    {/* Menu Items */}
-                                    <div className="py-2">
-                                        <Link
-                                            href="/dashboard"
-                                            className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
-                                            onClick={() => setIsDropdownOpen(false)}
-                                        >
-                                            <User className="w-4 h-4" />
-                                            Mon Dashboard
-                                        </Link>
+                                {/* Dropdown Menu */}
+                                {isDropdownOpen && (
+                                    <div className="absolute right-0 mt-2 w-56 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50">
+                                        {/* User Info */}
+                                        <div className="px-4 py-3 border-b border-border-default">
+                                            <p className="text-sm font-semibold text-primary truncate">
+                                                {session.user?.name || 'Utilisateur'}
+                                            </p>
+                                            <p className="text-xs text-tertiary truncate">
+                                                {session.user?.email}
+                                            </p>
+                                        </div>
 
-                                        {session.user?.plan === 'FREE' && (
+                                        {/* Menu Items */}
+                                        <div className="py-2">
                                             <Link
-                                                href="/pricing"
-                                                className="flex items-center gap-3 px-4 py-2 text-sm text-accent-primary hover:bg-accent-primary/5 transition-colors"
+                                                href="/dashboard"
+                                                className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
                                                 onClick={() => setIsDropdownOpen(false)}
                                             >
-                                                <Crown className="w-4 h-4" />
-                                                Passer à PRO 🚀
+                                                <User className="w-4 h-4" />
+                                                Mon Dashboard
                                             </Link>
-                                        )}
 
-                                        <Link
-                                            href="/settings"
-                                            className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
-                                            onClick={() => setIsDropdownOpen(false)}
-                                        >
-                                            <Settings className="w-4 h-4" />
-                                            Paramètres
-                                        </Link>
-                                    </div>
+                                            {session.user?.plan === 'FREE' && (
+                                                <Link
+                                                    href="/pricing"
+                                                    className="flex items-center gap-3 px-4 py-2 text-sm text-accent-primary hover:bg-accent-primary/5 transition-colors"
+                                                    onClick={() => setIsDropdownOpen(false)}
+                                                >
+                                                    <Crown className="w-4 h-4" />
+                                                    Passer à PRO 🚀
+                                                </Link>
+                                            )}
 
-                                    {/* Sign Out */}
-                                    <div className="border-t border-border-default">
-                                        <button
-                                            onClick={handleSignOut}
-                                            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-500/5 transition-colors"
-                                        >
-                                            <LogOut className="w-4 h-4" />
-                                            Déconnexion
-                                        </button>
+                                            <Link
+                                                href="/dashboard/api-keys"
+                                                className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                            >
+                                                <Key className="w-4 h-4" />
+                                                Clés API
+                                            </Link>
+
+                                            <Link
+                                                href="/dashboard/api-docs"
+                                                className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                            >
+                                                <Book className="w-4 h-4" />
+                                                Documentation API
+                                            </Link>
+
+                                            <Link
+                                                href="/dashboard/webhooks"
+                                                className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                            >
+                                                <Webhook className="w-4 h-4" />
+                                                Webhooks
+                                            </Link>
+
+                                            <Link
+                                                href="/settings"
+                                                className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                            >
+                                                <Settings className="w-4 h-4" />
+                                                Paramètres
+                                            </Link>
+                                        </div>
+
+                                        {/* Sign Out */}
+                                        <div className="border-t border-border-default">
+                                            <button
+                                                onClick={handleSignOut}
+                                                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-500/5 transition-colors"
+                                            >
+                                                <LogOut className="w-4 h-4" />
+                                                Déconnexion
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
                     ) : (
                         // User not logged in - Show auth buttons

@@ -42,13 +42,19 @@ export async function POST(req: NextRequest) {
         // Hash du password (10 rounds bcrypt)
         const hashedPassword = await hash(password, 10);
 
-        // Créer l'utilisateur
+        // Créer l'utilisateur + company par défaut (transaction atomique)
         const user = await prisma.user.create({
             data: {
                 email,
                 password: hashedPassword,
                 name: name || null,
                 plan: 'FREE', // Plan par défaut
+                companies: {
+                    create: {
+                        name: 'Mon Entreprise', // Company par défaut
+                        sector: 'services', // Secteur par défaut
+                    },
+                },
             },
             select: {
                 id: true,
@@ -56,6 +62,13 @@ export async function POST(req: NextRequest) {
                 name: true,
                 plan: true,
                 createdAt: true,
+                companies: {
+                    select: {
+                        id: true,
+                        name: true,
+                        sector: true,
+                    },
+                },
             },
         });
 

@@ -58,17 +58,32 @@ export async function POST(req: Request) {
         }
 
         const userId = (session.user as any).id;
-        const userPlan = (session.user as any).plan;
+        const userPlan = (session.user as any).plan || 'FREE';
 
-        // Check dashboards limit (companies use same quota)
-        const rateLimit = await checkRateLimitKV(userId, 'dashboards', userPlan);
-        if (!rateLimit.success) {
+        // ✅ Company quotas by plan
+        const companyQuotas: Record<string, number> = {
+            FREE: 1,
+            PRO: 5,
+            SCALE: 999, // Virtually unlimited
+            ENTERPRISE: 999
+        };
+
+        const maxCompanies = companyQuotas[userPlan] || 1;
+
+        // Check current company count
+        const currentCount = await prisma.company.count({
+            where: { userId }
+        });
+
+        if (currentCount >= maxCompanies) {
             return NextResponse.json(
                 {
-                    error: 'Company limit exceeded for your plan',
-                    limit: rateLimit.limit,
+                    error: 'Company limit reached',
+                    message: `Plan ${userPlan}: maximum ${maxCompanies} company(ies). Upgrade to PRO to manage up to 5 companies.`,
+                    currentCount,
+                    maxCompanies
                 },
-                { status: 429 }
+                { status: 403 }
             );
         }
 
@@ -85,6 +100,8 @@ export async function POST(req: Request) {
                 sector: sector?.trim() || null,
             },
         });
+
+        console.log(`✅ Company created: ${company.name} by user ${userId} (${userPlan})`);
 
         return NextResponse.json({
             success: true,
@@ -104,6 +121,55 @@ export async function POST(req: Request) {
     }
 }
 
+// PUT - Update company
+export async function PUT(req: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session?.user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
+        const userId = (session.user as any).id;
+        const { id, name, sector } = await req.json();
+
+        if (!id || !name || name.trim().length === 0) {
+            return NextResponse.json({ error: 'Company ID and name required' }, { status: 400 });
+        }
+
+        // Verify ownership before update
+        const existingCompany = await prisma.company.findUnique({
+            where: { id }
+        });
+
+        if (!existingCompany || existingCompany.userId !== userId) {
+            return NextResponse.json({ error: 'Company not found or access denied' }, { status: 404 });
+        }
+
+        const company = await prisma.company.update({
+            where: { id, userId },
+            data: {
+                name: name.trim(),
+                sector: sector?.trim() || null,
+            },
+        });
+
+        return NextResponse.json({
+            success: true,
+            company: {
+                id: company.id,
+                name: company.name,
+                sector: company.sector,
+            },
+        });
+    } catch (error) {
+        console.error('Update company error:', error);
+        return NextResponse.json(
+            { error: 'Failed to update company' },
+            { status: 500 }
+        );
+    }
+}
+
 // DELETE - Delete company (cascades to dashboards)
 export async function DELETE(req: Request) {
     try {
@@ -118,6 +184,18 @@ export async function DELETE(req: Request) {
 
         if (!companyId) {
             return NextResponse.json({ error: 'Company ID required' }, { status: 400 });
+        }
+
+        // Check if user has at least 2 companies before deleting
+        const userCompanies = await prisma.company.count({
+            where: { userId }
+        });
+
+        if (userCompanies <= 1) {
+            return NextResponse.json(
+                { error: 'Cannot delete last company. You must have at least one company.' },
+                { status: 403 }
+            );
         }
 
         await prisma.company.delete({

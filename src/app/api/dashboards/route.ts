@@ -1,6 +1,7 @@
 /**
- * Dashboards List API
+ * Dashboards API
  * GET /api/dashboards - List user's dashboards with pagination
+ * GET /api/dashboards?id=xxx - Get single dashboard
  */
 
 import { NextResponse } from 'next/server';
@@ -17,6 +18,48 @@ export async function GET(req: Request) {
 
         const userId = (session.user as any).id;
         const { searchParams } = new URL(req.url);
+        const dashboardId = searchParams.get('id');
+
+        // 📌 CASE 1: Get single dashboard by ID
+        if (dashboardId) {
+            const dashboard = await prisma.dashboard.findFirst({
+                where: {
+                    id: dashboardId,
+                    userId, // Security: verify ownership
+                },
+                include: {
+                    company: {
+                        select: {
+                            id: true,
+                            name: true,
+                            sector: true,
+                        },
+                    },
+                },
+            });
+
+            if (!dashboard) {
+                return NextResponse.json(
+                    { error: 'Dashboard not found' },
+                    { status: 404 }
+                );
+            }
+
+            return NextResponse.json({
+                dashboard: {
+                    id: dashboard.id,
+                    fileName: dashboard.fileName,
+                    fileUrl: dashboard.fileUrl,
+                    rawData: dashboard.rawData, // Full data for reloading
+                    kpis: dashboard.kpis, // Full KPIs
+                    company: dashboard.company,
+                    createdAt: dashboard.createdAt,
+                    updatedAt: dashboard.updatedAt,
+                },
+            });
+        }
+
+        // 📌 CASE 2: List dashboards with pagination
         const page = parseInt(searchParams.get('page') || '1');
         const limit = parseInt(searchParams.get('limit') || '20');
         const companyId = searchParams.get('companyId');
@@ -54,7 +97,7 @@ export async function GET(req: Request) {
                 id: d.id,
                 fileName: d.fileName,
                 fileUrl: d.fileUrl,
-                kpis: d.kpis,
+                kpis: d.kpis, // Lightweight version (no rawData for list)
                 company: d.company,
                 createdAt: d.createdAt,
                 updatedAt: d.updatedAt,

@@ -1,6 +1,6 @@
 # FinSight - Financial Analysis Dashboard Demo 🚀
 
-**Interactive financial dashboard with AI copilot - Technical demonstration**
+## Interactive financial dashboard with AI copilot - Technical demonstration
 
 > **Demo project showcasing modern web development applied to financial data analysis**
 > Built with Next.js 14, TypeScript, GPT-4, and Recharts
@@ -19,6 +19,7 @@
 ✅ Responsive UI design with Tailwind CSS
 
 **What it does:**
+
 1. **📤 File Import** : Upload CSV/Excel files with financial data
 2. **🔄 Data Processing** : Parse and calculate 15+ financial KPIs automatically
 3. **📊 Interactive Dashboard** : Visualize revenue, cash flow, margins, DSO, receivables, top clients
@@ -26,6 +27,7 @@
 5. **💡 Smart Analysis** : Automatic alerts, trend detection, actionable recommendations
 
 **Technical highlights:**
+
 - 🧠 **Specialized prompts** : Finance-focused GPT-4 prompts (French terminology: DSO, BFR, marge nette)
 - 🔌 **OpenAI GPT-4** : Real-time conversational analysis
 - 📊 **Sector benchmarks** : Visual comparison bars (Services, Commerce, Industry, SaaS)
@@ -38,6 +40,7 @@
 **🌐 Try it now:** [finsight.zineinsight.com](https://finsight.zineinsight.com)
 
 **Choose from 3 realistic financial scenarios:**
+
 - 🟢 **PME Services** (Healthy): 243k€ revenue, solid margins, 20% overdue
 - 🟠 **Startup SaaS** (Struggling): 24k€ revenue, 82% overdue invoices, cash burn
 - 🚀 **Scale-up Tech** (Hypergrowth): 1.2M€ revenue, Series A funding, CAC40 clients
@@ -54,6 +57,7 @@
 ## ✨ **FEATURES DEMONSTRATED**
 
 ### 📊 **Automated Dashboard**
+
 - **Real-time KPIs**: Revenue, Cash Flow, Net Margin, DSO, Working Capital (15+ KPIs)
 - **Granular capabilities detection**: Dashboard adapts precisely to available data columns (no more rigid "levels")
 - **Visual indicators**: Differentiated icons (💰📉📊💵), contextualized variations
@@ -62,6 +66,7 @@
 - **Financial glossary tooltips**: Complete definitions, formulas, and benchmarks for each KPI (PCG 2025 compliant)
 
 ### 🤖 **AI Copilot** (GPT-4o)
+
 - **Conversational analysis**: Natural language questions in French
 - **Vector memory**: Pinecone integration for contextual awareness
 - **Financial expertise**: Specialized prompt engineering (professional tone, structured format)
@@ -69,6 +74,7 @@
 - **Dynamic suggestions**: Questions adapted to your actual data
 
 ### 📈 **Advanced Visualizations** (Connected to Real Data)
+
 - **Cash Flow Evolution**: Time-series charts calculated from actual uploaded transactions
 - **Expense Breakdown**: Category-based analysis with D3.js Sunburst (dynamic from your data)
 - **Sankey Flows**: Interactive financial flows visualization
@@ -77,12 +83,14 @@
 - **Receivables**: Outstanding invoices and payment delays (auto-detected from dueDate field)
 
 ### 🔔 **Real-Time Features**
+
 - **Collaboration**: Live presence indicators with Pusher
 - **Email Alerts**: Automated notifications via Resend
 - **Daily Cron**: Scheduled financial health reports
 - **ML Anomaly Detection**: 3 algorithms (Z-score, IQR, Moving Average)
 
 ### 🔒 **Data Processing**
+
 - **100% client-side**: Data stays in your browser
 - **No server storage**: Real-time analysis only
 - **Secure protocol**: HTTPS + client-side validation
@@ -92,33 +100,39 @@
 ## 🛠️ **TECH STACK**
 
 ### **Frontend**
+
 - **Next.js 14**: React framework with App Router
 - **React**: UI component library
 - **TypeScript**: Strict typing for code robustness
 - **Tailwind CSS**: Modern responsive styling
 
 ### **AI & Analysis**
+
 - **OpenAI GPT-4o**: Conversational financial copilot
 - **Pinecone**: Vector database for AI memory and semantic search
 - **Prompt Engineering**: Specialized finance-focused prompts (French terminology)
 - **Adaptive Analysis**: KPIs calculated based on available data columns
 
 ### **Data Visualization**
+
 - **Recharts**: Interactive charts (cash flow, margins, receivables)
 - **D3.js**: Advanced visualizations (Sankey flows, Sunburst expenses)
 - **Custom Components**: KPI cards with icons, benchmarks, tooltips
 - **Dark Mode**: Professional optimized interface
 
 ### **Collaboration & Notifications**
+
 - **Pusher**: Real-time collaboration (presence, cursor tracking)
 - **Resend**: Email alerts and notifications
 - **Vercel Cron**: Daily automated alerts
 
 ### **Data Processing**
+
 - **Client-side processing**: All data stays in the browser (no database)
 - **Excel/CSV parsing**: Automatic file processing with validation
 
 ### **Deployment**
+
 - **Vercel**: Serverless deployment with edge functions
 - **Excel/CSV parsing**: Automatic column detection and mapping
 - **API Routes**: Next.js serverless functions for OpenAI calls
@@ -150,6 +164,7 @@ finsights/
 ## 🚀 **INSTALLATION & SETUP**
 
 ### Prerequisites
+
 ```bash
 Node.js 18+
 npm or yarn
@@ -157,6 +172,7 @@ OpenAI API key
 ```
 
 ### Installation
+
 ```bash
 # Clone the repository
 git clone https://github.com/OtmaneZ/FinSights.git
@@ -175,10 +191,12 @@ npm run dev
 ```
 
 ### Local URLs
+
 - **Homepage**: `http://localhost:3000`
 - **Dashboard Demo**: `http://localhost:3000/dashboard`
 
 ### Production Build
+
 ```bash
 npm run build
 npm start
@@ -247,9 +265,10 @@ npm start
 *Theme: AI-Augmented Finance for French SMEs*
 
 **Contact:**
+
 - 🌐 Website: [zineinsight.com](https://www.zineinsight.com)
 - 💼 LinkedIn: [Otmane Boulahia](https://www.linkedin.com/in/otmane-boulahia-553bb6363/)
-- 📧 Email: contact@zineinsight.com
+- 📧 Email: <contact@zineinsight.com>
 
 ---
 
@@ -263,6 +282,7 @@ All rights reserved
 ## �️ **SKILLS DEMONSTRATED**
 
 This project showcases:
+
 - ✅ Modern React/Next.js architecture (App Router, Server Components)
 - ✅ TypeScript with strict typing
 - ✅ AI integration (OpenAI GPT-4 API)

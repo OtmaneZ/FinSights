@@ -6,12 +6,44 @@ import { Calculator, TrendingUp, ArrowRight, AlertCircle, CheckCircle } from 'lu
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { BenchmarkBar } from '@/components/BenchmarkBar'
+import StructuredData from '@/components/StructuredData'
+import { generateHowToJsonLd } from '@/lib/seo'
+import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 
 export default function CalculateurDSO() {
     const [creances, setCreances] = useState<string>('')
     const [ca, setCA] = useState<string>('')
     const [dso, setDSO] = useState<number | null>(null)
     const [secteur, setSecteur] = useState<'services' | 'commerce' | 'industrie' | 'saas'>('services')
+
+    // Structured data for SEO
+    const structuredData = generateHowToJsonLd({
+        name: 'Calculer son DSO (Days Sales Outstanding)',
+        description: 'Guide pas à pas pour calculer le délai moyen de paiement clients',
+        slug: 'dso',
+        steps: [
+            {
+                name: 'Rassembler les données nécessaires',
+                text: 'Récupérez le montant de vos créances clients en attente et votre chiffre d\'affaires annuel'
+            },
+            {
+                name: 'Entrer le montant des créances clients',
+                text: 'Saisissez le total des factures non encore encaissées en euros'
+            },
+            {
+                name: 'Entrer le chiffre d\'affaires annuel',
+                text: 'Indiquez votre CA sur les 12 derniers mois en euros'
+            },
+            {
+                name: 'Sélectionner votre secteur d\'activité',
+                text: 'Choisissez parmi Services, Commerce, Industrie ou SaaS pour obtenir des benchmarks adaptés'
+            },
+            {
+                name: 'Calculer et interpréter le résultat',
+                text: 'Le calculateur affiche votre DSO en jours avec une interprétation automatique selon les standards de votre secteur'
+            }
+        ]
+    })
 
     const calculer = () => {
         const creancesNum = parseFloat(creances)
@@ -20,6 +52,13 @@ export default function CalculateurDSO() {
         if (caNum > 0 && creancesNum >= 0) {
             const dsoCalcule = Math.round((creancesNum / caNum) * 365)
             setDSO(dsoCalcule)
+            
+            // Track calculator usage
+            trackCalculatorUse('DSO', dsoCalcule, {
+                creances: creancesNum,
+                ca: caNum,
+                secteur
+            })
         }
     }
 
@@ -82,6 +121,7 @@ export default function CalculateurDSO() {
 
     return (
         <div className="min-h-screen bg-primary text-primary font-sans">
+            <StructuredData data={structuredData} />
             <Header />
 
             <div className="max-w-4xl mx-auto px-6 py-12">
@@ -294,6 +334,7 @@ export default function CalculateurDSO() {
                                 </ul>
                                 <Link
                                     href="/dashboard"
+                                    onClick={() => trackCTAClick('calculateur-dso', '/dashboard', 'essayer-gratuitement')}
                                     className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-lg transition-all hover:shadow-lg"
                                 >
                                     Essayer gratuitement

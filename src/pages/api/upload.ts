@@ -6,6 +6,8 @@ import { generateDashboardKPIs } from '@/lib/dataParser';
 import { excelToCSV } from '@/lib/excelParser';
 import { checkUnifiedRateLimit } from '@/lib/rateLimit';
 import { getClientIP } from '@/lib/rateLimitKV';
+import { put } from '@vercel/blob';
+import { prisma } from '@/lib/prisma';
 
 export const config = {
     api: {
@@ -26,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const userId = session?.user?.id;
     const userPlan = (session?.user?.plan as any) || 'FREE';
     const clientIP = getClientIP(req);
-    
+
     // Identifier : userId si connecté, sinon IP
     const identifier = isAuthenticated && userId ? userId : clientIP;
 
@@ -49,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        const { fileContent, fileName, fileType } = req.body;
+        const { fileContent, fileName, fileType, companyId } = req.body;
 
         if (!fileContent) {
             return res.status(400).json({ error: 'No file content provided' });
@@ -103,12 +105,65 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const dashboardKPIs = generateDashboardKPIs(processedData);
 
+        // 💾 SAUVEGARDE AUTOMATIQUE en DB (si user connecté)
+        let savedDashboardId = null;
+        if (isAuthenticated && userId) {
+            try {
+                // 1. Get companyId from request body or default to first company
+                let targetCompany;
+
+                if (companyId) {
+                    // Verify ownership before using provided companyId
+                    targetCompany = await prisma.company.findFirst({
+                        where: { id: companyId, userId }
+                    });
+                }
+
+                // Fallback to first company if not provided or invalid
+                if (!targetCompany) {
+                    targetCompany = await prisma.company.findFirst({
+                        where: { userId },
+                        orderBy: { createdAt: 'asc' },
+                    });
+                } if (targetCompany) {
+                    // 2. Upload CSV vers Vercel Blob Storage
+                    const blob = await put(
+                        `users/${userId}/${Date.now()}_${fileName}`,
+                        csvContent,
+                        {
+                            access: 'public',
+                            contentType: 'text/csv',
+                        }
+                    );
+
+                    // 3. Sauvegarder dashboard en DB
+                    const dashboard = await prisma.dashboard.create({
+                        data: {
+                            userId,
+                            companyId: targetCompany.id,
+                            fileName,
+                            fileUrl: blob.url,
+                            rawData: processedData.records as any, // Prisma Json type
+                            kpis: dashboardKPIs as any, // Prisma Json type
+                        },
+                    });
+
+                    savedDashboardId = dashboard.id;
+                    console.log(`✅ Dashboard sauvegardé: ${dashboard.id} (company: ${targetCompany.name})`);
+                }
+            } catch (saveError) {
+                console.error('⚠️ Erreur sauvegarde dashboard (non-bloquant):', saveError);
+                // Continue même si la sauvegarde échoue (UX non dégradée)
+            }
+        }
+
         // Simulation d'un délai de traitement (pour l'UX)
         await new Promise(resolve => setTimeout(resolve, 1500));
 
         return res.status(200).json({
             success: true,
             message: `${processedData.records.length} enregistrements traités avec succès`,
+            savedDashboardId, // 💾 ID du dashboard sauvegardé (null si non connecté)
             data: {
                 kpis: dashboardKPIs,
                 summary: processedData.summary,

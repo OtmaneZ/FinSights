@@ -195,3 +195,83 @@ body {
 .anomaly-critical-pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* ==========================================
+   ACCESSIBILITY (A11Y)
+   ========================================== */
+
+/* Screen Reader Only (visually hidden) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Make sr-only element visible on focus (skip links) */
+.sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 1rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+}
+
+/* Enhanced focus indicators (WCAG 2.4.7) */
+*:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+}
+
+/* Button focus */
+button:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+/* Input focus */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 0;
+    border-color: #2563eb;
+}
+
+/* Link focus */
+a:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+/* Remove default outline */
+*:focus {
+    outline: none;
+}
+
+/* Focus within for better context */
+*:focus-within {
+    /* Custom styles for containers with focused elements */
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

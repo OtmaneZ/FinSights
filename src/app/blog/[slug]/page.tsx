@@ -1,10 +1,14 @@
 'use client'
 
 import { useParams } from 'next/navigation'
+import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import { Calendar, Clock, ArrowLeft, ArrowRight } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import StructuredData from '@/components/StructuredData'
+import { generateArticleJsonLd, getArticleBySlug } from '@/lib/seo'
+import { trackArticleView, trackArticleReadTime, trackCTAClick } from '@/lib/analytics'
 import { additionalArticles } from './additionalArticles'
 import { moreArticles } from './moreArticles'
 import { finalArticles } from './finalArticles'
@@ -1297,6 +1301,24 @@ export default function BlogArticlePage() {
     const params = useParams()
     const slug = params?.slug as string
     const article = articles[slug]
+    const startTimeRef = useRef<number>(Date.now())
+
+    // Track article view on mount
+    useEffect(() => {
+        if (article) {
+            trackArticleView(article.slug, article.title, article.category)
+        }
+    }, [article])
+
+    // Track read time on unmount
+    useEffect(() => {
+        return () => {
+            if (article) {
+                const timeSpent = Math.floor((Date.now() - startTimeRef.current) / 1000)
+                trackArticleReadTime(article.slug, timeSpent)
+            }
+        }
+    }, [article])
 
     if (!article) {
         return (
@@ -1315,6 +1337,7 @@ export default function BlogArticlePage() {
 
     return (
         <div className="min-h-screen bg-primary text-primary font-sans">
+            <StructuredData data={generateArticleJsonLd(article)} />
             <Header />
 
             <article className="max-w-3xl mx-auto px-6 py-12">
