@@ -1337,7 +1337,13 @@ export default function BlogArticlePage() {
 
     return (
         <div className="min-h-screen bg-primary text-primary font-sans">
-            <StructuredData data={generateArticleJsonLd(article)} />
+            <StructuredData data={generateArticleJsonLd({
+                title: article.title,
+                description: article.description,
+                slug: article.slug,
+                publishedDate: article.date,
+                category: article.category
+            })} />
             <Header />
 
             <article className="max-w-3xl mx-auto px-6 py-12">

@@ -206,7 +206,7 @@ export async function triggerWebhook(
             data: {
                 webhookId: webhook.id,
                 event,
-                payload,
+                payload: payload as any,
                 statusCode: result.statusCode,
                 response: result.response,
                 success: result.success,

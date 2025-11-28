@@ -130,7 +130,7 @@ export default function RessourcesPage() {
                                         </p>
                                         <div className="flex items-center justify-between text-sm">
                                             <span className="text-tertiary">
-                                                {new Date(article.publishedDate).toLocaleDateString('fr-FR', { 
+                                                {new Date(article.date).toLocaleDateString('fr-FR', { 
                                                     day: 'numeric', 
                                                     month: 'long', 
                                                     year: 'numeric' 

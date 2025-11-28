@@ -36,7 +36,7 @@ export function trackArticleView(slug: string, title: string, category: string) 
 export function trackCalculatorUse(
     calculator: 'DSO' | 'BFR',
     result: number,
-    inputs: Record<string, number>
+    inputs: Record<string, number | string>
 ) {
     if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('event', 'calculator_used', {
