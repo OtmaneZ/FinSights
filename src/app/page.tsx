@@ -205,61 +205,37 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Features Grid */}
+            {/* Features Grid - Simplified to 3 Essential Blocks */}
             <section className="max-w-6xl mx-auto px-6 pb-24">
                 <h2 className="text-2xl font-bold text-center mb-10 text-primary">Ce que vous obtenez</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* Feature 1 - Diagnostic Trésorerie */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <DollarSign className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">Diagnostic Trésorerie</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            Sachez instantanément si vous tenez 6 mois. Alerte automatique si cash flow &lt; 3 mois.
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {/* Feature 1 - Diagnostic instantané */}
+                    <div className="surface rounded-xl p-8 surface-hover group">
+                        <DollarSign className="w-12 h-12 text-accent-primary mb-4 transition-transform group-hover:scale-110" />
+                        <h3 className="text-xl font-bold mb-3 text-primary">Diagnostic instantané</h3>
+                        <p className="text-secondary text-base leading-relaxed">
+                            Uploadez votre export comptable.<br />
+                            <span className="font-semibold text-primary">10 secondes plus tard : vous savez si votre trésorerie tient 6 mois.</span>
                         </p>
                     </div>
 
-                    {/* Feature 2 - 15 KPIs Auto-calculés */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <BarChart3 className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">15 KPIs Auto-calculés</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            DSO, BFR, marge nette, cash flow... Tous vos indicateurs sans une seule formule Excel.
+                    {/* Feature 2 - Anomalies détectées automatiquement */}
+                    <div className="surface rounded-xl p-8 surface-hover group">
+                        <AlertTriangle className="w-12 h-12 text-accent-primary mb-4 transition-transform group-hover:scale-110" />
+                        <h3 className="text-xl font-bold mb-3 text-primary">Anomalies détectées</h3>
+                        <p className="text-secondary text-base leading-relaxed">
+                            L'IA repère automatiquement les erreurs :<br />
+                            <span className="font-semibold text-primary">paie en doublon, client qui paie toujours en retard, saisies incorrectes.</span>
                         </p>
                     </div>
 
-                    {/* Feature 3 - Détection Anomalies IA */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <AlertTriangle className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">Détection Anomalies IA</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            Paie en doublon, client qui paie toujours en retard, erreurs de saisie... L'IA détecte tout.
-                        </p>
-                    </div>
-
-                    {/* Feature 4 - Simulations What-If */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <Sliders className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">Simulations What-If</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            Et si j'augmente mes prix de 10% ? Et si mes clients payent 5 jours plus vite ? Testez en temps réel.
-                        </p>
-                    </div>
-
-                    {/* Feature 5 - Export CODIR */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <Download className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">Export CODIR</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            PDF branded avec graphiques et KPIs. Prêt pour votre présentation comité de direction.
-                        </p>
-                    </div>
-
-                    {/* Feature 6 - Intégrations Comptables */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <Upload className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">Intégrations Comptables</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            Compatible Sage, Cegid, QuickBooks, Excel. Uploadez vos exports, on s'occupe du reste.
+                    {/* Feature 3 - Projection 6 mois cash-flow */}
+                    <div className="surface rounded-xl p-8 surface-hover group">
+                        <BarChart3 className="w-12 h-12 text-accent-primary mb-4 transition-transform group-hover:scale-110" />
+                        <h3 className="text-xl font-bold mb-3 text-primary">Projection 6 mois</h3>
+                        <p className="text-secondary text-base leading-relaxed">
+                            Visualisez votre cash-flow sur 6 mois.<br />
+                            <span className="font-semibold text-primary">Alerte automatique si vous passez sous 3 mois de trésorerie.</span>
                         </p>
                     </div>
                 </div>
