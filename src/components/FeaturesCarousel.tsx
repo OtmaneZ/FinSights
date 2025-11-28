@@ -113,10 +113,13 @@ export default function FeaturesCarousel() {
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Left: Image */}
                         <div className="relative h-[400px] md:h-[500px] bg-gradient-to-br from-bg-secondary/50 to-surface-elevated/50 overflow-hidden flex items-center justify-center p-8">
-                            <img
+                            <Image
                                 src={slide.image}
                                 alt={slide.title}
+                                width={800}
+                                height={500}
                                 className="w-full h-full object-contain rounded-lg"
+                                priority={currentSlide === 0}
                             />
                         </div>
 

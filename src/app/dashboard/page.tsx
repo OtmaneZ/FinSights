@@ -2,6 +2,7 @@ import FinancialDashboardV2 from '@/components/FinancialDashboardV2'
 import CTAFixed from '@/components/CTAFixed'
 import TutorialButton from '@/components/TutorialButton'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Linkedin } from 'lucide-react'
 
 export default function DashboardPage() {
@@ -11,9 +12,11 @@ export default function DashboardPage() {
             <header className="border-b border-border-subtle backdrop-blur-sm bg-primary/80 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                        <img
+                        <Image
                             src="/images/zineinsights_logo.jpeg"
                             alt="FinSight"
+                            width={40}
+                            height={40}
                             className="w-10 h-10 rounded-lg"
                         />
                         <div>
