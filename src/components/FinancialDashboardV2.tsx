@@ -609,37 +609,32 @@ export default function FinancialDashboardV2() {
             setLoadingProgress(60);
             setLoadingMessage('📊 Calcul des KPIs...');
 
-            const apiResponse = await fetch('/api/upload', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    fileContent: csvText,
-                    fileName: config.file.split('/').pop(),
-                    fileType: 'text/csv'
-                })
-            });
+            // ✅ PARSING CLIENT-SIDE (évite rate limiting API)
+            const { parseCSV, generateDashboardKPIs } = await import('@/lib/dataParser');
+            const parseResult = parseCSV(csvText);
 
-            const result = await apiResponse.json();
+            if (!parseResult.success || !parseResult.data) {
+                throw new Error('Erreur parsing CSV démo');
+            }
+
+            const { data: processedData } = parseResult;
+            const kpis = generateDashboardKPIs(processedData);
 
             setLoadingProgress(80);
             setLoadingMessage('✨ Génération du dashboard...');
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            if (apiResponse.ok) {
-                setKpis(result.data.kpis || []);
-                setFinSightData(result.data.financialData || result.data.processedData);
-                setRawData(result.data.records || result.data.rawData || []);
-                setIsDataLoaded(true);
-                setCompanyName(config.companyName);
-                setCompanySector(config.sector);
+            // Mise à jour state
+            setKpis(kpis || []);
+            setFinSightData(processedData);
+            setRawData(processedData.records || []);
+            setIsDataLoaded(true);
+            setCompanyName(config.companyName);
+            setCompanySector(config.sector);
 
-                setLoadingProgress(100);
-                setLoadingMessage('✅ Dashboard prêt !');
-                await new Promise(resolve => setTimeout(resolve, 300));
-            } else {
-                console.error('❌ Erreur API upload:', result);
-                setLoadingMessage('❌ Erreur lors du chargement');
-            }
+            setLoadingProgress(100);
+            setLoadingMessage('✅ Dashboard prêt !');
+            await new Promise(resolve => setTimeout(resolve, 300));
         } catch (error) {
             console.error('❌ Erreur chargement démo:', error);
             setLoadingMessage('❌ Erreur lors du chargement');
