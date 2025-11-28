@@ -67,9 +67,11 @@ export default function DashboardPage() {
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                         <div className="flex items-center gap-3">
-                            <img
+                            <Image
                                 src="/images/zineinsights_logo.jpeg"
                                 alt="FinSight"
+                                width={32}
+                                height={32}
                                 className="w-8 h-8 rounded-lg"
                             />
                             <div>
