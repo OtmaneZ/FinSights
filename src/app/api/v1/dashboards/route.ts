@@ -135,7 +135,10 @@ export async function GET(request: NextRequest) {
  *   "success": true,
  *   "data": { id, fileName, kpis, rawData?, company, ... }
  * }
+ * 
+ * NOTE: This route is now handled by /api/v1/dashboards/[id]/route.ts
  */
+/*
 export async function GET_BY_ID(request: NextRequest) {
     const { auth, error } = await authenticateRequest(request);
     if (error) return error;
@@ -195,3 +198,4 @@ export async function GET_BY_ID(request: NextRequest) {
         return apiError('Failed to fetch dashboard', 'FETCH_ERROR', 500);
     }
 }
+*/
