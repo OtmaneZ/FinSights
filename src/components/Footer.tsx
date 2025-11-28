@@ -36,8 +36,8 @@ export default function Footer() {
                         <Link href="/calculateurs/dso" className="text-secondary hover:text-primary transition-colors text-sm">
                             Calculateurs
                         </Link>
-                        <Link href="/changelog" className="text-secondary hover:text-primary transition-colors text-sm">
-                            Changelog
+                        <Link href="/technique" className="text-secondary hover:text-primary transition-colors text-sm">
+                            Stack Technique
                         </Link>
                         <a
                             href="https://calendly.com/zineinsight"

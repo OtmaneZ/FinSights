@@ -12,45 +12,45 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
     {
-        quote: "Interface intuitive, les KPIs sont bien structurés. Le parsing automatique des exports comptables fonctionne parfaitement.",
+        quote: "Enfin un outil qui va à l'essentiel.",
         author: "Sophie M.",
         role: "DAF",
-        company: "PME Services (25 salariés)",
+        company: "",
         rating: 5
     },
     {
-        quote: "Exactement ce que je cherchais : un dashboard clair qui me donne l'essentiel en un coup d'œil. Gain de temps immédiat.",
+        quote: "Gain de temps immédiat.",
         author: "Thomas D.",
         role: "Directeur Financier",
-        company: "Startup SaaS",
+        company: "",
         rating: 5
     },
     {
-        quote: "L'IA Copilot répond de façon pertinente aux questions financières. Très utile pour analyser les tendances rapidement.",
-        author: "Claire R.",
+        quote: "L'IA répond de façon pertinente.",
+        author: "Claire D.",
         role: "CFO",
-        company: "Scale-up Tech (Series A)",
+        company: "",
         rating: 5
     },
     {
-        quote: "Les formules financières sont conformes aux standards. Enfin un outil qui parle le langage des DAF.",
+        quote: "Parle le langage des DAF.",
         author: "Marc L.",
         role: "Contrôleur de gestion",
-        company: "Groupe industriel",
+        company: "",
         rating: 5
     },
     {
-        quote: "La détection d'anomalies m'a permis d'identifier plusieurs points d'attention sur mes créances. Très efficace.",
+        quote: "Détection d'anomalies très efficace.",
         author: "Amélie B.",
         role: "Responsable Finance",
-        company: "E-commerce",
+        company: "",
         rating: 5
     },
     {
-        quote: "Design professionnel, données bien visualisées. L'export PDF est parfait pour mes présentations au COMEX.",
+        quote: "Design pro, données claires.",
         author: "Lucas M.",
         role: "DAF",
-        company: "Agence digitale",
+        company: "",
         rating: 5
     }
 ]
@@ -87,7 +87,6 @@ export default function Testimonials() {
                         <div className="border-t border-border-subtle pt-4">
                             <p className="font-semibold text-sm">{testimonial.author}</p>
                             <p className="text-secondary text-xs">{testimonial.role}</p>
-                            <p className="text-tertiary text-xs mt-1">{testimonial.company}</p>
                         </div>
                     </div>
                 ))}

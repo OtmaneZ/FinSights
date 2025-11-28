@@ -3,22 +3,10 @@
 import Link from 'next/link'
 import {
     Sparkles,
-    TrendingUp,
     Zap,
-    Mail,
-    Users,
-    FileBarChart,
-    Upload,
-    ExternalLink,
-    Linkedin,
-    Github,
     DollarSign,
     BarChart3,
     AlertTriangle,
-    Sliders,
-    Download,
-    Code,
-    Brain,
     Shield
 } from 'lucide-react'
 import Header from '@/components/Header'
@@ -244,101 +232,44 @@ export default function Home() {
             {/* Testimonials Section */}
             <Testimonials />
 
-            {/* How It Works - Tech Section */}
+            {/* Security & Compliance Section */}
             <section className="max-w-6xl mx-auto px-6 py-24 border-t border-border-default">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4 text-primary">Comment ça marche ?</h2>
+                    <h2 className="text-3xl font-bold mb-4 text-primary">Sécurité & Conformité</h2>
                     <p className="text-lg text-secondary max-w-2xl mx-auto">
-                        Une infrastructure moderne, sécurisée et performante pour vos données financières.
+                        Vos données restent en France. Aucune transmission externe. Chiffrement de bout en bout.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8">
-                    {/* Column 1 - Tech Stack */}
-                    <div className="surface rounded-2xl p-8 text-center">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-accent-primary-subtle rounded-2xl mb-6">
-                            <Code className="w-8 h-8 text-accent-primary" />
+                <div className="max-w-3xl mx-auto">
+                    <div className="surface rounded-2xl p-10 text-center border-2 border-accent-primary-border">
+                        <div className="inline-flex items-center justify-center w-20 h-20 bg-accent-primary-subtle rounded-2xl mb-6">
+                            <Shield className="w-10 h-10 text-accent-primary" />
                         </div>
-                        <h3 className="text-xl font-bold mb-4 text-primary">Stack Moderne</h3>
-                        <ul className="text-sm text-secondary space-y-2 text-left">
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>Next.js 14</strong> avec App Router et Server Components</span>
+
+                        <ul className="text-base text-secondary space-y-4 text-left max-w-xl mx-auto">
+                            <li className="flex items-start gap-3">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span><strong className="text-primary">Données en France</strong> — hébergement serveurs OVH Paris</span>
                             </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>TypeScript</strong> pour une base de code robuste</span>
+                            <li className="flex items-start gap-3">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span><strong className="text-primary">Chiffrement AES-256</strong> — au repos et en transit (TLS 1.3)</span>
                             </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>Vercel Edge</strong> déploiement global &lt; 100ms</span>
+                            <li className="flex items-start gap-3">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span><strong className="text-primary">RGPD conforme</strong> — droit d'accès, rectification, suppression</span>
                             </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>PostgreSQL</strong> base données relationnelle</span>
+                            <li className="flex items-start gap-3">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span><strong className="text-primary">Authentification sécurisée</strong> — sessions JWT httpOnly</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span><strong className="text-primary">Serveurs rapides</strong> — temps de réponse &lt; 100ms</span>
                             </li>
                         </ul>
                     </div>
-
-                    {/* Column 2 - AI/ML */}
-                    <div className="surface rounded-2xl p-8 text-center">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-accent-primary-subtle rounded-2xl mb-6">
-                            <Brain className="w-8 h-8 text-accent-primary" />
-                        </div>
-                        <h3 className="text-xl font-bold mb-4 text-primary">IA Avancée</h3>
-                        <ul className="text-sm text-secondary space-y-2 text-left">
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>GPT-4o</strong> copilot conversationnel en français</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>TensorFlow.js</strong> détection anomalies (3 algos)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>Pinecone</strong> vector DB pour RAG (50k vecteurs)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>D3.js + Recharts</strong> visualisations interactives</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Column 3 - Security */}
-                    <div className="surface rounded-2xl p-8 text-center">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-accent-primary-subtle rounded-2xl mb-6">
-                            <Shield className="w-8 h-8 text-accent-primary" />
-                        </div>
-                        <h3 className="text-xl font-bold mb-4 text-primary">Sécurité & RGPD</h3>
-                        <ul className="text-sm text-secondary space-y-2 text-left">
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>RGPD conforme</strong> données hébergées en France</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>Encryption</strong> AES-256 au repos et en transit</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>Auth JWT</strong> sessions sécurisées httpOnly</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary font-bold">•</span>
-                                <span><strong>Rate limiting</strong> protection contre abus API</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div className="mt-12 text-center">
-                    <p className="text-sm text-tertiary">
-                        Infrastructure déployée sur <strong className="text-primary">Vercel</strong> •
-                        Monitoring <strong className="text-primary">Sentry</strong> •
-                        Analytics <strong className="text-primary">PostHog</strong>
-                    </p>
                 </div>
             </section>
 
