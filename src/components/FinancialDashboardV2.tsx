@@ -652,17 +652,6 @@ export default function FinancialDashboardV2() {
         }
     }
 
-    // Listen for file upload events
-    useEffect(() => {
-        const handleFileSelected = (event: Event) => {
-            const customEvent = event as CustomEvent
-            handleFileUpload(customEvent.detail as FileList)
-        }
-
-        window.addEventListener('fileSelected', handleFileSelected)
-        return () => window.removeEventListener('fileSelected', handleFileSelected)
-    }, [])
-
     // 🤖 Auto-detect anomalies when data changes
     useEffect(() => {
         if (rawData && rawData.length > 0) {
@@ -860,12 +849,25 @@ export default function FinancialDashboardV2() {
                         </button>
 
                         <button
-                            onClick={handleFileUpload}
+                            onClick={() => document.getElementById('dashboard-file-input')?.click()}
                             className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-primary-border text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
                         >
                             <Upload className="w-4 h-4" />
                             Importer Données
                         </button>
+
+                        {/* Hidden file input */}
+                        <input
+                            id="dashboard-file-input"
+                            type="file"
+                            accept=".csv,.xlsx,.xls"
+                            className="hidden"
+                            onChange={(e) => {
+                                if (e.target.files && e.target.files.length > 0) {
+                                    handleFileUpload(e.target.files)
+                                }
+                            }}
+                        />
                     </div>
                 </div>
 
