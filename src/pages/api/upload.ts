@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import { parseCSV } from '@/lib/dataParser';
 import { generateDashboardKPIs } from '@/lib/dataParser';
 import { excelToCSV } from '@/lib/excelParser';
+import { checkUnifiedRateLimit } from '@/lib/rateLimit';
+import { getClientIP } from '@/lib/rateLimitKV';
 
 export const config = {
     api: {
@@ -14,6 +18,34 @@ export const config = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    // 🔐 Récupérer session utilisateur
+    const session = await getServerSession(req, res, authOptions);
+    const isAuthenticated = !!session?.user;
+    const userId = session?.user?.id;
+    const userPlan = (session?.user?.plan as any) || 'FREE';
+    const clientIP = getClientIP(req);
+    
+    // Identifier : userId si connecté, sinon IP
+    const identifier = isAuthenticated && userId ? userId : clientIP;
+
+    // 🛡️ RATE LIMITING pour uploads (5/mois pour FREE)
+    const rateLimit = await checkUnifiedRateLimit(
+        identifier,
+        'uploads',
+        userPlan,
+        isAuthenticated
+    );
+
+    if (!rateLimit.allowed) {
+        return res.status(429).json({
+            error: rateLimit.message || `Limite d'uploads atteinte (${rateLimit.limit}/mois)`,
+            remaining: 0,
+            limit: rateLimit.limit,
+            resetAt: rateLimit.resetAt,
+            upgradeUrl: rateLimit.upgradeUrl
+        });
     }
 
     try {
@@ -89,6 +121,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 // ✅ Vraies données pour calculs dynamiques
                 records: processedData.records,
                 financialData: processedData
+            },
+            // ✅ Rate limit info
+            rateLimitInfo: {
+                remaining: rateLimit.remaining,
+                limit: rateLimit.limit,
+                resetAt: rateLimit.resetAt,
+                message: rateLimit.message,
+                upgradeUrl: rateLimit.upgradeUrl
             }
         });
 

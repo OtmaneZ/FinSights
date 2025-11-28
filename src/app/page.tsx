@@ -60,17 +60,17 @@ export default function Home() {
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link
-                            href="/dashboard"
+                            href="/auth/signup"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-base transition-all hover:shadow-lg"
                         >
-                            Essayer la démo
+                            <Sparkles className="w-5 h-5" />
+                            Créer compte gratuit
                         </Link>
                         <Link
-                            href="/services"
+                            href="/dashboard"
                             className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold text-base transition-all hover:bg-surface-elevated"
                         >
-                            Voir nos offres
-                            <ExternalLink className="w-5 h-5" />
+                            Essayer la démo
                         </Link>
                     </div>
 

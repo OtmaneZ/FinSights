@@ -18,10 +18,10 @@ export default function PricingPage() {
             priceYearly: 0,
             features: [
                 '✅ 1 entreprise',
-                '✅ Upload CSV illimité',
+                '✅ 5 uploads CSV/mois',
                 '✅ Dashboard complet (15 KPIs)',
-                '✅ 10 questions IA/mois',
-                '✅ Export PDF basique',
+                '✅ 10 questions IA/jour',
+                '✅ Export PDF avec watermark',
                 '✅ Visualisations standards',
                 '❌ Sauvegarde cloud',
                 '❌ Alertes email',
@@ -39,6 +39,7 @@ export default function PricingPage() {
             features: [
                 '✅ 5 entreprises',
                 '✅ IA illimitée (GPT-4)',
+                '✅ Uploads CSV illimités',
                 '✅ Sauvegarde cloud 90 jours',
                 '✅ Alertes email temps réel',
                 '✅ Export PDF/Excel branded',
@@ -60,7 +61,7 @@ export default function PricingPage() {
                 '✅ Entreprises illimitées',
                 '✅ Multi-utilisateurs (5 sièges)',
                 '✅ API REST complète (10k calls/jour)',
-                '✅ Données historiques 3 ans',
+                '✅ Historique 3 ans de données',
                 '✅ Webhooks avancés',
                 '✅ Support prioritaire 4h',
                 '✅ Onboarding personnalisé',
@@ -129,9 +130,11 @@ export default function PricingPage() {
                             highlight={plan.highlight}
                             popular={plan.popular}
                             ctaAction={() => {
-                                if (plan.name === 'Gratuit') {
-                                    window.location.href = '/dashboard'
+                                if (plan.name === 'Gratuit' || plan.name === 'Pro') {
+                                    // ✨ Pure SaaS: redirect to signup for FREE and PRO
+                                    window.location.href = '/auth/signup'
                                 } else {
+                                    // Keep Calendly for SCALE and ENTERPRISE (higher touch)
                                     window.location.href = 'https://calendly.com/zineinsight'
                                 }
                             }}

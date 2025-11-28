@@ -28,6 +28,7 @@ export interface PDFExportOptions {
     includeCharts: boolean;
     includeMethodology: boolean;
     confidential: boolean;
+    userPlan?: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE'; // ✨ Nouveau
 }
 
 export class FinancialPDFExporter {
@@ -38,6 +39,7 @@ export class FinancialPDFExporter {
     private currentY: number = 20;
     private pageNumber: number = 1;
     private footerHeight: number = 15;
+    private userPlan: string = 'FREE'; // ✨ Nouveau
 
     // Suivi des numéros de pages pour le sommaire
     private pageKPIs: number = 0;
@@ -408,6 +410,9 @@ export class FinancialPDFExporter {
      * Génération complète du PDF
      */
     public async generate(options: PDFExportOptions): Promise<jsPDF> {
+        // Stocker le plan utilisateur
+        this.userPlan = options.userPlan || 'FREE';
+
         // 1. Page de couverture
         this.addCoverPage(options);
 
@@ -433,7 +438,47 @@ export class FinancialPDFExporter {
         // 7. MAINTENANT on insère la table des matières à la page 2
         this.insertTableOfContents(options);
 
+        // 8. Ajouter watermark pour FREE users
+        if (this.userPlan === 'FREE') {
+            this.addWatermarkToAllPages();
+        }
+
         return this.pdf;
+    }
+
+    /**
+     * Ajoute un watermark "FinSight Free" sur toutes les pages (FREE plan uniquement)
+     */
+    private addWatermarkToAllPages(): void {
+        const totalPages = this.pdf.getNumberOfPages();
+        
+        for (let i = 1; i <= totalPages; i++) {
+            this.pdf.setPage(i);
+            
+            // Configuration watermark semi-transparent
+            this.pdf.setTextColor(200, 200, 200); // Gris clair
+            this.pdf.setFontSize(60);
+            this.pdf.setFont('helvetica', 'bold');
+            
+            // Position centrale en diagonale
+            const centerX = this.pageWidth / 2;
+            const centerY = this.pageHeight / 2;
+            
+            // Rotation 45° pour effet diagonal classique
+            this.pdf.saveGraphicsState();
+            this.pdf.text(
+                'FinSight Free',
+                centerX,
+                centerY,
+                {
+                    align: 'center',
+                    angle: 45,
+                    renderingMode: 'fillThenStroke',
+                    lineHeightFactor: 1
+                }
+            );
+            this.pdf.restoreGraphicsState();
+        }
     }
 
     /**

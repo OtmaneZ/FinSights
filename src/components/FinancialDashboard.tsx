@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useSession } from 'next-auth/react'
 import React from 'react';
 import dynamic from 'next/dynamic';
 import jsPDF from 'jspdf';
@@ -81,6 +82,7 @@ interface KPI {
 }
 
 export default function FinancialDashboard() {
+    const { data: session } = useSession();
     const { finSightData, setFinSightData, isDataLoaded, setIsDataLoaded, rawData, setRawData } = useFinancialData()
     const [selectedPeriod, setSelectedPeriod] = useState('current')
     const [kpis, setKpis] = useState<KPI[]>([])
@@ -387,7 +389,8 @@ export default function FinancialDashboard() {
                 })),
                 includeCharts: true,  // ✅ Activer les graphiques
                 includeMethodology: true,
-                confidential: true
+                confidential: true,
+                userPlan: session?.user?.plan || 'FREE' // ✨ Pass user plan for watermark
             };
 
             // Générer le PDF

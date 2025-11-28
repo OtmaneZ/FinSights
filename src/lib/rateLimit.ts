@@ -8,36 +8,216 @@ import type { Plan } from '@prisma/client';
 
 // ============================================
 // RATE LIMITS BY PLAN (per day)
+// Version finale optimale (ChatGPT + Otmane)
 // ============================================
 
 export const RATE_LIMITS = {
     FREE: {
-        copilot_queries: 10,
-        api_calls: 0,
-        uploads: 10,
-        dashboards: 1,
+        copilot_queries: 10,    // 10 questions/jour
+        api_calls: 0,           // Pas d'API REST
+        uploads: 5,             // 5 uploads/mois (protection storage)
+        dashboards: 1,          // 1 entreprise
     },
     PRO: {
-        copilot_queries: -1, // Unlimited
-        api_calls: 1000,
-        uploads: 100,
-        dashboards: 5,
+        copilot_queries: -1,    // Illimité (pas de soft cap)
+        api_calls: 1000,        // 1000 calls/jour
+        uploads: -1,            // Uploads illimités
+        dashboards: 5,          // 5 entreprises
     },
     SCALE: {
-        copilot_queries: -1, // Unlimited
-        api_calls: 10000,
-        uploads: 1000,
-        dashboards: -1, // Unlimited
+        copilot_queries: -1,    // Illimité
+        api_calls: 10000,       // 10k calls/jour
+        uploads: -1,            // Illimité
+        dashboards: -1,         // Illimité
     },
     ENTERPRISE: {
-        copilot_queries: -1,
-        api_calls: -1,
-        uploads: -1,
-        dashboards: -1,
+        copilot_queries: -1,    // Illimité
+        api_calls: -1,          // Illimité
+        uploads: -1,            // Illimité
+        dashboards: -1,         // Illimité
     },
 } as const;
 
 export type RateLimitAction = keyof typeof RATE_LIMITS.FREE;
+
+// ============================================
+// UNIFIED RATE LIMITING (IP + User + Plan)
+// ============================================
+
+export interface UnifiedRateLimitResult {
+    allowed: boolean;
+    current: number;
+    limit: number;
+    remaining: number;
+    resetAt: Date | null;
+    message?: string;
+    upgradeUrl?: string;
+}
+
+/**
+ * Rate limiting unifié : gère IP (non connecté) ET user (connecté)
+ * 
+ * @param identifier - IP si non connecté, userId si connecté
+ * @param action - Type d'action (copilot_queries, uploads, etc.)
+ * @param userPlan - Plan de l'utilisateur (FREE, PRO, SCALE, ENTERPRISE)
+ * @param isAuthenticated - True si utilisateur connecté
+ */
+export async function checkUnifiedRateLimit(
+    identifier: string,
+    action: RateLimitAction,
+    userPlan: Plan = 'FREE',
+    isAuthenticated: boolean = false
+): Promise<UnifiedRateLimitResult> {
+    
+    // ============================================
+    // CAS 1: User NON CONNECTÉ (IP-based)
+    // ============================================
+    if (!isAuthenticated) {
+        // Limite spéciale pour visiteurs : 5 questions max permanent
+        if (action === 'copilot_queries') {
+            const limit = 5;
+            const key = `ratelimit:ip:${identifier}:copilot`;
+
+            try {
+                const current = (await kv.get<number>(key)) || 0;
+
+                if (current >= limit) {
+                    return {
+                        allowed: false,
+                        current,
+                        limit,
+                        remaining: 0,
+                        resetAt: null,
+                        message: '🎁 Créez un compte gratuit pour 10 questions/jour',
+                        upgradeUrl: '/auth/signup'
+                    };
+                }
+
+                await kv.incr(key);
+                // Pas d'expiration = permanent jusqu'à signup
+
+                return {
+                    allowed: true,
+                    current: current + 1,
+                    limit,
+                    remaining: limit - current - 1,
+                    resetAt: null,
+                    message: current === 3 ? '🎁 Plus que 2 questions ! Créez un compte gratuit pour continuer' : undefined,
+                    upgradeUrl: current === 3 ? '/auth/signup' : undefined
+                };
+            } catch (error) {
+                console.error('Rate limit check failed (IP):', error);
+                // Graceful fallback
+                return {
+                    allowed: true,
+                    current: 0,
+                    limit,
+                    remaining: limit,
+                    resetAt: null
+                };
+            }
+        }
+
+        // Autres actions bloquées pour non-connectés
+        return {
+            allowed: false,
+            current: 0,
+            limit: 0,
+            remaining: 0,
+            resetAt: null,
+            message: 'Créez un compte gratuit pour accéder à cette fonctionnalité',
+            upgradeUrl: '/auth/signup'
+        };
+    }
+
+    // ============================================
+    // CAS 2: User CONNECTÉ (User-based)
+    // ============================================
+    
+    const limit = RATE_LIMITS[userPlan][action];
+
+    // -1 = illimité
+    if (limit === -1) {
+        return {
+            allowed: true,
+            current: 0,
+            limit: -1,
+            remaining: -1,
+            resetAt: null
+        };
+    }
+
+    // Upload = limite MENSUELLE (pas journalière)
+    const isMonthly = action === 'uploads';
+    const period = isMonthly ? getMonth() : getToday();
+    const key = `ratelimit:user:${identifier}:${action}:${period}`;
+    const ttl = isMonthly ? 2592000 : 86400; // 30 jours ou 24h
+
+    try {
+        const current = (await kv.get<number>(key)) || 0;
+
+        if (current >= limit) {
+            const resetAt = isMonthly ? getNextMonth() : getNextMidnight();
+            const periodText = isMonthly ? 'mois' : 'jour';
+            
+            let message = '';
+            let upgradeUrl = '';
+
+            if (userPlan === 'FREE') {
+                if (action === 'copilot_queries') {
+                    message = `💎 Limite FREE atteinte (${limit}/${periodText}). Passez PRO pour l'IA illimitée !`;
+                    upgradeUrl = '/pricing';
+                } else if (action === 'uploads') {
+                    message = `📂 Limite FREE atteinte (${limit} uploads/${periodText}). Upgrade PRO pour uploads illimités !`;
+                    upgradeUrl = '/pricing';
+                }
+            }
+
+            return {
+                allowed: false,
+                current,
+                limit,
+                remaining: 0,
+                resetAt,
+                message,
+                upgradeUrl
+            };
+        }
+
+        await kv.incr(key);
+        await kv.expire(key, ttl);
+
+        const remaining = limit - current - 1;
+        let message = undefined;
+        let upgradeUrl = undefined;
+
+        // Message d'avertissement quand proche de la limite
+        if (userPlan === 'FREE' && remaining === 2 && action === 'copilot_queries') {
+            message = '💎 Plus que 2 questions aujourd\'hui ! Passez PRO pour l\'illimité';
+            upgradeUrl = '/pricing';
+        }
+
+        return {
+            allowed: true,
+            current: current + 1,
+            limit,
+            remaining,
+            resetAt: isMonthly ? getNextMonth() : getNextMidnight(),
+            message,
+            upgradeUrl
+        };
+    } catch (error) {
+        console.error(`Rate limit check failed (user ${action}):`, error);
+        // Graceful fallback
+        return {
+            allowed: true,
+            current: 0,
+            limit,
+            remaining: limit,
+            resetAt: isMonthly ? getNextMonth() : getNextMidnight()
+        };
+    }
+}
 
 // ============================================
 // LEGACY IN-MEMORY (Fallback)
@@ -155,11 +335,24 @@ function getToday(): string {
     return new Date().toISOString().split('T')[0];
 }
 
+function getMonth(): string {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+}
+
 function getNextMidnight(): Date {
     const tomorrow = new Date();
     tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
     tomorrow.setUTCHours(0, 0, 0, 0);
     return tomorrow;
+}
+
+function getNextMonth(): Date {
+    const nextMonth = new Date();
+    nextMonth.setUTCMonth(nextMonth.getUTCMonth() + 1);
+    nextMonth.setUTCDate(1);
+    nextMonth.setUTCHours(0, 0, 0, 0);
+    return nextMonth;
 }
 
 // ============================================

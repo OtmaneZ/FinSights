@@ -114,7 +114,11 @@ export default function SignUpPage() {
                             </div>
                             <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-primary-subtle border border-accent-primary-border rounded-full text-xs text-accent-primary">
                                 <CheckCircle className="w-3.5 h-3.5" />
-                                10 questions IA/mois
+                                10 questions IA/jour
+                            </div>
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-primary-subtle border border-accent-primary-border rounded-full text-xs text-accent-primary">
+                                <CheckCircle className="w-3.5 h-3.5" />
+                                5 uploads/mois
                             </div>
                             <div className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-primary-subtle border border-accent-primary-border rounded-full text-xs text-accent-primary">
                                 <CheckCircle className="w-3.5 h-3.5" />

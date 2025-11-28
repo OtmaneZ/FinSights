@@ -1,8 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import OpenAI from 'openai'
 import { SYSTEM_PROMPT, buildFinancialContext } from '@/lib/copilot/prompts'
 import { storeConversation, searchSimilarConversations } from '@/lib/vectordb/collections'
-import { checkRateLimitKV, getClientIP } from '@/lib/rateLimitKV'
+import { checkUnifiedRateLimit } from '@/lib/rateLimit'
+import { getClientIP } from '@/lib/rateLimitKV'
 
 interface CopilotRequest {
     message: string
@@ -20,8 +23,9 @@ interface CopilotResponse {
     error?: string
     rateLimitInfo?: {
         remaining: number
-        total: number
-        calendlyUrl?: string
+        limit: number
+        message?: string
+        upgradeUrl?: string
     }
 }
 
@@ -36,18 +40,33 @@ export default async function handler(
         })
     }
 
-    // 🛡️ RATE LIMITING avec Vercel KV - 5 requêtes TOTALES
+    // 🔐 Récupérer session utilisateur
+    const session = await getServerSession(req, res, authOptions)
+    const isAuthenticated = !!session?.user
+    const userId = session?.user?.id
+    const userPlan = (session?.user?.plan as any) || 'FREE'
     const clientIP = getClientIP(req)
-    const rateLimit = await checkRateLimitKV(clientIP)
+    
+    // Identifier : userId si connecté, sinon IP
+    const identifier = isAuthenticated && userId ? userId : clientIP
+
+    // 🛡️ RATE LIMITING UNIFIÉ (IP ou User selon session)
+    const rateLimit = await checkUnifiedRateLimit(
+        identifier,
+        'copilot_queries',
+        userPlan,
+        isAuthenticated
+    )
 
     if (!rateLimit.allowed) {
         return res.status(429).json({
             success: false,
-            error: `🔒 Limite de démo atteinte (${rateLimit.total} questions maximum).\n\n📅 Pour continuer l'analyse de vos données financières, réservez un échange :\n👉 ${rateLimit.calendlyUrl}\n\n💡 Nous pourrons discuter de vos besoins spécifiques et débloquer l'accès complet.`,
+            error: rateLimit.message || `Limite atteinte (${rateLimit.limit} questions/${rateLimit.resetAt ? 'jour' : 'total'})`,
             rateLimitInfo: {
                 remaining: 0,
-                total: rateLimit.total,
-                calendlyUrl: rateLimit.calendlyUrl
+                limit: rateLimit.limit,
+                message: rateLimit.message,
+                upgradeUrl: rateLimit.upgradeUrl
             }
         })
     }
@@ -62,12 +81,13 @@ export default async function handler(
             })
         }
 
-        console.log('🤖 Copilot v2.0 - Requête:', {
+        console.log('🤖 Copilot v3.0 - Requête:', {
             message: message.substring(0, 100),
             hasData: !!rawData,
             dataCount: rawData?.length || 0,
             company: companyName,
-            ip: clientIP,
+            user: isAuthenticated ? userId : `IP:${clientIP}`,
+            plan: userPlan,
             remaining: rateLimit.remaining
         })
 
@@ -177,8 +197,9 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
             response,
             rateLimitInfo: {
                 remaining: rateLimit.remaining,
-                total: rateLimit.total,
-                calendlyUrl: rateLimit.remaining === 0 ? rateLimit.calendlyUrl : undefined
+                limit: rateLimit.limit,
+                message: rateLimit.message,
+                upgradeUrl: rateLimit.upgradeUrl
             }
         })
 

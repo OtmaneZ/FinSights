@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useSession } from 'next-auth/react'
 import { useFinancialData } from '@/lib/financialContext'
 import {
     TrendingUp,
@@ -46,6 +47,9 @@ import EmptyDashboardStateV2 from './EmptyDashboardStateV2'
 // Import Auth Banner
 import AuthBanner from './AuthBanner'
 
+// Import Upload Success Banner
+import UploadSuccessBanner from './UploadSuccessBanner'
+
 // Import Drill-Down
 import { useDrilldown } from '@/hooks/useDrilldown'
 import { KPIDrilldownModal } from './drill-down/KPIDrilldownModal'
@@ -80,6 +84,7 @@ interface KPI {
 }
 
 export default function FinancialDashboardV2() {
+    const { data: session } = useSession();
     const { finSightData, setFinSightData, rawData, setRawData, isDataLoaded, setIsDataLoaded } = useFinancialData();
     const [kpis, setKpis] = useState<KPI[]>([]);
     const [isExporting, setIsExporting] = useState(false);
@@ -108,8 +113,8 @@ export default function FinancialDashboardV2() {
     // Alert Settings state
     const [showAlertSettings, setShowAlertSettings] = useState(false);
 
-    // Upload Modal state (appointment booking)
-    const [showUploadModal, setShowUploadModal] = useState(false);
+    // Upload Success Banner state
+    const [showUploadBanner, setShowUploadBanner] = useState(false);
 
     // What-If Simulation states
     const [showSimulation, setShowSimulation] = useState(false);
@@ -464,6 +469,9 @@ export default function FinancialDashboardV2() {
                 setFinSightData(result.data.financialData || result.data.processedData)
                 setRawData(result.data.records || result.data.rawData || [])
                 setIsDataLoaded(true)
+                
+                // ✨ Show upload success banner
+                setShowUploadBanner(true)
             }
         } catch (error) {
             console.error('Erreur upload:', error)
@@ -496,7 +504,8 @@ export default function FinancialDashboardV2() {
                 })),
                 includeCharts: true,
                 includeMethodology: true,
-                confidential: true
+                confidential: true,
+                userPlan: session?.user?.plan || 'FREE' // ✨ Pass user plan for watermark
             };
 
             await exporter.generate(pdfOptions);
@@ -803,6 +812,11 @@ export default function FinancialDashboardV2() {
 
     return (
         <>
+            {/* Upload Success Banner */}
+            {showUploadBanner && (
+                <UploadSuccessBanner onClose={() => setShowUploadBanner(false)} />
+            )}
+
             {/* Container principal - Design corporate épuré */}
             <div ref={dashboardRef} className="max-w-7xl mx-auto px-6 py-8">
                 {/* Auth Banner - Shown only for non-authenticated users */}
