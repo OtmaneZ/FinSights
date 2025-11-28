@@ -7,6 +7,9 @@ import PricingCard from '@/components/PricingCard'
 import PricingToggle from '@/components/PricingToggle'
 import { Zap, Shield, Rocket, Building2 } from 'lucide-react'
 
+// Note: metadata export not allowed in client components
+// SEO handled by layout.tsx + OG tags dynamically
+
 export default function PricingPage() {
     const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
 

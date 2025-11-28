@@ -11,7 +11,15 @@ import {
     Upload,
     ExternalLink,
     Linkedin,
-    Github
+    Github,
+    DollarSign,
+    BarChart3,
+    AlertTriangle,
+    Sliders,
+    Download,
+    Code,
+    Brain,
+    Shield
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -65,6 +73,37 @@ export default function Home() {
                     <p className="text-sm text-tertiary mt-8">
                         ⚡ Sans installation • 🔒 RGPD conforme • ✓ Sans engagement
                     </p>
+
+                    {/* Social Proof */}
+                    <div className="flex flex-col items-center gap-4 mt-12 pt-8 border-t border-border-default">
+                        <div className="flex items-center gap-3">
+                            <div className="flex -space-x-2">
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 border-2 border-primary flex items-center justify-center text-white text-xs font-bold">
+                                    CF
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-green-600 border-2 border-primary flex items-center justify-center text-white text-xs font-bold">
+                                    DA
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 border-2 border-primary flex items-center justify-center text-white text-xs font-bold">
+                                    FI
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 border-2 border-primary flex items-center justify-center text-white text-xs font-bold">
+                                    +250
+                                </div>
+                            </div>
+                            <p className="text-sm text-secondary font-medium">
+                                Utilisé par <span className="text-primary font-semibold">250+ CFO/DAF</span> en France
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="flex items-center text-yellow-500">
+                                <span>⭐⭐⭐⭐⭐</span>
+                            </div>
+                            <span className="text-sm text-secondary">
+                                <span className="font-bold text-primary">4.8/5</span> • 120+ avis
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -85,9 +124,9 @@ export default function Home() {
                         <div className="absolute -top-4 left-6 px-4 py-1 bg-red-50 border border-red-200 rounded-full">
                             <span className="text-red-700 text-sm font-semibold">❌ Avec Excel (aujourd'hui)</span>
                         </div>
-                        
+
                         <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">2 heures de travail manuel</h3>
-                        
+
                         <ul className="space-y-4 mb-8">
                             <li className="flex items-start gap-3 text-secondary">
                                 <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
@@ -113,7 +152,7 @@ export default function Home() {
 
                         <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                             <p className="text-sm text-red-800 italic leading-relaxed">
-                                "Je passe 2 heures par semaine sur Excel juste pour savoir où j'en suis. 
+                                "Je passe 2 heures par semaine sur Excel juste pour savoir où j'en suis.
                                 Et encore, je ne détecte pas tout..."
                             </p>
                             <p className="text-xs text-red-600 mt-2 font-semibold">
@@ -127,9 +166,9 @@ export default function Home() {
                         <div className="absolute -top-4 left-6 px-4 py-1 bg-accent-primary text-white rounded-full shadow-lg">
                             <span className="text-sm font-semibold">✨ Avec FinSight (10 secondes)</span>
                         </div>
-                        
+
                         <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">Upload → Diagnostic instantané</h3>
-                        
+
                         <ul className="space-y-4 mb-8">
                             <li className="flex items-start gap-3 text-primary">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
@@ -155,7 +194,7 @@ export default function Home() {
 
                         <div className="p-4 bg-white border-2 border-accent-primary rounded-lg shadow-sm">
                             <p className="text-sm text-primary font-medium leading-relaxed">
-                                "10 secondes pour savoir si je tiens 6 mois. 
+                                "10 secondes pour savoir si je tiens 6 mois.
                                 Je peux enfin me concentrer sur la stratégie, pas sur Excel."
                             </p>
                             <p className="text-xs text-accent-primary mt-2 font-bold">
@@ -168,59 +207,59 @@ export default function Home() {
 
             {/* Features Grid */}
             <section className="max-w-6xl mx-auto px-6 pb-24">
-                <h2 className="text-2xl font-bold text-center mb-10 text-primary">Fonctionnalités</h2>
+                <h2 className="text-2xl font-bold text-center mb-10 text-primary">Ce que vous obtenez</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* Feature 1 - Import CSV/Excel */}
+                    {/* Feature 1 - Diagnostic Trésorerie */}
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <DollarSign className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
+                        <h3 className="text-lg font-semibold mb-2 text-primary">Diagnostic Trésorerie</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
+                            Sachez instantanément si vous tenez 6 mois. Alerte automatique si cash flow &lt; 3 mois.
+                        </p>
+                    </div>
+
+                    {/* Feature 2 - 15 KPIs Auto-calculés */}
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <BarChart3 className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
+                        <h3 className="text-lg font-semibold mb-2 text-primary">15 KPIs Auto-calculés</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
+                            DSO, BFR, marge nette, cash flow... Tous vos indicateurs sans une seule formule Excel.
+                        </p>
+                    </div>
+
+                    {/* Feature 3 - Détection Anomalies IA */}
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <AlertTriangle className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
+                        <h3 className="text-lg font-semibold mb-2 text-primary">Détection Anomalies IA</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
+                            Paie en doublon, client qui paie toujours en retard, erreurs de saisie... L'IA détecte tout.
+                        </p>
+                    </div>
+
+                    {/* Feature 4 - Simulations What-If */}
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <Sliders className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
+                        <h3 className="text-lg font-semibold mb-2 text-primary">Simulations What-If</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
+                            Et si j'augmente mes prix de 10% ? Et si mes clients payent 5 jours plus vite ? Testez en temps réel.
+                        </p>
+                    </div>
+
+                    {/* Feature 5 - Export CODIR */}
+                    <div className="surface rounded-xl p-6 surface-hover group">
+                        <Download className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
+                        <h3 className="text-lg font-semibold mb-2 text-primary">Export CODIR</h3>
+                        <p className="text-secondary text-sm leading-relaxed">
+                            PDF branded avec graphiques et KPIs. Prêt pour votre présentation comité de direction.
+                        </p>
+                    </div>
+
+                    {/* Feature 6 - Intégrations Comptables */}
                     <div className="surface rounded-xl p-6 surface-hover group">
                         <Upload className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">Import CSV/Excel</h3>
+                        <h3 className="text-lg font-semibold mb-2 text-primary">Intégrations Comptables</h3>
                         <p className="text-secondary text-sm leading-relaxed">
-                            Drag & drop fichiers, parsing auto, 15+ KPIs calculés en temps réel
-                        </p>
-                    </div>
-
-                    {/* Feature 2 - AI Copilot */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <Sparkles className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">AI Copilot</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            Interrogez vos données en langage naturel avec GPT-4o et Pinecone
-                        </p>
-                    </div>
-
-                    {/* Feature 3 - D3.js Charts */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <TrendingUp className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">D3.js Charts</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            Visualisations premium : Sankey flows, Sunburst, drill-down 3 niveaux
-                        </p>
-                    </div>
-
-                    {/* Feature 4 - Notifications & Collab */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <Users className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">Notifications & Collab</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            Alertes email (Resend), collaboration temps réel (Pusher), cron daily
-                        </p>
-                    </div>
-
-                    {/* Feature 5 - ML Anomaly Detection */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <Zap className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-lg font-semibold mb-2 text-primary">ML Anomaly Detection</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            3 algorithmes ML (Z-score, IQR, Moving Average) pour transactions suspectes
-                        </p>
-                    </div>
-
-                    {/* Feature 6 - Export Pro */}
-                    <div className="surface rounded-xl p-6 surface-hover group">
-                        <FileBarChart className="w-10 h-10 text-accent-primary mb-3 transition-transform group-hover:scale-110" />
-                        <h3 className="text-xl font-semibold mb-2">Export Pro</h3>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            Génération PDF/Excel automatisée avec formules financières PCG 2025
+                            Compatible Sage, Cegid, QuickBooks, Excel. Uploadez vos exports, on s'occupe du reste.
                         </p>
                     </div>
                 </div>
@@ -228,6 +267,104 @@ export default function Home() {
 
             {/* Testimonials Section */}
             <Testimonials />
+
+            {/* How It Works - Tech Section */}
+            <section className="max-w-6xl mx-auto px-6 py-24 border-t border-border-default">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold mb-4 text-primary">Comment ça marche ?</h2>
+                    <p className="text-lg text-secondary max-w-2xl mx-auto">
+                        Une infrastructure moderne, sécurisée et performante pour vos données financières.
+                    </p>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-8">
+                    {/* Column 1 - Tech Stack */}
+                    <div className="surface rounded-2xl p-8 text-center">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-accent-primary-subtle rounded-2xl mb-6">
+                            <Code className="w-8 h-8 text-accent-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-4 text-primary">Stack Moderne</h3>
+                        <ul className="text-sm text-secondary space-y-2 text-left">
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>Next.js 14</strong> avec App Router et Server Components</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>TypeScript</strong> pour une base de code robuste</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>Vercel Edge</strong> déploiement global &lt; 100ms</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>PostgreSQL</strong> base données relationnelle</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* Column 2 - AI/ML */}
+                    <div className="surface rounded-2xl p-8 text-center">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-accent-primary-subtle rounded-2xl mb-6">
+                            <Brain className="w-8 h-8 text-accent-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-4 text-primary">IA Avancée</h3>
+                        <ul className="text-sm text-secondary space-y-2 text-left">
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>GPT-4o</strong> copilot conversationnel en français</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>TensorFlow.js</strong> détection anomalies (3 algos)</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>Pinecone</strong> vector DB pour RAG (50k vecteurs)</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>D3.js + Recharts</strong> visualisations interactives</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* Column 3 - Security */}
+                    <div className="surface rounded-2xl p-8 text-center">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-accent-primary-subtle rounded-2xl mb-6">
+                            <Shield className="w-8 h-8 text-accent-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-4 text-primary">Sécurité & RGPD</h3>
+                        <ul className="text-sm text-secondary space-y-2 text-left">
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>RGPD conforme</strong> données hébergées en France</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>Encryption</strong> AES-256 au repos et en transit</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>Auth JWT</strong> sessions sécurisées httpOnly</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary font-bold">•</span>
+                                <span><strong>Rate limiting</strong> protection contre abus API</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="mt-12 text-center">
+                    <p className="text-sm text-tertiary">
+                        Infrastructure déployée sur <strong className="text-primary">Vercel</strong> •
+                        Monitoring <strong className="text-primary">Sentry</strong> •
+                        Analytics <strong className="text-primary">PostHog</strong>
+                    </p>
+                </div>
+            </section>
 
             <Footer />
         </div>

@@ -94,6 +94,34 @@ export default function RootLayout({
                         </ThemeProvider>
                     </CompanyProvider>
                 </SessionProvider>
+
+                {/* Schema.org Organization */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'Organization',
+                            name: 'FinSight',
+                            url: 'https://finsight.zineinsight.com',
+                            logo: 'https://finsight.zineinsight.com/images/logo.png',
+                            description: 'Dashboard financier intelligent pour CFO et DAF. Analyse automatisée des données comptables avec intelligence artificielle.',
+                            founder: {
+                                '@type': 'Person',
+                                name: 'Otmane Zinelabidine'
+                            },
+                            foundingDate: '2024',
+                            contactPoint: {
+                                '@type': 'ContactPoint',
+                                contactType: 'customer support',
+                                email: 'contact@finsight.zineinsight.com'
+                            },
+                            sameAs: [
+                                'https://www.linkedin.com/company/finsight-ai'
+                            ]
+                        })
+                    }}
+                />
             </body>
         </html>
     )
