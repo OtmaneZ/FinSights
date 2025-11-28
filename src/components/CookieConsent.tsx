@@ -82,7 +82,7 @@ export default function CookieConsent() {
                         <div className="flex flex-wrap gap-3">
                             <button
                                 onClick={handleAcceptAll}
-                                className="flex-1 min-w-[140px] px-6 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors"
+                                className="flex-1 min-w-[140px] px-6 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-[#0a2d5c] hover:shadow-lg transition-all"
                             >
                                 Tout accepter
                             </button>
@@ -168,7 +168,7 @@ export default function CookieConsent() {
                             </button>
                             <button
                                 onClick={() => handleSaveSettings(true)}
-                                className="flex-1 px-6 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors"
+                                className="flex-1 px-6 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-[#0a2d5c] hover:shadow-lg transition-all"
                             >
                                 Enregistrer avec analytics
                             </button>
