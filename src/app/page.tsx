@@ -54,7 +54,7 @@ export default function Home() {
                     </h1>
 
                     <p className="text-xl text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
-                        Transformez vos exports comptables en insights actionnables.<br/>
+                        Transformez vos exports comptables en insights actionnables.<br />
                         <span className="text-accent-primary font-semibold">IA + Finance</span> pour une analyse moderne et précise.
                     </p>
 
