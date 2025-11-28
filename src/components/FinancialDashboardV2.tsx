@@ -632,7 +632,22 @@ export default function FinancialDashboardV2() {
                 changeType: kpi.changeType as 'positive' | 'negative' | 'neutral',
                 description: kpi.description
             })));
-            setFinSightData(processedData);
+            
+            // Wrapper ProcessedData → FinSightDataModel pour compatibility
+            const finSightModel: any = {
+                id: `demo-${scenario}-${Date.now()}`,
+                timestamp: new Date().toISOString(),
+                fileName: config.file.split('/').pop() || 'demo.csv',
+                recordCount: processedData.records.length,
+                period: processedData.summary?.period || {
+                    start: new Date(),
+                    end: new Date(),
+                    label: 'Période démo'
+                },
+                ...processedData
+            };
+            
+            setFinSightData(finSightModel);
             setRawData(processedData.records || []);
             setIsDataLoaded(true);
             setCompanyName(config.companyName);
