@@ -68,6 +68,104 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* Before/After Section */}
+            <section className="max-w-6xl mx-auto px-6 pb-24">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
+                        Excel → FinSight : <span className="text-accent-primary">2 heures → 10 secondes</span>
+                    </h2>
+                    <p className="text-lg text-secondary max-w-2xl mx-auto">
+                        Arrêtez de perdre du temps sur des calculs manuels. Concentrez-vous sur vos décisions.
+                    </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                    {/* AVANT - Excel */}
+                    <div className="surface rounded-2xl p-8 border-2 border-border-default relative">
+                        <div className="absolute -top-4 left-6 px-4 py-1 bg-red-50 border border-red-200 rounded-full">
+                            <span className="text-red-700 text-sm font-semibold">❌ Avec Excel (aujourd'hui)</span>
+                        </div>
+                        
+                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">2 heures de travail manuel</h3>
+                        
+                        <ul className="space-y-4 mb-8">
+                            <li className="flex items-start gap-3 text-secondary">
+                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
+                                <span className="leading-relaxed">Formules manuelles DSO, BFR, marge nette à recalculer chaque mois</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-secondary">
+                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
+                                <span className="leading-relaxed">Consolidation de plusieurs exports comptables (Sage, Excel, PDF)</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-secondary">
+                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
+                                <span className="leading-relaxed">Recherche manuelle d'erreurs de saisie et doublons</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-secondary">
+                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
+                                <span className="leading-relaxed">Graphiques à refaire pour chaque présentation CODIR</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-secondary">
+                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
+                                <span className="leading-relaxed">Aucune détection automatique des anomalies financières</span>
+                            </li>
+                        </ul>
+
+                        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <p className="text-sm text-red-800 italic leading-relaxed">
+                                "Je passe 2 heures par semaine sur Excel juste pour savoir où j'en suis. 
+                                Et encore, je ne détecte pas tout..."
+                            </p>
+                            <p className="text-xs text-red-600 mt-2 font-semibold">
+                                — DAF, PME 50 personnes
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* APRÈS - FinSight */}
+                    <div className="surface rounded-2xl p-8 border-2 border-accent-primary relative bg-gradient-to-br from-accent-primary-subtle to-primary">
+                        <div className="absolute -top-4 left-6 px-4 py-1 bg-accent-primary text-white rounded-full shadow-lg">
+                            <span className="text-sm font-semibold">✨ Avec FinSight (10 secondes)</span>
+                        </div>
+                        
+                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">Upload → Diagnostic instantané</h3>
+                        
+                        <ul className="space-y-4 mb-8">
+                            <li className="flex items-start gap-3 text-primary">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span className="leading-relaxed font-medium">15 KPIs calculés automatiquement (DSO, BFR, marge, cash flow...)</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-primary">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span className="leading-relaxed font-medium">Détection IA des anomalies (paie en doublon, client tardif, erreur saisie)</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-primary">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span className="leading-relaxed font-medium">Simulations what-if en temps réel (et si j'augmente mes prix de 10% ?)</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-primary">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span className="leading-relaxed font-medium">Export PDF branded prêt pour présentation CODIR</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-primary">
+                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
+                                <span className="leading-relaxed font-medium">Alertes automatiques si trésorerie &lt; 3 mois</span>
+                            </li>
+                        </ul>
+
+                        <div className="p-4 bg-white border-2 border-accent-primary rounded-lg shadow-sm">
+                            <p className="text-sm text-primary font-medium leading-relaxed">
+                                "10 secondes pour savoir si je tiens 6 mois. 
+                                Je peux enfin me concentrer sur la stratégie, pas sur Excel."
+                            </p>
+                            <p className="text-xs text-accent-primary mt-2 font-bold">
+                                — CFO, Scale-up 120 personnes
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Features Grid */}
             <section className="max-w-6xl mx-auto px-6 pb-24">
                 <h2 className="text-2xl font-bold text-center mb-10 text-primary">Fonctionnalités</h2>
