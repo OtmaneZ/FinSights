@@ -5,6 +5,7 @@ import '../styles/driver-custom.css'
 import { Inter } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
 import { ThemeProvider } from '@/lib/themeContext'
+import { SessionProvider } from '@/components/SessionProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -45,11 +46,13 @@ export default function RootLayout({
     return (
         <html lang="fr" suppressHydrationWarning>
             <body className={inter.className}>
-                <ThemeProvider>
-                    <FinancialDataProvider>
-                        {children}
-                    </FinancialDataProvider>
-                </ThemeProvider>
+                <SessionProvider>
+                    <ThemeProvider>
+                        <FinancialDataProvider>
+                            {children}
+                        </FinancialDataProvider>
+                    </ThemeProvider>
+                </SessionProvider>
             </body>
         </html>
     )

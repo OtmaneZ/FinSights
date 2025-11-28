@@ -1,9 +1,39 @@
 'use client'
 
 import Link from 'next/link'
-import { Linkedin } from 'lucide-react'
+import { Linkedin, User, LogOut, Crown, Settings } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
+import { useState, useRef, useEffect } from 'react'
 
 export default function Header() {
+    const { data: session, status } = useSession()
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const dropdownRef = useRef<HTMLDivElement>(null)
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+    const handleSignOut = async () => {
+        await signOut({ callbackUrl: '/' })
+    }
+
+    const getPlanBadgeColor = (plan: string) => {
+        switch (plan) {
+            case 'PRO': return 'bg-blue-500/10 text-blue-500 border-blue-500/30'
+            case 'SCALE': return 'bg-purple-500/10 text-purple-500 border-purple-500/30'
+            case 'ENTERPRISE': return 'bg-amber-500/10 text-amber-500 border-amber-500/30'
+            default: return 'bg-gray-500/10 text-gray-500 border-gray-500/30' // FREE
+        }
+    }
+
     return (
         <header className="border-b border-border-subtle backdrop-blur-sm bg-primary/80 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -37,14 +67,103 @@ export default function Header() {
                         <Linkedin className="w-4 h-4" />
                         LinkedIn
                     </a>
-                    <a
-                        href="https://calendly.com/zineinsight"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-6 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
-                    >
-                        Discutons
-                    </a>
+
+                    {/* Auth Section */}
+                    {status === 'loading' ? (
+                        <div className="w-24 h-10 bg-surface-elevated animate-pulse rounded-lg" />
+                    ) : session ? (
+                        // User logged in - Show dropdown
+                        <div className="relative" ref={dropdownRef}>
+                            <button
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                className="flex items-center gap-3 px-4 py-2 bg-surface-elevated hover:bg-surface-hover border border-border-default rounded-lg transition-all"
+                            >
+                                {/* Plan Badge */}
+                                <span className={`px-2 py-0.5 text-xs font-semibold rounded border ${getPlanBadgeColor(session.user?.plan || 'FREE')}`}>
+                                    {session.user?.plan || 'FREE'}
+                                </span>
+
+                                {/* User Avatar */}
+                                <div className="w-8 h-8 bg-accent-primary text-white rounded-full flex items-center justify-center font-semibold text-sm">
+                                    {session.user?.name?.[0]?.toUpperCase() || session.user?.email?.[0]?.toUpperCase() || 'U'}
+                                </div>
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            {isDropdownOpen && (
+                                <div className="absolute right-0 mt-2 w-56 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50">
+                                    {/* User Info */}
+                                    <div className="px-4 py-3 border-b border-border-default">
+                                        <p className="text-sm font-semibold text-primary truncate">
+                                            {session.user?.name || 'Utilisateur'}
+                                        </p>
+                                        <p className="text-xs text-tertiary truncate">
+                                            {session.user?.email}
+                                        </p>
+                                    </div>
+
+                                    {/* Menu Items */}
+                                    <div className="py-2">
+                                        <Link
+                                            href="/dashboard"
+                                            className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                            onClick={() => setIsDropdownOpen(false)}
+                                        >
+                                            <User className="w-4 h-4" />
+                                            Mon Dashboard
+                                        </Link>
+
+                                        {session.user?.plan === 'FREE' && (
+                                            <Link
+                                                href="/pricing"
+                                                className="flex items-center gap-3 px-4 py-2 text-sm text-accent-primary hover:bg-accent-primary/5 transition-colors"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                            >
+                                                <Crown className="w-4 h-4" />
+                                                Passer à PRO 🚀
+                                            </Link>
+                                        )}
+
+                                        <Link
+                                            href="/settings"
+                                            className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                            onClick={() => setIsDropdownOpen(false)}
+                                        >
+                                            <Settings className="w-4 h-4" />
+                                            Paramètres
+                                        </Link>
+                                    </div>
+
+                                    {/* Sign Out */}
+                                    <div className="border-t border-border-default">
+                                        <button
+                                            onClick={handleSignOut}
+                                            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-500/5 transition-colors"
+                                        >
+                                            <LogOut className="w-4 h-4" />
+                                            Déconnexion
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        // User not logged in - Show auth buttons
+                        <>
+                            <Link
+                                href="/auth/signin"
+                                className="text-secondary hover:text-primary transition-colors text-sm font-medium"
+                            >
+                                Se connecter
+                            </Link>
+                            <Link
+                                href="/auth/signup"
+                                className="px-6 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
+                            >
+                                Essai gratuit
+                            </Link>
+                        </>
+                    )}
                 </nav>
             </div>
         </header>

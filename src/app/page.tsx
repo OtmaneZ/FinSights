@@ -24,6 +24,24 @@ export default function Home() {
 
             {/* Hero Section */}
             <section className="relative max-w-5xl mx-auto px-6 pt-24 pb-32 text-center">
+                {/* Social Proof Badge */}
+                <div className="flex items-center justify-center gap-6 mb-8 text-sm text-secondary">
+                    <div className="flex items-center gap-2">
+                        <span className="text-accent-primary font-bold text-lg">300+</span>
+                        <span>PME analysées</span>
+                    </div>
+                    <div className="w-px h-4 bg-border-default"></div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-accent-primary font-bold text-lg">10h</span>
+                        <span>économisées/mois</span>
+                    </div>
+                    <div className="w-px h-4 bg-border-default"></div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-accent-primary font-bold text-lg">4.9/5</span>
+                        <span>⭐ satisfaction</span>
+                    </div>
+                </div>
+
                 {/* Content */}
                 <div>
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-8">
@@ -36,7 +54,8 @@ export default function Home() {
                     </h1>
 
                     <p className="text-xl text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
-                        Analyse temps réel • AI Copilot conversationnel • Export automatisé
+                        Transformez vos exports comptables en insights actionnables.<br/>
+                        <span className="text-accent-primary font-semibold">Économisez 10h/mois</span> sur votre reporting financier.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -56,7 +75,7 @@ export default function Home() {
                     </div>
 
                     <p className="text-sm text-tertiary mt-8">
-                        3 scénarios réalistes : PME Services • Startup SaaS • Scale-up Tech
+                        ✅ 100% sécurisé • ✅ Données en France • ✅ Sans engagement
                     </p>
                 </div>
             </section>
