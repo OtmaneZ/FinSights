@@ -43,6 +43,9 @@ import AICopilot from './AICopilot'
 // Import Empty State V2
 import EmptyDashboardStateV2 from './EmptyDashboardStateV2'
 
+// Import Auth Banner
+import AuthBanner from './AuthBanner'
+
 // Import Drill-Down
 import { useDrilldown } from '@/hooks/useDrilldown'
 import { KPIDrilldownModal } from './drill-down/KPIDrilldownModal'
@@ -802,6 +805,9 @@ export default function FinancialDashboardV2() {
         <>
             {/* Container principal - Design corporate épuré */}
             <div ref={dashboardRef} className="max-w-7xl mx-auto px-6 py-8">
+                {/* Auth Banner - Shown only for non-authenticated users */}
+                <AuthBanner />
+
                 {/* Real-Time Presence */}
                 {isDataLoaded && (
                     <>
@@ -862,11 +868,10 @@ export default function FinancialDashboardV2() {
                                 <h3 className="text-base font-semibold text-primary leading-tight">
                                     {kpi.title}
                                 </h3>
-                                <span className={`text-base font-bold ml-2 flex-shrink-0 ${
-                                    kpi.changeType === 'positive' ? 'text-accent-success' :
-                                    kpi.changeType === 'negative' ? 'text-accent-danger' :
-                                    'text-secondary'
-                                }`}>
+                                <span className={`text-base font-bold ml-2 flex-shrink-0 ${kpi.changeType === 'positive' ? 'text-accent-success' :
+                                        kpi.changeType === 'negative' ? 'text-accent-danger' :
+                                            'text-secondary'
+                                    }`}>
                                     {kpi.change}
                                 </span>
                             </div>

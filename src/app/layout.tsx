@@ -5,7 +5,7 @@ import '../styles/driver-custom.css'
 import { Inter } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
 import { ThemeProvider } from '@/lib/themeContext'
-import { SessionProvider } from '@/components/SessionProvider'
+import SessionProvider from '@/components/SessionProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
