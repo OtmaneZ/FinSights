@@ -59,34 +59,37 @@ export default function Header() {
                     />
                     <span className="text-xl font-semibold">FinSight</span>
                 </Link>
-                <nav className="hidden md:flex items-center gap-8">
+                <nav className="hidden md:flex items-center gap-6">
+                    {/* Bloc 1 - Produit */}
                     <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Démo Live
+                        Démo
                     </Link>
                     <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Tarifs
                     </Link>
-                    <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Consulting
+                    <Link href="/#features" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                        Fonctionnalités
                     </Link>
+
+                    <span className="text-border-default">|</span>
+
+                    {/* Bloc 2 - Ressources */}
                     <Link href="/ressources/templates" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Templates Excel
-                    </Link>
-                    <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Blog
+                        Templates
                     </Link>
                     <Link href="/calculateurs" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Calculateurs
                     </Link>
-                    <a
-                        href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-secondary hover:text-primary transition-colors text-sm font-medium flex items-center gap-2"
-                    >
-                        <Linkedin className="w-4 h-4" />
-                        LinkedIn
-                    </a>
+                    <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                        Blog
+                    </Link>
+
+                    <span className="text-border-default">|</span>
+
+                    {/* Bloc 3 - Pro/Perso */}
+                    <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                        Consulting
+                    </Link>
 
                     {/* Auth Section */}
                     {status === 'loading' ? (

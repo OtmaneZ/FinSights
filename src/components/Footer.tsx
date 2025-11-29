@@ -63,8 +63,19 @@ export default function Footer() {
                     </Link>
                 </div>
 
-                <div className="mt-8 pt-8 border-t border-border-subtle text-center text-sm text-tertiary">
-                    <p>
+                <div className="mt-8 pt-8 border-t border-border-subtle flex flex-col items-center gap-4">
+                    <div className="flex items-center gap-4">
+                        <a
+                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 text-secondary hover:text-accent-primary transition-colors text-sm"
+                        >
+                            <Linkedin className="w-5 h-5" />
+                            <span>Suivre sur LinkedIn</span>
+                        </a>
+                    </div>
+                    <p className="text-sm text-tertiary">
                         © 2025 Otmane Boulahia •
                         <a href="https://www.zineinsight.com" className="hover:text-secondary transition-colors ml-1">ZineInsight</a>
                     </p>
