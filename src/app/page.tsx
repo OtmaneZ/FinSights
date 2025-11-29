@@ -26,7 +26,7 @@ export default function Home() {
                     <div className="w-px h-4 bg-accent-primary-border"></div>
                     <span className="text-accent-primary font-semibold">🔒 RGPD France</span>
                     <div className="w-px h-4 bg-accent-primary-border"></div>
-                    <span className="text-accent-primary font-semibold">⭐ 4.8/5 CFO</span>
+                    <span className="text-accent-primary font-semibold">⭐ Apprécié par nos utilisateurs</span>
                 </div>
 
                 {/* Content */}
@@ -75,12 +75,9 @@ export default function Home() {
                                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 border-2 border-primary flex items-center justify-center text-white text-xs font-bold">
                                     FI
                                 </div>
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 border-2 border-primary flex items-center justify-center text-white text-xs font-bold">
-                                    +250
-                                </div>
                             </div>
                             <p className="text-sm text-secondary font-medium">
-                                Utilisé par <span className="text-primary font-semibold">250+ CFO/DAF</span> en France
+                                Déjà testé par <span className="text-primary font-semibold">plusieurs DAF et dirigeants de PME</span>
                             </p>
                         </div>
                         <div className="flex items-center gap-2">
@@ -88,7 +85,7 @@ export default function Home() {
                                 <span>⭐⭐⭐⭐⭐</span>
                             </div>
                             <span className="text-sm text-secondary">
-                                <span className="font-bold text-primary">4.8/5</span> • 120+ avis
+                                Apprécié par nos utilisateurs
                             </span>
                         </div>
                     </div>
@@ -99,7 +96,7 @@ export default function Home() {
             <section className="max-w-6xl mx-auto px-6 pb-24">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-                        Excel → FinSight : <span className="text-accent-primary">2 heures → 10 secondes</span>
+                        Excel → FinSight : <span className="text-accent-primary">1 heure → 10 secondes</span>
                     </h2>
                     <p className="text-lg text-secondary max-w-2xl mx-auto">
                         Arrêtez de perdre du temps sur des calculs manuels. Concentrez-vous sur vos décisions.
@@ -113,7 +110,7 @@ export default function Home() {
                             <span className="text-red-700 text-sm font-semibold">❌ Avec Excel (aujourd'hui)</span>
                         </div>
 
-                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">2 heures de travail manuel</h3>
+                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">Travail manuel chronophage</h3>
 
                         <ul className="space-y-4 mb-8">
                             <li className="flex items-start gap-3 text-secondary">
@@ -126,7 +123,7 @@ export default function Home() {
                             </li>
                             <li className="flex items-start gap-3 text-secondary">
                                 <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Recherche manuelle d'erreurs de saisie et doublons</span>
+                                <span className="leading-relaxed">Détection manuelle chronophage des erreurs et anomalies</span>
                             </li>
                             <li className="flex items-start gap-3 text-secondary">
                                 <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
@@ -134,14 +131,14 @@ export default function Home() {
                             </li>
                             <li className="flex items-start gap-3 text-secondary">
                                 <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Aucune détection automatique des anomalies financières</span>
+                                <span className="leading-relaxed">Temps de consolidation variable selon la complexité des données</span>
                             </li>
                         </ul>
 
                         <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                             <p className="text-sm text-red-800 italic leading-relaxed">
-                                "Je passe 2 heures par semaine sur Excel juste pour savoir où j'en suis.
-                                Et encore, je ne détecte pas tout..."
+                                "Entre 1 et 2 heures par semaine sur Excel juste pour savoir où j'en suis.
+                                Et je ne détecte pas toutes les anomalies..."
                             </p>
                             <p className="text-xs text-red-600 mt-2 font-semibold">
                                 — DAF, PME 50 personnes
@@ -254,7 +251,7 @@ export default function Home() {
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span><strong className="text-primary">Chiffrement AES-256</strong> — au repos et en transit (TLS 1.3)</span>
+                                <span><strong className="text-primary">Chiffrement de bout en bout</strong> — vos données sont protégées</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
@@ -262,11 +259,11 @@ export default function Home() {
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span><strong className="text-primary">Authentification sécurisée</strong> — sessions JWT httpOnly</span>
+                                <span><strong className="text-primary">Aucun transfert tiers</strong> — vos données ne sont jamais revendues</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span><strong className="text-primary">Serveurs rapides</strong> — temps de réponse &lt; 100ms</span>
+                                <span><strong className="text-primary">Suppression sur demande</strong> — contrôle total de vos données</span>
                             </li>
                         </ul>
                     </div>

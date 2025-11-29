@@ -42,8 +42,8 @@ export const UpgradeSuccessEmail = ({
             '🔑 10 000 appels API/mois',
             '🎯 Webhooks personnalisés',
             '🤝 Multi-utilisateurs (5 sièges)',
-            '⚡ Support premium 24/7',
-            '🔒 SLA 99.9% uptime',
+            '⚡ Support premium prioritaire',
+            '� Monitoring temps réel',
         ],
     }
 

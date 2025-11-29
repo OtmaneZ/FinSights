@@ -15,7 +15,7 @@ export default function PricingPage() {
 
     const plans = [
         {
-            name: 'Gratuit',
+            name: 'Starter',
             icon: Zap,
             price: 0,
             priceYearly: 0,
@@ -35,28 +35,27 @@ export default function PricingPage() {
             popular: false
         },
         {
-            name: 'Pro',
+            name: 'Business',
             icon: Shield,
             price: 79,
             priceYearly: 758, // -20%
             features: [
-                '✅ 5 entreprises',
+                '✅ 3 entreprises',
                 '✅ IA illimitée (GPT-4)',
                 '✅ Uploads CSV illimités',
                 '✅ Sauvegarde cloud 90 jours',
                 '✅ Alertes email temps réel',
                 '✅ Export PDF/Excel branded',
-                '✅ Support email 24h',
-                '✅ API REST (1000 calls/jour)',
-                '✅ Webhooks basiques',
-                '✅ Drill-down 3 niveaux'
+                '✅ Support email 48h',
+                '❌ API REST',
+                '❌ Multi-utilisateurs'
             ],
             cta: 'Essai gratuit 14 jours',
             highlight: true,
             popular: true
         },
         {
-            name: 'Scale',
+            name: 'Growth',
             icon: Rocket,
             price: 199,
             priceYearly: 1910, // -20%
@@ -66,10 +65,10 @@ export default function PricingPage() {
                 '✅ API REST complète (10k calls/jour)',
                 '✅ Historique 3 ans de données',
                 '✅ Webhooks avancés',
-                '✅ Support prioritaire 4h',
+                '✅ Support prioritaire 24h',
                 '✅ Onboarding personnalisé',
                 '✅ White-label (logo custom)',
-                '✅ SLA 99.9%'
+                '✅ Monitoring temps réel'
             ],
             cta: 'Démo avec expert',
             highlight: false,
@@ -80,15 +79,15 @@ export default function PricingPage() {
             icon: Building2,
             price: null,
             features: [
-                '✅ Tout Scale +',
+                '✅ Tout Growth +',
                 '✅ Utilisateurs illimités',
                 '✅ Intégrations sur-mesure',
-                '✅ SSO/SAML',
-                '✅ Hébergement dédié',
+                '✅ Déploiement on-premise possible',
                 '✅ Account manager dédié',
                 '✅ Formation équipe complète',
                 '✅ Audit sécurité',
-                '✅ Contrat annuel'
+                '✅ Contrat annuel',
+                '✅ SLA personnalisé'
             ],
             cta: 'Nous contacter',
             highlight: false,
@@ -133,11 +132,11 @@ export default function PricingPage() {
                             highlight={plan.highlight}
                             popular={plan.popular}
                             ctaAction={() => {
-                                if (plan.name === 'Gratuit' || plan.name === 'Pro') {
-                                    // ✨ Pure SaaS: redirect to signup for FREE and PRO
+                                if (plan.name === 'Starter' || plan.name === 'Business') {
+                                    // ✨ Pure SaaS: redirect to signup for STARTER and BUSINESS
                                     window.location.href = '/auth/signup'
                                 } else {
-                                    // Keep Calendly for SCALE and ENTERPRISE (higher touch)
+                                    // Keep Calendly for GROWTH and ENTERPRISE (higher touch)
                                     window.location.href = 'https://calendly.com/zineinsight'
                                 }
                             }}
