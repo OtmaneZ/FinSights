@@ -32,15 +32,15 @@ const guides: Guide[] = [
         id: 'checklist-closing',
         title: 'Checklist Closing Financier Mensuel',
         description: 'La checklist complète pour réussir votre clôture mensuelle sans rien oublier',
-        pages: '12 pages',
+        pages: '10 pages',
         icon: CheckSquare,
         features: [
             '✅ Checklist jour par jour (J-5 à J+3)',
-            '� 15 points de contrôle essentiels',
+            '📝 23 points de contrôle essentiels',
             '⏱️ Timing optimisé pour closing rapide',
             '🔄 Process bancaire & fournisseurs',
             '📊 Contrôles pré-reporting',
-            '� Format PDF imprimable ou digital'
+            '📄 Format PDF imprimable ou digital'
         ],
         downloadUrl: '/ressources/guides/checklist-closing-financier.pdf',
         color: 'from-green-500 to-green-600',

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Closing Financier - FinSight</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            padding: 15mm 18mm;
+            background: white;
+            page-break-after: always;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .page {
+                margin: 0;
+                padding: 15mm 18mm;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        @media screen {
+            body {
+                background: #f0f2f5;
+                padding: 20px;
+            }
+
+            .page {
+                margin: 0 auto 20px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 10mm;
+            right: 18mm;
+            font-size: 9pt;
+            color: #adb5bd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PAGE 1 - COUVERTURE -->
+    <div class="page bg-gradient-to-br from-blue-50 to-green-50">
+        <div class="flex flex-col items-center justify-center h-full text-center">
+            <div class="bg-blue-600 text-white px-8 py-3 rounded-full text-xl font-bold mb-12">
+                FinSight • 2025
+            </div>
+
+            <h1 class="text-7xl font-bold text-gray-900 mb-6 leading-tight">
+                Checklist Closing<br>Financier Mensuel
+            </h1>
+
+            <p class="text-3xl text-gray-600 mb-8">
+                Réussir sa clôture comptable sans rien oublier
+            </p>
+
+            <div class="grid grid-cols-3 gap-6 mt-12 max-w-4xl">
+                <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">8</div>
+                    <div class="text-gray-600 font-medium">jours de closing</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                    <div class="text-4xl font-bold text-green-600 mb-2">3</div>
+                    <div class="text-gray-600 font-medium">phases détaillées</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">20+</div>
+                    <div class="text-gray-600 font-medium">points de contrôle</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2 - INTRODUCTION -->
+    <div class="page">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4 border-b-4 border-blue-600 pb-2">
+            Pourquoi une checklist de closing ?
+        </h2>
+
+        <div class="space-y-4 text-gray-700 leading-relaxed">
+            <p class="text-base">
+                Le closing mensuel est un moment critique pour toute entreprise. Une clôture mal faite = reporting
+                erroné = décisions basées sur de mauvaises données.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-5 rounded-r-lg">
+                <h3 class="text-lg font-bold text-gray-900 mb-3">Cette checklist vous permet de :</h3>
+                <ul class="space-y-2 text-base">
+                    <li class="flex items-start">
+                        <span class="text-green-600 mr-2 text-xl">✅</span>
+                        <span>Ne rien oublier dans votre processus</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-600 mr-2 text-xl">✅</span>
+                        <span>Gagner 2-3h par mois sur votre closing</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-600 mr-2 text-xl">✅</span>
+                        <span>Sécuriser vos chiffres avant reporting</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-600 mr-2 text-xl">✅</span>
+                        <span>Anticiper les problèmes de trésorerie</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-green-50 border-2 border-green-600 p-5 rounded-lg mt-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Timeline optimale</h3>
+                        <p class="text-3xl font-bold text-green-600">J-5 à J+3</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-1">Durée totale</h3>
+                        <p class="text-3xl font-bold text-green-600">8 jours</p>
+                    </div>
+                </div>
+                <p class="text-center text-gray-600 mt-3 text-base">Pour un closing complet et fiable</p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 2 / 12</div>
+    </div>
+
+    <!-- PAGE 3 - SOMMAIRE -->
+    <div class="page">
+        <h2 class="text-4xl font-bold text-gray-900 mb-8 border-b-4 border-blue-600 pb-3">
+            Les 3 phases du closing financier
+        </h2>
+
+        <div class="space-y-6">
+            <!-- Phase 1 -->
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg">
+                <div class="flex items-center mb-4">
+                    <div
+                        class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold mr-4">
+                        1</div>
+                    <h3 class="text-2xl font-bold text-gray-900">Phase 1 : Avant le closing (J-5 à J-1)</h3>
+                </div>
+                <p class="text-lg text-gray-700 ml-16">→ Préparation & collecte documents</p>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="bg-green-50 border-l-4 border-green-600 p-6 rounded-r-lg">
+                <div class="flex items-center mb-4">
+                    <div
+                        class="bg-green-600 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold mr-4">
+                        2</div>
+                    <h3 class="text-2xl font-bold text-gray-900">Phase 2 : Jour J du closing (J à J+1)</h3>
+                </div>
+                <p class="text-lg text-gray-700 ml-16">→ Saisie & lettrage comptable</p>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="bg-purple-50 border-l-4 border-purple-600 p-6 rounded-r-lg">
+                <div class="flex items-center mb-4">
+                    <div
+                        class="bg-purple-600 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold mr-4">
+                        3</div>
+                    <h3 class="text-2xl font-bold text-gray-900">Phase 3 : Après le closing (J+2 à J+3)</h3>
+                </div>
+                <p class="text-lg text-gray-700 ml-16">→ Contrôles & reporting</p>
+            </div>
+        </div>
+
+        <div class="bg-gray-100 p-6 rounded-lg mt-8">
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                    <div class="text-2xl font-bold text-blue-600">J-5 → J-1</div>
+                    <div class="text-sm text-gray-600 mt-1">Préparation</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-green-600">J → J+1</div>
+                    <div class="text-sm text-gray-600 mt-1">Closing</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-purple-600">J+2 → J+3</div>
+                    <div class="text-sm text-gray-600 mt-1">Reporting</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-number">Page 3 / 12</div>
+    </div>
+
+    <!-- PAGE 4 - PHASE 1 COMPLÈTE -->
+    <div class="page">
+        <div class="bg-blue-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-2xl font-bold">Phase 1 : Avant le Closing (J-5 à J-1)</h2>
+            <p class="text-base mt-1">Préparation & Collecte Documents</p>
+        </div>
+
+        <div class="space-y-3">
+            <!-- Item 1 -->
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Récupérer les relevés bancaires
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Demandez les relevés mensuels à votre banque (tous les comptes). Vérifiez qu'il n'y a pas de
+                    mouvements manquants.
+                </p>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Lister les factures fournisseurs
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Compilez toutes les factures reçues mais pas encore comptabilisées. Classez-les par date.
+                </p>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Relancer les clients >30 jours
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Envoyez un email de relance aux clients avec factures échues >30j. Notez les promesses de paiement.
+                </p>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Préparer les OD de paie
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Préparez les écritures de salaires et charges sociales du mois si gestion interne.
+                </p>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Vérifier les stocks physiques
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Inventaire rapide ou contrôle par sondage pour les activités avec stocks.
+                </p>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Valider les provisions à passer
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Provisions congés payés, charges à payer, litiges clients : vérifiez les montants.
+                </p>
+            </div>
+
+            <!-- Item 7 -->
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Collecter les notes de frais
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Rappelez aux collaborateurs de déposer leurs notes de frais. Deadline : J-2.
+                </p>
+            </div>
+
+            <!-- Item 8 -->
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Pointer les encaissements clients
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Vérifiez que tous les règlements clients sont pointés avec les factures correspondantes.
+                </p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 4 / 10</div>
+    </div>
+
+    <!-- PAGE 5 - PHASE 2 COMPLÈTE -->
+    <div class="page">
+        <div class="bg-green-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-2xl font-bold">Phase 2 : Jour J du Closing (J à J+1)</h2>
+            <p class="text-base mt-1">Saisie & Lettrage Comptable</p>
+        </div>
+
+        <div class="space-y-3">
+            <!-- Item 1 -->
+            <div class="border-l-4 border-green-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Saisir les dernières factures
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Toutes les factures datées du mois M doivent être enregistrées, même si reçues début M+1.
+                </p>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="border-l-4 border-green-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Lettrage des comptes clients
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Rapprochez tous les paiements reçus avec les factures émises. Identifiez les créances douteuses.
+                </p>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="border-l-4 border-green-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Lettrage des comptes fournisseurs
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Rapprochez les paiements effectués avec les factures. Vérifiez les avoirs non lettrés.
+                </p>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="border-l-4 border-green-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Rapprochement bancaire complet
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Pointez ligne par ligne chaque mouvement bancaire avec les écritures. L'écart doit être = 0.
+                </p>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="border-l-4 border-green-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Passer les écritures d'OD
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Salaires, charges sociales, amortissements, provisions : toutes les OD mensuelles.
+                </p>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="border-l-4 border-green-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Contrôler CA vs encaissements
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Vérifiez que votre CA facturé est cohérent avec encaissements + créances clients.
+                </p>
+            </div>
+
+            <!-- Item 7 -->
+            <div class="border-l-4 border-green-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Valider les comptes de charges
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Parcourez les postes de charges importants : pas de montants anormaux ? Pas de doublon ?
+                </p>
+            </div>
+
+            <!-- Item 8 -->
+            <div class="border-l-4 border-green-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Éditer la balance avant contrôle
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Générez une première balance pour identifier les comptes non lettrés ou soldes anormaux.
+                </p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 5 / 10</div>
+    </div>
+
+    <!-- PAGE 6 - PHASE 3 COMPLÈTE -->
+    <div class="page">
+        <div class="bg-purple-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-2xl font-bold">Phase 3 : Après le Closing (J+2 à J+3)</h2>
+            <p class="text-base mt-1">Contrôles & Reporting</p>
+        </div>
+
+        <div class="space-y-3">
+            <!-- Item 1 -->
+            <div class="border-l-4 border-purple-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Balance générale définitive
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Balance N-1 vs N : comparez les évolutions. Identifiez les variations importantes à expliquer.
+                </p>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="border-l-4 border-purple-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Calculer les KPIs financiers
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    DSO, BFR, Marge brute, EBITDA, Cash flow : calculez vos indicateurs clés pour le reporting.
+                </p>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="border-l-4 border-purple-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Vérifier les ratios de cohérence
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Marge >30% ? Charges personnel <40% CA ? DSO <60j ? Alertez si hors norme. </p>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="border-l-4 border-purple-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Préparer le reporting direction
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Créez le tableau de bord : CA, EBITDA, trésorerie, top 5 clients, top 5 charges.
+                </p>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="border-l-4 border-purple-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Archiver les justificatifs
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Classez relevés bancaires, factures, OD dans un dossier dédié au mois M (physique ou digital).
+                </p>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="border-l-4 border-purple-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Anticiper le mois M+1
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Notez les échéances : TVA, charges sociales, loyers, gros paiements fournisseurs.
+                </p>
+            </div>
+
+            <!-- Item 7 -->
+            <div class="border-l-4 border-purple-500 pl-4 py-2">
+                <h3 class="text-base font-bold text-gray-900 mb-1 flex items-center">
+                    <span class="text-green-600 mr-2 text-lg">✅</span>
+                    Mettre à jour le prévisionnel
+                </h3>
+                <p class="text-sm text-gray-700 leading-snug">
+                    Actualisez votre cash flow prévisionnel avec les données réelles du mois écoulé.
+                </p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 6 / 10</div>
+    </div>
+
+    <!-- PAGE 7 - ERREURS À ÉVITER -->
+    <div class="page">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 border-b-4 border-red-600 pb-3">
+            Les 5 erreurs fatales du closing
+        </h2>
+
+        <div class="space-y-6">
+            <!-- Erreur 1 -->
+            <div class="bg-red-50 border-l-4 border-red-600 p-6 rounded-r-lg">
+                <div class="flex items-start">
+                    <div
+                        class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0">
+                        1</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Attendre le 15 du mois pour commencer</h3>
+                        <p class="text-gray-700">→ Commencez J-5 pour avoir le temps de corriger les anomalies</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Erreur 2 -->
+            <div class="bg-red-50 border-l-4 border-red-600 p-6 rounded-r-lg">
+                <div class="flex items-start">
+                    <div
+                        class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0">
+                        2</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Ne pas lettrer les comptes</h3>
+                        <p class="text-gray-700">→ Des comptes non lettrés = impossible de savoir où on en est</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Erreur 3 -->
+            <div class="bg-red-50 border-l-4 border-red-600 p-6 rounded-r-lg">
+                <div class="flex items-start">
+                    <div
+                        class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0">
+                        3</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Oublier les provisions de fin de mois</h3>
+                        <p class="text-gray-700">→ Provisions congés payés, charges à payer : impact direct sur le
+                            résultat</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Erreur 4 -->
+            <div class="bg-red-50 border-l-4 border-red-600 p-6 rounded-r-lg">
+                <div class="flex items-start">
+                    <div
+                        class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0">
+                        4</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Négliger le rapprochement bancaire</h3>
+                        <p class="text-gray-700">→ C'est le contrôle n°1 de fiabilité de votre compta</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Erreur 5 -->
+            <div class="bg-red-50 border-l-4 border-red-600 p-6 rounded-r-lg">
+                <div class="flex items-start">
+                    <div
+                        class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0">
+                        5</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Ne pas documenter les choix comptables</h3>
+                        <p class="text-gray-700">→ Notez pourquoi vous avez provisionné X€ (pour l'audit ou
+                            l'expert-comptable)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-number">Page 7 / 10</div>
+    </div>
+
+    <!-- PAGE 8 - OUTILS & RESSOURCES -->
+    <div class="page">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 border-b-4 border-blue-600 pb-3">
+            Outils pour accélérer votre closing
+        </h2>
+
+        <div class="space-y-6">
+            <!-- Calculateurs -->
+            <div class="bg-blue-50 border-2 border-blue-600 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <span class="text-4xl mr-3">🧮</span>
+                    Calculateurs gratuits FinSight
+                </h3>
+                <ul class="space-y-2 ml-12 text-gray-700">
+                    <li>→ DSO, BFR, ROI, Marge, EBITDA</li>
+                    <li>→ Calculs instantanés sans Excel</li>
+                </ul>
+            </div>
+
+            <!-- Templates -->
+            <div class="bg-green-50 border-2 border-green-600 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <span class="text-4xl mr-3">📊</span>
+                    Templates Excel
+                </h3>
+                <ul class="space-y-2 ml-12 text-gray-700">
+                    <li>→ Budget prévisionnel 2025</li>
+                    <li>→ Tracker DSO clients</li>
+                    <li>→ Dashboard cash flow</li>
+                </ul>
+            </div>
+
+            <!-- Dashboard IA -->
+            <div class="bg-purple-50 border-2 border-purple-600 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <span class="text-4xl mr-3">🤖</span>
+                    Dashboard automatisé FinSight
+                </h3>
+                <ul class="space-y-2 ml-12 text-gray-700">
+                    <li>→ Upload CSV → 50+ KPIs calculés</li>
+                    <li>→ AI Copilot pour vos questions</li>
+                    <li>→ Gain de temps : 5h/mois</li>
+                </ul>
+            </div>
+
+            <div class="bg-gradient-to-r from-blue-600 to-green-600 text-white p-6 rounded-lg text-center mt-8">
+                <p class="text-2xl font-bold mb-2">Essayez gratuitement</p>
+                <p class="text-xl">finsight.zineinsight.com</p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 8 / 10</div>
+    </div>
+
+    <!-- PAGE 9 - BONUS : TIMELINE DÉTAILLÉE -->
+    <div class="page">
+        <h2 class="text-3xl font-bold text-gray-900 mb-5 border-b-4 border-gray-600 pb-2">
+            Bonus : Timeline détaillée heure par heure
+        </h2>
+
+        <div class="space-y-4">
+            <!-- J-5 -->
+            <div class="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-blue-600 p-4 rounded-r-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-bold text-gray-900">J-5 : Lancement closing</h3>
+                    <span class="text-sm bg-blue-600 text-white px-3 py-1 rounded-full">2h</span>
+                </div>
+                <p class="text-sm text-gray-700">→ Email équipe : deadline notes de frais J-2 • Demande relevés
+                    bancaires • Check liste factures fournisseurs</p>
+            </div>
+
+            <!-- J-3 -->
+            <div class="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-blue-600 p-4 rounded-r-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-bold text-gray-900">J-3 : Préparation OD</h3>
+                    <span class="text-sm bg-blue-600 text-white px-3 py-1 rounded-full">1h30</span>
+                </div>
+                <p class="text-sm text-gray-700">→ Préparer OD paie • Vérifier provisions • Relancer clients >30j</p>
+            </div>
+
+            <!-- J-1 -->
+            <div class="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-blue-600 p-4 rounded-r-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-bold text-gray-900">J-1 : Collecte finale</h3>
+                    <span class="text-sm bg-blue-600 text-white px-3 py-1 rounded-full">1h</span>
+                </div>
+                <p class="text-sm text-gray-700">→ Récupérer dernières notes de frais • Pointer encaissements • Check
+                    stocks si applicable</p>
+            </div>
+
+            <!-- J (Jour J) -->
+            <div class="bg-gradient-to-r from-green-50 to-green-100 border-l-4 border-green-600 p-4 rounded-r-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-bold text-gray-900">J : Closing comptable</h3>
+                    <span class="text-sm bg-green-600 text-white px-3 py-1 rounded-full">4h</span>
+                </div>
+                <p class="text-sm text-gray-700">→ Saisie factures • Lettrage comptes clients/fournisseurs •
+                    Rapprochement bancaire • OD mensuelles</p>
+            </div>
+
+            <!-- J+1 -->
+            <div class="bg-gradient-to-r from-green-50 to-green-100 border-l-4 border-green-600 p-4 rounded-r-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-bold text-gray-900">J+1 : Contrôles</h3>
+                    <span class="text-sm bg-green-600 text-white px-3 py-1 rounded-full">2h</span>
+                </div>
+                <p class="text-sm text-gray-700">→ Balance avant contrôle • Vérif cohérence CA/encaissements • Check
+                    comptes de charges</p>
+            </div>
+
+            <!-- J+2 -->
+            <div class="bg-gradient-to-r from-purple-50 to-purple-100 border-l-4 border-purple-600 p-4 rounded-r-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-bold text-gray-900">J+2 : Reporting</h3>
+                    <span class="text-sm bg-purple-600 text-white px-3 py-1 rounded-full">3h</span>
+                </div>
+                <p class="text-sm text-gray-700">→ Balance définitive • Calcul KPIs (DSO, BFR, EBITDA) • Dashboard
+                    direction • Analyse variances</p>
+            </div>
+
+            <!-- J+3 -->
+            <div class="bg-gradient-to-r from-purple-50 to-purple-100 border-l-4 border-purple-600 p-4 rounded-r-lg">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-bold text-gray-900">J+3 : Finalisation</h3>
+                    <span class="text-sm bg-purple-600 text-white px-3 py-1 rounded-full">1h</span>
+                </div>
+                <p class="text-sm text-gray-700">→ Archivage justificatifs • Prévisionnel M+1 • Update cash flow
+                    prévisionnel</p>
+            </div>
+        </div>
+
+        <div class="bg-gray-100 p-4 rounded-lg mt-5 text-center">
+            <p class="text-xl font-bold text-gray-900">Total : <span class="text-blue-600">14h30</span> sur 8 jours</p>
+            <p class="text-sm text-gray-600 mt-1">Soit ~2h par jour de closing</p>
+        </div>
+
+        <div class="page-number">Page 9 / 10</div>
+    </div>
+
+    <!-- PAGE 10 - CTA FINALE -->
+    <div class="page bg-gradient-to-br from-blue-50 via-green-50 to-purple-50">
+        <div class="flex flex-col items-center justify-center h-full text-center">
+            <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                Automatisez votre reporting<br>avec FinSight
+            </h2>
+
+            <p class="text-2xl text-gray-700 mb-8 max-w-2xl">
+                Fini les heures passées sur Excel à calculer vos KPIs.
+            </p>
+
+            <div class="bg-white p-8 rounded-2xl shadow-xl mb-8 max-w-2xl">
+                <p class="text-xl text-gray-700 mb-6">Uploadez votre export comptable et obtenez :</p>
+                <ul class="space-y-3 text-left text-lg">
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>Dashboard temps réel avec 50+ KPIs</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>AI Copilot pour répondre à vos questions</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>Alertes automatiques (DSO, BFR, trésorerie)</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>Export PDF professionnel pour votre COMEX</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div
+                class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-12 py-6 rounded-lg text-2xl font-bold mb-8 shadow-lg">
+                Essayer gratuitement →
+            </div>
+
+            <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                <div class="text-3xl font-bold text-gray-900 mb-2">finsight.zineinsight.com</div>
+                <p class="text-gray-600">Sans engagement • 10 questions IA gratuites • Dashboard complet</p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 10 / 10</div>
+    </div>
+
+</body>
+
+</html>
