@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15 Ratios Financiers Expliqués - FinSight</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            padding: 15mm 18mm;
+            background: white;
+            page-break-after: always;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .page {
+                margin: 0;
+                padding: 15mm 18mm;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        @media screen {
+            body {
+                background: #f0f2f5;
+                padding: 20px;
+            }
+
+            .page {
+                margin: 0 auto 20px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 10mm;
+            right: 18mm;
+            font-size: 9pt;
+            color: #adb5bd;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin: 12px 0;
+        }
+
+        .interpretation-good {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+        }
+
+        .interpretation-bad {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PAGE 1 - COUVERTURE -->
+    <div class="page bg-gradient-to-br from-blue-50 to-purple-50">
+        <div class="flex flex-col items-center justify-center h-full text-center">
+            <div class="bg-blue-600 text-white px-8 py-3 rounded-full text-xl font-bold mb-12">
+                FinSight • 2025
+            </div>
+
+            <h1 class="text-7xl font-bold text-gray-900 mb-6 leading-tight">
+                15 Ratios<br>Financiers<br>Expliqués
+            </h1>
+
+            <p class="text-3xl text-gray-600 mb-8">
+                Le guide complet pour analyser la santé financière
+            </p>
+
+            <div class="grid grid-cols-3 gap-6 mt-12 max-w-4xl">
+                <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">15</div>
+                    <div class="text-gray-600 font-medium">ratios détaillés</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                    <div class="text-4xl font-bold text-green-600 mb-2">3</div>
+                    <div class="text-gray-600 font-medium">catégories clés</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">13</div>
+                    <div class="text-gray-600 font-medium">pages d'analyse</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2 - INTRODUCTION + SOMMAIRE -->
+    <div class="page">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4 border-b-4 border-blue-600 pb-2">
+            Pourquoi maîtriser les ratios financiers ?
+        </h2>
+
+        <div class="bg-blue-50 border-l-4 border-blue-600 p-5 rounded-r-lg mb-6">
+            <p class="text-base text-gray-700 leading-relaxed">
+                Les ratios financiers sont les <strong>indicateurs clés</strong> pour évaluer la performance, la
+                solvabilité et la structure financière d'une entreprise. Que vous soyez CFO, DAF ou entrepreneur, ces 15
+                ratios vous permettent de <strong>prendre des décisions éclairées</strong> basées sur des données
+                chiffrées.
+            </p>
+        </div>
+
+        <h3 class="text-2xl font-bold text-gray-900 mb-4 mt-8">Les 3 catégories de ratios</h3>
+
+        <div class="space-y-4">
+            <!-- Catégorie 1 -->
+            <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r-lg">
+                <div class="flex items-center mb-2">
+                    <div
+                        class="bg-green-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold mr-3">
+                        1</div>
+                    <h4 class="text-xl font-bold text-gray-900">Ratios de Liquidité</h4>
+                </div>
+                <p class="text-sm text-gray-700 ml-13">→ Capacité à honorer ses dettes à court terme</p>
+                <p class="text-xs text-gray-600 ml-13 mt-1">Current Ratio • Quick Ratio • Cash Ratio • DSO • DPO</p>
+            </div>
+
+            <!-- Catégorie 2 -->
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-lg">
+                <div class="flex items-center mb-2">
+                    <div
+                        class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold mr-3">
+                        2</div>
+                    <h4 class="text-xl font-bold text-gray-900">Ratios de Rentabilité</h4>
+                </div>
+                <p class="text-sm text-gray-700 ml-13">→ Performance opérationnelle et retour sur investissement</p>
+                <p class="text-xs text-gray-600 ml-13 mt-1">ROE • ROA • ROCE • Marge Brute • EBITDA Margin</p>
+            </div>
+
+            <!-- Catégorie 3 -->
+            <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded-r-lg">
+                <div class="flex items-center mb-2">
+                    <div
+                        class="bg-purple-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold mr-3">
+                        3</div>
+                    <h4 class="text-xl font-bold text-gray-900">Ratios de Structure</h4>
+                </div>
+                <p class="text-sm text-gray-700 ml-13">→ Équilibre financier et endettement</p>
+                <p class="text-xs text-gray-600 ml-13 mt-1">Debt-to-Equity • Gearing • Autonomie • Coverage • Working
+                    Capital</p>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-lg mt-6 text-center">
+            <p class="text-lg font-bold">💡 Chaque ratio = Formule + Interprétation + Benchmark + Exemple</p>
+        </div>
+
+        <div class="page-number">Page 2 / 13</div>
+    </div>
+
+    <!-- PAGE 3 - RATIOS DE LIQUIDITÉ 1/3 -->
+    <div class="page">
+        <div class="bg-green-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-3xl font-bold">Ratios de Liquidité (1/3)</h2>
+            <p class="text-base mt-1">Capacité à honorer les dettes à court terme</p>
+        </div>
+
+        <!-- Ratio 1: Current Ratio -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">1</span>
+                Current Ratio (Ratio de Liquidité Générale)
+            </h3>
+
+            <div class="formula-box">
+                Current Ratio = Actif Circulant / Passif Circulant
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : > 1,5</p>
+                    <p class="text-xs text-gray-700">L'entreprise peut couvrir 1,5x ses dettes CT</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 1</p>
+                            <p class="text-xs text-gray-700">Risque de liquidité immédiat</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">Actif circulant = 500K€ • Passif circulant = 300K€ → <strong>Ratio =
+                        1,67</strong> ✅ Situation saine</p>
+            </div>
+        </div>
+
+        <!-- Ratio 2: Quick Ratio -->
+        <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">2</span>
+                Quick Ratio (Ratio de Liquidité Réduite)
+            </h3>
+
+            <div class="formula-box">
+                Quick Ratio = (Actif Circulant - Stocks) / Passif Circulant
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : > 1</p>
+                    <p class="text-xs text-gray-700">Liquidité sans dépendre des stocks</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 0,5</p>
+                            <p class="text-xs text-gray-700">Dépendance excessive aux stocks</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">AC = 500K€ • Stocks = 150K€ • PC = 300K€ → <strong>Ratio = 1,17</strong> ✅
+                    Excellente liquidité</p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 3 / 13</div>
+    </div>
+
+    <!-- PAGE 4 - RATIOS DE LIQUIDITÉ 2/3 -->
+    <div class="page">
+        <div class="bg-green-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-3xl font-bold">Ratios de Liquidité (2/3)</h2>
+        </div>
+
+        <!-- Ratio 3: Cash Ratio -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">3</span>
+                Cash Ratio (Ratio de Liquidité Immédiate)
+            </h3>
+
+            <div class="formula-box">
+                Cash Ratio = (Trésorerie + VMP) / Passif Circulant
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : > 0,5</p>
+                    <p class="text-xs text-gray-700">Cash suffisant pour urgences</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 0,2</p>
+                            <p class="text-xs text-gray-700">Trésorerie trop faible</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">Tréso = 120K€ • VMP = 30K€ • PC = 300K€ → <strong>Ratio = 0,5</strong> ✅
+                    Réserve cash OK</p>
+            </div>
+        </div>
+
+        <!-- Ratio 4: DSO -->
+        <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">4</span>
+                DSO (Days Sales Outstanding - Délai Client)
+            </h3>
+
+            <div class="formula-box">
+                DSO = (Créances Clients / CA TTC) × 365 jours
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon DSO : < 45 jours</p>
+                            <p class="text-xs text-gray-700">Recouvrement rapide</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : > 60 jours</p>
+                    <p class="text-xs text-gray-700">BFR gonflé, risque tréso</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">Créances = 200K€ • CA annuel TTC = 2,4M€ → <strong>DSO = 30 jours</strong> ✅
+                    Excellent</p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 4 / 13</div>
+    </div>
+
+    <!-- PAGE 5 - RATIOS DE LIQUIDITÉ 3/3 -->
+    <div class="page">
+        <div class="bg-green-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-3xl font-bold">Ratios de Liquidité (3/3)</h2>
+        </div>
+
+        <!-- Ratio 5: DPO -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">5</span>
+                DPO (Days Payable Outstanding - Délai Fournisseur)
+            </h3>
+
+            <div class="formula-box">
+                DPO = (Dettes Fournisseurs / Achats TTC) × 365 jours
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon DPO : 45-60 jours</p>
+                    <p class="text-xs text-gray-700">Optimisation trésorerie sans froisser fournisseurs</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : > 90 jours</p>
+                    <p class="text-xs text-gray-700">Risque de blocage fournisseurs</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm mb-4">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">Dettes = 180K€ • Achats annuels TTC = 1,8M€ → <strong>DPO = 37 jours</strong>
+                    ⚠️ Payer trop vite</p>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-lg">
+                <p class="text-sm font-bold text-gray-900 mb-2">💡 Équation du BFR :</p>
+                <p class="text-sm text-gray-700"><strong>BFR en jours = DSO + Stock Days - DPO</strong></p>
+                <p class="text-xs text-gray-600 mt-2">→ Objectif : réduire DSO, optimiser stocks, négocier DPO pour
+                    minimiser BFR</p>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white p-4 rounded-lg text-center">
+            <p class="text-xl font-bold mb-1">✅ Catégorie 1 terminée : Ratios de Liquidité</p>
+            <p class="text-sm">→ Passons aux Ratios de Rentabilité</p>
+        </div>
+
+        <div class="page-number">Page 5 / 13</div>
+    </div>
+
+    <!-- PAGE 6 - RATIOS DE RENTABILITÉ 1/3 -->
+    <div class="page">
+        <div class="bg-blue-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-3xl font-bold">Ratios de Rentabilité (1/3)</h2>
+            <p class="text-base mt-1">Performance opérationnelle et retour sur investissement</p>
+        </div>
+
+        <!-- Ratio 6: ROE -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">6</span>
+                ROE (Return on Equity - Rentabilité des Capitaux Propres)
+            </h3>
+
+            <div class="formula-box">
+                ROE = (Résultat Net / Capitaux Propres) × 100
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ROE : > 15%</p>
+                    <p class="text-xs text-gray-700">Rentabilité attractive pour actionnaires</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 5%</p>
+                            <p class="text-xs text-gray-700">Sous-performance vs livret A</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">Résultat net = 120K€ • Capitaux propres = 800K€ → <strong>ROE = 15%</strong> ✅
+                    Excellent</p>
+            </div>
+        </div>
+
+        <!-- Ratio 7: ROA -->
+        <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">7</span>
+                ROA (Return on Assets - Rentabilité des Actifs)
+            </h3>
+
+            <div class="formula-box">
+                ROA = (Résultat Net / Total Actif) × 100
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ROA : > 10%</p>
+                    <p class="text-xs text-gray-700">Actifs bien utilisés</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 3%</p>
+                            <p class="text-xs text-gray-700">Actifs improductifs</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">Résultat net = 120K€ • Total actif = 1,5M€ → <strong>ROA = 8%</strong> ✅
+                    Correct</p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 6 / 13</div>
+    </div>
+
+    <!-- PAGE 7 - RATIOS DE RENTABILITÉ 2/3 -->
+    <div class="page">
+        <div class="bg-blue-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-3xl font-bold">Ratios de Rentabilité (2/3)</h2>
+        </div>
+
+        <!-- Ratio 8: ROCE -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">8</span>
+                ROCE (Return on Capital Employed - Rentabilité des Capitaux Employés)
+            </h3>
+
+            <div class="formula-box text-base">
+                ROCE = (EBIT / Capitaux Employés) × 100
+            </div>
+            <p class="text-xs text-gray-600 text-center -mt-2 mb-3">Capitaux Employés = Capitaux Propres + Dettes
+                Financières</p>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ROCE : > 12%</p>
+                    <p class="text-xs text-gray-700">Efficacité opérationnelle élevée</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 6%</p>
+                            <p class="text-xs text-gray-700">Capitaux mal investis</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">EBIT = 180K€ • Cap. propres = 800K€ • Dettes = 400K€ → <strong>ROCE =
+                        15%</strong> ✅</p>
+            </div>
+        </div>
+
+        <!-- Ratio 9: Marge Brute -->
+        <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">9</span>
+                Marge Brute (Gross Margin)
+            </h3>
+
+            <div class="formula-box">
+                Marge Brute = ((CA - Coût des Ventes) / CA) × 100
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : > 50%</p>
+                    <p class="text-xs text-gray-700">Forte valeur ajoutée (SaaS, services)</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 20%</p>
+                            <p class="text-xs text-gray-700">Marges écrasées (commodité)</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">CA = 1M€ • Coût ventes = 350K€ → <strong>Marge = 65%</strong> ✅ SaaS typique
+                </p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 7 / 13</div>
+    </div>
+
+    <!-- PAGE 8 - RATIOS DE RENTABILITÉ 3/3 -->
+    <div class="page">
+        <div class="bg-blue-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-3xl font-bold">Ratios de Rentabilité (3/3)</h2>
+        </div>
+
+        <!-- Ratio 10: EBITDA Margin -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">10</span>
+                EBITDA Margin (Marge d'EBITDA)
+            </h3>
+
+            <div class="formula-box">
+                EBITDA Margin = (EBITDA / CA) × 100
+            </div>
+            <p class="text-xs text-gray-600 text-center -mt-2 mb-3">EBITDA = Résultat Opérationnel + Amortissements +
+                Provisions</p>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : > 20%</p>
+                    <p class="text-xs text-gray-700">Forte capacité d'autofinancement</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 10%</p>
+                            <p class="text-xs text-gray-700">Rentabilité opérationnelle faible</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm mb-4">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">EBITDA = 250K€ • CA = 1M€ → <strong>Marge = 25%</strong> ✅ Très bonne
+                    performance</p>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-lg">
+                <p class="text-sm font-bold text-gray-900 mb-2">💡 Différences clés :</p>
+                <ul class="text-xs text-gray-700 space-y-1">
+                    <li>→ <strong>Marge Brute</strong> : Focus sur coûts directs (production)</li>
+                    <li>→ <strong>EBITDA Margin</strong> : Focus sur rentabilité opérationnelle hors amortissements</li>
+                    <li>→ <strong>Marge Nette</strong> : Résultat final après TOUT (impôts, intérêts, amort.)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-lg text-center">
+            <p class="text-xl font-bold mb-1">✅ Catégorie 2 terminée : Ratios de Rentabilité</p>
+            <p class="text-sm">→ Passons aux Ratios de Structure</p>
+        </div>
+
+        <div class="page-number">Page 8 / 13</div>
+    </div>
+
+    <!-- PAGE 9 - RATIOS DE STRUCTURE 1/3 -->
+    <div class="page">
+        <div class="bg-purple-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-3xl font-bold">Ratios de Structure (1/3)</h2>
+            <p class="text-base mt-1">Équilibre financier et endettement</p>
+        </div>
+
+        <!-- Ratio 11: Debt-to-Equity -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">11</span>
+                Debt-to-Equity (Ratio d'Endettement)
+            </h3>
+
+            <div class="formula-box">
+                Debt-to-Equity = Dettes Financières / Capitaux Propres
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : < 1</p>
+                            <p class="text-xs text-gray-700">Dettes < capitaux propres (structure saine)</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : > 2</p>
+                    <p class="text-xs text-gray-700">Surendettement, risque bancaire</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">Dettes = 400K€ • Capitaux propres = 800K€ → <strong>Ratio = 0,5</strong> ✅
+                    Excellent</p>
+            </div>
+        </div>
+
+        <!-- Ratio 12: Gearing -->
+        <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">12</span>
+                Gearing (Taux d'Endettement Net)
+            </h3>
+
+            <div class="formula-box text-base">
+                Gearing = (Dettes Financières - Trésorerie) / Capitaux Propres
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : < 0,5</p>
+                            <p class="text-xs text-gray-700">Endettement net faible après cash</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : > 1,5</p>
+                    <p class="text-xs text-gray-700">Dépendance excessive à la dette</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">Dettes = 400K€ • Tréso = 150K€ • CP = 800K€ → <strong>Gearing = 0,31</strong> ✅
+                </p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 9 / 13</div>
+    </div>
+
+    <!-- PAGE 10 - RATIOS DE STRUCTURE 2/3 -->
+    <div class="page">
+        <div class="bg-purple-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-3xl font-bold">Ratios de Structure (2/3)</h2>
+        </div>
+
+        <!-- Ratio 13: Autonomie Financière -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">13</span>
+                Ratio d'Autonomie Financière
+            </h3>
+
+            <div class="formula-box">
+                Autonomie = Capitaux Propres / Total Passif
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : > 0,4 (40%)</p>
+                    <p class="text-xs text-gray-700">Indépendance financière forte</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 0,2 (20%)</p>
+                            <p class="text-xs text-gray-700">Dépendance excessive aux créanciers</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">Capitaux propres = 800K€ • Total passif = 1,5M€ → <strong>Autonomie =
+                        53%</strong> ✅</p>
+            </div>
+        </div>
+
+        <!-- Ratio 14: Interest Coverage -->
+        <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">14</span>
+                Interest Coverage Ratio (Couverture des Intérêts)
+            </h3>
+
+            <div class="formula-box text-base">
+                Coverage = EBIT / Charges Financières (Intérêts)
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : > 5</p>
+                    <p class="text-xs text-gray-700">Capacité à payer intérêts 5x</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 2</p>
+                            <p class="text-xs text-gray-700">Difficulté à honorer la dette</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">EBIT = 180K€ • Intérêts = 25K€ → <strong>Coverage = 7,2</strong> ✅ Excellent
+                </p>
+            </div>
+        </div>
+
+        <div class="page-number">Page 10 / 13</div>
+    </div>
+
+    <!-- PAGE 11 - RATIOS DE STRUCTURE 3/3 -->
+    <div class="page">
+        <div class="bg-purple-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-3xl font-bold">Ratios de Structure (3/3)</h2>
+        </div>
+
+        <!-- Ratio 15: Working Capital Ratio -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+                <span
+                    class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">15</span>
+                Working Capital Ratio (Ratio de Fonds de Roulement)
+            </h3>
+
+            <div class="formula-box text-base">
+                WC Ratio = Fonds de Roulement / Actif Circulant
+            </div>
+            <p class="text-xs text-gray-600 text-center -mt-2 mb-3">FR = Capitaux Permanents - Actifs Immobilisés</p>
+
+            <div class="grid grid-cols-2 gap-4 mb-3">
+                <div class="interpretation-good p-3 rounded-lg">
+                    <p class="text-sm font-bold text-green-800 mb-1">✅ Bon ratio : > 0,2 (20%)</p>
+                    <p class="text-xs text-gray-700">FR couvre largement le BFR</p>
+                </div>
+                <div class="interpretation-bad p-3 rounded-lg">
+                    <p class="text-sm font-bold text-red-800 mb-1">⚠️ Alerte : < 0</p>
+                            <p class="text-xs text-gray-700">FR négatif = risque immédiat</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 p-3 rounded-lg text-sm mb-4">
+                <p class="font-bold text-gray-900 mb-1">📊 Exemple :</p>
+                <p class="text-gray-700">FR = 150K€ • Actif circulant = 500K€ → <strong>WC Ratio = 30%</strong> ✅ Sain
+                </p>
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded-r-lg">
+                <p class="text-sm font-bold text-gray-900 mb-2">💡 L'équation du FR :</p>
+                <p class="text-sm text-gray-700 mb-2"><strong>FR = BFR + Trésorerie Nette</strong></p>
+                <p class="text-xs text-gray-600">→ Un FR positif et supérieur au BFR garantit une trésorerie positive
+                </p>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-lg text-center">
+            <p class="text-xl font-bold mb-1">✅ Les 15 Ratios Financiers sont Complets !</p>
+            <p class="text-sm">→ Page suivante : tableau récapitulatif</p>
+        </div>
+
+        <div class="page-number">Page 11 / 13</div>
+    </div>
+
+    <!-- PAGE 12 - TABLEAU RÉCAPITULATIF -->
+    <div class="page">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 border-b-4 border-blue-600 pb-3">
+            Tableau Récapitulatif des 15 Ratios
+        </h2>
+
+        <div class="space-y-6">
+            <!-- Liquidité -->
+            <div>
+                <h3 class="text-xl font-bold text-white bg-green-600 px-4 py-2 rounded-t-lg">Liquidité</h3>
+                <table class="w-full text-xs border-2 border-green-600">
+                    <thead class="bg-green-50">
+                        <tr>
+                            <th class="border px-2 py-1 text-left">Ratio</th>
+                            <th class="border px-2 py-1">Formule</th>
+                            <th class="border px-2 py-1">Bon</th>
+                            <th class="border px-2 py-1">Alerte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">Current Ratio</td>
+                            <td class="border px-2 py-1">AC / PC</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 1,5</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 1</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">Quick Ratio</td>
+                            <td class="border px-2 py-1">(AC - Stocks) / PC</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 1</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 0,5</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">Cash Ratio</td>
+                            <td class="border px-2 py-1">(Tréso + VMP) / PC</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 0,5</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 0,2</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">DSO</td>
+                            <td class="border px-2 py-1">(Créances / CA TTC) × 365</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">
+                                < 45j</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">> 60j</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">DPO</td>
+                            <td class="border px-2 py-1">(Dettes Frns / Achats TTC) × 365</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">45-60j</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">> 90j</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Rentabilité -->
+            <div>
+                <h3 class="text-xl font-bold text-white bg-blue-600 px-4 py-2 rounded-t-lg">Rentabilité</h3>
+                <table class="w-full text-xs border-2 border-blue-600">
+                    <thead class="bg-blue-50">
+                        <tr>
+                            <th class="border px-2 py-1 text-left">Ratio</th>
+                            <th class="border px-2 py-1">Formule</th>
+                            <th class="border px-2 py-1">Bon</th>
+                            <th class="border px-2 py-1">Alerte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">ROE</td>
+                            <td class="border px-2 py-1">(RN / CP) × 100</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 15%</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 5%</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">ROA</td>
+                            <td class="border px-2 py-1">(RN / Total Actif) × 100</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 10%</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 3%</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">ROCE</td>
+                            <td class="border px-2 py-1">(EBIT / Cap. Employés) × 100</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 12%</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 6%</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">Marge Brute</td>
+                            <td class="border px-2 py-1">((CA - Coût Ventes) / CA) × 100</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 50%</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 20%</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">EBITDA Margin</td>
+                            <td class="border px-2 py-1">(EBITDA / CA) × 100</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 20%</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 10%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Structure -->
+            <div>
+                <h3 class="text-xl font-bold text-white bg-purple-600 px-4 py-2 rounded-t-lg">Structure</h3>
+                <table class="w-full text-xs border-2 border-purple-600">
+                    <thead class="bg-purple-50">
+                        <tr>
+                            <th class="border px-2 py-1 text-left">Ratio</th>
+                            <th class="border px-2 py-1">Formule</th>
+                            <th class="border px-2 py-1">Bon</th>
+                            <th class="border px-2 py-1">Alerte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">Debt-to-Equity</td>
+                            <td class="border px-2 py-1">Dettes Fin. / CP</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">
+                                < 1</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">> 2</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">Gearing</td>
+                            <td class="border px-2 py-1">(Dettes - Tréso) / CP</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">
+                                < 0,5</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">> 1,5</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">Autonomie</td>
+                            <td class="border px-2 py-1">CP / Total Passif</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 40%</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 20%</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">Interest Coverage</td>
+                            <td class="border px-2 py-1">EBIT / Intérêts</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 5</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 2</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-2 py-1 font-bold">Working Capital</td>
+                            <td class="border px-2 py-1">FR / Actif Circulant</td>
+                            <td class="border px-2 py-1 text-center bg-green-50">> 20%</td>
+                            <td class="border px-2 py-1 text-center bg-red-50">
+                                < 0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="page-number">Page 12 / 13</div>
+    </div>
+
+    <!-- PAGE 13 - CTA FINALE -->
+    <div class="page bg-gradient-to-br from-blue-50 via-green-50 to-purple-50">
+        <div class="flex flex-col items-center justify-center h-full text-center">
+            <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                Calculez vos ratios<br>automatiquement avec FinSight
+            </h2>
+
+            <p class="text-2xl text-gray-700 mb-8 max-w-2xl">
+                Fini les calculs manuels sur Excel. Uploadez votre export et obtenez les 15 ratios instantanément.
+            </p>
+
+            <div class="bg-white p-8 rounded-2xl shadow-xl mb-8 max-w-2xl">
+                <p class="text-xl text-gray-700 mb-6">Ce que FinSight calcule pour vous :</p>
+                <ul class="space-y-3 text-left text-lg">
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>15 ratios financiers en 10 secondes</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>Alertes automatiques si seuils dépassés</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>Comparaison vs benchmarks secteur</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>AI Copilot pour interpréter vos ratios</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- CTA Premium avec QR Code -->
+            <div class="bg-white rounded-2xl shadow-2xl p-10 max-w-3xl">
+                <div class="flex items-center justify-center gap-12">
+                    <!-- QR Code Premium -->
+                    <div class="relative">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl blur-lg opacity-30">
+                        </div>
+                        <div class="relative bg-white p-5 rounded-xl border-2 border-gray-200">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://finsight.zineinsight.com/?utm_source=pdf-guide%26utm_medium=15-ratios%26utm_campaign=lead-magnet"
+                                alt="QR Code FinSight" class="w-44 h-44" />
+                        </div>
+                    </div>
+
+                    <!-- CTA Principal -->
+                    <div class="text-left">
+                        <a href="https://finsight.zineinsight.com/?utm_source=pdf-guide&utm_medium=15-ratios&utm_campaign=lead-magnet"
+                            class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-xl text-2xl font-bold shadow-xl hover:shadow-2xl transition-all mb-4">
+                            Essayer gratuitement →
+                        </a>
+                        <p class="text-gray-600 text-base font-medium">
+                            Dashboard complet • Analytics en temps réel • Support prioritaire
+                        </p>
+                        <p class="text-blue-600 font-bold text-xl mt-3">
+                            finsight.zineinsight.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-number">Page 13 / 13</div>
+    </div>
+
+</body>
+
+</html>

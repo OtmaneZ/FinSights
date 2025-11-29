@@ -51,15 +51,15 @@ const guides: Guide[] = [
         id: '15-ratios-financiers',
         title: '15 Ratios Financiers Expliqués',
         description: 'Le guide exhaustif des ratios financiers pour analyser la santé de votre entreprise',
-        pages: '28 pages',
+        pages: '13 pages',
         icon: TrendingUp,
         features: [
             '📊 5 Ratios de Liquidité (Current, Quick, Cash...)',
-            '� 5 Ratios de Rentabilité (ROE, ROA, ROCE...)',
+            '💰 5 Ratios de Rentabilité (ROE, ROA, ROCE...)',
             '📈 5 Ratios de Structure (Endettement, Autonomie...)',
             '✅ Formules détaillées + exemples chiffrés',
             '🎯 Seuils d\'alerte & benchmarks France',
-            '� Interprétation par secteur d\'activité'
+            '📖 Interprétation par secteur d\'activité'
         ],
         downloadUrl: '/ressources/guides/15-ratios-financiers-expliques.pdf',
         color: 'from-blue-500 to-blue-600',
@@ -74,10 +74,10 @@ const guides: Guide[] = [
         icon: FileText,
         features: [
             '💰 Due diligence financière : documents requis',
-            '� Business plan financier : 5 ans de prévisions',
+            '📊 Business plan financier : 5 ans de prévisions',
             '💳 Valorisation : méthodes DCF, multiples, comparables',
             '⏰ Timeline fundraising : 6 mois étape par étape',
-            '� Term sheet : clauses à négocier',
+            '📋 Term sheet : clauses à négocier',
             '🎯 Red flags investisseurs & comment les éviter'
         ],
         downloadUrl: '/ressources/guides/guide-levee-fonds-cfo.pdf',

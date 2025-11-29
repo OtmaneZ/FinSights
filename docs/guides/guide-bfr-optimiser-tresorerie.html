@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide BFR : Optimiser sa Trésorerie - FinSight</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            padding: 15mm 18mm;
+            background: white;
+            page-break-after: always;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .page {
+                margin: 0;
+                padding: 15mm 18mm;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        @media screen {
+            body {
+                background: #f0f2f5;
+                padding: 20px;
+            }
+
+            .page {
+                margin: 0 auto 20px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 10mm;
+            right: 18mm;
+            font-size: 9pt;
+            color: #adb5bd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PAGE 1 - COUVERTURE -->
+    <div class="page bg-gradient-to-br from-green-50 to-blue-50">
+        <div class="flex flex-col items-center justify-center h-full text-center">
+            <div class="bg-green-600 text-white px-8 py-3 rounded-full text-xl font-bold mb-12">
+                FinSight • 2025
+            </div>
+            <h1 class="text-7xl font-bold text-gray-900 mb-6 leading-tight">
+                Guide BFR<br>Optimiser sa<br>Trésorerie
+            </h1>
+            <p class="text-3xl text-gray-600 mb-8">
+                Les 8 leviers pour réduire votre besoin en fonds de roulement
+            </p>
+            <div class="grid grid-cols-3 gap-6 mt-12 max-w-4xl">
+                <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                    <div class="text-4xl font-bold text-green-600 mb-2">8</div>
+                    <div class="text-gray-600 font-medium">leviers d'action</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">9</div>
+                    <div class="text-gray-600 font-medium">pages pratiques</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur p-6 rounded-xl">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">3</div>
+                    <div class="text-gray-600 font-medium">cas sectoriels</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2 - COMPRENDRE LE BFR -->
+    <div class="page">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 border-b-4 border-green-600 pb-3">
+            Qu'est-ce que le BFR ?
+        </h2>
+
+        <div class="bg-green-50 border-l-4 border-green-600 p-6 rounded-r-lg mb-6">
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                Le <strong>Besoin en Fonds de Roulement (BFR)</strong> représente l'argent immobilisé dans votre cycle
+                d'exploitation. C'est l'écart entre ce que vous devez payer (fournisseurs, charges) et ce que vos
+                clients vous doivent.
+            </p>
+            <p class="text-base text-gray-600">
+                💡 Un BFR élevé = trésorerie bloquée = risque de tensions financières
+            </p>
+        </div>
+
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">La formule du BFR</h3>
+        <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white p-6 rounded-xl text-center mb-6">
+            <p class="text-3xl font-bold mb-2">BFR = Stocks + Créances Clients - Dettes Fournisseurs</p>
+            <p class="text-sm opacity-90 mt-2">Exprimé en € ou en jours de CA</p>
+        </div>
+
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Les 3 composantes du BFR</h3>
+        <div class="grid grid-cols-3 gap-4">
+            <div class="bg-blue-50 p-4 rounded-lg border-2 border-blue-600">
+                <h4 class="text-lg font-bold text-blue-900 mb-2">📦 Stocks</h4>
+                <p class="text-sm text-gray-700">Marchandises et matières premières non vendues</p>
+            </div>
+            <div class="bg-green-50 p-4 rounded-lg border-2 border-green-600">
+                <h4 class="text-lg font-bold text-green-900 mb-2">💰 Créances</h4>
+                <p class="text-sm text-gray-700">Factures clients impayées (en attente)</p>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-lg border-2 border-purple-600">
+                <h4 class="text-lg font-bold text-purple-900 mb-2">📄 Dettes</h4>
+                <p class="text-sm text-gray-700">Factures fournisseurs à payer</p>
+            </div>
+        </div>
+
+        <div class="bg-gray-100 p-5 rounded-lg mt-6">
+            <p class="text-base font-bold text-gray-900 mb-2">📊 Exemple concret :</p>
+            <p class="text-sm text-gray-700 mb-2">
+                Stocks : 100K€ • Créances clients : 200K€ • Dettes fournisseurs : 150K€
+            </p>
+            <p class="text-lg font-bold text-green-600">→ BFR = 100 + 200 - 150 = 150K€</p>
+            <p class="text-xs text-gray-600 mt-2">Cette entreprise a besoin de 150K€ de trésorerie pour financer son
+                cycle d'exploitation</p>
+        </div>
+
+        <div class="page-number">Page 2 / 9</div>
+    </div>
+
+    <!-- PAGE 3 - POURQUOI OPTIMISER LE BFR -->
+    <div class="page">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 border-b-4 border-green-600 pb-3">
+            Pourquoi optimiser votre BFR ?
+        </h2>
+
+        <div class="space-y-4 mb-8">
+            <div class="bg-red-50 border-l-4 border-red-600 p-5 rounded-r-lg">
+                <h3 class="text-xl font-bold text-red-900 mb-2">❌ Impact d'un BFR mal maîtrisé</h3>
+                <ul class="space-y-2 text-sm text-gray-700">
+                    <li>→ Trésorerie constamment tendue</li>
+                    <li>→ Besoin de découvert bancaire (coûteux)</li>
+                    <li>→ Impossibilité de saisir des opportunités</li>
+                    <li>→ Stress permanent du dirigeant</li>
+                </ul>
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-600 p-5 rounded-r-lg">
+                <h3 class="text-xl font-bold text-green-900 mb-2">✅ Bénéfices d'un BFR optimisé</h3>
+                <ul class="space-y-2 text-sm text-gray-700">
+                    <li>→ Trésorerie libérée pour investir</li>
+                    <li>→ Moins de dépendance aux banques</li>
+                    <li>→ Meilleure négociation avec fournisseurs</li>
+                    <li>→ Croissance plus sereine</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">BFR en jours de CA : le bon indicateur</h3>
+        <div class="bg-blue-50 p-5 rounded-lg border-2 border-blue-600 mb-6">
+            <p class="text-lg font-bold text-blue-900 mb-3">Formule :</p>
+            <p class="text-2xl font-bold text-center text-blue-600 mb-3">BFR en jours = (BFR / CA annuel) × 365</p>
+            <p class="text-sm text-gray-700">Plus le nombre de jours est faible, mieux c'est !</p>
+        </div>
+
+        <h3 class="text-xl font-bold text-gray-900 mb-3">Benchmarks par secteur</h3>
+        <table class="w-full text-sm border-2 border-gray-300">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border px-3 py-2 text-left">Secteur</th>
+                    <th class="border px-3 py-2 text-center">BFR moyen</th>
+                    <th class="border px-3 py-2 text-center">Cible</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border px-3 py-2">SaaS / Tech</td>
+                    <td class="border px-3 py-2 text-center">
+                        < 30 jours</td>
+                    <td class="border px-3 py-2 text-center bg-green-50">
+                        < 15 jours</td>
+                </tr>
+                <tr>
+                    <td class="border px-3 py-2">E-commerce</td>
+                    <td class="border px-3 py-2 text-center">45-60 jours</td>
+                    <td class="border px-3 py-2 text-center bg-green-50">
+                        < 40 jours</td>
+                </tr>
+                <tr>
+                    <td class="border px-3 py-2">Services B2B</td>
+                    <td class="border px-3 py-2 text-center">50-70 jours</td>
+                    <td class="border px-3 py-2 text-center bg-green-50">
+                        < 45 jours</td>
+                </tr>
+                <tr>
+                    <td class="border px-3 py-2">Industrie</td>
+                    <td class="border px-3 py-2 text-center">70-90 jours</td>
+                    <td class="border px-3 py-2 text-center bg-green-50">
+                        < 60 jours</td>
+                </tr>
+                <tr>
+                    <td class="border px-3 py-2">Commerce / Distribution</td>
+                    <td class="border px-3 py-2 text-center">60-80 jours</td>
+                    <td class="border px-3 py-2 text-center bg-green-50">
+                        < 50 jours</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page-number">Page 3 / 9</div>
+    </div>
+
+    <!-- PAGE 4 - LES 8 LEVIERS (INTRO + LEVIERS 1-2) -->
+    <div class="page">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 border-b-4 border-green-600 pb-3">
+            Les 8 leviers pour réduire le BFR
+        </h2>
+
+        <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white p-4 rounded-lg mb-6 text-center">
+            <p class="text-lg font-bold">Objectif : Libérer 20-30% de trésorerie en optimisant votre cycle
+                d'exploitation</p>
+        </div>
+
+        <!-- Levier 1 -->
+        <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-lg mb-5">
+            <h3 class="text-xl font-bold text-blue-900 mb-3 flex items-center">
+                <span
+                    class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">1</span>
+                Réduire le DSO (Délai de Paiement Clients)
+            </h3>
+            <div class="space-y-2 text-sm text-gray-700 ml-11">
+                <p class="font-bold">🎯 Objectif : Passer de 45j à 30j = 15 jours de tréso libérée</p>
+                <p><strong>Actions concrètes :</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>Facturer immédiatement après livraison (J+0 au lieu de J+7)</li>
+                    <li>Relancer dès J+15 (email automatique)</li>
+                    <li>Négocier acomptes 30-50% pour gros contrats</li>
+                    <li>Pénalités de retard visibles sur factures</li>
+                    <li>Proposer escompte 2% si paiement sous 10j</li>
+                </ul>
+                <div class="bg-white p-3 rounded-lg mt-2">
+                    <p class="text-xs font-bold text-gray-900">📊 Exemple : CA = 1M€, DSO = 45j → Créances = 123K€</p>
+                    <p class="text-xs text-green-600 font-bold">→ Réduction DSO à 30j = 82K€ → 41K€ de tréso libérée ✅
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Levier 2 -->
+        <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r-lg">
+            <h3 class="text-xl font-bold text-green-900 mb-3 flex items-center">
+                <span
+                    class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">2</span>
+                Augmenter le DPO (Délai de Paiement Fournisseurs)
+            </h3>
+            <div class="space-y-2 text-sm text-gray-700 ml-11">
+                <p class="font-bold">🎯 Objectif : Négocier 45-60j au lieu de 30j</p>
+                <p><strong>Actions concrètes :</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>Renégocier délais avec top 5 fournisseurs</li>
+                    <li>Grouper commandes pour obtenir meilleures conditions</li>
+                    <li>Demander 45j ferme au lieu de 30j fin de mois</li>
+                    <li>Ne PAS payer en avance (même avec escompte si <3%)< /li>
+                </ul>
+                <div class="bg-white p-3 rounded-lg mt-2">
+                    <p class="text-xs font-bold text-gray-900">📊 Exemple : Achats = 600K€, DPO = 30j → Dettes = 49K€
+                    </p>
+                    <p class="text-xs text-green-600 font-bold">→ Négociation DPO à 45j = 74K€ → 25K€ de tréso gagnée ✅
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-number">Page 4 / 9</div>
+    </div>
+
+    <!-- PAGE 5 - LEVIERS 3-4 -->
+    <div class="page">
+        <div class="bg-green-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-2xl font-bold">Les 8 leviers (suite)</h2>
+        </div>
+
+        <!-- Levier 3 -->
+        <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded-r-lg mb-5">
+            <h3 class="text-xl font-bold text-purple-900 mb-3 flex items-center">
+                <span
+                    class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">3</span>
+                Optimiser la Rotation des Stocks
+            </h3>
+            <div class="space-y-2 text-sm text-gray-700 ml-11">
+                <p class="font-bold">🎯 Objectif : Réduire stock moyen de 30% sans rupture</p>
+                <p><strong>Actions concrètes :</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>Analyser stock dormant (>90j) et liquider avec démarque</li>
+                    <li>Passer en flux tendu avec fournisseurs fiables</li>
+                    <li>Méthode ABC : 80% valeur = 20% références (focus là)</li>
+                    <li>Prévoir demande avec historique (saisonnalité)</li>
+                    <li>Dropshipping pour produits à faible rotation</li>
+                </ul>
+                <div class="bg-white p-3 rounded-lg mt-2">
+                    <p class="text-xs font-bold text-gray-900">📊 Exemple : Stock = 150K€, rotation = 4x/an</p>
+                    <p class="text-xs text-green-600 font-bold">→ Optimisation rotation à 6x/an = 100K€ → 50K€ libérés ✅
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Levier 4 -->
+        <div class="bg-orange-50 border-l-4 border-orange-600 p-4 rounded-r-lg">
+            <h3 class="text-xl font-bold text-orange-900 mb-3 flex items-center">
+                <span
+                    class="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">4</span>
+                Digitaliser la Facturation et Relances
+            </h3>
+            <div class="space-y-2 text-sm text-gray-700 ml-11">
+                <p class="font-bold">🎯 Objectif : Réduire délai facturation de 7j à 1j</p>
+                <p><strong>Actions concrètes :</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>Facturation électronique automatique (Pennylane, Stripe)</li>
+                    <li>Relances auto J+15, J+30, J+45</li>
+                    <li>Paiement en ligne (CB, prélèvement SEPA)</li>
+                    <li>Dashboard DSO temps réel pour suivre retards</li>
+                    <li>Bloquer livraisons si client >60j impayé</li>
+                </ul>
+                <div class="bg-white p-3 rounded-lg mt-2">
+                    <p class="text-xs font-bold text-gray-900">💡 Gain de temps : 5h/mois économisées sur relances
+                        manuelles</p>
+                    <p class="text-xs text-green-600 font-bold">→ DSO réduit de 5-7 jours en moyenne</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-number">Page 5 / 9</div>
+    </div>
+
+    <!-- PAGE 6 - LEVIERS 5-6 -->
+    <div class="page">
+        <div class="bg-green-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-2xl font-bold">Les 8 leviers (suite)</h2>
+        </div>
+
+        <!-- Levier 5 -->
+        <div class="bg-red-50 border-l-4 border-red-600 p-4 rounded-r-lg mb-5">
+            <h3 class="text-xl font-bold text-red-900 mb-3 flex items-center">
+                <span
+                    class="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">5</span>
+                Segmenter et Prioriser les Clients
+            </h3>
+            <div class="space-y-2 text-sm text-gray-700 ml-11">
+                <p class="font-bold">🎯 Objectif : Conditions de paiement selon profil client</p>
+                <p><strong>Actions concrètes :</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li><strong>Clients A (20% CA, fiables)</strong> : 45j accepté</li>
+                    <li><strong>Clients B (50% CA, moyens)</strong> : 30j ferme + relance J+20</li>
+                    <li><strong>Clients C (30% CA, risqués)</strong> : Acompte 50% obligatoire</li>
+                    <li>Nouveaux clients : paiement comptant ou 15j max</li>
+                    <li>Scoring crédit clients avec historique impayés</li>
+                </ul>
+                <div class="bg-white p-3 rounded-lg mt-2">
+                    <p class="text-xs font-bold text-gray-900">📊 Résultat : DSO moyen réduit de 10 jours</p>
+                    <p class="text-xs text-green-600 font-bold">→ Moins de créances douteuses (-30%)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Levier 6 -->
+        <div class="bg-cyan-50 border-l-4 border-cyan-600 p-4 rounded-r-lg">
+            <h3 class="text-xl font-bold text-cyan-900 mb-3 flex items-center">
+                <span
+                    class="bg-cyan-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">6</span>
+                Utiliser l'Affacturage si Nécessaire
+            </h3>
+            <div class="space-y-2 text-sm text-gray-700 ml-11">
+                <p class="font-bold">🎯 Objectif : Transformer créances en cash immédiat</p>
+                <p><strong>Actions concrètes :</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>Affacturage classique : 80-90% de la facture sous 48h</li>
+                    <li>Coût : 1-3% du montant (cher mais utile si tensions)</li>
+                    <li>Réserver aux gros clients (>10K€) pour limiter frais</li>
+                    <li>Alternative : Dailly (cession de créances moins cher)</li>
+                </ul>
+                <div class="bg-white p-3 rounded-lg mt-2">
+                    <p class="text-xs font-bold text-gray-900">⚠️ Usage ponctuel uniquement (coûteux à long terme)</p>
+                    <p class="text-xs text-gray-600">→ Préférer optimisation DSO structurelle</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-number">Page 6 / 9</div>
+    </div>
+
+    <!-- PAGE 7 - LEVIERS 7-8 -->
+    <div class="page">
+        <div class="bg-green-600 text-white p-3 rounded-t-lg mb-4">
+            <h2 class="text-2xl font-bold">Les 8 leviers (suite)</h2>
+        </div>
+
+        <!-- Levier 7 -->
+        <div class="bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-r-lg mb-5">
+            <h3 class="text-xl font-bold text-indigo-900 mb-3 flex items-center">
+                <span
+                    class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">7</span>
+                Négocier les Délais avec la Banque
+            </h3>
+            <div class="space-y-2 text-sm text-gray-700 ml-11">
+                <p class="font-bold">🎯 Objectif : Ligne de crédit pour couvrir les pics de BFR</p>
+                <p><strong>Actions concrètes :</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>Découvert autorisé = 15-20% du CA (sécurité)</li>
+                    <li>Crédit de campagne si activité saisonnière</li>
+                    <li>Facilité de caisse pour pics mensuels prévisibles</li>
+                    <li>Négocier taux <4% (vs 10-12% découvert classique)</li>
+                </ul>
+                <div class="bg-white p-3 rounded-lg mt-2">
+                    <p class="text-xs font-bold text-gray-900">💡 Ne pas utiliser en permanence = signal faiblesse</p>
+                    <p class="text-xs text-gray-600">→ Ligne de secours uniquement</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Levier 8 -->
+        <div class="bg-pink-50 border-l-4 border-pink-600 p-4 rounded-r-lg">
+            <h3 class="text-xl font-bold text-pink-900 mb-3 flex items-center">
+                <span
+                    class="bg-pink-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold mr-3">8</span>
+                Modèle Économique : Paiement Récurrent
+            </h3>
+            <div class="space-y-2 text-sm text-gray-700 ml-11">
+                <p class="font-bold">🎯 Objectif : Cash upfront = BFR négatif (idéal)</p>
+                <p><strong>Actions concrètes :</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>Abonnement mensuel/annuel (SaaS) = tréso prévisible</li>
+                    <li>Paiement avant livraison (e-commerce)</li>
+                    <li>Acompte 50% au lancement projet</li>
+                    <li>Prélèvement automatique pour éviter retards</li>
+                </ul>
+                <div class="bg-white p-3 rounded-lg mt-2">
+                    <p class="text-xs font-bold text-gray-900">📊 Exemple Netflix : Paiement avant consommation</p>
+                    <p class="text-xs text-green-600 font-bold">→ BFR négatif = tréso positive en permanence ✅</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white p-4 rounded-lg text-center mt-4">
+            <p class="text-lg font-bold">✅ 8 leviers identifiés → Passons aux cas pratiques</p>
+        </div>
+
+        <div class="page-number">Page 7 / 9</div>
+    </div>
+
+    <!-- PAGE 8 - CAS PRATIQUE -->
+    <div class="page">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 border-b-4 border-green-600 pb-3">
+            Cas Pratique : E-commerce B2C
+        </h2>
+
+        <div class="bg-blue-50 p-5 rounded-lg border-2 border-blue-600 mb-5">
+            <h3 class="text-xl font-bold text-blue-900 mb-3">📋 Situation initiale</h3>
+            <ul class="text-sm text-gray-700 space-y-1">
+                <li>• CA annuel : 1,2M€</li>
+                <li>• Stocks : 180K€ (rotation 4x/an = 90j de stock)</li>
+                <li>• Créances clients : 60K€ (DSO = 18j - CB à J+3)</li>
+                <li>• Dettes fournisseurs : 90K€ (DPO = 27j)</li>
+                <li><strong class="text-lg text-blue-600">→ BFR = 180 + 60 - 90 = 150K€ (46 jours)</strong></li>
+            </ul>
+        </div>
+
+        <h3 class="text-xl font-bold text-gray-900 mb-3">🎯 Plan d'action appliqué</h3>
+        <div class="space-y-3">
+            <div class="bg-green-50 p-3 rounded-lg border-l-4 border-green-600">
+                <p class="text-sm font-bold text-gray-900">Levier 3 : Optimiser stocks</p>
+                <p class="text-xs text-gray-700">→ Liquidation slow movers + commandes fréquentes petites quantités</p>
+                <p class="text-xs text-green-600 font-bold">Résultat : Stock réduit à 120K€ (-60K€)</p>
+            </div>
+
+            <div class="bg-green-50 p-3 rounded-lg border-l-4 border-green-600">
+                <p class="text-sm font-bold text-gray-900">Levier 2 : Négocier DPO</p>
+                <p class="text-xs text-gray-700">→ Top 3 fournisseurs passent de 30j à 45j</p>
+                <p class="text-xs text-green-600 font-bold">Résultat : Dettes passent à 135K€ (+45K€ tréso)</p>
+            </div>
+
+            <div class="bg-green-50 p-3 rounded-lg border-l-4 border-green-600">
+                <p class="text-sm font-bold text-gray-900">Levier 1 : Améliorer DSO</p>
+                <p class="text-xs text-gray-700">→ CB instantané (80% ventes) + virement J+1</p>
+                <p class="text-xs text-green-600 font-bold">Résultat : DSO passe à 12j → Créances = 40K€ (-20K€)</p>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white p-5 rounded-xl mt-5">
+            <h3 class="text-2xl font-bold mb-3">📊 Résultat Final</h3>
+            <p class="text-lg mb-2"><strong>Nouveau BFR = 120 + 40 - 135 = 25K€</strong></p>
+            <p class="text-3xl font-bold mb-2">🎉 Gain : 125K€ de trésorerie libérée !</p>
+            <p class="text-sm">BFR réduit de 46 jours → 8 jours (baisse de 83%)</p>
+        </div>
+
+        <div class="page-number">Page 8 / 9</div>
+    </div>
+
+    <!-- PAGE 9 - CTA FINALE -->
+    <div class="page bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+        <div class="flex flex-col items-center justify-center h-full text-center">
+            <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                Calculez votre BFR<br>automatiquement
+            </h2>
+
+            <p class="text-2xl text-gray-700 mb-8 max-w-2xl">
+                FinSight analyse votre export comptable et calcule votre BFR en temps réel.
+            </p>
+
+            <div class="bg-white p-8 rounded-2xl shadow-xl mb-8 max-w-2xl">
+                <p class="text-xl text-gray-700 mb-6">Ce que FinSight calcule pour vous :</p>
+                <ul class="space-y-3 text-left text-lg">
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>BFR en € et en jours de CA</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>DSO, DPO, Rotation stocks automatique</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>Alertes si BFR dérive vs benchmark</span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="text-green-600 mr-3 text-2xl">✅</span>
+                        <span>AI Copilot : "Comment réduire mon BFR ?"</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- CTA Premium avec QR Code -->
+            <div class="bg-white rounded-2xl shadow-2xl p-10 max-w-3xl">
+                <div class="flex items-center justify-center gap-12">
+                    <!-- QR Code Premium -->
+                    <div class="relative">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-green-600 to-blue-600 rounded-xl blur-lg opacity-30">
+                        </div>
+                        <div class="relative bg-white p-5 rounded-xl border-2 border-gray-200">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://finsight.zineinsight.com/?utm_source=pdf-guide%26utm_medium=guide-bfr%26utm_campaign=lead-magnet"
+                                alt="QR Code FinSight" class="w-44 h-44" />
+                        </div>
+                    </div>
+
+                    <!-- CTA Principal -->
+                    <div class="text-left">
+                        <a href="https://finsight.zineinsight.com/?utm_source=pdf-guide&utm_medium=guide-bfr&utm_campaign=lead-magnet"
+                            class="inline-block bg-gradient-to-r from-green-600 to-blue-600 text-white px-10 py-5 rounded-xl text-2xl font-bold shadow-xl hover:shadow-2xl transition-all mb-4">
+                            Essayer gratuitement →
+                        </a>
+                        <p class="text-gray-600 text-base font-medium">
+                            Dashboard complet • Analytics en temps réel • Support prioritaire
+                        </p>
+                        <p class="text-blue-600 font-bold text-xl mt-3">
+                            finsight.zineinsight.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-number">Page 9 / 9</div>
+    </div>
+
+</body>
+
+</html>
