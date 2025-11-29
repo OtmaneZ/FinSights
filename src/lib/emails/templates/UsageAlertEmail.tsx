@@ -142,7 +142,7 @@ export const UsageAlertEmail = ({
 
                             <Section style={buttonContainer}>
                                 <Button style={button} href={upgradeUrl}>
-                                    Passer au plan PRO (79€/mois)
+                                    Passer au plan Business (99€/mois)
                                 </Button>
                             </Section>
                         </>

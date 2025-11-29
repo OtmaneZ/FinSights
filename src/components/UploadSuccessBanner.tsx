@@ -23,7 +23,7 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
     // Si user est connecté, différents messages selon plan
     if (session?.user) {
         const plan = session.user.plan || 'FREE'
-        
+
         if (plan === 'FREE') {
             return (
                 <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl px-4 animate-slide-down">
@@ -34,7 +34,7 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
                         >
                             <X className="w-5 h-5" />
                         </button>
-                        
+
                         <div className="flex items-start gap-4">
                             <Crown className="w-6 h-6 text-amber-400 flex-shrink-0 mt-1" />
                             <div className="flex-1">
@@ -54,7 +54,7 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
                                     href="/pricing"
                                     className="inline-block px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-semibold transition-all text-sm"
                                 >
-                                    Découvrir PRO (79€/mois)
+                                    Découvrir Business (99€/mois)
                                 </Link>
                             </div>
                         </div>
@@ -62,7 +62,7 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
                 </div>
             )
         }
-        
+
         // User PRO/SCALE/ENTERPRISE
         return (
             <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-xl px-4 animate-slide-down">
@@ -73,7 +73,7 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
                     >
                         <X className="w-5 h-5" />
                     </button>
-                    
+
                     <div className="flex items-center gap-3">
                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
                         <div>
@@ -100,7 +100,7 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
                 >
                     <X className="w-5 h-5" />
                 </button>
-                
+
                 <div className="flex items-start gap-4">
                     <Sparkles className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />
                     <div className="flex-1">
@@ -108,7 +108,7 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
                             Analyse terminée ! 🎉
                         </h3>
                         <p className="text-sm text-secondary mb-3">
-                            Vos données sont analysées <strong>localement</strong> (non sauvegardées). 
+                            Vos données sont analysées <strong>localement</strong> (non sauvegardées).
                             Créez un compte <strong>gratuit</strong> pour :
                         </p>
                         <ul className="text-sm text-secondary space-y-1 mb-4">

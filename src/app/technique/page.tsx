@@ -179,7 +179,7 @@ export default function TechniquePage() {
                         <div className="p-4 bg-surface-elevated rounded-xl">
                             <h3 className="font-semibold mb-2 text-primary">Stripe API</h3>
                             <p className="text-sm text-secondary leading-relaxed">
-                                Paiements récurrents (PRO 79€, SCALE 199€). Webhooks signature HMAC,
+                                Paiements récurrents (Business 99€, Growth 199€). Webhooks signature HMAC,
                                 Customer Portal, gestion quotas par plan.
                             </p>
                         </div>

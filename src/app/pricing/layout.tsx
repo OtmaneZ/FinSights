@@ -1,10 +1,10 @@
 export const metadata = {
-    title: 'Tarifs FinSight - Dashboard Financier IA dès 79€/mois | Essai Gratuit',
-    description: 'Plans Gratuit, Pro (79€/mois) et Scale (249€/mois). IA illimitée, API REST, alertes temps réel, export PDF/Excel. Essayez gratuitement sans CB.',
+    title: 'Tarifs FinSight - Dashboard Financier IA dès 99€/mois | Essai Gratuit',
+    description: 'Plans Starter (gratuit), Business (99€/mois) et Growth (199€/mois). IA illimitée, API REST, alertes temps réel, export PDF/Excel. Essayez gratuitement sans CB.',
     keywords: ['tarifs dashboard financier', 'prix FinSight', 'abonnement CFO', 'essai gratuit finance', 'pricing SaaS finance'],
     openGraph: {
         title: 'Tarifs FinSight - Essai Gratuit',
-        description: 'Plan Gratuit illimité, Pro 79€/mois, Scale 249€/mois. IA GPT-4, API REST, alertes email.',
+        description: 'Plan Starter gratuit, Business 99€/mois, Growth 199€/mois. IA GPT-4, API REST, alertes email.',
         url: 'https://finsight.zineinsight.com/pricing',
         images: [{
             url: 'https://finsight.zineinsight.com/images/og-pricing.png',
@@ -16,7 +16,7 @@ export const metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Tarifs FinSight - Essai Gratuit',
-        description: 'Plan Gratuit illimité, Pro 79€/mois, Scale 249€/mois',
+        description: 'Plan Starter gratuit, Business 99€/mois, Growth 199€/mois',
         images: ['https://finsight.zineinsight.com/images/og-pricing.png']
     },
     alternates: {

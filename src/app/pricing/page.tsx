@@ -37,8 +37,8 @@ export default function PricingPage() {
         {
             name: 'Business',
             icon: Shield,
-            price: 79,
-            priceYearly: 758, // -20%
+            price: 99,
+            priceYearly: 950, // -20%
             features: [
                 '✅ 3 entreprises',
                 '✅ IA illimitée (GPT-4)',

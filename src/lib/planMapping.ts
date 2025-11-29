@@ -55,7 +55,7 @@ export const PLAN_DISPLAY_NAMES = {
  */
 export const PLAN_PRICES = {
     STARTER: 0,
-    BUSINESS: 79,
+    BUSINESS: 99,
     GROWTH: 199,
     ENTERPRISE: null // Sur devis
 } as const;
@@ -65,7 +65,7 @@ export const PLAN_PRICES = {
  */
 export const PLAN_PRICES_YEARLY = {
     STARTER: 0,
-    BUSINESS: 758,  // 79 * 12 * 0.8
+    BUSINESS: 950,  // 99 * 12 * 0.8
     GROWTH: 1910,   // 199 * 12 * 0.8
     ENTERPRISE: null
 } as const;
