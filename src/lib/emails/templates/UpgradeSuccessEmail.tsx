@@ -16,7 +16,7 @@ import {
 
 interface UpgradeSuccessEmailProps {
     userName: string
-    plan: 'PRO' | 'SCALE'
+    plan: 'PRO' | 'SCALE' // DB encore en ancien format (PRO=Business, SCALE=Growth)
     amount: number
     nextBillingDate: string
     dashboardUrl: string

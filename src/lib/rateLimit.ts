@@ -1,6 +1,6 @@
 /**
  * Rate Limiting System with Vercel KV (Redis)
- * Enforces limits based on user plan (FREE/PRO/SCALE)
+ * Enforces limits based on user plan (STARTER/BUSINESS/GROWTH/ENTERPRISE)
  */
 
 import { kv } from '@vercel/kv';
@@ -20,9 +20,9 @@ export const RATE_LIMITS = {
     },
     PRO: {
         copilot_queries: -1,    // Illimité (pas de soft cap)
-        api_calls: 1000,        // 1000 calls/jour
+        api_calls: 0,           // Pas d'API (réservé à Growth)
         uploads: -1,            // Uploads illimités
-        dashboards: 5,          // 5 entreprises
+        dashboards: 3,          // 3 entreprises
     },
     SCALE: {
         copilot_queries: -1,    // Illimité
@@ -56,7 +56,7 @@ export interface UnifiedRateLimitResult {
 
 /**
  * Rate limiting unifié : gère IP (non connecté) ET user (connecté)
- * 
+ *
  * @param identifier - IP si non connecté, userId si connecté
  * @param action - Type d'action (copilot_queries, uploads, etc.)
  * @param userPlan - Plan de l'utilisateur (FREE, PRO, SCALE, ENTERPRISE)
@@ -68,7 +68,7 @@ export async function checkUnifiedRateLimit(
     userPlan: Plan = 'FREE',
     isAuthenticated: boolean = false
 ): Promise<UnifiedRateLimitResult> {
-    
+
     // ============================================
     // CAS 1: User NON CONNECTÉ (IP-based)
     // ============================================
@@ -133,7 +133,7 @@ export async function checkUnifiedRateLimit(
     // ============================================
     // CAS 2: User CONNECTÉ (User-based)
     // ============================================
-    
+
     const limit = RATE_LIMITS[userPlan][action];
 
     // -1 = illimité
@@ -159,7 +159,7 @@ export async function checkUnifiedRateLimit(
         if (current >= limit) {
             const resetAt = isMonthly ? getNextMonth() : getNextMidnight();
             const periodText = isMonthly ? 'mois' : 'jour';
-            
+
             let message = '';
             let upgradeUrl = '';
 

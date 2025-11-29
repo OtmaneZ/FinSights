@@ -29,10 +29,20 @@ export default function Header() {
 
     const getPlanBadgeColor = (plan: string) => {
         switch (plan) {
-            case 'PRO': return 'bg-blue-500/10 text-blue-500 border-blue-500/30'
-            case 'SCALE': return 'bg-purple-500/10 text-purple-500 border-purple-500/30'
+            case 'PRO': return 'bg-blue-500/10 text-blue-500 border-blue-500/30' // Business (mapping DB)
+            case 'SCALE': return 'bg-purple-500/10 text-purple-500 border-purple-500/30' // Growth (mapping DB)
             case 'ENTERPRISE': return 'bg-amber-500/10 text-amber-500 border-amber-500/30'
-            default: return 'bg-gray-500/10 text-gray-500 border-gray-500/30' // FREE
+            default: return 'bg-gray-500/10 text-gray-500 border-gray-500/30' // FREE = Starter
+        }
+    }
+
+    const getPlanDisplayName = (plan: string) => {
+        switch (plan) {
+            case 'FREE': return 'Starter'
+            case 'PRO': return 'Business'
+            case 'SCALE': return 'Growth'
+            case 'ENTERPRISE': return 'Enterprise'
+            default: return plan
         }
     }
 
@@ -92,7 +102,7 @@ export default function Header() {
                                 >
                                     {/* Plan Badge */}
                                     <span className={`px-2 py-0.5 text-xs font-semibold rounded border ${getPlanBadgeColor(session.user?.plan || 'FREE')}`}>
-                                        {session.user?.plan || 'FREE'}
+                                        {getPlanDisplayName(session.user?.plan || 'FREE')}
                                     </span>
 
                                     {/* User Avatar */}
@@ -132,7 +142,7 @@ export default function Header() {
                                                     onClick={() => setIsDropdownOpen(false)}
                                                 >
                                                     <Crown className="w-4 h-4" />
-                                                    Passer à PRO 🚀
+                                                    Passer à Business 🚀
                                                 </Link>
                                             )}
 

@@ -9,7 +9,7 @@ declare module 'next-auth' {
     interface Session {
         user: {
             id: string;
-            plan: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+            plan: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE'; // DB encore en ancien format
         } & DefaultSession['user'];
     }
 
@@ -17,13 +17,13 @@ declare module 'next-auth' {
         id: string;
         email: string;
         name?: string | null;
-        plan: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+        plan: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE'; // DB encore en ancien format
     }
 }
 
 declare module 'next-auth/jwt' {
     interface JWT {
         id: string;
-        plan: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+        plan: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE'; // DB encore en ancien format
     }
 }
