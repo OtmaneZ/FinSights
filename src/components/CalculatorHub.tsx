@@ -434,6 +434,248 @@ const calculators: CalculatorConfig[] = [
                 ]
             }
         }
+    },
+    {
+        id: 'cac-ltv',
+        title: 'CAC/LTV (SaaS)',
+        description: 'Customer Acquisition Cost & Lifetime Value',
+        icon: Target,
+        color: 'from-cyan-500 to-cyan-600',
+        inputs: [
+            { key: 'cac', label: 'Coût d\'acquisition client (CAC)', placeholder: '500', unit: '€', tooltip: 'Marketing + Sales / Nb nouveaux clients' },
+            { key: 'arpu', label: 'ARPU mensuel', placeholder: '99', unit: '€', tooltip: 'Average Revenue Per User' },
+            { key: 'churn', label: 'Churn mensuel', placeholder: '3', unit: '%', tooltip: 'Taux de départ clients/mois' }
+        ],
+        calculate: (inputs) => {
+            const churnDecimal = inputs.churn / 100
+            const ltv = churnDecimal > 0 ? Math.round(inputs.arpu / churnDecimal) : 0
+            const ratio = inputs.cac > 0 ? (ltv / inputs.cac).toFixed(1) : 0
+            const paybackMonths = inputs.arpu > 0 ? Math.round(inputs.cac / inputs.arpu) : 0
+
+            let interpretation
+            if (Number(ratio) >= 3) {
+                interpretation = {
+                    niveau: 'excellent',
+                    icone: CheckCircle,
+                    titre: '✅ Excellent Ratio LTV/CAC',
+                    couleur: 'text-green-600',
+                    bgCouleur: 'bg-green-50 border-green-200',
+                    message: `Ratio ${ratio}:1 = Excellent ! Modèle SaaS très rentable.`
+                }
+            } else if (Number(ratio) >= 2) {
+                interpretation = {
+                    niveau: 'bon',
+                    icone: CheckCircle,
+                    titre: '✅ Bon Ratio',
+                    couleur: 'text-blue-600',
+                    bgCouleur: 'bg-blue-50 border-blue-200',
+                    message: `Ratio ${ratio}:1 = Viable. Continuez à optimiser le CAC.`
+                }
+            } else if (Number(ratio) >= 1) {
+                interpretation = {
+                    niveau: 'limite',
+                    icone: AlertCircle,
+                    titre: '⚠️ Ratio Limite',
+                    couleur: 'text-amber-600',
+                    bgCouleur: 'bg-amber-50 border-amber-200',
+                    message: `Ratio ${ratio}:1 = Juste équilibré. Réduisez CAC ou augmentez LTV.`
+                }
+            } else {
+                interpretation = {
+                    niveau: 'critique',
+                    icone: AlertCircle,
+                    titre: '🚨 Ratio Critique',
+                    couleur: 'text-red-600',
+                    bgCouleur: 'bg-red-50 border-red-200',
+                    message: `Ratio ${ratio}:1 = Non rentable ! CAC trop élevé vs LTV.`
+                }
+            }
+
+            return {
+                value: Number(ratio),
+                unit: ':1',
+                interpretation,
+                details: [
+                    { label: 'LTV', value: `${ltv.toLocaleString('fr-FR')} €` },
+                    { label: 'Payback period', value: `${paybackMonths} mois` },
+                    { label: 'Marge brute client', value: `${(ltv - inputs.cac).toLocaleString('fr-FR')} €` }
+                ],
+                recommendations: Number(ratio) < 3 ? [
+                    'Réduisez CAC : optimisez canaux acquisition (SEO > Ads)',
+                    'Augmentez LTV : upsell, cross-sell, annual plans',
+                    'Réduisez churn : onboarding, customer success',
+                    'Target : Ratio LTV/CAC > 3:1 et Payback < 12 mois'
+                ] : undefined
+            }
+        }
+    },
+    {
+        id: 'burn-rate',
+        title: 'Burn Rate & Runway',
+        description: 'Trésorerie & mois avant rupture de cash',
+        icon: TrendingUp,
+        color: 'from-pink-500 to-pink-600',
+        inputs: [
+            { key: 'tresorerie', label: 'Trésorerie actuelle', placeholder: '500000', unit: '€' },
+            { key: 'depenses', label: 'Dépenses mensuelles', placeholder: '80000', unit: '€' },
+            { key: 'revenus', label: 'Revenus mensuels', placeholder: '50000', unit: '€' }
+        ],
+        calculate: (inputs) => {
+            const burnRate = inputs.depenses - inputs.revenus
+            const runway = burnRate > 0 ? Math.round(inputs.tresorerie / burnRate) : 999
+            const runwayDate = new Date()
+            runwayDate.setMonth(runwayDate.getMonth() + runway)
+
+            let interpretation
+            if (burnRate <= 0) {
+                interpretation = {
+                    niveau: 'excellent',
+                    icone: CheckCircle,
+                    titre: '✅ Cashflow Positif',
+                    couleur: 'text-green-600',
+                    bgCouleur: 'bg-green-50 border-green-200',
+                    message: 'Revenus > Dépenses. Pas de burn, croissance auto-financée !'
+                }
+            } else if (runway >= 18) {
+                interpretation = {
+                    niveau: 'confortable',
+                    icone: CheckCircle,
+                    titre: '✅ Runway Confortable',
+                    couleur: 'text-blue-600',
+                    bgCouleur: 'bg-blue-50 border-blue-200',
+                    message: `${runway} mois de runway. Situation saine pour lever fonds.`
+                }
+            } else if (runway >= 12) {
+                interpretation = {
+                    niveau: 'surveiller',
+                    icone: AlertCircle,
+                    titre: '⚠️ À Surveiller',
+                    couleur: 'text-amber-600',
+                    bgCouleur: 'bg-amber-50 border-amber-200',
+                    message: `${runway} mois de runway. Commencez à lever ou réduire burn.`
+                }
+            } else if (runway >= 6) {
+                interpretation = {
+                    niveau: 'urgent',
+                    icone: AlertCircle,
+                    titre: '🚨 Urgent',
+                    couleur: 'text-orange-600',
+                    bgCouleur: 'bg-orange-50 border-orange-200',
+                    message: `${runway} mois de runway. Levée urgente ou pivot nécessaire !`
+                }
+            } else {
+                interpretation = {
+                    niveau: 'critique',
+                    icone: AlertCircle,
+                    titre: '🚨 Critique',
+                    couleur: 'text-red-600',
+                    bgCouleur: 'bg-red-50 border-red-200',
+                    message: `${runway} mois de runway. Action immédiate requise !`
+                }
+            }
+
+            return {
+                value: burnRate,
+                unit: '€/mois',
+                interpretation,
+                details: [
+                    { label: 'Runway', value: `${runway} mois` },
+                    { label: 'Date rupture cash', value: runway < 999 ? runwayDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }) : 'Infini' },
+                    { label: 'Burn rate journalier', value: `${Math.round(burnRate / 30).toLocaleString('fr-FR')} €` }
+                ],
+                recommendations: burnRate > 0 ? [
+                    'Réduisez dépenses : team lean, remote, freelances',
+                    'Accélérez revenus : sales agressif, pricing higher',
+                    'Levée fonds : commencez 6-9 mois avant runway 0',
+                    'Plan B : pivot, acquisition, shutdown gracieux'
+                ] : undefined
+            }
+        }
+    },
+    {
+        id: 'valorisation',
+        title: 'Valorisation Entreprise',
+        description: 'Estimation par multiple EBITDA',
+        icon: Calculator,
+        color: 'from-emerald-500 to-emerald-600',
+        inputs: [
+            { key: 'ebitda', label: 'EBITDA annuel', placeholder: '500000', unit: '€' },
+            { key: 'secteur', label: 'Secteur', placeholder: 'services', tooltip: 'Services, SaaS, Industrie, Commerce' }
+        ],
+        calculate: (inputs) => {
+            // Multiples moyens par secteur (marché FR 2025)
+            const multiples: Record<string, { min: number, max: number }> = {
+                'services': { min: 4, max: 7 },
+                'saas': { min: 8, max: 15 },
+                'industrie': { min: 5, max: 9 },
+                'commerce': { min: 3, max: 6 },
+                'tech': { min: 10, max: 20 }
+            }
+
+            const secteurKey = inputs.secteur?.toString().toLowerCase() || 'services'
+            const multiple = multiples[secteurKey] || multiples['services']
+
+            const valorisationMin = Math.round(inputs.ebitda * multiple.min)
+            const valorisationMax = Math.round(inputs.ebitda * multiple.max)
+            const valorisationMoyenne = Math.round((valorisationMin + valorisationMax) / 2)
+
+            let interpretation
+            if (inputs.ebitda > 1000000) {
+                interpretation = {
+                    niveau: 'high-value',
+                    icone: CheckCircle,
+                    titre: '✅ Entreprise Valorisable',
+                    couleur: 'text-green-600',
+                    bgCouleur: 'bg-green-50 border-green-200',
+                    message: `EBITDA ${(inputs.ebitda / 1000000).toFixed(1)}M€. Attractive pour investisseurs.`
+                }
+            } else if (inputs.ebitda > 200000) {
+                interpretation = {
+                    niveau: 'mid-value',
+                    icone: CheckCircle,
+                    titre: '✅ PME Rentable',
+                    couleur: 'text-blue-600',
+                    bgCouleur: 'bg-blue-50 border-blue-200',
+                    message: 'EBITDA solide. Valorisation intéressante pour acquéreur stratégique.'
+                }
+            } else if (inputs.ebitda > 0) {
+                interpretation = {
+                    niveau: 'low-value',
+                    icone: AlertCircle,
+                    titre: '⚠️ EBITDA Faible',
+                    couleur: 'text-amber-600',
+                    bgCouleur: 'bg-amber-50 border-amber-200',
+                    message: 'EBITDA modeste. Valorisation limitée, focus sur croissance rentable.'
+                }
+            } else {
+                interpretation = {
+                    niveau: 'negative',
+                    icone: AlertCircle,
+                    titre: '🚨 EBITDA Négatif',
+                    couleur: 'text-red-600',
+                    bgCouleur: 'bg-red-50 border-red-200',
+                    message: 'Activité non rentable. Valorisation complexe (actifs, potentiel).'
+                }
+            }
+
+            return {
+                value: valorisationMoyenne,
+                unit: '€',
+                interpretation,
+                details: [
+                    { label: 'Fourchette basse', value: `${valorisationMin.toLocaleString('fr-FR')} €` },
+                    { label: 'Fourchette haute', value: `${valorisationMax.toLocaleString('fr-FR')} €` },
+                    { label: 'Multiple appliqué', value: `${multiple.min}x - ${multiple.max}x EBITDA` },
+                    { label: 'Secteur', value: secteurKey.charAt(0).toUpperCase() + secteurKey.slice(1) }
+                ],
+                recommendations: [
+                    'Augmentez EBITDA : croissance + marges opérationnelles',
+                    'Due diligence : préparez 3 ans historiques + prévisionnel',
+                    'Multiple varie selon : croissance, récurrence, dépendance fondateur',
+                    'Conseil : faites évaluer par expert M&A pour précision'
+                ]
+            }
+        }
     }
 ]
 
