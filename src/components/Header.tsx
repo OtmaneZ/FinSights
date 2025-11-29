@@ -75,7 +75,7 @@ export default function Header() {
                     <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Blog
                     </Link>
-                    <Link href="/calculateurs/dso" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                    <Link href="/calculateurs" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Calculateurs
                     </Link>
                     <a

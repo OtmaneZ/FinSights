@@ -34,7 +34,7 @@ export function trackArticleView(slug: string, title: string, category: string) 
  * Track calculator use
  */
 export function trackCalculatorUse(
-    calculator: 'DSO' | 'BFR',
+    calculator: string,
     result: number,
     inputs: Record<string, number | string>
 ) {
