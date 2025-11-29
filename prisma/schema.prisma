@@ -167,8 +167,8 @@ model WebhookLog {
 // ============================================
 
 enum Plan {
-  FREE
-  PRO
-  SCALE
-  ENTERPRISE
+  FREE        // Ancien: FREE → Nouveau display: "Starter"
+  PRO         // Ancien: PRO → Nouveau display: "Business" (99€/mois)
+  SCALE       // Ancien: SCALE → Nouveau display: "Growth" (199€/mois)
+  ENTERPRISE  // Inchangé
 }
