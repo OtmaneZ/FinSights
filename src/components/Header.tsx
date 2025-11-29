@@ -66,6 +66,9 @@ export default function Header() {
                     <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Tarifs
                     </Link>
+                    <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                        Consulting
+                    </Link>
                     <Link href="/ressources/templates" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Templates Excel
                     </Link>

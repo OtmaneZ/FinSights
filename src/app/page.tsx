@@ -48,7 +48,7 @@ export default function Home() {
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-base transition-all hover:shadow-lg"
                         >
                             <Zap className="w-5 h-5" />
-                            Diagnostic Gratuit →
+                            Essayer Gratuitement →
                         </Link>
                         <Link
                             href="/dashboard"
@@ -61,34 +61,6 @@ export default function Home() {
                     <p className="text-sm text-tertiary mt-8">
                         ⚡ Sans installation • 🔒 RGPD conforme • ✓ Sans engagement
                     </p>
-
-                    {/* Social Proof */}
-                    <div className="flex flex-col items-center gap-4 mt-12 pt-8 border-t border-border-default">
-                        <div className="flex items-center gap-3">
-                            <div className="flex -space-x-2">
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 border-2 border-primary flex items-center justify-center text-white text-xs font-bold">
-                                    CF
-                                </div>
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-green-600 border-2 border-primary flex items-center justify-center text-white text-xs font-bold">
-                                    DA
-                                </div>
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 border-2 border-primary flex items-center justify-center text-white text-xs font-bold">
-                                    FI
-                                </div>
-                            </div>
-                            <p className="text-sm text-secondary font-medium">
-                                Déjà testé par <span className="text-primary font-semibold">plusieurs DAF et dirigeants de PME</span>
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="flex items-center text-yellow-500">
-                                <span>⭐⭐⭐⭐⭐</span>
-                            </div>
-                            <span className="text-sm text-secondary">
-                                Apprécié par nos utilisateurs
-                            </span>
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -226,8 +198,57 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Testimonials Section */}
-            <Testimonials />
+            {/* By the Numbers Section */}
+            <section className="max-w-6xl mx-auto px-6 pb-24">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold mb-4 text-primary">En chiffres</h2>
+                    <p className="text-lg text-secondary max-w-2xl mx-auto">
+                        Des résultats concrets, mesurables, immédiatement visibles
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {/* Stat 1 */}
+                    <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
+                        <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
+                            10s
+                        </div>
+                        <p className="text-sm text-secondary font-medium">
+                            Du CSV au diagnostic complet
+                        </p>
+                    </div>
+
+                    {/* Stat 2 */}
+                    <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
+                        <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
+                            2h
+                        </div>
+                        <p className="text-sm text-secondary font-medium">
+                            Économisées par semaine
+                        </p>
+                    </div>
+
+                    {/* Stat 3 */}
+                    <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
+                        <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
+                            15
+                        </div>
+                        <p className="text-sm text-secondary font-medium">
+                            KPIs calculés automatiquement
+                        </p>
+                    </div>
+
+                    {/* Stat 4 */}
+                    <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
+                        <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
+                            0€
+                        </div>
+                        <p className="text-sm text-secondary font-medium">
+                            Pour essayer (sans CB)
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             {/* Security & Compliance Section */}
             <section className="max-w-6xl mx-auto px-6 py-24 border-t border-border-default">
@@ -270,7 +291,45 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* Consulting CTA Section */}
+            <section className="max-w-5xl mx-auto px-6 py-24">
+                <div className="surface rounded-3xl p-12 border-2 border-accent-primary relative overflow-hidden">
+                    {/* Background gradient */}
+                    <div className="absolute inset-0 bg-gradient-radial from-accent-primary/10 via-transparent to-transparent opacity-50"></div>
+
+                    <div className="relative z-10 text-center">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-6">
+                            <Sparkles className="w-4 h-4 text-accent-primary" />
+                            <span className="text-accent-primary text-sm font-medium">Services Consulting</span>
+                        </div>
+
+                        <h2 className="text-4xl font-bold mb-4 text-primary">
+                            Besoin d'un dashboard 100% sur-mesure ?
+                        </h2>
+                        <p className="text-xl text-secondary mb-8 max-w-2xl mx-auto">
+                            Je conçois des dashboards IA personnalisés, connectés à votre ERP (Sage, Cegid, QuickBooks).<br />
+                            <span className="font-semibold text-primary">Audit, développement, formation</span> — de 2 500€ à 12k€.
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <Link
+                                href="/consulting"
+                                className="inline-flex items-center gap-2 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-xl font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1"
+                            >
+                                <Zap className="w-5 h-5" />
+                                Voir les services consulting
+                            </Link>
+                        </div>
+
+                        <p className="text-sm text-tertiary mt-6">
+                            TJM 500€ • Consultant Data Finance • 10+ ans d'expérience
+                        </p>
+                    </div>
+                </div>
+            </section>
+
             <Footer />
         </div>
     )
 }
+

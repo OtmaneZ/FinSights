@@ -172,8 +172,8 @@ export default function CalculateurBFR() {
                         Qu'est-ce que le BFR ?
                     </h3>
                     <p className="text-sm text-secondary mb-3">
-                        Le <strong>Besoin en Fonds de Roulement (BFR)</strong> représente l'argent immobilisé 
-                        dans votre cycle d'exploitation. C'est la différence entre ce qu'on vous doit 
+                        Le <strong>Besoin en Fonds de Roulement (BFR)</strong> représente l'argent immobilisé
+                        dans votre cycle d'exploitation. C'est la différence entre ce qu'on vous doit
                         (stocks + créances clients) et ce que vous devez (dettes fournisseurs).
                     </p>
                     <div className="bg-white p-3 rounded-lg border border-blue-200">
@@ -184,8 +184,8 @@ export default function CalculateurBFR() {
                 </div>
 
                 {/* Calculateur */}
-                <div className="surface rounded-2xl p-8 border border-border-default mb-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="surface rounded-2xl p-8 border border-border-default mb-8 surface-hover">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                         <div>
                             <label className="block text-sm font-medium mb-2">
                                 Stocks (€)

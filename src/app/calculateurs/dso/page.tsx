@@ -52,7 +52,7 @@ export default function CalculateurDSO() {
         if (caNum > 0 && creancesNum >= 0) {
             const dsoCalcule = Math.round((creancesNum / caNum) * 365)
             setDSO(dsoCalcule)
-            
+
             // Track calculator usage
             trackCalculatorUse('DSO', dsoCalcule, {
                 creances: creancesNum,
@@ -140,7 +140,7 @@ export default function CalculateurDSO() {
                 </div>
 
                 {/* Calculateur */}
-                <div className="surface rounded-2xl p-8 border border-border-default mb-8">
+                <div className="surface rounded-2xl p-8 border border-border-default mb-8 surface-hover">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <label className="block text-sm font-medium mb-2">
@@ -184,11 +184,10 @@ export default function CalculateurDSO() {
                                 <button
                                     key={s}
                                     onClick={() => setSecteur(s as any)}
-                                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                                        secteur === s
+                                    className={`px-4 py-2 rounded-lg font-medium transition-all ${secteur === s
                                             ? 'bg-accent-primary text-white'
                                             : 'bg-surface-elevated border border-border-default hover:border-accent-primary'
-                                    }`}
+                                        }`}
                                 >
                                     {s.charAt(0).toUpperCase() + s.slice(1)}
                                 </button>
@@ -233,9 +232,9 @@ export default function CalculateurDSO() {
                                 <p className="text-sm text-secondary mb-3 text-center">
                                     Comparaison avec le secteur {secteur}
                                 </p>
-                                <BenchmarkBar 
-                                    kpiName="DSO" 
-                                    currentValue={dso} 
+                                <BenchmarkBar
+                                    kpiName="DSO"
+                                    currentValue={dso}
                                     sector={secteur as any}
                                     unit="jours"
                                     inverse={true}
@@ -311,7 +310,7 @@ export default function CalculateurDSO() {
                                     🚀 Suivez votre DSO automatiquement avec FinSight
                                 </h3>
                                 <p className="text-lg text-secondary mb-6 max-w-2xl mx-auto">
-                                    Plus besoin de calculer manuellement. FinSight analyse vos exports comptables 
+                                    Plus besoin de calculer manuellement. FinSight analyse vos exports comptables
                                     et calcule votre DSO en temps réel.
                                 </p>
                                 <ul className="text-left max-w-md mx-auto space-y-2 mb-6">

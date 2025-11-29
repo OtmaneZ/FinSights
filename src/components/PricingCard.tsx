@@ -32,7 +32,7 @@ export default function PricingCard({
         <div className={`
             relative surface rounded-2xl p-8
             ${highlight ? 'ring-2 ring-accent-primary shadow-2xl scale-105' : 'surface-hover'}
-            transition-all duration-300 hover:scale-105
+            transition-all duration-300
         `}>
             {popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent-primary rounded-full text-xs font-bold text-white">

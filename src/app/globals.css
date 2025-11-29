@@ -275,3 +275,34 @@ a:focus-visible {
         scroll-behavior: auto !important;
     }
 }
+
+/* ==========================================
+   LANDING PAGE PREMIUM ANIMATIONS
+   ========================================== */
+
+/* Feature cards hover effect */
+.surface-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.surface-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+}
+
+/* Hero title fade in (optionnel) */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Button hover lift effect */
+.hover\:-translate-y-1:hover {
+    transform: translateY(-4px);
+}
