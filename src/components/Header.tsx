@@ -80,6 +80,9 @@ export default function Header() {
                     <Link href="/calculateurs" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Calculateurs
                     </Link>
+                    <Link href="/ressources/guides" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                        Guides
+                    </Link>
                     <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Blog
                     </Link>
