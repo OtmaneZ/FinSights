@@ -66,6 +66,10 @@ import AICopilot from './AICopilot';
 // Import EmptyDashboardState
 import EmptyDashboardState from './EmptyDashboardState';
 
+// 🎯 Import Score FinSight™
+import FinSightScoreCard from './FinSightScoreCard';
+import { calculateFinSightScore, FinSightScore } from '@/lib/scoring/finSightScore';
+
 // Import KPITooltip
 import KPITooltip from './KPITooltip';
 
@@ -246,6 +250,14 @@ export default function FinancialDashboard() {
                 setIsDemoMode(true);
                 setCompanyName(config.companyName);
                 setCompanySector(config.sector);
+
+                // 🎯 TODO: Calculer Score FinSight™ (en cours de développement)
+                // if (result.data.financialData || result.data.processedData) {
+                //     const processedData = result.data.financialData || result.data.processedData;
+                //     const score = calculateFinSightScore(processedData);
+                //     setFinSightScore(score);
+                //     console.log('✅ Score FinSight™ calculé:', score.total);
+                // }
 
                 setLoadingProgress(100);
                 setLoadingMessage('✅ Dashboard prêt !');
@@ -528,6 +540,14 @@ export default function FinancialDashboard() {
                 setRawData(result.data.records || []);
                 setIsDataLoaded(true);
                 logger.debug('rawData défini dans contexte:', result.data.records?.length, 'enregistrements');
+
+                // 🎯 TODO: Calculer Score FinSight™ (en cours de développement)
+                // if (result.data.financialData || result.data.processedData || result.data) {
+                //     const processedData = result.data.financialData || result.data.processedData || result.data;
+                //     const score = calculateFinSightScore(processedData);
+                //     setFinSightScore(score);
+                //     console.log('✅ Score FinSight™ calculé:', score.total);
+                // }
             }
 
             // Vérifier la configuration
@@ -1720,6 +1740,13 @@ export default function FinancialDashboard() {
             )}            {/* ✅ Contenu principal - Affiché seulement après upload de données */}
             {!isLoadingDemo && kpis.length > 0 && (
                 <>
+                    {/* 🎯 TODO: Score FinSight™ - Carte principale (en cours de développement) */}
+                    {/* {finSightScore && (
+                        <div className="mb-8">
+                            <FinSightScoreCard score={finSightScore} />
+                        </div>
+                    )} */}
+
                     {/* KPI Grid */}
                     <div className="finsight-kpi-grid" data-count={kpis.length}>
                         {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis).map((kpi, index) => (

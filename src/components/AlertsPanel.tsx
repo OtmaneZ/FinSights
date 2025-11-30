@@ -42,8 +42,8 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
             alerts.push({
                 id: 'dso-high',
                 type: dso > 90 ? 'critical' : 'warning',
-                title: 'Délai de paiement client élevé',
-                message: `Vos clients paient en moyenne à ${Math.round(dso)} jours. L'objectif recommandé est < 45 jours.`,
+                title: '⚠️ Signal: Risque de tension de trésorerie',
+                message: `Délai moyen paiement clients: ${Math.round(dso)} jours. Seuil de vigilance dépassé (objectif < 45j). Impact potentiel sur votre runway.`,
                 metric: {
                     current: dso,
                     threshold: 60,
@@ -63,8 +63,8 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
             alerts.push({
                 id: 'cashflow-negative',
                 type: 'critical',
-                title: 'Trésorerie négative détectée',
-                message: `Votre cash flow est de ${cashFlow.toFixed(0)}€. Risque de cessation de paiement.`,
+                title: '🚨 Signal Critique: Risque de rupture cash immédiat',
+                message: `Trésorerie négative détectée: ${cashFlow.toFixed(0)}€. Runway en zone rouge. Action immédiate requise.`,
                 metric: {
                     current: cashFlow,
                     threshold: 0,
@@ -82,8 +82,8 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
             alerts.push({
                 id: 'cashflow-low',
                 type: 'warning',
-                title: 'Trésorerie faible',
-                message: `Votre cash flow est de ${cashFlow.toFixed(0)}€. Prudence recommandée.`,
+                title: '⚡ Signal: Résilience trésorerie faible',
+                message: `Cash flow actuel: ${cashFlow.toFixed(0)}€. Seuil de sécurité non atteint (<10k€). Vulnérabilité aux chocs.`,
                 metric: {
                     current: cashFlow,
                     threshold: 10000,
@@ -103,8 +103,8 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
             alerts.push({
                 id: 'margin-low',
                 type: severity,
-                title: 'Marge nette insuffisante',
-                message: `Votre marge nette est de ${netMargin.toFixed(1)}%. L'objectif recommandé est > 10%.`,
+                title: severity === 'critical' ? '🔴 Signal Critique: Structure de marge dégradée' : '⚠️ Signal: Erosion de marge',
+                message: `Marge nette: ${netMargin.toFixed(1)}%. ${severity === 'critical' ? 'Seuil critique (<5%)' : 'Sous objectif santé (10%)'} - Pression sur rentabilité.`,
                 metric: {
                     current: netMargin,
                     threshold: 10,
@@ -125,8 +125,8 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
             alerts.push({
                 id: 'bfr-high',
                 type: 'warning',
-                title: 'Besoin en fonds de roulement élevé',
-                message: `Votre BFR représente ${Math.round(bfr)} jours de CA. Impact sur votre trésorerie.`,
+                title: '⏱️ Signal: Cycle de conversion cash ralenti',
+                message: `BFR élevé: ${Math.round(bfr)} jours de CA immobilisés. Frein à la liquidité opérationnelle.`,
                 metric: {
                     current: bfr,
                     threshold: 30,
@@ -146,8 +146,8 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
             alerts.push({
                 id: 'all-good',
                 type: 'success',
-                title: 'Situation financière saine',
-                message: 'Tous vos indicateurs sont dans les normes. Continuez sur cette lancée !',
+                title: '✅ Aucun signal faible détecté - Santé financière robuste',
+                message: 'Tous vos indicateurs sont en zone verte. Résilience confirmée. Position favorable pour croissance.',
                 actions: [
                     'Maintenir votre discipline financière',
                     'Constituer une réserve de trésorerie (3-6 mois)',
@@ -198,9 +198,12 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
         <div className="space-y-4 mb-8">
             <div className="flex items-center gap-2 mb-4">
                 <LightBulbIcon className="w-6 h-6 text-yellow-500" />
-                <h2 className="text-xl font-bold text-slate-800">
-                    Alertes & Recommandations
+                <h2 className="text-xl font-bold text-slate-800 dark:text-white">
+                    🔍 Signaux Faibles & Recommandations
                 </h2>
+                <span className="text-xs text-slate-500 dark:text-gray-400 ml-2">
+                    Détection automatique des risques financiers
+                </span>
             </div>
 
             <div className="grid gap-4">

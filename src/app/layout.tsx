@@ -13,9 +13,9 @@ import CookieConsent from '@/components/CookieConsent'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-    title: 'FinSight - Dashboard Financier IA pour CFO & DAF | Analyse Excel Automatisée',
-    description: 'Dashboard financier intelligent pour CFO et DAF. Uploadez vos exports comptables (Sage, Cegid, QuickBooks), l\'IA calcule 15 KPIs et détecte les anomalies automatiquement. Essai gratuit.',
-    keywords: ['dashboard financier', 'CFO', 'DAF', 'KPI financiers', 'analyse comptable', 'IA finance', 'Excel automatisation', 'DSO', 'BFR', 'trésorerie'],
+    title: 'FinSight - Moteur d\'Intelligence Financière pour Dirigeants | Score FinSight™ 0-100',
+    description: 'Moteur d\'intelligence financière pour CFO/DAF. Analyse stratégique, prévisions & stress tests, moteur de risque IA, CFO virtuel. Score FinSight™ 0-100 instantané. Essai gratuit.',
+    keywords: ['intelligence financière', 'CFO virtuel', 'Score FinSight', 'analyse stratégique', 'prévisions cash-flow', 'stress tests', 'risque financier', 'signaux faibles trésorerie', 'structure de marge', 'résilience financière', 'DSO', 'BFR', 'runway'],
     authors: [{ name: 'FinSight' }],
     creator: 'FinSight',
     publisher: 'FinSight',
@@ -28,19 +28,19 @@ export const metadata = {
       locale: 'fr_FR',
       url: 'https://finsight.zineinsight.com',
       siteName: 'FinSight',
-      title: 'FinSight - Dashboard Financier IA pour CFO & DAF',
-      description: 'Transformez vos exports comptables en insights actionnables avec l\'IA. 15 KPIs calculés automatiquement, détection d\'anomalies, copilot finance.',
+      title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
+      description: 'Analyse stratégique, prévisions & scénarios, moteur de risque IA. Comprenez votre santé financière. Anticipez les risques. Décidez en confiance.',
       images: [{
         url: 'https://finsight.zineinsight.com/images/og-default.png',
         width: 1200,
         height: 630,
-        alt: 'FinSight Dashboard Financier'
+        alt: 'FinSight - Moteur d\'Intelligence Financière'
       }]
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'FinSight - Dashboard Financier IA pour CFO & DAF',
-      description: 'Transformez vos exports comptables en insights actionnables avec l\'IA',
+      title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
+      description: 'Analyse stratégique + Prévisions + Risque IA + CFO Virtuel. Score santé financière 0-100.',
       images: ['https://finsight.zineinsight.com/images/og-default.png']
     },
     icons: {

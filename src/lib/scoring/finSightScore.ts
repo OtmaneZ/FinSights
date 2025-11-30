@@ -1,0 +1,485 @@
+/**
+ * SCORE FINSIGHT™ - ALGORITHME 0-100
+ * Évalue la santé financière globale d'une entreprise
+ * 
+ * 4 Piliers (25 points chacun):
+ * 1. CASH (Trésorerie & Runway)
+ * 2. MARGIN (Marges & Rentabilité)
+ * 3. RESILIENCE (Charges fixes & Dépendance clients)
+ * 4. RISK (Anomalies & Volatilité)
+ */
+
+import { ProcessedData, FinancialRecord } from '../dataModel';
+import { calculateDSOFromTransactions } from '../financialFormulas';
+import { detectAnomalies } from '../ml/anomalyDetector';
+
+export type ScoreLevel = 'critical' | 'warning' | 'good' | 'excellent';
+
+export interface ScoreBreakdown {
+    cash: number;           // 0-25 points
+    margin: number;         // 0-25 points
+    resilience: number;     // 0-25 points
+    risk: number;           // 0-25 points
+}
+
+export interface FinSightScore {
+    total: number;                  // 0-100
+    level: ScoreLevel;
+    breakdown: ScoreBreakdown;
+    insights: string[];
+    recommendations: string[];
+    calculatedAt: Date;
+}
+
+export interface ScoreFactors {
+    // Cash factors
+    cashFlowNet: number;
+    runway: number;              // Mois de trésorerie restante
+    dso: number;                 // Days Sales Outstanding
+    
+    // Margin factors
+    marginPercentage: number;
+    revenueGrowth: number;
+    expenseGrowth: number;
+    
+    // Resilience factors
+    fixedCostsRatio: number;     // % charges fixes / CA
+    topClientDependency: number; // % CA du top client
+    categoryDiversity: number;   // Nombre de catégories actives
+    
+    // Risk factors
+    anomalyCount: number;
+    criticalAnomalies: number;
+    volatility: number;          // Écart-type des flux
+}
+
+/**
+ * Calcule le Score FinSight™ 0-100
+ */
+export function calculateFinSightScore(data: ProcessedData): FinSightScore {
+    const factors = extractScoreFactors(data);
+    
+    const cashScore = calculateCashScore(factors);
+    const marginScore = calculateMarginScore(factors);
+    const resilienceScore = calculateResilienceScore(factors);
+    const riskScore = calculateRiskScore(factors);
+    
+    const breakdown: ScoreBreakdown = {
+        cash: Math.round(cashScore),
+        margin: Math.round(marginScore),
+        resilience: Math.round(resilienceScore),
+        risk: Math.round(riskScore)
+    };
+    
+    const total = Math.round(cashScore + marginScore + resilienceScore + riskScore);
+    const level = getScoreLevel(total);
+    const insights = generateInsights(breakdown, factors, level);
+    const recommendations = generateRecommendations(breakdown, factors, level);
+    
+    return {
+        total,
+        level,
+        breakdown,
+        insights,
+        recommendations,
+        calculatedAt: new Date()
+    };
+}
+
+/**
+ * Extrait les facteurs nécessaires au calcul du score
+ */
+function extractScoreFactors(data: ProcessedData): ScoreFactors {
+    const { kpis, summary, records, qualityMetrics } = data;
+    
+    // Cash factors
+    const cashFlowNet = summary.netCashFlow;
+    const avgMonthlyExpenses = kpis.expenses / 12; // Approximation annuelle
+    const runway = avgMonthlyExpenses > 0 ? Math.max(0, cashFlowNet / avgMonthlyExpenses) : 12;
+    const dso = calculateDSOFromTransactions(records);
+    
+    // Margin factors
+    const marginPercentage = kpis.marginPercentage;
+    const revenueGrowth = kpis.trends.revenueGrowth;
+    const expenseGrowth = kpis.trends.expenseGrowth;
+    
+    // Resilience factors
+    const fixedCostsRatio = calculateFixedCostsRatio(records, kpis.revenue);
+    const topClientDependency = calculateTopClientDependency(records, kpis.revenue);
+    const categoryDiversity = summary.categories.length;
+    
+    // Risk factors
+    const anomalyResult = detectAnomalies(records);
+    const anomalyCount = anomalyResult.anomalies.length;
+    const criticalAnomalies = anomalyResult.anomalies.filter(a => 
+        a.riskLevel === 'critical' || a.riskLevel === 'high'
+    ).length;
+    const volatility = calculateVolatility(records);
+    
+    return {
+        cashFlowNet,
+        runway,
+        dso,
+        marginPercentage,
+        revenueGrowth,
+        expenseGrowth,
+        fixedCostsRatio,
+        topClientDependency,
+        categoryDiversity,
+        anomalyCount,
+        criticalAnomalies,
+        volatility
+    };
+}
+
+/**
+ * 1. SCORE CASH (0-25 points)
+ * - Runway > 6 mois = excellent (25pts)
+ * - Cash Flow positif = bonus
+ * - DSO faible = bonus
+ */
+function calculateCashScore(factors: ScoreFactors): number {
+    let score = 0;
+    
+    // Runway (15 points max)
+    if (factors.runway >= 12) {
+        score += 15; // Excellent: > 1 an de runway
+    } else if (factors.runway >= 6) {
+        score += 12; // Bon: 6-12 mois
+    } else if (factors.runway >= 3) {
+        score += 8; // Attention: 3-6 mois
+    } else {
+        score += 3; // Critique: < 3 mois
+    }
+    
+    // Cash Flow positif (5 points max)
+    if (factors.cashFlowNet > 0) {
+        score += 5;
+    } else if (factors.cashFlowNet > -50000) {
+        score += 2;
+    }
+    
+    // DSO - Days Sales Outstanding (5 points max)
+    if (factors.dso <= 30) {
+        score += 5; // Excellent: paiements < 30j
+    } else if (factors.dso <= 45) {
+        score += 3; // Bon: 30-45j
+    } else if (factors.dso <= 60) {
+        score += 1; // Moyen: 45-60j
+    }
+    // > 60j = 0 points (problème trésorerie)
+    
+    return Math.min(25, score);
+}
+
+/**
+ * 2. SCORE MARGIN (0-25 points)
+ * - Marge nette > 15% = excellent
+ * - Croissance CA positive = bonus
+ * - Contrôle des charges = bonus
+ */
+function calculateMarginScore(factors: ScoreFactors): number {
+    let score = 0;
+    
+    // Marge nette (15 points max)
+    const margin = factors.marginPercentage;
+    if (margin >= 20) {
+        score += 15; // Excellent: > 20%
+    } else if (margin >= 15) {
+        score += 12; // Très bon: 15-20%
+    } else if (margin >= 10) {
+        score += 9; // Bon: 10-15%
+    } else if (margin >= 5) {
+        score += 5; // Faible: 5-10%
+    } else if (margin >= 0) {
+        score += 2; // Très faible: 0-5%
+    }
+    // Marge négative = 0 points
+    
+    // Croissance CA (5 points max)
+    if (factors.revenueGrowth >= 15) {
+        score += 5; // Forte croissance
+    } else if (factors.revenueGrowth >= 5) {
+        score += 3; // Croissance modérée
+    } else if (factors.revenueGrowth >= 0) {
+        score += 1; // Stagnation
+    }
+    
+    // Contrôle charges (5 points max)
+    if (factors.expenseGrowth <= 0) {
+        score += 5; // Réduction charges = excellent
+    } else if (factors.expenseGrowth < factors.revenueGrowth) {
+        score += 3; // Charges < croissance CA = bon
+    } else if (factors.expenseGrowth < factors.revenueGrowth * 1.5) {
+        score += 1; // Charges contrôlées
+    }
+    
+    return Math.min(25, score);
+}
+
+/**
+ * 3. SCORE RESILIENCE (0-25 points)
+ * - Charges fixes faibles = meilleur
+ * - Diversification clients = meilleur
+ * - Diversité catégories = bonus
+ */
+function calculateResilienceScore(factors: ScoreFactors): number {
+    let score = 0;
+    
+    // Charges fixes (10 points max)
+    const fixedRatio = factors.fixedCostsRatio;
+    if (fixedRatio <= 30) {
+        score += 10; // Excellent: < 30% charges fixes
+    } else if (fixedRatio <= 50) {
+        score += 7; // Bon: 30-50%
+    } else if (fixedRatio <= 70) {
+        score += 4; // Moyen: 50-70%
+    } else {
+        score += 1; // Risque: > 70%
+    }
+    
+    // Dépendance client (10 points max)
+    const dependency = factors.topClientDependency;
+    if (dependency <= 20) {
+        score += 10; // Excellent: < 20% du CA sur top client
+    } else if (dependency <= 35) {
+        score += 7; // Bon: 20-35%
+    } else if (dependency <= 50) {
+        score += 4; // Risque: 35-50%
+    } else {
+        score += 1; // Critique: > 50%
+    }
+    
+    // Diversité catégories (5 points max)
+    const diversity = factors.categoryDiversity;
+    if (diversity >= 8) {
+        score += 5; // Très diversifié
+    } else if (diversity >= 5) {
+        score += 3; // Diversification correcte
+    } else if (diversity >= 3) {
+        score += 1; // Peu diversifié
+    }
+    
+    return Math.min(25, score);
+}
+
+/**
+ * 4. SCORE RISK (0-25 points)
+ * - Peu d'anomalies = meilleur
+ * - Pas d'anomalies critiques = bonus
+ * - Faible volatilité = bonus
+ */
+function calculateRiskScore(factors: ScoreFactors): number {
+    let score = 25; // On part du max et on déduit
+    
+    // Anomalies critiques (-10 points max)
+    score -= Math.min(10, factors.criticalAnomalies * 3);
+    
+    // Anomalies totales (-5 points max)
+    score -= Math.min(5, factors.anomalyCount * 0.5);
+    
+    // Volatilité (-10 points max)
+    // Volatilité normalisée (0-1) → pénalité 0-10
+    const volatilityPenalty = Math.min(10, factors.volatility * 10);
+    score -= volatilityPenalty;
+    
+    return Math.max(0, Math.round(score));
+}
+
+/**
+ * Calcule le ratio charges fixes / CA
+ */
+function calculateFixedCostsRatio(records: FinancialRecord[], revenue: number): number {
+    if (revenue <= 0) return 100;
+    
+    // Catégories considérées comme charges fixes
+    const fixedCategories = [
+        'loyer', 'loyers', 'salaire', 'salaires', 'assurance', 'assurances',
+        'abonnement', 'abonnements', 'charges personnel', 'personnel'
+    ];
+    
+    const fixedCosts = records
+        .filter(r => r.type === 'expense')
+        .filter(r => {
+            const cat = (r.category || '').toLowerCase();
+            return fixedCategories.some(fc => cat.includes(fc));
+        })
+        .reduce((sum, r) => sum + Math.abs(r.amount), 0);
+    
+    return Math.round((fixedCosts / revenue) * 100);
+}
+
+/**
+ * Calcule la dépendance au top client (% CA)
+ */
+function calculateTopClientDependency(records: FinancialRecord[], revenue: number): number {
+    if (revenue <= 0) return 0;
+    
+    // Grouper par client
+    const byClient: Record<string, number> = {};
+    records
+        .filter(r => r.type === 'income')
+        .forEach(r => {
+            const client = r.counterparty || 'Inconnu';
+            byClient[client] = (byClient[client] || 0) + r.amount;
+        });
+    
+    // Trouver le top client
+    const topClientRevenue = Math.max(...Object.values(byClient), 0);
+    
+    return Math.round((topClientRevenue / revenue) * 100);
+}
+
+/**
+ * Calcule la volatilité des flux (écart-type normalisé)
+ */
+function calculateVolatility(records: FinancialRecord[]): number {
+    if (records.length < 3) return 0;
+    
+    const amounts = records.map(r => Math.abs(r.amount));
+    const mean = amounts.reduce((sum, a) => sum + a, 0) / amounts.length;
+    
+    if (mean === 0) return 0;
+    
+    const variance = amounts.reduce((sum, a) => sum + Math.pow(a - mean, 2), 0) / amounts.length;
+    const stdDev = Math.sqrt(variance);
+    
+    // Normaliser: volatilité relative (coefficient de variation)
+    const cv = stdDev / mean;
+    
+    // Mapper 0-2+ vers 0-1 (volatilité > 2 = max)
+    return Math.min(1, cv / 2);
+}
+
+/**
+ * Détermine le niveau de score
+ */
+function getScoreLevel(total: number): ScoreLevel {
+    if (total >= 80) return 'excellent';
+    if (total >= 60) return 'good';
+    if (total >= 40) return 'warning';
+    return 'critical';
+}
+
+/**
+ * Génère les insights clés
+ */
+function generateInsights(
+    breakdown: ScoreBreakdown,
+    factors: ScoreFactors,
+    level: ScoreLevel
+): string[] {
+    const insights: string[] = [];
+    
+    // Insight global
+    if (level === 'excellent') {
+        insights.push('✅ Santé financière excellente - Tous les indicateurs sont au vert');
+    } else if (level === 'good') {
+        insights.push('✓ Santé financière correcte - Quelques axes d\'amélioration identifiés');
+    } else if (level === 'warning') {
+        insights.push('⚠️ Santé financière fragile - Actions recommandées rapidement');
+    } else {
+        insights.push('🚨 Situation critique - Nécessite intervention immédiate');
+    }
+    
+    // Insights par pilier (meilleur et pire)
+    const scores = [
+        { name: 'Trésorerie', value: breakdown.cash, max: 25 },
+        { name: 'Marges', value: breakdown.margin, max: 25 },
+        { name: 'Résilience', value: breakdown.resilience, max: 25 },
+        { name: 'Risques', value: breakdown.risk, max: 25 }
+    ];
+    
+    const sorted = scores.sort((a, b) => (b.value / b.max) - (a.value / a.max));
+    
+    // Point fort
+    const strongest = sorted[0];
+    if (strongest.value / strongest.max >= 0.8) {
+        insights.push(`💪 Point fort: ${strongest.name} (${strongest.value}/${strongest.max})`);
+    }
+    
+    // Point faible
+    const weakest = sorted[sorted.length - 1];
+    if (weakest.value / weakest.max <= 0.5) {
+        insights.push(`⚡ Attention: ${weakest.name} nécessite amélioration (${weakest.value}/${weakest.max})`);
+    }
+    
+    // Insights spécifiques
+    if (factors.runway < 3) {
+        insights.push(`🔴 Runway critique: ${factors.runway.toFixed(1)} mois de trésorerie`);
+    }
+    
+    if (factors.marginPercentage < 5) {
+        insights.push(`📉 Marge très faible: ${factors.marginPercentage.toFixed(1)}% - Optimisation urgente`);
+    }
+    
+    if (factors.topClientDependency > 50) {
+        insights.push(`⚠️ Dépendance client élevée: ${factors.topClientDependency}% du CA sur 1 client`);
+    }
+    
+    if (factors.criticalAnomalies > 0) {
+        insights.push(`🔍 ${factors.criticalAnomalies} anomalie(s) critique(s) détectée(s)`);
+    }
+    
+    return insights;
+}
+
+/**
+ * Génère les recommandations actionnables
+ */
+function generateRecommendations(
+    breakdown: ScoreBreakdown,
+    factors: ScoreFactors,
+    level: ScoreLevel
+): string[] {
+    const recommendations: string[] = [];
+    
+    // Recommendations basées sur les piliers faibles
+    if (breakdown.cash < 15) {
+        if (factors.dso > 60) {
+            recommendations.push('📞 Relancer les factures en retard > 60 jours');
+        }
+        if (factors.runway < 6) {
+            recommendations.push('💰 Sécuriser trésorerie: ligne crédit ou financement court terme');
+        }
+        recommendations.push('📊 Optimiser cycle de conversion cash (BFR)');
+    }
+    
+    if (breakdown.margin < 15) {
+        if (factors.marginPercentage < 10) {
+            recommendations.push('💡 Réviser grille tarifaire (+5-10% selon clients)');
+        }
+        if (factors.expenseGrowth > factors.revenueGrowth) {
+            recommendations.push('✂️ Audit charges: identifier 10-15% économies possibles');
+        }
+        recommendations.push('🎯 Focus clients haute marge (analyse ABC)');
+    }
+    
+    if (breakdown.resilience < 15) {
+        if (factors.topClientDependency > 35) {
+            recommendations.push('🌐 Diversifier: cibler 3-5 nouveaux clients stratégiques');
+        }
+        if (factors.fixedCostsRatio > 60) {
+            recommendations.push('⚖️ Variabiliser charges fixes (freelance, commission, flex)');
+        }
+        recommendations.push('🔄 Développer mix produit/services');
+    }
+    
+    if (breakdown.risk < 15) {
+        if (factors.criticalAnomalies > 0) {
+            recommendations.push('🔎 Investiguer anomalies critiques identifiées');
+        }
+        if (factors.volatility > 0.5) {
+            recommendations.push('📈 Lisser revenus: modèles récurrents (abonnements, contrats)');
+        }
+        recommendations.push('🛡️ Mettre en place contrôles internes renforcés');
+    }
+    
+    // Recommandations générales si bon score
+    if (level === 'excellent' || level === 'good') {
+        recommendations.push('📊 Maintenir monitoring hebdomadaire des KPIs');
+        recommendations.push('🚀 Position favorable pour investissement croissance');
+    }
+    
+    return recommendations.slice(0, 5); // Max 5 recommandations
+}
