@@ -516,6 +516,10 @@ export default function FinancialDashboardV2() {
 
                     // ✨ Show upload success banner
                     setShowUploadBanner(true)
+                } else {
+                    // ❌ Handle API error
+                    console.error('API upload error:', response.status, result)
+                    alert(`Erreur lors de l'upload (${response.status}): ${result.error || 'Erreur inconnue'}`)
                 }
             } catch (error) {
                 console.error('Erreur upload:', error)
@@ -821,7 +825,7 @@ export default function FinancialDashboardV2() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // �📡 Real-Time Sync
+    // Real-Time Sync
     const addToast = (toast: Omit<ToastNotification, 'id'>) => {
         const newToast = { ...toast, id: Date.now().toString() };
         setToastNotifications(prev => [...prev, newToast]);
