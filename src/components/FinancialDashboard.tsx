@@ -117,6 +117,9 @@ export default function FinancialDashboard() {
     const [prixAugmentation, setPrixAugmentation] = useState(0) // 0 à 15% - Impact CA
     const [simulatedKPIs, setSimulatedKPIs] = useState<KPI[]>([])
 
+    // 🎯 Score FinSight™ state
+    const [finSightScore, setFinSightScore] = useState<FinSightScore | null>(null)
+
     // 🎯 Hook drill-down interactif
     const [drillDownState, drillDownActions] = useDrilldown();
 
@@ -251,13 +254,13 @@ export default function FinancialDashboard() {
                 setCompanyName(config.companyName);
                 setCompanySector(config.sector);
 
-                // 🎯 TODO: Calculer Score FinSight™ (en cours de développement)
-                // if (result.data.financialData || result.data.processedData) {
-                //     const processedData = result.data.financialData || result.data.processedData;
-                //     const score = calculateFinSightScore(processedData);
-                //     setFinSightScore(score);
-                //     console.log('✅ Score FinSight™ calculé:', score.total);
-                // }
+                // 🎯 Calculer Score FinSight™
+                if (result.data.financialData || result.data.processedData) {
+                    const processedData = result.data.financialData || result.data.processedData;
+                    const score = calculateFinSightScore(processedData);
+                    setFinSightScore(score);
+                    console.log('✅ Score FinSight™ calculé:', score.total);
+                }
 
                 setLoadingProgress(100);
                 setLoadingMessage('✅ Dashboard prêt !');
@@ -541,13 +544,13 @@ export default function FinancialDashboard() {
                 setIsDataLoaded(true);
                 logger.debug('rawData défini dans contexte:', result.data.records?.length, 'enregistrements');
 
-                // 🎯 TODO: Calculer Score FinSight™ (en cours de développement)
-                // if (result.data.financialData || result.data.processedData || result.data) {
-                //     const processedData = result.data.financialData || result.data.processedData || result.data;
-                //     const score = calculateFinSightScore(processedData);
-                //     setFinSightScore(score);
-                //     console.log('✅ Score FinSight™ calculé:', score.total);
-                // }
+                // 🎯 Calculer Score FinSight™
+                if (result.data.financialData || result.data.processedData || result.data) {
+                    const processedData = result.data.financialData || result.data.processedData || result.data;
+                    const score = calculateFinSightScore(processedData);
+                    setFinSightScore(score);
+                    console.log('✅ Score FinSight™ calculé:', score.total);
+                }
             }
 
             // Vérifier la configuration
@@ -1740,12 +1743,12 @@ export default function FinancialDashboard() {
             )}            {/* ✅ Contenu principal - Affiché seulement après upload de données */}
             {!isLoadingDemo && kpis.length > 0 && (
                 <>
-                    {/* 🎯 TODO: Score FinSight™ - Carte principale (en cours de développement) */}
-                    {/* {finSightScore && (
+                    {/* 🎯 Score FinSight™ - Carte principale */}
+                    {finSightScore && (
                         <div className="mb-8">
                             <FinSightScoreCard score={finSightScore} />
                         </div>
-                    )} */}
+                    )}
 
                     {/* KPI Grid */}
                     <div className="finsight-kpi-grid" data-count={kpis.length}>
