@@ -629,11 +629,11 @@ export default function FinancialDashboard() {
     const calculateSimulatedKPIs = () => {
         if (!isDataLoaded || kpis.length === 0 || !rawData) return;
 
-        // 📊 Extraire les valeurs actuelles des KPIs
-        const caKPI = kpis.find(k => k.title.includes('Chiffre d\'Affaires'));
+        // 📊 Extraire les valeurs actuelles des KPIs (Vocabulaire V3)
+        const caKPI = kpis.find(k => k.title.includes('Revenus') || k.title.includes('Chiffre d\'Affaires'));
         const chargesKPI = kpis.find(k => k.title.includes('Charges'));
         const margeKPI = kpis.find(k => k.title.includes('Marge'));
-        const cashFlowKPI = kpis.find(k => k.title.includes('Cash Flow') || k.title.includes('Trésorerie'));
+        const cashFlowKPI = kpis.find(k => k.title.includes('Cash') || k.title.includes('Liquidité') || k.title.includes('Trésorerie'));
 
         const currentCA = parseFloat(caKPI?.value.replace(/[^0-9.-]/g, '') || '0');
         const currentCharges = parseFloat(chargesKPI?.value.replace(/[^0-9.-]/g, '') || '0');
@@ -670,8 +670,8 @@ export default function FinancialDashboard() {
 
         // 📊 Créer les KPIs simulés
         const simulated: KPI[] = kpis.map(kpi => {
-            // KPI CA
-            if (kpi.title.includes('Chiffre d\'Affaires')) {
+            // KPI CA / Revenus (V3)
+            if (kpi.title.includes('Revenus') || kpi.title.includes('Chiffre d\'Affaires')) {
                 if (prixAugmentation > 0) {
                     return {
                         ...kpi,
@@ -706,8 +706,8 @@ export default function FinancialDashboard() {
                 }
             }
 
-            // KPI Cash Flow
-            if (kpi.title.includes('Cash Flow') || kpi.title.includes('Trésorerie')) {
+            // KPI Cash Flow / Liquidité (V3)
+            if (kpi.title.includes('Cash') || kpi.title.includes('Liquidité') || kpi.title.includes('Trésorerie')) {
                 if (paiementsAcceleration > 0) {
                     return {
                         ...kpi,
@@ -874,8 +874,8 @@ export default function FinancialDashboard() {
 
     // ✅ Calculer le % de Cash Flow pour le benchmark (Cash Flow / CA * 100)
     const getCashFlowPercentage = (): number => {
-        const cashFlow = getKPINumericValue('Cash Flow');
-        const revenue = getKPINumericValue('Affaires'); // "Chiffre d'Affaires"
+        const cashFlow = getKPINumericValue('Cash') || getKPINumericValue('Liquidité');
+        const revenue = getKPINumericValue('Revenus') || getKPINumericValue('Affaires'); // V3: "Revenus & Croissance"
         if (!cashFlow || !revenue || revenue === 0) return 0;
         return (cashFlow / revenue) * 100;
     };
@@ -1769,14 +1769,14 @@ export default function FinancialDashboard() {
             )}            {/* ✅ Contenu principal - Affiché seulement après upload de données */}
             {!isLoadingDemo && kpis.length > 0 && (
                 <>
-                    {/* 🎯 Score FinSight™ - Carte principale */}
+                    {/* 🎯 Score FinSight™ - CARTE PRINCIPALE EN TOP (V3) */}
                     {finSightScore && (
                         <div className="mb-8">
                             <FinSightScoreCard score={finSightScore} />
                         </div>
                     )}
 
-                    {/* 📈 Cash Flow Forecast - Projection 6 mois */}
+                    {/* 📈 Cash Flow Forecast - Prévisions & Scénarios */}
                     {cashFlowForecast && (
                         <div className="mb-8">
                             <CashFlowForecastCard forecast={cashFlowForecast} />

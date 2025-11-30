@@ -124,9 +124,9 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
     // ✅ Extraire les COGS pour calculer la marge brute
     const cogsData = extractCOGS(data.records);
 
-    // ✅ KPI 1 : Chiffre d'Affaires
+    // ✅ KPI 1 : Chiffre d'Affaires (Vocabulaire V3)
     kpis.push({
-        title: 'Chiffre d\'Affaires',
+        title: 'Revenus & Croissance',
         value: `${Math.round(data.kpis.revenue).toLocaleString('fr-FR')} €`,
         change: `${data.kpis.trends.revenueGrowth.toFixed(1)}%`,
         changeType: data.kpis.trends.revenueGrowth > 0 ? 'positive' : data.kpis.trends.revenueGrowth < 0 ? 'negative' : 'neutral',
@@ -134,9 +134,9 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         confidence: data.qualityMetrics.accuracy
     });
 
-    // ✅ KPI 2 : Charges
+    // ✅ KPI 2 : Charges (Vocabulaire V3)
     kpis.push({
-        title: 'Charges',
+        title: 'Charges & Contrôle',
         value: `${Math.round(data.kpis.expenses).toLocaleString('fr-FR')} €`,
         change: `${data.kpis.trends.expenseGrowth.toFixed(1)}%`, // Garder le vrai signe : négatif = baisse
         changeType: data.kpis.trends.expenseGrowth < 0 ? 'positive' : data.kpis.trends.expenseGrowth > 0 ? 'negative' : 'neutral', // Baisse = vert
@@ -144,11 +144,11 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         confidence: data.qualityMetrics.accuracy
     });
 
-    // ✅ KPI 3 : Marge Brute (NOUVEAU - si COGS détectés)
+    // ✅ KPI 3 : Marge Brute (Vocabulaire V3 - si COGS détectés)
     if (cogsData.cogs > 0) {
         const grossMarginPercent = calculateGrossMargin(data.kpis.revenue, cogsData.cogs);
         kpis.push({
-            title: 'Marge Brute',
+            title: 'Marge Brute & Rentabilité',
             value: `${grossMarginPercent.toFixed(1)}%`,
             change: cogsData.method,
             changeType: grossMarginPercent > 50 ? 'positive' : grossMarginPercent > 30 ? 'neutral' : 'negative',
@@ -157,10 +157,10 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         });
     }
 
-    // ✅ KPI 4 : Marge Nette (FORMULE CORRIGÉE)
+    // ✅ KPI 4 : Marge Nette (Vocabulaire V3 - FORMULE CORRIGÉE)
     const netMarginPercent = calculateNetMargin(data.kpis.revenue, data.kpis.expenses);
     kpis.push({
-        title: 'Marge Nette',
+        title: 'Marge Nette & Profitabilité',
         value: `${netMarginPercent.toFixed(1)}%`,
         change: `${data.kpis.trends.marginTrend.toFixed(1)}pt`,
         changeType: data.kpis.trends.marginTrend > 0 ? 'positive' : data.kpis.trends.marginTrend < 0 ? 'negative' : 'neutral',
@@ -168,9 +168,9 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         confidence: data.qualityMetrics.consistency
     });
 
-    // ✅ KPI 5 : Cash Flow Net
+    // ✅ KPI 5 : Cash Flow Net (Vocabulaire V3)
     kpis.push({
-        title: 'Cash Flow Net',
+        title: 'Cash & Liquidité',
         value: `${Math.round(data.summary.netCashFlow).toLocaleString('fr-FR')} €`,
         change: `${(data.kpis.trends.cashFlowGrowth || 0).toFixed(1)}%`,
         changeType: (data.kpis.trends.cashFlowGrowth || 0) > 0 ? 'positive' : (data.kpis.trends.cashFlowGrowth || 0) < 0 ? 'negative' : 'neutral',
@@ -178,11 +178,11 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         confidence: data.qualityMetrics.completeness
     });
 
-    // ✅ KPI 6 : DSO - Délai de paiement clients (FORMULE AMÉLIORÉE + LOGS DEBUG)
+    // ✅ KPI 6 : DSO - Délai de paiement clients (Vocabulaire V3)
     if (data.records.length > 0) {
         const dsoValue = calculateDSOFromTransactions(data.records);
         kpis.push({
-            title: 'DSO Clients',
+            title: 'DSO & Cycles Paiement',
             value: `${dsoValue} jours`,
             change: dsoValue < 45 ? 'Excellent' : dsoValue < 60 ? 'Bon' : 'À surveiller',
             changeType: dsoValue < 45 ? 'positive' : dsoValue < 60 ? 'neutral' : 'negative',
@@ -193,13 +193,13 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         });
     }
 
-    // ✅ KPI 7 : BFR - Besoin en Fonds de Roulement (FORMULE AMÉLIORÉE)
+    // ✅ KPI 7 : BFR - Besoin en Fonds de Roulement (Vocabulaire V3)
     if (data.records.length > 10) {
         const bfrData = calculateEstimatedBFR(data.records, data.kpis.revenue);
         const bfrRatio = data.kpis.revenue > 0 ? (bfrData.bfr / data.kpis.revenue) * 100 : 0;
 
         kpis.push({
-            title: 'BFR Estimé',
+            title: 'BFR & Résilience',
             value: `${Math.round(bfrData.bfr).toLocaleString('fr-FR')} €`,
             change: `${Math.abs(bfrRatio).toFixed(1)}% du CA`,
             changeType: bfrRatio < 15 ? 'positive' : bfrRatio < 25 ? 'neutral' : 'negative',

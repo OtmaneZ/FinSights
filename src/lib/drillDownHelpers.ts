@@ -31,11 +31,11 @@ export function aggregateByClient(
 ): AggregatedEntity[] {
     if (!rawData || rawData.length === 0) return [];
 
-    // Filtrer selon le type de KPI
+    // Filtrer selon le type de KPI (Vocabulaire V3)
     let filteredData = rawData;
 
-    if (kpiTitle.includes('Chiffre') || kpiTitle.includes('Affaires') || kpiTitle.includes('CA')) {
-        // Pour CA: seulement les revenus
+    if (kpiTitle.includes('Revenus') || kpiTitle.includes('Chiffre') || kpiTitle.includes('Affaires') || kpiTitle.includes('CA')) {
+        // Pour CA/Revenus: seulement les revenus
         filteredData = rawData.filter(r => r.type === 'income');
     } else if (kpiTitle.includes('Charges') || kpiTitle.includes('Dépenses')) {
         // Pour Charges: seulement les dépenses
@@ -86,12 +86,12 @@ export function aggregateByCategory(
 ): AggregatedEntity[] {
     if (!rawData || rawData.length === 0) return [];
 
-    // Filtrer selon le type de KPI
+    // Filtrer selon le type de KPI (Vocabulaire V3)
     let filteredData = rawData;
 
     if (kpiTitle.includes('Charges') || kpiTitle.includes('Dépenses')) {
         filteredData = rawData.filter(r => r.type === 'expense');
-    } else if (kpiTitle.includes('Chiffre') || kpiTitle.includes('Affaires')) {
+    } else if (kpiTitle.includes('Revenus') || kpiTitle.includes('Chiffre') || kpiTitle.includes('Affaires')) {
         filteredData = rawData.filter(r => r.type === 'income');
     }
 
