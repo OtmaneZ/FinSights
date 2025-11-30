@@ -343,10 +343,21 @@ export function searchGlossary(query: string): FinancialGlossaryEntry[] {
 }
 
 /**
- * Mapping KPI → ID Glossaire
+ * Mapping KPI → ID Glossaire (V3)
  * Map les titres exacts des KPIs du dashboard vers les IDs du glossaire
+ * Support V2 + V3 pour rétrocompatibilité
  */
 export const KPI_TO_GLOSSARY_MAP: Record<string, string> = {
+    // V3 (nouveaux noms)
+    "Revenus & Croissance": 'CA',
+    "Charges & Contrôle": 'CHARGES',
+    "DSO & Cycles Paiement": 'DSO',
+    "BFR & Résilience": 'BFR',
+    "Cash & Liquidité": 'CASH_FLOW',
+    "Marge Brute & Rentabilité": 'MARGE_BRUTE',
+    "Marge Nette & Profitabilité": 'MARGE_NETTE',
+
+    // V2 (anciens noms - rétrocompatibilité)
     "Chiffre d'Affaires": 'CA',
     "Charges": 'CHARGES',
     "DSO Clients": 'DSO',

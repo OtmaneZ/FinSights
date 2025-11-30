@@ -63,28 +63,28 @@ export function useOptimizedKPIs(rawData: Transaction[] | null) {
 
             return [
                 {
-                    title: 'Chiffre d\'affaires',
+                    title: 'Revenus & Croissance',
                     value: `${revenue.toLocaleString('fr-FR')} €`,
                     change: '+12.5%',
                     changeType: 'positive',
                     description: 'vs mois dernier',
                 },
                 {
-                    title: 'Marge brute',
+                    title: 'Marge Brute & Rentabilité',
                     value: `${marginPercent}%`,
                     change: '+2.3%',
                     changeType: 'positive',
                     description: 'Marge nette',
                 },
                 {
-                    title: 'Cash Flow Net',
+                    title: 'Cash & Liquidité',
                     value: `${cashFlow.toLocaleString('fr-FR')} €`,
                     change: cashFlow >= 0 ? 'Positif' : 'Négatif',
                     changeType: cashFlow >= 0 ? 'positive' : 'negative',
                     description: 'Flux de trésorerie',
                 },
                 {
-                    title: 'DSO',
+                    title: 'DSO & Cycles Paiement',
                     value: `${dso}j`,
                     change: dso > 45 ? 'À surveiller' : 'Bon',
                     changeType: dso > 45 ? 'negative' : 'positive',

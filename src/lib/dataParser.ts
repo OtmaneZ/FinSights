@@ -807,11 +807,11 @@ function calculateDataQuality(records: FinancialRecord[]): DataQuality {
 
 // Génération des KPIs adaptatifs pour le dashboard
 export function generateDashboardKPIs(data: ProcessedData) {
-    // Fallback: générer les KPIs traditionnels
+    // Fallback: générer les KPIs traditionnels (Vocabulaire V3)
     const { kpis, summary } = data;
     return [
         {
-            title: 'Chiffre d\'Affaires',
+            title: 'Revenus & Croissance',
             value: `${Math.round(kpis.revenue).toLocaleString('fr-FR')} €`,
             change: `${kpis.trends.revenueGrowth.toFixed(1)}%`,
             changeType: kpis.trends.revenueGrowth > 0 ? 'positive' : kpis.trends.revenueGrowth < 0 ? 'negative' : 'neutral',
@@ -819,7 +819,7 @@ export function generateDashboardKPIs(data: ProcessedData) {
             confidence: data.qualityMetrics.accuracy
         },
         {
-            title: 'Charges',
+            title: 'Charges & Contrôle',
             value: `${Math.round(kpis.expenses).toLocaleString('fr-FR')} €`,
             change: `${kpis.trends.expenseGrowth.toFixed(1)}%`, // Vrai signe : négatif = baisse
             changeType: kpis.trends.expenseGrowth < 0 ? 'positive' : kpis.trends.expenseGrowth > 0 ? 'negative' : 'neutral',
@@ -827,7 +827,7 @@ export function generateDashboardKPIs(data: ProcessedData) {
             confidence: data.qualityMetrics.accuracy
         },
         {
-            title: 'Marge Nette',
+            title: 'Marge Nette & Profitabilité',
             value: `${kpis.marginPercentage.toFixed(1)}%`,
             change: `${kpis.trends.marginTrend.toFixed(1)}pt`,
             changeType: kpis.trends.marginTrend > 0 ? 'positive' : kpis.trends.marginTrend < 0 ? 'negative' : 'neutral',
@@ -835,7 +835,7 @@ export function generateDashboardKPIs(data: ProcessedData) {
             confidence: data.qualityMetrics.consistency
         },
         {
-            title: 'Cash Flow Net',
+            title: 'Cash & Liquidité',
             value: `${Math.round(summary.netCashFlow).toLocaleString('fr-FR')} €`,
             change: `${(kpis.trends.cashFlowGrowth || 0).toFixed(1)}%`,
             changeType: (kpis.trends.cashFlowGrowth || 0) > 0 ? 'positive' : (kpis.trends.cashFlowGrowth || 0) < 0 ? 'negative' : 'neutral',
