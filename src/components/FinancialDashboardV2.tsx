@@ -480,6 +480,13 @@ export default function FinancialDashboardV2() {
         reader.onload = async (e) => {
             const fileContent = e.target?.result as string
 
+            console.log('📤 Upload attempt:', {
+                fileName: file.name,
+                fileType: file.type,
+                contentLength: fileContent.length,
+                firstChars: fileContent.substring(0, 100)
+            })
+
             try {
                 const response = await fetch('/api/upload', {
                     method: 'POST',
