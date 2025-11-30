@@ -33,13 +33,13 @@ export default function Home() {
                 <div>
 
                     <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight leading-tight text-primary">
-                        Trésorerie OK ou pas ?<br />
-                        <span className="text-accent-primary">Réponse en 10 secondes.</span>
+                        Comprenez votre santé financière.<br />
+                        <span className="text-accent-primary">Anticipez les risques. Décidez en confiance.</span>
                     </h1>
 
                     <p className="text-xl text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
-                        Uploadez votre export Sage/Cegid. 15 KPIs calculés automatiquement.<br />
-                        <span className="font-semibold text-primary">Vous savez si vous tenez 6 mois</span> — sans Excel, sans formules.
+                        Le moteur d'intelligence financière qui analyse vos marges, détecte les signaux faibles et simule vos scénarios.<br />
+                        <span className="font-semibold text-primary">Réponse en 10 secondes</span> — avec votre Score FinSight™.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -48,7 +48,7 @@ export default function Home() {
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-base transition-all hover:shadow-lg"
                         >
                             <Zap className="w-5 h-5" />
-                            Essayer Gratuitement →
+                            Obtenir mon Score FinSight™ →
                         </Link>
                         <Link
                             href="/dashboard"
@@ -64,136 +64,287 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* Score FinSight™ Section - NEW V3 */}
+            <section className="max-w-4xl mx-auto px-6 pb-24">
+                <div className="surface rounded-3xl p-12 border-2 border-accent-primary relative overflow-hidden shadow-2xl">
+                    {/* Background gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 via-transparent to-transparent"></div>
+
+                    <div className="relative z-10 text-center">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-full mb-6">
+                            <Sparkles className="w-4 h-4" />
+                            <span className="text-sm font-bold">Concept Signature FinSight</span>
+                        </div>
+
+                        <h2 className="text-4xl font-bold mb-4 text-primary">
+                            Score FinSight™
+                        </h2>
+                        <p className="text-xl text-secondary mb-8 max-w-2xl mx-auto leading-relaxed">
+                            Votre santé financière, notée de <span className="font-bold text-accent-primary">0 à 100</span>
+                        </p>
+
+                        {/* Score Breakdown */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                            <div className="bg-surface-elevated rounded-xl p-6 border border-border-default">
+                                <div className="text-3xl font-bold text-accent-primary mb-2">25</div>
+                                <div className="text-sm text-secondary font-medium">Cash & Liquidité</div>
+                            </div>
+                            <div className="bg-surface-elevated rounded-xl p-6 border border-border-default">
+                                <div className="text-3xl font-bold text-accent-primary mb-2">25</div>
+                                <div className="text-sm text-secondary font-medium">Marges & Rentabilité</div>
+                            </div>
+                            <div className="bg-surface-elevated rounded-xl p-6 border border-border-default">
+                                <div className="text-3xl font-bold text-accent-primary mb-2">25</div>
+                                <div className="text-sm text-secondary font-medium">Résilience</div>
+                            </div>
+                            <div className="bg-surface-elevated rounded-xl p-6 border border-border-default">
+                                <div className="text-3xl font-bold text-accent-primary mb-2">25</div>
+                                <div className="text-sm text-secondary font-medium">Gestion Risques</div>
+                            </div>
+                        </div>
+
+                        {/* Example Score */}
+                        <div className="inline-flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-2xl">
+                            <div className="text-6xl font-bold text-yellow-600">67</div>
+                            <div className="text-left">
+                                <div className="text-sm text-yellow-800 font-semibold">Exemple : Note instantanée</div>
+                                <div className="text-xs text-yellow-700">Zone Orange — Attention requise</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Before/After Section */}
             <section className="max-w-6xl mx-auto px-6 pb-24">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-                        Excel → FinSight : <span className="text-accent-primary">1 heure → 10 secondes</span>
+                        Sans FinSight <span className="text-red-500">vs</span> Avec FinSight
                     </h2>
                     <p className="text-lg text-secondary max-w-2xl mx-auto">
-                        Arrêtez de perdre du temps sur des calculs manuels. Concentrez-vous sur vos décisions.
+                        Passez de l'incertitude financière à la maîtrise stratégique.
                     </p>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8">
-                    {/* AVANT - Excel */}
+                    {/* AVANT - Sans FinSight */}
                     <div className="surface rounded-2xl p-8 border-2 border-border-default relative">
                         <div className="absolute -top-4 left-6 px-4 py-1 bg-red-50 border border-red-200 rounded-full">
-                            <span className="text-red-700 text-sm font-semibold">❌ Avec Excel (aujourd'hui)</span>
+                            <span className="text-red-700 text-sm font-semibold">❌ Sans FinSight</span>
                         </div>
 
-                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">Travail manuel chronophage</h3>
+                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">Vision partielle et réactive</h3>
 
                         <ul className="space-y-4 mb-8">
                             <li className="flex items-start gap-3 text-secondary">
                                 <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Formules manuelles DSO, BFR, marge nette à recalculer chaque mois</span>
+                                <span className="leading-relaxed">Vision partielle de votre santé financière globale</span>
                             </li>
                             <li className="flex items-start gap-3 text-secondary">
                                 <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Consolidation de plusieurs exports comptables (Sage, Excel, PDF)</span>
+                                <span className="leading-relaxed">Risques invisibles (cash, marges, dépendance clients)</span>
                             </li>
                             <li className="flex items-start gap-3 text-secondary">
                                 <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Détection manuelle chronophage des erreurs et anomalies</span>
+                                <span className="leading-relaxed">Prévisions approximatives basées sur tableurs manuels</span>
                             </li>
                             <li className="flex items-start gap-3 text-secondary">
                                 <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Graphiques à refaire pour chaque présentation CODIR</span>
+                                <span className="leading-relaxed">Décisions stratégiques basées sur l'intuition</span>
                             </li>
                             <li className="flex items-start gap-3 text-secondary">
                                 <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Temps de consolidation variable selon la complexité des données</span>
+                                <span className="leading-relaxed">Difficulté à anticiper les tensions de trésorerie</span>
                             </li>
                         </ul>
 
                         <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                             <p className="text-sm text-red-800 italic leading-relaxed">
-                                "Entre 1 et 2 heures par semaine sur Excel juste pour savoir où j'en suis.
-                                Et je ne détecte pas toutes les anomalies..."
+                                "Je découvre les problèmes trop tard, quand ils sont déjà critiques."
                             </p>
                             <p className="text-xs text-red-600 mt-2 font-semibold">
-                                — DAF, PME 50 personnes
+                                — CFO, PME 80 personnes
                             </p>
                         </div>
                     </div>
 
-                    {/* APRÈS - FinSight */}
+                    {/* APRÈS - Avec FinSight */}
                     <div className="surface rounded-2xl p-8 border-2 border-accent-primary relative bg-gradient-to-br from-accent-primary-subtle to-primary">
                         <div className="absolute -top-4 left-6 px-4 py-1 bg-accent-primary text-white rounded-full shadow-lg">
-                            <span className="text-sm font-semibold">✨ Avec FinSight (10 secondes)</span>
+                            <span className="text-sm font-semibold">✨ Avec FinSight</span>
                         </div>
 
-                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">Upload → Diagnostic instantané</h3>
+                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">Intelligence financière complète</h3>
 
                         <ul className="space-y-4 mb-8">
                             <li className="flex items-start gap-3 text-primary">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">15 KPIs calculés automatiquement (DSO, BFR, marge, cash flow...)</span>
+                                <span className="leading-relaxed font-medium">Lecture complète de votre santé économique (Score FinSight™)</span>
                             </li>
                             <li className="flex items-start gap-3 text-primary">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">Détection IA des anomalies (paie en doublon, client tardif, erreur saisie)</span>
+                                <span className="leading-relaxed font-medium">Prévisions fiables et stress tests (-10%, -20%, -30%)</span>
                             </li>
                             <li className="flex items-start gap-3 text-primary">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">Simulations what-if en temps réel (et si j'augmente mes prix de 10% ?)</span>
+                                <span className="leading-relaxed font-medium">Moteur de risques intelligent (rupture cash, dette cachée)</span>
                             </li>
                             <li className="flex items-start gap-3 text-primary">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">Export PDF branded prêt pour présentation CODIR</span>
+                                <span className="leading-relaxed font-medium">CFO virtuel avec recommandations actionnables</span>
                             </li>
                             <li className="flex items-start gap-3 text-primary">
                                 <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">Alertes automatiques si trésorerie &lt; 3 mois</span>
+                                <span className="leading-relaxed font-medium">Détection signaux faibles avant qu'ils deviennent critiques</span>
                             </li>
                         </ul>
 
                         <div className="p-4 bg-white border-2 border-accent-primary rounded-lg shadow-sm">
                             <p className="text-sm text-primary font-medium leading-relaxed">
-                                "10 secondes pour savoir si je tiens 6 mois.
-                                Je peux enfin me concentrer sur la stratégie, pas sur Excel."
+                                "FinSight m'a alerté d'un risque de rupture cash à 45 jours. J'ai pu agir à temps."
                             </p>
                             <p className="text-xs text-accent-primary mt-2 font-bold">
-                                — CFO, Scale-up 120 personnes
+                                — DAF, Scale-up 150 personnes
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Features Grid - Simplified to 3 Essential Blocks */}
+            {/* Features Grid - 4 Piliers V3 */}
             <section className="max-w-6xl mx-auto px-6 pb-24">
-                <h2 className="text-2xl font-bold text-center mb-10 text-primary">Ce que vous obtenez</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Feature 1 - Diagnostic instantané */}
-                    <div className="surface rounded-xl p-8 surface-hover group">
-                        <DollarSign className="w-12 h-12 text-accent-primary mb-4 transition-transform group-hover:scale-110" />
-                        <h3 className="text-xl font-bold mb-3 text-primary">Diagnostic instantané</h3>
-                        <p className="text-secondary text-base leading-relaxed">
-                            Uploadez votre export comptable.<br />
-                            <span className="font-semibold text-primary">10 secondes plus tard : vous savez si votre trésorerie tient 6 mois.</span>
-                        </p>
+                <h2 className="text-3xl font-bold text-center mb-4 text-primary">Les 4 piliers FinSight</h2>
+                <p className="text-lg text-secondary text-center mb-12 max-w-2xl mx-auto">
+                    Le moteur d'intelligence financière qui transforme vos données en décisions stratégiques
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Pilier 1 - Analyse Stratégique */}
+                    <div className="surface rounded-xl p-8 surface-hover group border-2 border-border-default hover:border-accent-primary transition-all">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-accent-primary-subtle flex items-center justify-center">
+                                <BarChart3 className="w-6 h-6 text-accent-primary" />
+                            </div>
+                            <h3 className="text-xl font-bold text-primary">1. Analyse Stratégique</h3>
+                        </div>
+                        <ul className="space-y-3 text-secondary">
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Structure de marge et rentabilité</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Signaux faibles de trésorerie</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Dépendance clients (concentration)</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Résilience des charges fixes</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Analyse des cycles de paiement</span>
+                            </li>
+                        </ul>
                     </div>
 
-                    {/* Feature 2 - Anomalies détectées automatiquement */}
-                    <div className="surface rounded-xl p-8 surface-hover group">
-                        <AlertTriangle className="w-12 h-12 text-accent-primary mb-4 transition-transform group-hover:scale-110" />
-                        <h3 className="text-xl font-bold mb-3 text-primary">Anomalies détectées</h3>
-                        <p className="text-secondary text-base leading-relaxed">
-                            L'IA repère automatiquement les erreurs :<br />
-                            <span className="font-semibold text-primary">paie en doublon, client qui paie toujours en retard, saisies incorrectes.</span>
-                        </p>
+                    {/* Pilier 2 - Prévisions & Scénarios */}
+                    <div className="surface rounded-xl p-8 surface-hover group border-2 border-border-default hover:border-accent-primary transition-all">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-accent-primary-subtle flex items-center justify-center">
+                                <Sparkles className="w-6 h-6 text-accent-primary" />
+                            </div>
+                            <h3 className="text-xl font-bold text-primary">2. Prévisions & Scénarios</h3>
+                        </div>
+                        <ul className="space-y-3 text-secondary">
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Cash-flow prévisionnel 3–12 mois</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Stress tests automatiques (-10/-20/-30%)</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Simulations retards clients / prix / charges</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Seuil critique et runway fiable</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Scénarios what-if en temps réel</span>
+                            </li>
+                        </ul>
                     </div>
 
-                    {/* Feature 3 - Projection 6 mois cash-flow */}
-                    <div className="surface rounded-xl p-8 surface-hover group">
-                        <BarChart3 className="w-12 h-12 text-accent-primary mb-4 transition-transform group-hover:scale-110" />
-                        <h3 className="text-xl font-bold mb-3 text-primary">Projection 6 mois</h3>
-                        <p className="text-secondary text-base leading-relaxed">
-                            Visualisez votre cash-flow sur 6 mois.<br />
-                            <span className="font-semibold text-primary">Alerte automatique si vous passez sous 3 mois de trésorerie.</span>
-                        </p>
+                    {/* Pilier 3 - Moteur de Risque */}
+                    <div className="surface rounded-xl p-8 surface-hover group border-2 border-border-default hover:border-accent-primary transition-all">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-accent-primary-subtle flex items-center justify-center">
+                                <AlertTriangle className="w-6 h-6 text-accent-primary" />
+                            </div>
+                            <h3 className="text-xl font-bold text-primary">3. Moteur de Risque</h3>
+                        </div>
+                        <ul className="space-y-3 text-secondary">
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Risque rupture de trésorerie</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Risque dette cachée (créances vieillissantes)</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Score FinSight™ (santé financière 0-100)</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Volatilité charges et revenus</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Détection anomalies ML (Z-score, patterns)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* Pilier 4 - CFO Virtuel */}
+                    <div className="surface rounded-xl p-8 surface-hover group border-2 border-border-default hover:border-accent-primary transition-all">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-accent-primary-subtle flex items-center justify-center">
+                                <DollarSign className="w-6 h-6 text-accent-primary" />
+                            </div>
+                            <h3 className="text-xl font-bold text-primary">4. CFO Virtuel</h3>
+                        </div>
+                        <ul className="space-y-3 text-secondary">
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Analyse automatique en langage naturel</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Plans d'action priorisés et actionnables</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Synthèse PDF "consultant" prête</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Recommandations contextualisées</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <span className="text-accent-primary mt-1">→</span>
+                                <span>Explications pédagogiques des KPIs</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -201,9 +352,9 @@ export default function Home() {
             {/* By the Numbers Section */}
             <section className="max-w-6xl mx-auto px-6 pb-24">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4 text-primary">En chiffres</h2>
+                    <h2 className="text-3xl font-bold mb-4 text-primary">Résultats concrets</h2>
                     <p className="text-lg text-secondary max-w-2xl mx-auto">
-                        Des résultats concrets, mesurables, immédiatement visibles
+                        Des métriques claires qui mesurent l'impact de FinSight sur votre pilotage financier
                     </p>
                 </div>
 
@@ -214,27 +365,27 @@ export default function Home() {
                             10s
                         </div>
                         <p className="text-sm text-secondary font-medium">
-                            Du CSV au diagnostic complet
+                            Score FinSight™ instantané
                         </p>
                     </div>
 
                     {/* Stat 2 */}
                     <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
                         <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
-                            2h
+                            4
                         </div>
                         <p className="text-sm text-secondary font-medium">
-                            Économisées par semaine
+                            Analyses stratégiques majeures
                         </p>
                     </div>
 
                     {/* Stat 3 */}
                     <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
                         <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
-                            15
+                            12
                         </div>
                         <p className="text-sm text-secondary font-medium">
-                            KPIs calculés automatiquement
+                            Mois de prévisions cash-flow
                         </p>
                     </div>
 
@@ -244,7 +395,7 @@ export default function Home() {
                             0€
                         </div>
                         <p className="text-sm text-secondary font-medium">
-                            Pour essayer (sans CB)
+                            Pour tester (sans CB)
                         </p>
                     </div>
                 </div>
