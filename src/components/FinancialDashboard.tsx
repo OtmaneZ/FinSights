@@ -70,6 +70,16 @@ import EmptyDashboardState from './EmptyDashboardState';
 import FinSightScoreCard from './FinSightScoreCard';
 import { calculateFinSightScore, FinSightScore } from '@/lib/scoring/finSightScore';
 
+// 📈 Import Cash Flow Forecast
+import CashFlowForecastCard from './forecasting/CashFlowForecastCard';
+import { forecastCashFlow } from '@/lib/forecasting/cashFlowForecast';
+import type { CashFlowForecast } from '@/lib/forecasting/types';
+
+// 📈 Import Cash Flow Forecast
+import CashFlowForecastCard from './forecasting/CashFlowForecastCard';
+import { forecastCashFlow } from '@/lib/forecasting/cashFlowForecast';
+import type { CashFlowForecast } from '@/lib/forecasting/types';
+
 // Import KPITooltip
 import KPITooltip from './KPITooltip';
 
@@ -119,6 +129,9 @@ export default function FinancialDashboard() {
 
     // 🎯 Score FinSight™ state
     const [finSightScore, setFinSightScore] = useState<FinSightScore | null>(null)
+
+    // 📈 Cash Flow Forecast state
+    const [cashFlowForecast, setCashFlowForecast] = useState<CashFlowForecast | null>(null)
 
     // 🎯 Hook drill-down interactif
     const [drillDownState, drillDownActions] = useDrilldown();
@@ -260,6 +273,15 @@ export default function FinancialDashboard() {
                     const score = calculateFinSightScore(processedData);
                     setFinSightScore(score);
                     console.log('✅ Score FinSight™ calculé:', score.total);
+
+                    // 📈 Calculer Cash Flow Forecast
+                    if (result.data.records && result.data.records.length >= 10) {
+                        const forecast = forecastCashFlow(result.data.records, { horizon: 6 });
+                        if (forecast) {
+                            setCashFlowForecast(forecast);
+                            console.log('✅ Forecast calculé: Runway', forecast.metrics.runway, 'mois');
+                        }
+                    }
                 }
 
                 setLoadingProgress(100);
@@ -550,6 +572,15 @@ export default function FinancialDashboard() {
                     const score = calculateFinSightScore(processedData);
                     setFinSightScore(score);
                     console.log('✅ Score FinSight™ calculé:', score.total);
+
+                    // 📈 Calculer Cash Flow Forecast
+                    if (result.data.records && result.data.records.length >= 10) {
+                        const forecast = forecastCashFlow(result.data.records, { horizon: 6 });
+                        if (forecast) {
+                            setCashFlowForecast(forecast);
+                            console.log('✅ Forecast calculé: Runway', forecast.metrics.runway, 'mois');
+                        }
+                    }
                 }
             }
 
@@ -1747,6 +1778,33 @@ export default function FinancialDashboard() {
                     {finSightScore && (
                         <div className="mb-8">
                             <FinSightScoreCard score={finSightScore} />
+                        </div>
+                    )}
+
+                    {/* 📈 Cash Flow Forecast - Projection 6 mois */}
+                    {cashFlowForecast && (
+                        <div className="mb-8">
+                            <CashFlowForecastCard forecast={cashFlowForecast} />
+                        </div>
+                    )}
+
+                    {/* Message si pas assez de données pour forecast */}
+                    {!cashFlowForecast && rawData.length > 0 && rawData.length < 10 && (
+                        <div className="mb-8 p-6 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl">
+                            <div className="flex items-start gap-4">
+                                <div className="flex-shrink-0 text-3xl">📊</div>
+                                <div>
+                                    <h3 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
+                                        Prévisions Trésorerie disponibles bientôt
+                                    </h3>
+                                    <p className="text-sm text-blue-800 dark:text-blue-300 mb-3">
+                                        Vous avez {rawData.length} transaction(s). Minimum 10 transactions requises pour activer les prévisions 6 mois.
+                                    </p>
+                                    <p className="text-xs text-blue-600 dark:text-blue-400">
+                                        💡 Uploadez un fichier avec au moins 2 mois de données (historique complet recommandé)
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     )}
 
