@@ -5,10 +5,10 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-    title: 'Guides PDF Gratuits Finance | KPIs, Closing, BFR | FinSight',
-    description: 'Téléchargez gratuitement nos guides PDF pour CFO/DAF : 15 KPIs essentiels, Checklist closing financier, Guide BFR. Contenu professionnel actionnable.',
+    title: 'Guides PDF Gratuits Finance | 4 Guides CFO/DAF | FinSight',
+    description: 'Téléchargez gratuitement 4 guides PDF pour CFO/DAF : Checklist closing, 15 Ratios financiers, Guide BFR, 20 KPIs essentiels. Contenu professionnel actionnable.',
     openGraph: {
-        title: 'Guides PDF Gratuits pour CFO/DAF | FinSight',
+        title: '4 Guides PDF Gratuits pour CFO/DAF | FinSight',
         description: 'Guides professionnels gratuits pour maîtriser vos finances',
         type: 'website'
     }
@@ -67,6 +67,44 @@ const guides: Guide[] = [
         topics: ['Ratios', 'Analyse', 'Solvabilité', 'Performance']
     },
     {
+        id: 'guide-bfr-optimiser-tresorerie',
+        title: 'Guide BFR : Optimiser sa Trésorerie',
+        description: 'Maîtrisez le Besoin en Fonds de Roulement pour améliorer votre cash-flow',
+        pages: '9 pages',
+        icon: TrendingUp,
+        features: [
+            '💰 Comprendre le BFR : formule et composantes',
+            '📊 Calculer votre BFR en pratique',
+            '⚡ 10 leviers pour réduire votre BFR',
+            '🎯 Optimiser DSO, DIO et DPO',
+            '📈 Cas pratiques avec calculs détaillés',
+            '✅ Checklist d\'actions immédiates'
+        ],
+        downloadUrl: '/ressources/guides/guide-bfr-optimiser-tresorerie.pdf',
+        color: 'from-green-500 to-teal-600',
+        badge: '💡 Actionnable',
+        topics: ['BFR', 'Trésorerie', 'Cash-flow', 'Optimisation']
+    },
+    {
+        id: 'tableau-de-bord-cfo-20-kpis',
+        title: 'Tableau de Bord CFO : 20 KPIs Essentiels',
+        description: 'Le dashboard complet pour piloter votre entreprise avec 20 indicateurs clés',
+        pages: '11 pages',
+        icon: TrendingUp,
+        features: [
+            '📊 20 KPIs répartis en 4 catégories',
+            '📈 5 KPIs Croissance (ARR, MRR, CAC, LTV, Churn)',
+            '💰 5 KPIs Rentabilité (Marge, EBITDA, Burn, Break-even, ROI)',
+            '🏦 5 KPIs Trésorerie (Runway, DSO, Quick ratio, BFR, FCF)',
+            '⚙️ 5 KPIs Opérationnels (NPS, LTV/CAC, Payback, Productivité, Conversion)',
+            '✅ Formules + Benchmarks + Exemples chiffrés'
+        ],
+        downloadUrl: '/ressources/guides/tableau-de-bord-cfo-20-kpis.pdf',
+        color: 'from-purple-500 to-blue-600',
+        badge: '🎯 Complet',
+        topics: ['KPIs', 'Dashboard', 'Performance', 'Pilotage']
+    },
+    {
         id: 'guide-levee-fonds-cfo',
         title: 'Guide Levée de Fonds pour CFO',
         description: 'Préparez votre levée de fonds avec la checklist financière complète',
@@ -109,8 +147,8 @@ export default function GuidesPage() {
                     </h1>
 
                     <p className="text-xl text-secondary max-w-3xl mx-auto mb-4">
-                        Téléchargez gratuitement nos guides pratiques :<br />
-                        KPIs essentiels, checklists closing, optimisation BFR
+                        Téléchargez gratuitement nos 4 guides pratiques :<br />
+                        Closing mensuel • 15 Ratios financiers • Optimisation BFR • 20 KPIs dashboard
                     </p>
 
                     <div className="flex items-center justify-center gap-6 text-sm text-tertiary">
