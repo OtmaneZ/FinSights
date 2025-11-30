@@ -48,6 +48,9 @@ import AICopilot from './AICopilot'
 // Import Empty State V2
 import EmptyDashboardStateV2 from './EmptyDashboardStateV2'
 
+// Import Score FinSight™
+import FinSightScoreCard from './FinSightScoreCard'
+
 // Import Auth Banner
 import AuthBanner from './AuthBanner'
 
@@ -61,6 +64,9 @@ import { KPIDrilldownModal } from './drill-down/KPIDrilldownModal'
 // Import ML
 import { detectAnomalies } from '@/lib/ml/anomalyDetector'
 import type { Anomaly } from '@/lib/ml/types'
+
+// Import Score FinSight™ calculation
+import { calculateFinSightScore, type FinSightScore } from '@/lib/scoring/finSightScore'
 
 // Import Hooks
 import { useKeyboard } from '@/lib/useKeyboard'
@@ -113,6 +119,9 @@ export default function FinancialDashboardV2() {
     // ML Anomaly Detection states
     const [anomalies, setAnomalies] = useState<Anomaly[]>([]);
     const [showAnomalies, setShowAnomalies] = useState(false);
+
+    // Score FinSight™ state
+    const [finSightScore, setFinSightScore] = useState<FinSightScore | null>(null);
 
     // Command Palette state
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
@@ -487,9 +496,20 @@ export default function FinancialDashboardV2() {
 
                 if (response.ok) {
                     setKpis(result.data.kpis || [])
-                    setFinSightData(result.data.financialData || result.data.processedData)
+                    const processedData = result.data.financialData || result.data.processedData
+                    setFinSightData(processedData)
                     setRawData(result.data.records || result.data.rawData || [])
                     setIsDataLoaded(true)
+
+                    // ✨ Calculate Score FinSight™
+                    if (processedData) {
+                        try {
+                            const score = calculateFinSightScore(processedData)
+                            setFinSightScore(score)
+                        } catch (scoreError) {
+                            console.error('Erreur calcul Score FinSight™:', scoreError)
+                        }
+                    }
 
                     // Clear the loaded dashboard badge (new upload = new dashboard)
                     setLoadedDashboardId(null)
@@ -786,6 +806,21 @@ export default function FinancialDashboardV2() {
         }
     }, [chargesReduction, paiementsAcceleration, prixAugmentation, kpis, rawData]);
 
+
+    // 📂 Écouter l'événement d'upload depuis EmptyDashboardStateV2
+    useEffect(() => {
+        const handleFileSelected = (event: Event) => {
+            const customEvent = event as CustomEvent;
+            if (customEvent.detail) {
+                handleFileUpload(customEvent.detail as FileList);
+            }
+        };
+
+        window.addEventListener('fileUpload', handleFileSelected);
+        return () => window.removeEventListener('fileUpload', handleFileSelected);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     // �📡 Real-Time Sync
     const addToast = (toast: Omit<ToastNotification, 'id'>) => {
         const newToast = { ...toast, id: Date.now().toString() };
@@ -1006,6 +1041,13 @@ export default function FinancialDashboardV2() {
                     </div>
                 </div>
 
+                {/* 🏆 Score FinSight™ - TOP POSITION */}
+                {finSightScore && (
+                    <div className="mb-8">
+                        <FinSightScoreCard score={finSightScore} />
+                    </div>
+                )}
+
                 {/* KPIs Grid - Layout CFO-friendly: 3 colonnes, plus dense */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 relative z-10">
                     {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis).map((kpi, index) => (
@@ -1202,7 +1244,7 @@ export default function FinancialDashboardV2() {
                                             <h4 className="text-base font-bold">Augmentation prix</h4>
                                         </div>
                                         <p className="text-xs text-secondary">
-                                            Impact sur <strong className="text-accent-orange">Chiffre d'Affaires</strong>
+                                            Impact sur <strong className="text-accent-orange">Revenus & Croissance</strong>
                                         </p>
                                     </div>
 
