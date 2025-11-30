@@ -44,17 +44,17 @@ export default function Home() {
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link
-                            href="/auth/signup"
+                            href="/dashboard"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-base transition-all hover:shadow-lg"
                         >
                             <Zap className="w-5 h-5" />
                             Obtenir mon Score FinSight™ →
                         </Link>
                         <Link
-                            href="/dashboard"
+                            href="/auth/signup"
                             className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold text-base transition-all hover:bg-surface-elevated"
                         >
-                            Voir démo (30 sec)
+                            Créer un compte
                         </Link>
                     </div>
 
