@@ -25,7 +25,7 @@ export default function Footer() {
 
                     <div className="flex items-center gap-8">
                         <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-sm">
-                            Démo Live
+                            Essayer gratuitement
                         </Link>
                         <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm">
                             Tarifs
