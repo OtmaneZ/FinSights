@@ -75,11 +75,6 @@ import CashFlowForecastCard from './forecasting/CashFlowForecastCard';
 import { forecastCashFlow } from '@/lib/forecasting/cashFlowForecast';
 import type { CashFlowForecast } from '@/lib/forecasting/types';
 
-// 📈 Import Cash Flow Forecast
-import CashFlowForecastCard from './forecasting/CashFlowForecastCard';
-import { forecastCashFlow } from '@/lib/forecasting/cashFlowForecast';
-import type { CashFlowForecast } from '@/lib/forecasting/types';
-
 // Import KPITooltip
 import KPITooltip from './KPITooltip';
 
@@ -1789,7 +1784,7 @@ export default function FinancialDashboard() {
                     )}
 
                     {/* Message si pas assez de données pour forecast */}
-                    {!cashFlowForecast && rawData.length > 0 && rawData.length < 10 && (
+                    {!cashFlowForecast && rawData && rawData.length > 0 && rawData.length < 10 && (
                         <div className="mb-8 p-6 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl">
                             <div className="flex items-start gap-4">
                                 <div className="flex-shrink-0 text-3xl">📊</div>
