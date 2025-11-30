@@ -8,7 +8,9 @@ export default function Footer() {
     return (
         <footer className="border-t border-border-subtle py-12">
             <div className="max-w-6xl mx-auto px-6">
-                <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+                {/* Section 1: Logo + Navigation principale */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                    {/* Logo */}
                     <div className="flex items-center gap-3">
                         <Image
                             src="/images/zineinsights_logo.jpeg"
@@ -23,7 +25,8 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-8">
+                    {/* Navigation principale */}
+                    <nav className="flex flex-wrap items-center gap-6">
                         <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-sm">
                             Essayer gratuitement
                         </Link>
@@ -47,38 +50,41 @@ export default function Footer() {
                         >
                             Contact
                         </a>
+                    </nav>
+                </div>
+
+                {/* Section 2: Legal + Social + Copyright */}
+                <div className="pt-6 border-t border-border-subtle flex flex-col md:flex-row justify-between items-center gap-4">
+                    {/* Liens légaux */}
+                    <div className="flex flex-wrap justify-center md:justify-start gap-4 text-xs text-tertiary">
+                        <Link href="/politique-confidentialite" className="hover:text-secondary transition-colors">
+                            Politique de confidentialité
+                        </Link>
+                        <span className="text-border-default">•</span>
+                        <Link href="/cookies" className="hover:text-secondary transition-colors">
+                            Cookies
+                        </Link>
+                        <span className="text-border-default">•</span>
+                        <Link href="/mentions-legales" className="hover:text-secondary transition-colors">
+                            Mentions légales
+                        </Link>
                     </div>
-                </div>
 
-                {/* Legal Links */}
-                <div className="mt-6 flex flex-wrap justify-center gap-6 text-xs text-tertiary">
-                    <Link href="/politique-confidentialite" className="hover:text-secondary transition-colors">
-                        Politique de confidentialité
-                    </Link>
-                    <Link href="/cookies" className="hover:text-secondary transition-colors">
-                        Cookies
-                    </Link>
-                    <Link href="/mentions-legales" className="hover:text-secondary transition-colors">
-                        Mentions légales
-                    </Link>
-                </div>
-
-                <div className="mt-8 pt-8 border-t border-border-subtle flex flex-col items-center gap-4">
-                    <div className="flex items-center gap-4">
+                    {/* Social + Copyright */}
+                    <div className="flex items-center gap-6">
                         <a
                             href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-secondary hover:text-accent-primary transition-colors text-sm"
+                            className="flex items-center gap-2 text-secondary hover:text-accent-primary transition-colors"
                         >
-                            <Linkedin className="w-5 h-5" />
-                            <span>Suivre sur LinkedIn</span>
+                            <Linkedin className="w-4 h-4" />
+                            <span className="text-xs">LinkedIn</span>
                         </a>
+                        <span className="text-xs text-tertiary">
+                            © 2025 <a href="https://www.zineinsight.com" className="hover:text-secondary transition-colors">ZineInsight</a>
+                        </span>
                     </div>
-                    <p className="text-sm text-tertiary">
-                        © 2025 Otmane Boulahia •
-                        <a href="https://www.zineinsight.com" className="hover:text-secondary transition-colors ml-1">ZineInsight</a>
-                    </p>
                 </div>
             </div>
         </footer>
