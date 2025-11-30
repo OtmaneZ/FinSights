@@ -45,10 +45,10 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
                                     Vos données sont analysées en local. <strong>Upgrade PRO</strong> pour :
                                 </p>
                                 <ul className="text-sm text-secondary space-y-1 mb-4">
-                                    <li>✅ Sauvegarde cloud (90 jours)</li>
-                                    <li>✅ AI illimitée (actuellement 10/jour)</li>
-                                    <li>✅ Export PDF/Excel branded</li>
-                                    <li>✅ Alertes email temps réel</li>
+                                    <li>✅ Sauvegarde cloud sécurisée (90 jours)</li>
+                                    <li>✅ CFO Virtuel illimité (actuellement 10/jour)</li>
+                                    <li>✅ Prévisions & Stress tests avancés</li>
+                                    <li>✅ Alertes signaux faibles temps réel</li>
                                 </ul>
                                 <Link
                                     href="/pricing"
@@ -108,14 +108,14 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
                             Analyse terminée ! 🎉
                         </h3>
                         <p className="text-sm text-secondary mb-3">
-                            Vos données sont analysées <strong>localement</strong> (non sauvegardées).
+                            Analyse locale (non sauvegardée).
                             Créez un compte <strong>gratuit</strong> pour :
                         </p>
                         <ul className="text-sm text-secondary space-y-1 mb-4">
-                            <li>✅ 10 questions AI/jour</li>
-                            <li>✅ Export PDF basique</li>
-                            <li>✅ Dashboard complet (15 KPIs)</li>
-                            <li>✅ Uploads illimités</li>
+                            <li>✅ Score FinSight™ instantané</li>
+                            <li>✅ Analyse stratégique complète</li>
+                            <li>✅ 10 questions CFO Virtuel/jour</li>
+                            <li>✅ Détection signaux faibles</li>
                         </ul>
                         <div className="flex gap-3">
                             <Link

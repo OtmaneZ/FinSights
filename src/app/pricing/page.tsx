@@ -21,14 +21,14 @@ export default function PricingPage() {
             priceYearly: 0,
             features: [
                 '✅ 1 entreprise',
-                '✅ 10 uploads CSV/mois',
-                '✅ Dashboard complet (15 KPIs)',
-                '✅ 10 questions IA/jour',
+                '✅ 10 uploads/mois',
+                '✅ Score FinSight™ instantané',
+                '✅ Analyse financière stratégique',
+                '✅ 10 questions CFO Virtuel/jour',
+                '✅ Visualisations interactives',
                 '✅ Export PDF avec watermark',
-                '✅ Visualisations standards',
                 '❌ Sauvegarde cloud',
-                '❌ Alertes email',
-                '❌ API REST'
+                '❌ Alertes email'
             ],
             cta: 'Commencer gratuitement',
             highlight: false,
@@ -41,14 +41,14 @@ export default function PricingPage() {
             priceYearly: 950, // -20%
             features: [
                 '✅ 3 entreprises',
-                '✅ IA illimitée (GPT-4)',
-                '✅ Uploads CSV illimités',
+                '✅ CFO Virtuel illimité (GPT-4)',
+                '✅ Analyses illimitées',
+                '✅ Prévisions & Stress tests avancés',
                 '✅ Sauvegarde cloud 90 jours',
-                '✅ Alertes email temps réel',
+                '✅ Alertes signaux faibles temps réel',
                 '✅ Export PDF/Excel branded',
                 '✅ Support email 48h',
-                '❌ API REST',
-                '❌ Multi-utilisateurs'
+                '❌ API REST'
             ],
             cta: 'Essai gratuit 14 jours',
             highlight: true,
@@ -62,13 +62,13 @@ export default function PricingPage() {
             features: [
                 '✅ Entreprises illimitées',
                 '✅ Multi-utilisateurs (5 sièges)',
+                '✅ Score FinSight™ temps réel',
                 '✅ API REST complète (10k calls/jour)',
-                '✅ Historique 3 ans de données',
-                '✅ Webhooks avancés',
+                '✅ Historique données 3 ans',
+                '✅ Webhooks événements critiques',
                 '✅ Support prioritaire 24h',
                 '✅ Onboarding personnalisé',
-                '✅ White-label (logo custom)',
-                '✅ Monitoring temps réel'
+                '✅ Monitoring performances'
             ],
             cta: 'Démo avec expert',
             highlight: false,
@@ -79,15 +79,15 @@ export default function PricingPage() {
             icon: Building2,
             price: null,
             features: [
-                '✅ Tout Growth +',
-                '✅ Utilisateurs illimités',
-                '✅ Intégrations sur-mesure',
-                '✅ Déploiement on-premise possible',
-                '✅ Account manager dédié',
-                '✅ Formation équipe complète',
-                '✅ Audit sécurité',
-                '✅ Contrat annuel',
-                '✅ SLA personnalisé'
+                '✅ Score FinSight™ + tous piliers avancés',
+                '✅ Utilisateurs illimités (équipes DAF/CFO)',
+                '✅ Intégrations ERP/CRM sur-mesure',
+                '✅ Déploiement on-premise ou cloud dédié',
+                '✅ CFO Virtuel personnalisé (modèle métier)',
+                '✅ Formation équipe + Onboarding stratégique',
+                '✅ Audit sécurité & conformité RGPD',
+                '✅ Contrat annuel avec SLA personnalisé',
+                '✅ Roadmap prioritaire (développement features)'
             ],
             cta: 'Nous contacter',
             highlight: false,
@@ -102,10 +102,10 @@ export default function PricingPage() {
             {/* Hero Section */}
             <section className="max-w-6xl mx-auto px-6 pt-20 pb-12 text-center">
                 <h1 className="text-5xl font-bold mb-6 text-primary">
-                    Choisissez votre plan
+                    Votre moteur d'intelligence financière
                 </h1>
                 <p className="text-xl text-secondary max-w-2xl mx-auto mb-4">
-                    Des tarifs transparents pour chaque étape de votre croissance
+                    Choisissez la puissance d'analyse adaptée à votre croissance
                 </p>
                 <p className="text-sm text-tertiary">
                     Pas d'engagement • Annulation à tout moment • Support en français
@@ -185,9 +185,9 @@ export default function PricingPage() {
             {/* CTA Final */}
             <section className="max-w-4xl mx-auto px-6 pb-32 text-center">
                 <div className="surface rounded-2xl p-12">
-                    <h2 className="text-3xl font-bold mb-4">Prêt à transformer votre analyse financière ?</h2>
+                    <h2 className="text-3xl font-bold mb-4">Prenez le contrôle de votre santé financière</h2>
                     <p className="text-secondary mb-8">
-                        Rejoignez les DAF modernes qui automatisent leur reporting
+                        Rejoignez les CFO/DAF qui anticipent leurs risques au lieu de les subir
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <a
