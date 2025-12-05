@@ -1,0 +1,16 @@
+Date,Client,Description,Catégorie,Montant,Date_echéance
+2025-01-03,AlphaCorp,Prestation mensuelle,Revenu,3200,2025-02-03
+2025-01-05,BetaGroup,Vente produit,Revenu,5400,2025-02-04
+2025-01-12,AlphaCorp,Support technique,Revenu,800,2025-02-10
+2025-01-15,Delta SA,Maintenance annuelle,Revenu,7500,2025-02-20
+2025-01-18,ClientX,Acompte projet,Revenu,2000,2025-02-18
+2025-01-19,ClientX,Paiement final,Revenu,6000,2025-02-28
+2025-01-25,GammaTech,Prestation mensuelle,Revenu,3100,2025-03-05
+2025-02-01,AlphaCorp,Support technique,Revenu,900,2025-03-01
+2025-02-03,BetaGroup,Acompte,Revenu,2500,2025-03-05
+2025-02-10,ClientX,Vente produit,Revenu,4900,2025-03-12
+2025-02-12,ZetaCorp,Maintenance,Revenu,7100,2025-03-15
+2025-02-20,Delta SA,Prestation mensuelle,Revenu,3200,2025-03-25
+2025-02-22,AlphaCorp,Support VIP,Revenu,1500,2025-03-28
+2025-03-01,GammaTech,Acompte projet,Revenu,2800,2025-04-05
+2025-03-05,ClientX,Renouvellement licence,Revenu,4200,2025-04-15
