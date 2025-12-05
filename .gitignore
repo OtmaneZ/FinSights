@@ -43,4 +43,4 @@ coverage/
 
 # Archive (old exports, personal notes)
 docs/archive/
-test-pinecone.js
+test-pinecone.js.env.sentry-build-plugin
