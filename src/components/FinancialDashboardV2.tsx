@@ -91,6 +91,9 @@ interface KPI {
     change: string
     changeType: 'positive' | 'negative' | 'neutral'
     description: string
+    isAvailable?: boolean  // ✅ Flag pour masquer les KPIs sans données valides
+    missingData?: string   // Raison si données manquantes
+    confidence?: number    // Score de confiance (0-1)
 }
 
 export default function FinancialDashboardV2() {
@@ -734,16 +737,21 @@ export default function FinancialDashboardV2() {
             setLoadingProgress(60);
             setLoadingMessage('📊 Calcul des KPIs...');
 
-            // ✅ PARSING CLIENT-SIDE (évite rate limiting API)
-            const { parseCSV, generateDashboardKPIs } = await import('@/lib/dataParser');
+            // ✅ PARSING CLIENT-SIDE avec système adaptatif
+            const { parseCSV } = await import('@/lib/dataParser');
+            const { generateAdaptiveKPIs, detectCapabilities } = await import('@/lib/dashboardConfig');
+
             const parseResult = parseCSV(csvText);
 
             if (!parseResult.success || !parseResult.data) {
                 throw new Error('Erreur parsing CSV démo');
             }
 
-            const { data: processedData } = parseResult;
-            const kpis = generateDashboardKPIs(processedData);
+            const { data: processedData, detectedMappings } = parseResult;
+
+            // ✅ Utiliser le système adaptatif
+            const capabilities = detectCapabilities(detectedMappings || [], processedData.records || []);
+            const kpis = generateAdaptiveKPIs(processedData, capabilities);
 
             setLoadingProgress(80);
             setLoadingMessage('✨ Génération du dashboard...');
@@ -1061,46 +1069,48 @@ export default function FinancialDashboardV2() {
 
                 {/* KPIs Grid - Layout CFO-friendly: 3 colonnes, plus dense */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 relative z-10">
-                    {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis).map((kpi, index) => (
-                        <div
-                            key={index}
-                            className="surface rounded-xl p-6 surface-hover group cursor-pointer"
-                            onClick={() => drillDownActions.openDrillDown(kpi.title)}
-                        >
-                            {/* Header: Titre + Variation (pattern Excel/Power BI) */}
-                            <div className="flex items-start justify-between mb-3">
-                                <h3 className="text-base font-semibold text-primary leading-tight">
-                                    {kpi.title}
-                                </h3>
-                                <span className={`text-base font-bold ml-2 flex-shrink-0 ${kpi.changeType === 'positive' ? 'text-accent-success' :
-                                    kpi.changeType === 'negative' ? 'text-accent-danger' :
-                                        'text-secondary'
-                                    }`}>
-                                    {kpi.change}
-                                </span>
+                    {(simulatedKPIs.length > 0 ? simulatedKPIs : kpis)
+                        .filter(kpi => kpi.isAvailable !== false) // ✅ Filtrer KPIs non disponibles
+                        .map((kpi, index) => (
+                            <div
+                                key={index}
+                                className="surface rounded-xl p-6 surface-hover group cursor-pointer"
+                                onClick={() => drillDownActions.openDrillDown(kpi.title)}
+                            >
+                                {/* Header: Titre + Variation (pattern Excel/Power BI) */}
+                                <div className="flex items-start justify-between mb-3">
+                                    <h3 className="text-base font-semibold text-primary leading-tight">
+                                        {kpi.title}
+                                    </h3>
+                                    <span className={`text-base font-bold ml-2 flex-shrink-0 ${kpi.changeType === 'positive' ? 'text-accent-success' :
+                                        kpi.changeType === 'negative' ? 'text-accent-danger' :
+                                            'text-secondary'
+                                        }`}>
+                                        {kpi.change}
+                                    </span>
+                                </div>
+
+                                {/* Valeur principale - GROS et lisible */}
+                                <p className="text-4xl font-bold mb-2 text-primary">{kpi.value}</p>
+
+                                {/* Description contextuelle - lisible */}
+                                <p className="text-sm text-secondary mb-3 leading-relaxed">{kpi.description}</p>
+
+                                {/* BenchmarkBar - Comparaison sectorielle */}
+                                <BenchmarkBar
+                                    kpiName={
+                                        kpi.title.includes('Marge') ? 'MARGE_NETTE' :
+                                            kpi.title.includes('DSO') ? 'DSO' :
+                                                kpi.title.includes('BFR') ? 'BFR' :
+                                                    'DSO'
+                                    }
+                                    currentValue={parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0}
+                                    sector={companySector}
+                                    unit={kpi.value.includes('%') ? '%' : kpi.value.includes('jours') ? 'jours' : '€'}
+                                    inverse={kpi.title.includes('DSO')}
+                                />
                             </div>
-
-                            {/* Valeur principale - GROS et lisible */}
-                            <p className="text-4xl font-bold mb-2 text-primary">{kpi.value}</p>
-
-                            {/* Description contextuelle - lisible */}
-                            <p className="text-sm text-secondary mb-3 leading-relaxed">{kpi.description}</p>
-
-                            {/* BenchmarkBar - Comparaison sectorielle */}
-                            <BenchmarkBar
-                                kpiName={
-                                    kpi.title.includes('Marge') ? 'MARGE_NETTE' :
-                                        kpi.title.includes('DSO') ? 'DSO' :
-                                            kpi.title.includes('BFR') ? 'BFR' :
-                                                'DSO'
-                                }
-                                currentValue={parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0}
-                                sector={companySector}
-                                unit={kpi.value.includes('%') ? '%' : kpi.value.includes('jours') ? 'jours' : '€'}
-                                inverse={kpi.title.includes('DSO')}
-                            />
-                        </div>
-                    ))}
+                        ))}
                 </div>
 
                 {/* 🔮 What-If Simulation Panel - Juste après KPIs pour montrer l'impact immédiat */}

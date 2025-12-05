@@ -131,7 +131,8 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         change: `${data.kpis.trends.revenueGrowth.toFixed(1)}%`,
         changeType: data.kpis.trends.revenueGrowth > 0 ? 'positive' : data.kpis.trends.revenueGrowth < 0 ? 'negative' : 'neutral',
         description: `Période: ${data.summary.period.start.toLocaleDateString('fr-FR')} à ${data.summary.period.end.toLocaleDateString('fr-FR')}`,
-        confidence: data.qualityMetrics.accuracy
+        confidence: data.qualityMetrics.accuracy,
+        isAvailable: true // ✅ Toujours disponible
     });
 
     // ✅ KPI 2 : Charges (Vocabulaire V3)
@@ -141,7 +142,8 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         change: `${data.kpis.trends.expenseGrowth.toFixed(1)}%`, // Garder le vrai signe : négatif = baisse
         changeType: data.kpis.trends.expenseGrowth < 0 ? 'positive' : data.kpis.trends.expenseGrowth > 0 ? 'negative' : 'neutral', // Baisse = vert
         description: 'Total des dépenses',
-        confidence: data.qualityMetrics.accuracy
+        confidence: data.qualityMetrics.accuracy,
+        isAvailable: true // ✅ Toujours disponible
     });
 
     // ✅ KPI 3 : Marge Brute (Vocabulaire V3 - si COGS détectés)
@@ -153,7 +155,8 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
             change: cogsData.method,
             changeType: grossMarginPercent > 50 ? 'positive' : grossMarginPercent > 30 ? 'neutral' : 'negative',
             description: `CA - Coûts d'achat (${Math.round(cogsData.cogs).toLocaleString('fr-FR')} €)`,
-            confidence: cogsData.confidence
+            confidence: cogsData.confidence,
+            isAvailable: true // ✅ Disponible car COGS détectés
         });
     }
 
@@ -165,7 +168,8 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         change: `${data.kpis.trends.marginTrend.toFixed(1)}pt`,
         changeType: data.kpis.trends.marginTrend > 0 ? 'positive' : data.kpis.trends.marginTrend < 0 ? 'negative' : 'neutral',
         description: 'Rentabilité nette après toutes charges',
-        confidence: data.qualityMetrics.consistency
+        confidence: data.qualityMetrics.consistency,
+        isAvailable: true // ✅ Toujours disponible
     });
 
     // ✅ KPI 5 : Cash Flow Net (Vocabulaire V3)
@@ -175,7 +179,8 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         change: `${(data.kpis.trends.cashFlowGrowth || 0).toFixed(1)}%`,
         changeType: (data.kpis.trends.cashFlowGrowth || 0) > 0 ? 'positive' : (data.kpis.trends.cashFlowGrowth || 0) < 0 ? 'negative' : 'neutral',
         description: 'Flux de trésorerie net',
-        confidence: data.qualityMetrics.completeness
+        confidence: data.qualityMetrics.completeness,
+        isAvailable: true // ✅ Toujours disponible
     });
 
     // ✅ KPI 6 : DSO - Délai de paiement clients (Vocabulaire V3)
@@ -189,7 +194,8 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
             description: capabilities.canShowDSO
                 ? 'Délai moyen de paiement réel'
                 : 'Délai moyen de paiement (estimation)',
-            confidence: capabilities.canShowDSO ? 0.95 : 0.7
+            confidence: capabilities.canShowDSO ? 0.95 : 0.7,
+            isAvailable: true // ✅ Toujours affiché (avec indication estimation si pas de dates)
         });
     }
 
@@ -205,7 +211,8 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
             changeType: bfrRatio < 15 ? 'positive' : bfrRatio < 25 ? 'neutral' : 'negative',
             description: `${bfrData.method} (confiance: ${Math.round(bfrData.confidence * 100)}%)`,
             confidence: bfrData.confidence,
-            tooltip: `Créances: ${bfrData.details.estimatedReceivables.toLocaleString('fr-FR')} € | Dettes: ${bfrData.details.estimatedPayables.toLocaleString('fr-FR')} €`
+            tooltip: `Créances: ${bfrData.details.estimatedReceivables.toLocaleString('fr-FR')} € | Dettes: ${bfrData.details.estimatedPayables.toLocaleString('fr-FR')} €`,
+            isAvailable: true // ✅ Disponible si > 10 transactions
         });
     }
 
