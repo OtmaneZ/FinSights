@@ -9,6 +9,7 @@
 
 import { getPineconeClient, PINECONE_INDEX_NAME, NAMESPACES } from './pineconeClient';
 import { generateEmbedding, prepareTextForEmbedding } from './embeddings';
+import { logger } from '@/lib/logger';
 
 export interface VectorMetadata {
     text: string;
@@ -59,9 +60,9 @@ export async function storeConversation(
             },
         ]);
 
-        console.log(`✅ Conversation stockée: ${vectorId}`);
+        logger.debug(`✅ Conversation stockée: ${vectorId}`);
     } catch (error) {
-        console.error('Erreur stockage conversation:', error);
+        logger.error('Erreur stockage conversation:', error);
         // Ne pas bloquer l'app si vectorDB échoue
     }
 }
@@ -94,7 +95,7 @@ export async function searchSimilarConversations(
             metadata: match.metadata as VectorMetadata,
         }));
     } catch (error) {
-        console.error('Erreur recherche conversations:', error);
+        logger.error('Erreur recherche conversations:', error);
         return [];
     }
 }
@@ -131,9 +132,9 @@ export async function storeInsight(
             },
         ]);
 
-        console.log(`✅ Insight stocké: ${vectorId}`);
+        logger.debug(`✅ Insight stocké: ${vectorId}`);
     } catch (error) {
-        console.error('Erreur stockage insight:', error);
+        logger.error('Erreur stockage insight:', error);
     }
 }
 
@@ -165,7 +166,7 @@ export async function searchSimilarInsights(
             metadata: match.metadata as VectorMetadata,
         }));
     } catch (error) {
-        console.error('Erreur recherche insights:', error);
+        logger.error('Erreur recherche insights:', error);
         return [];
     }
 }
@@ -208,9 +209,9 @@ export async function storeCompanyProfile(
             },
         ]);
 
-        console.log(`✅ Profil entreprise stocké: ${vectorId}`);
+        logger.debug(`✅ Profil entreprise stocké: ${vectorId}`);
     } catch (error) {
-        console.error('Erreur stockage profil:', error);
+        logger.error('Erreur stockage profil:', error);
     }
 }
 
@@ -253,7 +254,7 @@ export async function findSimilarCompanies(
                 metadata: match.metadata as VectorMetadata,
             }));
     } catch (error) {
-        console.error('Erreur recherche entreprises similaires:', error);
+        logger.error('Erreur recherche entreprises similaires:', error);
         return [];
     }
 }

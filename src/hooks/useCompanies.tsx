@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useActiveCompany } from '@/lib/companyContext';
+import { logger } from '@/lib/logger';
 
 export interface Company {
     id: string;
@@ -52,7 +53,7 @@ export function useCompanies(): UseCompaniesReturn {
                 setError(data.error || 'Failed to fetch companies');
             }
         } catch (err) {
-            console.error('useCompanies fetch error:', err);
+            logger.error('useCompanies fetch error:', err);
             setError('Network error');
         } finally {
             setLoading(false);
@@ -77,7 +78,7 @@ export function useCompanies(): UseCompaniesReturn {
                 return { success: false, error: data.error || data.message || 'Failed to create company' };
             }
         } catch (err) {
-            console.error('createCompany error:', err);
+            logger.error('createCompany error:', err);
             return { success: false, error: 'Network error' };
         }
     };
@@ -100,7 +101,7 @@ export function useCompanies(): UseCompaniesReturn {
                 return { success: false, error: data.error || 'Failed to update company' };
             }
         } catch (err) {
-            console.error('updateCompany error:', err);
+            logger.error('updateCompany error:', err);
             return { success: false, error: 'Network error' };
         }
     };
@@ -128,7 +129,7 @@ export function useCompanies(): UseCompaniesReturn {
                 return { success: false, error: data.error || 'Failed to delete company' };
             }
         } catch (err) {
-            console.error('deleteCompany error:', err);
+            logger.error('deleteCompany error:', err);
             return { success: false, error: 'Network error' };
         }
     };

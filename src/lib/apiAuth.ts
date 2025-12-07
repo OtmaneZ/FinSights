@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticateApiKey, ApiKeyError } from './apiKeys';
+import { logger } from '@/lib/logger';
 
 export interface ApiAuthContext {
     userId: string;
@@ -38,7 +39,7 @@ export async function authenticateRequest(
             };
         }
 
-        console.error('API authentication error:', error);
+        logger.error('API authentication error:', error);
         return {
             error: NextResponse.json(
                 {

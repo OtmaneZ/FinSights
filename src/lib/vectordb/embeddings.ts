@@ -7,6 +7,7 @@
 
 import OpenAI from 'openai';
 import { getCachedEmbedding, setCachedEmbedding } from '../rateLimitKV';
+import { logger } from '@/lib/logger';
 
 let openaiInstance: OpenAI | null = null;
 
@@ -43,7 +44,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
         }
 
         // ❌ Cache miss → Appel API OpenAI
-        console.log('⚠️ Embedding cache MISS - Calling OpenAI API');
+        logger.debug('⚠️ Embedding cache MISS - Calling OpenAI API');
         const response = await openai.embeddings.create({
             model: 'text-embedding-3-small',
             input: preparedText,
@@ -56,7 +57,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
 
         return embedding;
     } catch (error) {
-        console.error('Erreur génération embedding:', error);
+        logger.error('Erreur génération embedding:', error);
         throw new Error('Impossible de générer l\'embedding');
     }
 }
@@ -75,7 +76,7 @@ export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
 
         return response.data.map(item => item.embedding);
     } catch (error) {
-        console.error('Erreur génération embeddings batch:', error);
+        logger.error('Erreur génération embeddings batch:', error);
         throw new Error('Impossible de générer les embeddings');
     }
 }

@@ -2,6 +2,7 @@
 // Compatible avec le navigateur et Node.js
 
 import * as XLSX from 'xlsx';
+import { logger } from '@/lib/logger';
 
 export interface ExcelToCSVResult {
     success: boolean;
@@ -82,7 +83,7 @@ export function excelToCSV(
             columnCount,
         };
     } catch (error) {
-        console.error('Erreur lors de la conversion Excel → CSV:', error);
+        logger.error('Erreur lors de la conversion Excel → CSV:', error);
         return {
             success: false,
             error: error instanceof Error ? error.message : 'Erreur inconnue',
@@ -116,7 +117,7 @@ export function listExcelSheets(fileContent: string | ArrayBuffer): string[] {
         const workbook = XLSX.read(arrayBuffer, { type: 'array' });
         return workbook.SheetNames;
     } catch (error) {
-        console.error('Erreur lors de la lecture des feuilles Excel:', error);
+        logger.error('Erreur lors de la lecture des feuilles Excel:', error);
         return [];
     }
 }
@@ -161,7 +162,7 @@ export function detectBestSheet(fileContent: string | ArrayBuffer): number {
 
         return bestSheetIndex;
     } catch (error) {
-        console.error('Erreur lors de la détection de la meilleure feuille:', error);
+        logger.error('Erreur lors de la détection de la meilleure feuille:', error);
         return 0;
     }
 }

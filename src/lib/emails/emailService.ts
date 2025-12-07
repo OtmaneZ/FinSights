@@ -4,6 +4,7 @@ import WelcomeEmail from './templates/WelcomeEmail'
 import UpgradeSuccessEmail from './templates/UpgradeSuccessEmail'
 import PaymentFailedEmail from './templates/PaymentFailedEmail'
 import UsageAlertEmail from './templates/UsageAlertEmail'
+import { logger } from '@/lib/logger';
 
 /**
  * Email service for FinSight
@@ -36,14 +37,14 @@ export async function sendWelcomeEmail(params: {
         })
 
         if (error) {
-            console.error('[Email] Welcome email failed:', error)
+            logger.error('[Email] Welcome email failed:', error)
             return { success: false, error }
         }
 
-        console.log('[Email] Welcome email sent:', data?.id)
+        logger.debug('[Email] Welcome email sent:', data?.id)
         return { success: true, id: data?.id }
     } catch (error) {
-        console.error('[Email] Welcome email exception:', error)
+        logger.error('[Email] Welcome email exception:', error)
         return { success: false, error }
     }
 }
@@ -78,14 +79,14 @@ export async function sendUpgradeSuccessEmail(params: {
         })
 
         if (error) {
-            console.error('[Email] Upgrade email failed:', error)
+            logger.error('[Email] Upgrade email failed:', error)
             return { success: false, error }
         }
 
-        console.log('[Email] Upgrade email sent:', data?.id)
+        logger.debug('[Email] Upgrade email sent:', data?.id)
         return { success: true, id: data?.id }
     } catch (error) {
-        console.error('[Email] Upgrade email exception:', error)
+        logger.error('[Email] Upgrade email exception:', error)
         return { success: false, error }
     }
 }
@@ -120,14 +121,14 @@ export async function sendPaymentFailedEmail(params: {
         })
 
         if (error) {
-            console.error('[Email] Payment failed email failed:', error)
+            logger.error('[Email] Payment failed email failed:', error)
             return { success: false, error }
         }
 
-        console.log('[Email] Payment failed email sent:', data?.id)
+        logger.debug('[Email] Payment failed email sent:', data?.id)
         return { success: true, id: data?.id }
     } catch (error) {
-        console.error('[Email] Payment failed email exception:', error)
+        logger.error('[Email] Payment failed email exception:', error)
         return { success: false, error }
     }
 }
@@ -166,14 +167,14 @@ export async function sendUsageAlertEmail(params: {
         })
 
         if (error) {
-            console.error('[Email] Usage alert email failed:', error)
+            logger.error('[Email] Usage alert email failed:', error)
             return { success: false, error }
         }
 
-        console.log('[Email] Usage alert email sent:', data?.id)
+        logger.debug('[Email] Usage alert email sent:', data?.id)
         return { success: true, id: data?.id }
     } catch (error) {
-        console.error('[Email] Usage alert email exception:', error)
+        logger.error('[Email] Usage alert email exception:', error)
         return { success: false, error }
     }
 }

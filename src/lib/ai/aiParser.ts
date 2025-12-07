@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import { FinancialRecord, ProcessedData } from '@/lib/dataModel';
+import { logger } from '@/lib/logger';
 
 // Initialiser le client OpenAI configuré pour OpenRouter
 // OpenRouter est compatible avec l'API OpenAI, il suffit de changer l'URL de base
@@ -27,7 +28,7 @@ interface AIParseResult {
  * @returns Une promesse qui se résout en un objet AIParseResult.
  */
 export async function parseWithAI(textContent: string): Promise<AIParseResult> {
-    console.log('[AI Parser] Début du parsing avec IA...');
+    logger.debug('[AI Parser] Début du parsing avec IA...');
 
     // Tronquer le contenu si trop long pour éviter de dépasser les limites de tokens
     const MAX_INPUT_LENGTH = 15000; // Environ 4k tokens, sécurité
@@ -42,7 +43,8 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
 
         Voici la structure EXACTE que chaque objet JSON doit respecter :
         - "date": string (la date de la transaction au format YYYY-MM-DD. Si l'année n'est pas présente, utilise l'année en cours: ${new Date().getFullYear()})
-        - "amount": number (le montant de la transaction. Les dépenses doivent être des nombres négatifs, les revenus des nombres positifs)
+        - "amount": number (le montant ABSOLU de la transaction, toujours positif. Ex: 1500.50)
+        - "type": string ("income" pour les revenus, "expense" pour les dépenses)
         - "description": string (le libellé ou la description de la transaction)
         - "counterparty": string | null (le client, fournisseur, ou autre tiers. Si non identifiable, mettre null)
         - "category": string | null (la catégorie de la transaction. Si non identifiable, mettre null)
@@ -50,15 +52,17 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
         Règles importantes à suivre :
         1.  Analyse les en-têtes et les premières lignes pour comprendre la structure du fichier.
         2.  Identifie les colonnes correspondant à la date, la description et le montant. C'est le minimum requis.
-        3.  Détermine si les montants sont dans une seule colonne (avec des signes +/-) ou dans deux colonnes (débit/crédit). Si deux colonnes, combine-les en une seule colonne "amount" avec les signes corrects.
-        4.  Ignore les lignes qui ne sont pas des transactions (en-têtes, lignes de total, lignes vides, etc.).
-        5.  Normalise les dates au format YYYY-MM-DD.
-        6.  Nettoie les montants pour ne garder que les nombres (ex: "1,234.56 €" -> 1234.56).
-        7.  Ta réponse DOIT être UNIQUEMENT le tableau JSON, sans aucun texte ou explication supplémentaire.
+        3.  Détermine si les montants sont dans une seule colonne (avec des signes +/-) ou dans deux colonnes (débit/crédit).
+        4.  Pour le champ "type": Si c'est une recette/vente/revenu, mets "income". Si c'est une dépense/charge/achat, mets "expense".
+        5.  Pour le champ "amount": Utilise toujours la VALEUR ABSOLUE du montant (nombre positif).
+        6.  Ignore les lignes qui ne sont pas des transactions (en-têtes, lignes de total, lignes vides, etc.).
+        7.  Normalise les dates au format YYYY-MM-DD.
+        8.  Nettoie les montants pour ne garder que les nombres (ex: "1,234.56 €" -> 1234.56).
+        9.  Ta réponse DOIT être un objet JSON avec une clé "transactions" contenant le tableau, sans aucun texte supplémentaire.
     `;
 
     try {
-        console.log('[AI Parser] Envoi de la requête à OpenRouter...');
+        logger.debug('[AI Parser] Envoi de la requête à OpenRouter...');
         const response = await openai.chat.completions.create({
             model: "openai/gpt-4-turbo-preview", // Format OpenRouter: provider/model
             messages: [
@@ -75,7 +79,7 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
         });
 
         const rawJson = response.choices[0].message.content;
-        console.log('[AI Parser] Réponse JSON brute reçue de OpenRouter.');
+        logger.debug('[AI Parser] Réponse JSON brute reçue de OpenRouter.');
 
         if (!rawJson) {
             return { success: false, error: "La réponse de l'IA est vide." };
@@ -100,21 +104,34 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
             return { success: false, error: "La réponse de l'IA n'est pas un tableau JSON.", rawResponse: rawJson };
         }
 
-        console.log(`[AI Parser] Parsing réussi. ${records.length} enregistrements trouvés.`);
+        logger.debug(`[AI Parser] Parsing réussi. ${records.length} enregistrements trouvés.`);
 
-        // Ici, nous pourrions ajouter une étape de validation/nettoyage sur les 'records' si nécessaire
+        // Validation et nettoyage des données de l'IA
+        const validatedRecords = records
+            .filter(r => {
+                // Filtrer les enregistrements invalides
+                return r.date && r.description && typeof r.amount === 'number' && !isNaN(r.amount);
+            })
+            .map(r => ({
+                id: `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, // ID unique
+                date: new Date(r.date), // Convertir la date string en objet Date
+                description: String(r.description).trim(),
+                amount: Math.abs(r.amount), // S'assurer que le montant est positif
+                type: (r.type === 'expense' || r.type === 'income') ? r.type : (r.amount < 0 ? 'expense' : 'income'), // Valider le type
+                category: r.category ? String(r.category).trim() : undefined,
+                counterparty: r.counterparty ? String(r.counterparty).trim() : undefined,
+                sourceId: 'ai-parser',
+                confidence: 0.85, // Confiance par défaut pour les données parsées par IA
+            } as FinancialRecord));
+
+        if (validatedRecords.length === 0) {
+            return { success: false, error: "Aucune transaction valide trouvée après validation." };
+        }
 
         // Construire l'objet ProcessedData attendu par le reste de l'application
-        // Note: summary, kpis, et qualityMetrics seront calculés dans une étape ultérieure.
+        // Note: summary, kpis, et qualityMetrics seront calculés par processFinancialData
         const processedData: Pick<ProcessedData, 'records'> = {
-            records: records.map(r => ({
-                ...r,
-                id: `ai-${Date.now()}-${Math.random()}`, // Générer un ID unique
-                type: r.amount >= 0 ? 'income' : 'expense',
-                date: new Date(r.date), // Assurer que la date est un objet Date
-                confidence: 0.85, // Confiance par défaut pour les données parsées par IA
-                sourceId: 'ai-parser'
-            })),
+            records: validatedRecords,
         };
 
         return {
@@ -124,7 +141,7 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
         };
 
     } catch (error) {
-        console.error("[AI Parser] Erreur lors de l'appel à l'API OpenAI:", error);
+        logger.error("[AI Parser] Erreur lors de l'appel à l'API OpenAI:", error);
         if (error instanceof OpenAI.APIError) {
             // Gérer les erreurs spécifiques à l'API OpenAI (clé invalide, etc.)
             return { success: false, error: `Erreur API OpenAI: ${error.status} ${error.name} - ${error.message}` };

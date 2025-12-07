@@ -7,6 +7,7 @@
 
 import { useEffect, useState } from 'react';
 import { Copy, Check, ExternalLink, Key, Book } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 export default function ApiDocsPage() {
     const [copied, setCopied] = useState(false);
@@ -337,7 +338,7 @@ export default function ApiDocsPage() {
   }
 });
 const data = await response.json();
-console.log(data.data); // Array of dashboards`}
+logger.debug(data.data); // Array of dashboards`}
                                         </pre>
                                     </div>
                                 </div>
@@ -354,7 +355,7 @@ console.log(data.data); // Array of dashboards`}
   }
 });
 const data = await response.json();
-console.log(data.data.metrics); // KPIs object`}
+logger.debug(data.data.metrics); // KPIs object`}
                                         </pre>
                                     </div>
                                 </div>

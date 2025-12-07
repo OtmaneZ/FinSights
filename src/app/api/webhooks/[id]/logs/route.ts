@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { logger } from '@/lib/logger';
 
 export async function GET(
     req: NextRequest,
@@ -62,7 +63,7 @@ export async function GET(
             total: logs.length,
         });
     } catch (error) {
-        console.error('Error fetching webhook logs:', error);
+        logger.error('Error fetching webhook logs:', error);
         return NextResponse.json(
             { error: 'Erreur lors de la récupération des logs' },
             { status: 500 }

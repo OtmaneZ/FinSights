@@ -4,6 +4,7 @@
  */
 
 import { FinSightDataModel } from './dataModel';
+import { logger } from '@/lib/logger';
 
 const CACHE_KEY = 'finsight_data';
 const CACHE_HISTORY_KEY = 'finsight_history';
@@ -63,9 +64,9 @@ export class FinSightCache {
             // Ajouter à l'historique
             this.addToHistory(cacheEntry);
 
-            console.log('✅ Données sauvegardées dans le cache:', data.fileName);
+            logger.debug('✅ Données sauvegardées dans le cache:', data.fileName);
         } catch (error) {
-            console.error('❌ Erreur de sauvegarde cache:', error);
+            logger.error('❌ Erreur de sauvegarde cache:', error);
         }
     }
 
@@ -80,7 +81,7 @@ export class FinSightCache {
             const cacheEntry: CacheEntry = JSON.parse(cached);
             return cacheEntry.data;
         } catch (error) {
-            console.error('❌ Erreur de lecture cache:', error);
+            logger.error('❌ Erreur de lecture cache:', error);
             return null;
         }
     }
@@ -97,7 +98,7 @@ export class FinSightCache {
      */
     clearCurrentData(): void {
         localStorage.removeItem(CACHE_KEY);
-        console.log('🗑️ Cache courant effacé');
+        logger.debug('🗑️ Cache courant effacé');
     }
 
     // ===== GESTION HISTORIQUE =====
@@ -126,7 +127,7 @@ export class FinSightCache {
 
             localStorage.setItem(CACHE_HISTORY_KEY, JSON.stringify(history));
         } catch (error) {
-            console.error('❌ Erreur ajout historique:', error);
+            logger.error('❌ Erreur ajout historique:', error);
         }
     }
 
@@ -141,7 +142,7 @@ export class FinSightCache {
             }
             return JSON.parse(cached);
         } catch (error) {
-            console.error('❌ Erreur lecture historique:', error);
+            logger.error('❌ Erreur lecture historique:', error);
             return { entries: [] };
         }
     }
@@ -168,7 +169,7 @@ export class FinSightCache {
         history.currentId = id;
         localStorage.setItem(CACHE_HISTORY_KEY, JSON.stringify(history));
 
-        console.log('🔄 Données chargées depuis l\'historique:', entry.fileName);
+        logger.debug('🔄 Données chargées depuis l\'historique:', entry.fileName);
         return entry.data;
     }
 
@@ -192,9 +193,9 @@ export class FinSightCache {
             }
 
             localStorage.setItem(CACHE_HISTORY_KEY, JSON.stringify(history));
-            console.log('🗑️ Entrée supprimée de l\'historique:', id);
+            logger.debug('🗑️ Entrée supprimée de l\'historique:', id);
         } catch (error) {
-            console.error('❌ Erreur suppression historique:', error);
+            logger.error('❌ Erreur suppression historique:', error);
         }
     }
 
@@ -203,7 +204,7 @@ export class FinSightCache {
      */
     clearHistory(): void {
         localStorage.removeItem(CACHE_HISTORY_KEY);
-        console.log('🗑️ Historique effacé');
+        logger.debug('🗑️ Historique effacé');
     }
 
     // ===== UTILITAIRES =====
@@ -249,10 +250,10 @@ export class FinSightCache {
                 const history = this.getHistory();
                 history.entries = history.entries.slice(0, 5); // Garder seulement 5 entrées
                 localStorage.setItem(CACHE_HISTORY_KEY, JSON.stringify(history));
-                console.log('🧹 Cache nettoyé automatiquement');
+                logger.debug('🧹 Cache nettoyé automatiquement');
             }
         } catch (error) {
-            console.error('❌ Erreur nettoyage cache:', error);
+            logger.error('❌ Erreur nettoyage cache:', error);
         }
     }
 
@@ -286,10 +287,10 @@ export class FinSightCache {
                 localStorage.setItem(CACHE_HISTORY_KEY, JSON.stringify(data.history));
             }
 
-            console.log('📥 Données importées avec succès');
+            logger.debug('📥 Données importées avec succès');
             return true;
         } catch (error) {
-            console.error('❌ Erreur import données:', error);
+            logger.error('❌ Erreur import données:', error);
             return false;
         }
     }

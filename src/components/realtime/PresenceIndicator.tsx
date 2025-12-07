@@ -8,6 +8,7 @@
 import { useEffect, useState } from 'react';
 import { getPusherClient, CHANNELS, EVENTS, PresenceMember } from '@/lib/realtime/pusherClient';
 import { UserIcon } from '@heroicons/react/24/solid';
+import { logger } from '@/lib/logger';
 
 interface PresenceIndicatorProps {
     enabled?: boolean;
@@ -23,7 +24,7 @@ export default function PresenceIndicator({ enabled = true }: PresenceIndicatorP
         // Check if Pusher is configured
         const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY;
         if (!pusherKey || pusherKey === 'TEST_KEY') {
-            console.log('⚠️ Pusher not configured - Skipping presence');
+            logger.debug('⚠️ Pusher not configured - Skipping presence');
             return;
         }
 
@@ -33,12 +34,12 @@ export default function PresenceIndicator({ enabled = true }: PresenceIndicatorP
         // Connection status
         pusher.connection.bind('connected', () => {
             setIsConnected(true);
-            console.log('✅ Connected to Pusher');
+            logger.debug('✅ Connected to Pusher');
         });
 
         pusher.connection.bind('disconnected', () => {
             setIsConnected(false);
-            console.log('🔌 Disconnected from Pusher');
+            logger.debug('🔌 Disconnected from Pusher');
         });
 
         // Presence events
@@ -57,7 +58,7 @@ export default function PresenceIndicator({ enabled = true }: PresenceIndicatorP
                 });
             }
             setMembers(initialMembers);
-            console.log(`👥 ${initialMembers.length} users online`);
+            logger.debug(`👥 ${initialMembers.length} users online`);
         });
 
         presenceChannel.bind('pusher:member_added', (member: any) => {
@@ -67,12 +68,12 @@ export default function PresenceIndicator({ enabled = true }: PresenceIndicatorP
                 color: member.info.color,
             };
             setMembers(prev => [...prev, newMember]);
-            console.log(`👋 ${member.info.name} joined`);
+            logger.debug(`👋 ${member.info.name} joined`);
         });
 
         presenceChannel.bind('pusher:member_removed', (member: any) => {
             setMembers(prev => prev.filter(m => m.id !== member.id));
-            console.log(`👋 ${member.info.name} left`);
+            logger.debug(`👋 ${member.info.name} left`);
         });
 
         return () => {

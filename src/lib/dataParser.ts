@@ -43,7 +43,7 @@ const DEFAULT_CONFIG: ParseConfig = {
 
 // Parse CSV robuste avec détection automatique
 export function parseCSV(csvText: string, config: ParseConfig = DEFAULT_CONFIG): ParseResult {
-    console.log('🔍 Parser - parseCSV appelé avec:', { csvText: csvText.substring(0, 100) + '...', config });
+    // Logs de debug désactivés pour éviter les problèmes DOM avec caractères spéciaux
     const errors: ParseError[] = [];
     const warnings: string[] = [];
 
@@ -98,19 +98,16 @@ export function parseCSV(csvText: string, config: ParseConfig = DEFAULT_CONFIG):
         const processedData = processFinancialData(records, 'csv-import');
 
         // ✅ NOUVELLE LOGIQUE GRANULAIRE
-        console.log('🔍 Parser - Mappings détectés:', detectedMappings);
+        // Logs de debug commentés pour éviter les problèmes de performance
 
         // Détection granulaire des capacités réelles
         const capabilities = detectCapabilities(detectedMappings, records);
-        console.log('🔍 Parser - Capacités détectées:', capabilities);
 
         // Configuration granulaire précise
         const dashboardConfig = getDashboardConfig(capabilities);
-        console.log('🔍 Parser - Config granulaire:', dashboardConfig);
 
         // Wrapper pour compatibilité (description niveau)
         const levelInfo = detectDataLevel(detectedMappings, records);
-        console.log('🔍 Parser - levelInfo (compatibilité):', levelInfo);
 
         return {
             success: true,
@@ -414,7 +411,7 @@ function parseRecords(
 
             // 🔍 DEBUG: Logger la valeur brute et parsée
             if (i <= 3) {
-                console.log(`🔍 Ligne ${i}: "${cols[amountCol]}" → ${amountValue} (type: ${amountValue >= 0 ? 'income' : 'expense'})`);
+                // logger.debug(`🔍 Ligne ${i}: "${cols[amountCol]}" → ${amountValue} (type: ${amountValue >= 0 ? 'income' : 'expense'})`);
             }
 
             if (!dateValue || isNaN(amountValue)) {
@@ -446,7 +443,7 @@ function parseRecords(
 
                 if (isExpenseByDescription || isExpenseByCategory) {
                     transactionType = 'expense';
-                    console.log(`🔍 Correction: "${description}" détecté comme CHARGE (malgré montant positif)`);
+                    // logger.debug(`🔍 Correction: "${description}" détecté comme CHARGE (malgré montant positif)`);
                 }
             }
 
@@ -486,40 +483,13 @@ function parseRecords(
                 h.toLowerCase().includes('échéance')
             );
 
-            if (i === 1) {
-                console.log('🔍 HEADERS:', headers);
-                console.log('🔍 dueDateCol index:', dueDateCol);
-                console.log('🔍 Valeur brute Date_echeance:', cols[dueDateCol]);
-            }
-
             if (dueDateCol >= 0 && cols[dueDateCol]) {
                 const dueDateRaw = cols[dueDateCol];
                 const dueDate = parseDate(dueDateRaw);
 
-                if (i === 1) {
-                    console.log('🔍 parseDate result:', {
-                        raw: dueDateRaw,
-                        parsed: dueDate,
-                        recordDate: record.date,
-                        sameDate: dueDate?.getTime() === record.date.getTime()
-                    });
-                }
-
                 if (dueDate) {
                     (record as any).dueDate = dueDate;
-                    if (i <= 5) {
-                        console.log(`✅ Ligne ${i} dueDate ajouté:`, {
-                            description: record.description.substring(0, 30),
-                            date: record.date.toISOString().split('T')[0],
-                            dueDate: dueDate.toISOString().split('T')[0],
-                            diffJours: Math.floor((dueDate.getTime() - record.date.getTime()) / (1000 * 60 * 60 * 24))
-                        });
-                    }
-                } else {
-                    if (i === 1) console.log('⚠️ parseDate a échoué pour dueDate:', dueDateRaw);
                 }
-            } else {
-                if (i === 1) console.log('❌ Colonne Date_echeance NON trouvée. dueDateCol:', dueDateCol, 'headers:', headers);
             }
 
             // ✅ Ajouter Categorie si disponible

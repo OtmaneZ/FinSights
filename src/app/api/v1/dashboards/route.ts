@@ -10,6 +10,7 @@
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import {
+import { logger } from '@/lib/logger';
     authenticateRequest,
     apiError,
     apiPaginatedSuccess,
@@ -116,7 +117,7 @@ export async function GET(request: NextRequest) {
 
         return apiPaginatedSuccess(items, total, page, limit);
     } catch (error) {
-        console.error('API v1 dashboards list error:', error);
+        logger.error('API v1 dashboards list error:', error);
         return apiError('Failed to fetch dashboards', 'FETCH_ERROR', 500);
     }
 }
@@ -194,7 +195,7 @@ export async function GET_BY_ID(request: NextRequest) {
 
         return apiSuccess(response);
     } catch (error) {
-        console.error('API v1 dashboard detail error:', error);
+        logger.error('API v1 dashboard detail error:', error);
         return apiError('Failed to fetch dashboard', 'FETCH_ERROR', 500);
     }
 }

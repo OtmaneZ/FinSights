@@ -6,6 +6,7 @@
 
 import { FinancialRecord } from '../dataModel';
 import { 
+import { logger } from '@/lib/logger';
     CashFlowForecast, 
     ForecastDataPoint, 
     ForecastInsight, 
@@ -32,7 +33,7 @@ export function forecastCashFlow(
     
     // Validation données minimum
     if (!records || records.length < 10) {
-        console.warn('Forecast: Pas assez de données (min 10 transactions)');
+        logger.warn('Forecast: Pas assez de données (min 10 transactions)');
         return null;
     }
     
@@ -41,7 +42,7 @@ export function forecastCashFlow(
     
     // Vérifier nombre de mois
     if (monthlyData.length < cfg.minHistoricalMonths) {
-        console.warn(`Forecast: Besoin de ${cfg.minHistoricalMonths} mois, trouvé ${monthlyData.length}`);
+        logger.warn(`Forecast: Besoin de ${cfg.minHistoricalMonths} mois, trouvé ${monthlyData.length}`);
         return null;
     }
     

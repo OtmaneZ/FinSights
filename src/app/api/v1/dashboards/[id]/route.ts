@@ -8,6 +8,7 @@
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authenticateRequest, apiError, apiSuccess } from '@/lib/apiAuth';
+import { logger } from '@/lib/logger';
 
 /**
  * GET /api/v1/dashboards/:id - Get specific dashboard with full data
@@ -82,7 +83,7 @@ export async function GET(
 
         return apiSuccess(response);
     } catch (error) {
-        console.error('API v1 dashboard detail error:', error);
+        logger.error('API v1 dashboard detail error:', error);
         return apiError('Failed to fetch dashboard', 'FETCH_ERROR', 500);
     }
 }

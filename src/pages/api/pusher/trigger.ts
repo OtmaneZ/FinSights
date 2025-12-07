@@ -5,6 +5,7 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { triggerPusherEvent } from '@/lib/realtime/pusherServer';
+import { logger } from '@/lib/logger';
 
 export default async function handler(
     req: NextApiRequest,
@@ -27,7 +28,7 @@ export default async function handler(
 
         return res.status(200).json({ success: true });
     } catch (error) {
-        console.error('❌ Pusher trigger error:', error);
+        logger.error('❌ Pusher trigger error:', error);
         return res.status(500).json({ error: 'Failed to trigger event' });
     }
 }

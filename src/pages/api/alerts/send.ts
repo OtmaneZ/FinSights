@@ -8,6 +8,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Resend } from 'resend';
 import { AlertEmailData, getEmailTemplate, getEmailSubject } from '@/lib/emails/templates';
+import { logger } from '@/lib/logger';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -38,7 +39,7 @@ export default async function handler(
 
     // Vérifier la clé API Resend
     if (!process.env.RESEND_API_KEY) {
-        console.error('❌ RESEND_API_KEY manquante dans les variables d\'environnement');
+        logger.error('❌ RESEND_API_KEY manquante dans les variables d\'environnement');
         return res.status(500).json({
             success: false,
             error: 'Email service not configured',
@@ -67,8 +68,8 @@ export default async function handler(
         const subject = getEmailSubject(alertData);
         const html = getEmailTemplate(alertData);
 
-        console.log(`📧 Envoi email alerte: ${alertData.alertType} pour ${alertData.companyName}`);
-        console.log(`📨 Destinataire(s): ${Array.isArray(to) ? to.join(', ') : to}`);
+        logger.debug(`📧 Envoi email alerte: ${alertData.alertType} pour ${alertData.companyName}`);
+        logger.debug(`📨 Destinataire(s): ${Array.isArray(to) ? to.join(', ') : to}`);
 
         // Envoyer l'email via Resend
         const { data, error } = await resend.emails.send({
@@ -85,14 +86,14 @@ export default async function handler(
         });
 
         if (error) {
-            console.error('❌ Erreur Resend:', error);
+            logger.error('❌ Erreur Resend:', error);
             return res.status(500).json({
                 success: false,
                 error: error.message || 'Failed to send email',
             });
         }
 
-        console.log(`✅ Email envoyé avec succès! ID: ${data?.id}`);
+        logger.debug(`✅ Email envoyé avec succès! ID: ${data?.id}`);
 
         return res.status(200).json({
             success: true,
@@ -100,7 +101,7 @@ export default async function handler(
         });
 
     } catch (error: any) {
-        console.error('❌ Erreur lors de l\'envoi d\'email:', error);
+        logger.error('❌ Erreur lors de l\'envoi d\'email:', error);
         return res.status(500).json({
             success: false,
             error: error.message || 'Internal server error',

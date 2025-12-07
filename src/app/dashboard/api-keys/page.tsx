@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Key, Plus, Copy, Trash2, Check, AlertCircle, ArrowLeft, Eye, EyeOff, Crown } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 interface ApiKey {
     id: string;
@@ -65,7 +66,7 @@ export default function ApiKeysPage() {
                 setError(data.error || 'Failed to load API keys');
             }
         } catch (err) {
-            console.error('Fetch API keys error:', err);
+            logger.error('Fetch API keys error:', err);
             setError('Network error');
         } finally {
             setLoading(false);
@@ -97,7 +98,7 @@ export default function ApiKeysPage() {
                 setCreateError(data.error || data.message || 'Failed to create API key');
             }
         } catch (err) {
-            console.error('Create API key error:', err);
+            logger.error('Create API key error:', err);
             setCreateError('Network error');
         } finally {
             setCreating(false);
@@ -122,7 +123,7 @@ export default function ApiKeysPage() {
                 alert(data.error || 'Failed to delete API key');
             }
         } catch (err) {
-            console.error('Delete API key error:', err);
+            logger.error('Delete API key error:', err);
             alert('Network error');
         } finally {
             setDeleting(false);

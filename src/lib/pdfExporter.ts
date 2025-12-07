@@ -12,6 +12,7 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { FINSIGHT_LOGO_BASE64 } from './logo';
+import { logger } from '@/lib/logger';
 
 export interface PDFExportOptions {
     companyName: string;
@@ -637,7 +638,7 @@ export class FinancialPDFExporter {
 
         try {
             // ✅ ATTENDRE PLUS LONGTEMPS - Recharts a besoin de temps pour renderer les SVG
-            console.log('📊 Attente 3s pour le rendu complet des graphiques Recharts...');
+            logger.debug('📊 Attente 3s pour le rendu complet des graphiques Recharts...');
             await new Promise(resolve => setTimeout(resolve, 3000));
 
             // ✅ FORCER le scroll pour que les graphiques lazy-load se chargent
@@ -660,7 +661,7 @@ export class FinancialPDFExporter {
 
             for (const chart of chartElements) {
                 const element = document.getElementById(chart.id);
-                console.log(`🔍 Recherche graphique "${chart.id}":`, {
+                logger.debug(`🔍 Recherche graphique "${chart.id}":`, {
                     elementTrouve: !!element,
                     aSVG: !!element?.querySelector('svg'),
                     aCanvas: !!element?.querySelector('canvas'),
@@ -740,7 +741,7 @@ export class FinancialPDFExporter {
                             originalSvgs.push({ svg: svg as SVGElement, parent, canvas });
                             parent.replaceChild(canvas, svg);
                         } catch (error) {
-                            console.warn('Failed to convert SVG to canvas:', error);
+                            logger.warn('Failed to convert SVG to canvas:', error);
                         }
                     }
 
@@ -776,7 +777,7 @@ export class FinancialPDFExporter {
                     this.currentY += imgHeight + 20; // 20px d'espacement entre graphiques
                     chartsAdded++;
                 } else {
-                    console.warn(`Graphique "${chart.id}" non trouvé ou vide dans le DOM`);
+                    logger.warn(`Graphique "${chart.id}" non trouvé ou vide dans le DOM`);
                 }
             }
 
@@ -791,7 +792,7 @@ export class FinancialPDFExporter {
                 this.pdf.text('Les graphiques nécessitent des données enrichies (dates échéance, coûts, etc.)', this.margin, this.currentY);
             }
         } catch (error) {
-            console.error('Erreur lors de la capture des graphiques:', error);
+            logger.error('Erreur lors de la capture des graphiques:', error);
 
             // Message d'erreur dans le PDF
             this.pdf.setFontSize(12);

@@ -6,6 +6,7 @@
  */
 
 import { kv } from '@vercel/kv';
+import { logger } from '@/lib/logger';
 
 export interface RateLimitResult {
     allowed: boolean;
@@ -54,7 +55,7 @@ export async function checkRateLimitKV(
             calendlyUrl: CALENDLY_URL
         };
     } catch (error) {
-        console.error('❌ Erreur Vercel KV rate limit:', error);
+        logger.error('❌ Erreur Vercel KV rate limit:', error);
 
         // Fallback: autoriser en cas d'erreur KV (graceful degradation)
         return {
@@ -85,7 +86,7 @@ export async function getRateLimitStatus(
             calendlyUrl: CALENDLY_URL
         };
     } catch (error) {
-        console.error('❌ Erreur lecture status KV:', error);
+        logger.error('❌ Erreur lecture status KV:', error);
         return {
             allowed: true,
             remaining: MAX_REQUESTS_TOTAL,
@@ -103,9 +104,9 @@ export async function resetRateLimit(identifier: string): Promise<void> {
     try {
         const key = `ratelimit:${identifier}`;
         await kv.del(key);
-        console.log(`✅ Rate limit reset pour: ${identifier}`);
+        logger.debug(`✅ Rate limit reset pour: ${identifier}`);
     } catch (error) {
-        console.error('❌ Erreur reset rate limit:', error);
+        logger.error('❌ Erreur reset rate limit:', error);
         throw error;
     }
 }
@@ -119,12 +120,12 @@ export async function getCachedEmbedding(text: string): Promise<number[] | null>
         const cached = await kv.get<number[]>(key);
 
         if (cached) {
-            console.log('✅ Embedding cache HIT');
+            logger.debug('✅ Embedding cache HIT');
         }
 
         return cached;
     } catch (error) {
-        console.error('❌ Erreur lecture cache embedding:', error);
+        logger.error('❌ Erreur lecture cache embedding:', error);
         return null;
     }
 }
@@ -141,9 +142,9 @@ export async function setCachedEmbedding(text: string, embedding: number[]): Pro
             ex: 30 * 24 * 60 * 60 // 30 jours en secondes
         });
 
-        console.log('✅ Embedding mis en cache');
+        logger.debug('✅ Embedding mis en cache');
     } catch (error) {
-        console.error('❌ Erreur cache embedding:', error);
+        logger.error('❌ Erreur cache embedding:', error);
         // Ne pas bloquer si le cache échoue
     }
 }

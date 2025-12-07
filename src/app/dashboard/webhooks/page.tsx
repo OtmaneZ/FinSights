@@ -16,6 +16,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import {
+import { logger } from '@/lib/logger';
     Webhook,
     Plus,
     Trash2,
@@ -93,7 +94,7 @@ export default function WebhooksPage() {
             const data = await res.json();
             setWebhooks(data.webhooks);
         } catch (error: any) {
-            console.error('Error fetching webhooks:', error);
+            logger.error('Error fetching webhooks:', error);
         } finally {
             setLoading(false);
         }
@@ -149,7 +150,7 @@ export default function WebhooksPage() {
                 fetchWebhooks();
             }
         } catch (error) {
-            console.error('Error toggling webhook:', error);
+            logger.error('Error toggling webhook:', error);
         }
     };
 
@@ -165,7 +166,7 @@ export default function WebhooksPage() {
                 fetchWebhooks();
             }
         } catch (error) {
-            console.error('Error deleting webhook:', error);
+            logger.error('Error deleting webhook:', error);
         }
     };
 
@@ -177,7 +178,7 @@ export default function WebhooksPage() {
             setSelectedWebhook(id);
             setShowLogsModal(true);
         } catch (error) {
-            console.error('Error fetching logs:', error);
+            logger.error('Error fetching logs:', error);
         }
     };
 

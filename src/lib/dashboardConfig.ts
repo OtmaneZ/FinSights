@@ -1,6 +1,7 @@
 // Configuration adaptative du dashboard selon le niveau de données
 import { DataLevel, DashboardConfig, DataLevelInfo, ColumnMapping, FinancialRecord } from './dataModel';
 import {
+import { logger } from '@/lib/logger';
     calculateDSOFromTransactions,
     calculateEstimatedBFR,
     calculateGrossMargin,
@@ -26,7 +27,7 @@ export function detectCapabilities(mappings: ColumnMapping[], records: Financial
     const hasDueDateField = records.some(r => (r as any).dueDate !== undefined && (r as any).dueDate !== null);
     const incomeWithDueDates = records.filter(r => r.type === 'income' && (r as any).dueDate).length;
 
-    console.log('🔍 detectCapabilities - dueDate:', {
+    logger.debug('🔍 detectCapabilities - dueDate:', {
         hasDueDateField,
         incomeWithDueDates,
         totalIncome: records.filter(r => r.type === 'income').length,

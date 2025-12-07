@@ -5,6 +5,7 @@
 
 import { FileText, Trash2, ExternalLink, Calendar, Building2 } from 'lucide-react';
 import { useState } from 'react';
+import { logger } from '@/lib/logger';
 
 interface Company {
     id: string;
@@ -40,7 +41,7 @@ export default function DashboardCard({
         try {
             await onDelete(id);
         } catch (error) {
-            console.error('Erreur suppression:', error);
+            logger.error('Erreur suppression:', error);
             alert('Erreur lors de la suppression');
         } finally {
             setDeleting(false);

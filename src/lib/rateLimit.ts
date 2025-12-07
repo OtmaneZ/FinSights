@@ -5,6 +5,7 @@
 
 import { kv } from '@vercel/kv';
 import type { Plan } from '@prisma/client';
+import { logger } from '@/lib/logger';
 
 // ============================================
 // RATE LIMITS BY PLAN (per day)
@@ -106,7 +107,7 @@ export async function checkUnifiedRateLimit(
                     upgradeUrl: current === 3 ? '/auth/signup' : undefined
                 };
             } catch (error) {
-                console.error('Rate limit check failed (IP):', error);
+                logger.error('Rate limit check failed (IP):', error);
                 // Graceful fallback
                 return {
                     allowed: true,
@@ -207,7 +208,7 @@ export async function checkUnifiedRateLimit(
             upgradeUrl
         };
     } catch (error) {
-        console.error(`Rate limit check failed (user ${action}):`, error);
+        logger.error(`Rate limit check failed (user ${action}):`, error);
         // Graceful fallback
         return {
             allowed: true,
@@ -290,7 +291,7 @@ export async function checkRateLimitKV(
             resetAt: getNextMidnight(),
         };
     } catch (error) {
-        console.error('Rate limit check failed:', error);
+        logger.error('Rate limit check failed:', error);
         return {
             success: true,
             current: 0,
@@ -326,7 +327,7 @@ export async function getRemainingQuota(
             remaining: Math.max(0, limit - current),
         };
     } catch (error) {
-        console.error('Get quota failed:', error);
+        logger.error('Get quota failed:', error);
         return { current: 0, limit, remaining: limit };
     }
 }

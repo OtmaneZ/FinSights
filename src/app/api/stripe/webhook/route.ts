@@ -10,6 +10,7 @@ import Stripe from 'stripe';
 import { stripe, getPlanFromPriceId, STRIPE_PRICES } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import {
+import { logger } from '@/lib/logger';
     sendUpgradeSuccessEmail,
     sendPaymentFailedEmail,
     isEmailEnabled,
@@ -27,14 +28,14 @@ export async function POST(req: NextRequest) {
     try {
         event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } catch (error: any) {
-        console.error('❌ Webhook signature invalide:', error.message);
+        logger.error('❌ Webhook signature invalide:', error.message);
         return NextResponse.json(
             { error: 'Webhook signature invalide' },
             { status: 400 }
         );
     }
 
-    console.log(`✅ Webhook reçu: ${event.type}`);
+    logger.debug(`✅ Webhook reçu: ${event.type}`);
 
     // Gérer les événements
     try {
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
                 const userId = session.metadata?.userId;
 
                 if (!userId) {
-                    console.error('❌ userId manquant dans metadata');
+                    logger.error('❌ userId manquant dans metadata');
                     break;
                 }
 
@@ -71,7 +72,7 @@ export async function POST(req: NextRequest) {
                     },
                 });
 
-                console.log(`✅ User ${userId} upgraded to ${plan}`);
+                logger.debug(`✅ User ${userId} upgraded to ${plan}`);
 
                 // Envoyer email de confirmation d'upgrade
                 if (isEmailEnabled() && (plan === 'PRO' || plan === 'SCALE')) {
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
                         amount,
                         nextBillingDate,
                     }).catch((error) => {
-                        console.error('⚠️ Email upgrade échoué (non-bloquant):', error);
+                        logger.error('⚠️ Email upgrade échoué (non-bloquant):', error);
                     });
                 }
                 break;
@@ -112,7 +113,7 @@ export async function POST(req: NextRequest) {
                     },
                 });
 
-                console.log(`✅ Subscription updated for customer ${stripeCustomerId}`);
+                logger.debug(`✅ Subscription updated for customer ${stripeCustomerId}`);
                 break;
             }
 
@@ -133,7 +134,7 @@ export async function POST(req: NextRequest) {
                     },
                 });
 
-                console.log(`✅ User downgraded to FREE (customer ${stripeCustomerId})`);
+                logger.debug(`✅ User downgraded to FREE (customer ${stripeCustomerId})`);
 
                 // TODO: Envoyer email "Votre abonnement a expiré"
                 break;
@@ -146,7 +147,7 @@ export async function POST(req: NextRequest) {
                 const invoice = event.data.object as Stripe.Invoice;
                 const stripeCustomerId = invoice.customer as string;
 
-                console.log(`⚠️ Payment failed for customer ${stripeCustomerId}`);
+                logger.debug(`⚠️ Payment failed for customer ${stripeCustomerId}`);
 
                 // Récupérer l'utilisateur pour envoyer l'email
                 const user = await prisma.user.findFirst({
@@ -163,19 +164,19 @@ export async function POST(req: NextRequest) {
                         amount,
                         invoiceUrl: invoice.hosted_invoice_url || '',
                     }).catch((error) => {
-                        console.error('⚠️ Email payment failed échoué (non-bloquant):', error);
+                        logger.error('⚠️ Email payment failed échoué (non-bloquant):', error);
                     });
                 }
                 break;
             }
 
             default:
-                console.log(`ℹ️ Unhandled event: ${event.type}`);
+                logger.debug(`ℹ️ Unhandled event: ${event.type}`);
         }
 
         return NextResponse.json({ received: true });
     } catch (error: any) {
-        console.error('❌ Erreur webhook:', error);
+        logger.error('❌ Erreur webhook:', error);
         return NextResponse.json(
             { error: error.message },
             { status: 500 }

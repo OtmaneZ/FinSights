@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { logger } from '@/lib/logger';
 
 // ============================================
 // PUT - Update webhook
@@ -71,7 +72,7 @@ export async function PUT(
             message: 'Webhook mis à jour',
         });
     } catch (error) {
-        console.error('Error updating webhook:', error);
+        logger.error('Error updating webhook:', error);
         return NextResponse.json(
             { error: 'Erreur lors de la mise à jour' },
             { status: 500 }
@@ -125,7 +126,7 @@ export async function DELETE(
             message: 'Webhook supprimé',
         });
     } catch (error) {
-        console.error('Error deleting webhook:', error);
+        logger.error('Error deleting webhook:', error);
         return NextResponse.json(
             { error: 'Erreur lors de la suppression' },
             { status: 500 }

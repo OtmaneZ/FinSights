@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useFinancialData } from '@/lib/financialContext'
 import { generateAutoSummary } from '@/lib/copilot/prompts'
+import { logger } from '@/lib/logger';
 
 interface Message {
     id: string
@@ -98,7 +99,7 @@ export default function AICopilot() {
                 throw new Error(result.error || 'Erreur inconnue')
             }
         } catch (error) {
-            console.error('❌ Erreur Copilot:', error)
+            logger.error('❌ Erreur Copilot:', error)
             const errorMessage: Message = {
                 id: (Date.now() + 1).toString(),
                 content: `⚠️ Erreur : ${error instanceof Error ? error.message : 'Erreur serveur'}. Vérifiez que votre clé OpenAI est configurée dans \`.env.local\`.`,

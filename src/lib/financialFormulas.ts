@@ -9,6 +9,7 @@
  */
 
 import { FinancialRecord } from './dataModel';
+import { logger } from '@/lib/logger';
 
 /**
  * DSO - Days Sales Outstanding (Délai moyen de paiement clients)
@@ -70,7 +71,7 @@ export function calculateDSOFromTransactions(records: FinancialRecord[]): number
         });
 
         const avgDelay = delays.reduce((sum, d) => sum + d, 0) / delays.length;
-        console.log(`✅ DSO calculé avec dueDate: ${Math.round(avgDelay)} jours`);
+        logger.debug(`✅ DSO calculé avec dueDate: ${Math.round(avgDelay)} jours`);
         return Math.round(avgDelay);
     }
 
@@ -78,7 +79,7 @@ export function calculateDSOFromTransactions(records: FinancialRecord[]): number
     const totalRevenue = incomeRecords.reduce((sum, r) => sum + (Number(r.amount) || 0), 0);
 
     if (totalRevenue === 0 || isNaN(totalRevenue)) {
-        console.warn('⚠️ DSO: CA total invalide', { totalRevenue });
+        logger.warn('⚠️ DSO: CA total invalide', { totalRevenue });
         return 30;
     }
 
@@ -88,7 +89,7 @@ export function calculateDSOFromTransactions(records: FinancialRecord[]): number
         .sort((a, b) => a - b);
 
     if (dates.length < 2) {
-        console.warn('⚠️ DSO: Pas assez de dates valides');
+        logger.warn('⚠️ DSO: Pas assez de dates valides');
         return 30;
     }
 
@@ -100,7 +101,7 @@ export function calculateDSOFromTransactions(records: FinancialRecord[]): number
     const dso = (estimatedReceivables / annualizedRevenue) * 365;
 
     if (isNaN(dso) || dso < 0) {
-        console.error('❌ DSO invalide:', { dso, totalRevenue, periodDays });
+        logger.error('❌ DSO invalide:', { dso, totalRevenue, periodDays });
         return 30;
     }
 

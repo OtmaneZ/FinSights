@@ -16,6 +16,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import {
+import { logger } from '@/lib/logger';
     BarChart3,
     TrendingUp,
     Users,
@@ -73,7 +74,7 @@ export default function AnalyticsPage() {
                 activeUsers: 89,
             });
         } catch (error) {
-            console.error('Error fetching analytics:', error);
+            logger.error('Error fetching analytics:', error);
         } finally {
             setLoading(false);
         }

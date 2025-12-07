@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { FinSightDataModel, AIAlert, AIRecommendation, AIResponse } from '@/lib/dataModel';
+import { logger } from '@/lib/logger';
 
 // Configuration OpenAI - à remplacer par vos clés
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -61,11 +62,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
     } catch (error) {
-        console.error('Erreur API insights:', error);
+        logger.error('Erreur API insights:', error);
 
         // Fallback vers analyse locale si OpenAI échoue
         if (error instanceof Error && error.message.includes('OpenAI')) {
-            console.log('Fallback vers analyse locale...');
+            logger.debug('Fallback vers analyse locale...');
             const fallbackResult = generateLocalAnalysis(req.body.data);
             return res.status(200).json({
                 success: true,
@@ -99,7 +100,7 @@ async function generateFullAnalysis(data: FinSightDataModel) {
             source: 'openai'
         };
     } catch (error) {
-        console.error('Erreur OpenAI:', error);
+        logger.error('Erreur OpenAI:', error);
         return generateLocalAnalysis(data);
     }
 }
@@ -118,7 +119,7 @@ async function generateQueryResponse(data: FinSightDataModel, query: string): Pr
             followUp: ['Voulez-vous voir les détails?', 'Souhaitez-vous une prédiction?']
         };
     } catch (error) {
-        console.error('Erreur requête IA:', error);
+        logger.error('Erreur requête IA:', error);
         return generateLocalQueryResponse(data, query);
     }
 }

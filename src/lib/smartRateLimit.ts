@@ -20,6 +20,7 @@
 import { kv } from '@vercel/kv';
 import { RATE_LIMITS } from './rateLimit';
 import type { Plan } from '@prisma/client';
+import { logger } from '@/lib/logger';
 
 export interface SmartRateLimitResult {
     allowed: boolean;
@@ -79,7 +80,7 @@ export async function checkSmartRateLimit(
                 resetAt: getNextMidnight()
             };
         } catch (error) {
-            console.error('Rate limit check failed (user):', error);
+            logger.error('Rate limit check failed (user):', error);
             return {
                 allowed: true,
                 remaining: limit,
@@ -121,7 +122,7 @@ export async function checkSmartRateLimit(
             upgradeUrl: remainingQueries === 1 ? '/auth/signup' : undefined
         };
     } catch (error) {
-        console.error('Rate limit check failed (IP):', error);
+        logger.error('Rate limit check failed (IP):', error);
         return {
             allowed: true,
             remaining: limit,

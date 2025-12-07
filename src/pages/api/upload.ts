@@ -2,13 +2,14 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { parseCSV, processFinancialData } from '@/lib/dataParser';
-import { generateDashboardKPIs } from '@/lib/dataParser';
+import { generateAdaptiveKPIs, detectCapabilities } from '@/lib/dashboardConfig';
 import { excelToCSV } from '@/lib/excelParser';
 import { checkUnifiedRateLimit } from '@/lib/rateLimit';
 import { getClientIP } from '@/lib/rateLimitKV';
 import { put } from '@vercel/blob';
 import { prisma } from '@/lib/prisma';
 import { parseWithAI } from '@/lib/ai/aiParser';
+import { logger } from '@/lib/logger';
 
 export const config = {
     api: {
@@ -83,11 +84,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
 
             csvContent = conversionResult.csvContent;
-            console.log(`✅ Excel converti: ${conversionResult.sheetName} (${conversionResult.rowCount} lignes × ${conversionResult.columnCount} colonnes)`);
+            logger.debug(`✅ Excel converti: ${conversionResult.sheetName} (${conversionResult.rowCount} lignes × ${conversionResult.columnCount} colonnes)`);
         }
 
         // 🤖 Parse avec IA pour une détection intelligente des colonnes
-        console.log('[Upload] 🤖 Parsing avec IA...');
+        logger.debug('[Upload] 🤖 Parsing avec IA...');
         const aiParseResult = await parseWithAI(csvContent);
 
         if (!aiParseResult.success || !aiParseResult.data?.records) {
@@ -106,8 +107,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
         }
 
-        const dashboardKPIs = generateDashboardKPIs(processedData);
-        console.log(`[Upload] ✅ ${processedData.records.length} transactions parsées par IA`);
+        // ✅ Use adaptive KPI system (same as demos)
+        // Create column mappings from AI-parsed data
+        const firstRecord = processedData.records[0] || {};
+        const detectedMappings = Object.keys(firstRecord).map(field => ({
+            sourceColumn: field,
+            targetField: field as keyof typeof firstRecord,
+            confidence: 1.0,
+            dataType: (field === 'date' ? 'date' : field === 'amount' ? 'number' : 'string') as 'string' | 'number' | 'date' | 'currency'
+        }));
+
+        const capabilities = detectCapabilities(detectedMappings, processedData.records);
+        const dashboardKPIs = generateAdaptiveKPIs(processedData, capabilities); logger.debug(`[Upload] ✅ ${processedData.records.length} transactions parsées par IA`);
 
         // 💾 SAUVEGARDE AUTOMATIQUE en DB (si user connecté)
         let savedDashboardId = null;
@@ -153,10 +164,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     });
 
                     savedDashboardId = dashboard.id;
-                    console.log(`✅ Dashboard sauvegardé: ${dashboard.id} (company: ${targetCompany.name})`);
+                    logger.debug(`✅ Dashboard sauvegardé: ${dashboard.id} (company: ${targetCompany.name})`);
                 }
             } catch (saveError) {
-                console.error('⚠️ Erreur sauvegarde dashboard (non-bloquant):', saveError);
+                logger.error('⚠️ Erreur sauvegarde dashboard (non-bloquant):', saveError);
                 // Continue même si la sauvegarde échoue (UX non dégradée)
             }
         }
@@ -174,9 +185,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 recordCount: processedData.records.length,
                 period: processedData.summary.period,
                 quality: processedData.qualityMetrics,
-                // ✅ Données depuis le traitement IA
+                // ✅ Données depuis le traitement IA avec système adaptatif
                 levelInfo: processedData.levelInfo,
-                dashboardConfig: processedData.dashboardConfig,
+                dashboardConfig: capabilities, // ✅ Return adaptive capabilities
                 // ✅ Vraies données pour calculs dynamiques
                 records: processedData.records,
                 financialData: processedData
@@ -192,7 +203,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
     } catch (error) {
-        console.error('Erreur lors du traitement du fichier:', error);
+        logger.error('Erreur lors du traitement du fichier:', error);
 
         return res.status(500).json({
             error: 'Erreur lors du traitement du fichier',

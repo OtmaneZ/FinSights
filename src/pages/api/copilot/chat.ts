@@ -6,6 +6,7 @@ import { SYSTEM_PROMPT, buildFinancialContext } from '@/lib/copilot/prompts'
 import { storeConversation, searchSimilarConversations } from '@/lib/vectordb/collections'
 import { checkUnifiedRateLimit } from '@/lib/rateLimit'
 import { getClientIP } from '@/lib/rateLimitKV'
+import { logger } from '@/lib/logger';
 
 interface CopilotRequest {
     message: string
@@ -81,7 +82,7 @@ export default async function handler(
             })
         }
 
-        console.log('🤖 Copilot v3.0 - Requête:', {
+        logger.debug('🤖 Copilot v3.0 - Requête:', {
             message: message.substring(0, 100),
             hasData: !!rawData,
             dataCount: rawData?.length || 0,
@@ -101,16 +102,16 @@ export default async function handler(
                         similarConvs.map((conv, i) =>
                             `${i + 1}. ${conv.metadata.message} → ${conv.metadata.response.substring(0, 100)}...`
                         ).join('\n');
-                    console.log(`🧠 ${similarConvs.length} conversations similaires trouvées`);
+                    logger.debug(`🧠 ${similarConvs.length} conversations similaires trouvées`);
                 }
             } catch (err) {
-                console.warn('⚠️ Erreur mémoire vectorielle (non-bloquant):', err);
+                logger.warn('⚠️ Erreur mémoire vectorielle (non-bloquant):', err);
             }
         }
 
         // Pas de clé API ? Mode démo
         if (!process.env.OPENAI_API_KEY) {
-            console.warn('⚠️ OPENAI_API_KEY manquante - Mode démo')
+            logger.warn('⚠️ OPENAI_API_KEY manquante - Mode démo')
             return res.status(200).json({
                 success: true,
                 response: `🤖 **Mode Démo** (clé OpenAI manquante)
@@ -165,7 +166,7 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
             content: message
         })
 
-        console.log('🧠 Appel OpenAI GPT-4o-mini...')
+        logger.debug('🧠 Appel OpenAI GPT-4o-mini...')
 
         // Appel OpenAI
         const completion = await openai.chat.completions.create({
@@ -180,7 +181,7 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
 
         const response = completion.choices[0].message.content || 'Désolé, je n\'ai pas pu générer de réponse.'
 
-        console.log('✅ Réponse générée:', response.substring(0, 100) + '...')
+        logger.debug('✅ Réponse générée:', response.substring(0, 100) + '...')
 
         // 💾 Stocker la conversation dans Pinecone (async, non-bloquant)
         if (process.env.PINECONE_API_KEY && companyName) {
@@ -189,7 +190,7 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
                 companyName,
                 message,
                 response
-            ).catch(err => console.warn('⚠️ Erreur stockage conversation (non-bloquant):', err));
+            ).catch(err => logger.warn('⚠️ Erreur stockage conversation (non-bloquant):', err));
         }
 
         return res.status(200).json({
@@ -204,7 +205,7 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
         })
 
     } catch (error: any) {
-        console.error('❌ Erreur Copilot:', error)
+        logger.error('❌ Erreur Copilot:', error)
 
         // Erreur OpenAI spécifique
         if (error?.error?.type === 'invalid_request_error') {

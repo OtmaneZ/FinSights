@@ -9,6 +9,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { createApiKey, listApiKeys, deleteApiKey } from '@/lib/apiKeys';
+import { logger } from '@/lib/logger';
 
 // GET /api/keys - List API keys
 export async function GET() {
@@ -32,7 +33,7 @@ export async function GET() {
 
         return NextResponse.json({ apiKeys });
     } catch (error) {
-        console.error('List API keys error:', error);
+        logger.error('List API keys error:', error);
         return NextResponse.json(
             { error: 'Failed to list API keys' },
             { status: 500 }
@@ -86,7 +87,7 @@ export async function POST(req: Request) {
             },
         });
     } catch (error) {
-        console.error('Create API key error:', error);
+        logger.error('Create API key error:', error);
         return NextResponse.json(
             { error: 'Failed to create API key' },
             { status: 500 }
@@ -126,7 +127,7 @@ export async function DELETE(req: Request) {
             message: 'API key deleted successfully',
         });
     } catch (error) {
-        console.error('Delete API key error:', error);
+        logger.error('Delete API key error:', error);
         return NextResponse.json(
             { error: 'Failed to delete API key' },
             { status: 500 }

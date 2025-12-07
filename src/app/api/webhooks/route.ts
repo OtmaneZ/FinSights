@@ -11,6 +11,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { generateWebhookSecret, type WebhookEvent } from '@/lib/webhooks';
+import { logger } from '@/lib/logger';
 
 const VALID_EVENTS: WebhookEvent[] = [
     'dashboard.created',
@@ -70,7 +71,7 @@ export async function GET(req: NextRequest) {
             })),
         });
     } catch (error) {
-        console.error('Error fetching webhooks:', error);
+        logger.error('Error fetching webhooks:', error);
         return NextResponse.json(
             { error: 'Erreur lors de la récupération des webhooks' },
             { status: 500 }
@@ -179,7 +180,7 @@ export async function POST(req: NextRequest) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('Error creating webhook:', error);
+        logger.error('Error creating webhook:', error);
         return NextResponse.json(
             { error: 'Erreur lors de la création du webhook' },
             { status: 500 }

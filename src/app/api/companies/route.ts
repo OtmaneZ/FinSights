@@ -10,6 +10,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { checkRateLimitKV } from '@/lib/rateLimit';
+import { logger } from '@/lib/logger';
 
 // GET - List companies
 export async function GET() {
@@ -41,7 +42,7 @@ export async function GET() {
             })),
         });
     } catch (error) {
-        console.error('List companies error:', error);
+        logger.error('List companies error:', error);
         return NextResponse.json(
             { error: 'Failed to list companies' },
             { status: 500 }
@@ -101,7 +102,7 @@ export async function POST(req: Request) {
             },
         });
 
-        console.log(`✅ Company created: ${company.name} by user ${userId} (${userPlan})`);
+        logger.debug(`✅ Company created: ${company.name} by user ${userId} (${userPlan})`);
 
         return NextResponse.json({
             success: true,
@@ -113,7 +114,7 @@ export async function POST(req: Request) {
             },
         });
     } catch (error) {
-        console.error('Create company error:', error);
+        logger.error('Create company error:', error);
         return NextResponse.json(
             { error: 'Failed to create company' },
             { status: 500 }
@@ -162,7 +163,7 @@ export async function PUT(req: Request) {
             },
         });
     } catch (error) {
-        console.error('Update company error:', error);
+        logger.error('Update company error:', error);
         return NextResponse.json(
             { error: 'Failed to update company' },
             { status: 500 }
@@ -207,7 +208,7 @@ export async function DELETE(req: Request) {
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Delete company error:', error);
+        logger.error('Delete company error:', error);
         return NextResponse.json(
             { error: 'Failed to delete company' },
             { status: 404 }

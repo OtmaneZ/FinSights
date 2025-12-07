@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { hash } from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { sendWelcomeEmail, isEmailEnabled } from '@/lib/emails/emailService';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
     try {
@@ -79,7 +80,7 @@ export async function POST(req: NextRequest) {
                 userName: user.name || 'Utilisateur',
                 userEmail: user.email,
             }).catch((error) => {
-                console.error('⚠️ Email bienvenue échoué (non-bloquant):', error);
+                logger.error('⚠️ Email bienvenue échoué (non-bloquant):', error);
             });
         }
 
@@ -92,7 +93,7 @@ export async function POST(req: NextRequest) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('❌ Erreur signup:', error);
+        logger.error('❌ Erreur signup:', error);
         return NextResponse.json(
             { error: 'Erreur lors de la création du compte' },
             { status: 500 }

@@ -8,6 +8,7 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { getPusherClient, CHANNELS, KPIUpdateEvent, FileUploadEvent } from '@/lib/realtime/pusherClient';
 import { triggerPusherEvent } from '@/lib/realtime/pusherServer';
+import { logger } from '@/lib/logger';
 
 export interface UseRealtimeSyncOptions {
     enabled?: boolean;
@@ -57,9 +58,9 @@ export function useRealtimeSync(options: UseRealtimeSyncOptions) {
                     data: event,
                 }),
             });
-            console.log(`📊 KPI update broadcasted: ${kpiType} = ${value}`);
+            logger.debug(`📊 KPI update broadcasted: ${kpiType} = ${value}`);
         } catch (error) {
-            console.error('❌ Failed to broadcast KPI update:', error);
+            logger.error('❌ Failed to broadcast KPI update:', error);
         }
     }, [enabled]);
 
@@ -85,9 +86,9 @@ export function useRealtimeSync(options: UseRealtimeSyncOptions) {
                     data: event,
                 }),
             });
-            console.log(`📁 File upload broadcasted: ${fileName}`);
+            logger.debug(`📁 File upload broadcasted: ${fileName}`);
         } catch (error) {
-            console.error('❌ Failed to broadcast file upload:', error);
+            logger.error('❌ Failed to broadcast file upload:', error);
         }
     }, [enabled]);
 
@@ -105,9 +106,9 @@ export function useRealtimeSync(options: UseRealtimeSyncOptions) {
                     data: { kpiName, level, timestamp: Date.now() },
                 }),
             });
-            console.log(`🔍 Drill-down broadcasted: ${kpiName} level ${level}`);
+            logger.debug(`🔍 Drill-down broadcasted: ${kpiName} level ${level}`);
         } catch (error) {
-            console.error('❌ Failed to broadcast drill-down:', error);
+            logger.error('❌ Failed to broadcast drill-down:', error);
         }
     }, [enabled]);
 
@@ -118,7 +119,7 @@ export function useRealtimeSync(options: UseRealtimeSyncOptions) {
         // Check if Pusher is configured
         const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY;
         if (!pusherKey || pusherKey === 'TEST_KEY') {
-            console.log('⚠️ Pusher not configured - Skipping realtime sync');
+            logger.debug('⚠️ Pusher not configured - Skipping realtime sync');
             return;
         }
 
@@ -129,7 +130,7 @@ export function useRealtimeSync(options: UseRealtimeSyncOptions) {
 
         // Listen to KPI updates
         dashboardChannel.bind('kpi-updated', (data: KPIUpdateEvent) => {
-            console.log('📊 KPI update received:', data);
+            logger.debug('📊 KPI update received:', data);
             if (onKPIUpdate) {
                 onKPIUpdate(data);
             }
@@ -137,7 +138,7 @@ export function useRealtimeSync(options: UseRealtimeSyncOptions) {
 
         // Listen to file uploads
         dashboardChannel.bind('file-uploaded', (data: FileUploadEvent) => {
-            console.log('📁 File upload received:', data);
+            logger.debug('📁 File upload received:', data);
             if (onFileUpload) {
                 onFileUpload(data);
             }
@@ -145,7 +146,7 @@ export function useRealtimeSync(options: UseRealtimeSyncOptions) {
 
         // Listen to drill-down events
         dashboardChannel.bind('drill-down', (data: any) => {
-            console.log('🔍 Drill-down received:', data);
+            logger.debug('🔍 Drill-down received:', data);
             if (onDrillDown) {
                 onDrillDown(data);
             }
@@ -153,7 +154,7 @@ export function useRealtimeSync(options: UseRealtimeSyncOptions) {
 
         // Listen to anomaly detections
         dashboardChannel.bind('anomaly-detected', (data: any) => {
-            console.log('🚨 Anomaly detected:', data);
+            logger.debug('🚨 Anomaly detected:', data);
             if (onAnomalyDetected) {
                 onAnomalyDetected(data);
             }

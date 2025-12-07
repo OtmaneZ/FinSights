@@ -7,6 +7,7 @@
  */
 
 import { NextApiRequest, NextApiResponse } from 'next';
+import { logger } from '@/lib/logger';
 
 export interface CronCheckResponse {
     success: boolean;
@@ -23,7 +24,7 @@ export default async function handler(
     res: NextApiResponse<CronCheckResponse>
 ) {
     const startTime = Date.now();
-    console.log('⏰ [CRON] Starting alert check at', new Date().toISOString());
+    logger.debug('⏰ [CRON] Starting alert check at', new Date().toISOString());
 
     // Vérifier la méthode HTTP
     if (req.method !== 'GET') {
@@ -43,7 +44,7 @@ export default async function handler(
 
     // Ne vérifier l'auth que si CRON_SECRET est vraiment défini (pas juste "your-secret-key-here-optional")
     if (cronSecret && cronSecret !== 'your-secret-key-here-optional' && authHeader !== `Bearer ${cronSecret}`) {
-        console.error('❌ [CRON] Unauthorized access attempt');
+        logger.error('❌ [CRON] Unauthorized access attempt');
         return res.status(401).json({
             success: false,
             timestamp: new Date().toISOString(),
@@ -54,7 +55,7 @@ export default async function handler(
         });
     }
 
-    console.log('✅ [CRON] Auth OK (or disabled for local testing)');
+    logger.debug('✅ [CRON] Auth OK (or disabled for local testing)');
 
     const errors: string[] = [];
     const details: any[] = [];
@@ -66,7 +67,7 @@ export default async function handler(
         // TODO: Dans une vraie implémentation, on récupérerait les données depuis une DB
         // Pour l'instant, on fait un exemple de logique
 
-        console.log('📊 [CRON] Fetching latest financial data...');
+        logger.debug('📊 [CRON] Fetching latest financial data...');
 
         // Exemple de données (à remplacer par fetch depuis DB/API)
         const mockFinancialData = {
@@ -77,7 +78,7 @@ export default async function handler(
             upcomingDueDates: 5,
         };
 
-        console.log('🔍 [CRON] Financial data:', mockFinancialData);
+        logger.debug('🔍 [CRON] Financial data:', mockFinancialData);
 
         // Exemple de configuration utilisateur (à récupérer depuis DB)
         const mockUserSettings = {
@@ -92,7 +93,7 @@ export default async function handler(
             ],
         };
 
-        console.log('⚙️ [CRON] User settings loaded');
+        logger.debug('⚙️ [CRON] User settings loaded');
 
         // Vérifier chaque alerte
         for (const alert of mockUserSettings.alerts) {
@@ -144,7 +145,7 @@ export default async function handler(
 
             if (shouldTrigger) {
                 alertsTriggered++;
-                console.log(`🚨 [CRON] Alert triggered: ${alert.type} (value: ${alertValue}, threshold: ${alert.threshold})`);
+                logger.debug(`🚨 [CRON] Alert triggered: ${alert.type} (value: ${alertValue}, threshold: ${alert.threshold})`);
 
                 // Envoyer l'email via l'API /api/alerts/send
                 try {
@@ -171,7 +172,7 @@ export default async function handler(
 
                     if (sendResult.success) {
                         emailsSent++;
-                        console.log(`✅ [CRON] Email sent for ${alert.type}: ${sendResult.messageId}`);
+                        logger.debug(`✅ [CRON] Email sent for ${alert.type}: ${sendResult.messageId}`);
                         details.push({
                             type: alert.type,
                             status: 'sent',
@@ -181,18 +182,18 @@ export default async function handler(
                         });
                     } else {
                         errors.push(`Failed to send email for ${alert.type}: ${sendResult.error}`);
-                        console.error(`❌ [CRON] Email failed for ${alert.type}:`, sendResult.error);
+                        logger.error(`❌ [CRON] Email failed for ${alert.type}:`, sendResult.error);
                     }
                 } catch (emailError: any) {
                     errors.push(`Error sending email for ${alert.type}: ${emailError.message}`);
-                    console.error(`❌ [CRON] Email error for ${alert.type}:`, emailError);
+                    logger.error(`❌ [CRON] Email error for ${alert.type}:`, emailError);
                 }
             }
         }
 
         const duration = Date.now() - startTime;
-        console.log(`✅ [CRON] Check completed in ${duration}ms`);
-        console.log(`📊 [CRON] Summary: ${alertsChecked} checked, ${alertsTriggered} triggered, ${emailsSent} emails sent`);
+        logger.debug(`✅ [CRON] Check completed in ${duration}ms`);
+        logger.debug(`📊 [CRON] Summary: ${alertsChecked} checked, ${alertsTriggered} triggered, ${emailsSent} emails sent`);
 
         return res.status(200).json({
             success: true,
@@ -205,7 +206,7 @@ export default async function handler(
         });
 
     } catch (error: any) {
-        console.error('❌ [CRON] Fatal error:', error);
+        logger.error('❌ [CRON] Fatal error:', error);
         return res.status(500).json({
             success: false,
             timestamp: new Date().toISOString(),

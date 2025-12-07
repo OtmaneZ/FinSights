@@ -10,6 +10,7 @@ import { put } from '@vercel/blob';
 import { prisma } from '@/lib/prisma';
 import { checkRateLimitKV } from '@/lib/rateLimit';
 import { triggerWebhook } from '@/lib/webhooks';
+import { logger } from '@/lib/logger';
 
 // Next.js 14 App Router handles FormData/multipart natively, no config needed
 
@@ -95,7 +96,7 @@ export async function POST(req: Request) {
             companyId: dashboard.companyId,
             kpis,
         }).catch((err) => {
-            console.error('Webhook trigger error:', err);
+            logger.error('Webhook trigger error:', err);
             // Don't fail upload if webhook fails
         });
 
@@ -114,7 +115,7 @@ export async function POST(req: Request) {
             },
         });
     } catch (error) {
-        console.error('Upload error:', error);
+        logger.error('Upload error:', error);
         return NextResponse.json(
             { error: 'Failed to upload dashboard' },
             { status: 500 }

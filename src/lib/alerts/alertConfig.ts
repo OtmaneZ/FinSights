@@ -113,9 +113,9 @@ export function saveAlertSettings(settings: AlertSettings): void {
     try {
         settings.lastUpdated = new Date().toISOString();
         localStorage.setItem('finsight_alert_settings', JSON.stringify(settings));
-        console.log('✅ Alert settings saved:', settings);
+        logger.debug('✅ Alert settings saved:', settings);
     } catch (error) {
-        console.error('❌ Error saving alert settings:', error);
+        logger.error('❌ Error saving alert settings:', error);
     }
 }
 
@@ -129,11 +129,11 @@ export function loadAlertSettings(): AlertSettings {
         const saved = localStorage.getItem('finsight_alert_settings');
         if (saved) {
             const settings = JSON.parse(saved);
-            console.log('✅ Alert settings loaded:', settings);
+            logger.debug('✅ Alert settings loaded:', settings);
             return settings;
         }
     } catch (error) {
-        console.error('❌ Error loading alert settings:', error);
+        logger.error('❌ Error loading alert settings:', error);
     }
 
     return DEFAULT_ALERT_SETTINGS;

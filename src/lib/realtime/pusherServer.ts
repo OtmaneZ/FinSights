@@ -4,6 +4,7 @@
  */
 
 import Pusher from 'pusher';
+import { logger } from '@/lib/logger';
 
 // Configuration Pusher Server
 const pusherConfig = {
@@ -41,9 +42,9 @@ export async function triggerPusherEvent(
 
     try {
         await pusher.trigger(channel, event, data);
-        console.log(`✅ Pusher event triggered: ${event} on ${channel}`);
+        logger.debug(`✅ Pusher event triggered: ${event} on ${channel}`);
     } catch (error) {
-        console.error('❌ Pusher trigger error:', error);
+        logger.error('❌ Pusher trigger error:', error);
         throw error;
     }
 }
@@ -60,9 +61,9 @@ export async function triggerPusherEventMultiple(
 
     try {
         await pusher.trigger(channels, event, data);
-        console.log(`✅ Pusher event triggered: ${event} on ${channels.length} channels`);
+        logger.debug(`✅ Pusher event triggered: ${event} on ${channels.length} channels`);
     } catch (error) {
-        console.error('❌ Pusher trigger error:', error);
+        logger.error('❌ Pusher trigger error:', error);
         throw error;
     }
 }

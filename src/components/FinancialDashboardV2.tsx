@@ -84,6 +84,7 @@ import AlertSettings from './AlertSettings'
 // Import Exporters
 import { FinancialPDFExporter } from '@/lib/pdfExporter'
 import { FinancialExcelExporter } from '@/lib/excelExporter'
+import { logger } from '@/lib/logger';
 
 interface KPI {
     title: string
@@ -150,6 +151,9 @@ export default function FinancialDashboardV2() {
     const [isLoadingDemo, setIsLoadingDemo] = useState(false);
     const [loadingProgress, setLoadingProgress] = useState(0);
     const [loadingMessage, setLoadingMessage] = useState('');
+
+    // Dashboard Config state (capabilities pour affichage conditionnel)
+    const [dashboardConfig, setDashboardConfig] = useState<any>(null);
 
     // 🔧 Fonctions de préparation des données pour les charts
 
@@ -445,9 +449,9 @@ export default function FinancialDashboardV2() {
         try {
             const result = await detectAnomalies(rawData);
             setAnomalies(result.anomalies);
-            console.log(`🤖 ML: ${result.anomalies.length} anomalies détectées`);
+            logger.debug(`🤖 ML: ${result.anomalies.length} anomalies détectées`);
         } catch (error) {
-            console.error('Erreur détection anomalies:', error);
+            logger.error('Erreur détection anomalies:', error);
         }
     };
 
@@ -483,7 +487,7 @@ export default function FinancialDashboardV2() {
         reader.onload = async (e) => {
             const fileContent = e.target?.result as string
 
-            console.log('📤 Upload attempt:', {
+            logger.debug('📤 Upload attempt:', {
                 fileName: file.name,
                 fileType: file.type,
                 contentLength: fileContent.length,
@@ -511,13 +515,18 @@ export default function FinancialDashboardV2() {
                     setRawData(result.data.records || result.data.rawData || [])
                     setIsDataLoaded(true)
 
+                    // ✅ Store dashboardConfig for conditional chart rendering
+                    if (result.data.dashboardConfig) {
+                        setDashboardConfig(result.data.dashboardConfig)
+                    }
+
                     // ✨ Calculate Score FinSight™
                     if (processedData) {
                         try {
                             const score = calculateFinSightScore(processedData)
                             setFinSightScore(score)
                         } catch (scoreError) {
-                            console.error('Erreur calcul Score FinSight™:', scoreError)
+                            logger.error('Erreur calcul Score FinSight™:', scoreError)
                         }
                     }
 
@@ -528,11 +537,11 @@ export default function FinancialDashboardV2() {
                     setShowUploadBanner(true)
                 } else {
                     // ❌ Handle API error
-                    console.error('API upload error:', response.status, result)
+                    logger.error('API upload error:', response.status, result)
                     alert(`Erreur lors de l'upload (${response.status}): ${result.error || 'Erreur inconnue'}`)
                 }
             } catch (error) {
-                console.error('Erreur upload:', error)
+                logger.error('Erreur upload:', error)
             }
         }
 
@@ -575,7 +584,7 @@ export default function FinancialDashboardV2() {
             exporter.download(filename);
 
         } catch (error) {
-            console.error('Erreur export PDF:', error);
+            logger.error('Erreur export PDF:', error);
             alert('Erreur lors de l\'export PDF');
         }
         setIsExporting(false);
@@ -620,7 +629,7 @@ export default function FinancialDashboardV2() {
             await exporter.generate(excelOptions);
 
         } catch (error) {
-            console.error('Erreur export Excel:', error);
+            logger.error('Erreur export Excel:', error);
             alert('Erreur lors de l\'export Excel');
         }
         setIsExporting(false);
@@ -681,10 +690,10 @@ export default function FinancialDashboardV2() {
             setIsDataLoaded(true);
             setLoadingProgress(100);
 
-            console.log(`✅ Dashboard "${dashboard.fileName}" chargé depuis DB`);
+            logger.debug(`✅ Dashboard "${dashboard.fileName}" chargé depuis DB`);
 
         } catch (error) {
-            console.error('❌ Erreur chargement dashboard:', error);
+            logger.error('❌ Erreur chargement dashboard:', error);
             alert('Impossible de charger ce dashboard. Il a peut-être été supprimé.');
             router.push('/dashboard/list');
         } finally {
@@ -753,6 +762,9 @@ export default function FinancialDashboardV2() {
             const capabilities = detectCapabilities(detectedMappings || [], processedData.records || []);
             const kpis = generateAdaptiveKPIs(processedData, capabilities);
 
+            // ✅ Store dashboardConfig for conditional chart rendering
+            setDashboardConfig(capabilities);
+
             setLoadingProgress(80);
             setLoadingMessage('✨ Génération du dashboard...');
             await new Promise(resolve => setTimeout(resolve, 500));
@@ -790,7 +802,7 @@ export default function FinancialDashboardV2() {
             setLoadingMessage('✅ Dashboard prêt !');
             await new Promise(resolve => setTimeout(resolve, 300));
         } catch (error) {
-            console.error('❌ Erreur chargement démo:', error);
+            logger.error('❌ Erreur chargement démo:', error);
             setLoadingMessage('❌ Erreur lors du chargement');
         } finally {
             setTimeout(() => {
@@ -863,7 +875,7 @@ export default function FinancialDashboardV2() {
             });
         },
         onDrillDown: (data) => {
-            console.log('Drill-down reçu:', data);
+            logger.debug('Drill-down reçu:', data);
         },
         onAnomalyDetected: (data) => {
             addToast({
@@ -1336,36 +1348,44 @@ export default function FinancialDashboardV2() {
                 {/* Charts Grid - Afficher uniquement si données disponibles */}
                 {finSightData && rawData && rawData.length > 0 && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                        {/* Cash Flow Chart */}
-                        <div className="surface rounded-xl p-6">
-                            <h3 className="text-xl font-semibold mb-6">Évolution Cash Flow</h3>
-                            <CashFlowEvolutionChart data={getMonthlyData()} />
-                        </div>
+                        {/* Cash Flow Chart - Conditional on monthlyTrends capability */}
+                        {dashboardConfig?.canShowMonthlyTrends && (
+                            <div className="surface rounded-xl p-6">
+                                <h3 className="text-xl font-semibold mb-6">Évolution Cash Flow</h3>
+                                <CashFlowEvolutionChart data={getMonthlyData()} />
+                            </div>
+                        )}
 
-                        {/* Margin Chart */}
-                        <div className="surface rounded-xl p-6">
-                            <h3 className="text-xl font-semibold mb-6">Évolution Marge</h3>
-                            <MarginEvolutionChart data={getMarginData()} />
-                        </div>
+                        {/* Margin Chart - Conditional on monthlyTrends capability */}
+                        {dashboardConfig?.canShowMonthlyTrends && (
+                            <div className="surface rounded-xl p-6">
+                                <h3 className="text-xl font-semibold mb-6">Évolution Marge</h3>
+                                <MarginEvolutionChart data={getMarginData()} />
+                            </div>
+                        )}
 
-                        {/* Expense Breakdown */}
-                        <div className="surface rounded-xl p-6">
-                            <h3 className="text-xl font-semibold mb-6">Répartition Charges</h3>
-                            <ExpenseBreakdownChart data={getCategoryBreakdown()} />
-                        </div>
+                        {/* Expense Breakdown - Conditional on category analysis */}
+                        {dashboardConfig?.canShowCategoryAnalysis && (
+                            <div className="surface rounded-xl p-6">
+                                <h3 className="text-xl font-semibold mb-6">Répartition Charges</h3>
+                                <ExpenseBreakdownChart data={getCategoryBreakdown()} />
+                            </div>
+                        )}
 
-                        {/* Top Clients */}
-                        <div className="surface rounded-xl p-6">
-                            <h3 className="text-xl font-semibold mb-6">Top Clients</h3>
-                            <TopClientsVerticalChart data={getTopClients()} />
-                        </div>
+                        {/* Top Clients - Conditional on counterparty data */}
+                        {dashboardConfig?.canShowTopClients && (
+                            <div className="surface rounded-xl p-6">
+                                <h3 className="text-xl font-semibold mb-6">Top Clients</h3>
+                                <TopClientsVerticalChart data={getTopClients()} />
+                            </div>
+                        )}
                     </div>
                 )}
 
                 {/* 🎨 Charts Avancés D3.js - Sankey + Sunburst */}
-                {finSightData && rawData && rawData.length > 0 && (
+                {finSightData && rawData && rawData.length > 0 && dashboardConfig?.canShowBasicCharts && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                        {/* Sankey Flow Chart */}
+                        {/* Sankey Flow Chart - Always show if basic charts enabled */}
                         <div className="surface rounded-xl p-6">
                             <div className="flex items-center gap-2 mb-6">
                                 <Sparkles className="w-5 h-5 text-accent-primary" />
@@ -1374,14 +1394,16 @@ export default function FinancialDashboardV2() {
                             <SankeyFlowChart data={getSankeyData()} />
                         </div>
 
-                        {/* Sunburst Expenses Chart */}
-                        <div className="surface rounded-xl p-6">
-                            <div className="flex items-center gap-2 mb-6">
-                                <Sparkles className="w-5 h-5 text-accent-primary" />
-                                <h3 className="text-xl font-semibold">Hiérarchie Dépenses (Sunburst)</h3>
+                        {/* Sunburst Expenses Chart - Conditional on category analysis */}
+                        {dashboardConfig?.canShowCategoryAnalysis && (
+                            <div className="surface rounded-xl p-6">
+                                <div className="flex items-center gap-2 mb-6">
+                                    <Sparkles className="w-5 h-5 text-accent-primary" />
+                                    <h3 className="text-xl font-semibold">Hiérarchie Dépenses (Sunburst)</h3>
+                                </div>
+                                <SunburstExpensesChart data={getSunburstData()} />
                             </div>
-                            <SunburstExpensesChart data={getSunburstData()} />
-                        </div>
+                        )}
                     </div>
                 )}
 

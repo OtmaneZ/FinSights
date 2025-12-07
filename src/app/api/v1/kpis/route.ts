@@ -8,6 +8,7 @@
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authenticateRequest, apiError, apiSuccess } from '@/lib/apiAuth';
+import { logger } from '@/lib/logger';
 
 /**
  * GET /api/v1/kpis - Get KPIs with optional filtering
@@ -150,7 +151,7 @@ export async function GET(request: NextRequest) {
             ),
         });
     } catch (error) {
-        console.error('API v1 KPIs error:', error);
+        logger.error('API v1 KPIs error:', error);
         return apiError('Failed to fetch KPIs', 'FETCH_ERROR', 500);
     }
 }

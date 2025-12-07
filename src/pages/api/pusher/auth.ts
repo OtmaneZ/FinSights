@@ -5,6 +5,7 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { authenticatePusherChannel } from '@/lib/realtime/pusherServer';
+import { logger } from '@/lib/logger';
 
 // Générer une couleur aléatoire pour l'utilisateur
 function generateUserColor(): string {
@@ -71,11 +72,11 @@ export default async function handler(
             return res.status(403).json({ error: 'Channel not authorized' });
         }
 
-        console.log(`✅ Pusher auth: ${userName} → ${channel_name}`);
+        logger.debug(`✅ Pusher auth: ${userName} → ${channel_name}`);
 
         return res.status(200).json(authResponse);
     } catch (error) {
-        console.error('❌ Pusher auth error:', error);
+        logger.error('❌ Pusher auth error:', error);
         return res.status(500).json({ error: 'Authentication failed' });
     }
 }
