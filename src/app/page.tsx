@@ -158,97 +158,97 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Before/After Section */}
-            <section className="max-w-6xl mx-auto px-6 pb-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-                        Sans FinSight <span className="text-red-500">vs</span> Avec FinSight
-                    </h2>
-                    <p className="text-lg text-secondary max-w-2xl mx-auto">
-                        Passez de l'incertitude financière à la maîtrise stratégique.
-                    </p>
-                </div>
+            {/* Before/After Section - Corporate */}
+            <section className="py-24 bg-white">
+                <div className="max-w-6xl mx-auto px-6">
 
-                <div className="grid md:grid-cols-2 gap-8">
-                    {/* AVANT - Sans FinSight */}
-                    <div className="surface rounded-2xl p-8 border-2 border-border-default relative">
-                        <div className="absolute -top-4 left-6 px-4 py-1 bg-red-50 border border-red-200 rounded-full">
-                            <span className="text-red-700 text-sm font-semibold">❌ Sans FinSight</span>
-                        </div>
-
-                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">Vision partielle et réactive</h3>
-
-                        <ul className="space-y-4 mb-8">
-                            <li className="flex items-start gap-3 text-secondary">
-                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Vision partielle de votre santé financière globale</span>
-                            </li>
-                            <li className="flex items-start gap-3 text-secondary">
-                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Risques invisibles (cash, marges, dépendance clients)</span>
-                            </li>
-                            <li className="flex items-start gap-3 text-secondary">
-                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Prévisions approximatives basées sur tableurs manuels</span>
-                            </li>
-                            <li className="flex items-start gap-3 text-secondary">
-                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Décisions stratégiques basées sur l'intuition</span>
-                            </li>
-                            <li className="flex items-start gap-3 text-secondary">
-                                <span className="text-red-500 font-bold text-xl flex-shrink-0">×</span>
-                                <span className="leading-relaxed">Difficulté à anticiper les tensions de trésorerie</span>
-                            </li>
-                        </ul>
-
-                        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                            <p className="text-sm text-red-800 italic leading-relaxed">
-                                "Je découvre les problèmes trop tard, quand ils sont déjà critiques."
-                            </p>
-                            <p className="text-xs text-red-600 mt-2 font-semibold">
-                                — CFO, PME 80 personnes
-                            </p>
-                        </div>
+                    {/* Header */}
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold mb-6 text-gray-900">
+                            La différence FinSight
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Passez d'une gestion financière réactive à une stratégie anticipative basée sur l'intelligence de données
+                        </p>
                     </div>
 
-                    {/* APRÈS - Avec FinSight */}
-                    <div className="surface rounded-2xl p-8 border-2 border-accent-primary relative bg-gradient-to-br from-accent-primary-subtle to-primary">
-                        <div className="absolute -top-4 left-6 px-4 py-1 bg-accent-primary text-white rounded-full shadow-lg">
-                            <span className="text-sm font-semibold">✨ Avec FinSight</span>
+                    <div className="grid md:grid-cols-2 gap-8">
+
+                        {/* AVANT - Sans FinSight */}
+                        <div className="bg-gray-50 rounded-2xl p-10 border border-gray-200">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg mb-6 text-sm font-semibold">
+                                SANS FINSIGHT
+                            </div>
+
+                            <h3 className="text-2xl font-bold mb-8 text-gray-900">
+                                Vision partielle et réactive
+                            </h3>
+
+                            <ul className="space-y-4 mb-8">
+                                {[
+                                    'Analyse financière manuelle et chronophage',
+                                    'Risques invisibles jusqu\'à leur matérialisation',
+                                    'Prévisions approximatives via tableurs',
+                                    'Décisions stratégiques basées sur l\'intuition',
+                                    'Tensions de trésorerie découvertes trop tard'
+                                ].map((item, idx) => (
+                                    <li key={idx} className="flex items-start gap-3 text-gray-600">
+                                        <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <span className="text-red-600 text-xs font-bold">×</span>
+                                        </div>
+                                        <span className="leading-relaxed">{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className="p-5 bg-white border border-gray-200 rounded-lg">
+                                <p className="text-sm text-gray-700 italic leading-relaxed mb-3">
+                                    "Je découvre les problèmes trop tard, quand ils sont déjà critiques."
+                                </p>
+                                <div className="text-xs text-gray-500 font-medium">
+                                    CFO, PME 80 personnes
+                                </div>
+                            </div>
                         </div>
 
-                        <h3 className="text-2xl font-bold mt-4 mb-6 text-primary">Intelligence financière complète</h3>
+                        {/* APRÈS - Avec FinSight */}
+                        <div className="bg-white rounded-2xl p-10 border-2 border-blue-200 shadow-lg relative">
+                            {/* Subtle glow effect */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent rounded-2xl -z-10"></div>
 
-                        <ul className="space-y-4 mb-8">
-                            <li className="flex items-start gap-3 text-primary">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">Lecture complète de votre santé économique (Score FinSight™)</span>
-                            </li>
-                            <li className="flex items-start gap-3 text-primary">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">Prévisions fiables et stress tests (-10%, -20%, -30%)</span>
-                            </li>
-                            <li className="flex items-start gap-3 text-primary">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">Moteur de risques intelligent (rupture cash, dette cachée)</span>
-                            </li>
-                            <li className="flex items-start gap-3 text-primary">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">CFO virtuel avec recommandations actionnables</span>
-                            </li>
-                            <li className="flex items-start gap-3 text-primary">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span className="leading-relaxed font-medium">Détection signaux faibles avant qu'ils deviennent critiques</span>
-                            </li>
-                        </ul>
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg mb-6 text-sm font-semibold shadow-sm">
+                                AVEC FINSIGHT
+                            </div>
 
-                        <div className="p-4 bg-white border-2 border-accent-primary rounded-lg shadow-sm">
-                            <p className="text-sm text-primary font-medium leading-relaxed">
-                                "FinSight m'a alerté d'un risque de rupture cash à 45 jours. J'ai pu agir à temps."
-                            </p>
-                            <p className="text-xs text-accent-primary mt-2 font-bold">
-                                — DAF, Scale-up 150 personnes
-                            </p>
+                            <h3 className="text-2xl font-bold mb-8 text-gray-900">
+                                Intelligence financière complète
+                            </h3>
+
+                            <ul className="space-y-4 mb-8">
+                                {[
+                                    'Score FinSight™ : santé financière en un coup d\'œil',
+                                    'Détection précoce des signaux faibles critiques',
+                                    'Prévisions fiables avec scénarios multiples',
+                                    'Recommandations actionnables par l\'IA',
+                                    'Anticipation des tensions de trésorerie à 90 jours'
+                                ].map((item, idx) => (
+                                    <li key={idx} className="flex items-start gap-3 text-gray-900">
+                                        <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <span className="text-blue-600 text-xs font-bold">✓</span>
+                                        </div>
+                                        <span className="leading-relaxed font-medium">{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className="p-5 bg-blue-50 border-2 border-blue-200 rounded-lg">
+                                <p className="text-sm text-gray-900 font-medium leading-relaxed mb-3">
+                                    "FinSight m'a alerté d'un risque de rupture cash à 45 jours. J'ai pu agir à temps."
+                                </p>
+                                <div className="text-xs text-blue-600 font-semibold">
+                                    DAF, Scale-up 150 personnes
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
