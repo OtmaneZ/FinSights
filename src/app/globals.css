@@ -296,6 +296,7 @@ a:focus-visible {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -305,4 +306,28 @@ a:focus-visible {
 /* Button hover lift effect */
 .hover\:-translate-y-1:hover {
     transform: translateY(-4px);
+}
+
+/* ==========================================
+   DASHBOARD PREVIEW ANIMATIONS
+   ========================================== */
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.perspective-1000 {
+    perspective: 1000px;
 }
