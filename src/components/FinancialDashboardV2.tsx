@@ -152,6 +152,9 @@ export default function FinancialDashboardV2() {
     const [loadingProgress, setLoadingProgress] = useState(0);
     const [loadingMessage, setLoadingMessage] = useState('');
 
+    // Upload Loading state
+    const [isUploadingFile, setIsUploadingFile] = useState(false);
+
     // Dashboard Config state (capabilities pour affichage conditionnel)
     const [dashboardConfig, setDashboardConfig] = useState<any>(null);
 
@@ -480,6 +483,7 @@ export default function FinancialDashboardV2() {
         if (!files || files.length === 0) return
 
         const file = files[0]
+        setIsUploadingFile(true); // ⏳ Start loading
 
         // Read file content
         const reader = new FileReader()
@@ -542,6 +546,9 @@ export default function FinancialDashboardV2() {
                 }
             } catch (error) {
                 logger.error('Erreur upload:', error)
+                alert('Erreur lors du traitement du fichier')
+            } finally {
+                setIsUploadingFile(false); // ✅ Stop loading
             }
         }
 
@@ -963,8 +970,23 @@ export default function FinancialDashboardV2() {
                     </div>
                 )}
 
+                {/* Animation de chargement upload */}
+                {isUploadingFile && (
+                    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
+                        <div className="w-20 h-20 border-4 border-accent-primary-border border-t-accent-primary rounded-full animate-spin"></div>
+                        <div className="text-center w-full max-w-md">
+                            <h3 className="text-2xl font-bold mb-2">
+                                🤖 Analyse IA en cours...
+                            </h3>
+                            <p className="text-sm text-secondary mt-3">
+                                Parsing intelligent de vos données financières
+                            </p>
+                        </div>
+                    </div>
+                )}
+
                 {/* Empty State - affiché seulement si pas en chargement */}
-                {!isLoadingDemo && (
+                {!isLoadingDemo && !isUploadingFile && (
                     <EmptyDashboardStateV2 onDemoLoad={loadDemoScenario} />
                 )}
 
