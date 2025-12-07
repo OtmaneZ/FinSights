@@ -1,9 +1,16 @@
 import OpenAI from 'openai';
 import { FinancialRecord, ProcessedData } from '@/lib/dataModel';
 
-// Initialiser le client OpenAI
-// Le client lit automatiquement la variable d'environnement OPENAI_API_KEY
-const openai = new OpenAI();
+// Initialiser le client OpenAI configuré pour OpenRouter
+// OpenRouter est compatible avec l'API OpenAI, il suffit de changer l'URL de base
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY, // Votre clé OpenRouter
+    baseURL: 'https://openrouter.ai/api/v1',
+    defaultHeaders: {
+        'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://finsights.app',
+        'X-Title': 'FinSight',
+    }
+});
 
 // Définir une structure de retour pour notre parser IA
 interface AIParseResult {
@@ -51,9 +58,9 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
     `;
 
     try {
-        console.log('[AI Parser] Envoi de la requête à OpenAI...');
+        console.log('[AI Parser] Envoi de la requête à OpenRouter...');
         const response = await openai.chat.completions.create({
-            model: "gpt-4-turbo-preview", // Modèle puissant et optimisé pour le JSON
+            model: "openai/gpt-4-turbo-preview", // Format OpenRouter: provider/model
             messages: [
                 {
                     role: "system",
@@ -68,7 +75,7 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
         });
 
         const rawJson = response.choices[0].message.content;
-        console.log('[AI Parser] Réponse JSON brute reçue d\'OpenAI.');
+        console.log('[AI Parser] Réponse JSON brute reçue de OpenRouter.');
 
         if (!rawJson) {
             return { success: false, error: "La réponse de l'IA est vide." };
