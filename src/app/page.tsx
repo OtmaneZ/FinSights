@@ -254,273 +254,147 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Features Grid - 4 Piliers V3 */}
-            <section className="max-w-6xl mx-auto px-6 pb-24">
-                <h2 className="text-3xl font-bold text-center mb-4 text-primary">Les 4 piliers FinSight</h2>
-                <p className="text-lg text-secondary text-center mb-12 max-w-2xl mx-auto">
-                    Le moteur d'intelligence financière qui transforme vos données en décisions stratégiques
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Pilier 1 - Analyse Stratégique */}
-                    <div className="surface rounded-xl p-8 surface-hover group border-2 border-border-default hover:border-accent-primary transition-all">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-accent-primary-subtle flex items-center justify-center">
-                                <BarChart3 className="w-6 h-6 text-accent-primary" />
-                            </div>
-                            <h3 className="text-xl font-bold text-primary">1. Analyse Stratégique</h3>
-                        </div>
-                        <ul className="space-y-3 text-secondary">
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Structure de marge et rentabilité</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Signaux faibles de trésorerie</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Dépendance clients (concentration)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Résilience des charges fixes</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Analyse des cycles de paiement</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Pilier 2 - Prévisions & Scénarios */}
-                    <div className="surface rounded-xl p-8 surface-hover group border-2 border-border-default hover:border-accent-primary transition-all">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-accent-primary-subtle flex items-center justify-center">
-                                <Sparkles className="w-6 h-6 text-accent-primary" />
-                            </div>
-                            <h3 className="text-xl font-bold text-primary">2. Prévisions & Scénarios</h3>
-                        </div>
-                        <ul className="space-y-3 text-secondary">
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Cash-flow prévisionnel 3–12 mois</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Stress tests automatiques (-10/-20/-30%)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Simulations retards clients / prix / charges</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Seuil critique et runway fiable</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Scénarios what-if en temps réel</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Pilier 3 - Moteur de Risque */}
-                    <div className="surface rounded-xl p-8 surface-hover group border-2 border-border-default hover:border-accent-primary transition-all">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-accent-primary-subtle flex items-center justify-center">
-                                <AlertTriangle className="w-6 h-6 text-accent-primary" />
-                            </div>
-                            <h3 className="text-xl font-bold text-primary">3. Moteur de Risque</h3>
-                        </div>
-                        <ul className="space-y-3 text-secondary">
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Risque rupture de trésorerie</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Risque dette cachée (créances vieillissantes)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Score FinSight™ (santé financière 0-100)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Volatilité charges et revenus</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Détection anomalies ML (Z-score, patterns)</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Pilier 4 - CFO Virtuel */}
-                    <div className="surface rounded-xl p-8 surface-hover group border-2 border-border-default hover:border-accent-primary transition-all">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-accent-primary-subtle flex items-center justify-center">
-                                <DollarSign className="w-6 h-6 text-accent-primary" />
-                            </div>
-                            <h3 className="text-xl font-bold text-primary">4. CFO Virtuel</h3>
-                        </div>
-                        <ul className="space-y-3 text-secondary">
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Analyse automatique en langage naturel</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Plans d'action priorisés et actionnables</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Synthèse PDF "consultant" prête</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Recommandations contextualisées</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-accent-primary mt-1">→</span>
-                                <span>Explications pédagogiques des KPIs</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            {/* By the Numbers Section */}
-            <section className="max-w-6xl mx-auto px-6 pb-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4 text-primary">Résultats concrets</h2>
-                    <p className="text-lg text-secondary max-w-2xl mx-auto">
-                        Des métriques claires qui mesurent l'impact de FinSight sur votre pilotage financier
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    {/* Stat 1 */}
-                    <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
-                        <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
-                            10s
-                        </div>
-                        <p className="text-sm text-secondary font-medium">
-                            Score FinSight™ instantané
-                        </p>
-                    </div>
-
-                    {/* Stat 2 */}
-                    <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
-                        <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
-                            4
-                        </div>
-                        <p className="text-sm text-secondary font-medium">
-                            Analyses stratégiques majeures
-                        </p>
-                    </div>
-
-                    {/* Stat 3 */}
-                    <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
-                        <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
-                            12
-                        </div>
-                        <p className="text-sm text-secondary font-medium">
-                            Mois de prévisions cash-flow
-                        </p>
-                    </div>
-
-                    {/* Stat 4 */}
-                    <div className="surface rounded-2xl p-8 text-center border-2 border-accent-primary-border hover:border-accent-primary transition-all group">
-                        <div className="text-5xl font-bold text-accent-primary mb-3 group-hover:scale-110 transition-transform">
-                            0€
-                        </div>
-                        <p className="text-sm text-secondary font-medium">
-                            Pour tester (sans CB)
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Security & Compliance Section */}
-            <section className="max-w-6xl mx-auto px-6 py-24 border-t border-border-default">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4 text-primary">Sécurité & Conformité</h2>
-                    <p className="text-lg text-secondary max-w-2xl mx-auto">
-                        Vos données restent en France. Aucune transmission externe. Chiffrement de bout en bout.
-                    </p>
-                </div>
-
-                <div className="max-w-3xl mx-auto">
-                    <div className="surface rounded-2xl p-10 text-center border-2 border-accent-primary-border">
-                        <div className="inline-flex items-center justify-center w-20 h-20 bg-accent-primary-subtle rounded-2xl mb-6">
-                            <Shield className="w-10 h-10 text-accent-primary" />
-                        </div>
-
-                        <ul className="text-base text-secondary space-y-4 text-left max-w-xl mx-auto">
-                            <li className="flex items-start gap-3">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span><strong className="text-primary">Données en France</strong> — hébergement serveurs OVH Paris</span>
-                            </li>
-                            <li className="flex items-start gap-3">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span><strong className="text-primary">Chiffrement de bout en bout</strong> — vos données sont protégées</span>
-                            </li>
-                            <li className="flex items-start gap-3">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span><strong className="text-primary">RGPD conforme</strong> — droit d'accès, rectification, suppression</span>
-                            </li>
-                            <li className="flex items-start gap-3">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span><strong className="text-primary">Aucun transfert tiers</strong> — vos données ne sont jamais revendues</span>
-                            </li>
-                            <li className="flex items-start gap-3">
-                                <span className="text-accent-primary font-bold text-xl flex-shrink-0">✓</span>
-                                <span><strong className="text-primary">Suppression sur demande</strong> — contrôle total de vos données</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            {/* Consulting CTA Section */}
-            <section className="max-w-5xl mx-auto px-6 py-24">
-                <div className="surface rounded-3xl p-12 border-2 border-accent-primary relative overflow-hidden">
-                    {/* Background gradient */}
-                    <div className="absolute inset-0 bg-gradient-radial from-accent-primary/10 via-transparent to-transparent opacity-50"></div>
-
-                    <div className="relative z-10 text-center">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-6">
-                            <Sparkles className="w-4 h-4 text-accent-primary" />
-                            <span className="text-accent-primary text-sm font-medium">Services Consulting</span>
-                        </div>
-
-                        <h2 className="text-4xl font-bold mb-4 text-primary">
-                            Besoin d'un dashboard 100% sur-mesure ?
+            {/* Features Grid - 4 Piliers Corporate */}
+            <section className="py-32 bg-gray-50">
+                <div className="max-w-6xl mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold mb-6 text-gray-900">
+                            Notre approche en 4 piliers
                         </h2>
-                        <p className="text-xl text-secondary mb-8 max-w-2xl mx-auto">
-                            Je conçois des dashboards IA personnalisés, connectés à votre ERP (Sage, Cegid, QuickBooks).<br />
-                            <span className="font-semibold text-primary">Audit, développement, formation</span> — de 2 500€ à 12k€.
-                        </p>
-
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Link
-                                href="/consulting"
-                                className="inline-flex items-center gap-2 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-xl font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1"
-                            >
-                                <Zap className="w-5 h-5" />
-                                Voir les services consulting
-                            </Link>
-                        </div>
-
-                        <p className="text-sm text-tertiary mt-6">
-                            TJM 500€ • Consultant Data Finance • 10+ ans d'expérience
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                            Une méthodologie éprouvée qui transforme vos données financières en décisions stratégiques actionnables
                         </p>
                     </div>
-                </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Pilier 1 - Analyse Stratégique */}
+                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all group">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                                    <BarChart3 className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors" />
+                                </div>
+                                <div>
+                                    <div className="text-sm font-semibold text-blue-600 mb-1">PILIER 1</div>
+                                    <h3 className="text-xl font-bold text-gray-900">Analyse Stratégique</h3>
+                                </div>
+                            </div>
+                            <ul className="space-y-3 text-gray-600">
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0"></div>
+                                    <span>Structure de marge et rentabilité</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0"></div>
+                                    <span>Signaux faibles de trésorerie</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0"></div>
+                                    <span>Dépendance clients (concentration)</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0"></div>
+                                    <span>Analyse des cycles de paiement</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Pilier 2 - Prévisions & Scénarios */}
+                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-green-300 hover:shadow-xl transition-all group">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center group-hover:bg-green-600 transition-colors">
+                                    <Sparkles className="w-7 h-7 text-green-600 group-hover:text-white transition-colors" />
+                                </div>
+                                <div>
+                                    <div className="text-sm font-semibold text-green-600 mb-1">PILIER 2</div>
+                                    <h3 className="text-xl font-bold text-gray-900">Prévisions & Scénarios</h3>
+                                </div>
+                            </div>
+                            <ul className="space-y-3 text-gray-600">
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0"></div>
+                                    <span>Cash-flow prévisionnel 3–12 mois</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0"></div>
+                                    <span>Stress tests automatiques (-10/-20/-30%)</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0"></div>
+                                    <span>Simulations retards clients / prix / charges</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0"></div>
+                                    <span>Scénarios what-if en temps réel</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Pilier 3 - Moteur de Risque */}
+                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-orange-300 hover:shadow-xl transition-all group">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center group-hover:bg-orange-600 transition-colors">
+                                    <AlertTriangle className="w-7 h-7 text-orange-600 group-hover:text-white transition-colors" />
+                                </div>
+                                <div>
+                                    <div className="text-sm font-semibold text-orange-600 mb-1">PILIER 3</div>
+                                    <h3 className="text-xl font-bold text-gray-900">Moteur de Risque</h3>
+                                </div>
+                            </div>
+                            <ul className="space-y-3 text-gray-600">
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0"></div>
+                                    <span>Risque rupture de trésorerie</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0"></div>
+                                    <span>Risque dette cachée (créances vieillissantes)</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0"></div>
+                                    <span>Score FinSight™ (santé financière 0-100)</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0"></div>
+                                    <span>Détection anomalies ML (Z-score, patterns)</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Pilier 4 - CFO Virtuel */}
+                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-purple-300 hover:shadow-xl transition-all group">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-14 h-14 rounded-xl bg-purple-100 flex items-center justify-center group-hover:bg-purple-600 transition-colors">
+                                    <DollarSign className="w-7 h-7 text-purple-600 group-hover:text-white transition-colors" />
+                                </div>
+                                <div>
+                                    <div className="text-sm font-semibold text-purple-600 mb-1">PILIER 4</div>
+                                    <h3 className="text-xl font-bold text-gray-900">CFO Virtuel</h3>
+                                </div>
+                            </div>
+                            <ul className="space-y-3 text-gray-600">
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
+                                    <span>Analyse automatique en langage naturel</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
+                                    <span>Plans d'action priorisés et actionnables</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
+                                    <span>Synthèse PDF "consultant" prête</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
+                                    <span>Recommandations contextualisées</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
             </section>
+
+            {/* Testimonials */}
+            <Testimonials />
 
             <Footer />
         </div>
