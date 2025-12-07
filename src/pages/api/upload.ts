@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { parseCSV } from '@/lib/dataParser';
+import { parseCSV, processFinancialData } from '@/lib/dataParser';
 import { generateDashboardKPIs } from '@/lib/dataParser';
 import { excelToCSV } from '@/lib/excelParser';
 import { checkUnifiedRateLimit } from '@/lib/rateLimit';
 import { getClientIP } from '@/lib/rateLimitKV';
 import { put } from '@vercel/blob';
 import { prisma } from '@/lib/prisma';
+import { parseWithAI } from '@/lib/ai/aiParser';
 
 export const config = {
     api: {
@@ -85,17 +86,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log(`✅ Excel converti: ${conversionResult.sheetName} (${conversionResult.rowCount} lignes × ${conversionResult.columnCount} colonnes)`);
         }
 
-        // Parse et traite les données avec nouvelle API
-        const parseResult = parseCSV(csvContent);
+        // 🤖 Parse avec IA pour une détection intelligente des colonnes
+        console.log('[Upload] 🤖 Parsing avec IA...');
+        const aiParseResult = await parseWithAI(csvContent);
 
-        if (!parseResult.success || !parseResult.data) {
+        if (!aiParseResult.success || !aiParseResult.data?.records) {
             return res.status(400).json({
-                error: 'Erreur lors du parsing',
-                details: parseResult.errors.map(e => e.message).join(', ')
+                error: "L'IA n'a pas pu traiter votre fichier.",
+                details: aiParseResult.error || "Aucune donnée retournée."
             });
         }
 
-        const { data: processedData } = parseResult;
+        // Post-traitement pour calculer les métriques
+        const processedData = processFinancialData(aiParseResult.data.records, 'ai-upload');
 
         if (processedData.records.length === 0) {
             return res.status(400).json({
@@ -104,6 +107,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         const dashboardKPIs = generateDashboardKPIs(processedData);
+        console.log(`[Upload] ✅ ${processedData.records.length} transactions parsées par IA`);
 
         // 💾 SAUVEGARDE AUTOMATIQUE en DB (si user connecté)
         let savedDashboardId = null;
@@ -162,7 +166,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         return res.status(200).json({
             success: true,
-            message: `${processedData.records.length} enregistrements traités avec succès`,
+            message: `${processedData.records.length} enregistrements traités avec succès par l'IA`,
             savedDashboardId, // 💾 ID du dashboard sauvegardé (null si non connecté)
             data: {
                 kpis: dashboardKPIs,
@@ -170,9 +174,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 recordCount: processedData.records.length,
                 period: processedData.summary.period,
                 quality: processedData.qualityMetrics,
-                // ✅ Données adaptatives
-                levelInfo: parseResult.data.levelInfo,
-                dashboardConfig: parseResult.data.dashboardConfig,
+                // ✅ Données depuis le traitement IA
+                levelInfo: processedData.levelInfo,
+                dashboardConfig: processedData.dashboardConfig,
                 // ✅ Vraies données pour calculs dynamiques
                 records: processedData.records,
                 financialData: processedData
