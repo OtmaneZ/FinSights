@@ -24,24 +24,24 @@ export const metadata = {
         google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || '', // Add GSC verification code here
     },
     openGraph: {
-      type: 'website',
-      locale: 'fr_FR',
-      url: 'https://finsight.zineinsight.com',
-      siteName: 'FinSight',
-      title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
-      description: 'Analyse stratégique, prévisions & scénarios, moteur de risque IA. Comprenez votre santé financière. Anticipez les risques. Décidez en confiance.',
-      images: [{
-        url: 'https://finsight.zineinsight.com/images/og-default.png',
-        width: 1200,
-        height: 630,
-        alt: 'FinSight - Moteur d\'Intelligence Financière'
-      }]
+        type: 'website',
+        locale: 'fr_FR',
+        url: 'https://finsight.zineinsight.com',
+        siteName: 'FinSight',
+        title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
+        description: 'Analyse stratégique, prévisions & scénarios, moteur de risque IA. Comprenez votre santé financière. Anticipez les risques. Décidez en confiance.',
+        images: [{
+            url: 'https://finsight.zineinsight.com/images/og-default.png',
+            width: 1200,
+            height: 630,
+            alt: 'FinSight - Moteur d\'Intelligence Financière'
+        }]
     },
     twitter: {
-      card: 'summary_large_image',
-      title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
-      description: 'Analyse stratégique + Prévisions + Risque IA + CFO Virtuel. Score santé financière 0-100.',
-      images: ['https://finsight.zineinsight.com/images/og-default.png']
+        card: 'summary_large_image',
+        title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
+        description: 'Analyse stratégique + Prévisions + Risque IA + CFO Virtuel. Score santé financière 0-100.',
+        images: ['https://finsight.zineinsight.com/images/og-default.png']
     },
     icons: {
         icon: [
@@ -75,6 +75,10 @@ export default function RootLayout({
 }) {
     return (
         <html lang="fr" suppressHydrationWarning>
+            <head>
+                {/* PWA meta tags - nouvelle norme */}
+                <meta name="mobile-web-app-capable" content="yes" />
+            </head>
             <body className={inter.className}>
                 {/* Google Tag Manager (noscript) */}
                 <noscript>
