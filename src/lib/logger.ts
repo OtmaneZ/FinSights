@@ -25,7 +25,11 @@ class Logger {
      */
     debug(message: string, ...args: any[]) {
         if (!isDev) return;
-        console.log(`🔍 [${this.context}]`, message, ...args);
+        try {
+            console.log(`🔍 [${this.context}]`, message, ...args);
+        } catch (e) {
+            // Silently fail in production
+        }
     }
 
     /**
@@ -33,21 +37,33 @@ class Logger {
      */
     info(message: string, ...args: any[]) {
         if (!isDev) return;
-        console.log(`ℹ️ [${this.context}]`, message, ...args);
+        try {
+            console.log(`ℹ️ [${this.context}]`, message, ...args);
+        } catch (e) {
+            // Silently fail in production
+        }
     }
 
     /**
      * Warning logs
      */
     warn(message: string, ...args: any[]) {
-        console.warn(`⚠️ [${this.context}]`, message, ...args);
+        try {
+            console.warn(`⚠️ [${this.context}]`, message, ...args);
+        } catch (e) {
+            // Silently fail
+        }
     }
 
     /**
      * Error logs (always logged)
      */
     error(message: string, error?: any, ...args: any[]) {
-        console.error(`❌ [${this.context}]`, message, error, ...args);
+        try {
+            console.error(`❌ [${this.context}]`, message, error, ...args);
+        } catch (e) {
+            // Silently fail
+        }
     }
 
     /**
