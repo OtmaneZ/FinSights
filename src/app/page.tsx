@@ -84,80 +84,73 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Score FinSight™ Section - Premium V4 */}
-            <section className="relative py-24 overflow-hidden">
-                {/* Animated Background */}
-                <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 opacity-50" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-400/20 rounded-full blur-3xl" />
-                </div>
+            {/* Score FinSight™ Section - Corporate Premium */}
+            <section className="relative py-32 bg-gray-50">
+                <div className="max-w-6xl mx-auto px-6">
 
-                <div className="relative max-w-5xl mx-auto px-6">
-                    {/* Badge Premium */}
-                    <div className="flex justify-center mb-8">
-                        <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-xl shadow-blue-500/30 animate-pulse">
+                    {/* Badge Corporate */}
+                    <div className="flex justify-center mb-12">
+                        <div className="inline-flex items-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-lg shadow-sm">
                             <Sparkles className="w-4 h-4" />
-                            <span className="text-sm font-bold">Concept Signature FinSight</span>
+                            <span className="text-sm font-semibold">Notre indicateur signature</span>
                         </div>
                     </div>
 
-                    {/* Main Container avec Glassmorphism */}
-                    <div className="bg-white/80 backdrop-blur-2xl border-2 border-white/50 rounded-[2rem] p-12 shadow-2xl">
+                    {/* Header Corporate */}
+                    <div className="text-center mb-16">
+                        <h2 className="text-5xl font-bold mb-6 text-gray-900">
+                            Score FinSight™
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                            Un indicateur composite qui évalue la santé financière de votre entreprise sur une échelle de{' '}
+                            <span className="font-semibold text-blue-600">0 à 100</span>
+                        </p>
+                    </div>
 
-                        {/* Header */}
-                        <div className="text-center mb-12">
-                            <h2 className="text-5xl font-extrabold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                                Score FinSight™
-                            </h2>
-                            <p className="text-xl text-secondary max-w-2xl mx-auto leading-relaxed">
-                                Votre santé financière, notée de{' '}
-                                <span className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                                    0 à 100
-                                </span>
-                            </p>
-                        </div>
-
-                        {/* Score Pillars Grid - Amélioré */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-                            {[
-                                { icon: '💰', label: 'Cash & Liquidité', value: 25, color: 'from-blue-500 to-blue-600' },
-                                { icon: '📈', label: 'Marges & Rentabilité', value: 25, color: 'from-green-500 to-green-600' },
-                                { icon: '🛡️', label: 'Résilience', value: 25, color: 'from-purple-500 to-purple-600' },
-                                { icon: '⚠️', label: 'Gestion Risques', value: 25, color: 'from-orange-500 to-orange-600' }
-                            ].map((pillar, idx) => (
+                    {/* Score Pillars Grid - Corporate Clean */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+                        {[
+                            { icon: DollarSign, label: 'Cash & Liquidité', value: 25, iconBg: 'bg-blue-100', iconColor: 'text-blue-600' },
+                            { icon: BarChart3, label: 'Marges & Rentabilité', value: 25, iconBg: 'bg-green-100', iconColor: 'text-green-600' },
+                            { icon: Shield, label: 'Résilience', value: 25, iconBg: 'bg-purple-100', iconColor: 'text-purple-600' },
+                            { icon: AlertTriangle, label: 'Gestion Risques', value: 25, iconBg: 'bg-orange-100', iconColor: 'text-orange-600' }
+                        ].map((pillar, idx) => {
+                            const Icon = pillar.icon
+                            return (
                                 <div
                                     key={idx}
-                                    className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 border-2 border-gray-200/50 hover:border-blue-400 hover:shadow-xl transition-all cursor-pointer hover:scale-105"
+                                    className="bg-white rounded-xl p-8 border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all"
                                 >
-                                    <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">
-                                        {pillar.icon}
+                                    <div className={`w-12 h-12 ${pillar.iconBg} rounded-lg flex items-center justify-center mb-4`}>
+                                        <Icon className={`w-6 h-6 ${pillar.iconColor}`} />
                                     </div>
-                                    <div className={`text-3xl font-bold bg-gradient-to-r ${pillar.color} bg-clip-text text-transparent mb-2`}>
+                                    <div className="text-4xl font-bold text-gray-900 mb-2">
                                         {pillar.value}
                                     </div>
-                                    <div className="text-sm text-secondary font-medium">
+                                    <div className="text-sm text-gray-600 font-medium leading-snug">
                                         {pillar.label}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            )
+                        })}
+                    </div>
 
-                        {/* Example Score - Ultra Premium */}
-                        <div className="flex justify-center">
-                            <div className="relative inline-flex items-center gap-6 px-12 py-8 bg-gradient-to-br from-yellow-400 via-orange-400 to-orange-500 rounded-3xl shadow-2xl">
-                                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 blur-2xl -z-10" />
-
-                                <div className="text-8xl font-black text-white drop-shadow-lg">
-                                    67
+                    {/* Example Score - Corporate Professional */}
+                    <div className="flex justify-center">
+                        <div className="inline-flex items-center gap-8 px-12 py-8 bg-white border-2 border-blue-200 rounded-2xl shadow-lg">
+                            <div className="text-8xl font-bold text-blue-600">
+                                67
+                            </div>
+                            <div className="text-left border-l-2 border-gray-200 pl-8">
+                                <div className="text-sm text-gray-500 font-medium mb-2">
+                                    EXEMPLE DE NOTATION
                                 </div>
-
-                                <div className="text-left">
-                                    <div className="text-sm text-white/90 font-semibold mb-1">
-                                        Exemple : Note instantanée
-                                    </div>
-                                    <div className="text-xs text-white/80 bg-white/20 backdrop-blur px-3 py-1 rounded-full inline-block">
-                                        Zone Orange — Attention requise
-                                    </div>
+                                <div className="text-lg font-semibold text-gray-900 mb-1">
+                                    Attention requise
+                                </div>
+                                <div className="inline-flex items-center gap-2 text-sm text-orange-600 bg-orange-50 px-3 py-1 rounded">
+                                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                                    Zone orange
                                 </div>
                             </div>
                         </div>
