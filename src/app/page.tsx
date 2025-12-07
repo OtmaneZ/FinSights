@@ -12,55 +12,75 @@ import {
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Testimonials from '@/components/Testimonials'
+import DashboardPreview from '@/components/landing/DashboardPreview'
 
 export default function Home() {
     return (
         <div className="min-h-screen bg-primary text-primary font-sans">
             <Header />
 
-            {/* Hero Section */}
-            <section className="relative max-w-5xl mx-auto px-6 pt-24 pb-32 text-center">
-                {/* Trust Badge */}
-                <div className="inline-flex items-center gap-3 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-8 text-sm">
-                    <span className="text-accent-primary font-semibold">⚡ 10 secondes</span>
-                    <div className="w-px h-4 bg-accent-primary-border"></div>
-                    <span className="text-accent-primary font-semibold">🔒 RGPD France</span>
-                    <div className="w-px h-4 bg-accent-primary-border"></div>
-                    <span className="text-accent-primary font-semibold">⭐ Apprécié par nos utilisateurs</span>
-                </div>
+            {/* Hero Section - Premium 2 Columns Layout */}
+            <section className="relative max-w-7xl mx-auto px-6 pt-24 pb-32">
+                <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-                {/* Content */}
-                <div>
+                    {/* LEFT: Content */}
+                    <div className="space-y-8">
+                        {/* Trust Badge */}
+                        <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 backdrop-blur-xl border border-blue-200/50 rounded-2xl shadow-lg">
+                            <Zap className="w-4 h-4 text-blue-600 animate-pulse" />
+                            <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+                                ⚡ Réponse en 10s • 🔒 RGPD France
+                            </span>
+                        </div>
 
-                    <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight leading-tight text-primary">
-                        Comprenez votre santé financière.<br />
-                        <span className="text-accent-primary">Anticipez les risques. Décidez en confiance.</span>
-                    </h1>
+                        {/* H1 Ultra Premium */}
+                        <h1 className="text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-primary">
+                            Comprenez votre{' '}
+                            <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 bg-clip-text text-transparent">
+                                santé financière
+                            </span>
+                            {' '}en 10 secondes
+                        </h1>
 
-                    <p className="text-xl text-secondary max-w-2xl mx-auto mb-12 leading-relaxed">
-                        Le moteur d'intelligence financière qui analyse vos marges, détecte les signaux faibles et simule vos scénarios.<br />
-                        <span className="font-semibold text-primary">Réponse en 10 secondes</span> — avec votre Score FinSight™.
-                    </p>
+                        {/* Description */}
+                        <p className="text-lg text-secondary leading-relaxed max-w-xl">
+                            Le moteur d'intelligence financière qui détecte les signaux faibles,
+                            simule vos scénarios et vous donne votre{' '}
+                            <span className="font-bold text-primary">Score FinSight™</span> instantané.
+                        </p>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <Link
-                            href="/dashboard"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-base transition-all hover:shadow-lg"
-                        >
-                            <Zap className="w-5 h-5" />
-                            Obtenir mon Score FinSight™ →
-                        </Link>
-                        <Link
-                            href="/auth/signup"
-                            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold text-base transition-all hover:bg-surface-elevated"
-                        >
-                            Créer un compte
-                        </Link>
+                        {/* CTAs Premium */}
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <Link
+                                href="/dashboard"
+                                className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl font-semibold shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all hover:scale-105"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                                    Obtenir mon Score FinSight™
+                                </span>
+                            </Link>
+
+                            <Link
+                                href="/auth/signup"
+                                className="px-8 py-4 bg-white/80 backdrop-blur-xl border-2 border-gray-200 hover:border-blue-400 rounded-xl font-semibold transition-all hover:scale-105 text-primary"
+                            >
+                                Voir la démo
+                            </Link>
+                        </div>
+
+                        {/* Social Proof */}
+                        <div className="flex items-center gap-4">
+                            <p className="text-sm text-tertiary">
+                                ⚡ Sans installation • 🔒 RGPD conforme • ✓ Sans engagement
+                            </p>
+                        </div>
                     </div>
 
-                    <p className="text-sm text-tertiary mt-8">
-                        ⚡ Sans installation • 🔒 RGPD conforme • ✓ Sans engagement
-                    </p>
+                    {/* RIGHT: Dashboard Preview Animé */}
+                    <div className="relative lg:block hidden">
+                        <DashboardPreview />
+                    </div>
                 </div>
             </section>
 
