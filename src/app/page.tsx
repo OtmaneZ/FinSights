@@ -84,51 +84,81 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Score FinSight™ Section - NEW V3 */}
-            <section className="max-w-4xl mx-auto px-6 pb-24">
-                <div className="surface rounded-3xl p-12 border-2 border-accent-primary relative overflow-hidden shadow-2xl">
-                    {/* Background gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 via-transparent to-transparent"></div>
+            {/* Score FinSight™ Section - Premium V4 */}
+            <section className="relative py-24 overflow-hidden">
+                {/* Animated Background */}
+                <div className="absolute inset-0">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 opacity-50" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-400/20 rounded-full blur-3xl" />
+                </div>
 
-                    <div className="relative z-10 text-center">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-full mb-6">
+                <div className="relative max-w-5xl mx-auto px-6">
+                    {/* Badge Premium */}
+                    <div className="flex justify-center mb-8">
+                        <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-xl shadow-blue-500/30 animate-pulse">
                             <Sparkles className="w-4 h-4" />
                             <span className="text-sm font-bold">Concept Signature FinSight</span>
                         </div>
+                    </div>
 
-                        <h2 className="text-4xl font-bold mb-4 text-primary">
-                            Score FinSight™
-                        </h2>
-                        <p className="text-xl text-secondary mb-8 max-w-2xl mx-auto leading-relaxed">
-                            Votre santé financière, notée de <span className="font-bold text-accent-primary">0 à 100</span>
-                        </p>
+                    {/* Main Container avec Glassmorphism */}
+                    <div className="bg-white/80 backdrop-blur-2xl border-2 border-white/50 rounded-[2rem] p-12 shadow-2xl">
 
-                        {/* Score Breakdown */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                            <div className="bg-surface-elevated rounded-xl p-6 border border-border-default">
-                                <div className="text-3xl font-bold text-accent-primary mb-2">25</div>
-                                <div className="text-sm text-secondary font-medium">Cash & Liquidité</div>
-                            </div>
-                            <div className="bg-surface-elevated rounded-xl p-6 border border-border-default">
-                                <div className="text-3xl font-bold text-accent-primary mb-2">25</div>
-                                <div className="text-sm text-secondary font-medium">Marges & Rentabilité</div>
-                            </div>
-                            <div className="bg-surface-elevated rounded-xl p-6 border border-border-default">
-                                <div className="text-3xl font-bold text-accent-primary mb-2">25</div>
-                                <div className="text-sm text-secondary font-medium">Résilience</div>
-                            </div>
-                            <div className="bg-surface-elevated rounded-xl p-6 border border-border-default">
-                                <div className="text-3xl font-bold text-accent-primary mb-2">25</div>
-                                <div className="text-sm text-secondary font-medium">Gestion Risques</div>
-                            </div>
+                        {/* Header */}
+                        <div className="text-center mb-12">
+                            <h2 className="text-5xl font-extrabold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                Score FinSight™
+                            </h2>
+                            <p className="text-xl text-secondary max-w-2xl mx-auto leading-relaxed">
+                                Votre santé financière, notée de{' '}
+                                <span className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                    0 à 100
+                                </span>
+                            </p>
                         </div>
 
-                        {/* Example Score */}
-                        <div className="inline-flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300 rounded-2xl">
-                            <div className="text-6xl font-bold text-yellow-600">67</div>
-                            <div className="text-left">
-                                <div className="text-sm text-yellow-800 font-semibold">Exemple : Note instantanée</div>
-                                <div className="text-xs text-yellow-700">Zone Orange — Attention requise</div>
+                        {/* Score Pillars Grid - Amélioré */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                            {[
+                                { icon: '💰', label: 'Cash & Liquidité', value: 25, color: 'from-blue-500 to-blue-600' },
+                                { icon: '📈', label: 'Marges & Rentabilité', value: 25, color: 'from-green-500 to-green-600' },
+                                { icon: '🛡️', label: 'Résilience', value: 25, color: 'from-purple-500 to-purple-600' },
+                                { icon: '⚠️', label: 'Gestion Risques', value: 25, color: 'from-orange-500 to-orange-600' }
+                            ].map((pillar, idx) => (
+                                <div
+                                    key={idx}
+                                    className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 border-2 border-gray-200/50 hover:border-blue-400 hover:shadow-xl transition-all cursor-pointer hover:scale-105"
+                                >
+                                    <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">
+                                        {pillar.icon}
+                                    </div>
+                                    <div className={`text-3xl font-bold bg-gradient-to-r ${pillar.color} bg-clip-text text-transparent mb-2`}>
+                                        {pillar.value}
+                                    </div>
+                                    <div className="text-sm text-secondary font-medium">
+                                        {pillar.label}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Example Score - Ultra Premium */}
+                        <div className="flex justify-center">
+                            <div className="relative inline-flex items-center gap-6 px-12 py-8 bg-gradient-to-br from-yellow-400 via-orange-400 to-orange-500 rounded-3xl shadow-2xl">
+                                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 blur-2xl -z-10" />
+
+                                <div className="text-8xl font-black text-white drop-shadow-lg">
+                                    67
+                                </div>
+
+                                <div className="text-left">
+                                    <div className="text-sm text-white/90 font-semibold mb-1">
+                                        Exemple : Note instantanée
+                                    </div>
+                                    <div className="text-xs text-white/80 bg-white/20 backdrop-blur px-3 py-1 rounded-full inline-block">
+                                        Zone Orange — Attention requise
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
