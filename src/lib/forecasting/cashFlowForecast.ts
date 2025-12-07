@@ -1,17 +1,17 @@
 /**
  * CASH FLOW FORECAST - Algorithme de prévisions 3-12 mois
- * 
+ *
  * Méthode: Régression linéaire + détection saisonnalité + scénarios
  */
 
 import { FinancialRecord } from '../dataModel';
-import { 
 import { logger } from '@/lib/logger';
-    CashFlowForecast, 
-    ForecastDataPoint, 
-    ForecastInsight, 
+import {
+    CashFlowForecast,
+    ForecastDataPoint,
+    ForecastInsight,
     SeasonalityPattern,
-    ForecastConfig 
+    ForecastConfig
 } from './types';
 
 const DEFAULT_CONFIG: ForecastConfig = {
@@ -30,30 +30,30 @@ export function forecastCashFlow(
     config: Partial<ForecastConfig> = {}
 ): CashFlowForecast | null {
     const cfg = { ...DEFAULT_CONFIG, ...config };
-    
+
     // Validation données minimum
     if (!records || records.length < 10) {
         logger.warn('Forecast: Pas assez de données (min 10 transactions)');
         return null;
     }
-    
+
     // 1. Agréger par mois
     const monthlyData = aggregateByMonth(records);
-    
+
     // Vérifier nombre de mois
     if (monthlyData.length < cfg.minHistoricalMonths) {
         logger.warn(`Forecast: Besoin de ${cfg.minHistoricalMonths} mois, trouvé ${monthlyData.length}`);
         return null;
     }
-    
+
     // 2. Calculer tendance (régression linéaire)
     const trend = calculateTrend(monthlyData);
-    
+
     // 3. Détecter saisonnalité (si assez de données)
     const seasonality = cfg.includeSeasonality && monthlyData.length >= 6
         ? detectSeasonality(monthlyData)
         : { detected: false, strength: 0, peakMonths: [], lowMonths: [] };
-    
+
     // 4. Générer prévisions baseline
     const baseline = generateBaselineForecasts(
         monthlyData,
@@ -61,20 +61,20 @@ export function forecastCashFlow(
         seasonality,
         cfg.horizon
     );
-    
+
     // 5. Générer scénarios optimiste/pessimiste
     const optimistic = applyScenarioMultiplier(baseline, cfg.optimisticMultiplier);
     const pessimistic = applyScenarioMultiplier(baseline, cfg.pessimisticMultiplier);
-    
+
     // 6. Préparer données historiques pour le graphique
     const historical = prepareHistoricalData(monthlyData);
-    
+
     // 7. Calculer métriques (runway, risque, etc.)
     const metrics = calculateMetrics(baseline, pessimistic, monthlyData);
-    
+
     // 8. Générer insights
     const insights = generateInsights(metrics, trend, seasonality);
-    
+
     return {
         historical,
         baseline,
@@ -100,24 +100,24 @@ interface MonthlyAggregate {
 
 function aggregateByMonth(records: FinancialRecord[]): MonthlyAggregate[] {
     const byMonth = new Map<string, { revenue: number; expenses: number }>();
-    
+
     records.forEach(record => {
         const date = new Date(record.date);
         const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-        
+
         if (!byMonth.has(monthKey)) {
             byMonth.set(monthKey, { revenue: 0, expenses: 0 });
         }
-        
+
         const month = byMonth.get(monthKey)!;
-        
+
         if (record.type === 'income') {
             month.revenue += record.amount;
         } else {
             month.expenses += Math.abs(record.amount);
         }
     });
-    
+
     // Convertir Map en array trié
     return Array.from(byMonth.entries())
         .map(([monthKey, data]) => {
@@ -146,17 +146,17 @@ function calculateTrend(monthlyData: MonthlyAggregate[]): Trend {
     const n = monthlyData.length;
     const x = Array.from({ length: n }, (_, i) => i);
     const y = monthlyData.map(m => m.cashFlow);
-    
+
     // Calculs régression linéaire
     const sumX = x.reduce((a, b) => a + b, 0);
     const sumY = y.reduce((a, b) => a + b, 0);
     const sumXY = x.reduce((acc, xi, i) => acc + xi * y[i], 0);
     const sumXX = x.reduce((acc, xi) => acc + xi * xi, 0);
     const sumYY = y.reduce((acc, yi) => acc + yi * yi, 0);
-    
+
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
     const intercept = (sumY - slope * sumX) / n;
-    
+
     // Coefficient de détermination R²
     const meanY = sumY / n;
     const ssTotal = sumYY - n * meanY * meanY;
@@ -165,7 +165,7 @@ function calculateTrend(monthlyData: MonthlyAggregate[]): Trend {
         return acc + Math.pow(yi - predicted, 2);
     }, 0);
     const r2 = Math.max(0, 1 - (ssResidual / ssTotal));
-    
+
     // Direction de la tendance
     let direction: Trend['direction'];
     if (slope > 1000) {
@@ -175,7 +175,7 @@ function calculateTrend(monthlyData: MonthlyAggregate[]): Trend {
     } else {
         direction = 'stable';
     }
-    
+
     return { slope, intercept, r2, direction };
 }
 
@@ -187,10 +187,10 @@ function detectSeasonality(monthlyData: MonthlyAggregate[]): SeasonalityPattern 
     if (monthlyData.length < 6) {
         return { detected: false, strength: 0, peakMonths: [], lowMonths: [] };
     }
-    
+
     // Grouper par mois de l'année (1-12)
     const byMonthOfYear = new Map<number, number[]>();
-    
+
     monthlyData.forEach(m => {
         const monthNum = m.date.getMonth() + 1; // 1-12
         if (!byMonthOfYear.has(monthNum)) {
@@ -198,37 +198,37 @@ function detectSeasonality(monthlyData: MonthlyAggregate[]): SeasonalityPattern 
         }
         byMonthOfYear.get(monthNum)!.push(m.cashFlow);
     });
-    
+
     // Calculer moyenne par mois
     const monthAverages = Array.from(byMonthOfYear.entries())
         .map(([month, values]) => ({
             month,
             avg: values.reduce((a, b) => a + b, 0) / values.length
         }));
-    
+
     if (monthAverages.length < 4) {
         return { detected: false, strength: 0, peakMonths: [], lowMonths: [] };
     }
-    
+
     // Calculer écart-type des moyennes mensuelles
     const overallAvg = monthAverages.reduce((sum, m) => sum + m.avg, 0) / monthAverages.length;
     const variance = monthAverages.reduce((sum, m) => sum + Math.pow(m.avg - overallAvg, 2), 0) / monthAverages.length;
     const stdDev = Math.sqrt(variance);
-    
+
     // Force de la saisonnalité = coefficient de variation
     const strength = Math.abs(overallAvg) > 0 ? Math.min(1, stdDev / Math.abs(overallAvg)) : 0;
-    
+
     // Identifier mois pics et creux (±0.5 std dev)
     const peakMonths = monthAverages
         .filter(m => m.avg > overallAvg + stdDev * 0.5)
         .map(m => m.month);
-    
+
     const lowMonths = monthAverages
         .filter(m => m.avg < overallAvg - stdDev * 0.5)
         .map(m => m.month);
-    
+
     const detected = strength > 0.2 && (peakMonths.length > 0 || lowMonths.length > 0);
-    
+
     return { detected, strength, peakMonths, lowMonths };
 }
 
@@ -244,27 +244,27 @@ function generateBaselineForecasts(
     const forecasts: ForecastDataPoint[] = [];
     const lastMonth = monthlyData[monthlyData.length - 1];
     const lastIndex = monthlyData.length - 1;
-    
+
     for (let i = 1; i <= horizon; i++) {
         const futureDate = new Date(lastMonth.date);
         futureDate.setMonth(futureDate.getMonth() + i);
-        
+
         // Valeur baseline = tendance linéaire
         let predictedValue = trend.slope * (lastIndex + i) + trend.intercept;
-        
+
         // Ajuster avec saisonnalité si détectée
         if (seasonality.detected && seasonality.strength > 0.3) {
             const monthNum = futureDate.getMonth() + 1;
             const isPeak = seasonality.peakMonths.includes(monthNum);
             const isLow = seasonality.lowMonths.includes(monthNum);
-            
+
             if (isPeak) {
                 predictedValue *= (1 + seasonality.strength * 0.3); // Boost pics
             } else if (isLow) {
                 predictedValue *= (1 - seasonality.strength * 0.3); // Réduction creux
             }
         }
-        
+
         forecasts.push({
             date: futureDate,
             value: Math.round(predictedValue),
@@ -272,7 +272,7 @@ function generateBaselineForecasts(
             scenario: 'baseline'
         });
     }
-    
+
     return forecasts;
 }
 
@@ -296,7 +296,7 @@ function applyScenarioMultiplier(
 function prepareHistoricalData(monthlyData: MonthlyAggregate[]): ForecastDataPoint[] {
     // Prendre les 3 derniers mois max pour le graphique
     const recentMonths = monthlyData.slice(-3);
-    
+
     return recentMonths.map(m => ({
         date: m.date,
         value: Math.round(m.cashFlow),
@@ -313,49 +313,49 @@ function calculateMetrics(
     historicalData: MonthlyAggregate[]
 ): CashFlowForecast['metrics'] {
     const currentCash = historicalData[historicalData.length - 1].cashFlow;
-    
+
     // Calculer runway (mois avant rupture) sur scénario pessimiste
     let runway = 12; // Max par défaut
     let runwayDate: Date | null = null;
     let cumulativeCash = currentCash;
-    
+
     for (let i = 0; i < pessimistic.length; i++) {
         cumulativeCash += pessimistic[i].value;
-        
+
         if (cumulativeCash < 0) {
             runway = i + 1;
             runwayDate = pessimistic[i].date;
             break;
         }
     }
-    
+
     // Si pas de rupture détectée dans l'horizon, runway = horizon max
     if (runwayDate === null && pessimistic.length > 0) {
         runway = pessimistic.length;
     }
-    
+
     // Déterminer tendance globale
     const firstForecast = baseline[0]?.value || 0;
     const lastForecast = baseline[baseline.length - 1]?.value || 0;
     const trendDiff = lastForecast - firstForecast;
-    
+
     let trend: 'improving' | 'stable' | 'declining';
     if (trendDiff > 5000) trend = 'improving';
     else if (trendDiff < -5000) trend = 'declining';
     else trend = 'stable';
-    
+
     // Calculer confiance (basée sur stabilité historique)
     const historicalVariance = calculateVariance(historicalData.map(m => m.cashFlow));
     const historicalMean = historicalData.reduce((sum, m) => sum + m.cashFlow, 0) / historicalData.length;
     const cv = Math.abs(historicalMean) > 0 ? Math.sqrt(historicalVariance) / Math.abs(historicalMean) : 1;
     const confidence = Math.max(0.3, Math.min(0.95, 1 - cv)); // Entre 30% et 95%
-    
+
     // Niveau de risque
     let riskLevel: 'safe' | 'warning' | 'critical';
     if (runway >= 6) riskLevel = 'safe';
     else if (runway >= 3) riskLevel = 'warning';
     else riskLevel = 'critical';
-    
+
     return {
         runway,
         runwayDate,
@@ -379,7 +379,7 @@ function generateInsights(
     seasonality: SeasonalityPattern
 ): ForecastInsight[] {
     const insights: ForecastInsight[] = [];
-    
+
     // Insight #1: Runway
     if (metrics.riskLevel === 'critical') {
         insights.push({
@@ -403,7 +403,7 @@ function generateInsights(
             recommendation: 'Position favorable pour investir dans la croissance'
         });
     }
-    
+
     // Insight #2: Tendance
     if (metrics.trend === 'improving') {
         insights.push({
@@ -420,16 +420,16 @@ function generateInsights(
             recommendation: 'Audit charges + révision prix urgents'
         });
     }
-    
+
     // Insight #3: Saisonnalité
     if (seasonality.detected) {
-        const peakMonthNames = seasonality.peakMonths.map(m => 
+        const peakMonthNames = seasonality.peakMonths.map(m =>
             new Date(2024, m - 1, 1).toLocaleString('fr-FR', { month: 'long' })
         );
         const lowMonthNames = seasonality.lowMonths.map(m =>
             new Date(2024, m - 1, 1).toLocaleString('fr-FR', { month: 'long' })
         );
-        
+
         if (peakMonthNames.length > 0) {
             insights.push({
                 type: 'positive',
@@ -439,7 +439,7 @@ function generateInsights(
             });
         }
     }
-    
+
     // Insight #4: Confiance prévision
     if (metrics.confidence < 0.6) {
         insights.push({
@@ -449,6 +449,6 @@ function generateInsights(
             recommendation: 'Monitorer hebdomadaire + préparer scénarios de secours'
         });
     }
-    
+
     return insights;
 }
