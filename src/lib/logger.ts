@@ -25,7 +25,7 @@ class Logger {
      */
     debug(message: string, ...args: any[]) {
         if (!isDev) return;
-        logger.debug(`🔍 [${this.context}]`, message, ...args);
+        console.log(`🔍 [${this.context}]`, message, ...args);
     }
 
     /**
@@ -33,21 +33,21 @@ class Logger {
      */
     info(message: string, ...args: any[]) {
         if (!isDev) return;
-        logger.debug(`ℹ️ [${this.context}]`, message, ...args);
+        console.log(`ℹ️ [${this.context}]`, message, ...args);
     }
 
     /**
      * Warning logs
      */
     warn(message: string, ...args: any[]) {
-        logger.warn(`⚠️ [${this.context}]`, message, ...args);
+        console.warn(`⚠️ [${this.context}]`, message, ...args);
     }
 
     /**
      * Error logs (always logged)
      */
     error(message: string, error?: any, ...args: any[]) {
-        logger.error(`❌ [${this.context}]`, message, error, ...args);
+        console.error(`❌ [${this.context}]`, message, error, ...args);
     }
 
     /**
