@@ -26,27 +26,32 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
 
         if (plan === 'FREE') {
             return (
-                <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4 animate-slide-down">
-                    <div className="bg-gradient-to-r from-green-500/10 to-emerald-600/10 border border-green-500/30 rounded-lg p-3 shadow-lg backdrop-blur-sm">
+                <div className="fixed bottom-6 right-6 z-50 w-full max-w-sm animate-slide-up">
+                    <div className="bg-gradient-to-br from-blue-950/95 to-blue-900/95 backdrop-blur-xl border border-blue-500/20 rounded-2xl p-4 shadow-2xl">
                         <button
                             onClick={handleClose}
-                            className="absolute top-2 right-2 text-gray-400 hover:text-gray-300 transition-colors"
+                            className="absolute top-3 right-3 text-gray-400 hover:text-gray-200 transition-colors"
                         >
                             <X className="w-4 h-4" />
                         </button>
 
-                        <div className="flex items-center gap-3">
-                            <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                            <div className="flex-1">
-                                <p className="text-sm font-medium">
-                                    ✨ Analyse terminée • Session locale
+                        <div className="flex items-start gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                                <CheckCircle className="w-5 h-5 text-green-400" />
+                            </div>
+                            <div className="flex-1 pt-1">
+                                <h3 className="font-semibold text-base mb-1">
+                                    Analyse terminée
+                                </h3>
+                                <p className="text-sm text-gray-400 mb-3">
+                                    Session locale • Données non sauvegardées
                                 </p>
                                 <Link
                                     href="/pricing"
-                                    className="text-xs text-amber-400 hover:text-amber-300 transition-colors inline-flex items-center gap-1 mt-0.5"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-blue-500/20"
                                 >
-                                    <Crown className="w-3 h-3" />
-                                    Upgrade pour sauvegarde cloud
+                                    <Crown className="w-4 h-4" />
+                                    Sauvegarder dans le cloud
                                 </Link>
                             </div>
                         </div>
@@ -57,23 +62,26 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
 
         // User PRO/SCALE/ENTERPRISE
         return (
-            <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-xl px-4 animate-slide-down">
-                <div className="bg-gradient-to-r from-green-500/10 to-green-600/10 border border-green-500/30 rounded-xl p-4 shadow-2xl backdrop-blur-sm">
+            <div className="fixed bottom-6 right-6 z-50 w-full max-w-sm animate-slide-up">
+                <div className="bg-gradient-to-br from-green-950/95 to-emerald-900/95 backdrop-blur-xl border border-green-500/20 rounded-2xl p-4 shadow-2xl">
                     <button
                         onClick={handleClose}
-                        className="absolute top-3 right-3 text-green-400 hover:text-green-300 transition-colors"
+                        className="absolute top-3 right-3 text-gray-400 hover:text-gray-200 transition-colors"
                     >
-                        <X className="w-5 h-5" />
+                        <X className="w-4 h-4" />
                     </button>
 
                     <div className="flex items-center gap-3">
-                        <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
-                        <div>
-                            <h3 className="font-bold">
-                                Données importées avec succès ! 🎉
+                        <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                            <CheckCircle className="w-5 h-5 text-green-400" />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="font-semibold text-base">
+                                Importé avec succès
                             </h3>
-                            <p className="text-sm text-secondary">
-                                Sauvegardé dans le cloud • {plan} plan actif
+                            <p className="text-sm text-gray-400 flex items-center gap-1.5 mt-0.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                                Sauvegardé • Plan {plan}
                             </p>
                         </div>
                     </div>
@@ -84,27 +92,32 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
 
     // User NON connecté → Inciter signup
     return (
-        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4 animate-slide-down">
-            <div className="bg-gradient-to-r from-blue-500/10 to-blue-600/10 border border-blue-500/30 rounded-lg p-3 shadow-lg backdrop-blur-sm">
+        <div className="fixed bottom-6 right-6 z-50 w-full max-w-sm animate-slide-up">
+            <div className="bg-gradient-to-br from-slate-950/95 to-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 shadow-2xl">
                 <button
                     onClick={handleClose}
-                    className="absolute top-2 right-2 text-gray-400 hover:text-gray-300 transition-colors"
+                    className="absolute top-3 right-3 text-gray-400 hover:text-gray-200 transition-colors"
                 >
                     <X className="w-4 h-4" />
                 </button>
 
-                <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                    <div className="flex-1">
-                        <p className="text-sm font-medium">
-                            ✨ Analyse terminée • Session temporaire
+                <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                        <CheckCircle className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <div className="flex-1 pt-1">
+                        <h3 className="font-semibold text-base mb-1">
+                            Analyse terminée
+                        </h3>
+                        <p className="text-sm text-gray-400 mb-3">
+                            Session temporaire • Non sauvegardée
                         </p>
                         <Link
                             href="/auth/signup"
-                            className="text-xs text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center gap-1 mt-0.5"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-blue-500/20"
                         >
-                            <Sparkles className="w-3 h-3" />
-                            Créer un compte gratuit pour sauvegarder
+                            <Sparkles className="w-4 h-4" />
+                            Créer un compte gratuit
                         </Link>
                     </div>
                 </div>
