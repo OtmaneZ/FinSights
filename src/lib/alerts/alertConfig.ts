@@ -2,6 +2,8 @@
  * Configuration et types pour le système d'alertes FinSight
  */
 
+import { logger } from '@/lib/logger';
+
 export type AlertType = 'tresorerie' | 'dso' | 'marge' | 'anomalie' | 'echeance';
 export type AlertSeverity = 'critical' | 'warning' | 'info';
 
