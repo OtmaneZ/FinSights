@@ -94,37 +94,57 @@ export default function DashboardPreview() {
                 {/* Mini Chart */}
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl p-4 border border-gray-200/50">
                     <div className="text-xs text-gray-600 font-medium mb-3">Cash Flow Evolution</div>
-                    <svg viewBox="0 0 200 60" className="w-full h-16">
+                    <svg viewBox="0 0 240 80" className="w-full h-20">
                         {/* Grid lines */}
-                        <line x1="0" y1="15" x2="200" y2="15" stroke="#e5e7eb" strokeWidth="1" />
-                        <line x1="0" y1="30" x2="200" y2="30" stroke="#e5e7eb" strokeWidth="1" />
-                        <line x1="0" y1="45" x2="200" y2="45" stroke="#e5e7eb" strokeWidth="1" />
+                        <line x1="0" y1="20" x2="240" y2="20" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
+                        <line x1="0" y1="40" x2="240" y2="40" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
+                        <line x1="0" y1="60" x2="240" y2="60" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
 
-                        {/* Animated Path */}
+                        {/* Realistic Growth Path (S-curve) */}
                         <path
-                            d="M 0 50 Q 50 40, 100 30 T 200 10"
+                            d="M 10 65 L 30 62 L 50 58 L 70 52 L 90 45 L 110 38 L 130 32 L 150 28 L 170 25 L 190 22 L 210 20 L 230 18"
                             fill="none"
                             stroke="url(#gradient)"
-                            strokeWidth="3"
+                            strokeWidth="2.5"
                             strokeLinecap="round"
-                            strokeDasharray="400"
-                            strokeDashoffset={400 - (chartProgress * 4)}
+                            strokeLinejoin="round"
+                            strokeDasharray="300"
+                            strokeDashoffset={300 - (chartProgress * 3)}
                             className="transition-all duration-300"
+                        />
+
+                        {/* Fill area under curve */}
+                        <path
+                            d="M 10 65 L 30 62 L 50 58 L 70 52 L 90 45 L 110 38 L 130 32 L 150 28 L 170 25 L 190 22 L 210 20 L 230 18 L 230 70 L 10 70 Z"
+                            fill="url(#gradient-fill)"
+                            opacity={chartProgress > 50 ? "0.1" : "0"}
+                            className="transition-all duration-500"
                         />
 
                         {/* Gradient Definition */}
                         <defs>
                             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                                 <stop offset="0%" stopColor="#3b82f6" />
+                                <stop offset="50%" stopColor="#6366f1" />
                                 <stop offset="100%" stopColor="#8b5cf6" />
+                            </linearGradient>
+                            <linearGradient id="gradient-fill" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#8b5cf6" />
+                                <stop offset="100%" stopColor="#ffffff" />
                             </linearGradient>
                         </defs>
 
-                        {/* Animated Dot */}
-                        {chartProgress > 90 && (
+                        {/* Data points */}
+                        {chartProgress > 20 && <circle cx="30" cy="62" r="2" fill="#3b82f6" opacity="0.6" />}
+                        {chartProgress > 40 && <circle cx="70" cy="52" r="2" fill="#6366f1" opacity="0.6" />}
+                        {chartProgress > 60 && <circle cx="110" cy="38" r="2" fill="#8b5cf6" opacity="0.6" />}
+                        {chartProgress > 80 && <circle cx="150" cy="28" r="2" fill="#8b5cf6" opacity="0.6" />}
+
+                        {/* Animated Dot at end */}
+                        {chartProgress > 95 && (
                             <circle
-                                cx="200"
-                                cy="10"
+                                cx="230"
+                                cy="18"
                                 r="4"
                                 fill="#8b5cf6"
                                 className="animate-pulse"
