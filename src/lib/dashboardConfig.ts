@@ -1,7 +1,7 @@
 // Configuration adaptative du dashboard selon le niveau de données
 import { DataLevel, DashboardConfig, DataLevelInfo, ColumnMapping, FinancialRecord } from './dataModel';
-import {
 import { logger } from '@/lib/logger';
+import {
     calculateDSOFromTransactions,
     calculateEstimatedBFR,
     calculateGrossMargin,

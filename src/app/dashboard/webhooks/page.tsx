@@ -15,8 +15,8 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import {
 import { logger } from '@/lib/logger';
+import {
     Webhook,
     Plus,
     Trash2,
@@ -476,8 +476,8 @@ export default function WebhooksPage() {
                                         <div
                                             key={log.id}
                                             className={`p-4 rounded-lg border ${log.success
-                                                    ? 'bg-green-50 border-green-200'
-                                                    : 'bg-red-50 border-red-200'
+                                                ? 'bg-green-50 border-green-200'
+                                                : 'bg-red-50 border-red-200'
                                                 }`}
                                         >
                                             <div className="flex items-start justify-between mb-2">
