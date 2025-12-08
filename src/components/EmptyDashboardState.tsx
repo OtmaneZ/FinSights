@@ -54,19 +54,17 @@ export default function EmptyDashboardState() {
                         </div>
 
                         {/* Message rassurant + infos qualité */}
-                        <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/30 rounded-lg">
-                            <p className="text-sm text-blue-900 dark:text-blue-100 font-medium mb-1.5 flex items-center gap-2">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-900/10 border-2 border-blue-200 dark:border-blue-800/30 rounded-lg">
+                            <p className="text-sm text-gray-900 dark:text-blue-100 font-semibold mb-2 flex items-center gap-2">
+                                <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 Aucun compte requis • Analyse instantanée
                             </p>
-                            <p className="text-xs text-blue-700 dark:text-blue-300">
+                            <p className="text-xs text-gray-700 dark:text-blue-200 font-medium">
                                 Minimum : 10 transactions avec dates, montants et types (revenus/charges)
                             </p>
-                        </div>
-
-                        <div className="flex justify-center gap-6 text-xs text-gray-500">
+                        </div>                        <div className="flex justify-center gap-6 text-xs text-gray-500">
                             <span className="flex items-center gap-1">🔒 100% sécurisé</span>
                             <span className="flex items-center gap-1">⚡ Analyse instantanée</span>
                             <span className="flex items-center gap-1">🎯 KPIs auto-générés</span>

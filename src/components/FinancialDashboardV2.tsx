@@ -1073,12 +1073,14 @@ export default function FinancialDashboardV2() {
                     <>
                         <PresenceIndicator />
                         {/* <CursorTracker /> - Disabled to reduce Pusher message consumption */}
-                        <RealtimeToast
-                            notifications={toastNotifications}
-                            onDismiss={(id) => setToastNotifications(prev => prev.filter(n => n.id !== id))}
-                        />
                     </>
                 )}
+
+                {/* Toast toujours visible (même sans données chargées) */}
+                <RealtimeToast
+                    notifications={toastNotifications}
+                    onDismiss={(id) => setToastNotifications(prev => prev.filter(n => n.id !== id))}
+                />
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
                     <div>
