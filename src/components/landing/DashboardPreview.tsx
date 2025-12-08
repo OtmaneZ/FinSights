@@ -91,69 +91,124 @@ export default function DashboardPreview() {
                     </div>
                 </div>
 
-                {/* Mini Chart */}
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl p-4 border border-gray-200/50">
-                    <div className="text-xs text-gray-600 font-medium mb-3">Cash Flow Evolution</div>
-                    <svg viewBox="0 0 240 80" className="w-full h-20">
-                        {/* Grid lines */}
-                        <line x1="0" y1="20" x2="240" y2="20" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
-                        <line x1="0" y1="40" x2="240" y2="40" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
-                        <line x1="0" y1="60" x2="240" y2="60" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
+                {/* Professional Chart - Revenus vs Dépenses */}
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl p-5 border border-gray-200/50">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="text-sm text-gray-700 font-semibold">Revenus vs Dépenses (6 mois)</div>
+                        <div className="flex items-center gap-3 text-xs">
+                            <div className="flex items-center gap-1.5">
+                                <div className="w-3 h-0.5 bg-green-500"></div>
+                                <span className="text-gray-600">Revenus</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <div className="w-3 h-0.5 bg-red-400"></div>
+                                <span className="text-gray-600">Dépenses</span>
+                            </div>
+                        </div>
+                    </div>
 
-                        {/* Realistic Cash Flow with volatility (saisonnalité Q4) */}
-                        <path
-                            d="M 10 58 L 30 55 L 50 60 L 70 52 L 90 48 L 110 55 L 130 42 L 150 38 L 170 32 L 190 28 L 210 22 L 230 18"
-                            fill="none"
-                            stroke="url(#gradient)"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeDasharray="300"
-                            strokeDashoffset={300 - (chartProgress * 3)}
-                            className="transition-all duration-300"
-                        />
+                    <svg viewBox="0 0 300 120" className="w-full h-28">
+                        {/* Axes */}
+                        <line x1="30" y1="10" x2="30" y2="95" stroke="#9ca3af" strokeWidth="1" opacity="0.5" />
+                        <line x1="30" y1="95" x2="290" y2="95" stroke="#9ca3af" strokeWidth="1" opacity="0.5" />
 
-                        {/* Fill area under curve */}
-                        <path
-                            d="M 10 58 L 30 55 L 50 60 L 70 52 L 90 48 L 110 55 L 130 42 L 150 38 L 170 32 L 190 28 L 210 22 L 230 18 L 230 70 L 10 70 Z"
-                            fill="url(#gradient-fill)"
-                            opacity={chartProgress > 50 ? "0.1" : "0"}
-                            className="transition-all duration-500"
-                        />
+                        {/* Grid lines horizontales */}
+                        <line x1="30" y1="25" x2="290" y2="25" stroke="#e5e7eb" strokeWidth="0.5" strokeDasharray="3,3" opacity="0.4" />
+                        <line x1="30" y1="45" x2="290" y2="45" stroke="#e5e7eb" strokeWidth="0.5" strokeDasharray="3,3" opacity="0.4" />
+                        <line x1="30" y1="65" x2="290" y2="65" stroke="#e5e7eb" strokeWidth="0.5" strokeDasharray="3,3" opacity="0.4" />
+                        <line x1="30" y1="85" x2="290" y2="85" stroke="#e5e7eb" strokeWidth="0.5" strokeDasharray="3,3" opacity="0.4" />
 
-                        {/* Gradient Definition */}
-                        <defs>
-                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#3b82f6" />
-                                <stop offset="50%" stopColor="#6366f1" />
-                                <stop offset="100%" stopColor="#8b5cf6" />
-                            </linearGradient>
-                            <linearGradient id="gradient-fill" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stopColor="#8b5cf6" />
-                                <stop offset="100%" stopColor="#ffffff" />
-                            </linearGradient>
-                        </defs>
+                        {/* Y-axis labels */}
+                        <text x="22" y="28" fontSize="8" fill="#6b7280" textAnchor="end">200k</text>
+                        <text x="22" y="48" fontSize="8" fill="#6b7280" textAnchor="end">150k</text>
+                        <text x="22" y="68" fontSize="8" fill="#6b7280" textAnchor="end">100k</text>
+                        <text x="22" y="88" fontSize="8" fill="#6b7280" textAnchor="end">50k</text>
 
-                        {/* Data points */}
-                        {chartProgress > 20 && <circle cx="30" cy="55" r="2" fill="#3b82f6" opacity="0.6" />}
-                        {chartProgress > 30 && <circle cx="50" cy="60" r="2" fill="#3b82f6" opacity="0.6" />}
-                        {chartProgress > 40 && <circle cx="70" cy="52" r="2" fill="#6366f1" opacity="0.6" />}
-                        {chartProgress > 50 && <circle cx="90" cy="48" r="2" fill="#6366f1" opacity="0.6" />}
-                        {chartProgress > 60 && <circle cx="110" cy="55" r="2" fill="#8b5cf6" opacity="0.6" />}
-                        {chartProgress > 70 && <circle cx="150" cy="38" r="2" fill="#8b5cf6" opacity="0.6" />}
-                        {chartProgress > 80 && <circle cx="190" cy="28" r="2" fill="#8b5cf6" opacity="0.6" />}
+                        {/* X-axis labels (mois) */}
+                        <text x="50" y="107" fontSize="8" fill="#6b7280" textAnchor="middle">Juil</text>
+                        <text x="90" y="107" fontSize="8" fill="#6b7280" textAnchor="middle">Août</text>
+                        <text x="130" y="107" fontSize="8" fill="#6b7280" textAnchor="middle">Sept</text>
+                        <text x="170" y="107" fontSize="8" fill="#6b7280" textAnchor="middle">Oct</text>
+                        <text x="210" y="107" fontSize="8" fill="#6b7280" textAnchor="middle">Nov</text>
+                        <text x="250" y="107" fontSize="8" fill="#6b7280" textAnchor="middle">Déc</text>
 
-                        {/* Animated Dot at end */}
-                        {chartProgress > 95 && (
-                            <circle
-                                cx="230"
-                                cy="18"
-                                r="4"
-                                fill="#8b5cf6"
-                                className="animate-pulse"
+                        {/* Ligne REVENUS (verte, volatile réaliste) */}
+                        {chartProgress > 10 && (
+                            <path
+                                d="M 50 72 L 90 68 L 130 75 L 170 58 L 210 52 L 250 45"
+                                fill="none"
+                                stroke="#10b981"
+                                strokeWidth="2.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeDasharray="240"
+                                strokeDashoffset={240 - (chartProgress * 2.4)}
+                                className="transition-all duration-500"
                             />
                         )}
+
+                        {/* Fill area revenus */}
+                        {chartProgress > 50 && (
+                            <path
+                                d="M 50 72 L 90 68 L 130 75 L 170 58 L 210 52 L 250 45 L 250 95 L 50 95 Z"
+                                fill="#10b981"
+                                opacity="0.08"
+                            />
+                        )}
+
+                        {/* Ligne DÉPENSES (rouge, plus stable) */}
+                        {chartProgress > 10 && (
+                            <path
+                                d="M 50 82 L 90 80 L 130 81 L 170 78 L 210 79 L 250 77"
+                                fill="none"
+                                stroke="#f87171"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeDasharray="240"
+                                strokeDashoffset={240 - (chartProgress * 2.4)}
+                                className="transition-all duration-500"
+                            />
+                        )}
+
+                        {/* Data points REVENUS */}
+                        {chartProgress > 20 && <circle cx="50" cy="72" r="2.5" fill="#10b981" className="drop-shadow-sm" />}
+                        {chartProgress > 35 && <circle cx="90" cy="68" r="2.5" fill="#10b981" className="drop-shadow-sm" />}
+                        {chartProgress > 50 && <circle cx="130" cy="75" r="2.5" fill="#10b981" className="drop-shadow-sm" />}
+                        {chartProgress > 65 && <circle cx="170" cy="58" r="2.5" fill="#10b981" className="drop-shadow-sm" />}
+                        {chartProgress > 80 && <circle cx="210" cy="52" r="2.5" fill="#10b981" className="drop-shadow-sm" />}
+                        {chartProgress > 95 && (
+                            <circle cx="250" cy="45" r="3.5" fill="#10b981" className="animate-pulse drop-shadow-lg" />
+                        )}
+
+                        {/* Data points DÉPENSES */}
+                        {chartProgress > 20 && <circle cx="50" cy="82" r="2" fill="#f87171" opacity="0.8" />}
+                        {chartProgress > 35 && <circle cx="90" cy="80" r="2" fill="#f87171" opacity="0.8" />}
+                        {chartProgress > 50 && <circle cx="130" cy="81" r="2" fill="#f87171" opacity="0.8" />}
+                        {chartProgress > 65 && <circle cx="170" cy="78" r="2" fill="#f87171" opacity="0.8" />}
+                        {chartProgress > 80 && <circle cx="210" cy="79" r="2" fill="#f87171" opacity="0.8" />}
+                        {chartProgress > 95 && <circle cx="250" cy="77" r="2.5" fill="#f87171" opacity="0.8" />}
+
+                        {/* Tooltip dernier point (Décembre) */}
+                        {chartProgress > 95 && (
+                            <>
+                                <rect x="255" y="38" width="38" height="18" rx="3" fill="white" stroke="#e5e7eb" strokeWidth="0.5" />
+                                <text x="274" y="48" fontSize="7" fill="#10b981" fontWeight="600" textAnchor="middle">156k€</text>
+                            </>
+                        )}
                     </svg>
+
+                    {/* Stats en bas */}
+                    {chartProgress > 95 && (
+                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-200">
+                            <div className="text-xs text-gray-500">
+                                Cash Flow Net: <span className="font-semibold text-green-600">+68k€</span>
+                            </div>
+                            <div className="text-xs text-gray-500">
+                                Marge moyenne: <span className="font-semibold text-gray-700">28%</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
