@@ -1,7 +1,7 @@
 /**
  * SCORE FINSIGHT™ - ALGORITHME 0-100
  * Évalue la santé financière globale d'une entreprise
- * 
+ *
  * 4 Piliers (25 points chacun):
  * 1. CASH (Trésorerie & Runway)
  * 2. MARGIN (Marges & Rentabilité)
@@ -36,17 +36,17 @@ export interface ScoreFactors {
     cashFlowNet: number;
     runway: number;              // Mois de trésorerie restante
     dso: number;                 // Days Sales Outstanding
-    
+
     // Margin factors
     marginPercentage: number;
     revenueGrowth: number;
     expenseGrowth: number;
-    
+
     // Resilience factors
     fixedCostsRatio: number;     // % charges fixes / CA
     topClientDependency: number; // % CA du top client
     categoryDiversity: number;   // Nombre de catégories actives
-    
+
     // Risk factors
     anomalyCount: number;
     criticalAnomalies: number;
@@ -58,24 +58,24 @@ export interface ScoreFactors {
  */
 export function calculateFinSightScore(data: ProcessedData): FinSightScore {
     const factors = extractScoreFactors(data);
-    
+
     const cashScore = calculateCashScore(factors);
     const marginScore = calculateMarginScore(factors);
     const resilienceScore = calculateResilienceScore(factors);
     const riskScore = calculateRiskScore(factors);
-    
+
     const breakdown: ScoreBreakdown = {
         cash: Math.round(cashScore),
         margin: Math.round(marginScore),
         resilience: Math.round(resilienceScore),
         risk: Math.round(riskScore)
     };
-    
+
     const total = Math.round(cashScore + marginScore + resilienceScore + riskScore);
     const level = getScoreLevel(total);
     const insights = generateInsights(breakdown, factors, level);
     const recommendations = generateRecommendations(breakdown, factors, level);
-    
+
     return {
         total,
         level,
@@ -91,31 +91,30 @@ export function calculateFinSightScore(data: ProcessedData): FinSightScore {
  */
 function extractScoreFactors(data: ProcessedData): ScoreFactors {
     const { kpis, summary, records, qualityMetrics } = data;
-    
+
     // Cash factors
     const cashFlowNet = summary.netCashFlow;
-    const avgMonthlyExpenses = kpis.expenses / 12; // Approximation annuelle
-    const runway = avgMonthlyExpenses > 0 ? Math.max(0, cashFlowNet / avgMonthlyExpenses) : 12;
+    const runway = calculateProjectedRunway(records, cashFlowNet); // ✅ AMÉLIORATION 1
     const dso = calculateDSOFromTransactions(records);
-    
+
     // Margin factors
     const marginPercentage = kpis.marginPercentage;
     const revenueGrowth = kpis.trends.revenueGrowth;
     const expenseGrowth = kpis.trends.expenseGrowth;
-    
+
     // Resilience factors
-    const fixedCostsRatio = calculateFixedCostsRatio(records, kpis.revenue);
+    const fixedCostsRatio = calculateSmartFixedCostsRatio(records, kpis.revenue); // ✅ AMÉLIORATION 2
     const topClientDependency = calculateTopClientDependency(records, kpis.revenue);
     const categoryDiversity = summary.categories.length;
-    
+
     // Risk factors
     const anomalyResult = detectAnomalies(records);
     const anomalyCount = anomalyResult.anomalies.length;
-    const criticalAnomalies = anomalyResult.anomalies.filter(a => 
+    const criticalAnomalies = anomalyResult.anomalies.filter(a =>
         a.riskLevel === 'critical' || a.riskLevel === 'high'
     ).length;
     const volatility = calculateVolatility(records);
-    
+
     return {
         cashFlowNet,
         runway,
@@ -140,7 +139,7 @@ function extractScoreFactors(data: ProcessedData): ScoreFactors {
  */
 function calculateCashScore(factors: ScoreFactors): number {
     let score = 0;
-    
+
     // Runway (15 points max)
     if (factors.runway >= 12) {
         score += 15; // Excellent: > 1 an de runway
@@ -151,14 +150,14 @@ function calculateCashScore(factors: ScoreFactors): number {
     } else {
         score += 3; // Critique: < 3 mois
     }
-    
+
     // Cash Flow positif (5 points max)
     if (factors.cashFlowNet > 0) {
         score += 5;
     } else if (factors.cashFlowNet > -50000) {
         score += 2;
     }
-    
+
     // DSO - Days Sales Outstanding (5 points max)
     if (factors.dso <= 30) {
         score += 5; // Excellent: paiements < 30j
@@ -168,7 +167,7 @@ function calculateCashScore(factors: ScoreFactors): number {
         score += 1; // Moyen: 45-60j
     }
     // > 60j = 0 points (problème trésorerie)
-    
+
     return Math.min(25, score);
 }
 
@@ -180,7 +179,7 @@ function calculateCashScore(factors: ScoreFactors): number {
  */
 function calculateMarginScore(factors: ScoreFactors): number {
     let score = 0;
-    
+
     // Marge nette (15 points max)
     const margin = factors.marginPercentage;
     if (margin >= 20) {
@@ -195,7 +194,7 @@ function calculateMarginScore(factors: ScoreFactors): number {
         score += 2; // Très faible: 0-5%
     }
     // Marge négative = 0 points
-    
+
     // Croissance CA (5 points max)
     if (factors.revenueGrowth >= 15) {
         score += 5; // Forte croissance
@@ -204,7 +203,7 @@ function calculateMarginScore(factors: ScoreFactors): number {
     } else if (factors.revenueGrowth >= 0) {
         score += 1; // Stagnation
     }
-    
+
     // Contrôle charges (5 points max)
     if (factors.expenseGrowth <= 0) {
         score += 5; // Réduction charges = excellent
@@ -213,7 +212,7 @@ function calculateMarginScore(factors: ScoreFactors): number {
     } else if (factors.expenseGrowth < factors.revenueGrowth * 1.5) {
         score += 1; // Charges contrôlées
     }
-    
+
     return Math.min(25, score);
 }
 
@@ -225,7 +224,7 @@ function calculateMarginScore(factors: ScoreFactors): number {
  */
 function calculateResilienceScore(factors: ScoreFactors): number {
     let score = 0;
-    
+
     // Charges fixes (10 points max)
     const fixedRatio = factors.fixedCostsRatio;
     if (fixedRatio <= 30) {
@@ -237,7 +236,7 @@ function calculateResilienceScore(factors: ScoreFactors): number {
     } else {
         score += 1; // Risque: > 70%
     }
-    
+
     // Dépendance client (10 points max)
     const dependency = factors.topClientDependency;
     if (dependency <= 20) {
@@ -249,7 +248,7 @@ function calculateResilienceScore(factors: ScoreFactors): number {
     } else {
         score += 1; // Critique: > 50%
     }
-    
+
     // Diversité catégories (5 points max)
     const diversity = factors.categoryDiversity;
     if (diversity >= 8) {
@@ -259,7 +258,7 @@ function calculateResilienceScore(factors: ScoreFactors): number {
     } else if (diversity >= 3) {
         score += 1; // Peu diversifié
     }
-    
+
     return Math.min(25, score);
 }
 
@@ -271,33 +270,153 @@ function calculateResilienceScore(factors: ScoreFactors): number {
  */
 function calculateRiskScore(factors: ScoreFactors): number {
     let score = 25; // On part du max et on déduit
-    
+
     // Anomalies critiques (-10 points max)
     score -= Math.min(10, factors.criticalAnomalies * 3);
-    
+
     // Anomalies totales (-5 points max)
     score -= Math.min(5, factors.anomalyCount * 0.5);
-    
+
     // Volatilité (-10 points max)
     // Volatilité normalisée (0-1) → pénalité 0-10
     const volatilityPenalty = Math.min(10, factors.volatility * 10);
     score -= volatilityPenalty;
-    
+
     return Math.max(0, Math.round(score));
 }
 
 /**
- * Calcule le ratio charges fixes / CA
+ * ✅ AMÉLIORATION 1: Calcule runway projeté avec tendance (au lieu de moyenne simple)
+ */
+function calculateProjectedRunway(records: FinancialRecord[], cashFlowNet: number): number {
+    if (records.length < 2) {
+        // Fallback: moyenne simple si pas assez de données
+        const totalExpenses = records
+            .filter(r => r.type === 'expense')
+            .reduce((sum, r) => sum + Math.abs(r.amount), 0);
+        const avgMonthly = totalExpenses / Math.max(1, records.length / 30); // Approx 30 jours/mois
+        return avgMonthly > 0 ? Math.max(0, cashFlowNet / avgMonthly) : 12;
+    }
+
+    // Grouper charges par mois
+    const expensesByMonth = groupExpensesByMonth(records);
+    const monthlyExpenses = Object.values(expensesByMonth);
+
+    if (monthlyExpenses.length < 2) {
+        const avgMonthly = monthlyExpenses[0] || 1;
+        return avgMonthly > 0 ? Math.max(0, cashFlowNet / avgMonthly) : 12;
+    }
+
+    // Prendre les 3 derniers mois (ou moins si pas assez)
+    const last3Months = monthlyExpenses.slice(-3);
+    const avgLast3 = last3Months.reduce((sum, val) => sum + val, 0) / last3Months.length;
+
+    // Calculer tendance: (dernier mois - premier mois) / premier mois
+    const firstMonth = last3Months[0];
+    const lastMonth = last3Months[last3Months.length - 1];
+    const trend = firstMonth > 0 ? ((lastMonth - firstMonth) / firstMonth) : 0;
+
+    // Projeter charges avec tendance (limitée à ±50% pour éviter aberrations)
+    const cappedTrend = Math.max(-0.5, Math.min(0.5, trend));
+    const projectedMonthlyBurn = avgLast3 * (1 + cappedTrend);
+
+    return projectedMonthlyBurn > 0 ? Math.max(0, cashFlowNet / projectedMonthlyBurn) : 12;
+}
+
+/**
+ * Groupe les charges par mois
+ */
+function groupExpensesByMonth(records: FinancialRecord[]): Record<string, number> {
+    const byMonth: Record<string, number> = {};
+
+    records
+        .filter(r => r.type === 'expense')
+        .forEach(r => {
+            const date = new Date(r.date);
+            const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+            byMonth[monthKey] = (byMonth[monthKey] || 0) + Math.abs(r.amount);
+        });
+
+    return byMonth;
+}
+
+/**
+ * ✅ AMÉLIORATION 2: Détection intelligente charges fixes (récurrence + stabilité)
+ */
+function calculateSmartFixedCostsRatio(records: FinancialRecord[], revenue: number): number {
+    if (revenue <= 0) return 100;
+
+    // 1. Grouper charges par fournisseur/contrepartie
+    const expensesByCounterparty = groupExpensesByCounterparty(records);
+
+    // 2. Identifier charges récurrentes ET stables
+    let totalFixedCosts = 0;
+
+    Object.entries(expensesByCounterparty).forEach(([counterparty, transactions]) => {
+        if (transactions.length < 2) return; // Pas récurrent
+
+        // Vérifier récurrence (au moins 2 transactions)
+        const amounts = transactions.map(t => Math.abs(t.amount));
+        const avgAmount = amounts.reduce((sum, a) => sum + a, 0) / amounts.length;
+
+        // Calculer coefficient de variation
+        const variance = amounts.reduce((sum, a) => sum + Math.pow(a - avgAmount, 2), 0) / amounts.length;
+        const stdDev = Math.sqrt(variance);
+        const cv = avgAmount > 0 ? stdDev / avgAmount : 1;
+
+        // Charge fixe si: variance < 20% (CV < 0.2)
+        if (cv < 0.2) {
+            totalFixedCosts += amounts.reduce((sum, a) => sum + a, 0);
+        }
+    });
+
+    // 3. Ajouter mots-clés évidents (loyer, salaire) même si une seule occurrence
+    const keywordFixedCosts = records
+        .filter(r => r.type === 'expense')
+        .filter(r => {
+            const cat = (r.category || '').toLowerCase();
+            const desc = (r.description || '').toLowerCase();
+            const text = `${cat} ${desc}`;
+            return /loyer|salaire|assurance|abonnement/i.test(text);
+        })
+        .reduce((sum, r) => sum + Math.abs(r.amount), 0);
+
+    // Prendre le max (éviter double comptage)
+    const fixedCosts = Math.max(totalFixedCosts, keywordFixedCosts);
+
+    return Math.round((fixedCosts / revenue) * 100);
+}
+
+/**
+ * Groupe les charges par fournisseur
+ */
+function groupExpensesByCounterparty(records: FinancialRecord[]): Record<string, FinancialRecord[]> {
+    const byCounterparty: Record<string, FinancialRecord[]> = {};
+
+    records
+        .filter(r => r.type === 'expense')
+        .forEach(r => {
+            const key = (r.counterparty || r.description || 'Inconnu').toLowerCase().trim();
+            if (!byCounterparty[key]) byCounterparty[key] = [];
+            byCounterparty[key].push(r);
+        });
+
+    return byCounterparty;
+}
+
+/**
+ * @deprecated - Ancienne version simple (gardée pour référence)
+ * Calcule le ratio charges fixes / CA (méthode mots-clés)
  */
 function calculateFixedCostsRatio(records: FinancialRecord[], revenue: number): number {
     if (revenue <= 0) return 100;
-    
+
     // Catégories considérées comme charges fixes
     const fixedCategories = [
         'loyer', 'loyers', 'salaire', 'salaires', 'assurance', 'assurances',
         'abonnement', 'abonnements', 'charges personnel', 'personnel'
     ];
-    
+
     const fixedCosts = records
         .filter(r => r.type === 'expense')
         .filter(r => {
@@ -305,7 +424,7 @@ function calculateFixedCostsRatio(records: FinancialRecord[], revenue: number): 
             return fixedCategories.some(fc => cat.includes(fc));
         })
         .reduce((sum, r) => sum + Math.abs(r.amount), 0);
-    
+
     return Math.round((fixedCosts / revenue) * 100);
 }
 
@@ -314,7 +433,7 @@ function calculateFixedCostsRatio(records: FinancialRecord[], revenue: number): 
  */
 function calculateTopClientDependency(records: FinancialRecord[], revenue: number): number {
     if (revenue <= 0) return 0;
-    
+
     // Grouper par client
     const byClient: Record<string, number> = {};
     records
@@ -323,10 +442,10 @@ function calculateTopClientDependency(records: FinancialRecord[], revenue: numbe
             const client = r.counterparty || 'Inconnu';
             byClient[client] = (byClient[client] || 0) + r.amount;
         });
-    
+
     // Trouver le top client
     const topClientRevenue = Math.max(...Object.values(byClient), 0);
-    
+
     return Math.round((topClientRevenue / revenue) * 100);
 }
 
@@ -335,18 +454,18 @@ function calculateTopClientDependency(records: FinancialRecord[], revenue: numbe
  */
 function calculateVolatility(records: FinancialRecord[]): number {
     if (records.length < 3) return 0;
-    
+
     const amounts = records.map(r => Math.abs(r.amount));
     const mean = amounts.reduce((sum, a) => sum + a, 0) / amounts.length;
-    
+
     if (mean === 0) return 0;
-    
+
     const variance = amounts.reduce((sum, a) => sum + Math.pow(a - mean, 2), 0) / amounts.length;
     const stdDev = Math.sqrt(variance);
-    
+
     // Normaliser: volatilité relative (coefficient de variation)
     const cv = stdDev / mean;
-    
+
     // Mapper 0-2+ vers 0-1 (volatilité > 2 = max)
     return Math.min(1, cv / 2);
 }
@@ -370,7 +489,7 @@ function generateInsights(
     level: ScoreLevel
 ): string[] {
     const insights: string[] = [];
-    
+
     // Insight global
     if (level === 'excellent') {
         insights.push('✅ Santé financière excellente - Tous les indicateurs sont au vert');
@@ -381,7 +500,7 @@ function generateInsights(
     } else {
         insights.push('🚨 Situation critique - Nécessite intervention immédiate');
     }
-    
+
     // Insights par pilier (meilleur et pire)
     const scores = [
         { name: 'Trésorerie', value: breakdown.cash, max: 25 },
@@ -389,38 +508,38 @@ function generateInsights(
         { name: 'Résilience', value: breakdown.resilience, max: 25 },
         { name: 'Risques', value: breakdown.risk, max: 25 }
     ];
-    
+
     const sorted = scores.sort((a, b) => (b.value / b.max) - (a.value / a.max));
-    
+
     // Point fort
     const strongest = sorted[0];
     if (strongest.value / strongest.max >= 0.8) {
         insights.push(`💪 Point fort: ${strongest.name} (${strongest.value}/${strongest.max})`);
     }
-    
+
     // Point faible
     const weakest = sorted[sorted.length - 1];
     if (weakest.value / weakest.max <= 0.5) {
         insights.push(`⚡ Attention: ${weakest.name} nécessite amélioration (${weakest.value}/${weakest.max})`);
     }
-    
+
     // Insights spécifiques
     if (factors.runway < 3) {
         insights.push(`🔴 Runway critique: ${factors.runway.toFixed(1)} mois de trésorerie`);
     }
-    
+
     if (factors.marginPercentage < 5) {
         insights.push(`📉 Marge très faible: ${factors.marginPercentage.toFixed(1)}% - Optimisation urgente`);
     }
-    
+
     if (factors.topClientDependency > 50) {
         insights.push(`⚠️ Dépendance client élevée: ${factors.topClientDependency}% du CA sur 1 client`);
     }
-    
+
     if (factors.criticalAnomalies > 0) {
         insights.push(`🔍 ${factors.criticalAnomalies} anomalie(s) critique(s) détectée(s)`);
     }
-    
+
     return insights;
 }
 
@@ -433,7 +552,7 @@ function generateRecommendations(
     level: ScoreLevel
 ): string[] {
     const recommendations: string[] = [];
-    
+
     // Recommendations basées sur les piliers faibles
     if (breakdown.cash < 15) {
         if (factors.dso > 60) {
@@ -444,7 +563,7 @@ function generateRecommendations(
         }
         recommendations.push('📊 Optimiser cycle de conversion cash (BFR)');
     }
-    
+
     if (breakdown.margin < 15) {
         if (factors.marginPercentage < 10) {
             recommendations.push('💡 Réviser grille tarifaire (+5-10% selon clients)');
@@ -454,7 +573,7 @@ function generateRecommendations(
         }
         recommendations.push('🎯 Focus clients haute marge (analyse ABC)');
     }
-    
+
     if (breakdown.resilience < 15) {
         if (factors.topClientDependency > 35) {
             recommendations.push('🌐 Diversifier: cibler 3-5 nouveaux clients stratégiques');
@@ -464,7 +583,7 @@ function generateRecommendations(
         }
         recommendations.push('🔄 Développer mix produit/services');
     }
-    
+
     if (breakdown.risk < 15) {
         if (factors.criticalAnomalies > 0) {
             recommendations.push('🔎 Investiguer anomalies critiques identifiées');
@@ -474,12 +593,12 @@ function generateRecommendations(
         }
         recommendations.push('🛡️ Mettre en place contrôles internes renforcés');
     }
-    
+
     // Recommandations générales si bon score
     if (level === 'excellent' || level === 'good') {
         recommendations.push('📊 Maintenir monitoring hebdomadaire des KPIs');
         recommendations.push('🚀 Position favorable pour investissement croissance');
     }
-    
+
     return recommendations.slice(0, 5); // Max 5 recommandations
 }
