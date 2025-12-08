@@ -43,7 +43,7 @@ export default function ConsultingSection() {
 
                     {/* Card 2 */}
                     <div className="surface rounded-2xl p-8 border-2 border-accent-primary relative overflow-hidden">
-                        <div className="absolute top-0 right-0 bg-accent-primary text-white px-4 py-1 text-xs font-semibold rounded-bl-lg">⭐ Le plus demandé</div>
+                        <div className="absolute top-0 right-0 bg-accent-primary text-white px-4 py-1 text-xs font-semibold rounded-bl-lg">Le plus demandé</div>
 
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-12 h-12 rounded-xl bg-accent-primary flex items-center justify-center">

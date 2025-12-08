@@ -51,6 +51,9 @@ import EmptyDashboardStateV2 from './EmptyDashboardStateV2'
 // Import Score FinSight™
 import FinSightScoreCard from './FinSightScoreCard'
 
+// Import Consulting Banner
+import ConsultingBanner from './dashboard/ConsultingBanner'
+
 // Import Auth Banner
 import AuthBanner from './AuthBanner'
 
@@ -1099,6 +1102,11 @@ export default function FinancialDashboardV2() {
                     <div className="mb-8">
                         <FinSightScoreCard score={finSightScore} />
                     </div>
+                )}
+
+                {/* 🤝 CTA Consulting Banner - Subtle après upload */}
+                {isDataLoaded && (
+                    <ConsultingBanner variant="subtle" />
                 )}
 
                 {/* KPIs Grid - Layout CFO-friendly: 3 colonnes, plus dense */}

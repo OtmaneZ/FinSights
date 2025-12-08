@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react';
+import Link from 'next/link';
 import {
     FinSightScore,
     ScoreLevel,
@@ -131,14 +132,44 @@ export default function FinSightScoreCard({ score }: FinSightScoreProps) {
                             key={idx}
                             className="flex items-start gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
                         >
-                            <span className="text-lg mt-0.5">
-                                {idx === 0 ? '🎯' : idx === 1 ? '💡' : '🔧'}
-                            </span>
+                            <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                                    {idx + 1}
+                                </span>
+                            </div>
                             <p className="text-sm text-gray-700 dark:text-gray-300 flex-1">
                                 {rec}
                             </p>
                         </div>
                     ))}
+
+                    {/* CTA Consulting conditionnel si score < 60 */}
+                    {(level === 'warning' || level === 'critical') && (
+                        <div className="mt-4 p-4 bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-800 rounded-lg">
+                            <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-900 flex items-center justify-center flex-shrink-0">
+                                    <ExclamationTriangleIcon className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                                        Votre score révèle des signaux faibles critiques
+                                    </p>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
+                                        Un audit approfondi peut identifier les leviers d'action prioritaires et vous aider à redresser rapidement la situation. Nos consultants analysent votre trésorerie, marges et risques pour vous proposer un plan d'action concret.
+                                    </p>
+                                    <Link
+                                        href="/consulting"
+                                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-semibold text-sm transition-all shadow-md hover:shadow-lg"
+                                    >
+                                        Réserver un audit express (2 500€)
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

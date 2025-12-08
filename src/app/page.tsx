@@ -98,7 +98,9 @@ export default function Home() {
             <div className="max-w-6xl mx-auto px-6 -mt-8 mb-12 relative z-10">
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 rounded-xl px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-3">
-                        <span className="text-2xl">🤝</span>
+                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                            <Sparkles className="w-5 h-5 text-blue-600" />
+                        </div>
                         <div>
                             <p className="text-sm font-semibold text-gray-900">
                                 Besoin d'un accompagnement personnalisé ?
