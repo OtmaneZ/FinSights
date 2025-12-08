@@ -193,7 +193,7 @@ export default function Home() {
                                 Vision partielle et réactive
                             </h3>
 
-                            <ul className="space-y-4 mb-8">
+                            <ul className="space-y-4">
                                 {[
                                     'Analyse financière manuelle et chronophage',
                                     'Risques invisibles jusqu\'à leur matérialisation',
@@ -209,15 +209,6 @@ export default function Home() {
                                     </li>
                                 ))}
                             </ul>
-
-                            <div className="p-5 bg-white border border-gray-200 rounded-lg">
-                                <p className="text-sm text-gray-700 italic leading-relaxed mb-3">
-                                    "Je découvre les problèmes trop tard, quand ils sont déjà critiques."
-                                </p>
-                                <div className="text-xs text-gray-500 font-medium">
-                                    CFO, PME 80 personnes
-                                </div>
-                            </div>
                         </div>
 
                         {/* APRÈS - Avec FinSight */}
@@ -233,7 +224,7 @@ export default function Home() {
                                 Intelligence financière complète
                             </h3>
 
-                            <ul className="space-y-4 mb-8">
+                            <ul className="space-y-4">
                                 {[
                                     'Score FinSight™ : santé financière en un coup d\'œil',
                                     'Détection précoce des signaux faibles critiques',
@@ -249,15 +240,6 @@ export default function Home() {
                                     </li>
                                 ))}
                             </ul>
-
-                            <div className="p-5 bg-blue-50 border-2 border-blue-200 rounded-lg">
-                                <p className="text-sm text-gray-900 font-medium leading-relaxed mb-3">
-                                    "FinSight m'a alerté d'un risque de rupture cash à 45 jours. J'ai pu agir à temps."
-                                </p>
-                                <div className="text-xs text-blue-600 font-semibold">
-                                    DAF, Scale-up 150 personnes
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -271,7 +253,7 @@ export default function Home() {
                             Notre approche en 4 piliers
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                            Une méthodologie éprouvée qui transforme vos données financières en décisions stratégiques actionnables
+                            Une approche structurée qui transforme vos données financières en décisions stratégiques actionnables
                         </p>
                     </div>
 
