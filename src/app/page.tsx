@@ -13,6 +13,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Testimonials from '@/components/Testimonials'
 import DashboardPreview from '@/components/landing/DashboardPreview'
+import ConsultingSection from '@/components/landing/ConsultingSection'
 
 export default function Home() {
     return (
@@ -92,6 +93,32 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
+            {/* CTA Consulting Banner - Subtle */}
+            <div className="max-w-6xl mx-auto px-6 -mt-8 mb-12 relative z-10">
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 rounded-xl px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-3">
+                        <span className="text-2xl">🤝</span>
+                        <div>
+                            <p className="text-sm font-semibold text-gray-900">
+                                Besoin d'un accompagnement personnalisé ?
+                            </p>
+                            <p className="text-xs text-gray-600">
+                                Audit express, dashboard IA sur-mesure ou refonte data complète
+                            </p>
+                        </div>
+                    </div>
+                    <Link
+                        href="/consulting"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+                    >
+                        Voir nos offres
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </Link>
+                </div>
+            </div>
 
             {/* Score FinSight™ Section - Corporate Premium */}
             <section className="relative py-20 bg-gray-50">
@@ -384,6 +411,176 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
+            {/* Consulting Offers Section */}
+            <section className="py-20 bg-white">
+                <div className="max-w-6xl mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full mb-6">
+                            <Sparkles className="w-4 h-4 text-blue-600" />
+                            <span className="text-blue-600 text-sm font-semibold">Accompagnement sur-mesure</span>
+                        </div>
+                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
+                            Allons plus loin ensemble
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                            Du diagnostic express au dashboard IA personnalisé, choisissez l'accompagnement adapté à vos besoins
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        {/* Offer 1 - Audit Express */}
+                        <div className="bg-white rounded-2xl p-8 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all">
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                                    <BarChart3 className="w-6 h-6 text-blue-600" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-gray-900">Audit Express</h3>
+                                    <p className="text-xs text-gray-500">Diagnostic rapide</p>
+                                </div>
+                            </div>
+
+                            <div className="mb-6">
+                                <div className="flex items-baseline gap-2">
+                                    <span className="text-4xl font-bold text-blue-600">2 500€</span>
+                                </div>
+                                <p className="text-sm text-gray-500 mt-1">Livrable en 3-5 jours</p>
+                            </div>
+
+                            <ul className="space-y-3 mb-6">
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>Audit stack data (Excel, ERP, BI)</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>Analyse KPIs critiques</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>Recommandations priorisées</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>Session stratégique 2h</span>
+                                </li>
+                            </ul>
+
+                            <p className="text-xs text-gray-500 mb-4">
+                                Idéal pour : PME, Scale-ups, Diagnostic pré-levée
+                            </p>
+                        </div>
+
+                        {/* Offer 2 - Dashboard IA (Recommandé) */}
+                        <div className="bg-white rounded-2xl p-8 border-2 border-blue-500 hover:shadow-xl transition-all relative">
+                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 text-xs font-semibold rounded-full shadow-lg">
+                                ⭐ Le plus demandé
+                            </div>
+
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center">
+                                    <Zap className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-gray-900">Dashboard IA</h3>
+                                    <p className="text-xs text-gray-500">Sur-mesure</p>
+                                </div>
+                            </div>
+
+                            <div className="mb-6">
+                                <div className="flex items-baseline gap-2">
+                                    <span className="text-4xl font-bold text-blue-600">6 500€</span>
+                                </div>
+                                <p className="text-sm text-gray-500 mt-1">Livrable en 2-3 semaines</p>
+                            </div>
+
+                            <ul className="space-y-3 mb-6">
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span className="font-semibold">Tout Audit Express +</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>Dashboard financier IA personnalisé</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>Connexion auto ERP/CSV</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>AI Copilot GPT-4</span>
+                                </li>
+                            </ul>
+
+                            <p className="text-xs text-gray-500 mb-4">
+                                Idéal pour : Scale-ups 50-200 pers., Refonte stack data
+                            </p>
+                        </div>
+
+                        {/* Offer 3 - Data Platform */}
+                        <div className="bg-white rounded-2xl p-8 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all">
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                                    <Shield className="w-6 h-6 text-blue-600" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-gray-900">Data Platform</h3>
+                                    <p className="text-xs text-gray-500">Enterprise-grade</p>
+                                </div>
+                            </div>
+
+                            <div className="mb-6">
+                                <div className="flex items-baseline gap-2">
+                                    <span className="text-4xl font-bold text-blue-600">12k€</span>
+                                </div>
+                                <p className="text-sm text-gray-500 mt-1">4-8 semaines (selon scope)</p>
+                            </div>
+
+                            <ul className="space-y-3 mb-6">
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span className="font-semibold">Tout Dashboard IA +</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>Data warehouse moderne</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>Pipelines ETL automatisés</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-sm text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                                    <span>Dashboards multi-départements</span>
+                                </li>
+                            </ul>
+
+                            <p className="text-xs text-gray-500 mb-4">
+                                Idéal pour : ETI 200-500 pers., Transformation data
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* CTA Principal */}
+                    <div className="text-center">
+                        <Link
+                            href="/consulting"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold shadow-lg hover:bg-blue-700 transition-colors"
+                        >
+                            <Sparkles className="w-5 h-5" />
+                            Découvrir toutes nos offres
+                        </Link>
+                        <p className="text-sm text-gray-500 mt-4">
+                            💬 Premier échange gratuit de 30min pour cadrer votre besoin
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Consulting Section (brief offers) */}
+            <ConsultingSection />
 
             {/* Testimonials */}
             <Testimonials />
