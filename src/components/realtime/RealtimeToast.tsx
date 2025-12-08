@@ -29,17 +29,33 @@ interface RealtimeToastProps {
 }
 
 export default function RealtimeToast({ notifications, onDismiss }: RealtimeToastProps) {
+    // Debug: log notifications
+    useEffect(() => {
+        if (notifications.length > 0) {
+            console.log('🔔 RealtimeToast received notifications:', notifications);
+        }
+    }, [notifications]);
+
     // Auto-dismiss after duration
     useEffect(() => {
+        if (notifications.length === 0) return;
+
+        const timers: NodeJS.Timeout[] = [];
+
         notifications.forEach((notification) => {
             const duration = notification.duration || 5000;
             const timer = setTimeout(() => {
                 onDismiss(notification.id);
             }, duration);
-
-            return () => clearTimeout(timer);
+            timers.push(timer);
         });
+
+        return () => {
+            timers.forEach(timer => clearTimeout(timer));
+        };
     }, [notifications, onDismiss]);
+
+    console.log('🎨 RealtimeToast render:', { count: notifications.length, notifications });
 
     if (notifications.length === 0) return null;
 

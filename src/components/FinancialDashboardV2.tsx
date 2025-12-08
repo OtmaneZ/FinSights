@@ -557,11 +557,11 @@ export default function FinancialDashboardV2() {
                     } else if (response.status === 400) {
                         // Erreur validation ou parsing
                         const errorMessage = result.details
-                            ? `${result.error} • ${result.details}`
+                            ? `${result.error}\n${result.details}`
                             : result.error || 'Données invalides ou insuffisantes'
 
                         addToast({
-                            type: 'warning',
+                            type: 'error',
                             title: 'Fichier non valide',
                             message: errorMessage,
                             duration: 8000
@@ -586,6 +586,17 @@ export default function FinancialDashboardV2() {
             } finally {
                 setIsUploadingFile(false); // ✅ Stop loading
             }
+        }
+
+        reader.onerror = () => {
+            logger.error('Erreur lecture fichier')
+            addToast({
+                type: 'error',
+                title: 'Erreur de lecture',
+                message: 'Impossible de lire le fichier. Vérifiez le format.',
+                duration: 5000
+            })
+            setIsUploadingFile(false)
         }
 
         reader.readAsText(file)
@@ -913,6 +924,7 @@ export default function FinancialDashboardV2() {
     // Real-Time Sync
     const addToast = (toast: Omit<ToastNotification, 'id'>) => {
         const newToast = { ...toast, id: Date.now().toString() };
+        logger.debug('🔔 Adding toast:', newToast);
         setToastNotifications(prev => [...prev, newToast]);
     };
 
