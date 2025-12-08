@@ -543,13 +543,34 @@ export default function FinancialDashboardV2() {
                     // ✨ Show upload success banner
                     setShowUploadBanner(true)
                 } else {
-                    // ❌ Handle API error
+                    // ❌ Handle API error with toast
                     logger.error('API upload error:', response.status, result)
-                    alert(`Erreur lors de l'upload (${response.status}): ${result.error || 'Erreur inconnue'}`)
+
+                    // Show different toast based on error type
+                    if (response.status === 429) {
+                        addToast({
+                            type: 'warning',
+                            title: 'Limite atteinte',
+                            message: result.error || 'Créez un compte gratuit pour continuer',
+                            duration: 6000
+                        })
+                    } else {
+                        addToast({
+                            type: 'error',
+                            title: 'Erreur d\'upload',
+                            message: result.error || 'Une erreur est survenue lors du traitement',
+                            duration: 5000
+                        })
+                    }
                 }
             } catch (error) {
                 logger.error('Erreur upload:', error)
-                alert('Erreur lors du traitement du fichier')
+                addToast({
+                    type: 'error',
+                    title: 'Erreur réseau',
+                    message: 'Impossible de traiter le fichier. Vérifiez votre connexion.',
+                    duration: 5000
+                })
             } finally {
                 setIsUploadingFile(false); // ✅ Stop loading
             }
@@ -595,7 +616,12 @@ export default function FinancialDashboardV2() {
 
         } catch (error) {
             logger.error('Erreur export PDF:', error);
-            alert('Erreur lors de l\'export PDF');
+            addToast({
+                type: 'error',
+                title: 'Erreur d\'export',
+                message: 'Impossible de générer le PDF. Réessayez.',
+                duration: 4000
+            })
         }
         setIsExporting(false);
     }
@@ -640,7 +666,12 @@ export default function FinancialDashboardV2() {
 
         } catch (error) {
             logger.error('Erreur export Excel:', error);
-            alert('Erreur lors de l\'export Excel');
+            addToast({
+                type: 'error',
+                title: 'Erreur d\'export',
+                message: 'Impossible de générer le fichier Excel. Réessayez.',
+                duration: 4000
+            })
         }
         setIsExporting(false);
     }
@@ -704,7 +735,12 @@ export default function FinancialDashboardV2() {
 
         } catch (error) {
             logger.error('❌ Erreur chargement dashboard:', error);
-            alert('Impossible de charger ce dashboard. Il a peut-être été supprimé.');
+            addToast({
+                type: 'error',
+                title: 'Dashboard introuvable',
+                message: 'Ce dashboard a peut-être été supprimé.',
+                duration: 5000
+            })
             router.push('/dashboard/list');
         } finally {
             setLoadingSavedDashboard(false);

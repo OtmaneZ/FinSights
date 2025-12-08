@@ -9,12 +9,15 @@ import {
     DocumentArrowUpIcon,
     ChartBarIcon,
     ExclamationTriangleIcon,
-    XMarkIcon
+    XMarkIcon,
+    CheckCircleIcon,
+    InformationCircleIcon,
+    XCircleIcon
 } from '@heroicons/react/24/outline';
 
 export interface ToastNotification {
     id: string;
-    type: 'file-upload' | 'kpi-update' | 'anomaly' | 'info';
+    type: 'file-upload' | 'kpi-update' | 'anomaly' | 'info' | 'warning' | 'error' | 'success';
     title: string;
     message: string;
     duration?: number; // ms
@@ -57,6 +60,18 @@ export default function RealtimeToast({ notifications, onDismiss }: RealtimeToas
                         )}
                         {notification.type === 'anomaly' && (
                             <ExclamationTriangleIcon className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                        )}
+                        {notification.type === 'warning' && (
+                            <ExclamationTriangleIcon className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                        )}
+                        {notification.type === 'error' && (
+                            <XCircleIcon className="w-6 h-6 text-red-600 dark:text-red-400" />
+                        )}
+                        {notification.type === 'success' && (
+                            <CheckCircleIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
+                        )}
+                        {notification.type === 'info' && (
+                            <InformationCircleIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                         )}
                     </div>
 

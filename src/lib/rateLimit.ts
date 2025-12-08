@@ -119,6 +119,51 @@ export async function checkUnifiedRateLimit(
             }
         }
 
+        // ✅ OPTION A: Autoriser 3 uploads permanent pour anonymous users
+        if (action === 'uploads') {
+            const limit = 3;
+            const key = `ratelimit:ip:${identifier}:uploads`;
+
+            try {
+                const current = (await kv.get<number>(key)) || 0;
+
+                if (current >= limit) {
+                    return {
+                        allowed: false,
+                        current,
+                        limit,
+                        remaining: 0,
+                        resetAt: null,
+                        message: '📂 Limite atteinte (3 uploads). Créez un compte gratuit pour uploads illimités !',
+                        upgradeUrl: '/auth/signup'
+                    };
+                }
+
+                await kv.incr(key);
+                // Pas d'expiration = permanent (comme copilot_queries)
+
+                return {
+                    allowed: true,
+                    current: current + 1,
+                    limit,
+                    remaining: limit - current - 1,
+                    resetAt: null,
+                    message: current === 2 ? '💾 Dernier upload gratuit ! Créez un compte pour illimité' : undefined,
+                    upgradeUrl: current === 2 ? '/auth/signup' : undefined
+                };
+            } catch (error) {
+                logger.error('Rate limit check failed (IP uploads):', error);
+                // Graceful fallback: autoriser en cas d'erreur
+                return {
+                    allowed: true,
+                    current: 0,
+                    limit,
+                    remaining: limit,
+                    resetAt: null
+                };
+            }
+        }
+
         // Autres actions bloquées pour non-connectés
         return {
             allowed: false,
