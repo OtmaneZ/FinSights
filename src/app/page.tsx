@@ -14,6 +14,7 @@ import Footer from '@/components/Footer'
 import Testimonials from '@/components/Testimonials'
 import DashboardPreview from '@/components/landing/DashboardPreview'
 import ConsultingSection from '@/components/landing/ConsultingSection'
+import AnimatedScoreDisplay from '@/components/landing/AnimatedScoreDisplay'
 
 export default function Home() {
     return (
@@ -122,7 +123,7 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Score FinSight™ Section - Corporate Premium */}
+            {/* Score FinSight™ Section - Corporate Premium with Animation */}
             <section className="relative py-20 bg-gray-50">
                 <div className="max-w-6xl mx-auto px-6">
 
@@ -137,62 +138,18 @@ export default function Home() {
                     {/* Header Corporate */}
                     <div className="text-center mb-16">
                         <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
-                            Score FinSight™
+                            Le Score FinSight™
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                            Un indicateur composite qui évalue la santé financière de votre entreprise sur une échelle de{' '}
-                            <span className="font-semibold text-blue-600">0 à 100</span>
+                            Nous analysons <span className="font-semibold text-blue-600">12+ KPIs financiers</span> et les condensons en un score unique de{' '}
+                            <span className="font-semibold text-blue-600">0 à 100</span>.
+                            <br />
+                            Simple à comprendre. Impossible à ignorer.
                         </p>
                     </div>
 
-                    {/* Score Pillars Grid - Corporate Clean */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-                        {[
-                            { icon: DollarSign, label: 'Cash & Liquidité', value: 25, iconBg: 'bg-blue-50', iconColor: 'text-blue-600' },
-                            { icon: BarChart3, label: 'Marges & Rentabilité', value: 25, iconBg: 'bg-green-50', iconColor: 'text-green-600' },
-                            { icon: Shield, label: 'Résilience', value: 25, iconBg: 'bg-purple-50', iconColor: 'text-purple-600' },
-                            { icon: AlertTriangle, label: 'Gestion Risques', value: 25, iconBg: 'bg-orange-50', iconColor: 'text-orange-600' }
-                        ].map((pillar, idx) => {
-                            const Icon = pillar.icon
-                            return (
-                                <div
-                                    key={idx}
-                                    className="bg-white rounded-xl p-8 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all"
-                                >
-                                    <div className={`w-12 h-12 ${pillar.iconBg} rounded-lg flex items-center justify-center mb-4`}>
-                                        <Icon className={`w-6 h-6 ${pillar.iconColor}`} />
-                                    </div>
-                                    <div className="text-4xl font-bold text-gray-900 mb-2">
-                                        {pillar.value}
-                                    </div>
-                                    <div className="text-sm text-gray-600 font-medium leading-snug">
-                                        {pillar.label}
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-
-                    {/* Example Score - Corporate Professional */}
-                    <div className="flex justify-center">
-                        <div className="inline-flex items-center gap-8 px-12 py-8 bg-white border-2 border-blue-200 rounded-2xl shadow-lg">
-                            <div className="text-7xl font-bold text-blue-600 leading-none">
-                                67
-                            </div>
-                            <div className="text-left border-l-2 border-gray-200 pl-8">
-                                <div className="text-sm text-gray-500 font-medium mb-2">
-                                    EXEMPLE DE NOTATION
-                                </div>
-                                <div className="text-lg font-semibold text-gray-900 mb-1">
-                                    Attention requise
-                                </div>
-                                <div className="inline-flex items-center gap-2 text-sm text-orange-600 bg-orange-50 px-3 py-1 rounded">
-                                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                                    Zone orange
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {/* Composant animé avec les 4 piliers + jauge */}
+                    <AnimatedScoreDisplay />
                 </div>
             </section>
 
