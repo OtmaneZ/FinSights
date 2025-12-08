@@ -161,7 +161,14 @@ export default function FinancialDashboardV2() {
     // Dashboard Config state (capabilities pour affichage conditionnel)
     const [dashboardConfig, setDashboardConfig] = useState<any>(null);
 
-    // 🔧 Fonctions de préparation des données pour les charts
+    // � Toast notifications - Défini tôt pour être accessible partout
+    const addToast = (toast: Omit<ToastNotification, 'id'>) => {
+        const newToast = { ...toast, id: Date.now().toString() };
+        logger.debug('🔔 Adding toast:', newToast);
+        setToastNotifications(prev => [...prev, newToast]);
+    };
+
+    // �🔧 Fonctions de préparation des données pour les charts
 
     const getMonthlyData = () => {
         if (!rawData || rawData.length === 0) return [];
@@ -920,13 +927,6 @@ export default function FinancialDashboardV2() {
         return () => window.removeEventListener('fileUpload', handleFileSelected);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    // Real-Time Sync
-    const addToast = (toast: Omit<ToastNotification, 'id'>) => {
-        const newToast = { ...toast, id: Date.now().toString() };
-        logger.debug('🔔 Adding toast:', newToast);
-        setToastNotifications(prev => [...prev, newToast]);
-    };
 
     const { broadcastKPIUpdate, broadcastFileUpload, broadcastDrillDown } = useRealtimeSync({
         enabled: isDataLoaded,
