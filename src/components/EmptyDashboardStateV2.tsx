@@ -89,7 +89,7 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                         <label htmlFor="file-upload" className="cursor-pointer">
                             <div className="border-2 border-dashed border-border-default rounded-xl p-16 hover:border-accent-primary-border hover:bg-surface-elevated transition-all">
                                 <div className="text-accent-primary font-semibold text-xl mb-2">
-                                    📂 Cliquez ici ou glissez votre fichier
+                                    Cliquez ici ou glissez votre fichier
                                 </div>
                                 <div className="text-sm text-tertiary">
                                     Formats supportés : .xlsx, .xls, .csv (max 10MB)
@@ -114,22 +114,22 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                     </div>
 
                     {/* Message rassurant + infos qualité */}
-                    <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/10 border-2 border-blue-200 dark:border-blue-800/30 rounded-lg">
-                        <p className="text-sm text-gray-900 dark:text-blue-100 font-semibold mb-2 flex items-center gap-2 justify-center">
-                            <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="mb-6 p-4 border-l-4 border-accent-primary-border bg-surface-elevated border border-border-default rounded-lg">
+                        <p className="text-sm text-primary font-semibold mb-2 flex items-center gap-2 justify-center">
+                            <svg className="w-4 h-4 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             Aucun compte requis • Analyse instantanée
                         </p>
-                        <p className="text-xs text-gray-700 dark:text-blue-200 text-center font-medium">
+                        <p className="text-xs text-secondary text-center font-medium">
                             Minimum : 10 transactions avec dates, montants et types (revenus/charges)
                         </p>
                     </div>
 
                     <div className="flex justify-center gap-8 text-sm text-secondary">
-                        <span>🔒 100% sécurisé</span>
-                        <span>⚡ Analyse instantanée</span>
-                        <span>🎯 KPIs auto-générés</span>
+                        <span>100% sécurisé</span>
+                        <span>Analyse instantanée</span>
+                        <span>KPIs auto-générés</span>
                     </div>
                 </div>
 

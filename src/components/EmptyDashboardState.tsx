@@ -45,7 +45,7 @@ export default function EmptyDashboardState() {
                             />
                             <div className="border-2 border-dashed border-blue-300 rounded-lg p-12 hover:border-blue-400 hover:bg-blue-50/50 transition-all cursor-pointer">
                                 <div className="text-blue-600 font-semibold text-lg">
-                                    📂 Cliquez ici ou glissez votre fichier
+                                    Cliquez ici ou glissez votre fichier
                                 </div>
                                 <div className="text-xs text-gray-500 mt-2">
                                     Formats supportés : .xlsx, .xls, .csv (max 10MB)
@@ -54,20 +54,20 @@ export default function EmptyDashboardState() {
                         </div>
 
                         {/* Message rassurant + infos qualité */}
-                        <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-900/10 border-2 border-blue-200 dark:border-blue-800/30 rounded-lg">
-                            <p className="text-sm text-gray-900 dark:text-blue-100 font-semibold mb-2 flex items-center gap-2">
-                                <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="mb-4 p-4 border-l-4 border-blue-500 bg-white border border-blue-200 rounded-lg">
+                            <p className="text-sm text-gray-900 font-semibold mb-2 flex items-center gap-2">
+                                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 Aucun compte requis • Analyse instantanée
                             </p>
-                            <p className="text-xs text-gray-700 dark:text-blue-200 font-medium">
+                            <p className="text-xs text-gray-700 font-medium">
                                 Minimum : 10 transactions avec dates, montants et types (revenus/charges)
                             </p>
                         </div>                        <div className="flex justify-center gap-6 text-xs text-gray-500">
-                            <span className="flex items-center gap-1">🔒 100% sécurisé</span>
-                            <span className="flex items-center gap-1">⚡ Analyse instantanée</span>
-                            <span className="flex items-center gap-1">🎯 KPIs auto-générés</span>
+                            <span className="flex items-center gap-1">100% sécurisé</span>
+                            <span className="flex items-center gap-1">Analyse instantanée</span>
+                            <span className="flex items-center gap-1">KPIs auto-générés</span>
                         </div>
                     </div>
                 </div>
@@ -77,7 +77,7 @@ export default function EmptyDashboardState() {
             <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-8">
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                        💡 3 Niveaux d'Analyse
+                        3 Niveaux d'Analyse
                     </h3>
                     <p className="text-gray-600">
                         Le dashboard se construit automatiquement selon la richesse de vos données

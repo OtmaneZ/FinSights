@@ -15,28 +15,28 @@ const templates: Template[] = [
         name: 'Sage Compta',
         description: 'Format export Sage compatible PCG 2025',
         file: '/templates/template-sage.csv',
-        icon: '🟦',
+        icon: '',
         color: 'blue'
     },
     {
         name: 'Cegid',
         description: 'Structure export Cegid classique',
         file: '/templates/template-cegid.csv',
-        icon: '🟨',
+        icon: '',
         color: 'yellow'
     },
     {
         name: 'QuickBooks',
         description: 'Import/Export QuickBooks Online',
         file: '/templates/template-quickbooks.csv',
-        icon: '🟩',
+        icon: '',
         color: 'green'
     },
     {
         name: 'Excel Générique',
         description: 'Template simple pour saisie manuelle',
         file: '/templates/template-excel.csv',
-        icon: '📊',
+        icon: '',
         color: 'purple'
     }
 ]
@@ -71,7 +71,7 @@ export default function TemplateDownload() {
             </div>
 
             <div className="mt-8 surface rounded-lg p-4 text-sm text-secondary">
-                <p className="mb-2"><strong className="text-primary">💡 Conseils :</strong></p>
+                <p className="mb-2"><strong className="text-primary">Conseils :</strong></p>
                 <ul className="space-y-1 pl-5">
                     <li>• Colonnes obligatoires : Date, Montant, Type (income/expense)</li>
                     <li>• Format dates : DD/MM/YYYY (ex: 15/11/2024)</li>
