@@ -153,8 +153,8 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Before/After Section - Corporate */}
-            <section className="py-16 bg-white">
+            {/* Before/After Section - Pennylane Style */}
+            <section className="py-20 bg-white">
                 <div className="max-w-6xl mx-auto px-6">
 
                     {/* Header */}
@@ -162,70 +162,93 @@ export default function Home() {
                         <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
                             La différence FinSight
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                             Passez d'une gestion financière réactive à une stratégie anticipative basée sur l'intelligence de données
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-8">
+                    <div className="grid md:grid-cols-2 gap-6">
 
                         {/* AVANT - Sans FinSight */}
-                        <div className="bg-gray-50 rounded-2xl p-10 border border-gray-200">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg mb-6 text-sm font-semibold">
-                                SANS FINSIGHT
+                        <div className="relative bg-gray-50 rounded-2xl p-8 border border-gray-200">
+                            {/* Badge sobre */}
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-300 text-gray-600 rounded-md mb-6 text-xs font-semibold uppercase tracking-wider">
+                                Sans FinSight
                             </div>
 
-                            <h3 className="text-2xl font-bold mb-8 text-gray-900">
+                            <h3 className="text-xl font-bold mb-6 text-gray-900">
                                 Vision partielle et réactive
                             </h3>
 
-                            <ul className="space-y-4">
+                            <ul className="space-y-3.5">
                                 {[
-                                    'Analyse financière manuelle et chronophage',
-                                    'Risques invisibles jusqu\'à leur matérialisation',
-                                    'Prévisions approximatives via tableurs',
-                                    'Décisions stratégiques basées sur l\'intuition',
-                                    'Tensions de trésorerie découvertes trop tard'
+                                    { text: 'Analyse financière manuelle et chronophage', metric: '15h/mois' },
+                                    { text: 'Risques invisibles jusqu\'à leur matérialisation', metric: null },
+                                    { text: 'Prévisions approximatives via tableurs', metric: '±20%' },
+                                    { text: 'Tensions de trésorerie découvertes trop tard', metric: null }
                                 ].map((item, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 text-gray-600">
-                                        <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <span className="text-red-600 text-xs font-bold">×</span>
+                                    <li key={idx} className="flex items-start gap-3 text-gray-600 text-sm">
+                                        <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <svg className="w-2.5 h-2.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
                                         </div>
-                                        <span className="leading-relaxed">{item}</span>
+                                        <div className="flex-1">
+                                            <span className="leading-relaxed">{item.text}</span>
+                                            {item.metric && (
+                                                <span className="ml-2 text-xs text-gray-400 font-mono">{item.metric}</span>
+                                            )}
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
                         </div>
 
                         {/* APRÈS - Avec FinSight */}
-                        <div className="bg-white rounded-2xl p-10 border-2 border-blue-200 shadow-lg relative">
-                            {/* Subtle glow effect */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent rounded-2xl -z-10"></div>
-
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg mb-6 text-sm font-semibold shadow-sm">
-                                AVEC FINSIGHT
+                        <div className="relative bg-gradient-to-br from-blue-50/50 to-white rounded-2xl p-8 border border-blue-200/60 shadow-sm">
+                            {/* Badge premium */}
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-md mb-6 text-xs font-semibold uppercase tracking-wider shadow-sm">
+                                Avec FinSight
                             </div>
 
-                            <h3 className="text-2xl font-bold mb-8 text-gray-900">
+                            <h3 className="text-xl font-bold mb-6 text-gray-900">
                                 Intelligence financière complète
                             </h3>
 
-                            <ul className="space-y-4">
+                            <ul className="space-y-3.5">
                                 {[
-                                    'Score FinSight™ : santé financière en un coup d\'œil',
-                                    'Détection précoce des signaux faibles critiques',
-                                    'Prévisions fiables avec scénarios multiples',
-                                    'Recommandations actionnables par l\'IA',
-                                    'Anticipation des tensions de trésorerie à 90 jours'
+                                    { text: 'Score FinSight™ : santé financière en un coup d\'œil', metric: '0-100' },
+                                    { text: 'Détection précoce des signaux faibles critiques', metric: 'ML' },
+                                    { text: 'Prévisions fiables avec scénarios multiples', metric: '±5%' },
+                                    { text: 'Anticipation des tensions de trésorerie', metric: '90j' }
                                 ].map((item, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 text-gray-900">
-                                        <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <span className="text-blue-600 text-xs font-bold">✓</span>
+                                    <li key={idx} className="flex items-start gap-3 text-gray-900 text-sm">
+                                        <div className="w-4 h-4 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <svg className="w-2.5 h-2.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                            </svg>
                                         </div>
-                                        <span className="leading-relaxed font-medium">{item}</span>
+                                        <div className="flex-1">
+                                            <span className="leading-relaxed font-medium">{item.text}</span>
+                                            {item.metric && (
+                                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-blue-100 text-blue-700">
+                                                    {item.metric}
+                                                </span>
+                                            )}
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
+
+                            {/* Subtle indicator */}
+                            <div className="mt-6 pt-6 border-t border-blue-100">
+                                <p className="text-xs text-gray-500 flex items-center gap-2">
+                                    <svg className="w-3.5 h-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                    Résultat en 10 secondes • 100% confidentiel
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
