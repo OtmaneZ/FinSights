@@ -25,55 +25,62 @@ export default function Home() {
 
                     {/* LEFT: Content */}
                     <div className="space-y-8">
-                        {/* Trust Badge */}
-                        <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 backdrop-blur-xl border border-blue-200/50 rounded-2xl shadow-lg">
-                            <Zap className="w-4 h-4 text-blue-600 animate-pulse" />
-                            <span className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
-                                ⚡ Réponse en 10s • 🔒 RGPD France
+                        {/* Trust Badge - Corporate */}
+                        <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border border-blue-200 rounded-xl shadow-sm">
+                            <Shield className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm font-semibold text-gray-700">
+                                Réponse instantanée • RGPD France • Sans engagement
                             </span>
                         </div>
 
-                        {/* H1 Ultra Premium */}
-                        <h1 className="text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-primary">
+                        {/* H1 Corporate */}
+                        <h1 className="text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-gray-900">
                             Comprenez votre{' '}
-                            <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 bg-clip-text text-transparent">
+                            <span className="text-blue-600">
                                 santé financière
                             </span>
                             {' '}en 10 secondes
                         </h1>
 
                         {/* Description */}
-                        <p className="text-lg text-secondary leading-relaxed max-w-xl">
+                        <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
                             Le moteur d'intelligence financière qui détecte les signaux faibles,
                             simule vos scénarios et vous donne votre{' '}
-                            <span className="font-bold text-primary">Score FinSight™</span> instantané.
+                            <span className="font-bold text-gray-900">Score FinSight™</span> instantané.
                         </p>
 
-                        {/* CTAs Premium */}
+                        {/* CTAs Corporate */}
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Link
                                 href="/dashboard"
-                                className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl font-semibold shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all hover:scale-105"
+                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold shadow-lg hover:bg-blue-700 transition-colors"
                             >
-                                <span className="flex items-center gap-2">
-                                    <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                                    Obtenir mon Score FinSight™
-                                </span>
+                                <Sparkles className="w-5 h-5" />
+                                Obtenir mon Score FinSight™
                             </Link>
 
                             <Link
                                 href="/auth/signup"
-                                className="px-8 py-4 bg-white/80 backdrop-blur-xl border-2 border-gray-200 hover:border-blue-400 rounded-xl font-semibold transition-all hover:scale-105 text-primary"
+                                className="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-gray-300 hover:border-blue-600 rounded-xl font-semibold text-gray-900 transition-colors"
                             >
                                 Voir la démo
                             </Link>
                         </div>
 
-                        {/* Social Proof */}
-                        <div className="flex items-center gap-4">
-                            <p className="text-sm text-tertiary">
-                                ⚡ Sans installation • 🔒 RGPD conforme • ✓ Sans engagement
-                            </p>
+                        {/* Social Proof - Clean */}
+                        <div className="flex items-center gap-6 text-sm text-gray-600">
+                            <div className="flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                <span>Sans installation</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                <span>RGPD conforme</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                <span>Sans engagement</span>
+                            </div>
                         </div>
                     </div>
 
