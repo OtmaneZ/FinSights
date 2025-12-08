@@ -92,26 +92,6 @@ export default function Testimonials() {
                     )
                 })}
             </div>
-
-            {/* Stats Section */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-16 border-t border-border-subtle">
-                <div className="text-center">
-                    <div className="text-4xl font-bold text-accent-primary mb-2">10s</div>
-                    <div className="text-secondary text-sm">Score FinSight™ instantané</div>
-                </div>
-                <div className="text-center">
-                    <div className="text-4xl font-bold text-accent-primary mb-2">4</div>
-                    <div className="text-secondary text-sm">Piliers d'analyse stratégique</div>
-                </div>
-                <div className="text-center">
-                    <div className="text-4xl font-bold text-accent-primary mb-2">ML</div>
-                    <div className="text-secondary text-sm">Détection signaux faibles</div>
-                </div>
-                <div className="text-center">
-                    <div className="text-4xl font-bold text-accent-primary mb-2">GPT-4</div>
-                    <div className="text-secondary text-sm">CFO Virtuel intégré</div>
-                </div>
-            </div>
         </section>
     )
 }
