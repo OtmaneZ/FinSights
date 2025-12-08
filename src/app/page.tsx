@@ -20,73 +20,75 @@ export default function Home() {
             <Header />
 
             {/* Hero Section - Premium 2 Columns Layout */}
-            <section className="relative max-w-7xl mx-auto px-6 pt-24 pb-32">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <section className="relative bg-gradient-to-br from-blue-50/40 to-white">
+                <div className="max-w-7xl mx-auto px-6 pt-24 pb-32">
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-                    {/* LEFT: Content */}
-                    <div className="space-y-8">
-                        {/* Trust Badge - Corporate */}
-                        <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border border-blue-200 rounded-xl shadow-sm">
-                            <Shield className="w-4 h-4 text-blue-600" />
-                            <span className="text-sm font-semibold text-gray-700">
-                                Réponse instantanée • RGPD France • Sans engagement
-                            </span>
+                        {/* LEFT: Content */}
+                        <div className="space-y-8">
+                            {/* Trust Badge - Corporate */}
+                            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border border-blue-200 rounded-xl shadow-sm">
+                                <Shield className="w-4 h-4 text-blue-600" />
+                                <span className="text-sm font-semibold text-gray-700">
+                                    Réponse instantanée • RGPD France • Sans engagement
+                                </span>
+                            </div>
+
+                            {/* H1 Corporate */}
+                            <h1 className="text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-gray-900">
+                                Comprenez votre{' '}
+                                <span className="text-blue-600">
+                                    santé financière
+                                </span>
+                                {' '}en 10 secondes
+                            </h1>
+
+                            {/* Description */}
+                            <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
+                                Le moteur d'intelligence financière qui détecte les signaux faibles,
+                                simule vos scénarios et vous donne votre{' '}
+                                <span className="font-bold text-gray-900">Score FinSight™</span> instantané.
+                            </p>
+
+                            {/* CTAs Corporate */}
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <Link
+                                    href="/dashboard"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold shadow-lg hover:bg-blue-700 transition-colors"
+                                >
+                                    <Sparkles className="w-5 h-5" />
+                                    Obtenir mon Score FinSight™
+                                </Link>
+
+                                <Link
+                                    href="/auth/signup"
+                                    className="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-gray-300 hover:border-blue-600 rounded-xl font-semibold text-gray-900 transition-colors"
+                                >
+                                    Voir la démo
+                                </Link>
+                            </div>
+
+                            {/* Social Proof - Clean */}
+                            <div className="flex items-center gap-6 text-sm text-gray-600">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                    <span>Sans installation</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                    <span>RGPD conforme</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                    <span>Sans engagement</span>
+                                </div>
+                            </div>
                         </div>
 
-                        {/* H1 Corporate */}
-                        <h1 className="text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-gray-900">
-                            Comprenez votre{' '}
-                            <span className="text-blue-600">
-                                santé financière
-                            </span>
-                            {' '}en 10 secondes
-                        </h1>
-
-                        {/* Description */}
-                        <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
-                            Le moteur d'intelligence financière qui détecte les signaux faibles,
-                            simule vos scénarios et vous donne votre{' '}
-                            <span className="font-bold text-gray-900">Score FinSight™</span> instantané.
-                        </p>
-
-                        {/* CTAs Corporate */}
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <Link
-                                href="/dashboard"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold shadow-lg hover:bg-blue-700 transition-colors"
-                            >
-                                <Sparkles className="w-5 h-5" />
-                                Obtenir mon Score FinSight™
-                            </Link>
-
-                            <Link
-                                href="/auth/signup"
-                                className="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-gray-300 hover:border-blue-600 rounded-xl font-semibold text-gray-900 transition-colors"
-                            >
-                                Voir la démo
-                            </Link>
+                        {/* RIGHT: Dashboard Preview Animé */}
+                        <div className="relative lg:block hidden">
+                            <DashboardPreview />
                         </div>
-
-                        {/* Social Proof - Clean */}
-                        <div className="flex items-center gap-6 text-sm text-gray-600">
-                            <div className="flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                <span>Sans installation</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                <span>RGPD conforme</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                <span>Sans engagement</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* RIGHT: Dashboard Preview Animé */}
-                    <div className="relative lg:block hidden">
-                        <DashboardPreview />
                     </div>
                 </div>
             </section>
