@@ -254,7 +254,7 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Features Grid - 4 Piliers Corporate */}
+            {/* Features Grid - 4 Piliers Premium Stripe Style */}
             <section className="py-20 bg-gray-50">
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="text-center mb-16">
@@ -268,127 +268,208 @@ export default function Home() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Pilier 1 - Analyse Stratégique */}
-                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all group">
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
-                                    <BarChart3 className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <div className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">PILIER 1</div>
-                                    <h3 className="text-xl font-bold text-gray-900">Analyse Stratégique</h3>
-                                </div>
+                        <div className="group relative bg-gradient-to-br from-white to-blue-50/30 rounded-2xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                            {/* Gradient border animé au hover */}
+                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-blue-400 via-purple-400 to-blue-400 bg-[length:200%_200%] animate-gradient p-[2px]">
+                                <div className="w-full h-full bg-white rounded-2xl"></div>
                             </div>
-                            <ul className="space-y-3 text-gray-600">
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0"></div>
-                                    <span>Structure de marge et rentabilité</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0"></div>
-                                    <span>Signaux faibles de trésorerie</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0"></div>
-                                    <span>Dépendance clients (concentration)</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0"></div>
-                                    <span>Analyse des cycles de paiement</span>
-                                </li>
-                            </ul>
+
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-xl group-hover:shadow-blue-500/50 transition-all">
+                                        <BarChart3 className="w-7 h-7 text-white" />
+                                    </div>
+                                    <div>
+                                        <div className="inline-block px-2 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-[10px] font-bold uppercase tracking-wider rounded mb-1">
+                                            Pilier 1
+                                        </div>
+                                        <h3 className="text-xl font-bold text-gray-900">Analyse Stratégique</h3>
+                                    </div>
+                                </div>
+                                <ul className="space-y-3 text-gray-700">
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Structure de marge et rentabilité</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">28%</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Signaux faibles de trésorerie</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">3 KPIs</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Dépendance clients (concentration)</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">Top 5</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Analyse des cycles de paiement</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">DSO</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
 
                         {/* Pilier 2 - Prévisions & Scénarios */}
-                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all group">
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center group-hover:bg-green-600 transition-colors">
-                                    <Sparkles className="w-7 h-7 text-green-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <div className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-1">PILIER 2</div>
-                                    <h3 className="text-xl font-bold text-gray-900">Prévisions & Scénarios</h3>
-                                </div>
+                        <div className="group relative bg-gradient-to-br from-white to-green-50/30 rounded-2xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-green-400 via-emerald-400 to-green-400 bg-[length:200%_200%] animate-gradient p-[2px]">
+                                <div className="w-full h-full bg-white rounded-2xl"></div>
                             </div>
-                            <ul className="space-y-3 text-gray-600">
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0"></div>
-                                    <span>Cash-flow prévisionnel 3–12 mois</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0"></div>
-                                    <span>Stress tests automatiques (-10/-20/-30%)</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0"></div>
-                                    <span>Simulations retards clients / prix / charges</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0"></div>
-                                    <span>Scénarios what-if en temps réel</span>
-                                </li>
-                            </ul>
+
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/30 group-hover:shadow-xl group-hover:shadow-green-500/50 transition-all">
+                                        <Sparkles className="w-7 h-7 text-white" />
+                                    </div>
+                                    <div>
+                                        <div className="inline-block px-2 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-[10px] font-bold uppercase tracking-wider rounded mb-1">
+                                            Pilier 2
+                                        </div>
+                                        <h3 className="text-xl font-bold text-gray-900">Prévisions & Scénarios</h3>
+                                    </div>
+                                </div>
+                                <ul className="space-y-3 text-gray-700">
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Cash-flow prévisionnel</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">3-12 mois</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Stress tests automatiques</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">-10/-30%</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Simulations retards clients / charges</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">15-60j</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Scénarios what-if en temps réel</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">Instantané</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
 
                         {/* Pilier 3 - Moteur de Risque */}
-                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all group">
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-xl bg-orange-50 flex items-center justify-center group-hover:bg-orange-600 transition-colors">
-                                    <AlertTriangle className="w-7 h-7 text-orange-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <div className="text-xs font-semibold text-orange-600 uppercase tracking-wider mb-1">PILIER 3</div>
-                                    <h3 className="text-xl font-bold text-gray-900">Moteur de Risque</h3>
-                                </div>
+                        <div className="group relative bg-gradient-to-br from-white to-orange-50/30 rounded-2xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-orange-400 via-red-400 to-orange-400 bg-[length:200%_200%] animate-gradient p-[2px]">
+                                <div className="w-full h-full bg-white rounded-2xl"></div>
                             </div>
-                            <ul className="space-y-3 text-gray-600">
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0"></div>
-                                    <span>Risque rupture de trésorerie</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0"></div>
-                                    <span>Risque dette cachée (créances vieillissantes)</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0"></div>
-                                    <span>Score FinSight™ (santé financière 0-100)</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0"></div>
-                                    <span>Détection anomalies ML (Z-score, patterns)</span>
-                                </li>
-                            </ul>
+
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/30 group-hover:shadow-xl group-hover:shadow-orange-500/50 transition-all">
+                                        <AlertTriangle className="w-7 h-7 text-white" />
+                                    </div>
+                                    <div>
+                                        <div className="inline-block px-2 py-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold uppercase tracking-wider rounded mb-1">
+                                            Pilier 3
+                                        </div>
+                                        <h3 className="text-xl font-bold text-gray-900">Moteur de Risque</h3>
+                                    </div>
+                                </div>
+                                <ul className="space-y-3 text-gray-700">
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Risque rupture de trésorerie</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">Runway</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Dette cachée (créances &gt;60j)</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">Aging</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Score FinSight™ (santé 0-100)</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">72/100</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Détection anomalies ML</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">Z-score</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
 
                         {/* Pilier 4 - CFO Virtuel */}
-                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all group">
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center group-hover:bg-purple-600 transition-colors">
-                                    <DollarSign className="w-7 h-7 text-purple-600 group-hover:text-white transition-colors" />
-                                </div>
-                                <div>
-                                    <div className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-1">PILIER 4</div>
-                                    <h3 className="text-xl font-bold text-gray-900">CFO Virtuel</h3>
-                                </div>
+                        <div className="group relative bg-gradient-to-br from-white to-purple-50/30 rounded-2xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-purple-400 via-pink-400 to-purple-400 bg-[length:200%_200%] animate-gradient p-[2px]">
+                                <div className="w-full h-full bg-white rounded-2xl"></div>
                             </div>
-                            <ul className="space-y-3 text-gray-600">
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
-                                    <span>Analyse automatique en langage naturel</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
-                                    <span>Plans d'action priorisés et actionnables</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
-                                    <span>Synthèse PDF "consultant" prête</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
-                                    <span>Recommandations contextualisées</span>
-                                </li>
-                            </ul>
+
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:shadow-xl group-hover:shadow-purple-500/50 transition-all">
+                                        <Sparkles className="w-7 h-7 text-white" />
+                                    </div>
+                                    <div>
+                                        <div className="inline-block px-2 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold uppercase tracking-wider rounded mb-1">
+                                            Pilier 4
+                                        </div>
+                                        <h3 className="text-xl font-bold text-gray-900">CFO Virtuel</h3>
+                                    </div>
+                                </div>
+                                <ul className="space-y-3 text-gray-700">
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Analyse en langage naturel</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded">GPT-4</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Plans d'action priorisés</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded">Top 5</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Synthèse PDF "consultant" prête</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded">Export</span>
+                                    </li>
+                                    <li className="flex items-start justify-between gap-3 group/item">
+                                        <div className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <span className="group-hover/item:text-gray-900 transition-colors">Recommandations contextualisées</span>
+                                        </div>
+                                        <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded">IA</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
