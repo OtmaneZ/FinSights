@@ -48,11 +48,12 @@ export default function FinSightScoreCard({ score }: FinSightScoreProps) {
                     </div>
 
                     {/* Score circulaire */}
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center gap-2">
                         <div className="relative">
                             <CircularScore score={total} level={level} />
                         </div>
                         <ScoreLevelBadge level={level} />
+                        <ConfidenceBadge confidence={score.confidence} />
                     </div>
                 </div>
             </div>
@@ -374,5 +375,37 @@ function InfoTooltip() {
                 </div>
             )}
         </div>
+    );
+}
+
+/**
+ * Badge confiance données (high/medium/low)
+ */
+function ConfidenceBadge({ confidence }: { confidence: 'high' | 'medium' | 'low' }) {
+    const config = {
+        high: {
+            label: 'Confiance élevée',
+            color: 'text-green-700 bg-green-100 border-green-300 dark:text-green-400 dark:bg-green-900/30 dark:border-green-800',
+            icon: '✓'
+        },
+        medium: {
+            label: 'Confiance moyenne',
+            color: 'text-amber-700 bg-amber-100 border-amber-300 dark:text-amber-400 dark:bg-amber-900/30 dark:border-amber-800',
+            icon: '!'
+        },
+        low: {
+            label: 'Confiance faible',
+            color: 'text-red-700 bg-red-100 border-red-300 dark:text-red-400 dark:bg-red-900/30 dark:border-red-800',
+            icon: '⚠'
+        }
+    };
+
+    const { label, color, icon } = config[confidence];
+
+    return (
+        <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md border ${color}`}>
+            <span>{icon}</span>
+            {label}
+        </span>
     );
 }

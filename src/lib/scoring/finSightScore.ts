@@ -14,6 +14,7 @@ import { calculateDSOFromTransactions } from '../financialFormulas';
 import { detectAnomalies } from '../ml/anomalyDetector';
 
 export type ScoreLevel = 'critical' | 'warning' | 'good' | 'excellent';
+export type ScoreConfidence = 'low' | 'medium' | 'high';
 
 export interface ScoreBreakdown {
     cash: number;           // 0-25 points
@@ -22,12 +23,31 @@ export interface ScoreBreakdown {
     risk: number;           // 0-25 points
 }
 
+export interface DataQualityInfo {
+    recordCount: number;
+    hasRevenue: boolean;
+    hasExpenses: boolean;
+    counterpartyRate: number;   // Pourcentage de transactions avec contrepartie
+    categoryRate: number;       // Pourcentage de transactions avec catégorie
+    timeSpanMonths: number;     // Nombre de mois couverts
+}
+
+export interface ValidationResult {
+    valid: boolean;
+    confidence: ScoreConfidence;
+    errors: string[];
+    warnings: string[];
+    dataQuality: DataQualityInfo;
+}
+
 export interface FinSightScore {
     total: number;                  // 0-100
     level: ScoreLevel;
+    confidence: ScoreConfidence;    // Confiance dans le score
     breakdown: ScoreBreakdown;
     insights: string[];
     recommendations: string[];
+    dataQuality: DataQualityInfo;   // Stats qualité données
     calculatedAt: Date;
 }
 
@@ -54,9 +74,105 @@ export interface ScoreFactors {
 }
 
 /**
+ * Valide la qualité des données avant calcul du score
+ * Retourne erreurs bloquantes + warnings + niveau de confiance
+ */
+export function validateDataQuality(data: ProcessedData): ValidationResult {
+    const { records, kpis, summary } = data;
+
+    const errors: string[] = [];
+    const warnings: string[] = [];
+
+    // Compter les éléments
+    const recordCount = records.length;
+    const revenueRecords = records.filter(r => r.type === 'income');
+    const expenseRecords = records.filter(r => r.type === 'expense');
+    const withCounterparty = records.filter(r => r.counterparty && r.counterparty !== 'Inconnu');
+    const withCategory = records.filter(r => r.category);
+
+    // Calculer totaux
+    const totalRevenue = revenueRecords.reduce((sum, r) => sum + r.amount, 0);
+    const totalExpenses = expenseRecords.reduce((sum, r) => sum + Math.abs(r.amount), 0);
+
+    // Calculer période couverte
+    const dates = records.map(r => new Date(r.date).getTime());
+    const minDate = Math.min(...dates);
+    const maxDate = Math.max(...dates);
+    const timeSpanMonths = Math.max(1, Math.round((maxDate - minDate) / (1000 * 60 * 60 * 24 * 30)));
+
+    // ERREURS BLOQUANTES (score impossible)
+    if (recordCount < 10) {
+        errors.push(`Minimum 10 transactions requises (actuellement ${recordCount})`);
+    }
+
+    if (totalRevenue === 0) {
+        errors.push("Aucun revenu détecté dans le fichier");
+    }
+
+    if (totalExpenses === 0) {
+        errors.push("Aucune charge détectée dans le fichier");
+    }
+
+    if (timeSpanMonths < 1) {
+        errors.push("Période trop courte (minimum 1 mois de données)");
+    }
+
+    // WARNINGS (score possible mais qualité réduite)
+    const counterpartyRate = (withCounterparty.length / recordCount) * 100;
+    const categoryRate = (withCategory.length / recordCount) * 100;
+
+    if (counterpartyRate < 30) {
+        warnings.push("Peu de contreparties identifiées (< 30%)");
+    }
+
+    if (categoryRate < 50) {
+        warnings.push("Catégories manquantes (< 50% des transactions)");
+    }
+
+    if (timeSpanMonths < 3) {
+        warnings.push("Historique court (moins de 3 mois)");
+    }
+
+    if (recordCount < 30) {
+        warnings.push("Peu de transactions (moins de 30)");
+    }
+
+    // NIVEAU DE CONFIANCE
+    let confidence: ScoreConfidence = 'high';
+
+    if (errors.length > 0) {
+        confidence = 'low'; // Données insuffisantes
+    } else if (warnings.length >= 3) {
+        confidence = 'low'; // Trop de problèmes
+    } else if (warnings.length >= 1) {
+        confidence = 'medium'; // Quelques problèmes
+    }
+
+    const dataQuality: DataQualityInfo = {
+        recordCount,
+        hasRevenue: totalRevenue > 0,
+        hasExpenses: totalExpenses > 0,
+        counterpartyRate: Math.round(counterpartyRate),
+        categoryRate: Math.round(categoryRate),
+        timeSpanMonths
+    };
+
+    return {
+        valid: errors.length === 0,
+        confidence,
+        errors,
+        warnings,
+        dataQuality
+    };
+}
+
+/**
  * Calcule le Score FinSight™ 0-100
  */
 export function calculateFinSightScore(data: ProcessedData): FinSightScore {
+    // Valider qualité des données
+    const validation = validateDataQuality(data);
+
     const factors = extractScoreFactors(data);
 
     const cashScore = calculateCashScore(factors);
@@ -73,15 +189,17 @@ export function calculateFinSightScore(data: ProcessedData): FinSightScore {
 
     const total = Math.round(cashScore + marginScore + resilienceScore + riskScore);
     const level = getScoreLevel(total);
-    const insights = generateInsights(breakdown, factors, level);
+    const insights = generateInsights(breakdown, factors, level, validation);
     const recommendations = generateRecommendations(breakdown, factors, level);
 
     return {
         total,
         level,
+        confidence: validation.confidence,
         breakdown,
         insights,
         recommendations,
+        dataQuality: validation.dataQuality,
         calculatedAt: new Date()
     };
 }
@@ -486,19 +604,25 @@ function getScoreLevel(total: number): ScoreLevel {
 function generateInsights(
     breakdown: ScoreBreakdown,
     factors: ScoreFactors,
-    level: ScoreLevel
+    level: ScoreLevel,
+    validation: ValidationResult
 ): string[] {
     const insights: string[] = [];
 
+    // Ajouter warnings de qualité données en premier
+    if (validation.warnings.length > 0) {
+        insights.push(`Données ${validation.confidence === 'medium' ? 'partielles' : 'limitées'} : ${validation.warnings[0]}`);
+    }
+
     // Insight global
     if (level === 'excellent') {
-        insights.push('✅ Santé financière excellente - Tous les indicateurs sont au vert');
+        insights.push('Santé financière excellente - Tous les indicateurs sont au vert');
     } else if (level === 'good') {
-        insights.push('✓ Santé financière correcte - Quelques axes d\'amélioration identifiés');
+        insights.push('Santé financière correcte - Quelques axes d\'amélioration identifiés');
     } else if (level === 'warning') {
-        insights.push('⚠️ Santé financière fragile - Actions recommandées rapidement');
+        insights.push('Santé financière fragile - Actions recommandées rapidement');
     } else {
-        insights.push('🚨 Situation critique - Nécessite intervention immédiate');
+        insights.push('Situation critique - Nécessite intervention immédiate');
     }
 
     // Insights par pilier (meilleur et pire)

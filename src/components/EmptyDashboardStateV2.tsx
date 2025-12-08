@@ -113,6 +113,16 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                         </label>
                     </div>
 
+                    {/* Message rassurant + infos qualité */}
+                    <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                        <p className="text-sm text-blue-900 dark:text-blue-100 font-medium mb-2">
+                            Aucun compte requis • Données traitées en mémoire
+                        </p>
+                        <p className="text-xs text-blue-700 dark:text-blue-300">
+                            Minimum requis : 10 transactions avec dates, montants et types (revenus/charges)
+                        </p>
+                    </div>
+
                     <div className="flex justify-center gap-8 text-sm text-secondary">
                         <span>🔒 100% sécurisé</span>
                         <span>⚡ Analyse instantanée</span>

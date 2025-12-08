@@ -53,6 +53,16 @@ export default function EmptyDashboardState() {
                             </div>
                         </div>
 
+                        {/* Message rassurant + infos qualité */}
+                        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                            <p className="text-sm text-blue-900 font-medium mb-1">
+                                Aucun compte requis • Données traitées en mémoire
+                            </p>
+                            <p className="text-xs text-blue-700">
+                                Minimum requis : 10 transactions avec dates, montants et types (revenus/charges)
+                            </p>
+                        </div>
+
                         <div className="flex justify-center gap-6 text-xs text-gray-500">
                             <span className="flex items-center gap-1">🔒 100% sécurisé</span>
                             <span className="flex items-center gap-1">⚡ Analyse instantanée</span>

@@ -107,6 +107,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
         }
 
+        // ✅ Valider qualité données avant de continuer
+        const { validateDataQuality } = await import('@/lib/scoring/finSightScore');
+        const validation = validateDataQuality(processedData);
+
+        // Si erreurs bloquantes, retourner avec détails
+        if (!validation.valid) {
+            return res.status(400).json({
+                error: 'Données insuffisantes pour générer un tableau de bord',
+                details: validation.errors.join(' • '),
+                dataQuality: validation.dataQuality
+            });
+        }
+
         // ✅ Use adaptive KPI system (same as demos)
         // Create column mappings from AI-parsed data
         const firstRecord = processedData.records[0] || {};
@@ -119,6 +132,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const capabilities = detectCapabilities(detectedMappings, processedData.records);
         const dashboardKPIs = generateAdaptiveKPIs(processedData, capabilities); logger.debug(`[Upload] ✅ ${processedData.records.length} transactions parsées par IA`);
+
+        // Log warnings si confiance moyenne/basse
+        if (validation.warnings.length > 0) {
+            logger.warn(`[Upload] ⚠️ Qualité données: ${validation.confidence} - ${validation.warnings.join(', ')}`);
+        }
 
         // 💾 SAUVEGARDE AUTOMATIQUE en DB (si user connecté)
         let savedDashboardId = null;

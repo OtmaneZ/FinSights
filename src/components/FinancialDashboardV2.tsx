@@ -554,6 +554,14 @@ export default function FinancialDashboardV2() {
                             message: result.error || 'Créez un compte gratuit pour continuer',
                             duration: 6000
                         })
+                    } else if (response.status === 400 && result.dataQuality) {
+                        // Erreur validation données
+                        addToast({
+                            type: 'warning',
+                            title: 'Données insuffisantes',
+                            message: `${result.error} • ${result.details || 'Uploadez un export comptable complet'}`,
+                            duration: 8000
+                        })
                     } else {
                         addToast({
                             type: 'error',
