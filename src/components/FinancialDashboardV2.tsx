@@ -1141,15 +1141,26 @@ export default function FinancialDashboardV2() {
                                 {/* BenchmarkBar - Comparaison sectorielle */}
                                 <BenchmarkBar
                                     kpiName={
-                                        kpi.title.includes('Marge') ? 'MARGE_NETTE' :
-                                            kpi.title.includes('DSO') ? 'DSO' :
-                                                kpi.title.includes('BFR') ? 'BFR' :
-                                                    'DSO'
+                                        kpi.title.includes('Revenus') ? 'REVENUS_CROISSANCE' :
+                                            kpi.title.includes('Charges') ? 'CHARGES_CROISSANCE' :
+                                                kpi.title.includes('Cash') ? 'CASH_FLOW_CROISSANCE' :
+                                                    kpi.title.includes('Marge') ? 'MARGE_NETTE' :
+                                                        kpi.title.includes('DSO') ? 'DSO' :
+                                                            kpi.title.includes('BFR') ? 'BFR' :
+                                                                'DSO'
                                     }
-                                    currentValue={parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0}
+                                    currentValue={
+                                        kpi.title.includes('Revenus') || kpi.title.includes('Charges') || kpi.title.includes('Cash')
+                                            ? parseFloat(kpi.change.replace('%', '')) || 0
+                                            : parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0
+                                    }
                                     sector={companySector}
-                                    unit={kpi.value.includes('%') ? '%' : kpi.value.includes('jours') ? 'jours' : '€'}
-                                    inverse={kpi.title.includes('DSO') || kpi.title.includes('BFR')}
+                                    unit={
+                                        kpi.title.includes('Revenus') || kpi.title.includes('Charges') || kpi.title.includes('Cash')
+                                            ? '%'
+                                            : kpi.value.includes('%') ? '%' : kpi.value.includes('jours') ? 'jours' : '€'
+                                    }
+                                    inverse={kpi.title.includes('DSO') || kpi.title.includes('BFR') || kpi.title.includes('Charges')}
                                 />
                             </div>
                         ))}
