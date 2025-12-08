@@ -131,7 +131,7 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
         value: `${Math.round(data.kpis.revenue).toLocaleString('fr-FR')} €`,
         change: `${data.kpis.trends.revenueGrowth.toFixed(1)}%`,
         changeType: data.kpis.trends.revenueGrowth > 0 ? 'positive' : data.kpis.trends.revenueGrowth < 0 ? 'negative' : 'neutral',
-        description: `Période: ${data.summary.period.start.toLocaleDateString('fr-FR')} à ${data.summary.period.end.toLocaleDateString('fr-FR')}`,
+        description: `Période analysée: ${data.summary.period.start.toLocaleDateString('fr-FR')} à ${data.summary.period.end.toLocaleDateString('fr-FR')}`,
         confidence: data.qualityMetrics.accuracy,
         isAvailable: true // ✅ Toujours disponible
     });
@@ -193,7 +193,7 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
             change: dsoValue < 45 ? 'Excellent' : dsoValue < 60 ? 'Bon' : 'À surveiller',
             changeType: dsoValue < 45 ? 'positive' : dsoValue < 60 ? 'neutral' : 'negative',
             description: capabilities.canShowDSO
-                ? 'Délai moyen de paiement réel'
+                ? (dsoValue === 0 ? 'Paiements instantanés (comptant)' : 'Délai moyen de paiement réel')
                 : 'Délai moyen de paiement (estimation)',
             confidence: capabilities.canShowDSO ? 0.95 : 0.7,
             isAvailable: true // ✅ Toujours affiché (avec indication estimation si pas de dates)

@@ -1149,7 +1149,7 @@ export default function FinancialDashboardV2() {
                                     currentValue={parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0}
                                     sector={companySector}
                                     unit={kpi.value.includes('%') ? '%' : kpi.value.includes('jours') ? 'jours' : '€'}
-                                    inverse={kpi.title.includes('DSO')}
+                                    inverse={kpi.title.includes('DSO') || kpi.title.includes('BFR')}
                                 />
                             </div>
                         ))}
