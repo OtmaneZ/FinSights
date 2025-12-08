@@ -554,12 +554,16 @@ export default function FinancialDashboardV2() {
                             message: result.error || 'Créez un compte gratuit pour continuer',
                             duration: 6000
                         })
-                    } else if (response.status === 400 && result.dataQuality) {
-                        // Erreur validation données
+                    } else if (response.status === 400) {
+                        // Erreur validation ou parsing
+                        const errorMessage = result.details
+                            ? `${result.error} • ${result.details}`
+                            : result.error || 'Données invalides ou insuffisantes'
+
                         addToast({
                             type: 'warning',
-                            title: 'Données insuffisantes',
-                            message: `${result.error} • ${result.details || 'Uploadez un export comptable complet'}`,
+                            title: 'Fichier non valide',
+                            message: errorMessage,
                             duration: 8000
                         })
                     } else {
