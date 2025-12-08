@@ -94,20 +94,20 @@ export default function Home() {
             </section>
 
             {/* Score FinSight™ Section - Corporate Premium */}
-            <section className="relative py-32 bg-gray-50">
+            <section className="relative py-20 bg-gray-50">
                 <div className="max-w-6xl mx-auto px-6">
 
                     {/* Badge Corporate */}
                     <div className="flex justify-center mb-12">
-                        <div className="inline-flex items-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-lg shadow-sm">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-sm">
                             <Sparkles className="w-4 h-4" />
-                            <span className="text-sm font-semibold">Notre indicateur signature</span>
+                            <span className="text-xs font-semibold uppercase tracking-wider">Notre indicateur signature</span>
                         </div>
                     </div>
 
                     {/* Header Corporate */}
                     <div className="text-center mb-16">
-                        <h2 className="text-5xl font-bold mb-6 text-gray-900">
+                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
                             Score FinSight™
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -119,16 +119,16 @@ export default function Home() {
                     {/* Score Pillars Grid - Corporate Clean */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
                         {[
-                            { icon: DollarSign, label: 'Cash & Liquidité', value: 25, iconBg: 'bg-blue-100', iconColor: 'text-blue-600' },
-                            { icon: BarChart3, label: 'Marges & Rentabilité', value: 25, iconBg: 'bg-green-100', iconColor: 'text-green-600' },
-                            { icon: Shield, label: 'Résilience', value: 25, iconBg: 'bg-purple-100', iconColor: 'text-purple-600' },
-                            { icon: AlertTriangle, label: 'Gestion Risques', value: 25, iconBg: 'bg-orange-100', iconColor: 'text-orange-600' }
+                            { icon: DollarSign, label: 'Cash & Liquidité', value: 25, iconBg: 'bg-blue-50', iconColor: 'text-blue-600' },
+                            { icon: BarChart3, label: 'Marges & Rentabilité', value: 25, iconBg: 'bg-green-50', iconColor: 'text-green-600' },
+                            { icon: Shield, label: 'Résilience', value: 25, iconBg: 'bg-purple-50', iconColor: 'text-purple-600' },
+                            { icon: AlertTriangle, label: 'Gestion Risques', value: 25, iconBg: 'bg-orange-50', iconColor: 'text-orange-600' }
                         ].map((pillar, idx) => {
                             const Icon = pillar.icon
                             return (
                                 <div
                                     key={idx}
-                                    className="bg-white rounded-xl p-8 border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all"
+                                    className="bg-white rounded-xl p-8 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all"
                                 >
                                     <div className={`w-12 h-12 ${pillar.iconBg} rounded-lg flex items-center justify-center mb-4`}>
                                         <Icon className={`w-6 h-6 ${pillar.iconColor}`} />
@@ -147,7 +147,7 @@ export default function Home() {
                     {/* Example Score - Corporate Professional */}
                     <div className="flex justify-center">
                         <div className="inline-flex items-center gap-8 px-12 py-8 bg-white border-2 border-blue-200 rounded-2xl shadow-lg">
-                            <div className="text-8xl font-bold text-blue-600">
+                            <div className="text-7xl font-bold text-blue-600 leading-none">
                                 67
                             </div>
                             <div className="text-left border-l-2 border-gray-200 pl-8">
@@ -168,12 +168,12 @@ export default function Home() {
             </section>
 
             {/* Before/After Section - Corporate */}
-            <section className="py-24 bg-white">
+            <section className="py-16 bg-white">
                 <div className="max-w-6xl mx-auto px-6">
 
                     {/* Header */}
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl font-bold mb-6 text-gray-900">
+                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
                             La différence FinSight
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -246,10 +246,10 @@ export default function Home() {
             </section>
 
             {/* Features Grid - 4 Piliers Corporate */}
-            <section className="py-32 bg-gray-50">
+            <section className="py-20 bg-gray-50">
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl font-bold mb-6 text-gray-900">
+                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
                             Notre approche en 4 piliers
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -259,13 +259,13 @@ export default function Home() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Pilier 1 - Analyse Stratégique */}
-                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all group">
+                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all group">
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                                <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
                                     <BarChart3 className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors" />
                                 </div>
                                 <div>
-                                    <div className="text-sm font-semibold text-blue-600 mb-1">PILIER 1</div>
+                                    <div className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">PILIER 1</div>
                                     <h3 className="text-xl font-bold text-gray-900">Analyse Stratégique</h3>
                                 </div>
                             </div>
@@ -290,13 +290,13 @@ export default function Home() {
                         </div>
 
                         {/* Pilier 2 - Prévisions & Scénarios */}
-                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-green-300 hover:shadow-xl transition-all group">
+                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all group">
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center group-hover:bg-green-600 transition-colors">
+                                <div className="w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center group-hover:bg-green-600 transition-colors">
                                     <Sparkles className="w-7 h-7 text-green-600 group-hover:text-white transition-colors" />
                                 </div>
                                 <div>
-                                    <div className="text-sm font-semibold text-green-600 mb-1">PILIER 2</div>
+                                    <div className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-1">PILIER 2</div>
                                     <h3 className="text-xl font-bold text-gray-900">Prévisions & Scénarios</h3>
                                 </div>
                             </div>
@@ -321,13 +321,13 @@ export default function Home() {
                         </div>
 
                         {/* Pilier 3 - Moteur de Risque */}
-                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-orange-300 hover:shadow-xl transition-all group">
+                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all group">
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center group-hover:bg-orange-600 transition-colors">
+                                <div className="w-14 h-14 rounded-xl bg-orange-50 flex items-center justify-center group-hover:bg-orange-600 transition-colors">
                                     <AlertTriangle className="w-7 h-7 text-orange-600 group-hover:text-white transition-colors" />
                                 </div>
                                 <div>
-                                    <div className="text-sm font-semibold text-orange-600 mb-1">PILIER 3</div>
+                                    <div className="text-xs font-semibold text-orange-600 uppercase tracking-wider mb-1">PILIER 3</div>
                                     <h3 className="text-xl font-bold text-gray-900">Moteur de Risque</h3>
                                 </div>
                             </div>
@@ -352,13 +352,13 @@ export default function Home() {
                         </div>
 
                         {/* Pilier 4 - CFO Virtuel */}
-                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-purple-300 hover:shadow-xl transition-all group">
+                        <div className="bg-white rounded-2xl p-10 border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all group">
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-xl bg-purple-100 flex items-center justify-center group-hover:bg-purple-600 transition-colors">
+                                <div className="w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center group-hover:bg-purple-600 transition-colors">
                                     <DollarSign className="w-7 h-7 text-purple-600 group-hover:text-white transition-colors" />
                                 </div>
                                 <div>
-                                    <div className="text-sm font-semibold text-purple-600 mb-1">PILIER 4</div>
+                                    <div className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-1">PILIER 4</div>
                                     <h3 className="text-xl font-bold text-gray-900">CFO Virtuel</h3>
                                 </div>
                             </div>
