@@ -472,6 +472,20 @@ export const SECTOR_BENCHMARKS = {
  * @param records - Transactions financières
  * @returns Variations en % pour chaque KPI
  */
+/**
+ * 📊 Calcule les variations entre 2 périodes pour afficher les tendances (croissance %)
+ *
+ * ⚠️ IMPORTANT - Découpage par date médiane :
+ * Cette fonction divise les transactions en 2 moitiés égales selon la date médiane.
+ *
+ * Exemple (demo-data.csv) :
+ * - 89 transactions du 01/08/2024 au 14/11/2024
+ * - Date médiane ≈ 02/09/2024 (index 44/89)
+ * - Période N-1 : 26 transactions (01/08 → 01/09) = 90k€
+ * - Période N   : 63 transactions (02/09 → 14/11) = 243k€ ✅ Affiché dans UI
+ *
+ * Le CA affiché (243k€) correspond donc à la période N (2ème moitié), pas au total !
+ */
 export function calculatePeriodVariations(records: FinancialRecord[]): {
     revenue: number;
     expenses: number;
@@ -494,7 +508,7 @@ export function calculatePeriodVariations(records: FinancialRecord[]): {
     // Période 1 (N-1) : première moitié
     const period1 = sortedRecords.filter(r => new Date(r.date) < midDate);
 
-    // Période 2 (N) : deuxième moitié
+    // Période 2 (N) : deuxième moitié (c'est cette période qui est affichée comme CA principal !)
     const period2 = sortedRecords.filter(r => new Date(r.date) >= midDate);
 
     // Calculer les KPIs pour chaque période

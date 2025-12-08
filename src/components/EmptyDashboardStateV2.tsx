@@ -34,15 +34,15 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {/* PME Services - Santé financière solide */}
+                        {/* Éditeur SaaS B2B - Forte rentabilité */}
                         <button
                             onClick={() => onDemoLoad('saine')}
                             className="surface rounded-xl p-6 surface-hover group text-left transition-all hover:scale-[1.02]"
                         >
-                            <h4 className="text-xl font-bold mb-2 text-primary">PME Services</h4>
-                            <p className="text-accent-success font-semibold mb-4 text-sm">Santé financière solide</p>
+                            <h4 className="text-xl font-bold mb-2 text-primary">Éditeur SaaS B2B</h4>
+                            <p className="text-accent-success font-semibold mb-4 text-sm">Plateforme SaaS, clients grands comptes</p>
                             <div className="text-sm text-secondary space-y-1">
-                                <p>• 243k€ CA • Marge 64%</p>
+                                <p>• 243k€ CA • Marge nette 64%</p>
                                 <p>• Cash flow: 155k€</p>
                                 <p>• DSO: 0 jours</p>
                             </div>
