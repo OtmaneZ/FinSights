@@ -1012,6 +1012,12 @@ export default function FinancialDashboardV2() {
     if (!isDataLoaded) {
         return (
             <>
+                {/* Toast notifications - TOUJOURS visible */}
+                <RealtimeToast
+                    notifications={toastNotifications}
+                    onDismiss={(id) => setToastNotifications(prev => prev.filter(n => n.id !== id))}
+                />
+
                 {/* Animation de chargement démo */}
                 {isLoadingDemo && (
                     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
