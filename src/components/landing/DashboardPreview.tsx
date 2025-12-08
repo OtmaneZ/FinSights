@@ -11,9 +11,9 @@ export default function DashboardPreview() {
     useEffect(() => {
         const interval = setInterval(() => {
             setCounters(prev => ({
-                revenue: Math.min(prev.revenue + 50000, 2500000),
-                margin: Math.min(prev.margin + 1, 42),
-                cash: Math.min(prev.cash + 5000, 450000)
+                revenue: Math.min(prev.revenue + 8000, 850000),  // 850k€ CA annuel (PME services B2B)
+                margin: Math.min(prev.margin + 2, 72),           // 72/100 Score FinSight (niveau "good")
+                cash: Math.min(prev.cash + 3000, 180000)         // 180k€ tréso (cohérent avec 850k CA)
             }))
             setChartProgress(prev => Math.min(prev + 2, 100))
         }, 30)
@@ -71,19 +71,19 @@ export default function DashboardPreview() {
                             <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center">
                                 <Activity className="w-4 h-4 text-white" />
                             </div>
-                            <span className="text-xs text-gray-600 font-medium">Marge</span>
+                            <span className="text-xs text-gray-600 font-medium">Marge nette</span>
                         </div>
                         <div className="text-2xl font-bold text-gray-900">
-                            {counters.margin}%
+                            28%
                         </div>
-                        <div className="text-xs text-green-600 mt-1">Objectif: 40%</div>
+                        <div className="text-xs text-green-600 mt-1">Objectif: 25%</div>
                     </div>
 
                     {/* Cash Card */}
                     <div className="col-span-2 bg-gradient-to-br from-purple-50 to-purple-100/50 backdrop-blur-xl rounded-2xl p-4 border border-purple-200/50">
                         <div className="flex items-center justify-between mb-2">
                             <span className="text-xs text-gray-600 font-medium">Trésorerie disponible</span>
-                            <span className="text-xs text-purple-600 font-semibold">Runway: 8 mois</span>
+                            <span className="text-xs text-purple-600 font-semibold">Runway: 6 mois</span>
                         </div>
                         <div className="text-3xl font-bold text-gray-900">
                             {(counters.cash / 1000).toFixed(0)}k€
@@ -100,9 +100,9 @@ export default function DashboardPreview() {
                         <line x1="0" y1="40" x2="240" y2="40" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
                         <line x1="0" y1="60" x2="240" y2="60" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="2,2" opacity="0.5" />
 
-                        {/* Realistic Growth Path (S-curve) */}
+                        {/* Realistic Cash Flow with volatility (saisonnalité Q4) */}
                         <path
-                            d="M 10 65 L 30 62 L 50 58 L 70 52 L 90 45 L 110 38 L 130 32 L 150 28 L 170 25 L 190 22 L 210 20 L 230 18"
+                            d="M 10 58 L 30 55 L 50 60 L 70 52 L 90 48 L 110 55 L 130 42 L 150 38 L 170 32 L 190 28 L 210 22 L 230 18"
                             fill="none"
                             stroke="url(#gradient)"
                             strokeWidth="2.5"
@@ -115,7 +115,7 @@ export default function DashboardPreview() {
 
                         {/* Fill area under curve */}
                         <path
-                            d="M 10 65 L 30 62 L 50 58 L 70 52 L 90 45 L 110 38 L 130 32 L 150 28 L 170 25 L 190 22 L 210 20 L 230 18 L 230 70 L 10 70 Z"
+                            d="M 10 58 L 30 55 L 50 60 L 70 52 L 90 48 L 110 55 L 130 42 L 150 38 L 170 32 L 190 28 L 210 22 L 230 18 L 230 70 L 10 70 Z"
                             fill="url(#gradient-fill)"
                             opacity={chartProgress > 50 ? "0.1" : "0"}
                             className="transition-all duration-500"
@@ -135,10 +135,13 @@ export default function DashboardPreview() {
                         </defs>
 
                         {/* Data points */}
-                        {chartProgress > 20 && <circle cx="30" cy="62" r="2" fill="#3b82f6" opacity="0.6" />}
+                        {chartProgress > 20 && <circle cx="30" cy="55" r="2" fill="#3b82f6" opacity="0.6" />}
+                        {chartProgress > 30 && <circle cx="50" cy="60" r="2" fill="#3b82f6" opacity="0.6" />}
                         {chartProgress > 40 && <circle cx="70" cy="52" r="2" fill="#6366f1" opacity="0.6" />}
-                        {chartProgress > 60 && <circle cx="110" cy="38" r="2" fill="#8b5cf6" opacity="0.6" />}
-                        {chartProgress > 80 && <circle cx="150" cy="28" r="2" fill="#8b5cf6" opacity="0.6" />}
+                        {chartProgress > 50 && <circle cx="90" cy="48" r="2" fill="#6366f1" opacity="0.6" />}
+                        {chartProgress > 60 && <circle cx="110" cy="55" r="2" fill="#8b5cf6" opacity="0.6" />}
+                        {chartProgress > 70 && <circle cx="150" cy="38" r="2" fill="#8b5cf6" opacity="0.6" />}
+                        {chartProgress > 80 && <circle cx="190" cy="28" r="2" fill="#8b5cf6" opacity="0.6" />}
 
                         {/* Animated Dot at end */}
                         {chartProgress > 95 && (
