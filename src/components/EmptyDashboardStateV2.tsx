@@ -42,9 +42,9 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                             <h4 className="text-xl font-bold mb-2 text-primary">PME Services</h4>
                             <p className="text-accent-success font-semibold mb-4 text-sm">Santé financière solide</p>
                             <div className="text-sm text-secondary space-y-1">
-                                <p>• 243k€ CA • Marges saines</p>
-                                <p>• Cash flow positif</p>
-                                <p>• DSO contrôlé</p>
+                                <p>• 243k€ CA • Marge 64%</p>
+                                <p>• Cash flow: 155k€</p>
+                                <p>• DSO: 0 jours</p>
                             </div>
                         </button>
 
@@ -56,9 +56,9 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                             <h4 className="text-xl font-bold mb-2 text-primary">Startup SaaS</h4>
                             <p className="text-accent-warning font-semibold mb-4 text-sm">Difficulté trésorerie</p>
                             <div className="text-sm text-secondary space-y-1">
-                                <p>• 30k€ CA • Créances bloquées</p>
-                                <p>• Runway 3 mois</p>
-                                <p>• Relances urgentes</p>
+                                <p>• 20k€ CA • Marge -135%</p>
+                                <p>• Cash flow: -27k€</p>
+                                <p>• Runway critique</p>
                             </div>
                         </button>
 
@@ -70,9 +70,9 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                             <h4 className="text-xl font-bold mb-2 text-primary">Scale-up Tech</h4>
                             <p className="text-accent-primary font-semibold mb-4 text-sm">Hypercroissance</p>
                             <div className="text-sm text-secondary space-y-1">
-                                <p>• 1.2M€ CA • Série A 500k€</p>
-                                <p>• +300% YoY</p>
-                                <p>• Pipeline massif</p>
+                                <p>• 900k€ CA • Série A 350k€</p>
+                                <p>• Marge 65% • +195% YoY</p>
+                                <p>• Cash flow: 580k€</p>
                             </div>
                         </button>
                     </div>
@@ -103,8 +103,8 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                                 onChange={(e) => {
                                     if (e.target.files && e.target.files.length > 0) {
                                         // Dispatch custom event pour le dashboard
-                                        const event = new CustomEvent('fileUpload', { 
-                                            detail: e.target.files 
+                                        const event = new CustomEvent('fileUpload', {
+                                            detail: e.target.files
                                         })
                                         window.dispatchEvent(event)
                                     }
