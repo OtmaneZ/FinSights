@@ -8,10 +8,9 @@ export default function Footer() {
     return (
         <footer className="border-t border-border-subtle py-12">
             <div className="max-w-6xl mx-auto px-6">
-                {/* Section 1: Logo + Navigation principale */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
-                    {/* Logo */}
-                    <div className="flex items-center gap-3">
+                {/* About Section */}
+                <div className="mb-8 pb-8 border-b border-border-subtle">
+                    <div className="flex items-center gap-3 mb-4">
                         <Image
                             src="/images/zineinsights_logo.jpeg"
                             alt="FinSight"
@@ -19,11 +18,19 @@ export default function Footer() {
                             height={32}
                             className="w-8 h-8 rounded-lg"
                         />
-                        <div>
-                            <div className="text-lg font-semibold">FinSight</div>
-                            <div className="text-xs text-tertiary">by Otmane Boulahia</div>
-                        </div>
+                        <div className="text-lg font-semibold">FinSight</div>
                     </div>
+                    <p className="text-sm text-gray-600 max-w-2xl leading-relaxed">
+                        FinSight est un moteur d'intelligence financière pour dirigeants de PME.
+                        Conçu par Otmane Boulahia, analyste financier & data engineer,
+                        inspiré des meilleures pratiques CFO, FP&A et pilotage BFR.
+                    </p>
+                </div>
+
+                {/* Section 1: Navigation principale */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                    {/* Empty space for balance */}
+                    <div></div>
 
                     {/* Navigation principale */}
                     <nav className="flex flex-wrap items-center gap-6">

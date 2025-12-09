@@ -45,11 +45,23 @@ export default function Home() {
                                 {' '}en moins de 2 minutes
                             </h1>
 
+                            {/* Target Audience */}
+                            <p className="text-base text-gray-600 max-w-xl">
+                                Pour dirigeants et DAF de PME (500k€ à 10M€ CA)
+                            </p>
+
                             {/* Description */}
                             <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
                                 Le moteur d'analyse financière qui calcule votre{' '}
                                 <span className="font-bold text-gray-900">Score FinSight™</span>, détecte les risques et simule vos scénarios de trésorerie.
                             </p>
+
+                            {/* Credibility Badge */}
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg">
+                                <span className="text-xs text-gray-600">
+                                    Conçu par Otmane Boulahia, analyste financier & data
+                                </span>
+                            </div>
 
                             {/* CTAs Corporate */}
                             <div className="flex flex-col sm:flex-row gap-4">
