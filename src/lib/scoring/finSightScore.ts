@@ -12,6 +12,7 @@
 import { ProcessedData, FinancialRecord } from '../dataModel';
 import { calculateDSOFromTransactions } from '../financialFormulas';
 import { detectAnomalies } from '../ml/anomalyDetector';
+import { generateSmartRecommendations } from '../ai/recommendations';
 
 export type ScoreLevel = 'critical' | 'warning' | 'good' | 'excellent';
 export type ScoreConfidence = 'low' | 'medium' | 'high';
@@ -169,7 +170,7 @@ export function validateDataQuality(data: ProcessedData): ValidationResult {
 /**
  * Calcule le Score FinSight™ 0-100
  */
-export function calculateFinSightScore(data: ProcessedData): FinSightScore {
+export async function calculateFinSightScore(data: ProcessedData): Promise<FinSightScore> {
     // Valider qualité des données
     const validation = validateDataQuality(data);
 
@@ -190,7 +191,27 @@ export function calculateFinSightScore(data: ProcessedData): FinSightScore {
     const total = Math.round(cashScore + marginScore + resilienceScore + riskScore);
     const level = getScoreLevel(total);
     const insights = generateInsights(breakdown, factors, level, validation);
-    const recommendations = generateRecommendations(breakdown, factors, level);
+
+    // 🤖 Générer recommandations IA avec fallback
+    let recommendations: string[] = [];
+    try {
+        const aiResult = await generateSmartRecommendations(
+            breakdown,
+            factors,
+            level,
+            data.records
+        );
+
+        if (aiResult.success && aiResult.recommendations) {
+            recommendations = aiResult.recommendations;
+        } else {
+            // Fallback: recommandations hardcodées
+            recommendations = generateRecommendations(breakdown, factors, level);
+        }
+    } catch (error) {
+        console.warn('[FinSightScore] Fallback to hardcoded recommendations:', error);
+        recommendations = generateRecommendations(breakdown, factors, level);
+    }
 
     return {
         total,

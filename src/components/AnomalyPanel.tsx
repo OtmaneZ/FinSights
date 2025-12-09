@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import type { Anomaly, RiskLevel } from '@/lib/ml/types';
+import type { AdvancedPattern } from '@/lib/ai/patterns';
 import {
     ExclamationTriangleIcon,
     ClockIcon,
@@ -9,7 +10,9 @@ import {
     ChartBarIcon,
     XMarkIcon,
     CheckCircleIcon,
-    EyeIcon
+    EyeIcon,
+    SparklesIcon,
+    LightBulbIcon
 } from '@heroicons/react/24/outline';
 
 // Format date to French format (DD/MM/YYYY)
@@ -30,185 +33,265 @@ function formatDate(dateString: string): string {
 
 interface AnomalyPanelProps {
     anomalies: Anomaly[];
+    patterns?: AdvancedPattern[]; // 🆕 Patterns IA
     onDismiss?: (anomalyId: string) => void;
     onInvestigate?: (anomaly: Anomaly) => void;
 }
 
-export function AnomalyPanel({ anomalies, onDismiss, onInvestigate }: AnomalyPanelProps) {
+export function AnomalyPanel({ anomalies, patterns = [], onDismiss, onInvestigate }: AnomalyPanelProps) {
     const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
 
     const visibleAnomalies = anomalies.filter(a => !dismissedIds.has(a.id));
+    const hasContent = visibleAnomalies.length > 0 || patterns.length > 0;
 
     const handleDismiss = (id: string) => {
         setDismissedIds(prev => new Set(prev).add(id));
         onDismiss?.(id);
     };
 
-    if (visibleAnomalies.length === 0) {
+    if (!hasContent) {
         return (
             <div className="surface rounded-lg shadow-lg p-6">
                 <div className="flex items-center justify-center text-green-600 gap-2">
                     <CheckCircleIcon className="w-6 h-6" />
-                    <p className="text-sm font-semibold">Aucune anomalie détectée</p>
+                    <p className="text-sm font-semibold">Aucune anomalie ou pattern détecté</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="surface rounded-lg shadow-lg p-6">
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                    <ExclamationTriangleIcon className="w-6 h-6 text-orange-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">
-                        Anomalies Détectées ({visibleAnomalies.length})
-                    </h3>
-                </div>
-                {visibleAnomalies.length > 0 && (
-                    <div className="flex gap-2 text-xs">
-                        {getRiskSummary(visibleAnomalies).map(([risk, count]) => (
-                            count > 0 && (
-                                <div key={risk} className="relative group">
-                                    <span
-                                        className={`px-2 py-1 rounded cursor-help ${getRiskBadgeClass(risk as RiskLevel)}`}
-                                    >
-                                        {count} {risk}
-                                    </span>
-                                    {/* Tooltip mini résumé */}
-                                    <div className="absolute right-0 bottom-full mb-2 hidden group-hover:block z-10 w-40">
-                                        <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg">
-                                            <p className="text-gray-200">{getRiskTooltip(risk as RiskLevel)}</p>
-                                            <div className="absolute right-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+        <div className="surface rounded-lg shadow-lg p-6 space-y-6">
+            {/* 🔴 SECTION ANOMALIES ML */}
+            {visibleAnomalies.length > 0 && (
+                <div>
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2">
+                            <ExclamationTriangleIcon className="w-6 h-6 text-orange-600" />
+                            <h3 className="text-lg font-semibold text-gray-900">
+                                Anomalies Détectées ({visibleAnomalies.length})
+                            </h3>
+                        </div>
+                        {visibleAnomalies.length > 0 && (
+                            <div className="flex gap-2 text-xs">
+                                {getRiskSummary(visibleAnomalies).map(([risk, count]) => (
+                                    count > 0 && (
+                                        <div key={risk} className="relative group">
+                                            <span
+                                                className={`px-2 py-1 rounded cursor-help ${getRiskBadgeClass(risk as RiskLevel)}`}
+                                            >
+                                                {count} {risk}
+                                            </span>
+                                            {/* Tooltip mini résumé */}
+                                            <div className="absolute right-0 bottom-full mb-2 hidden group-hover:block z-10 w-40">
+                                                <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg">
+                                                    <p className="text-gray-200">{getRiskTooltip(risk as RiskLevel)}</p>
+                                                    <div className="absolute right-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="space-y-3 max-h-[600px] overflow-y-auto">
+                        {visibleAnomalies.map((anomaly, index) => (
+                            <div
+                                key={anomaly.id}
+                                className="border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:border-gray-300 transition-all duration-300 transform hover:-translate-y-1"
+                                style={{
+                                    animation: `fadeIn 0.4s ease-out ${index * 0.08}s both, slideInRight 0.4s ease-out ${index * 0.08}s both`
+                                }}
+                            >
+                                <div className="flex items-start justify-between gap-3">
+                                    <div className="flex items-start gap-3 flex-1">
+                                        {/* Icon */}
+                                        <div className={`p-2 rounded-lg ${getIconBgClass(anomaly.riskLevel)}`}>
+                                            {getAnomalyIcon(anomaly.type)}
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h4 className="font-semibold text-gray-900">{anomaly.title}</h4>
+                                                <div className="relative group">
+                                                    <span
+                                                        className={`px-2 py-0.5 text-xs font-medium rounded cursor-help ${getRiskBadgeClass(anomaly.riskLevel)} ${anomaly.riskLevel === 'critical' ? 'anomaly-critical-pulse' : ''}`}
+                                                    >
+                                                        {getRiskLabel(anomaly.riskLevel)}
+                                                    </span>
+                                                    {/* Tooltip */}
+                                                    <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-10 w-48">
+                                                        <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg">
+                                                            <div className="font-semibold mb-1">{getRiskLabel(anomaly.riskLevel)}</div>
+                                                            <p className="text-gray-300">{getRiskTooltip(anomaly.riskLevel)}</p>
+                                                            <div className="absolute left-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <p className="text-sm text-gray-600 mb-2">
+                                                {anomaly.description}
+                                            </p>
+
+                                            {/* Metadata */}
+                                            <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                                                {anomaly.metadata?.client && (
+                                                    <span className="bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors">
+                                                        👤 {anomaly.metadata.client}
+                                                    </span>
+                                                )}
+                                                {anomaly.metadata?.category && (
+                                                    <span className="bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors">
+                                                        📂 {anomaly.metadata.category}
+                                                    </span>
+                                                )}
+                                                {anomaly.metadata?.date && (
+                                                    <span className="bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors">
+                                                        📅 {formatDate(anomaly.metadata.date)}
+                                                    </span>
+                                                )}
+                                                <div className="relative group">
+                                                    <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded cursor-help hover:bg-blue-100 transition-colors">
+                                                        🎯 Confiance: {(anomaly.confidence * 100).toFixed(0)}%
+                                                    </span>
+                                                    {/* Tooltip confiance */}
+                                                    <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-10 w-56">
+                                                        <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg">
+                                                            <div className="font-semibold mb-1">Score de Confiance ML</div>
+                                                            <p className="text-gray-300">
+                                                                Probabilité que cette anomalie soit réelle.
+                                                                {anomaly.confidence >= 0.9 ? ' Très fiable.' : anomaly.confidence >= 0.7 ? ' Fiabilité élevée.' : ' À vérifier.'}
+                                                            </p>
+                                                            <div className="absolute left-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Actions */}
+                                    <div className="flex flex-col gap-1">
+                                        <div className="relative group">
+                                            <button
+                                                onClick={() => onInvestigate?.(anomaly)}
+                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-all duration-200 hover:scale-110"
+                                                title="Investiguer"
+                                            >
+                                                <EyeIcon className="w-5 h-5" />
+                                            </button>
+                                            <div className="absolute right-full mr-2 top-0 hidden group-hover:block z-10 whitespace-nowrap">
+                                                <div className="bg-gray-900 text-white text-xs rounded px-2 py-1">
+                                                    Investiguer
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="relative group">
+                                            <button
+                                                onClick={() => handleDismiss(anomaly.id)}
+                                                className="p-2 text-gray-400 hover:bg-gray-100 rounded transition-all duration-200 hover:scale-110"
+                                                title="Ignorer"
+                                            >
+                                                <XMarkIcon className="w-5 h-5" />
+                                            </button>
+                                            <div className="absolute right-full mr-2 top-0 hidden group-hover:block z-10 whitespace-nowrap">
+                                                <div className="bg-gray-900 text-white text-xs rounded px-2 py-1">
+                                                    Ignorer
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            )
+                            </div>
                         ))}
                     </div>
-                )}
-            </div>
 
-            <div className="space-y-3 max-h-[600px] overflow-y-auto">
-                {visibleAnomalies.map((anomaly, index) => (
-                    <div
-                        key={anomaly.id}
-                        className="border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:border-gray-300 transition-all duration-300 transform hover:-translate-y-1"
-                        style={{
-                            animation: `fadeIn 0.4s ease-out ${index * 0.08}s both, slideInRight 0.4s ease-out ${index * 0.08}s both`
-                        }}
-                    >
-                        <div className="flex items-start justify-between gap-3">
-                            <div className="flex items-start gap-3 flex-1">
-                                {/* Icon */}
-                                <div className={`p-2 rounded-lg ${getIconBgClass(anomaly.riskLevel)}`}>
-                                    {getAnomalyIcon(anomaly.type)}
-                                </div>
-
-                                {/* Content */}
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <h4 className="font-semibold text-gray-900">{anomaly.title}</h4>
-                                        <div className="relative group">
-                                            <span
-                                                className={`px-2 py-0.5 text-xs font-medium rounded cursor-help ${getRiskBadgeClass(anomaly.riskLevel)} ${anomaly.riskLevel === 'critical' ? 'anomaly-critical-pulse' : ''}`}
-                                            >
-                                                {getRiskLabel(anomaly.riskLevel)}
-                                            </span>
-                                            {/* Tooltip */}
-                                            <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-10 w-48">
-                                                <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg">
-                                                    <div className="font-semibold mb-1">{getRiskLabel(anomaly.riskLevel)}</div>
-                                                    <p className="text-gray-300">{getRiskTooltip(anomaly.riskLevel)}</p>
-                                                    <div className="absolute left-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <p className="text-sm text-gray-600 mb-2">
-                                        {anomaly.description}
-                                    </p>
-
-                                    {/* Metadata */}
-                                    <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-                                        {anomaly.metadata?.client && (
-                                            <span className="bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors">
-                                                👤 {anomaly.metadata.client}
-                                            </span>
-                                        )}
-                                        {anomaly.metadata?.category && (
-                                            <span className="bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors">
-                                                📂 {anomaly.metadata.category}
-                                            </span>
-                                        )}
-                                        {anomaly.metadata?.date && (
-                                            <span className="bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors">
-                                                📅 {formatDate(anomaly.metadata.date)}
-                                            </span>
-                                        )}
-                                        <div className="relative group">
-                                            <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded cursor-help hover:bg-blue-100 transition-colors">
-                                                🎯 Confiance: {(anomaly.confidence * 100).toFixed(0)}%
-                                            </span>
-                                            {/* Tooltip confiance */}
-                                            <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-10 w-56">
-                                                <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg">
-                                                    <div className="font-semibold mb-1">Score de Confiance ML</div>
-                                                    <p className="text-gray-300">
-                                                        Probabilité que cette anomalie soit réelle.
-                                                        {anomaly.confidence >= 0.9 ? ' Très fiable.' : anomaly.confidence >= 0.7 ? ' Fiabilité élevée.' : ' À vérifier.'}
-                                                    </p>
-                                                    <div className="absolute left-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Actions */}
-                            <div className="flex flex-col gap-1">
-                                <div className="relative group">
-                                    <button
-                                        onClick={() => onInvestigate?.(anomaly)}
-                                        className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-all duration-200 hover:scale-110"
-                                        title="Investiguer"
-                                    >
-                                        <EyeIcon className="w-5 h-5" />
-                                    </button>
-                                    <div className="absolute right-full mr-2 top-0 hidden group-hover:block z-10 whitespace-nowrap">
-                                        <div className="bg-gray-900 text-white text-xs rounded px-2 py-1">
-                                            Investiguer
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="relative group">
-                                    <button
-                                        onClick={() => handleDismiss(anomaly.id)}
-                                        className="p-2 text-gray-400 hover:bg-gray-100 rounded transition-all duration-200 hover:scale-110"
-                                        title="Ignorer"
-                                    >
-                                        <XMarkIcon className="w-5 h-5" />
-                                    </button>
-                                    <div className="absolute right-full mr-2 top-0 hidden group-hover:block z-10 whitespace-nowrap">
-                                        <div className="bg-gray-900 text-white text-xs rounded px-2 py-1">
-                                            Ignorer
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    {/* Legend/Help */}
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-gray-500">
+                            💡 <strong>Conseil:</strong> Les anomalies sont détectées automatiquement via Machine Learning (Z-score, IQR, patterns).
+                            Cliquez sur <EyeIcon className="w-4 h-4 inline" /> pour investiguer ou <XMarkIcon className="w-4 h-4 inline" /> pour ignorer.
+                        </p>
                     </div>
-                ))}
-            </div>
+                </div>
+            )}
 
-            {/* Legend/Help */}
-            <div className="mt-4 pt-4 border-t border-gray-200">
-                <p className="text-xs text-gray-500">
-                    💡 <strong>Conseil:</strong> Les anomalies sont détectées automatiquement via Machine Learning (Z-score, IQR, patterns).
-                    Cliquez sur <EyeIcon className="w-4 h-4 inline" /> pour investiguer ou <XMarkIcon className="w-4 h-4 inline" /> pour ignorer.
-                </p>
-            </div>
+            {/* 🔵 SECTION PATTERNS IA */}
+            {patterns && patterns.length > 0 && (
+                <div>
+                    <div className="flex items-center gap-2 mb-4">
+                        <SparklesIcon className="w-6 h-6 text-blue-600" />
+                        <h3 className="text-lg font-semibold text-gray-900">
+                            Patterns Détectés IA ({patterns.length})
+                        </h3>
+                    </div>
+
+                    <div className="space-y-3">
+                        {patterns.map((pattern, index) => (
+                            <div
+                                key={`pattern-${index}`}
+                                className="border border-blue-200 rounded-lg p-4 bg-blue-50/50 hover:shadow-lg hover:border-blue-300 transition-all duration-300"
+                                style={{
+                                    animation: `fadeIn 0.4s ease-out ${index * 0.08}s both`
+                                }}
+                            >
+                                <div className="flex items-start gap-3">
+                                    {/* Icon */}
+                                    <div className="p-2 rounded-lg bg-blue-100">
+                                        {getPatternIcon(pattern.type)}
+                                    </div>
+
+                                    {/* Content */}
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <h4 className="font-semibold text-gray-900">{pattern.title}</h4>
+                                            <span className="px-2 py-0.5 text-xs font-medium rounded bg-blue-100 text-blue-800">
+                                                {getPatternLabel(pattern.type)}
+                                            </span>
+                                        </div>
+
+                                        <p className="text-sm text-gray-700 mb-2">
+                                            {pattern.description}
+                                        </p>
+
+                                        {/* Insight actionnable */}
+                                        <div className="bg-blue-100/50 border border-blue-200 rounded px-3 py-2 mb-2">
+                                            <p className="text-sm text-blue-900">
+                                                <LightBulbIcon className="w-4 h-4 inline mr-1" />
+                                                <strong>Insight:</strong> {pattern.insight}
+                                            </p>
+                                        </div>
+
+                                        {/* Metadata */}
+                                        <div className="flex flex-wrap gap-2 text-xs">
+                                            {pattern.impact && (
+                                                <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                                                    📊 Impact: {pattern.impact}
+                                                </span>
+                                            )}
+                                            <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded">
+                                                🎯 Confiance: {pattern.confidence}%
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Legend patterns */}
+                    <div className="mt-4 pt-4 border-t border-blue-200">
+                        <p className="text-xs text-blue-700">
+                            ✨ <strong>Patterns IA:</strong> Tendances et corrélations cachées détectées par intelligence artificielle.
+                            Complémentaire aux anomalies statistiques.
+                        </p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
@@ -292,4 +375,45 @@ function getRiskSummary(anomalies: Anomaly[]): [string, number][] {
     anomalies.forEach(a => counts[a.riskLevel]++);
 
     return Object.entries(counts).filter(([_, count]) => count > 0);
+}
+
+/**
+ * Utilitaires Patterns
+ */
+function getPatternIcon(type: string) {
+    switch (type) {
+        case 'seasonality':
+            return <ChartBarIcon className="w-5 h-5 text-blue-600" />;
+        case 'correlation':
+            return <SparklesIcon className="w-5 h-5 text-purple-600" />;
+        case 'client_behavior':
+            return <ClockIcon className="w-5 h-5 text-indigo-600" />;
+        case 'cost_structure':
+            return <CurrencyDollarIcon className="w-5 h-5 text-cyan-600" />;
+        case 'opportunity':
+            return <LightBulbIcon className="w-5 h-5 text-green-600" />;
+        case 'risk_signal':
+            return <ExclamationTriangleIcon className="w-5 h-5 text-orange-600" />;
+        default:
+            return <SparklesIcon className="w-5 h-5 text-blue-600" />;
+    }
+}
+
+function getPatternLabel(type: string): string {
+    switch (type) {
+        case 'seasonality':
+            return '📅 Saisonnalité';
+        case 'correlation':
+            return '🔗 Corrélation';
+        case 'client_behavior':
+            return '👥 Comportement';
+        case 'cost_structure':
+            return '💰 Structure Coûts';
+        case 'opportunity':
+            return '💡 Opportunité';
+        case 'risk_signal':
+            return '⚠️ Signal Risque';
+        default:
+            return '✨ Pattern';
+    }
 }

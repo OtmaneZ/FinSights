@@ -74,6 +74,9 @@ import type { Anomaly } from '@/lib/ml/types'
 // Import AI Predictions
 import { generateCashFlowPredictions, type CashFlowPrediction, type PredictionAlert } from '@/lib/ai/predictions'
 
+// Import AI Patterns
+import { detectAdvancedPatterns, type AdvancedPattern } from '@/lib/ai/patterns'
+
 // Import Score FinSight™ calculation
 import { calculateFinSightScore, type FinSightScore } from '@/lib/scoring/finSightScore'
 
@@ -132,6 +135,10 @@ export default function FinancialDashboardV2() {
     // ML Anomaly Detection states
     const [anomalies, setAnomalies] = useState<Anomaly[]>([]);
     const [showAnomalies, setShowAnomalies] = useState(false);
+
+    // AI Patterns states
+    const [aiPatterns, setAIPatterns] = useState<AdvancedPattern[]>([]);
+    const [isLoadingPatterns, setIsLoadingPatterns] = useState(false);
 
     // Score FinSight™ state
     const [finSightScore, setFinSightScore] = useState<FinSightScore | null>(null);
@@ -569,10 +576,10 @@ export default function FinancialDashboardV2() {
                         setDashboardConfig(result.data.dashboardConfig)
                     }
 
-                    // ✨ Calculate Score FinSight™
+                    // ✨ Calculate Score FinSight™ (async pour recommandations IA)
                     if (processedData) {
                         try {
-                            const score = calculateFinSightScore(processedData)
+                            const score = await calculateFinSightScore(processedData)
                             setFinSightScore(score)
                         } catch (scoreError) {
                             logger.error('Erreur calcul Score FinSight™:', scoreError)
@@ -597,6 +604,28 @@ export default function FinancialDashboardV2() {
                             logger.error('❌ Erreur prédictions cash flow:', predError);
                         } finally {
                             setIsLoadingPredictions(false);
+                        }
+                    }
+
+                    // 🔍 Detect Advanced Patterns IA (asynchrone, non-bloquant)
+                    if (result.data.records && result.data.records.length >= 20) {
+                        setIsLoadingPatterns(true);
+                        try {
+                            const patternsResult = await detectAdvancedPatterns(result.data.records, {
+                                sector: companySector,
+                                companyName: companyName
+                            });
+
+                            if (patternsResult.success && patternsResult.patterns) {
+                                setAIPatterns(patternsResult.patterns);
+                                logger.debug(`✅ ${patternsResult.patterns.length} patterns IA détectés`);
+                            } else {
+                                logger.warn('⚠️ Détection patterns IA échouée:', patternsResult.error);
+                            }
+                        } catch (patternError) {
+                            logger.error('❌ Erreur détection patterns:', patternError);
+                        } finally {
+                            setIsLoadingPatterns(false);
                         }
                     }
 
@@ -1593,13 +1622,16 @@ export default function FinancialDashboardV2() {
                     </div>
                 )}
 
-                {/* 🤖 ML Anomaly Detection Panel */}
-                {anomalies.length > 0 && (
+                {/* 🤖 ML Anomaly Detection Panel + IA Patterns */}
+                {(anomalies.length > 0 || aiPatterns.length > 0) && (
                     <div className="mb-12">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-2">
                                 <AlertTriangle className="w-5 h-5 text-accent-orange" />
-                                <h3 className="text-xl font-semibold">Anomalies Détectées ({anomalies.length})</h3>
+                                <h3 className="text-xl font-semibold">
+                                    Anomalies & Insights IA {anomalies.length > 0 && `(${anomalies.length} anomalies)`}
+                                    {aiPatterns.length > 0 && ` · ${aiPatterns.length} patterns`}
+                                </h3>
                             </div>
                             <button
                                 onClick={() => setShowAnomalies(!showAnomalies)}
@@ -1608,7 +1640,12 @@ export default function FinancialDashboardV2() {
                                 {showAnomalies ? 'Masquer' : 'Afficher'}
                             </button>
                         </div>
-                        {showAnomalies && <AnomalyPanel anomalies={anomalies} />}
+                        {showAnomalies && (
+                            <AnomalyPanel
+                                anomalies={anomalies}
+                                patterns={aiPatterns}
+                            />
+                        )}
                     </div>
                 )}
 
