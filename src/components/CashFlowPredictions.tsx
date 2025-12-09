@@ -71,9 +71,9 @@ export default function CashFlowPredictions({
                             {alerts.map((alert, index) => (
                                 <div
                                     key={index}
-                                    className={`p-4 rounded-lg border-l-4 ${alert.severity === 'critical'
+                                    className={`p-4 rounded-lg border-l-4 ${alert.type === 'danger'
                                         ? 'bg-accent-red-subtle border-accent-red text-accent-red'
-                                        : alert.severity === 'warning'
+                                        : alert.type === 'warning'
                                             ? 'bg-accent-orange-subtle border-accent-orange text-accent-orange'
                                             : 'bg-accent-blue-subtle border-accent-blue text-accent-blue'
                                         }`}
@@ -81,11 +81,10 @@ export default function CashFlowPredictions({
                                     <div className="flex items-start gap-3">
                                         <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
                                         <div className="flex-1">
-                                            <h4 className="font-bold text-sm mb-1">{alert.title}</h4>
-                                            <p className="text-sm opacity-90 mb-2">{alert.description}</p>
-                                            {alert.action && (
+                                            <p className="text-sm opacity-90">{alert.message}</p>
+                                            {alert.month && (
                                                 <p className="text-xs font-semibold opacity-80 mt-2">
-                                                    💡 Action recommandée: {alert.action}
+                                                    � Mois concerné: {alert.month}
                                                 </p>
                                             )}
                                         </div>
@@ -139,19 +138,25 @@ export default function CashFlowPredictions({
                                         )}
                                     </div>
 
-                                    {/* Breakdown */}
+                                    {/* Breakdown - Scénarios */}
                                     {prediction.breakdown && (
                                         <div className="text-xs text-secondary space-y-1 mb-3">
                                             <div className="flex justify-between">
-                                                <span>Revenus prévus:</span>
+                                                <span>Scénario optimiste:</span>
                                                 <span className="font-semibold text-accent-green">
-                                                    +{prediction.breakdown.expectedRevenue.toLocaleString('fr-FR')} €
+                                                    {prediction.breakdown.optimistic.toLocaleString('fr-FR')} €
                                                 </span>
                                             </div>
                                             <div className="flex justify-between">
-                                                <span>Charges prévues:</span>
+                                                <span>Scénario réaliste:</span>
+                                                <span className="font-semibold text-accent-blue">
+                                                    {prediction.breakdown.realistic.toLocaleString('fr-FR')} €
+                                                </span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span>Scénario pessimiste:</span>
                                                 <span className="font-semibold text-accent-red">
-                                                    -{prediction.breakdown.expectedExpenses.toLocaleString('fr-FR')} €
+                                                    {prediction.breakdown.pessimistic.toLocaleString('fr-FR')} €
                                                 </span>
                                             </div>
                                         </div>
@@ -171,20 +176,6 @@ export default function CashFlowPredictions({
                                                 style={{ width: `${prediction.confidence}%` }}
                                             />
                                         </div>
-                                    </div>
-
-                                    {/* Scenario Tag */}
-                                    <div className="mt-3">
-                                        <span className={`inline-block px-2 py-1 rounded text-xs font-semibold ${prediction.scenario === 'optimistic'
-                                            ? 'bg-accent-green-subtle text-accent-green'
-                                            : prediction.scenario === 'pessimistic'
-                                                ? 'bg-accent-red-subtle text-accent-red'
-                                                : 'bg-accent-blue-subtle text-accent-blue'
-                                            }`}>
-                                            {prediction.scenario === 'optimistic' && '📈 Optimiste'}
-                                            {prediction.scenario === 'realistic' && '📊 Réaliste'}
-                                            {prediction.scenario === 'pessimistic' && '📉 Pessimiste'}
-                                        </span>
                                     </div>
                                 </div>
                             )
