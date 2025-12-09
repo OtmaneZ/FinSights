@@ -474,6 +474,150 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* Free Resources Section - Corporate */}
+            <section className="py-20 bg-white">
+                <div className="max-w-6xl mx-auto px-6">
+
+                    {/* Header */}
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-200 rounded-lg mb-6">
+                            <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Ressources Gratuites</span>
+                        </div>
+                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
+                            Outils gratuits pour CFO et DAF
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                            Templates Excel, guides PDF et calculateurs pour piloter votre PME efficacement
+                        </p>
+                    </div>
+
+                    {/* Resources Grid */}
+                    <div className="grid md:grid-cols-3 gap-8">
+
+                        {/* Templates Excel */}
+                        <Link
+                            href="/ressources/templates"
+                            className="group relative bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-blue-500 hover:shadow-xl transition-all duration-300"
+                        >
+                            <div className="flex flex-col h-full">
+                                {/* Icon + Badge */}
+                                <div className="flex items-start justify-between mb-6">
+                                    <div className="w-14 h-14 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                                        <svg className="w-7 h-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <span className="px-3 py-1 bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold rounded-full">
+                                        1.2k+ téléchargements
+                                    </span>
+                                </div>
+
+                                {/* Content */}
+                                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                                    3 Templates Excel
+                                </h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
+                                    Budget prévisionnel 2025, Tracker DSO et Dashboard Cash Flow avec formules automatiques
+                                </p>
+
+                                {/* CTA */}
+                                <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
+                                    <span>Télécharger</span>
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </Link>
+
+                        {/* Guides PDF */}
+                        <Link
+                            href="/ressources/guides"
+                            className="group relative bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-green-500 hover:shadow-xl transition-all duration-300"
+                        >
+                            <div className="flex flex-col h-full">
+                                {/* Icon + Badge */}
+                                <div className="flex items-start justify-between mb-6">
+                                    <div className="w-14 h-14 rounded-xl bg-green-50 border border-green-200 flex items-center justify-center group-hover:bg-green-100 transition-colors">
+                                        <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                        </svg>
+                                    </div>
+                                    <span className="px-3 py-1 bg-green-50 border border-green-200 text-green-700 text-xs font-semibold rounded-full">
+                                        800+ téléchargements
+                                    </span>
+                                </div>
+
+                                {/* Content */}
+                                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
+                                    4 Guides PDF
+                                </h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
+                                    Checklist closing mensuel, 15 ratios financiers, Guide BFR et 20 KPIs essentiels
+                                </p>
+
+                                {/* CTA */}
+                                <div className="flex items-center gap-2 text-green-600 font-semibold group-hover:gap-3 transition-all">
+                                    <span>Télécharger</span>
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </Link>
+
+                        {/* Calculateurs */}
+                        <Link
+                            href="/calculateurs"
+                            className="group relative bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-purple-500 hover:shadow-xl transition-all duration-300"
+                        >
+                            <div className="flex flex-col h-full">
+                                {/* Icon + Badge */}
+                                <div className="flex items-start justify-between mb-6">
+                                    <div className="w-14 h-14 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center group-hover:bg-purple-100 transition-colors">
+                                        <svg className="w-7 h-7 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <span className="px-3 py-1 bg-purple-50 border border-purple-200 text-purple-700 text-xs font-semibold rounded-full">
+                                        2.5k+ utilisateurs
+                                    </span>
+                                </div>
+
+                                {/* Content */}
+                                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
+                                    2 Calculateurs
+                                </h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
+                                    Calculateurs DSO et BFR avec résultats instantanés et explications détaillées
+                                </p>
+
+                                {/* CTA */}
+                                <div className="flex items-center gap-2 text-purple-600 font-semibold group-hover:gap-3 transition-all">
+                                    <span>Calculer</span>
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+
+                    {/* Bottom CTA */}
+                    <div className="mt-12 text-center">
+                        <p className="text-gray-600 mb-4">
+                            Plus de 4000 CFO et DAF utilisent déjà nos ressources gratuites
+                        </p>
+                        <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+                            <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                            <span>Sans inscription • Téléchargement immédiat • RGPD France</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Consulting Section (brief offers) */}
             <ConsultingSection />
 

@@ -1071,7 +1071,7 @@ export default function FinancialDashboardV2() {
                         <div className="w-20 h-20 border-4 border-accent-primary-border border-t-accent-primary rounded-full animate-spin"></div>
                         <div className="text-center w-full max-w-md">
                             <h3 className="text-2xl font-bold mb-2">
-                                🤖 Analyse IA en cours...
+                                Analyse IA en cours...
                             </h3>
                             <p className="text-sm text-secondary mt-3">
                                 Parsing intelligent de vos données financières
