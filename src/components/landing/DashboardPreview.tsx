@@ -36,7 +36,6 @@ export default function DashboardPreview() {
                         <div className="w-3 h-3 rounded-full bg-yellow-400" />
                         <div className="w-3 h-3 rounded-full bg-green-400" />
                     </div>
-                    <div className="text-xs text-gray-400 font-mono">fin-sights.com/dashboard</div>
                 </div>
 
                 {/* Score Badge (Floating) */}

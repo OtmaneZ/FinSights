@@ -3,7 +3,7 @@ import { BLOG_ARTICLES } from '@/lib/seo'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://finsight.zineinsight.com'
-  
+
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -25,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/services`,
+      url: `${baseUrl}/pricing`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
