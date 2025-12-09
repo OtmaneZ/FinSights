@@ -523,6 +523,29 @@ export default function FinancialDashboardV2() {
                 const result = await response.json()
 
                 if (response.ok) {
+                    // ✅ SUCCESS → Show progression ONLY if success
+                    setIsLoadingDemo(true);
+
+                    setLoadingProgress(20);
+                    setLoadingMessage('📄 Parsing des données...');
+                    await new Promise(resolve => setTimeout(resolve, 400));
+
+                    setLoadingProgress(50);
+                    setLoadingMessage('🔍 Validation des transactions...');
+                    await new Promise(resolve => setTimeout(resolve, 400));
+
+                    setLoadingProgress(75);
+                    setLoadingMessage('📊 Génération des KPIs...');
+                    await new Promise(resolve => setTimeout(resolve, 400));
+
+                    setLoadingProgress(90);
+                    setLoadingMessage('✨ Calcul du Score FinSight™...');
+                    await new Promise(resolve => setTimeout(resolve, 300));
+
+                    setLoadingProgress(100);
+                    setLoadingMessage('✅ Terminé !');
+                    await new Promise(resolve => setTimeout(resolve, 300));
+
                     setKpis(result.data.kpis || [])
                     const processedData = result.data.financialData || result.data.processedData
                     setFinSightData(processedData)
@@ -550,7 +573,7 @@ export default function FinancialDashboardV2() {
                     // ✨ Show upload success banner
                     setShowUploadBanner(true)
                 } else {
-                    // ❌ Handle API error with toast
+                    // ❌ ERROR → No progression, direct to toast
                     logger.error('API upload error:', response.status, result)
 
                     // Show different toast based on error type
@@ -592,6 +615,9 @@ export default function FinancialDashboardV2() {
                 })
             } finally {
                 setIsUploadingFile(false); // ✅ Stop loading
+                setIsLoadingDemo(false); // ✅ Stop progress animation
+                setLoadingProgress(0);
+                setLoadingMessage('');
             }
         }
 

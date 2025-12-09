@@ -60,7 +60,7 @@ export default function RealtimeToast({ notifications, onDismiss }: RealtimeToas
     if (notifications.length === 0) return null;
 
     return (
-        <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm">
+        <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-md">
             {notifications.map((notification) => (
                 <div
                     key={notification.id}
