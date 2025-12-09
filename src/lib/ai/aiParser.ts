@@ -31,7 +31,7 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
     logger.debug('[AI Parser] Début du parsing avec IA...');
 
     // Tronquer le contenu si trop long pour éviter de dépasser les limites de tokens
-    const MAX_INPUT_LENGTH = 15000; // Environ 4k tokens, sécurité
+    const MAX_INPUT_LENGTH = 50000; // Environ 13k tokens - GPT-4-turbo supporte 128k tokens
     const truncatedContent = textContent.length > MAX_INPUT_LENGTH
         ? textContent.substring(0, MAX_INPUT_LENGTH)
         : textContent;
@@ -59,6 +59,24 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
         7.  Normalise les dates au format YYYY-MM-DD.
         8.  Nettoie les montants pour ne garder que les nombres (ex: "1,234.56 €" -> 1234.56).
         9.  Ta réponse DOIT être un objet JSON avec une clé "transactions" contenant le tableau, sans aucun texte supplémentaire.
+
+        NETTOYAGE INTELLIGENT (nouvelles règles) :
+        10. Corrige les fautes de frappe courantes dans les descriptions et contreparties :
+            - "Societe Genrale" → "Société Générale"
+            - "Amzon Web Services" → "Amazon Web Services"
+            - Supprime les espaces en trop, normalise la casse
+        11. Détecte et corrige les montants aberrants :
+            - Si montant = 1000000 et contexte suggère 1000.00 → corrige
+            - Si séparateurs décimaux incohérents (1,234.56 vs 1.234,56) → normalise
+        12. Déduis les catégories manquantes par analyse contextuelle :
+            - "Loyer bureau Paris" → category: "Charges locatives"
+            - "Salaire développeur" → category: "Charges de personnel"
+            - "Facture Google Ads" → category: "Marketing digital"
+            - "Vente logiciel SaaS" → category: "Revenus récurrents"
+        13. Enrichis les contreparties quand possible :
+            - "SG" → "Société Générale"
+            - "AWS" → "Amazon Web Services"
+            - Si SIRET/SIREN présent dans description, extrais-le dans metadata
     `;
 
     try {

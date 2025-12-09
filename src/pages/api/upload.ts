@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { parseCSV, processFinancialData } from '@/lib/dataParser';
 import { generateAdaptiveKPIs, detectCapabilities } from '@/lib/dashboardConfig';
-import { excelToCSV } from '@/lib/excelParser';
+import { excelToCSV, detectBestSheet } from '@/lib/excelParser';
 import { checkUnifiedRateLimit } from '@/lib/rateLimit';
 import { getClientIP } from '@/lib/rateLimitKV';
 import { put } from '@vercel/blob';
@@ -59,6 +59,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(400).json({ error: 'No file content provided' });
         }
 
+        // 🛡️ VALIDATION MIME TYPE (Sécurité)
+        const allowedMimeTypes = [
+            'text/csv',
+            'application/csv',
+            'application/vnd.ms-excel', // .xls
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+            '', // Fallback si fileType vide (certains navigateurs)
+        ];
+
+        if (fileType && !allowedMimeTypes.includes(fileType)) {
+            logger.warn(`[Upload] ⚠️ MIME type suspect rejeté: ${fileType} (fichier: ${fileName})`);
+            return res.status(400).json({
+                error: 'Type de fichier non autorisé pour des raisons de sécurité',
+                receivedMimeType: fileType,
+                allowedMimeTypes: ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+            });
+        }
+
         // Détecter le type de fichier
         const isExcel = fileName.endsWith('.xlsx') || fileName.endsWith('.xls');
         const isCSV = fileName.endsWith('.csv');
@@ -72,9 +90,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         let csvContent = fileContent;
 
-        // Si c'est un fichier Excel, le convertir en CSV
+        // Si c'est un fichier Excel, le convertir en CSV avec détection intelligente de la meilleure feuille
         if (isExcel) {
-            const conversionResult = excelToCSV(fileContent);
+            // 🎯 MULTI-FEUILLES INTELLIGENT : Utiliser detectBestSheet()
+            const bestSheetIndex = detectBestSheet(fileContent);
+            logger.debug(`[Upload] 📊 Détection meilleure feuille Excel: index ${bestSheetIndex}`);
+
+            const conversionResult = excelToCSV(fileContent, bestSheetIndex);
 
             if (!conversionResult.success || !conversionResult.csvContent) {
                 return res.status(400).json({
@@ -89,17 +111,44 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // 🤖 Parse avec IA pour une détection intelligente des colonnes
         logger.debug('[Upload] 🤖 Parsing avec IA...');
-        const aiParseResult = await parseWithAI(csvContent);
+        let aiParseResult = await parseWithAI(csvContent);
 
+        // 🔄 FALLBACK : Si IA échoue, tenter parseCSV classique
         if (!aiParseResult.success || !aiParseResult.data?.records) {
-            return res.status(400).json({
-                error: "L'IA n'a pas pu traiter votre fichier.",
-                details: aiParseResult.error || "Aucune donnée retournée."
-            });
+            logger.warn('[Upload] ⚠️ Parsing IA échoué, tentative avec parseCSV classique...');
+            logger.warn(`[Upload] Erreur IA: ${aiParseResult.error}`);
+
+            try {
+                // Fallback vers le parser classique
+                const classicParseResult = parseCSV(csvContent);
+
+                if (classicParseResult.success && classicParseResult.data) {
+                    logger.debug('[Upload] ✅ Fallback parseCSV réussi!');
+
+                    // Wrapper pour compatibilité avec aiParseResult
+                    aiParseResult = {
+                        success: true,
+                        data: classicParseResult.data,
+                        rawResponse: 'Parsed with classic CSV parser (fallback)'
+                    };
+                } else {
+                    // Si même le parser classique échoue
+                    return res.status(400).json({
+                        error: "Impossible de traiter votre fichier (IA et parser classique ont échoué).",
+                        details: `IA: ${aiParseResult.error} | Parser classique: ${classicParseResult.errors?.map(e => e.message).join(', ')}`
+                    });
+                }
+            } catch (fallbackError) {
+                logger.error('[Upload] ❌ Fallback parseCSV a également échoué:', fallbackError);
+                return res.status(400).json({
+                    error: "L'IA n'a pas pu traiter votre fichier et le fallback a échoué.",
+                    details: aiParseResult.error || "Aucune donnée retournée."
+                });
+            }
         }
 
         // Post-traitement pour calculer les métriques
-        const processedData = processFinancialData(aiParseResult.data.records, 'ai-upload');
+        const processedData = processFinancialData(aiParseResult.data!.records, 'ai-upload');
 
         if (processedData.records.length === 0) {
             return res.status(400).json({
