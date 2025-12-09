@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { FileText, Calendar, ArrowRight, Search, TrendingUp, DollarSign, Sparkles } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import ReadingProgressBar from '@/components/ReadingProgressBar'
 import { useState, useMemo } from 'react'
 
 interface BlogPost {
@@ -115,9 +116,11 @@ const blogPosts: BlogPost[] = [
 export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('')
     const [selectedCategory, setSelectedCategory] = useState<string>('Tous')
+    const [selectedTag, setSelectedTag] = useState<string | null>(null)
 
-    // Extract unique categories
+    // Extract unique categories and tags
     const categories = ['Tous', ...Array.from(new Set(blogPosts.map(p => p.category)))]
+    const allTags = Array.from(new Set(blogPosts.flatMap(p => p.tags)))
 
     // Filter posts
     const filteredPosts = useMemo(() => {
@@ -126,9 +129,10 @@ export default function BlogPage() {
                 post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 post.description.toLowerCase().includes(searchQuery.toLowerCase())
             const matchesCategory = selectedCategory === 'Tous' || post.category === selectedCategory
-            return matchesSearch && matchesCategory
+            const matchesTag = !selectedTag || post.tags.includes(selectedTag)
+            return matchesSearch && matchesCategory && matchesTag
         })
-    }, [searchQuery, selectedCategory])
+    }, [searchQuery, selectedCategory, selectedTag])
 
     // Split featured and regular posts
     const featuredPost = filteredPosts.find(p => p.featured)
@@ -146,6 +150,9 @@ export default function BlogPage() {
 
     return (
         <div className="min-h-screen bg-primary text-primary font-sans">
+            {/* 📊 Barre de progression de lecture */}
+            <ReadingProgressBar />
+
             <Header />
 
             {/* Hero Section */}
@@ -193,6 +200,21 @@ export default function BlogPage() {
                             </button>
                         ))}
                     </div>
+
+                    {/* Badge tag actif */}
+                    {selectedTag && (
+                        <div className="flex justify-center">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full text-accent-primary text-sm font-medium">
+                                <span>🏷️ Filtre : <strong>{selectedTag}</strong></span>
+                                <button
+                                    onClick={() => setSelectedTag(null)}
+                                    className="ml-1 hover:bg-accent-primary hover:text-white rounded-full p-1 transition-all"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* 🌟 Featured Article (Hero) */}
@@ -280,9 +302,27 @@ export default function BlogPage() {
                                         <h2 className="text-2xl font-bold mb-3 group-hover:text-accent-primary transition-colors">
                                             {post.title}
                                         </h2>
-                                        <p className="text-secondary leading-relaxed">
+                                        <p className="text-secondary leading-relaxed mb-4">
                                             {post.description}
                                         </p>
+                                        {/* 🏷️ Tags cliquables */}
+                                        <div className="flex flex-wrap gap-2">
+                                            {post.tags.map((tag) => (
+                                                <button
+                                                    key={tag}
+                                                    onClick={(e) => {
+                                                        e.preventDefault()
+                                                        setSelectedTag(tag === selectedTag ? null : tag)
+                                                    }}
+                                                    className={`px-3 py-1 text-xs font-medium rounded-full border transition-all ${selectedTag === tag
+                                                            ? 'bg-accent-primary text-white border-accent-primary'
+                                                            : 'bg-surface-elevated text-tertiary border-border-subtle hover:border-accent-primary-border hover:text-accent-primary'
+                                                        }`}
+                                                >
+                                                    {tag}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                     <ArrowRight className="w-6 h-6 text-accent-primary flex-shrink-0 group-hover:translate-x-1 transition-transform" />
                                 </div>
@@ -299,6 +339,7 @@ export default function BlogPage() {
                                 onClick={() => {
                                     setSearchQuery('')
                                     setSelectedCategory('Tous')
+                                    setSelectedTag(null)
                                 }}
                                 className="px-6 py-2 bg-accent-primary text-white rounded-lg hover:bg-accent-primary-hover transition-all"
                             >
