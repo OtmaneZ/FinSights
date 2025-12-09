@@ -527,23 +527,23 @@ export default function FinancialDashboardV2() {
                     setIsLoadingDemo(true);
 
                     setLoadingProgress(20);
-                    setLoadingMessage('📄 Parsing des données...');
+                    setLoadingMessage('Parsing des données...');
                     await new Promise(resolve => setTimeout(resolve, 400));
 
                     setLoadingProgress(50);
-                    setLoadingMessage('🔍 Validation des transactions...');
+                    setLoadingMessage('Validation des transactions...');
                     await new Promise(resolve => setTimeout(resolve, 400));
 
                     setLoadingProgress(75);
-                    setLoadingMessage('📊 Génération des KPIs...');
-                    await new Promise(resolve => setTimeout(resolve, 400));
+                    setLoadingMessage('Génération des KPIs...');
+                    await new Promise(resolve => setTimeout(resolve, 300));
 
                     setLoadingProgress(90);
-                    setLoadingMessage('✨ Calcul du Score FinSight™...');
+                    setLoadingMessage('Calcul du Score FinSight™...');
                     await new Promise(resolve => setTimeout(resolve, 300));
 
                     setLoadingProgress(100);
-                    setLoadingMessage('✅ Terminé !');
+                    setLoadingMessage('Terminé !');
                     await new Promise(resolve => setTimeout(resolve, 300));
 
                     setKpis(result.data.kpis || [])
@@ -737,7 +737,7 @@ export default function FinancialDashboardV2() {
         setLoadingSavedDashboard(true);
         setIsLoadingDemo(true);
         setLoadingProgress(0);
-        setLoadingMessage('📂 Chargement du dashboard...');
+        setLoadingMessage('Chargement du dashboard...');
 
         try {
             setLoadingProgress(30);
@@ -753,7 +753,7 @@ export default function FinancialDashboardV2() {
             const dashboard = data.dashboard;
 
             setLoadingProgress(60);
-            setLoadingMessage('📊 Reconstruction des KPIs...');
+            setLoadingMessage('Reconstruction des KPIs...');
             await new Promise(resolve => setTimeout(resolve, 500));
 
             // Load data from saved dashboard
@@ -781,7 +781,7 @@ export default function FinancialDashboardV2() {
             setLoadedDashboardId(dashboardId);
 
             setLoadingProgress(90);
-            setLoadingMessage('✨ Finalisation...');
+            setLoadingMessage('Finalisation...');
             await new Promise(resolve => setTimeout(resolve, 300));
 
             setIsDataLoaded(true);
@@ -842,11 +842,11 @@ export default function FinancialDashboardV2() {
             const csvText = await response.text();
 
             setLoadingProgress(40);
-            setLoadingMessage('🔍 Analyse des données...');
+            setLoadingMessage('Analyse des données...');
             await new Promise(resolve => setTimeout(resolve, 700));
 
             setLoadingProgress(60);
-            setLoadingMessage('📊 Calcul des KPIs...');
+            setLoadingMessage('Calcul des KPIs...');
 
             // ✅ PARSING CLIENT-SIDE avec système adaptatif
             const { parseCSV } = await import('@/lib/dataParser');
@@ -868,7 +868,7 @@ export default function FinancialDashboardV2() {
             setDashboardConfig(capabilities);
 
             setLoadingProgress(80);
-            setLoadingMessage('✨ Génération du dashboard...');
+            setLoadingMessage('Génération du dashboard...');
             await new Promise(resolve => setTimeout(resolve, 500));
 
             // Mise à jour state
@@ -901,7 +901,7 @@ export default function FinancialDashboardV2() {
             setCompanySector(config.sector);
 
             setLoadingProgress(100);
-            setLoadingMessage('✅ Dashboard prêt !');
+            setLoadingMessage('Dashboard prêt !');
             await new Promise(resolve => setTimeout(resolve, 300));
         } catch (error) {
             logger.error('❌ Erreur chargement démo:', error);
@@ -1266,7 +1266,7 @@ export default function FinancialDashboardV2() {
                         {/* Badge Mode Simulation actif */}
                         {(chargesReduction > 0 || paiementsAcceleration > 0 || prixAugmentation > 0) && (
                             <div className="absolute top-4 right-4 bg-gradient-to-r from-accent-green to-accent-green-hover rounded-full px-3 py-1.5 text-xs font-bold text-white shadow-lg animate-pulse">
-                                📊 {[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length} simulation{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''} active{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''}
+                                {[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length} simulation{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''} active{[chargesReduction > 0, paiementsAcceleration > 0, prixAugmentation > 0].filter(Boolean).length > 1 ? 's' : ''}
                             </div>
                         )}
 
@@ -1291,7 +1291,7 @@ export default function FinancialDashboardV2() {
                                         }}
                                         className="px-4 py-2 bg-accent-red-subtle border border-accent-red-border rounded-lg text-accent-red font-semibold text-xs hover:bg-accent-red-border/20 transition-all"
                                     >
-                                        🔄 Reset
+                                        Reset
                                     </button>
                                 )}
                                 <button
@@ -1310,7 +1310,7 @@ export default function FinancialDashboardV2() {
                                 <div className={`surface rounded-xl p-5 transition-all ${chargesReduction > 0 ? 'border-2 border-accent-green' : ''}`}>
                                     <div className="mb-4">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className="text-2xl">💰</span>
+                                            <DollarSign className="w-8 h-8 text-green-600" />
                                             <h4 className="text-base font-bold">Optimisation charges</h4>
                                         </div>
                                         <p className="text-xs text-secondary">
@@ -1359,7 +1359,7 @@ export default function FinancialDashboardV2() {
                                 <div className={`surface rounded-xl p-5 transition-all ${paiementsAcceleration > 0 ? 'border-2 border-accent-blue' : ''}`}>
                                     <div className="mb-4">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className="text-2xl">⚡</span>
+                                            <Zap className="w-8 h-8 text-blue-600" />
                                             <h4 className="text-base font-bold">Relance créances</h4>
                                         </div>
                                         <p className="text-xs text-secondary">
@@ -1408,7 +1408,7 @@ export default function FinancialDashboardV2() {
                                 <div className={`surface rounded-xl p-5 transition-all ${prixAugmentation > 0 ? 'border-2 border-accent-orange' : ''}`}>
                                     <div className="mb-4">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className="text-2xl">📈</span>
+                                            <TrendingUp className="w-8 h-8 text-purple-600" />
                                             <h4 className="text-base font-bold">Augmentation prix</h4>
                                         </div>
                                         <p className="text-xs text-secondary">

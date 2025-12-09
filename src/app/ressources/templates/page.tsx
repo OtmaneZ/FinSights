@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Download, FileSpreadsheet, TrendingUp, DollarSign, BarChart3, ArrowRight } from 'lucide-react'
+import { Download, FileSpreadsheet, TrendingUp, DollarSign, BarChart3, ArrowRight, Check, Zap, RefreshCw, GraduationCap } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -33,16 +33,16 @@ const templates: Template[] = [
         description: 'Planifiez votre année avec un budget prévisionnel complet sur 12 mois',
         icon: TrendingUp,
         features: [
-            '✅ 12 mois de prévisions CA/Charges',
-            '✅ Formules automatiques',
-            '✅ Graphiques d\'évolution intégrés',
-            '✅ Calcul auto des marges et cash flow',
-            '✅ Compatible import FinSight'
+            '12 mois de prévisions CA/Charges',
+            'Formules automatiques',
+            'Graphiques d\'évolution intégrés',
+            'Calcul auto des marges et cash flow',
+            'Compatible import FinSight'
         ],
         downloadUrl: '/templates/excel/budget-previsionnel-2025.xlsx',
         downloadUrlPdf: '/templates/pdf/budget-previsionnel-2025.pdf',
-        color: 'from-blue-500 to-blue-600',
-        badge: '🔥 Le plus téléchargé'
+        color: 'border-l-4 border-blue-600 bg-gray-50',
+        badge: 'Le plus téléchargé'
     },
     {
         id: 'tracker-dso',
@@ -50,15 +50,15 @@ const templates: Template[] = [
         description: 'Suivez vos délais de paiement clients et réduisez les impayés',
         icon: DollarSign,
         features: [
-            '✅ Liste clients + factures',
-            '✅ Calcul DSO automatique',
-            '✅ Alertes conditionnelles (>60j)',
-            '✅ Suivi des relances',
-            '✅ Export vers FinSight en 1 clic'
+            'Liste clients + factures',
+            'Calcul DSO automatique',
+            'Alertes conditionnelles (>60j)',
+            'Suivi des relances',
+            'Export vers FinSight en 1 clic'
         ],
         downloadUrl: '/templates/excel/tracker-dso.xlsx',
         downloadUrlPdf: '/templates/pdf/tracker-dso.pdf',
-        color: 'from-green-500 to-green-600'
+        color: 'border-l-4 border-green-600 bg-gray-50'
     },
     {
         id: 'dashboard-cashflow',
@@ -66,15 +66,15 @@ const templates: Template[] = [
         description: 'Pilotez votre trésorerie avec un tableau de bord complet',
         icon: BarChart3,
         features: [
-            '✅ Encaissements vs Décaissements',
-            '✅ Projection 6 mois glissants',
-            '✅ Graphiques automatiques',
-            '✅ Indicateurs de seuil',
-            '✅ Analyse mensuelle'
+            'Encaissements vs Décaissements',
+            'Projection 6 mois glissants',
+            'Graphiques automatiques',
+            'Indicateurs de seuil',
+            'Analyse mensuelle'
         ],
         downloadUrl: '/templates/excel/dashboard-cashflow.xlsx',
         downloadUrlPdf: '/templates/pdf/dashboard-cashflow.pdf',
-        color: 'from-purple-500 to-purple-600'
+        color: 'border-l-4 border-purple-600 bg-gray-50'
     }
 ]
 
@@ -102,30 +102,36 @@ export default function TemplatesPage() {
                     </p>
 
                     <p className="text-sm text-tertiary">
-                        📥 Download direct • ✅ Aucune inscription requise • 🔄 Compatible Excel/Google Sheets
+                        Téléchargement direct • Aucune inscription requise • Compatible Excel/Google Sheets
                     </p>
                 </div>
 
                 {/* Value Proposition Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-                    <div className="surface rounded-xl p-6 text-center border-2 border-border-default">
-                        <div className="text-4xl mb-3">⚡</div>
-                        <h3 className="font-bold mb-2">Prêts à l'emploi</h3>
-                        <p className="text-sm text-secondary">
+                    <div className="surface rounded-xl p-6 border-2 border-border-default">
+                        <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4 mx-auto">
+                            <Zap className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h3 className="font-bold mb-2 text-center">Prêts à l'emploi</h3>
+                        <p className="text-sm text-secondary text-center">
                             Ouvrez et utilisez immédiatement, formules déjà configurées
                         </p>
                     </div>
-                    <div className="surface rounded-xl p-6 text-center border-2 border-border-default">
-                        <div className="text-4xl mb-3">🔄</div>
-                        <h3 className="font-bold mb-2">Import FinSight</h3>
-                        <p className="text-sm text-secondary">
+                    <div className="surface rounded-xl p-6 border-2 border-border-default">
+                        <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mb-4 mx-auto">
+                            <RefreshCw className="w-6 h-6 text-green-600" />
+                        </div>
+                        <h3 className="font-bold mb-2 text-center">Import FinSight</h3>
+                        <p className="text-sm text-secondary text-center">
                             Exportez vos données vers FinSight pour analyse IA instantanée
                         </p>
                     </div>
-                    <div className="surface rounded-xl p-6 text-center border-2 border-border-default">
-                        <div className="text-4xl mb-3">🎓</div>
-                        <h3 className="font-bold mb-2">100% Finance FR</h3>
-                        <p className="text-sm text-secondary">
+                    <div className="surface rounded-xl p-6 border-2 border-border-default">
+                        <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mb-4 mx-auto">
+                            <GraduationCap className="w-6 h-6 text-purple-600" />
+                        </div>
+                        <h3 className="font-bold mb-2 text-center">100% Finance FR</h3>
+                        <p className="text-sm text-secondary text-center">
                             Conformes PCG 2025, terminologie française, benchmarks sectoriels
                         </p>
                     </div>
@@ -138,26 +144,27 @@ export default function TemplatesPage() {
                         return (
                             <div
                                 key={template.id}
-                                className="surface rounded-2xl overflow-hidden border-2 border-border-default hover:border-accent-primary transition-all group"
+                                className="surface rounded-xl overflow-hidden border-2 border-border-default hover:border-accent-primary transition-all group"
                             >
-                                {/* Header with gradient */}
-                                <div className={`bg-gradient-to-r ${template.color} p-8 text-white relative`}>
+                                {/* Header */}
+                                <div className={`${template.color} p-8 relative`}>
                                     {template.badge && (
-                                        <div className="absolute top-4 right-4 bg-white text-gray-900 text-xs font-bold px-3 py-1 rounded-full">
+                                        <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded">
                                             {template.badge}
                                         </div>
                                     )}
-                                    <Icon className="w-12 h-12 mb-4 opacity-90" />
-                                    <h3 className="text-2xl font-bold mb-2">{template.title}</h3>
-                                    <p className="text-sm opacity-90">{template.description}</p>
+                                    <Icon className="w-12 h-12 mb-4 text-gray-700" />
+                                    <h3 className="text-2xl font-bold mb-2 text-gray-900">{template.title}</h3>
+                                    <p className="text-sm text-gray-600">{template.description}</p>
                                 </div>
 
                                 {/* Features */}
                                 <div className="p-6">
                                     <ul className="space-y-3 mb-6">
                                         {template.features.map((feature, idx) => (
-                                            <li key={idx} className="text-sm text-secondary leading-relaxed">
-                                                {feature}
+                                            <li key={idx} className="flex items-start gap-2 text-sm text-secondary leading-relaxed">
+                                                <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                                                <span>{feature}</span>
                                             </li>
                                         ))}
                                     </ul>
@@ -224,7 +231,7 @@ export default function TemplatesPage() {
 
                     <div className="space-y-6">
                         <div className="surface rounded-xl p-6 border-2 border-border-default">
-                            <h3 className="font-bold mb-2">📄 Pourquoi c'est gratuit ?</h3>
+                            <h3 className="font-bold mb-2">Pourquoi c'est gratuit ?</h3>
                             <p className="text-secondary text-sm">
                                 Ces templates sont offerts pour vous aider à améliorer votre gestion financière.
                                 Si vous voulez aller plus loin avec l'analyse IA, découvrez FinSight.
@@ -232,7 +239,7 @@ export default function TemplatesPage() {
                         </div>
 
                         <div className="surface rounded-xl p-6 border-2 border-border-default">
-                            <h3 className="font-bold mb-2">🔄 Comment importer dans FinSight ?</h3>
+                            <h3 className="font-bold mb-2">Comment importer dans FinSight ?</h3>
                             <p className="text-secondary text-sm">
                                 Remplissez le template Excel → Exportez en CSV → Uploadez sur FinSight.
                                 Le dashboard se génère automatiquement avec tous les KPIs.
@@ -240,7 +247,7 @@ export default function TemplatesPage() {
                         </div>
 
                         <div className="surface rounded-xl p-6 border-2 border-border-default">
-                            <h3 className="font-bold mb-2">💡 Compatible Google Sheets ?</h3>
+                            <h3 className="font-bold mb-2">Compatible Google Sheets ?</h3>
                             <p className="text-secondary text-sm">
                                 Oui ! Uploadez le fichier .xlsx sur Google Sheets. Les formules sont compatibles
                                 (quelques ajustements mineurs possibles sur certaines fonctions avancées).
@@ -248,7 +255,7 @@ export default function TemplatesPage() {
                         </div>
 
                         <div className="surface rounded-xl p-6 border-2 border-border-default">
-                            <h3 className="font-bold mb-2">🔐 Mes données sont-elles sécurisées ?</h3>
+                            <h3 className="font-bold mb-2">Mes données sont-elles sécurisées ?</h3>
                             <p className="text-secondary text-sm">
                                 Les templates s'exécutent 100% sur votre ordinateur. Aucune donnée n'est envoyée
                                 à FinSight tant que vous ne l'uploadez pas volontairement.

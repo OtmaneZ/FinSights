@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Download, BookOpen, FileText, CheckSquare, TrendingUp, ArrowRight } from 'lucide-react'
+import { Download, BookOpen, FileText, CheckSquare, TrendingUp, ArrowRight, Check, Calculator, FileSpreadsheet, BookMarked } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -35,16 +35,16 @@ const guides: Guide[] = [
         pages: '10 pages',
         icon: CheckSquare,
         features: [
-            '✅ Checklist jour par jour (J-5 à J+3)',
-            '📝 23 points de contrôle essentiels',
-            '⏱️ Timing optimisé pour closing rapide',
-            '🔄 Process bancaire & fournisseurs',
-            '📊 Contrôles pré-reporting',
-            '📄 Format PDF imprimable ou digital'
+            'Checklist jour par jour (J-5 à J+3)',
+            '23 points de contrôle essentiels',
+            'Timing optimisé pour closing rapide',
+            'Process bancaire & fournisseurs',
+            'Contrôles pré-reporting',
+            'Format PDF imprimable ou digital'
         ],
         downloadUrl: '/ressources/guides/checklist-closing-financier.pdf',
-        color: 'from-green-500 to-green-600',
-        badge: '⚡ Gain de temps',
+        color: 'border-l-4 border-green-600 bg-gray-50',
+        badge: 'Gain de temps',
         topics: ['Closing', 'Process', 'Checklist', 'Comptabilité']
     },
     {
@@ -54,16 +54,16 @@ const guides: Guide[] = [
         pages: '13 pages',
         icon: TrendingUp,
         features: [
-            '📊 5 Ratios de Liquidité (Current, Quick, Cash...)',
-            '💰 5 Ratios de Rentabilité (ROE, ROA, ROCE...)',
-            '📈 5 Ratios de Structure (Endettement, Autonomie...)',
-            '✅ Formules détaillées + exemples chiffrés',
-            '🎯 Seuils d\'alerte & benchmarks France',
-            '📖 Interprétation par secteur d\'activité'
+            '5 Ratios de Liquidité (Current, Quick, Cash...)',
+            '5 Ratios de Rentabilité (ROE, ROA, ROCE...)',
+            '5 Ratios de Structure (Endettement, Autonomie...)',
+            'Formules détaillées + exemples chiffrés',
+            'Seuils d\'alerte & benchmarks France',
+            'Interprétation par secteur d\'activité'
         ],
         downloadUrl: '/ressources/guides/15-ratios-financiers-expliques.pdf',
-        color: 'from-blue-500 to-blue-600',
-        badge: '🔥 Le plus complet',
+        color: 'border-l-4 border-blue-600 bg-gray-50',
+        badge: 'Le plus complet',
         topics: ['Ratios', 'Analyse', 'Solvabilité', 'Performance']
     },
     {
@@ -73,16 +73,16 @@ const guides: Guide[] = [
         pages: '9 pages',
         icon: TrendingUp,
         features: [
-            '💰 Comprendre le BFR : formule et composantes',
-            '📊 Calculer votre BFR en pratique',
-            '⚡ 10 leviers pour réduire votre BFR',
-            '🎯 Optimiser DSO, DIO et DPO',
-            '📈 Cas pratiques avec calculs détaillés',
-            '✅ Checklist d\'actions immédiates'
+            'Comprendre le BFR : formule et composantes',
+            'Calculer votre BFR en pratique',
+            '10 leviers pour réduire votre BFR',
+            'Optimiser DSO, DIO et DPO',
+            'Cas pratiques avec calculs détaillés',
+            'Checklist d\'actions immédiates'
         ],
         downloadUrl: '/ressources/guides/guide-bfr-optimiser-tresorerie.pdf',
-        color: 'from-green-500 to-teal-600',
-        badge: '💡 Actionnable',
+        color: 'border-l-4 border-teal-600 bg-gray-50',
+        badge: 'Actionnable',
         topics: ['BFR', 'Trésorerie', 'Cash-flow', 'Optimisation']
     },
     {
@@ -92,16 +92,16 @@ const guides: Guide[] = [
         pages: '11 pages',
         icon: TrendingUp,
         features: [
-            '📊 20 KPIs répartis en 4 catégories',
-            '📈 5 KPIs Croissance (ARR, MRR, CAC, LTV, Churn)',
-            '💰 5 KPIs Rentabilité (Marge, EBITDA, Burn, Break-even, ROI)',
-            '🏦 5 KPIs Trésorerie (Runway, DSO, Quick ratio, BFR, FCF)',
-            '⚙️ 5 KPIs Opérationnels (NPS, LTV/CAC, Payback, Productivité, Conversion)',
-            '✅ Formules + Benchmarks + Exemples chiffrés'
+            '20 KPIs répartis en 4 catégories',
+            '5 KPIs Croissance (ARR, MRR, CAC, LTV, Churn)',
+            '5 KPIs Rentabilité (Marge, EBITDA, Burn, Break-even, ROI)',
+            '5 KPIs Trésorerie (Runway, DSO, Quick ratio, BFR, FCF)',
+            '5 KPIs Opérationnels (NPS, LTV/CAC, Payback, Productivité, Conversion)',
+            'Formules + Benchmarks + Exemples chiffrés'
         ],
         downloadUrl: '/ressources/guides/tableau-de-bord-cfo-20-kpis.pdf',
-        color: 'from-purple-500 to-blue-600',
-        badge: '🎯 Complet',
+        color: 'border-l-4 border-purple-600 bg-gray-50',
+        badge: 'Complet',
         topics: ['KPIs', 'Dashboard', 'Performance', 'Pilotage']
     },
     {
@@ -111,23 +111,23 @@ const guides: Guide[] = [
         pages: '22 pages',
         icon: FileText,
         features: [
-            '💰 Due diligence financière : documents requis',
-            '📊 Business plan financier : 5 ans de prévisions',
-            '💳 Valorisation : méthodes DCF, multiples, comparables',
-            '⏰ Timeline fundraising : 6 mois étape par étape',
-            '📋 Term sheet : clauses à négocier',
-            '🎯 Red flags investisseurs & comment les éviter'
+            'Due diligence financière : documents requis',
+            'Business plan financier : 5 ans de prévisions',
+            'Valorisation : méthodes DCF, multiples, comparables',
+            'Timeline fundraising : 6 mois étape par étape',
+            'Term sheet : clauses à négocier',
+            'Red flags investisseurs & comment les éviter'
         ],
         downloadUrl: '/ressources/guides/guide-levee-fonds-cfo.pdf',
-        color: 'from-purple-500 to-purple-600',
-        badge: '🚀 Bientôt disponible',
+        color: 'border-l-4 border-purple-600 bg-gray-50',
+        badge: 'Bientôt disponible',
         topics: ['Levée de fonds', 'Valorisation', 'Fundraising', 'Investisseurs']
     }
 ]
 
 export default function GuidesPage() {
-    const availableGuides = guides.filter(g => g.badge !== '🚀 Bientôt disponible')
-    const comingSoonGuides = guides.filter(g => g.badge === '🚀 Bientôt disponible')
+    const availableGuides = guides.filter(g => g.badge !== 'Bientôt disponible')
+    const comingSoonGuides = guides.filter(g => g.badge === 'Bientôt disponible')
 
     return (
         <div className="min-h-screen bg-primary text-primary font-sans">
@@ -180,25 +180,26 @@ export default function GuidesPage() {
                                 >
                                     {/* Header */}
                                     <div className="flex items-start justify-between mb-6">
-                                        <div className={`p-4 rounded-xl bg-gradient-to-br ${guide.color} text-white`}>
-                                            <Icon className="w-8 h-8" />
+                                        <div className={`${guide.color} p-4 rounded-xl`}>
+                                            <Icon className="w-8 h-8 text-gray-700" />
                                         </div>
                                         {guide.badge && (
-                                            <span className="inline-block px-3 py-1 bg-accent-primary-subtle text-accent-primary text-xs font-bold rounded-full">
+                                            <span className="inline-block px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded">
                                                 {guide.badge}
                                             </span>
                                         )}
                                     </div>
 
                                     {/* Title & Description */}
-                                    <h3 className="text-2xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
+                                    <h3 className="text-2xl font-bold mb-2 text-gray-900">
                                         {guide.title}
                                     </h3>
                                     <p className="text-secondary mb-4">
                                         {guide.description}
                                     </p>
-                                    <p className="text-sm text-tertiary mb-6">
-                                        📄 {guide.pages} • Format PDF
+                                    <p className="text-sm text-tertiary mb-6 flex items-center gap-2">
+                                        <FileText className="w-4 h-4" />
+                                        {guide.pages} • Format PDF
                                     </p>
 
                                     {/* Topics */}
@@ -217,7 +218,8 @@ export default function GuidesPage() {
                                     <ul className="space-y-2 mb-8">
                                         {guide.features.map((feature, idx) => (
                                             <li key={idx} className="text-sm text-secondary flex items-start gap-2">
-                                                <span className="mt-0.5">{feature}</span>
+                                                <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                                                <span>{feature}</span>
                                             </li>
                                         ))}
                                     </ul>
@@ -226,13 +228,13 @@ export default function GuidesPage() {
                                     <a
                                         href={guide.downloadUrl}
                                         download
-                                        className={`inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-gradient-to-r ${guide.color} hover:opacity-90 text-white rounded-lg font-bold text-lg transition-all hover:shadow-xl`}
+                                        className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-bold text-lg transition-all hover:shadow-lg"
                                     >
                                         <Download className="w-5 h-5" />
                                         Télécharger le guide
                                     </a>
                                     <p className="text-xs text-tertiary text-center mt-3">
-                                        ✅ Aucun email requis • Téléchargement direct
+                                        Aucun email requis • Téléchargement direct
                                     </p>
                                 </div>
                             )
@@ -291,7 +293,9 @@ export default function GuidesPage() {
                             href="/calculateurs"
                             className="surface rounded-xl p-6 border-2 border-border-default hover:border-accent-primary transition-all group"
                         >
-                            <div className="text-4xl mb-4">🧮</div>
+                            <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+                                <Calculator className="w-6 h-6 text-blue-600" />
+                            </div>
                             <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
                                 9 Calculateurs Gratuits
                             </h3>
@@ -308,7 +312,9 @@ export default function GuidesPage() {
                             href="/ressources/templates"
                             className="surface rounded-xl p-6 border-2 border-border-default hover:border-accent-primary transition-all group"
                         >
-                            <div className="text-4xl mb-4">📊</div>
+                            <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mb-4">
+                                <FileSpreadsheet className="w-6 h-6 text-green-600" />
+                            </div>
                             <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
                                 Templates Excel Pro
                             </h3>
@@ -325,7 +331,9 @@ export default function GuidesPage() {
                             href="/blog"
                             className="surface rounded-xl p-6 border-2 border-border-default hover:border-accent-primary transition-all group"
                         >
-                            <div className="text-4xl mb-4">📝</div>
+                            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mb-4">
+                                <BookMarked className="w-6 h-6 text-purple-600" />
+                            </div>
                             <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
                                 Blog Finance PME
                             </h3>
@@ -357,7 +365,7 @@ export default function GuidesPage() {
                         <ArrowRight className="w-5 h-5" />
                     </Link>
                     <p className="text-sm text-tertiary mt-4">
-                        ✅ Sans engagement • ✅ 10 questions IA gratuites • ✅ Dashboard complet
+                        Sans engagement • 10 questions IA gratuites • Dashboard complet
                     </p>
                 </section>
             </div>

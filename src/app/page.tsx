@@ -42,14 +42,13 @@ export default function Home() {
                                 <span className="text-blue-600">
                                     santé financière
                                 </span>
-                                {' '}en 10 secondes
+                                {' '}en moins de 2 minutes
                             </h1>
 
                             {/* Description */}
                             <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
-                                Le moteur d'intelligence financière qui détecte les signaux faibles,
-                                simule vos scénarios et vous donne votre{' '}
-                                <span className="font-bold text-gray-900">Score FinSight™</span> instantané.
+                                Le moteur d'analyse financière qui calcule votre{' '}
+                                <span className="font-bold text-gray-900">Score FinSight™</span>, détecte les risques et simule vos scénarios de trésorerie.
                             </p>
 
                             {/* CTAs Corporate */}

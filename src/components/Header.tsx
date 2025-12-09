@@ -186,7 +186,7 @@ export default function Header() {
                                                     onClick={() => setIsDropdownOpen(false)}
                                                 >
                                                     <Crown className="w-4 h-4" />
-                                                    Passer à Business 🚀
+                                                    Passer à Business
                                                 </Link>
                                             )}
 
