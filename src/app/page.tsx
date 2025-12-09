@@ -255,7 +255,7 @@ export default function Home() {
             </section>
 
             {/* Features Grid - 4 Piliers Premium Stripe Style */}
-            <section className="py-20 bg-gray-50">
+            <section id="features" className="py-20 bg-gray-50">
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">

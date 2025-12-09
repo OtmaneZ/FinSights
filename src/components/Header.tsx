@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook } from 'lucide-react'
+import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook, ChevronDown } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { useState, useRef, useEffect } from 'react'
 import { CompanySwitcher } from './CompanySwitcher'
@@ -10,13 +10,18 @@ import { CompanySwitcher } from './CompanySwitcher'
 export default function Header() {
     const { data: session, status } = useSession()
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const [isResourcesOpen, setIsResourcesOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
+    const resourcesRef = useRef<HTMLDivElement>(null)
 
     // Close dropdown when clicking outside
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsDropdownOpen(false)
+            }
+            if (resourcesRef.current && !resourcesRef.current.contains(event.target as Node)) {
+                setIsResourcesOpen(false)
             }
         }
         document.addEventListener('mousedown', handleClickOutside)
@@ -60,36 +65,66 @@ export default function Header() {
                     <span className="text-xl font-semibold">FinSight</span>
                 </Link>
                 <nav className="hidden md:flex items-center gap-6">
-                    {/* Bloc 1 - Produit */}
+                    {/* Produit */}
                     <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Démo
                     </Link>
                     <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Tarifs
                     </Link>
-                    <Link href="/#features" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Fonctionnalités
-                    </Link>
 
-                    <span className="text-border-default">|</span>
+                    {/* Ressources Dropdown */}
+                    <div className="relative" ref={resourcesRef}>
+                        <button
+                            onClick={() => setIsResourcesOpen(!isResourcesOpen)}
+                            className="flex items-center gap-1 text-secondary hover:text-primary transition-colors text-sm font-medium"
+                        >
+                            Ressources
+                            <ChevronDown className={`w-4 h-4 transition-transform ${isResourcesOpen ? 'rotate-180' : ''}`} />
+                        </button>
 
-                    {/* Bloc 2 - Ressources */}
-                    <Link href="/ressources/templates" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Templates
-                    </Link>
-                    <Link href="/calculateurs" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Calculateurs
-                    </Link>
-                    <Link href="/ressources/guides" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Guides
-                    </Link>
-                    <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                        Blog
-                    </Link>
+                        {/* Resources Dropdown Menu */}
+                        {isResourcesOpen && (
+                            <div className="absolute left-0 mt-2 w-48 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50">
+                                <Link
+                                    href="/ressources/templates"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Templates
+                                </Link>
+                                <Link
+                                    href="/calculateurs"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Calculateurs
+                                </Link>
+                                <Link
+                                    href="/ressources/guides"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Guides
+                                </Link>
+                                <Link
+                                    href="/blog"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Blog
+                                </Link>
+                                <Link
+                                    href="/methodologie"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Méthodologie
+                                </Link>
+                            </div>
+                        )}
+                    </div>
 
-                    <span className="text-border-default">|</span>
-
-                    {/* Bloc 3 - Pro/Perso */}
                     <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                         Consulting
                     </Link>
