@@ -119,7 +119,7 @@ export default function Header() {
                                     className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
                                     onClick={() => setIsResourcesOpen(false)}
                                 >
-                                    Méthodologie
+                                    Méthodologie Score FinSight™
                                 </Link>
                             </div>
                         )}
