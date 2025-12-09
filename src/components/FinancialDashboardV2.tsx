@@ -60,6 +60,9 @@ import AuthBanner from './AuthBanner'
 // Import Upload Success Banner
 import UploadSuccessBanner from './UploadSuccessBanner'
 
+// Import Cash Flow Predictions
+import CashFlowPredictions from './CashFlowPredictions'
+
 // Import Drill-Down
 import { useDrilldown } from '@/hooks/useDrilldown'
 import { KPIDrilldownModal } from './drill-down/KPIDrilldownModal'
@@ -67,6 +70,9 @@ import { KPIDrilldownModal } from './drill-down/KPIDrilldownModal'
 // Import ML
 import { detectAnomalies } from '@/lib/ml/anomalyDetector'
 import type { Anomaly } from '@/lib/ml/types'
+
+// Import AI Predictions
+import { generateCashFlowPredictions, type CashFlowPrediction, type PredictionAlert } from '@/lib/ai/predictions'
 
 // Import Score FinSight™ calculation
 import { calculateFinSightScore, type FinSightScore } from '@/lib/scoring/finSightScore'
@@ -161,7 +167,13 @@ export default function FinancialDashboardV2() {
     // Dashboard Config state (capabilities pour affichage conditionnel)
     const [dashboardConfig, setDashboardConfig] = useState<any>(null);
 
-    // � Toast notifications - Défini tôt pour être accessible partout
+    // AI Predictions states
+    const [cashFlowPredictions, setCashFlowPredictions] = useState<CashFlowPrediction[]>([]);
+    const [predictionAlerts, setPredictionAlerts] = useState<PredictionAlert[]>([]);
+    const [seasonalityDetected, setSeasonalityDetected] = useState(false);
+    const [isLoadingPredictions, setIsLoadingPredictions] = useState(false);
+
+    // 🔔 Toast notifications - Défini tôt pour être accessible partout
     const addToast = (toast: Omit<ToastNotification, 'id'>) => {
         const newToast = { ...toast, id: Date.now().toString() };
         logger.debug('🔔 Adding toast:', newToast);
@@ -564,6 +576,27 @@ export default function FinancialDashboardV2() {
                             setFinSightScore(score)
                         } catch (scoreError) {
                             logger.error('Erreur calcul Score FinSight™:', scoreError)
+                        }
+                    }
+
+                    // 🔮 Generate Cash Flow Predictions (asynchrone, non-bloquant)
+                    if (result.data.records && result.data.records.length >= 10) {
+                        setIsLoadingPredictions(true);
+                        try {
+                            const predictionResult = await generateCashFlowPredictions(result.data.records);
+
+                            if (predictionResult.success && predictionResult.predictions) {
+                                setCashFlowPredictions(predictionResult.predictions);
+                                setPredictionAlerts(predictionResult.alerts || []);
+                                setSeasonalityDetected(predictionResult.seasonalityDetected || false);
+                                logger.debug(`✅ ${predictionResult.predictions.length} mois prédits`);
+                            } else {
+                                logger.warn('⚠️ Prédictions IA échouées:', predictionResult.error);
+                            }
+                        } catch (predError) {
+                            logger.error('❌ Erreur prédictions cash flow:', predError);
+                        } finally {
+                            setIsLoadingPredictions(false);
                         }
                     }
 
@@ -1260,7 +1293,25 @@ export default function FinancialDashboardV2() {
                         ))}
                 </div>
 
-                {/* 🔮 What-If Simulation Panel - Juste après KPIs pour montrer l'impact immédiat */}
+                {/* 🔮 Cash Flow Predictions - NOUVEAU - Après KPIs, avant What-If */}
+                {isDataLoaded && cashFlowPredictions.length > 0 && (
+                    <CashFlowPredictions
+                        predictions={cashFlowPredictions}
+                        alerts={predictionAlerts}
+                        seasonalityDetected={seasonalityDetected}
+                        rawData={rawData || []}
+                    />
+                )}
+
+                {/* Loading Predictions */}
+                {isDataLoaded && isLoadingPredictions && (
+                    <div className="mb-8 surface rounded-2xl p-8 flex items-center justify-center gap-3 text-accent-blue">
+                        <div className="w-6 h-6 border-2 border-accent-blue border-t-transparent rounded-full animate-spin"></div>
+                        <span className="font-semibold">Génération des prédictions IA...</span>
+                    </div>
+                )}
+
+                {/* 🔮 What-If Simulation Panel - Juste après Predictions */}
                 {isDataLoaded && (
                     <div className="mb-8 surface rounded-2xl p-8 relative overflow-hidden border-2 border-accent-primary-border/20 bg-gradient-to-br from-accent-primary-subtle/10 to-transparent">
                         {/* Badge Mode Simulation actif */}

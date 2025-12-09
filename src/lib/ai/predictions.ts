@@ -61,7 +61,7 @@ export async function generateCashFlowPredictions(
 
         // Préparer résumé des données historiques
         const monthlyData = prepareMonthlyData(rawData);
-        
+
         // Calculer tendances
         const trends = calculateTrends(monthlyData);
 
