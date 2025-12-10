@@ -497,10 +497,10 @@ export default function Home() {
                             <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Ressources Gratuites</span>
                         </div>
                         <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
-                            Outils gratuits pour CFO et DAF
+                            Outils gratuits pour DAF et Contrôleurs de Gestion
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                            Templates Excel, guides PDF et calculateurs pour piloter votre PME efficacement
+                            Templates Excel, guides PDF et calculateurs pour piloter votre PME
                         </p>
                     </div>
 

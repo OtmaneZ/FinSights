@@ -10,6 +10,7 @@ import { put } from '@vercel/blob';
 import { prisma } from '@/lib/prisma';
 import { parseWithAI } from '@/lib/ai/aiParser';
 import { logger } from '@/lib/logger';
+import { logParseAttempt } from '@/lib/parseLogger';
 
 export const config = {
     api: {
@@ -52,12 +53,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
     }
 
+    // Variables pour logging (accessibles dans try et catch)
+    let fileName = '';
+    let fileSize = 0;
+    let fileType = '';
+    let startTime = 0;
+
     try {
-        const { fileContent, fileName, fileType, companyId } = req.body;
+        const fileData = req.body;
+        fileName = fileData.fileName || 'unknown';
+        fileType = fileData.fileType || '';
+        const fileContent = fileData.fileContent;
+        const companyId = fileData.companyId;
 
         if (!fileContent) {
             return res.status(400).json({ error: 'No file content provided' });
         }
+
+        fileSize = Buffer.byteLength(fileContent, 'utf-8');
+        startTime = Date.now();
 
         // 🛡️ VALIDATION MIME TYPE (Sécurité)
         const allowedMimeTypes = [
@@ -71,9 +85,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (fileType && !allowedMimeTypes.includes(fileType)) {
             logger.warn(`[Upload] ⚠️ MIME type suspect rejeté: ${fileType} (fichier: ${fileName})`);
             return res.status(400).json({
-                error: 'Type de fichier non autorisé pour des raisons de sécurité',
-                receivedMimeType: fileType,
-                allowedMimeTypes: ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+                error: 'Type de fichier non autorisé',
+                details: `Le fichier "${fileName}" n'est pas un format accepté (type détecté : ${fileType})`,
+                help: 'Veuillez utiliser un fichier CSV (.csv) ou Excel (.xlsx, .xls)',
+                allowedFormats: ['.csv', '.xlsx', '.xls'],
+                receivedMimeType: fileType
             });
         }
 
@@ -83,7 +99,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (!isCSV && !isExcel) {
             return res.status(400).json({
-                error: 'Format non supporté. Utilisez un fichier CSV ou Excel.',
+                error: 'Format de fichier non supporté',
+                details: `Le fichier "${fileName}" doit avoir une extension .csv, .xlsx ou .xls`,
+                help: 'Téléchargez un de nos templates depuis la page d\'accueil',
                 supportedFormats: ['.csv', '.xlsx', '.xls']
             });
         }
@@ -108,6 +126,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             csvContent = conversionResult.csvContent;
             logger.debug(`✅ Excel converti: ${conversionResult.sheetName} (${conversionResult.rowCount} lignes × ${conversionResult.columnCount} colonnes)`);
         }
+
+        // ✅ VALIDATION PRÉ-PARSING (économise des appels IA inutiles)
+        const { validateCSVStructure } = await import('@/lib/dataParser');
+        const csvValidation = validateCSVStructure(csvContent);
+
+        if (!csvValidation.valid) {
+            logger.warn(`[Upload] ❌ Validation CSV échouée: ${csvValidation.error}`);
+            return res.status(400).json({
+                error: 'Structure du fichier invalide',
+                details: csvValidation.error,
+                help: csvValidation.hasDateColumn === false
+                    ? 'Assurez-vous que votre fichier contient une colonne "Date" avec les dates des transactions.'
+                    : csvValidation.hasAmountColumn === false
+                        ? 'Assurez-vous que votre fichier contient une colonne "Montant" avec les montants des transactions.'
+                        : 'Vérifiez que votre fichier respecte le format attendu (minimum 10 transactions).'
+            });
+        }
+
+        logger.debug(`[Upload] ✅ Validation CSV réussie (${csvValidation.lineCount} transactions détectées)`);
 
         // 🤖 Parse avec IA pour une détection intelligente des colonnes
         logger.debug('[Upload] 🤖 Parsing avec IA...');
@@ -162,12 +199,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // Si erreurs bloquantes, retourner avec détails
         if (!validation.valid) {
+            // 📊 Log failed parse (data quality issues)
+            await logParseAttempt({
+                userId,
+                fileName,
+                fileSize,
+                mimeType: fileType,
+                parseMethod: aiParseResult.rawResponse ? 'AI' : 'CLASSIC',
+                success: false,
+                error: `Qualité données insuffisante: ${validation.errors.join(', ')}`,
+                executionTime: Date.now() - startTime,
+                recordsFound: processedData.records.length
+            });
+
             return res.status(400).json({
                 error: 'Données insuffisantes pour générer un tableau de bord',
                 details: validation.errors.join(' • '),
                 dataQuality: validation.dataQuality
             });
         }
+
+        // 📊 Log successful parse
+        await logParseAttempt({
+            userId,
+            fileName,
+            fileSize,
+            mimeType: fileType,
+            parseMethod: aiParseResult.rawResponse ? 'AI' : 'CLASSIC',
+            success: true,
+            executionTime: Date.now() - startTime,
+            recordsFound: processedData.records.length,
+            aiModel: aiParseResult.rawResponse ? 'gpt-4-turbo-preview' : undefined,
+            fallbackUsed: !aiParseResult.success && processedData.records.length > 0
+        });
 
         // ✅ Use adaptive KPI system (same as demos)
         // Create column mappings from AI-parsed data
@@ -271,6 +335,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     } catch (error) {
         logger.error('Erreur lors du traitement du fichier:', error);
+
+        // 📊 Log error
+        await logParseAttempt({
+            userId,
+            fileName,
+            fileSize,
+            mimeType: fileType,
+            parseMethod: 'ERROR',
+            success: false,
+            error: error instanceof Error ? error.message : 'Erreur inconnue',
+            executionTime: startTime > 0 ? Date.now() - startTime : undefined
+        });
 
         return res.status(500).json({
             error: 'Erreur lors du traitement du fichier',

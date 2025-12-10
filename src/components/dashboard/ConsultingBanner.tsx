@@ -46,7 +46,7 @@ export default function ConsultingBanner({ variant = 'subtle', score }: Consulti
                         <p className="text-xs text-gray-600">
                             {isWarning
                                 ? 'Un audit approfondi peut identifier les leviers d\'action prioritaires et vous aider à redresser la situation.'
-                                : 'Nos consultants analysent votre situation et vous proposent des recommandations concrètes — du diagnostic express (2 500€) au dashboard IA sur-mesure (6 500€).'
+                                : 'Un diagnostic approfondi de votre situation permet d\'obtenir des recommandations concrètes — du diagnostic express (2 500€) au dashboard IA sur-mesure (6 500€).'
                             }
                         </p>
                     </div>

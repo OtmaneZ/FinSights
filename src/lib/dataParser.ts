@@ -41,6 +41,90 @@ const DEFAULT_CONFIG: ParseConfig = {
     encoding: 'utf-8'
 };
 
+/**
+ * ✅ VALIDATION PRÉ-PARSING
+ * Valide la structure basique du CSV AVANT d'appeler l'IA (économie de tokens)
+ * Retourne une erreur explicite si le fichier ne peut pas être traité
+ */
+export interface CSVValidationResult {
+    valid: boolean;
+    error?: string;
+    lineCount?: number;
+    hasDateColumn?: boolean;
+    hasAmountColumn?: boolean;
+}
+
+export function validateCSVStructure(csvText: string): CSVValidationResult {
+    try {
+        // 1. Vérifier que le fichier n'est pas vide
+        if (!csvText || csvText.trim().length === 0) {
+            return { valid: false, error: 'Fichier vide' };
+        }
+
+        // 2. Compter les lignes (min 11 = 1 header + 10 données)
+        const lines = csvText.split('\n').filter(line => line.trim().length > 0);
+        if (lines.length < 11) {
+            return {
+                valid: false,
+                error: `Fichier trop court : ${lines.length - 1} transaction(s) détectée(s). Minimum requis : 10 transactions.`,
+                lineCount: lines.length - 1
+            };
+        }
+
+        // 3. Analyser le header (première ligne)
+        const headerLine = lines[0].toLowerCase();
+
+        // Détecter le délimiteur (virgule ou point-virgule)
+        const delimiter = headerLine.includes(';') ? ';' : ',';
+        const headers = headerLine.split(delimiter).map(h => h.trim());
+
+        // 4. Vérifier présence colonne DATE
+        const hasDateColumn = headers.some(h =>
+            /date|jour|day|datum|fecha/i.test(h)
+        );
+
+        // 5. Vérifier présence colonne MONTANT
+        const hasAmountColumn = headers.some(h =>
+            /montant|amount|somme|sum|total|price|prix|valeur|value|debit|credit|crédit|d[ée]bit/i.test(h)
+        );
+
+        // 6. Validation finale
+        if (!hasDateColumn) {
+            return {
+                valid: false,
+                error: 'Colonne "Date" manquante. Vérifiez que votre fichier contient une colonne avec les dates des transactions.',
+                lineCount: lines.length - 1,
+                hasDateColumn: false,
+                hasAmountColumn
+            };
+        }
+
+        if (!hasAmountColumn) {
+            return {
+                valid: false,
+                error: 'Colonne "Montant" manquante. Vérifiez que votre fichier contient une colonne avec les montants des transactions.',
+                lineCount: lines.length - 1,
+                hasDateColumn,
+                hasAmountColumn: false
+            };
+        }
+
+        // ✅ Validation réussie
+        return {
+            valid: true,
+            lineCount: lines.length - 1,
+            hasDateColumn: true,
+            hasAmountColumn: true
+        };
+
+    } catch (error) {
+        return {
+            valid: false,
+            error: `Erreur lors de la validation : ${error instanceof Error ? error.message : 'Erreur inconnue'}`
+        };
+    }
+}
+
 // Parse CSV robuste avec détection automatique
 export function parseCSV(csvText: string, config: ParseConfig = DEFAULT_CONFIG): ParseResult {
     // Logs de debug désactivés pour éviter les problèmes DOM avec caractères spéciaux

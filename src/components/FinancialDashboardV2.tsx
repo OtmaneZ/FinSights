@@ -168,8 +168,13 @@ export default function FinancialDashboardV2() {
     const [loadingProgress, setLoadingProgress] = useState(0);
     const [loadingMessage, setLoadingMessage] = useState('');
 
-    // Upload Loading state
-    const [isUploadingFile, setIsUploadingFile] = useState(false);
+    // Upload Loading state - Granular steps
+    type UploadStep = 'idle' | 'validating' | 'ai-parsing' | 'processing' | 'done';
+    const [uploadStep, setUploadStep] = useState<UploadStep>('idle');
+    const [uploadProgress, setUploadProgress] = useState(0);
+
+    // Backward compatibility helper
+    const isUploadingFile = uploadStep !== 'idle' && uploadStep !== 'done';
 
     // Dashboard Config state (capabilities pour affichage conditionnel)
     const [dashboardConfig, setDashboardConfig] = useState<any>(null);
@@ -512,7 +517,10 @@ export default function FinancialDashboardV2() {
         if (!files || files.length === 0) return
 
         const file = files[0]
-        setIsUploadingFile(true); // ⏳ Start loading
+
+        // 🎯 STEP 1: Start upload (show loading immediately)
+        setUploadStep('validating');
+        setUploadProgress(10);
 
         // Read file content
         const reader = new FileReader()
@@ -528,6 +536,15 @@ export default function FinancialDashboardV2() {
             })
 
             try {
+                // 🎯 STEP 2: Validating structure
+                setUploadStep('validating');
+                setUploadProgress(20);
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // 🎯 STEP 3: AI Parsing (longest step)
+                setUploadStep('ai-parsing');
+                setUploadProgress(40);
+
                 const response = await fetch('/api/upload', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -542,28 +559,21 @@ export default function FinancialDashboardV2() {
                 const result = await response.json()
 
                 if (response.ok) {
-                    // ✅ SUCCESS → Show progression ONLY if success
-                    setIsLoadingDemo(true);
-
-                    setLoadingProgress(20);
-                    setLoadingMessage('Parsing des données...');
+                    // 🎯 STEP 4: Processing KPIs
+                    setUploadStep('processing');
+                    setUploadProgress(70);
+                    await new Promise(resolve => setTimeout(resolve, 400));
+                    // 🎯 STEP 4: Processing KPIs
+                    setUploadStep('processing');
+                    setUploadProgress(70);
                     await new Promise(resolve => setTimeout(resolve, 400));
 
-                    setLoadingProgress(50);
-                    setLoadingMessage('Validation des transactions...');
-                    await new Promise(resolve => setTimeout(resolve, 400));
-
-                    setLoadingProgress(75);
-                    setLoadingMessage('Génération des KPIs...');
+                    setUploadProgress(90);
                     await new Promise(resolve => setTimeout(resolve, 300));
 
-                    setLoadingProgress(90);
-                    setLoadingMessage('Calcul du Score FinSight™...');
-                    await new Promise(resolve => setTimeout(resolve, 300));
-
-                    setLoadingProgress(100);
-                    setLoadingMessage('Terminé !');
-                    await new Promise(resolve => setTimeout(resolve, 300));
+                    // 🎯 STEP 5: Done!
+                    setUploadProgress(100);
+                    await new Promise(resolve => setTimeout(resolve, 200));
 
                     setKpis(result.data.kpis || [])
                     const processedData = result.data.financialData || result.data.processedData
@@ -634,6 +644,9 @@ export default function FinancialDashboardV2() {
 
                     // ✨ Show upload success banner
                     setShowUploadBanner(true)
+
+                    // Mark upload as done
+                    setUploadStep('done');
                 } else {
                     // ❌ ERROR → No progression, direct to toast
                     logger.error('API upload error:', response.status, result)
@@ -676,10 +689,9 @@ export default function FinancialDashboardV2() {
                     duration: 5000
                 })
             } finally {
-                setIsUploadingFile(false); // ✅ Stop loading
-                setIsLoadingDemo(false); // ✅ Stop progress animation
-                setLoadingProgress(0);
-                setLoadingMessage('');
+                // ✅ Reset upload state
+                setUploadStep('idle');
+                setUploadProgress(0);
             }
         }
 
@@ -691,7 +703,8 @@ export default function FinancialDashboardV2() {
                 message: 'Impossible de lire le fichier. Vérifiez le format.',
                 duration: 5000
             })
-            setIsUploadingFile(false)
+            setUploadStep('idle');
+            setUploadProgress(0);
         }
 
         reader.readAsText(file)
@@ -1127,17 +1140,29 @@ export default function FinancialDashboardV2() {
                     </div>
                 )}
 
-                {/* Animation de chargement upload */}
+                {/* Animation de chargement upload - Granulaire */}
                 {isUploadingFile && (
                     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
                         <div className="w-20 h-20 border-4 border-accent-primary-border border-t-accent-primary rounded-full animate-spin"></div>
                         <div className="text-center w-full max-w-md">
                             <h3 className="text-2xl font-bold mb-2">
-                                Analyse IA en cours...
+                                {uploadStep === 'validating' && 'Validation du fichier...'}
+                                {uploadStep === 'ai-parsing' && 'Analyse IA en cours...'}
+                                {uploadStep === 'processing' && 'Génération des KPIs...'}
                             </h3>
                             <p className="text-sm text-secondary mt-3">
-                                Parsing intelligent de vos données financières
+                                {uploadStep === 'validating' && 'Vérification de la structure et des colonnes'}
+                                {uploadStep === 'ai-parsing' && 'Parsing intelligent de vos données financières'}
+                                {uploadStep === 'processing' && 'Calcul des métriques et du Score FinSight™'}
                             </p>
+                            {/* Progress bar */}
+                            <div className="mt-6 w-full bg-gray-200 rounded-full h-2">
+                                <div
+                                    className="bg-accent-primary h-2 rounded-full transition-all duration-500"
+                                    style={{ width: `${uploadProgress}%` }}
+                                />
+                            </div>
+                            <p className="text-xs text-tertiary mt-2">{uploadProgress}%</p>
                         </div>
                     </div>
                 )}

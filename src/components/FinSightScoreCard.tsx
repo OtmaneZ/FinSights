@@ -156,7 +156,7 @@ export default function FinSightScoreCard({ score }: FinSightScoreProps) {
                                         Votre score révèle des signaux faibles critiques
                                     </p>
                                     <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
-                                        Un audit approfondi peut identifier les leviers d'action prioritaires et vous aider à redresser rapidement la situation. Nos consultants analysent votre trésorerie, marges et risques pour vous proposer un plan d'action concret.
+                                        Un audit approfondi peut identifier les leviers d'action prioritaires et vous aider à redresser rapidement la situation. Une analyse détaillée de votre trésorerie, marges et risques permet d'établir un plan d'action concret.
                                     </p>
                                     <Link
                                         href="/consulting"

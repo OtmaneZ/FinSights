@@ -163,8 +163,50 @@ model WebhookLog {
 }
 
 // ============================================
+// PARSE LOG MODEL - Upload & AI Analytics
+// ============================================
+
+model ParseLog {
+  id String @id @default(cuid())
+
+  // User & File Info
+  userId       String?
+  fileName     String
+  fileSize     Int     // Bytes
+  mimeType     String? // MIME type détecté
+
+  // Parse Method & Result
+  parseMethod  ParseMethod // ai, classic, or error
+  success      Boolean
+  error        String?     // Error message if failed
+
+  // Performance Metrics
+  executionTime Int?       // Milliseconds
+  tokensUsed    Int?       // OpenAI tokens (only for AI)
+  recordsFound  Int?       // Number of transactions parsed
+
+  // Metadata
+  aiModel       String?    // e.g., "gpt-4-turbo-preview"
+  fallbackUsed  Boolean    @default(false) // True if AI failed and classic parser was used
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([parseMethod])
+  @@index([success])
+  @@index([createdAt])
+  @@map("parse_logs")
+}
+
+// ============================================
 // ENUMS
 // ============================================
+
+enum ParseMethod {
+  AI       // AI parser (OpenRouter/GPT-4)
+  CLASSIC  // Fallback CSV parser
+  ERROR    // Failed before parsing
+}
 
 enum Plan {
   FREE        // Ancien: FREE → Nouveau display: "Starter"
