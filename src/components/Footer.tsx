@@ -6,21 +6,21 @@ import { Github, Linkedin } from 'lucide-react'
 
 export default function Footer() {
     return (
-        <footer className="border-t border-border-subtle py-12">
-            <div className="max-w-6xl mx-auto px-6">
+        <footer className="border-t border-border-default bg-gray-50 py-16">
+            <div className="max-w-7xl mx-auto px-6">
                 {/* About Section */}
-                <div className="mb-8 pb-8 border-b border-border-subtle">
+                <div className="mb-12 pb-12 border-b border-border-default">
                     <div className="flex items-center gap-3 mb-4">
                         <Image
                             src="/images/zineinsights_logo.jpeg"
                             alt="FinSight"
-                            width={32}
-                            height={32}
-                            className="w-8 h-8 rounded-lg"
+                            width={40}
+                            height={40}
+                            className="w-10 h-10 rounded-lg shadow-sm"
                         />
-                        <div className="text-lg font-semibold">FinSight</div>
+                        <div className="text-2xl font-bold">FinSight</div>
                     </div>
-                    <p className="text-sm text-gray-600 max-w-2xl leading-relaxed">
+                    <p className="text-base text-gray-600 max-w-2xl leading-relaxed font-medium">
                         FinSight est un moteur d'intelligence financière pour dirigeants de PME.
                         Conçu par Otmane Boulahia, analyste financier & data engineer,
                         inspiré des meilleures pratiques CFO, FP&A et pilotage BFR.
@@ -28,34 +28,31 @@ export default function Footer() {
                 </div>
 
                 {/* Section 1: Navigation principale */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-10">
                     {/* Empty space for balance */}
                     <div></div>
 
                     {/* Navigation principale */}
-                    <nav className="flex flex-wrap items-center gap-6">
-                        <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-sm">
+                    <nav className="flex flex-wrap items-center gap-8">
+                        <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                             Essayer gratuitement
                         </Link>
-                        <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm">
+                        <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                             Tarifs
                         </Link>
-                        <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-sm">
+                        <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                             Blog
                         </Link>
-                        <Link href="/calculateurs/dso" className="text-secondary hover:text-primary transition-colors text-sm">
+                        <Link href="/calculateurs/dso" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                             Calculateurs
-                        </Link>
-                        <Link href="/technique" className="text-secondary hover:text-primary transition-colors text-sm">
-                            Stack Technique
                         </Link>
                         <a
                             href="https://calendly.com/zineinsight"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-secondary hover:text-primary transition-colors text-sm"
+                            className="text-secondary hover:text-primary transition-colors text-base font-semibold"
                         >
-                            Contact
+                            Prendre rendez-vous
                         </a>
                     </nav>
                 </div>

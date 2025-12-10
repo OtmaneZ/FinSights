@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { DollarSign, BarChart3, Shield, AlertTriangle } from 'lucide-react'
 
 interface PillarScore {
@@ -17,6 +17,8 @@ export default function AnimatedScoreDisplay() {
     const [displayedScores, setDisplayedScores] = useState([0, 0, 0, 0])
     const [totalScore, setTotalScore] = useState(0)
     const [gaugeProgress, setGaugeProgress] = useState(0)
+    const [hasAnimated, setHasAnimated] = useState(false)
+    const componentRef = useRef<HTMLDivElement>(null)
 
     // Scores réels du dashboard (850k€ CA, 28% marge, 180k€ tréso, runway 6 mois)
     const pillars: PillarScore[] = [
@@ -27,6 +29,31 @@ export default function AnimatedScoreDisplay() {
     ]
 
     useEffect(() => {
+        // Intersection Observer pour détecter quand le composant est visible
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !hasAnimated) {
+                        setHasAnimated(true)
+                        startAnimation()
+                    }
+                })
+            },
+            { threshold: 0.3 } // Démarre quand 30% du composant est visible
+        )
+
+        if (componentRef.current) {
+            observer.observe(componentRef.current)
+        }
+
+        return () => {
+            if (componentRef.current) {
+                observer.unobserve(componentRef.current)
+            }
+        }
+    }, [hasAnimated])
+
+    const startAnimation = () => {
         // Séquence d'animation
         const sequence = [
             // Étape 1-4 : Animer chaque pilier (0-4s)
@@ -43,7 +70,7 @@ export default function AnimatedScoreDisplay() {
         sequence.forEach(({ delay, action }) => {
             setTimeout(action, delay)
         })
-    }, [])
+    }
 
     const animatePillar = (index: number) => {
         const targetScore = pillars[index].score
@@ -110,7 +137,7 @@ export default function AnimatedScoreDisplay() {
     const gaugeColors = getGaugeColor(gaugeProgress)
 
     return (
-        <div className="max-w-6xl mx-auto">
+        <div ref={componentRef} className="max-w-6xl mx-auto">
             {/* 4 Piliers avec animation séquentielle */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
                 {pillars.map((pillar, idx) => {
@@ -208,14 +235,14 @@ export default function AnimatedScoreDisplay() {
                                 {gaugeProgress >= 60 ? 'Santé financière correcte' : 'Attention requise'}
                             </div>
                             <div className={`inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg ${gaugeProgress >= 80 ? 'bg-green-50 text-green-600' :
-                                    gaugeProgress >= 60 ? 'bg-blue-50 text-accent-primary' :
-                                        gaugeProgress >= 40 ? 'bg-orange-50 text-orange-600' :
-                                            'bg-red-50 text-red-600'
+                                gaugeProgress >= 60 ? 'bg-blue-50 text-accent-primary' :
+                                    gaugeProgress >= 40 ? 'bg-orange-50 text-orange-600' :
+                                        'bg-red-50 text-red-600'
                                 }`}>
                                 <div className={`w-2 h-2 rounded-full ${gaugeProgress >= 80 ? 'bg-green-500' :
-                                        gaugeProgress >= 60 ? 'bg-blue-500' :
-                                            gaugeProgress >= 40 ? 'bg-orange-500' :
-                                                'bg-red-500'
+                                    gaugeProgress >= 60 ? 'bg-blue-500' :
+                                        gaugeProgress >= 40 ? 'bg-orange-500' :
+                                            'bg-red-500'
                                     }`} />
                                 <span className="font-semibold">
                                     {gaugeProgress >= 80 ? 'Zone verte (80-100)' :
@@ -227,7 +254,7 @@ export default function AnimatedScoreDisplay() {
 
                             {/* Lien vers dashboard */}
                             <div className="mt-4 text-xs text-gray-500">
-                                📊 Basé sur votre tableau de bord ci-dessus
+                                Basé sur votre tableau de bord ci-dessus
                             </div>
                         </div>
                     </div>

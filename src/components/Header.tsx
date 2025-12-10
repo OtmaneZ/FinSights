@@ -6,6 +6,7 @@ import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook, ChevronDow
 import { useSession, signOut } from 'next-auth/react'
 import { useState, useRef, useEffect } from 'react'
 import { CompanySwitcher } from './CompanySwitcher'
+import ReadingProgressBar from './ReadingProgressBar'
 
 export default function Header() {
     const { data: session, status } = useSession()
@@ -52,24 +53,27 @@ export default function Header() {
     }
 
     return (
-        <header className="border-b border-border-subtle backdrop-blur-sm bg-primary/80 sticky top-0 z-50">
+        <header className="border-b border-border-default backdrop-blur-md bg-primary/90 sticky top-0 z-50 shadow-sm">
+            {/* Reading Progress Bar */}
+            <ReadingProgressBar />
+
             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
                     <Image
                         src="/images/zineinsights_logo.jpeg"
                         alt="FinSight"
-                        width={40}
-                        height={40}
-                        className="w-10 h-10 rounded-lg"
+                        width={48}
+                        height={48}
+                        className="w-12 h-12 rounded-lg shadow-sm"
                     />
-                    <span className="text-xl font-semibold">FinSight</span>
+                    <span className="text-2xl font-bold">FinSight</span>
                 </Link>
-                <nav className="hidden md:flex items-center gap-6">
+                <nav className="hidden md:flex items-center gap-8">
                     {/* Produit */}
-                    <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                    <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                         Démo
                     </Link>
-                    <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                    <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                         Tarifs
                     </Link>
 
@@ -77,7 +81,7 @@ export default function Header() {
                     <div className="relative" ref={resourcesRef}>
                         <button
                             onClick={() => setIsResourcesOpen(!isResourcesOpen)}
-                            className="flex items-center gap-1 text-secondary hover:text-primary transition-colors text-sm font-medium"
+                            className="flex items-center gap-1 text-secondary hover:text-primary transition-colors text-base font-semibold"
                         >
                             Ressources
                             <ChevronDown className={`w-4 h-4 transition-transform ${isResourcesOpen ? 'rotate-180' : ''}`} />
@@ -125,7 +129,7 @@ export default function Header() {
                         )}
                     </div>
 
-                    <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                    <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                         Consulting
                     </Link>
 

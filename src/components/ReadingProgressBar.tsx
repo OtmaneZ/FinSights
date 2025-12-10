@@ -28,9 +28,9 @@ export default function ReadingProgressBar() {
     return (
         <>
             {/* Barre de progression fixe en haut */}
-            <div className="fixed top-0 left-0 right-0 h-1 bg-surface-elevated z-50">
+            <div className="fixed top-0 left-0 w-full h-1.5 bg-gray-200/80 z-[60]">
                 <div
-                    className="h-full bg-gradient-to-r from-accent-primary to-accent-secondary transition-all duration-200 ease-out"
+                    className="h-full bg-gradient-to-r from-accent-primary to-blue-600 transition-all duration-150 ease-out shadow-sm"
                     style={{ width: `${progress}%` }}
                 />
             </div>

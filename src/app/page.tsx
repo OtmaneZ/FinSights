@@ -22,22 +22,23 @@ export default function Home() {
             <Header />
 
             {/* Hero Section - Premium 2 Columns Layout */}
-            <section className="relative bg-gradient-to-br from-blue-50/40 to-white">
-                <div className="max-w-7xl mx-auto px-6 pt-24 pb-32 lg:pt-32 lg:pb-40">
-                    <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+            <section className="relative bg-gradient-to-br from-blue-50 via-blue-50/50 to-white overflow-hidden">
+                {/* Subtle overlay for depth */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,120,212,0.05),transparent_50%)]"></div>
 
-                        {/* LEFT: Content */}
+                <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-36 lg:pt-36 lg:pb-44">
+                    <div className="grid lg:grid-cols-2 gap-20 lg:gap-24 items-center">                        {/* LEFT: Content */}
                         <div className="space-y-8">
                             {/* Trust Badge - Corporate */}
-                            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border border-blue-100 rounded-xl shadow-sm">
-                                <Shield className="w-4 h-4 text-accent-primary" />
-                                <span className="text-sm font-semibold text-gray-700">
+                            <div className="inline-flex items-center gap-3 px-6 py-4 bg-white border-2 border-gray-200 rounded-xl shadow-md">
+                                <Shield className="w-5 h-5 text-accent-primary" />
+                                <span className="text-base font-bold text-gray-800">
                                     Réponse instantanée • RGPD France • Sans engagement
                                 </span>
                             </div>
 
                             {/* H1 Corporate */}
-                            <h1 className="text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-gray-900">
+                            <h1 className="text-5xl lg:text-7xl font-extrabold leading-[1.05] tracking-tighter text-gray-900">
                                 Comprenez votre{' '}
                                 <span className="text-accent-primary">
                                     santé financière
@@ -57,8 +58,8 @@ export default function Home() {
                             </p>
 
                             {/* Credibility Badge */}
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg">
-                                <span className="text-xs text-gray-600">
+                            <div className="inline-flex items-center gap-2 px-5 py-3 bg-gray-100 border-2 border-gray-200 rounded-lg shadow-sm">
+                                <span className="text-sm font-bold text-gray-700">
                                     Conçu par Otmane Boulahia, analyste financier & data
                                 </span>
                             </div>
@@ -67,7 +68,7 @@ export default function Home() {
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <Link
                                     href="/dashboard"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
+                                    className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
                                 >
                                     <Sparkles className="w-5 h-5" />
                                     Obtenir mon Score FinSight™
@@ -75,7 +76,7 @@ export default function Home() {
 
                                 <Link
                                     href="/auth/signup"
-                                    className="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-gray-300 hover:border-accent-primary hover:text-accent-primary rounded-xl font-semibold transition-all duration-200"
+                                    className="inline-flex items-center justify-center px-10 py-5 bg-white border-3 border-gray-300 hover:border-accent-primary hover:text-accent-primary text-lg font-bold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg"
                                 >
                                     Voir la démo
                                 </Link>
@@ -135,7 +136,7 @@ export default function Home() {
             </div>
 
             {/* Score FinSight™ Section - Corporate Premium with Animation */}
-            <section className="relative py-24 lg:py-32 bg-gray-50">
+            <section className="relative py-28 lg:py-36 bg-gray-50">
                 <div className="max-w-6xl mx-auto px-6">
 
                     {/* Badge Corporate */}
@@ -148,7 +149,7 @@ export default function Home() {
 
                     {/* Header Corporate */}
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
+                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
                             Le Score FinSight™
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -170,7 +171,7 @@ export default function Home() {
 
                     {/* Header */}
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
+                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
                             La différence FinSight
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -269,7 +270,7 @@ export default function Home() {
             <section id="features" className="py-20 bg-gray-50">
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
+                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
                             Notre approche en 4 piliers
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -495,7 +496,7 @@ export default function Home() {
                         <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-200 rounded-lg mb-6">
                             <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Ressources Gratuites</span>
                         </div>
-                        <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
+                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
                             Outils gratuits pour CFO et DAF
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -509,14 +510,14 @@ export default function Home() {
                         {/* Templates Excel */}
                         <Link
                             href="/ressources/templates"
-                            className="group relative bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-accent-primary hover:shadow-xl transition-all duration-300"
+                            className="group relative bg-gray-50 rounded-2xl p-8 border-2 border-gray-200 hover:border-accent-primary shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
                         >
                             <div className="flex flex-col h-full">
                                 {/* Icon */}
                                 <div className="mb-6">
-                                    <div className="w-14 h-14 rounded-xl bg-accent-primary-subtle border border-blue-100 flex items-center justify-center group-hover:bg-accent-primary-subtle transition-colors">
-                                        <svg className="w-7 h-7 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    <div className="w-16 h-16 rounded-xl bg-accent-primary-subtle border-2 border-blue-100 flex items-center justify-center group-hover:bg-accent-primary-subtle group-hover:border-accent-primary transition-colors">
+                                        <svg className="w-8 h-8 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                     </div>
                                 </div>
@@ -525,15 +526,15 @@ export default function Home() {
                                 <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent-primary transition-colors">
                                     Templates Excel
                                 </h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
+                                <p className="text-gray-600 mb-6 leading-relaxed flex-grow font-medium">
                                     Budget prévisionnel 2025, Tracker DSO et Dashboard Cash Flow avec formules automatiques
                                 </p>
 
                                 {/* CTA */}
-                                <div className="flex items-center gap-2 text-accent-primary font-semibold group-hover:gap-3 transition-all">
+                                <div className="flex items-center gap-2 text-accent-primary font-bold group-hover:gap-3 transition-all">
                                     <span>Découvrir</span>
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                     </svg>
                                 </div>
                             </div>
@@ -542,7 +543,7 @@ export default function Home() {
                         {/* Guides PDF */}
                         <Link
                             href="/ressources/guides"
-                            className="group relative bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-green-500 hover:shadow-xl transition-all duration-300"
+                            className="group relative bg-gray-50 rounded-2xl p-8 border-2 border-gray-200 hover:border-green-500 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
                         >
                             <div className="flex flex-col h-full">
                                 {/* Icon */}
@@ -575,7 +576,7 @@ export default function Home() {
                         {/* Calculateurs */}
                         <Link
                             href="/calculateurs"
-                            className="group relative bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-purple-500 hover:shadow-xl transition-all duration-300"
+                            className="group relative bg-gray-50 rounded-2xl p-8 border-2 border-gray-200 hover:border-purple-500 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
                         >
                             <div className="flex flex-col h-full">
                                 {/* Icon */}
