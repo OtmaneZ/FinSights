@@ -20,7 +20,7 @@ export default function AnimatedScoreDisplay() {
 
     // Scores réels du dashboard (850k€ CA, 28% marge, 180k€ tréso, runway 6 mois)
     const pillars: PillarScore[] = [
-        { icon: DollarSign, label: 'Cash & Liquidité', score: 18, max: 25, color: 'text-blue-600', bgColor: 'bg-blue-50' },
+        { icon: DollarSign, label: 'Cash & Liquidité', score: 18, max: 25, color: 'text-accent-primary', bgColor: 'bg-blue-50' },
         { icon: BarChart3, label: 'Marges & Rentabilité', score: 20, max: 25, color: 'text-green-600', bgColor: 'bg-green-50' },
         { icon: Shield, label: 'Résilience', score: 19, max: 25, color: 'text-purple-600', bgColor: 'bg-purple-50' },
         { icon: AlertTriangle, label: 'Gestion Risques', score: 15, max: 25, color: 'text-orange-600', bgColor: 'bg-orange-50' }
@@ -208,7 +208,7 @@ export default function AnimatedScoreDisplay() {
                                 {gaugeProgress >= 60 ? 'Santé financière correcte' : 'Attention requise'}
                             </div>
                             <div className={`inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg ${gaugeProgress >= 80 ? 'bg-green-50 text-green-600' :
-                                    gaugeProgress >= 60 ? 'bg-blue-50 text-blue-600' :
+                                    gaugeProgress >= 60 ? 'bg-blue-50 text-accent-primary' :
                                         gaugeProgress >= 40 ? 'bg-orange-50 text-orange-600' :
                                             'bg-red-50 text-red-600'
                                 }`}>

@@ -52,7 +52,7 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
                 className="ml-2 p-1 rounded-full hover:bg-gray-100 transition-colors group"
                 aria-label={`Informations sur ${kpiTitle}`}
             >
-                <InformationCircleIcon className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                <InformationCircleIcon className="w-5 h-5 text-gray-400 group-hover:text-accent-primary transition-colors" />
             </button>
 
             {isOpen && (
@@ -72,7 +72,7 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
                         style={{ maxHeight: '500px', overflowY: 'auto' }}
                     >
                         {/* Header */}
-                        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 rounded-t-lg">
+                        <div className="bg-gradient-to-r from-accent-primary to-indigo-600 text-white p-4 rounded-t-lg">
                             <div className="flex items-start justify-between">
                                 <div className="flex-1">
                                     <h3 className="font-bold text-lg">{glossaryEntry.title}</h3>
@@ -120,7 +120,7 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
                                         <span className="text-gray-700">{glossaryEntry.interpretation.excellent}</span>
                                     </div>
                                     <div className="flex items-start gap-2 text-sm">
-                                        <span className="text-blue-600 font-bold">👍</span>
+                                        <span className="text-accent-primary font-bold">👍</span>
                                         <span className="text-gray-700">{glossaryEntry.interpretation.good}</span>
                                     </div>
                                     <div className="flex items-start gap-2 text-sm">
@@ -149,7 +149,7 @@ export default function KPITooltip({ kpiTitle, children }: KPITooltipProps) {
                                             </div>
                                             <div className="flex items-center gap-3 mt-1 text-xs text-gray-600">
                                                 <span>Min: <strong>{benchmark.min}{benchmark.unit}</strong></span>
-                                                <span className="text-blue-600">Médiane: <strong>{benchmark.median}{benchmark.unit}</strong></span>
+                                                <span className="text-accent-primary">Médiane: <strong>{benchmark.median}{benchmark.unit}</strong></span>
                                                 <span>Max: <strong>{benchmark.max}{benchmark.unit}</strong></span>
                                             </div>
                                         </div>

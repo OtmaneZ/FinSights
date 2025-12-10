@@ -85,38 +85,38 @@ export default function Header() {
 
                         {/* Resources Dropdown Menu */}
                         {isResourcesOpen && (
-                            <div className="absolute left-0 mt-2 w-48 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50">
+                            <div className="absolute left-0 mt-2 w-48 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50 animate-slide-up">
                                 <Link
                                     href="/ressources/templates"
-                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
                                     onClick={() => setIsResourcesOpen(false)}
                                 >
                                     Templates
                                 </Link>
                                 <Link
                                     href="/calculateurs"
-                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
                                     onClick={() => setIsResourcesOpen(false)}
                                 >
                                     Calculateurs
                                 </Link>
                                 <Link
                                     href="/ressources/guides"
-                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
                                     onClick={() => setIsResourcesOpen(false)}
                                 >
                                     Guides
                                 </Link>
                                 <Link
                                     href="/blog"
-                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
                                     onClick={() => setIsResourcesOpen(false)}
                                 >
                                     Blog
                                 </Link>
                                 <Link
                                     href="/methodologie"
-                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
                                     onClick={() => setIsResourcesOpen(false)}
                                 >
                                     Méthodologie Score FinSight™
@@ -142,7 +142,7 @@ export default function Header() {
                             <div className="relative" ref={dropdownRef}>
                                 <button
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="flex items-center gap-3 px-4 py-2 bg-surface-elevated hover:bg-surface-hover border border-border-default rounded-lg transition-all"
+                                    className="flex items-center gap-3 px-4 py-2 bg-surface-elevated hover:bg-surface-hover border border-border-default rounded-lg transition-all duration-200 hover:shadow-md"
                                 >
                                     {/* Plan Badge */}
                                     <span className={`px-2 py-0.5 text-xs font-semibold rounded border ${getPlanBadgeColor(session.user?.plan || 'FREE')}`}>
@@ -157,7 +157,7 @@ export default function Header() {
 
                                 {/* Dropdown Menu */}
                                 {isDropdownOpen && (
-                                    <div className="absolute right-0 mt-2 w-56 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50">
+                                    <div className="absolute right-0 mt-2 w-56 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50 animate-slide-up">
                                         {/* User Info */}
                                         <div className="px-4 py-3 border-b border-border-default">
                                             <p className="text-sm font-semibold text-primary truncate">

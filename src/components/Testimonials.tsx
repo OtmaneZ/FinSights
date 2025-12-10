@@ -83,11 +83,11 @@ export default function Testimonials() {
                             {/* Header avec icône et titre */}
                             <div className="flex items-start gap-3 mb-5">
                                 <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                                    <Icon className="w-5 h-5 text-blue-600" />
+                                    <Icon className="w-5 h-5 text-accent-primary" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-base leading-tight mb-1">{useCase.title}</h3>
-                                    <div className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs font-medium">
+                                    <div className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-accent-primary rounded text-xs font-medium">
                                         {useCase.metricImprovement}
                                     </div>
                                 </div>
@@ -117,7 +117,7 @@ export default function Testimonials() {
 
                             {/* Footer avec pilier */}
                             <div className="pt-3 border-t border-border-subtle">
-                                <span className="text-xs text-blue-600 font-medium">
+                                <span className="text-xs text-accent-primary font-medium">
                                     {useCase.pillar}
                                 </span>
                             </div>

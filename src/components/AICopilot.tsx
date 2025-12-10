@@ -116,7 +116,7 @@ export default function AICopilot() {
     return (
         <div className="surface rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+            <div className="bg-gradient-to-r from-accent-primary to-blue-700 px-6 py-4">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 surface/20 rounded-full flex items-center justify-center">
                         <span className="text-2xl">🤖</span>
@@ -145,7 +145,7 @@ export default function AICopilot() {
                 {messages.map((message) => (
                     <div key={message.id} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-[75%] rounded-2xl px-5 py-3 ${message.isUser
-                            ? 'bg-blue-600 text-white shadow-lg'
+                            ? 'bg-accent-primary text-white shadow-lg'
                             : 'bg-gradient-to-br from-blue-50/50 to-indigo-50/50 border-2 border-blue-200 text-gray-900 shadow-md'
                             }`}>
                             <div className="prose prose-sm max-w-none">
@@ -177,9 +177,9 @@ export default function AICopilot() {
                         <div className="surface border-2 border-gray-200 rounded-2xl px-5 py-3 shadow-md">
                             <div className="flex items-center gap-2">
                                 <div className="flex gap-1">
-                                    <span className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                                    <span className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                                    <span className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                                    <span className="w-2 h-2 bg-accent-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                                    <span className="w-2 h-2 bg-accent-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                                    <span className="w-2 h-2 bg-accent-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                                 </div>
                                 <p className="text-sm text-gray-600 ml-2">IA en train d'analyser...</p>
                             </div>
@@ -205,7 +205,7 @@ export default function AICopilot() {
                     <button
                         onClick={handleSend}
                         disabled={isLoading || !input.trim()}
-                        className="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
+                        className="bg-accent-primary text-white px-8 py-3 rounded-xl font-semibold hover:bg-accent-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
                     >
                         {isLoading ? '⏳' : 'Envoyer'}
                     </button>

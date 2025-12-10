@@ -16,7 +16,7 @@ export default function ConsultingSection() {
                     <div className="surface rounded-2xl p-6 border border-border-subtle surface-hover">
                         <div className="flex items-center gap-2 mb-4">
                             <div className="w-10 h-10 rounded-xl bg-blue-100 border border-blue-300 flex items-center justify-center">
-                                <Sparkles className="w-5 h-5 text-blue-600" />
+                                <Sparkles className="w-5 h-5 text-accent-primary" />
                             </div>
                             <div>
                                 <h3 className="text-xl font-bold">Diagnostic FinSight™</h3>
@@ -26,7 +26,7 @@ export default function ConsultingSection() {
 
                         <div className="mb-4">
                             <div className="flex items-baseline gap-2 mb-2">
-                                <span className="text-3xl font-bold text-blue-600">290€</span>
+                                <span className="text-3xl font-bold text-accent-primary">290€</span>
                             </div>
                             <p className="text-secondary text-xs">Livrable en 48h</p>
                         </div>
@@ -37,7 +37,7 @@ export default function ConsultingSection() {
                             <li>3 actions prioritaires immédiatement exploitables</li>
                         </ul>
 
-                        <Link href="/consulting" className="block w-full px-4 py-2.5 border-2 border-blue-600 hover:bg-blue-50 text-blue-600 rounded-lg font-semibold text-sm text-center transition-all">
+                        <Link href="/consulting" className="block w-full px-4 py-2.5 border-2 border-accent-primary hover:bg-blue-50 text-accent-primary rounded-lg font-semibold text-sm text-center transition-all">
                             Commander
                         </Link>
                     </div>

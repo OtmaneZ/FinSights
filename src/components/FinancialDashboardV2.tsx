@@ -1439,7 +1439,7 @@ export default function FinancialDashboardV2() {
                                 <div className={`surface rounded-xl p-5 transition-all ${paiementsAcceleration > 0 ? 'border-2 border-accent-blue' : ''}`}>
                                     <div className="mb-4">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <Zap className="w-8 h-8 text-blue-600" />
+                                            <Zap className="w-8 h-8 text-accent-primary" />
                                             <h4 className="text-base font-bold">Relance créances</h4>
                                         </div>
                                         <p className="text-xs text-secondary">

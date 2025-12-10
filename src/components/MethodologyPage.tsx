@@ -25,7 +25,7 @@ export default function MethodologyPage() {
                     tableau de bord décisionnel en 2-3 jours seulement.
                 </p>
                 <div className="mt-6 inline-flex items-center px-4 py-2 bg-blue-50 rounded-lg">
-                    <ClockIcon className="h-5 w-5 text-blue-600 mr-2" />
+                    <ClockIcon className="h-5 w-5 text-accent-primary mr-2" />
                     <span className="text-blue-800 font-medium">Livraison garantie en 72h</span>
                 </div>
             </div>
@@ -38,7 +38,7 @@ export default function MethodologyPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div className="text-center">
                         <div className="bg-blue-100 rounded-lg p-4 w-16 h-16 mx-auto flex items-center justify-center mb-4">
-                            <ChatBubbleLeftRightIcon className="h-8 w-8 text-blue-600" />
+                            <ChatBubbleLeftRightIcon className="h-8 w-8 text-accent-primary" />
                         </div>
                         <h4 className="font-semibold text-gray-900 mb-2">1. Audit Express</h4>
                         <p className="text-sm text-gray-600">
@@ -79,7 +79,7 @@ export default function MethodologyPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="surface rounded-lg shadow-lg p-6">
                     <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                        <DocumentTextIcon className="h-6 w-6 text-blue-600 mr-2" />
+                        <DocumentTextIcon className="h-6 w-6 text-accent-primary mr-2" />
                         Livrables Inclus
                     </h3>
                     <ul className="space-y-3">
@@ -180,7 +180,7 @@ export default function MethodologyPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="surface rounded-lg p-6 shadow-md">
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">Dashboard Express</h4>
-                        <div className="text-3xl font-bold text-blue-600 mb-4">1 800€</div>
+                        <div className="text-3xl font-bold text-accent-primary mb-4">1 800€</div>
                         <ul className="space-y-2 text-sm text-gray-600 mb-6">
                             <li>• Dashboard 3-5 KPIs</li>
                             <li>• 1 source de données</li>
@@ -199,7 +199,7 @@ export default function MethodologyPage() {
                             <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">Populaire</span>
                         </div>
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">Dashboard Pro</h4>
-                        <div className="text-3xl font-bold text-blue-600 mb-4">2 800€</div>
+                        <div className="text-3xl font-bold text-accent-primary mb-4">2 800€</div>
                         <ul className="space-y-2 text-sm text-gray-600 mb-6">
                             <li>• Dashboard complet 6-10 KPIs</li>
                             <li>• 2-3 sources de données</li>
@@ -216,7 +216,7 @@ export default function MethodologyPage() {
 
                     <div className="surface rounded-lg p-6 shadow-md">
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">Solution Custom</h4>
-                        <div className="text-3xl font-bold text-blue-600 mb-4">Sur devis</div>
+                        <div className="text-3xl font-bold text-accent-primary mb-4">Sur devis</div>
                         <ul className="space-y-2 text-sm text-gray-600 mb-6">
                             <li>• Développement sur-mesure</li>
                             <li>• Multi-sources complexes</li>
@@ -268,7 +268,7 @@ export default function MethodologyPage() {
             </div>
 
             {/* Contact CTA */}
-            <div className="text-center bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg p-8 text-white">
+            <div className="text-center bg-gradient-to-r from-accent-primary to-indigo-600 rounded-lg p-8 text-white">
                 <h3 className="text-2xl font-bold mb-4">Prêt à Transformer Vos Données ?</h3>
                 <p className="text-xl mb-6 opacity-90">
                     Discutons de vos besoins lors d'un audit gratuit de 30 minutes
@@ -278,7 +278,7 @@ export default function MethodologyPage() {
                         href="https://calendly.com/zineinsight"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="surface text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                        className="surface text-accent-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
                     >
                         � Prendre rendez-vous
                     </a>
@@ -286,7 +286,7 @@ export default function MethodologyPage() {
                         href="https://calendly.com/otmane-zineinsight/audit-dashboard"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
+                        className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-accent-primary transition-colors"
                     >
                         📅 Réserver un Créneau
                     </a>

@@ -69,7 +69,7 @@ export default function RealtimeToast({ notifications, onDismiss }: RealtimeToas
                     {/* Icon */}
                     <div className="flex-shrink-0">
                         {notification.type === 'file-upload' && (
-                            <DocumentArrowUpIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                            <DocumentArrowUpIcon className="w-6 h-6 text-accent-primary dark:text-blue-400" />
                         )}
                         {notification.type === 'kpi-update' && (
                             <ChartBarIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -87,7 +87,7 @@ export default function RealtimeToast({ notifications, onDismiss }: RealtimeToas
                             <CheckCircleIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
                         )}
                         {notification.type === 'info' && (
-                            <InformationCircleIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                            <InformationCircleIcon className="w-6 h-6 text-accent-primary dark:text-blue-400" />
                         )}
                     </div>
 

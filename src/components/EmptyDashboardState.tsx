@@ -8,7 +8,7 @@ export default function EmptyDashboardState() {
             {/* Hero Section */}
             <div className="text-center max-w-3xl mx-auto">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 mb-6">
-                    <SparklesIcon className="h-5 w-5 text-blue-600" />
+                    <SparklesIcon className="h-5 w-5 text-accent-primary" />
                     <span className="text-sm font-semibold text-blue-700">Dashboard Adaptatif</span>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -24,7 +24,7 @@ export default function EmptyDashboardState() {
             <div className="max-w-2xl mx-auto">
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-8">
                     <div className="text-center">
-                        <CloudArrowUpIcon className="h-16 w-16 text-blue-600 mx-auto mb-4" />
+                        <CloudArrowUpIcon className="h-16 w-16 text-accent-primary mx-auto mb-4" />
                         <h3 className="text-xl font-semibold text-gray-900 mb-2">
                             Commencez par uploader vos données
                         </h3>
@@ -44,7 +44,7 @@ export default function EmptyDashboardState() {
                                 }}
                             />
                             <div className="border-2 border-dashed border-blue-300 rounded-lg p-12 hover:border-blue-400 hover:bg-blue-50/50 transition-all cursor-pointer">
-                                <div className="text-blue-600 font-semibold text-lg">
+                                <div className="text-accent-primary font-semibold text-lg">
                                     Cliquez ici ou glissez votre fichier
                                 </div>
                                 <div className="text-xs text-gray-500 mt-2">
@@ -56,7 +56,7 @@ export default function EmptyDashboardState() {
                         {/* Message rassurant + infos qualité */}
                         <div className="mb-4 p-4 border-l-4 border-blue-500 bg-white border border-blue-200 rounded-lg">
                             <p className="text-sm text-gray-900 font-semibold mb-2 flex items-center gap-2">
-                                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 Aucun compte requis • Analyse instantanée
@@ -89,7 +89,7 @@ export default function EmptyDashboardState() {
                     <div className="surface border-2 border-gray-200 rounded-xl p-6 hover:border-blue-300 hover:shadow-lg transition-all">
                         <div className="flex items-center gap-2 mb-4">
                             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                <span className="text-lg font-bold text-blue-600">1</span>
+                                <span className="text-lg font-bold text-accent-primary">1</span>
                             </div>
                             <h4 className="font-bold text-gray-900">Niveau Basique</h4>
                         </div>
@@ -123,7 +123,7 @@ export default function EmptyDashboardState() {
 
                     {/* Niveau 2 */}
                     <div className="surface border-2 border-blue-300 rounded-xl p-6 shadow-lg relative">
-                        <div className="absolute -top-3 -right-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        <div className="absolute -top-3 -right-3 bg-accent-primary text-white text-xs font-bold px-3 py-1 rounded-full">
                             Recommandé
                         </div>
 
@@ -137,8 +137,8 @@ export default function EmptyDashboardState() {
                         <div className="bg-blue-50 rounded-lg p-3 mb-4 font-mono text-xs text-gray-700 border border-blue-200">
                             <div className="font-semibold mb-1">Colonnes requises :</div>
                             <div>• Date, Montant</div>
-                            <div className="text-blue-600 font-semibold">+ Catégorie</div>
-                            <div className="text-blue-600 font-semibold">+ Contrepartie</div>
+                            <div className="text-accent-primary font-semibold">+ Catégorie</div>
+                            <div className="text-accent-primary font-semibold">+ Contrepartie</div>
                         </div>
 
                         <div className="space-y-2 text-sm">
@@ -243,7 +243,7 @@ export default function EmptyDashboardState() {
                                     a.download = 'template-niveau2-enrichi.csv';
                                     a.click();
                                 }}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm"
+                                className="px-4 py-2 bg-accent-primary text-white rounded-lg text-sm font-medium hover:bg-accent-primary-hover transition-colors shadow-sm"
                             >
                                 📊 Template Niveau 2 (Recommandé)
                             </button>

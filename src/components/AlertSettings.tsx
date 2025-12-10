@@ -143,7 +143,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-3">
                                                 <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                                                    <BellAlertIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                                    <BellAlertIcon className="w-6 h-6 text-accent-primary dark:text-blue-400" />
                                                 </div>
                                                 <div>
                                                     <Dialog.Title className="text-xl font-bold text-gray-900 dark:text-white">
@@ -266,7 +266,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                                                         onChange={() => toggleAlertEnabled(index)}
                                                                         className="sr-only peer"
                                                                     />
-                                                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:surface after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:surface after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-accent-primary"></div>
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -315,7 +315,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                                                         type="checkbox"
                                                                         checked={alert.emailEnabled}
                                                                         onChange={() => toggleEmailEnabled(index)}
-                                                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                                        className="w-4 h-4 text-accent-primary bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                                                     />
                                                                     <span className="text-sm text-gray-700 dark:text-gray-300">
                                                                         Recevoir un email pour chaque anomalie détectée
@@ -352,7 +352,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
                                                     disabled={isSaving || !hasChanges}
                                                     className={`px-6 py-2 text-sm font-medium text-white rounded-lg transition-all ${isSaving || !hasChanges
                                                             ? 'bg-gray-400 cursor-not-allowed'
-                                                            : 'bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/50'
+                                                            : 'bg-accent-primary hover:bg-accent-primary-hover shadow-lg shadow-blue-500/50'
                                                         }`}
                                                 >
                                                     {isSaving ? 'Enregistrement...' : hasChanges ? 'Enregistrer' : 'Sauvegardé'}

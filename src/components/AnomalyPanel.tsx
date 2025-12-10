@@ -179,7 +179,7 @@ export function AnomalyPanel({ anomalies, patterns = [], onDismiss, onInvestigat
                                         <div className="relative group">
                                             <button
                                                 onClick={() => onInvestigate?.(anomaly)}
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-all duration-200 hover:scale-110"
+                                                className="p-2 text-accent-primary hover:bg-blue-50 rounded transition-all duration-200 hover:scale-110"
                                                 title="Investiguer"
                                             >
                                                 <EyeIcon className="w-5 h-5" />
@@ -224,7 +224,7 @@ export function AnomalyPanel({ anomalies, patterns = [], onDismiss, onInvestigat
             {patterns && patterns.length > 0 && (
                 <div>
                     <div className="flex items-center gap-2 mb-4">
-                        <SparklesIcon className="w-6 h-6 text-blue-600" />
+                        <SparklesIcon className="w-6 h-6 text-accent-primary" />
                         <h3 className="text-lg font-semibold text-gray-900">
                             Patterns Détectés IA ({patterns.length})
                         </h3>
@@ -383,7 +383,7 @@ function getRiskSummary(anomalies: Anomaly[]): [string, number][] {
 function getPatternIcon(type: string) {
     switch (type) {
         case 'seasonality':
-            return <ChartBarIcon className="w-5 h-5 text-blue-600" />;
+            return <ChartBarIcon className="w-5 h-5 text-accent-primary" />;
         case 'correlation':
             return <SparklesIcon className="w-5 h-5 text-purple-600" />;
         case 'client_behavior':
@@ -395,7 +395,7 @@ function getPatternIcon(type: string) {
         case 'risk_signal':
             return <ExclamationTriangleIcon className="w-5 h-5 text-orange-600" />;
         default:
-            return <SparklesIcon className="w-5 h-5 text-blue-600" />;
+            return <SparklesIcon className="w-5 h-5 text-accent-primary" />;
     }
 }
 

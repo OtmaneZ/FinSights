@@ -117,7 +117,7 @@ export default function CommandPalette({
                             onSelect={() => handleAction(onExportPDF || (() => { }))}
                             className="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors data-[selected=true]:bg-blue-50 dark:data-[selected=true]:bg-blue-900/20"
                         >
-                            <DocumentArrowDownIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                            <DocumentArrowDownIcon className="w-5 h-5 text-accent-primary dark:text-blue-400" />
                             <div className="flex-1">
                                 <div className="font-medium text-gray-900 dark:text-white">
                                     Exporter PDF

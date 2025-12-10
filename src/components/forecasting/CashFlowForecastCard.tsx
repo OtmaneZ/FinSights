@@ -84,7 +84,7 @@ export default function CashFlowForecastCard({ forecast }: CashFlowForecastCardP
                 <div className="flex items-start justify-between">
                     <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                            <ChartBarIcon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                            <ChartBarIcon className="w-7 h-7 text-accent-primary dark:text-blue-400" />
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                                 📈 Prévisions Trésorerie
                             </h2>
@@ -164,7 +164,7 @@ export default function CashFlowForecastCard({ forecast }: CashFlowForecastCardP
                 {insights.length > 2 && (
                     <button
                         onClick={() => setShowAllInsights(!showAllInsights)}
-                        className="mt-4 w-full flex items-center justify-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+                        className="mt-4 w-full flex items-center justify-center gap-2 text-sm text-accent-primary dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
                     >
                         {showAllInsights ? (
                             <>
@@ -265,7 +265,7 @@ function InsightItem({ insight }: { insight: CashFlowForecast['insights'][0] }) 
                     {insight.recommendation && (
                         <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
                             <p className="text-xs text-gray-600 dark:text-gray-400 flex items-start gap-2">
-                                <span className="font-semibold text-blue-600 dark:text-blue-400">💡 Action:</span>
+                                <span className="font-semibold text-accent-primary dark:text-blue-400">💡 Action:</span>
                                 <span>{insight.recommendation}</span>
                             </p>
                         </div>

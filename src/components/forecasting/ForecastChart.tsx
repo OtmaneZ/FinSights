@@ -64,7 +64,7 @@ export function ForecastChart({
                 </p>
                 {isHistorical ? (
                     <div className="space-y-1">
-                        <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                        <p className="text-sm text-accent-primary dark:text-blue-400 font-medium">
                             Réel : {data.historical?.toLocaleString('fr-FR')} €
                         </p>
                     </div>
@@ -73,7 +73,7 @@ export function ForecastChart({
                         <p className="text-sm text-green-600 dark:text-green-400">
                             Optimiste : {data.optimistic?.toLocaleString('fr-FR')} €
                         </p>
-                        <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                        <p className="text-sm text-accent-primary dark:text-blue-400 font-medium">
                             Baseline : {data.baseline?.toLocaleString('fr-FR')} €
                         </p>
                         <p className="text-sm text-orange-600 dark:text-orange-400">

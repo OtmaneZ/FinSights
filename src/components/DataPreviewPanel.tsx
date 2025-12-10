@@ -104,7 +104,7 @@ export const DataPreviewPanel: React.FC<DataPreviewPanelProps> = ({ rawData, com
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border border-blue-200">
                     <div className="flex items-center gap-2 mb-2">
-                        <DocumentTextIcon className="w-5 h-5 text-blue-600" />
+                        <DocumentTextIcon className="w-5 h-5 text-accent-primary" />
                         <span className="text-xs font-semibold text-blue-700 uppercase">
                             Transactions
                         </span>

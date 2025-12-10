@@ -19,8 +19,8 @@ export default function ScoreMethodologyPage() {
             {/* Hero Section */}
             <div className="text-center">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg mb-6">
-                    <Calculator className="w-4 h-4 text-blue-600" />
-                    <span className="text-blue-600 text-sm font-semibold">Transparence Totale</span>
+                    <Calculator className="w-4 h-4 text-accent-primary" />
+                    <span className="text-accent-primary text-sm font-semibold">Transparence Totale</span>
                 </div>
                 <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
                     Méthodologie du Score FinSight™
@@ -43,7 +43,7 @@ export default function ScoreMethodologyPage() {
                     </p>
 
                     <div className="grid md:grid-cols-2 gap-6 my-8">
-                        <div className="border-l-4 border-blue-600 bg-blue-50 p-6 rounded-r-lg">
+                        <div className="border-l-4 border-accent-primary bg-blue-50 p-6 rounded-r-lg">
                             <h3 className="font-bold text-gray-900 mb-2">Pourquoi 0-100 ?</h3>
                             <p className="text-sm text-gray-600">
                                 Une échelle universelle, facile à comprendre et à communiquer.
@@ -62,7 +62,7 @@ export default function ScoreMethodologyPage() {
 
                     <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
                         <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                            <Info className="w-5 h-5 text-blue-600" />
+                            <Info className="w-5 h-5 text-accent-primary" />
                             Interprétation du score
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -79,7 +79,7 @@ export default function ScoreMethodologyPage() {
                                 <div className="text-xs text-gray-600">Bon</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-2xl font-bold text-blue-600 mb-1">80-100</div>
+                                <div className="text-2xl font-bold text-accent-primary mb-1">80-100</div>
                                 <div className="text-xs text-gray-600">Excellent</div>
                             </div>
                         </div>
@@ -99,13 +99,13 @@ export default function ScoreMethodologyPage() {
                 <div className="space-y-8">
                     {/* Pilier 1 : CASH */}
                     <div className="surface rounded-2xl border-2 border-border-default overflow-hidden">
-                        <div className="border-l-4 border-blue-600 bg-blue-50 p-6">
+                        <div className="border-l-4 border-accent-primary bg-blue-50 p-6">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center">
+                                <div className="w-12 h-12 rounded-lg bg-accent-primary flex items-center justify-center">
                                     <DollarSign className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <div className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Pilier 1</div>
+                                    <div className="text-xs font-bold text-accent-primary uppercase tracking-wider mb-1">Pilier 1</div>
                                     <h3 className="text-2xl font-bold text-gray-900">CASH • Trésorerie & Liquidité</h3>
                                     <p className="text-sm text-gray-600 mt-1">0 à 25 points</p>
                                 </div>
@@ -115,7 +115,7 @@ export default function ScoreMethodologyPage() {
                         <div className="p-6 space-y-4">
                             <div className="flex items-start gap-4 pb-4 border-b border-gray-200">
                                 <div className="w-20 text-center">
-                                    <div className="text-2xl font-bold text-blue-600">15pts</div>
+                                    <div className="text-2xl font-bold text-accent-primary">15pts</div>
                                     <div className="text-xs text-gray-500">max</div>
                                 </div>
                                 <div className="flex-1">
@@ -143,7 +143,7 @@ export default function ScoreMethodologyPage() {
 
                             <div className="flex items-start gap-4 pb-4 border-b border-gray-200">
                                 <div className="w-20 text-center">
-                                    <div className="text-2xl font-bold text-blue-600">5pts</div>
+                                    <div className="text-2xl font-bold text-accent-primary">5pts</div>
                                     <div className="text-xs text-gray-500">max</div>
                                 </div>
                                 <div className="flex-1">
@@ -167,7 +167,7 @@ export default function ScoreMethodologyPage() {
 
                             <div className="flex items-start gap-4">
                                 <div className="w-20 text-center">
-                                    <div className="text-2xl font-bold text-blue-600">5pts</div>
+                                    <div className="text-2xl font-bold text-accent-primary">5pts</div>
                                     <div className="text-xs text-gray-500">max</div>
                                 </div>
                                 <div className="flex-1">
@@ -443,7 +443,7 @@ export default function ScoreMethodologyPage() {
                                             <span>Chaque anomalie critique : <strong>-3 points</strong></span>
                                         </li>
                                         <li className="flex items-center gap-2">
-                                            <Info className="w-4 h-4 text-blue-600" />
+                                            <Info className="w-4 h-4 text-accent-primary" />
                                             <span>Maximum : -10 points (plafonné)</span>
                                         </li>
                                         <li className="text-xs text-gray-500 mt-2">
@@ -466,7 +466,7 @@ export default function ScoreMethodologyPage() {
                                             <span>Chaque anomalie (toute gravité) : <strong>-0.5 point</strong></span>
                                         </li>
                                         <li className="flex items-center gap-2">
-                                            <Info className="w-4 h-4 text-blue-600" />
+                                            <Info className="w-4 h-4 text-accent-primary" />
                                             <span>Maximum : -5 points (plafonné)</span>
                                         </li>
                                     </ul>
@@ -486,7 +486,7 @@ export default function ScoreMethodologyPage() {
                                             <span>Coefficient de variation normalisé (0-1) × 10</span>
                                         </li>
                                         <li className="flex items-center gap-2">
-                                            <Info className="w-4 h-4 text-blue-600" />
+                                            <Info className="w-4 h-4 text-accent-primary" />
                                             <span>Maximum : -10 points (plafonné)</span>
                                         </li>
                                         <li className="text-xs text-gray-500 mt-2">
@@ -518,11 +518,11 @@ export default function ScoreMethodologyPage() {
                         <div className="p-6 space-y-4">
                             <div className="flex items-center justify-between pb-2 border-b">
                                 <div className="flex items-center gap-2">
-                                    <DollarSign className="w-4 h-4 text-blue-600" />
+                                    <DollarSign className="w-4 h-4 text-accent-primary" />
                                     <span className="font-medium">CASH</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-2xl font-bold text-blue-600">23</span>
+                                    <span className="text-2xl font-bold text-accent-primary">23</span>
                                     <span className="text-sm text-gray-500">/25</span>
                                 </div>
                             </div>
@@ -595,11 +595,11 @@ export default function ScoreMethodologyPage() {
                         <div className="p-6 space-y-4">
                             <div className="flex items-center justify-between pb-2 border-b">
                                 <div className="flex items-center gap-2">
-                                    <DollarSign className="w-4 h-4 text-blue-600" />
+                                    <DollarSign className="w-4 h-4 text-accent-primary" />
                                     <span className="font-medium">CASH</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-2xl font-bold text-blue-600">9</span>
+                                    <span className="text-2xl font-bold text-accent-primary">9</span>
                                     <span className="text-sm text-gray-500">/25</span>
                                 </div>
                             </div>
@@ -666,7 +666,7 @@ export default function ScoreMethodologyPage() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-8">FAQ Technique</h2>
 
                 <div className="space-y-6">
-                    <div className="border-l-4 border-blue-600 bg-blue-50 p-6 rounded-r-lg">
+                    <div className="border-l-4 border-accent-primary bg-blue-50 p-6 rounded-r-lg">
                         <h3 className="font-bold text-gray-900 mb-2">Comment gérez-vous les données manquantes ?</h3>
                         <p className="text-sm text-gray-700 leading-relaxed">
                             Nous utilisons un <strong>système de confiance à 3 niveaux</strong> :
@@ -769,14 +769,14 @@ export default function ScoreMethodologyPage() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a
                         href="/dashboard"
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all shadow-lg"
+                        className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all shadow-lg"
                     >
                         <BarChart3 className="w-5 h-5" />
                         Calculer mon score gratuitement
                     </a>
                     <a
                         href="/pricing"
-                        className="inline-flex items-center gap-2 px-8 py-4 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 rounded-lg font-semibold transition-all"
+                        className="inline-flex items-center gap-2 px-8 py-4 border-2 border-accent-primary text-accent-primary hover:bg-blue-50 rounded-lg font-semibold transition-all"
                     >
                         Voir les formules Business
                     </a>

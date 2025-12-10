@@ -46,7 +46,7 @@ const calculators: CalculatorConfig[] = [
         title: 'Calculateur DSO',
         description: 'Days Sales Outstanding - Délai moyen de paiement clients',
         icon: TrendingUp,
-        color: 'from-blue-500 to-blue-600',
+        color: 'from-blue-500 to-accent-primary',
         inputs: [
             { key: 'creances', label: 'Créances clients', placeholder: '150000', unit: '€', tooltip: 'Factures non encore encaissées' },
             { key: 'ca', label: 'Chiffre d\'affaires annuel', placeholder: '1200000', unit: '€' }
@@ -69,7 +69,7 @@ const calculators: CalculatorConfig[] = [
                     niveau: 'bon',
                     icone: CheckCircle,
                     titre: '✅ Bon',
-                    couleur: 'text-blue-600',
+                    couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'DSO dans la norme. Continuez ce rythme !'
                 }
@@ -137,7 +137,7 @@ const calculators: CalculatorConfig[] = [
                     niveau: 'bon',
                     icone: CheckCircle,
                     titre: '✅ BFR maîtrisé',
-                    couleur: 'text-blue-600',
+                    couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'BFR représente moins d\'un mois de CA. Bonne gestion !'
                 }
@@ -204,7 +204,7 @@ const calculators: CalculatorConfig[] = [
                     niveau: 'bon',
                     icone: CheckCircle,
                     titre: '✅ ROI Positif',
-                    couleur: 'text-blue-600',
+                    couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'Bon retour sur investissement. Projet viable.'
                 }
@@ -269,7 +269,7 @@ const calculators: CalculatorConfig[] = [
                     niveau: 'bon',
                     icone: CheckCircle,
                     titre: '✅ Bonne Marge',
-                    couleur: 'text-blue-600',
+                    couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'Marge saine entre 50-100%. Rentabilité correcte.'
                 }
@@ -401,7 +401,7 @@ const calculators: CalculatorConfig[] = [
                     niveau: 'bon',
                     icone: CheckCircle,
                     titre: '✅ EBITDA Positif',
-                    couleur: 'text-blue-600',
+                    couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'EBITDA positif. Activité rentable avant financement.'
                 }
@@ -467,7 +467,7 @@ const calculators: CalculatorConfig[] = [
                     niveau: 'bon',
                     icone: CheckCircle,
                     titre: '✅ Bon Ratio',
-                    couleur: 'text-blue-600',
+                    couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: `Ratio ${ratio}:1 = Viable. Continuez à optimiser le CAC.`
                 }
@@ -541,7 +541,7 @@ const calculators: CalculatorConfig[] = [
                     niveau: 'confortable',
                     icone: CheckCircle,
                     titre: '✅ Runway Confortable',
-                    couleur: 'text-blue-600',
+                    couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: `${runway} mois de runway. Situation saine pour lever fonds.`
                 }
@@ -634,7 +634,7 @@ const calculators: CalculatorConfig[] = [
                     niveau: 'mid-value',
                     icone: CheckCircle,
                     titre: '✅ PME Rentable',
-                    couleur: 'text-blue-600',
+                    couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'EBITDA solide. Valorisation intéressante pour acquéreur stratégique.'
                 }

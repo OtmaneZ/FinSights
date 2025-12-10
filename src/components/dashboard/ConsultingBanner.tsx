@@ -34,7 +34,7 @@ export default function ConsultingBanner({ variant = 'subtle', score }: Consulti
                         w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
                         ${isWarning ? 'bg-orange-100' : 'bg-blue-100'}
                     `}>
-                        <Sparkles className={`w-5 h-5 ${isWarning ? 'text-orange-600' : 'text-blue-600'}`} />
+                        <Sparkles className={`w-5 h-5 ${isWarning ? 'text-orange-600' : 'text-accent-primary'}`} />
                     </div>
                     <div>
                         <p className="text-sm font-semibold text-gray-900 mb-1">
@@ -57,7 +57,7 @@ export default function ConsultingBanner({ variant = 'subtle', score }: Consulti
                         inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-sm whitespace-nowrap transition-all
                         ${isWarning
                             ? 'bg-orange-600 text-white hover:bg-orange-700 shadow-md hover:shadow-lg'
-                            : 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-accent-primary text-white hover:bg-accent-primary-hover'
                         }
                     `}
                 >

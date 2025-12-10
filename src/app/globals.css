@@ -42,6 +42,41 @@ body {
     }
 }
 
+/* ==========================================
+   PREMIUM TYPOGRAPHY & UTILITIES - 2025
+   ========================================== */
+
+/* Tabular numbers for consistent KPIs alignment */
+.font-tabular {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Premium headings with tight tracking */
+.heading-premium {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+/* Uppercase labels */
+.label-uppercase {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+/* Focus visible states - accessibility */
+.focus-premium:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+/* Smooth transitions */
+.transition-premium {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* � Animation Cookie Banner */
 @keyframes slide-up {
     from {
@@ -123,7 +158,7 @@ body {
 
 /* Classe pour animation modal content */
 .drill-down-modal {
-    animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Classe pour animation liste items */
@@ -131,7 +166,7 @@ body {
     animation: slideUp 0.4s ease-out;
 }
 
-/* Stagger animation pour items */
+/* Stagger animation pour items - Premium */
 .drill-down-item:nth-child(1) {
     animation-delay: 0.05s;
 }

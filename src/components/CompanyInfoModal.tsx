@@ -77,7 +77,7 @@ export const CompanyInfoModal: React.FC<CompanyInfoModalProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm">
             <div className="surface rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white relative">
+                <div className="bg-gradient-to-r from-accent-primary to-purple-600 p-6 text-white relative">
                     <button
                         onClick={handleClose}
                         className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
@@ -130,7 +130,7 @@ export const CompanyInfoModal: React.FC<CompanyInfoModalProps> = ({
                                         setError('');
                                     }}
                                     className={`p-4 border-2 rounded-lg text-left transition-all ${sector === sectorOption.value
-                                        ? 'border-blue-600 bg-blue-50'
+                                        ? 'border-accent-primary bg-blue-50'
                                         : 'border-slate-200 hover:border-blue-300 hover:bg-slate-50'
                                         }`}
                                 >
@@ -173,7 +173,7 @@ export const CompanyInfoModal: React.FC<CompanyInfoModalProps> = ({
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 shadow-lg transition-all"
+                            className="flex-1 px-6 py-3 bg-gradient-to-r from-accent-primary to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 shadow-lg transition-all"
                         >
                             Valider
                         </button>

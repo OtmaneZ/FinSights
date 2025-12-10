@@ -28,14 +28,16 @@
     /* Hover states - gris plus visible */
 
     /* ==========================================
-     BORDERS & DIVIDERS - Subtle but visible
+     BORDERS & DIVIDERS - Premium visibility (2025)
      ========================================== */
     --border-subtle: #e9ecef;
     /* Bordures très discrètes */
-    --border-default: #dee2e6;
-    /* Bordures normales */
+    --border-default: #e0e7ef;
+    /* Bordures normales - plus visibles */
     --border-strong: #adb5bd;
     /* Focus, active states */
+    --border-focus: #0078d4;
+    /* Focus ring premium */
 
     /* ==========================================
      TEXT COLORS - Dark on Light
@@ -122,13 +124,17 @@
     --accent-blue-border: var(--accent-info-border);
 
     /* ==========================================
-     SHADOWS - Subtle elevation
+     SHADOWS - Premium elevation (2025 best practices)
      ========================================== */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.12);
-    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 20px 30px rgba(0, 0, 0, 0.15), 0 8px 12px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 30px 60px rgba(0, 0, 0, 0.18), 0 12px 24px rgba(0, 0, 0, 0.12);
+
+    /* Premium card shadows */
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
 
     /* ==========================================
      SPACING SCALE (identique ancien système)
@@ -186,27 +192,29 @@
     --radius-full: 9999px;
 
     /* ==========================================
-     CHART COLORS - Data Visualization
+     CHART COLORS - Data Visualization (2025 modern)
      ========================================== */
     --chart-primary: #0078d4;
     /* Bleu principal */
-    --chart-success: #107c10;
-    /* Vert revenus */
-    --chart-danger: #d13438;
-    /* Rouge dépenses */
+    --chart-success: #10B981;
+    /* Vert moderne Tailwind - meilleure lisibilité */
+    --chart-danger: #EF4444;
+    /* Rouge vif mais lisible */
     --chart-warning: #f59e0b;
     /* Orange warnings */
+    --chart-info: #3B82F6;
+    /* Bleu info moderne */
     --chart-neutral: #6c757d;
     /* Gris axes */
     --chart-grid: #e9ecef;
     /* Grille charts */
 
-    /* Multi-series charts palette */
+    /* Multi-series charts palette (harmonisée 2025) */
     --chart-series-1: #0078d4;
-    --chart-series-2: #107c10;
+    --chart-series-2: #10B981;
     --chart-series-3: #8b5cf6;
     --chart-series-4: #f59e0b;
-    --chart-series-5: #d13438;
+    --chart-series-5: #EF4444;
     --chart-series-6: #06b6d4;
     --chart-series-7: #ec4899;
     --chart-series-8: #6c757d;
@@ -443,55 +451,65 @@
 }
 
 /* ==========================================
-   COMPONENT PATTERNS - Common UI elements
+   COMPONENT PATTERNS - Premium UI 2025
    ========================================== */
 
-/* Card component */
+/* Card component - Premium elevation */
 .card {
     background: var(--surface-elevated);
     border: 1px solid var(--border-default);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.2s ease;
+    box-shadow: var(--shadow-card);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover {
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-card-hover);
     border-color: var(--border-strong);
+    transform: translateY(-2px);
 }
 
-/* Button primary */
+/* Button primary - 2025 premium style */
 .btn-primary {
     background: var(--accent-primary);
     color: white;
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius-xl);
     font-weight: var(--font-semibold);
+    font-size: var(--text-base);
     border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary:hover {
     background: var(--accent-primary-hover);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-1px);
 }
 
-/* Button secondary */
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Button secondary - Premium border style */
 .btn-secondary {
     background: transparent;
     color: var(--text-primary);
-    padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius-xl);
     font-weight: var(--font-semibold);
+    font-size: var(--text-base);
     border: 2px solid var(--border-default);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary:hover {
     border-color: var(--accent-primary);
+    color: var(--accent-primary);
     background: var(--accent-primary-subtle);
 }
 

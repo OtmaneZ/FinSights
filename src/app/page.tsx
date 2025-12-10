@@ -23,14 +23,14 @@ export default function Home() {
 
             {/* Hero Section - Premium 2 Columns Layout */}
             <section className="relative bg-gradient-to-br from-blue-50/40 to-white">
-                <div className="max-w-7xl mx-auto px-6 pt-24 pb-32">
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                <div className="max-w-7xl mx-auto px-6 pt-24 pb-32 lg:pt-32 lg:pb-40">
+                    <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
 
                         {/* LEFT: Content */}
                         <div className="space-y-8">
                             {/* Trust Badge - Corporate */}
-                            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border border-blue-200 rounded-xl shadow-sm">
-                                <Shield className="w-4 h-4 text-blue-600" />
+                            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border border-blue-100 rounded-xl shadow-sm">
+                                <Shield className="w-4 h-4 text-accent-primary" />
                                 <span className="text-sm font-semibold text-gray-700">
                                     Réponse instantanée • RGPD France • Sans engagement
                                 </span>
@@ -39,7 +39,7 @@ export default function Home() {
                             {/* H1 Corporate */}
                             <h1 className="text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-gray-900">
                                 Comprenez votre{' '}
-                                <span className="text-blue-600">
+                                <span className="text-accent-primary">
                                     santé financière
                                 </span>
                                 {' '}en moins de 2 minutes
@@ -67,7 +67,7 @@ export default function Home() {
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <Link
                                     href="/dashboard"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold shadow-lg hover:bg-blue-700 transition-colors"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
                                 >
                                     <Sparkles className="w-5 h-5" />
                                     Obtenir mon Score FinSight™
@@ -75,7 +75,7 @@ export default function Home() {
 
                                 <Link
                                     href="/auth/signup"
-                                    className="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-gray-300 hover:border-blue-600 rounded-xl font-semibold text-gray-900 transition-colors"
+                                    className="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-gray-300 hover:border-accent-primary hover:text-accent-primary rounded-xl font-semibold transition-all duration-200"
                                 >
                                     Voir la démo
                                 </Link>
@@ -108,10 +108,10 @@ export default function Home() {
 
             {/* CTA Consulting Banner - Subtle */}
             <div className="max-w-6xl mx-auto px-6 -mt-8 mb-12 relative z-10">
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 rounded-xl px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-accent-primary rounded-xl px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                            <Sparkles className="w-5 h-5 text-blue-600" />
+                        <div className="w-10 h-10 rounded-lg bg-accent-primary-subtle flex items-center justify-center flex-shrink-0">
+                            <Sparkles className="w-5 h-5 text-accent-primary" />
                         </div>
                         <div>
                             <p className="text-sm font-semibold text-gray-900">
@@ -124,7 +124,7 @@ export default function Home() {
                     </div>
                     <Link
                         href="/consulting"
-                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-accent-primary text-white text-sm font-semibold rounded-lg hover:bg-accent-primary-hover transition-colors whitespace-nowrap"
                     >
                         Voir nos offres
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,12 +135,12 @@ export default function Home() {
             </div>
 
             {/* Score FinSight™ Section - Corporate Premium with Animation */}
-            <section className="relative py-20 bg-gray-50">
+            <section className="relative py-24 lg:py-32 bg-gray-50">
                 <div className="max-w-6xl mx-auto px-6">
 
                     {/* Badge Corporate */}
                     <div className="flex justify-center mb-12">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-sm">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-lg shadow-sm">
                             <Sparkles className="w-4 h-4" />
                             <span className="text-xs font-semibold uppercase tracking-wider">Notre indicateur signature</span>
                         </div>
@@ -152,8 +152,8 @@ export default function Home() {
                             Le Score FinSight™
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                            Nous analysons <span className="font-semibold text-blue-600">12+ KPIs financiers</span> et les condensons en un score unique de{' '}
-                            <span className="font-semibold text-blue-600">0 à 100</span>.
+                            Nous analysons <span className="font-semibold text-accent-primary">12+ KPIs financiers</span> et les condensons en un score unique de{' '}
+                            <span className="font-semibold text-accent-primary">0 à 100</span>.
                             <br />
                             Simple à comprendre. Impossible à ignorer.
                         </p>
@@ -216,9 +216,9 @@ export default function Home() {
                         </div>
 
                         {/* APRÈS - Avec FinSight */}
-                        <div className="relative bg-gradient-to-br from-blue-50/50 to-white rounded-2xl p-8 border border-blue-200/60 shadow-sm">
+                        <div className="relative bg-gradient-to-br from-blue-50/50 to-white rounded-2xl p-8 border border-blue-100/60 shadow-sm">
                             {/* Badge premium */}
-                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-md mb-6 text-xs font-semibold uppercase tracking-wider shadow-sm">
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-primary text-white rounded-md mb-6 text-xs font-semibold uppercase tracking-wider shadow-sm">
                                 Avec FinSight
                             </div>
 
@@ -234,15 +234,15 @@ export default function Home() {
                                     { text: 'Anticipation des tensions de trésorerie', metric: '90j' }
                                 ].map((item, idx) => (
                                     <li key={idx} className="flex items-start gap-3 text-gray-900 text-sm">
-                                        <div className="w-4 h-4 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <svg className="w-2.5 h-2.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div className="w-4 h-4 rounded-full bg-accent-primary-subtle flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <svg className="w-2.5 h-2.5 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                             </svg>
                                         </div>
                                         <div className="flex-1">
                                             <span className="leading-relaxed font-medium">{item.text}</span>
                                             {item.metric && (
-                                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-blue-100 text-blue-700">
+                                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-accent-primary-subtle text-accent-primary">
                                                     {item.metric}
                                                 </span>
                                             )}
@@ -254,7 +254,7 @@ export default function Home() {
                             {/* Subtle indicator */}
                             <div className="mt-6 pt-6 border-t border-blue-100">
                                 <p className="text-xs text-gray-500 flex items-center gap-2">
-                                    <svg className="w-3.5 h-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg className="w-3.5 h-3.5 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                     </svg>
                                     Résultat en 10 secondes • 100% confidentiel
@@ -300,31 +300,31 @@ export default function Home() {
                                 <ul className="space-y-3 text-gray-700">
                                     <li className="flex items-start justify-between gap-3 group/item">
                                         <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <div className="w-1.5 h-1.5 rounded-full bg-accent-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
                                             <span className="group-hover/item:text-gray-900 transition-colors">Structure de marge et rentabilité</span>
                                         </div>
-                                        <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">28%</span>
+                                        <span className="text-xs font-semibold text-accent-primary bg-accent-primary-subtle px-2 py-1 rounded">28%</span>
                                     </li>
                                     <li className="flex items-start justify-between gap-3 group/item">
                                         <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <div className="w-1.5 h-1.5 rounded-full bg-accent-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
                                             <span className="group-hover/item:text-gray-900 transition-colors">Signaux faibles de trésorerie</span>
                                         </div>
-                                        <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">3 KPIs</span>
+                                        <span className="text-xs font-semibold text-accent-primary bg-accent-primary-subtle px-2 py-1 rounded">3 KPIs</span>
                                     </li>
                                     <li className="flex items-start justify-between gap-3 group/item">
                                         <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <div className="w-1.5 h-1.5 rounded-full bg-accent-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
                                             <span className="group-hover/item:text-gray-900 transition-colors">Dépendance clients (concentration)</span>
                                         </div>
-                                        <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">Top 5</span>
+                                        <span className="text-xs font-semibold text-accent-primary bg-accent-primary-subtle px-2 py-1 rounded">Top 5</span>
                                     </li>
                                     <li className="flex items-start justify-between gap-3 group/item">
                                         <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
+                                            <div className="w-1.5 h-1.5 rounded-full bg-accent-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
                                             <span className="group-hover/item:text-gray-900 transition-colors">Analyse des cycles de paiement</span>
                                         </div>
-                                        <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded">DSO</span>
+                                        <span className="text-xs font-semibold text-accent-primary bg-accent-primary-subtle px-2 py-1 rounded">DSO</span>
                                     </li>
                                 </ul>
                             </div>
@@ -509,20 +509,20 @@ export default function Home() {
                         {/* Templates Excel */}
                         <Link
                             href="/ressources/templates"
-                            className="group relative bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-blue-500 hover:shadow-xl transition-all duration-300"
+                            className="group relative bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-accent-primary hover:shadow-xl transition-all duration-300"
                         >
                             <div className="flex flex-col h-full">
                                 {/* Icon */}
                                 <div className="mb-6">
-                                    <div className="w-14 h-14 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
-                                        <svg className="w-7 h-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div className="w-14 h-14 rounded-xl bg-accent-primary-subtle border border-blue-100 flex items-center justify-center group-hover:bg-accent-primary-subtle transition-colors">
+                                        <svg className="w-7 h-7 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                     </div>
                                 </div>
 
                                 {/* Content */}
-                                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent-primary transition-colors">
                                     Templates Excel
                                 </h3>
                                 <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
@@ -530,7 +530,7 @@ export default function Home() {
                                 </p>
 
                                 {/* CTA */}
-                                <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
+                                <div className="flex items-center gap-2 text-accent-primary font-semibold group-hover:gap-3 transition-all">
                                     <span>Découvrir</span>
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

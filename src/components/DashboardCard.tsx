@@ -84,7 +84,7 @@ export default function DashboardCard({
     };
 
     return (
-        <div className="surface rounded-xl p-6 surface-hover group transition-all hover:shadow-lg relative">
+        <div className="surface rounded-xl p-6 surface-hover group transition-all duration-200 hover:shadow-card-hover hover:-translate-y-1 relative">
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">

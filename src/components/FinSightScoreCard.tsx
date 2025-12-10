@@ -31,13 +31,13 @@ export default function FinSightScoreCard({ score }: FinSightScoreProps) {
     const { total, level, breakdown, insights, recommendations } = score;
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border-2 border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-100 dark:border-gray-700 overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-200">
             {/* Header avec score principal */}
             <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
                 <div className="flex items-start justify-between">
                     <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                                 Score FinSight™
                             </h2>
                             <InfoTooltip />
@@ -134,7 +134,7 @@ export default function FinSightScoreCard({ score }: FinSightScoreProps) {
                             className="flex items-start gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
                         >
                             <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                                <span className="text-xs font-bold text-accent-primary dark:text-blue-400">
                                     {idx + 1}
                                 </span>
                             </div>
@@ -187,7 +187,7 @@ function CircularScore({ score, level }: { score: number; level: ScoreLevel }) {
 
     const colorMap: Record<ScoreLevel, string> = {
         excellent: 'text-green-600',
-        good: 'text-blue-600',
+        good: 'text-accent-primary',
         warning: 'text-orange-500',
         critical: 'text-red-600'
     };
@@ -297,7 +297,7 @@ function PillarCard({
 
     const colorMap = {
         blue: {
-            icon: 'text-blue-600 dark:text-blue-400',
+            icon: 'text-accent-primary dark:text-blue-400',
             bg: 'bg-blue-100 dark:bg-blue-900',
             bar: 'bg-blue-500'
         },
