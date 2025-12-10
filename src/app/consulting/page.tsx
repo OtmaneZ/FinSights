@@ -98,27 +98,83 @@ export default function ConsultingPage() {
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold mb-4 text-primary">Formules d'accompagnement</h2>
                     <p className="text-xl text-secondary max-w-2xl mx-auto">
-                        Du diagnostic rapide à la refonte complète de votre stack data
+                        Du diagnostic express à la refonte complète de votre stack data
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                    {/* Package 1: Audit & Diagnostic */}
+                    {/* Package 0: Diagnostic FinSight™ - NEW */}
+                    <div className="surface rounded-2xl p-8 border border-border-subtle surface-hover">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 rounded-xl bg-blue-100 border border-blue-300 flex items-center justify-center">
+                                <Sparkles className="w-6 h-6 text-blue-600" />
+                            </div>
+                            <div>
+                                <h3 className="text-2xl font-bold">Diagnostic FinSight™</h3>
+                                <p className="text-tertiary text-sm">Découverte</p>
+                            </div>
+                        </div>
+
+                        <div className="mb-6">
+                            <div className="flex items-baseline gap-2 mb-2">
+                                <span className="text-5xl font-bold text-blue-600">290€</span>
+                            </div>
+                            <p className="text-secondary text-sm">Livrable en 48h</p>
+                        </div>
+
+                        <ul className="space-y-3 mb-8">
+                            <li className="flex items-start gap-3">
+                                <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-secondary">Score FinSight™ détaillé</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-secondary">Lecture instantanée trésorerie</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-secondary">Identification signaux faibles (BFR, marges, variabilité)</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-secondary">3 actions prioritaires</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-secondary">Livrable condensé et exploitable</span>
+                            </li>
+                        </ul>
+
+                        <a
+                            href="https://calendly.com/zineinsight"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full px-6 py-3 border-2 border-blue-600 hover:bg-blue-50 text-blue-600 rounded-lg font-semibold text-center transition-all"
+                        >
+                            Commander
+                        </a>
+
+                        <p className="text-xs text-tertiary mt-4 text-center">
+                            Sans engagement • Vision claire immédiate
+                        </p>
+                    </div>
+
+                    {/* Package 1: Audit FinSight™ (ancien Audit Express) */}
                     <div className="surface rounded-2xl p-8 border border-border-subtle surface-hover">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-12 h-12 rounded-xl bg-accent-primary-subtle border border-accent-primary-border flex items-center justify-center">
                                 <BarChart3 className="w-6 h-6 text-accent-primary" />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-bold">Audit Express</h3>
-                                <p className="text-tertiary text-sm">Diagnostic rapide</p>
+                                <h3 className="text-2xl font-bold">Audit FinSight™</h3>
+                                <p className="text-tertiary text-sm">Analyse approfondie</p>
                             </div>
                         </div>
 
                         <div className="mb-6">
                             <div className="flex items-baseline gap-2 mb-2">
-                                <span className="text-5xl font-bold text-accent-primary">À partir de 2 500€</span>
+                                <span className="text-5xl font-bold text-accent-primary">2 900€</span>
                             </div>
                             <p className="text-secondary text-sm">Livrable en 3-5 jours</p>
                         </div>
@@ -126,15 +182,19 @@ export default function ConsultingPage() {
                         <ul className="space-y-3 mb-8">
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary">Audit de votre stack data actuelle (Excel, BI tools, ERP)</span>
+                                <span className="text-sm text-secondary font-semibold">Tout Diagnostic FinSight™ +</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary">Analyse des KPIs critiques (DSO, BFR, marge, cash flow)</span>
+                                <span className="text-sm text-secondary">Audit de votre stack data (Excel, BI tools, ERP)</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary">Recommandations priorisées (quick wins + long terme)</span>
+                                <span className="text-sm text-secondary">Analyse KPIs avancée (DSO, BFR, marge, cash flow)</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-secondary">Recommandations priorisées (quick wins + roadmap)</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
@@ -156,7 +216,7 @@ export default function ConsultingPage() {
                         </a>
 
                         <p className="text-xs text-tertiary mt-4 text-center">
-                            Idéal pour : PME, Scale-ups, Diagnostic pré-levée
+                            Idéal pour : PME, Scale-ups, Pré-levée
                         </p>
                     </div>
 
@@ -179,7 +239,7 @@ export default function ConsultingPage() {
 
                         <div className="mb-6">
                             <div className="flex items-baseline gap-2 mb-2">
-                                <span className="text-5xl font-bold text-accent-primary">À partir de 6 500€</span>
+                                <span className="text-5xl font-bold text-accent-primary">6 900€</span>
                             </div>
                             <p className="text-secondary text-sm">Livrable en 2-3 semaines</p>
                         </div>
@@ -187,7 +247,7 @@ export default function ConsultingPage() {
                         <ul className="space-y-3 mb-8">
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary font-semibold">Tout Audit Express +</span>
+                                <span className="text-sm text-secondary font-semibold">Tout Audit FinSight™ +</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
@@ -225,7 +285,7 @@ export default function ConsultingPage() {
                         </a>
 
                         <p className="text-xs text-tertiary mt-4 text-center">
-                            Idéal pour : Scale-ups 50-200 personnes, Refonte stack data
+                            Idéal pour : Scale-ups 50-200 pers., Refonte data
                         </p>
                     </div>
 
@@ -289,7 +349,7 @@ export default function ConsultingPage() {
                         </a>
 
                         <p className="text-xs text-tertiary mt-4 text-center">
-                            Idéal pour : ETI 200-500 personnes, Groupes, Transformation data
+                            Idéal pour : ETI 200-500 pers., Transformation data
                         </p>
                     </div>
                 </div>
