@@ -1333,11 +1333,13 @@ export default function FinancialDashboardV2() {
                                     currentValue={
                                         kpi.title.includes('Revenus') || kpi.title.includes('Charges') || kpi.title.includes('Cash')
                                             ? parseFloat(kpi.change.replace('%', '')) || 0
-                                            : parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0
+                                            : kpi.title.includes('BFR')
+                                                ? parseFloat(kpi.change.replace(/[^\d.-]/g, '')) || 0
+                                                : parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0
                                     }
                                     sector={companySector}
                                     unit={
-                                        kpi.title.includes('Revenus') || kpi.title.includes('Charges') || kpi.title.includes('Cash')
+                                        kpi.title.includes('Revenus') || kpi.title.includes('Charges') || kpi.title.includes('Cash') || kpi.title.includes('BFR')
                                             ? '%'
                                             : kpi.value.includes('%') ? '%' : kpi.value.includes('jours') ? 'jours' : '€'
                                     }

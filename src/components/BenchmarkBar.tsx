@@ -17,10 +17,10 @@ const SECTOR_BENCHMARKS: Record<string, Record<string, { min: number; median: nu
         saas: { min: 15, median: 30, max: 45 },
     },
     BFR: {
-        services: { min: 10, median: 20, max: 35 },
-        commerce: { min: 15, median: 25, max: 40 },
-        industrie: { min: 25, median: 40, max: 60 },
-        saas: { min: 5, median: 15, max: 25 },
+        services: { min: 5, median: 10, max: 20 },
+        commerce: { min: 10, median: 15, max: 25 },
+        industrie: { min: 15, median: 25, max: 35 },
+        saas: { min: 2, median: 5, max: 10 },
     },
     MARGE_NETTE: {
         services: { min: 5, median: 10, max: 20 },
