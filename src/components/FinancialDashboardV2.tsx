@@ -1006,7 +1006,45 @@ export default function FinancialDashboardV2() {
                 };
 
                 setFinSightData(finSightModel);
-                setRawData(processedData.records);
+                // 🆕 Générer des records fictifs mais réalistes depuis les données charts
+                const fakeRecords: any[] = [];
+                let recordId = 1;
+
+                // Générer des transactions mensuelles réalistes
+                demoConfig.charts.cashFlowEvolution.forEach((month, monthIdx) => {
+                    const monthDate = new Date(2024, 7 + monthIdx, 1); // Août = 7
+                    const daysInMonth = new Date(2024, 8 + monthIdx, 0).getDate();
+
+                    // Répartir les revenus sur plusieurs transactions
+                    const avgRevenue = month.revenue / 15; // ~15 transactions/mois
+                    for (let i = 0; i < 15; i++) {
+                        fakeRecords.push({
+                            id: `income-${recordId++}`,
+                            date: new Date(2024, 7 + monthIdx, Math.floor(Math.random() * daysInMonth) + 1),
+                            amount: avgRevenue * (0.5 + Math.random()),
+                            type: 'income' as const,
+                            description: `Licence SaaS ${month.month}`,
+                            counterparty: demoConfig.charts.topClients[i % demoConfig.charts.topClients.length]?.name || 'Client Demo',
+                            category: 'Ventes'
+                        });
+                    }
+
+                    // Répartir les charges par catégorie
+                    demoConfig.charts.categoryBreakdown.forEach(cat => {
+                        const monthlyAmount = (cat.value / 4) * (0.8 + Math.random() * 0.4);
+                        fakeRecords.push({
+                            id: `expense-${recordId++}`,
+                            date: new Date(2024, 7 + monthIdx, Math.floor(Math.random() * daysInMonth) + 1),
+                            amount: monthlyAmount,
+                            type: 'expense' as const,
+                            description: `${cat.name} ${month.month}`,
+                            counterparty: `Fournisseur ${cat.name}`,
+                            category: cat.name
+                        });
+                    });
+                });
+
+                setRawData(fakeRecords);
                 setIsDataLoaded(true);
                 setLoadingProgress(100);
                 setCompanySector(config.sector);
