@@ -1,0 +1,3 @@
+date,amount,type,description,counterparty,category
+2024-01-15,3500,income,Vente en ligne,Client particulier,Ventes
+2024-01-20,8200,expense,Achats marchandises,Fournisseur Chine,Achats

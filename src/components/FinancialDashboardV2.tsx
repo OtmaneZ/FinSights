@@ -965,10 +965,10 @@ export default function FinancialDashboardV2() {
                 sector: 'saas' as CompanySector
             },
             croissance: {
-                file: '/demo-scaleup-croissance.csv',
-                loadingMsg: '📤 Chargement données Scale-up Tech...',
-                companyName: 'Scale-up Tech',
-                sector: 'saas' as CompanySector
+                file: '/demo-pme-saisonnalite.csv',
+                loadingMsg: '📤 Chargement données PME Saisonnière...',
+                companyName: 'PME E-commerce Saisonnière',
+                sector: 'commerce' as CompanySector
             }
         };
 

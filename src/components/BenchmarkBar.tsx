@@ -43,7 +43,7 @@ const SECTOR_BENCHMARKS: Record<string, Record<string, { min: number; median: nu
     },
     CHARGES_CROISSANCE: {
         services: { min: -10, median: 0, max: 15 },
-        commerce: { min: -5, median: 5, max: 20 },
+        commerce: { min: -5, median: 15, max: 30 },
         industrie: { min: 0, median: 10, max: 25 },
         saas: { min: 20, median: 40, max: 80 },
     },

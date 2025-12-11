@@ -1,0 +1,217 @@
+{
+    "id": "pme-saisonnalite",
+    "company": "PME E-commerce Saisonnière",
+    "sector": "commerce",
+    "description": "Business saisonnier - 80% du CA en Q4, cash flow négatif 8 mois/an",
+    "kpis": {
+        "revenue": {
+            "value": 285000,
+            "variation": 45,
+            "comment": "CA annualisé 12 mois"
+        },
+        "expenses": {
+            "value": 265000,
+            "variation": 12,
+            "comment": "Charges annualisées 12 mois - Excellent contrôle (+12% vs +45% CA)"
+        },
+        "grossMargin": 42.0,
+        "netMargin": 7.0,
+        "cashFlow": {
+            "value": 20000,
+            "runway": 18,
+            "severity": "neutral"
+        },
+        "dso": {
+            "value": 8,
+            "label": "Excellent"
+        },
+        "bfr": {
+            "value": 45000,
+            "percent": 15.8,
+            "label": "Saisonnier"
+        }
+    },
+    "charts": {
+        "note": "6 mois représentatifs (jan, avr, juil, oct, nov, déc) - KPIs annualisés sur 12 mois",
+        "cashFlowEvolution": [
+            {
+                "month": "janv. 2024",
+                "revenue": 12000,
+                "expenses": 22000,
+                "cashFlow": -10000
+            },
+            {
+                "month": "avril 2024",
+                "revenue": 15000,
+                "expenses": 23000,
+                "cashFlow": -8000
+            },
+            {
+                "month": "juil. 2024",
+                "revenue": 18000,
+                "expenses": 24000,
+                "cashFlow": -6000
+            },
+            {
+                "month": "oct. 2024",
+                "revenue": 78000,
+                "expenses": 32000,
+                "cashFlow": 46000
+            },
+            {
+                "month": "nov. 2024",
+                "revenue": 95000,
+                "expenses": 38000,
+                "cashFlow": 57000
+            },
+            {
+                "month": "déc. 2024",
+                "revenue": 67000,
+                "expenses": 35000,
+                "cashFlow": 32000
+            }
+        ],
+        "marginEvolution": [
+            {
+                "month": "janv. 2024",
+                "marginPercentage": -83.3
+            },
+            {
+                "month": "avril 2024",
+                "marginPercentage": -53.3
+            },
+            {
+                "month": "juil. 2024",
+                "marginPercentage": -33.3
+            },
+            {
+                "month": "oct. 2024",
+                "marginPercentage": 59.0
+            },
+            {
+                "month": "nov. 2024",
+                "marginPercentage": 60.0
+            },
+            {
+                "month": "déc. 2024",
+                "marginPercentage": 47.8
+            }
+        ],
+        "categoryBreakdown": [
+            {
+                "name": "Achats Marchandises",
+                "value": 165000,
+                "percentage": "62.3"
+            },
+            {
+                "name": "Masse Salariale",
+                "value": 55000,
+                "percentage": "20.8"
+            },
+            {
+                "name": "Marketing & Pub",
+                "value": 28000,
+                "percentage": "10.6"
+            },
+            {
+                "name": "Logistique & Stock",
+                "value": 17000,
+                "percentage": "6.4"
+            }
+        ],
+        "topClients": [
+            {
+                "name": "Ventes en ligne (Noël)",
+                "value": 125000
+            },
+            {
+                "name": "Marketplace Amazon Q4",
+                "value": 68000
+            },
+            {
+                "name": "Magasins partenaires",
+                "value": 42000
+            },
+            {
+                "name": "Ventes directes",
+                "value": 32000
+            },
+            {
+                "name": "Grossistes",
+                "value": 18000
+            }
+        ],
+        "sankeyFlow": {
+            "totalRevenue": 285000,
+            "totalExpenses": 265000,
+            "cashFlowNet": 20000
+        }
+    },
+    "anomalies": [
+        {
+            "type": "seasonality",
+            "severity": "high",
+            "category": "Revenue",
+            "amount": 95000,
+            "date": "11/2024",
+            "description": "Pic saisonnier détecté : CA novembre = 95k€ (vs 15k€/mois hors saison)",
+            "confidence": 0.95
+        },
+        {
+            "type": "pattern",
+            "severity": "medium",
+            "category": "Cash Flow",
+            "amount": -24000,
+            "date": "Q1-Q3",
+            "description": "Cash flow négatif 8 mois/an (janv-août) : besoin financement court terme",
+            "confidence": 0.88
+        },
+        {
+            "type": "spike",
+            "severity": "medium",
+            "category": "Achats Marchandises",
+            "amount": 85000,
+            "date": "09-10/2024",
+            "description": "Réapprovisionnement massif avant Q4 : 85k€ en 2 mois",
+            "confidence": 0.82
+        }
+    ],
+    "alerts": [
+        {
+            "type": "warning",
+            "title": "Saisonnalité extrême détectée",
+            "description": "80% du CA concentré sur Q4 (oct-déc). Cash flow négatif 8 mois/an. Risque de trésorerie structurel.",
+            "value": 80,
+            "threshold": 50,
+            "actions": [
+                "⚠️ PRIORITÉ: Constituer une réserve de trésorerie en Q4 pour financer Q1-Q3",
+                "Négocier une ligne de crédit court terme avec votre banque (50-80k€)",
+                "Calculer le BFR max par mois pour anticiper les besoins de financement",
+                "Diversifier les sources de revenus (abonnements, services) pour lisser",
+                "Optimiser les stocks : réappro tardif septembre pour réduire coûts de portage"
+            ]
+        },
+        {
+            "type": "info",
+            "title": "Opportunité d'optimisation fiscale",
+            "description": "Profil PME avec forte saisonnalité : IS calculé sur bénéfice annuel (20k€). Possibilité de provisions Q4.",
+            "value": 20000,
+            "threshold": 0,
+            "actions": [
+                "Consulter expert-comptable pour provisions réglementées",
+                "Investir en Q4 (matériel, R&D) pour lisser la charge fiscale",
+                "Envisager un PEE/PERCO pour optimiser charges sociales"
+            ]
+        }
+    ],
+    "period": {
+        "start": "2024-01-01",
+        "end": "2024-12-31",
+        "months": 12
+    },
+    "dataQuality": {
+        "confidence": 0.90,
+        "transactionCount": 542,
+        "clientsCount": 328
+    }
+}

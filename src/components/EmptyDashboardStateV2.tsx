@@ -30,7 +30,7 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                         Choisissez un scénario de démonstration
                     </h3>
                     <p className="text-center text-secondary mb-8">
-                        3 scénarios réalistes : Scale-up Hypercroissance • Startup SaaS • Scale-up Tech
+                        3 scénarios réalistes : Scale-up Hypercroissance • Startup SaaS • PME Saisonnalité
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -62,17 +62,17 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                             </div>
                         </button>
 
-                        {/* Scale-up Tech - Phase de scale profitable */}
+                        {/* PME E-commerce Saisonnière - Saisonnalité extrême */}
                         <button
                             onClick={() => onDemoLoad('croissance')}
                             className="surface rounded-xl p-6 surface-hover group text-left transition-all hover:scale-[1.02]"
                         >
-                            <h4 className="text-xl font-bold mb-2 text-primary">Scale-up Tech</h4>
-                            <p className="text-accent-primary font-semibold mb-4 text-sm">Phase de scale profitable</p>
+                            <h4 className="text-xl font-bold mb-2 text-primary">PME Saisonnalité</h4>
+                            <p className="text-accent-primary font-semibold mb-4 text-sm">80% du CA en Q4 - Survie 8 mois/an</p>
                             <div className="text-sm text-secondary space-y-1">
-                                <p>• 900k€ CA • Série A 350k€</p>
-                                <p>• Marge 65% • +195% YoY</p>
-                                <p>• Cash flow: 580k€</p>
+                                <p>• 285k€ CA (+45%) • Marge 7%</p>
+                                <p>• Q4: 240k€ (80%) • DSO 8j</p>
+                                <p>• Cash: -8k€ (Q1-Q3) → +46k€ (Q4)</p>
                             </div>
                         </button>
                     </div>
