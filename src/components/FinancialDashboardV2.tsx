@@ -1538,10 +1538,11 @@ export default function FinancialDashboardV2() {
                                         kpiName={
                                             kpi.title.includes('Revenus') ? 'REVENUS_CROISSANCE' :
                                                 kpi.title.includes('Charges') ? 'CHARGES_CROISSANCE' :
-                                                    kpi.title.includes('Marge') ? 'MARGE_NETTE' :
-                                                        kpi.title.includes('DSO') ? 'DSO' :
-                                                            kpi.title.includes('BFR') ? 'BFR' :
-                                                                'DSO'
+                                                    kpi.title.includes('Marge Brute') ? 'MARGE_BRUTE' :
+                                                        kpi.title.includes('Marge Nette') ? 'MARGE_NETTE' :
+                                                            kpi.title.includes('DSO') ? 'DSO' :
+                                                                kpi.title.includes('BFR') ? 'BFR' :
+                                                                    'DSO'
                                         }
                                         currentValue={
                                             kpi.title.includes('Revenus') || kpi.title.includes('Charges')

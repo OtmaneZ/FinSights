@@ -26,13 +26,13 @@ const SECTOR_BENCHMARKS: Record<string, Record<string, { min: number; median: nu
         services: { min: 5, median: 10, max: 20 },
         commerce: { min: 2, median: 5, max: 10 },
         industrie: { min: 4, median: 8, max: 15 },
-        saas: { min: 10, median: 20, max: 35 },
+        saas: { min: -50, median: 15, max: 35 }, // 🆕 Early-stage SaaS peut être négatif
     },
     MARGE_BRUTE: {
         services: { min: 30, median: 50, max: 70 },
         commerce: { min: 20, median: 30, max: 40 },
         industrie: { min: 25, median: 35, max: 50 },
-        saas: { min: 70, median: 80, max: 90 },
+        saas: { min: 75, median: 85, max: 95 }, // 🆕 SaaS doit avoir marge brute très élevée
     },
     // ✅ Nouveaux benchmarks : Croissance (en %)
     REVENUS_CROISSANCE: {
