@@ -58,20 +58,18 @@ export function calculateDSOFromTransactions(records: FinancialRecord[]): number
         return 30; // Valeur par défaut réaliste
     }    // Méthode 1 : Si nous avons des dates d'échéance
     const recordsWithDueDate = incomeRecords.filter(r => {
-        const hasDueDate = (r as any).dueDate;
-        return hasDueDate && !isNaN(new Date(hasDueDate).getTime());
+        return r.dueDate && !isNaN(r.dueDate.getTime());
     });
 
     if (recordsWithDueDate.length >= 3) {
         const delays = recordsWithDueDate.map(r => {
             const issueDate = new Date(r.date);
-            const dueDate = new Date((r as any).dueDate);
+            const dueDate = r.dueDate!;
             const daysDiff = Math.floor((dueDate.getTime() - issueDate.getTime()) / (1000 * 60 * 60 * 24));
             return Math.max(0, daysDiff);
         });
 
         const avgDelay = delays.reduce((sum, d) => sum + d, 0) / delays.length;
-        logger.debug(`✅ DSO calculé avec dueDate: ${Math.round(avgDelay)} jours`);
         return Math.round(avgDelay);
     }
 

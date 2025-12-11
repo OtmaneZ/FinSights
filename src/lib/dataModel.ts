@@ -37,6 +37,8 @@ export interface FinancialRecord {
     sourceId: string;
     rawData?: RawDataRow;
     confidence: number; // 0-1, confiance dans la classification
+    dueDate?: Date; // Date d'échéance pour calcul DSO
+    paymentStatus?: string; // Statut de paiement
 }
 
 export interface ProcessedData {

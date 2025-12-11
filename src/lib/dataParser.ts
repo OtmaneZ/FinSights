@@ -349,6 +349,12 @@ function detectColumns(headers: string[], sampleData: string[], config: ParseCon
 }
 // Fonctions de détection des types de colonnes
 function isDateColumn(header: string, samples: string[]): boolean {
+    // Exclure les colonnes d'échéance pour éviter confusion avec date transaction
+    const excludeKeywords = ['echeance', 'échéance', 'due', 'deadline', 'payment'];
+    if (excludeKeywords.some(keyword => header.includes(keyword))) {
+        return false;
+    }
+
     const dateKeywords = ['date', 'datum', 'période', 'period', 'time', 'temps'];
     const hasDateKeyword = dateKeywords.some(keyword => header.includes(keyword));
 
@@ -572,8 +578,20 @@ function parseRecords(
                 const dueDate = parseDate(dueDateRaw);
 
                 if (dueDate) {
-                    (record as any).dueDate = dueDate;
+                    record.dueDate = dueDate;
                 }
+            }
+
+            // ✅ Ajouter Statut_paiement si disponible
+            const paymentStatusCol = headers.findIndex(h =>
+                h.toLowerCase().includes('statut') ||
+                h.toLowerCase().includes('status') ||
+                h.toLowerCase().includes('paiement') ||
+                h.toLowerCase().includes('payment')
+            );
+
+            if (paymentStatusCol >= 0 && cols[paymentStatusCol]) {
+                record.paymentStatus = cols[paymentStatusCol].trim();
             }
 
             // ✅ Ajouter Categorie si disponible
