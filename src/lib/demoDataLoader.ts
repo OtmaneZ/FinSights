@@ -168,6 +168,77 @@ export function convertDemoToProcessedData(config: DemoConfig): ProcessedData {
 }
 
 /**
+ * Génère les KPIs formatés pour l'affichage depuis la config JSON
+ */
+export function generateKPIsFromConfig(config: DemoConfig): any[] {
+    const { kpis } = config;
+
+    const formatCurrency = (value: number) => `${Math.round(value).toLocaleString('fr-FR')} €`;
+    const formatPercent = (value: number) => `${value.toFixed(1)}%`;
+
+    const kpiList = [
+        {
+            title: 'Revenus & Croissance',
+            value: formatCurrency(kpis.revenue.value),
+            change: formatPercent(kpis.revenue.variation),
+            changeType: kpis.revenue.variation > 0 ? 'positive' as const : 'negative' as const,
+            description: `Période analysée: ${config.period.start} à ${config.period.end}`,
+            isAvailable: true
+        },
+        {
+            title: 'Charges & Contrôle',
+            value: formatCurrency(kpis.expenses.value),
+            change: formatPercent(kpis.expenses.variation),
+            changeType: kpis.expenses.variation > 30 ? 'negative' as const : 'positive' as const,
+            description: 'Total des dépenses',
+            isAvailable: true
+        },
+        {
+            title: 'Marge Brute & Rentabilité',
+            value: formatPercent(kpis.grossMargin),
+            change: `${config.charts.categoryBreakdown.length} transactions d'achat identifiées`,
+            changeType: 'positive' as const,
+            description: `CA - Coûts d'achat`,
+            isAvailable: true
+        },
+        {
+            title: 'Marge Nette & Profitabilité',
+            value: formatPercent(kpis.netMargin),
+            change: '0.0pt',
+            changeType: kpis.netMargin > 0 ? 'positive' as const : 'negative' as const,
+            description: 'Rentabilité nette après toutes charges',
+            isAvailable: true
+        },
+        {
+            title: 'Cash & Liquidité',
+            value: formatCurrency(kpis.cashFlow.value),
+            change: kpis.cashFlow.runway ? `Runway: ${kpis.cashFlow.runway} mois` : formatPercent(kpis.cashFlow.variation || 0),
+            changeType: kpis.cashFlow.value > 0 ? 'positive' as const : 'negative' as const,
+            description: 'Flux de trésorerie net',
+            isAvailable: true
+        },
+        {
+            title: 'DSO & Cycles Paiement',
+            value: `${kpis.dso} jours`,
+            change: 'Excellent',
+            changeType: 'positive' as const,
+            description: 'Délai moyen de paiement réel',
+            isAvailable: true
+        },
+        {
+            title: 'BFR & Résilience',
+            value: formatCurrency(kpis.bfr.value),
+            change: formatPercent(kpis.bfr.percent) + ' du CA',
+            changeType: kpis.bfr.percent > 20 ? 'negative' as const : 'positive' as const,
+            description: `Estimation depuis flux de trésorerie (DSO + DPO) (confiance: ${Math.round(config.dataQuality.confidence * 100)}%)`,
+            isAvailable: true
+        }
+    ];
+
+    return kpiList;
+}
+
+/**
  * Détecte si un fichier est une démo
  */
 export function isDemoFile(filename: string | null | undefined): boolean {

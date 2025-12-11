@@ -949,8 +949,12 @@ export default function FinancialDashboardV2() {
                 setLoadingMessage('Génération KPIs cohérents...');
                 await new Promise(resolve => setTimeout(resolve, 500));
 
-                // Import du système adaptatif
-                const { generateAdaptiveKPIs, detectCapabilities } = await import('@/lib/dashboardConfig');
+                // 🆕 Utiliser directement les KPIs du JSON (au lieu de les recalculer)
+                const { generateKPIsFromConfig } = await import('@/lib/demoDataLoader');
+                const kpis = generateKPIsFromConfig(demoConfig);
+
+                // Import des capabilities pour les graphiques
+                const { detectCapabilities } = await import('@/lib/dashboardConfig');
 
                 // Créer capabilities fictifs pour la démo
                 const capabilities = {
@@ -969,9 +973,6 @@ export default function FinancialDashboardV2() {
                     monthsSpan: demoConfig.period.months,
                     suggestions: []
                 };
-
-                // Générer KPIs depuis processedData
-                const kpis = generateAdaptiveKPIs(processedData, capabilities);
 
                 setDashboardConfig(capabilities);
 
