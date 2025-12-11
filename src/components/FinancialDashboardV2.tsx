@@ -336,16 +336,27 @@ export default function FinancialDashboardV2() {
         // 🆕 Utiliser les données JSON pré-calculées pour les démos
         if (typeof window !== 'undefined' && (window as any).__demoChartData?.sankeyFlow) {
             const sankey = (window as any).__demoChartData.sankeyFlow;
+
+            // Structure Sankey correcte pour montrer les flux financiers
+            // Revenus (19 953€) → se divisent en → Charges (46 824€) + Cash Flow (-26 871€)
             const nodes = [
-                { name: 'Revenus' },
-                { name: 'Charges' },
-                { name: 'Cash Flow Net' }
+                { name: `Revenus (${formatCurrency(sankey.totalRevenue)})` },
+                { name: `Charges (${formatCurrency(sankey.totalExpenses)})` },
+                { name: `Cash Flow (${formatCurrency(sankey.cashFlowNet)})` }
             ];
 
-            const links = [
-                { source: 0, target: 1, value: sankey.totalExpenses },
-                { source: 0, target: 2, value: Math.max(0, sankey.cashFlowNet) }
-            ];
+            // Si cash flow positif : Revenus → Charges + Revenus → Cash
+            // Si cash flow négatif : Revenus → Charges (tout part dans les charges + découvert)
+            const links = sankey.cashFlowNet >= 0
+                ? [
+                    { source: 0, target: 1, value: sankey.totalExpenses },
+                    { source: 0, target: 2, value: sankey.cashFlowNet }
+                ]
+                : [
+                    // Cas négatif : tout va dans les charges, on montre le déficit
+                    { source: 0, target: 1, value: sankey.totalRevenue },
+                    { source: 1, target: 2, value: Math.abs(sankey.cashFlowNet) }
+                ];
 
             return { nodes, links };
         }
@@ -364,17 +375,31 @@ export default function FinancialDashboardV2() {
         const cashFlow = totalRevenue - totalExpenses;
 
         const nodes = [
-            { name: 'Revenus' },
-            { name: 'Charges' },
-            { name: 'Cash Flow Net' }
+            { name: `Revenus (${formatCurrency(totalRevenue)})` },
+            { name: `Charges (${formatCurrency(totalExpenses)})` },
+            { name: `Cash Flow (${formatCurrency(cashFlow)})` }
         ];
 
-        const links = [
-            { source: 0, target: 1, value: totalExpenses },
-            { source: 0, target: 2, value: Math.max(0, cashFlow) }
-        ];
+        const links = cashFlow >= 0
+            ? [
+                { source: 0, target: 1, value: totalExpenses },
+                { source: 0, target: 2, value: cashFlow }
+            ]
+            : [
+                { source: 0, target: 1, value: totalRevenue },
+                { source: 1, target: 2, value: Math.abs(cashFlow) }
+            ];
 
         return { nodes, links };
+    };
+
+    const formatCurrency = (value: number) => {
+        return new Intl.NumberFormat('fr-FR', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(value);
     };
 
     // 🎨 Sunburst Data - Structure hiérarchique expenses
@@ -1025,7 +1050,7 @@ export default function FinancialDashboardV2() {
                 };
 
                 setFinSightData(finSightModel);
-                // 🆕 Générer des records fictifs mais réalistes depuis les données charts
+                // 🆕 Générer des records fictifs EXACTEMENT cohérents avec le JSON
                 const fakeRecords: any[] = [];
                 let recordId = 1;
 
@@ -1034,13 +1059,21 @@ export default function FinancialDashboardV2() {
                     const monthDate = new Date(2024, 7 + monthIdx, 1); // Août = 7
                     const daysInMonth = new Date(2024, 8 + monthIdx, 0).getDate();
 
-                    // Répartir les revenus sur plusieurs transactions
-                    const avgRevenue = month.revenue / 15; // ~15 transactions/mois
-                    for (let i = 0; i < 15; i++) {
+                    // ✅ Répartir les revenus EXACTEMENT pour totaliser month.revenue
+                    const revenueCount = 15;
+                    const baseRevenue = month.revenue / revenueCount;
+                    let revenueSum = 0;
+                    for (let i = 0; i < revenueCount; i++) {
+                        // Dernier item = ajustement pour garantir le total exact
+                        const amount = i === revenueCount - 1
+                            ? month.revenue - revenueSum
+                            : baseRevenue * (0.7 + Math.random() * 0.6); // Variation ±30%
+
+                        revenueSum += amount;
                         fakeRecords.push({
                             id: `income-${recordId++}`,
                             date: new Date(2024, 7 + monthIdx, Math.floor(Math.random() * daysInMonth) + 1),
-                            amount: avgRevenue * (0.5 + Math.random()),
+                            amount: Math.max(50, amount), // Min 50€
                             type: 'income' as const,
                             description: `Licence SaaS ${month.month}`,
                             counterparty: demoConfig.charts.topClients[i % demoConfig.charts.topClients.length]?.name || 'Client Demo',
@@ -1048,13 +1081,20 @@ export default function FinancialDashboardV2() {
                         });
                     }
 
-                    // Répartir les charges par catégorie
-                    demoConfig.charts.categoryBreakdown.forEach(cat => {
-                        const monthlyAmount = (cat.value / 4) * (0.8 + Math.random() * 0.4);
+                    // ✅ Répartir les charges EXACTEMENT pour totaliser month.expenses
+                    const expensePerCategory = month.expenses / demoConfig.charts.categoryBreakdown.length;
+                    let expenseSum = 0;
+                    demoConfig.charts.categoryBreakdown.forEach((cat, catIdx) => {
+                        const isLast = catIdx === demoConfig.charts.categoryBreakdown.length - 1;
+                        const monthlyAmount = isLast
+                            ? month.expenses - expenseSum
+                            : expensePerCategory * (0.85 + Math.random() * 0.3);
+
+                        expenseSum += monthlyAmount;
                         fakeRecords.push({
                             id: `expense-${recordId++}`,
                             date: new Date(2024, 7 + monthIdx, Math.floor(Math.random() * daysInMonth) + 1),
-                            amount: monthlyAmount,
+                            amount: Math.max(100, monthlyAmount), // Min 100€
                             type: 'expense' as const,
                             description: `${cat.name} ${month.month}`,
                             counterparty: `Fournisseur ${cat.name}`,
@@ -1493,7 +1533,7 @@ export default function FinancialDashboardV2() {
                                 <p className="text-sm text-secondary mb-3 leading-relaxed">{kpi.description}</p>
 
                                 {/* BenchmarkBar - Comparaison sectorielle (sauf pour Cash absolu) */}
-                                {!kpi.title.includes('Cash') && (
+                                {!kpi.title.includes('Cash') ? (
                                     <BenchmarkBar
                                         kpiName={
                                             kpi.title.includes('Revenus') ? 'REVENUS_CROISSANCE' :
@@ -1518,6 +1558,10 @@ export default function FinancialDashboardV2() {
                                         }
                                         inverse={kpi.title.includes('DSO') || kpi.title.includes('BFR') || kpi.title.includes('Charges')}
                                     />
+                                ) : (
+                                    <div className="mt-3 text-xs text-slate-500 italic">
+                                        💡 Benchmark non applicable pour les valeurs absolues de trésorerie
+                                    </div>
                                 )}
                             </div>
                         ))}
