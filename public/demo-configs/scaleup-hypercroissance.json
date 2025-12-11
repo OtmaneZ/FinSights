@@ -1,0 +1,189 @@
+{
+    "id": "scaleup-hypercroissance",
+    "company": "Scale-up Hypercroissance",
+    "sector": "saas",
+    "description": "Hypercroissance dangereuse - CA +180% mais marge négative et burn élevé",
+    "kpis": {
+        "revenue": {
+            "value": 850000,
+            "variation": 180
+        },
+        "expenses": {
+            "value": 920000,
+            "variation": 250
+        },
+        "grossMargin": 82.0,
+        "netMargin": -8.2,
+        "cashFlow": {
+            "value": -70000,
+            "runway": 8
+        },
+        "dso": 42,
+        "bfr": {
+            "value": 95000,
+            "percent": 11.2
+        }
+    },
+    "charts": {
+        "cashFlowEvolution": [
+            {
+                "month": "janv. 2024",
+                "revenue": 95000,
+                "expenses": 85000,
+                "cashFlow": 10000
+            },
+            {
+                "month": "avril 2024",
+                "revenue": 180000,
+                "expenses": 175000,
+                "cashFlow": 5000
+            },
+            {
+                "month": "juil. 2024",
+                "revenue": 290000,
+                "expenses": 315000,
+                "cashFlow": -25000
+            },
+            {
+                "month": "oct. 2024",
+                "revenue": 285000,
+                "expenses": 345000,
+                "cashFlow": -60000
+            }
+        ],
+        "marginEvolution": [
+            {
+                "month": "janv. 2024",
+                "marginPercentage": 10.5
+            },
+            {
+                "month": "avril 2024",
+                "marginPercentage": 2.8
+            },
+            {
+                "month": "juil. 2024",
+                "marginPercentage": -8.6
+            },
+            {
+                "month": "oct. 2024",
+                "marginPercentage": -21.1
+            }
+        ],
+        "categoryBreakdown": [
+            {
+                "name": "Sales & Marketing",
+                "value": 485000,
+                "percentage": "52.7"
+            },
+            {
+                "name": "Masse Salariale",
+                "value": 280000,
+                "percentage": "30.4"
+            },
+            {
+                "name": "Infrastructure IT",
+                "value": 95000,
+                "percentage": "10.3"
+            },
+            {
+                "name": "Autres",
+                "value": 60000,
+                "percentage": "6.5"
+            }
+        ],
+        "topClients": [
+            {
+                "name": "MegaCorp (discount 40%)",
+                "value": 185000
+            },
+            {
+                "name": "Enterprise Client A",
+                "value": 142000
+            },
+            {
+                "name": "SMB Bundle Deal",
+                "value": 98000
+            },
+            {
+                "name": "Strategic Partner",
+                "value": 85000
+            },
+            {
+                "name": "Fast Growth Startup",
+                "value": 72000
+            }
+        ],
+        "sankeyFlow": {
+            "totalRevenue": 850000,
+            "totalExpenses": 920000,
+            "cashFlowNet": -70000
+        }
+    },
+    "anomalies": [
+        {
+            "type": "spike",
+            "severity": "high",
+            "category": "Sales & Marketing",
+            "amount": 125000,
+            "date": "15/09/2024",
+            "description": "Campagne acquisition 125k€ (ROI négatif détecté)",
+            "confidence": 0.92
+        },
+        {
+            "type": "pattern",
+            "severity": "high",
+            "category": "Discounts",
+            "amount": 95000,
+            "date": "Q3 2024",
+            "description": "Discounts cumulés 95k€ sur deals stratégiques (40% du CA MegaCorp)",
+            "confidence": 0.88
+        },
+        {
+            "type": "unusual",
+            "severity": "medium",
+            "category": "Masse Salariale",
+            "amount": 45000,
+            "date": "08/2024",
+            "description": "10 nouvelles recrues sales (avant product-market fit solide)",
+            "confidence": 0.75
+        }
+    ],
+    "alerts": [
+        {
+            "type": "critical",
+            "title": "Hypercroissance non rentable détectée",
+            "description": "CA +180% mais marge nette -8.2%. Unit economics dégradés. Burn rate 70k€/mois.",
+            "value": -8.2,
+            "threshold": 0,
+            "actions": [
+                "🚨 URGENCE: Analyser le CAC par canal (semble >6 mois payback)",
+                "Réduire les discounts stratégiques (MegaCorp = 40% discount)",
+                "Geler les recrues sales jusqu'à validation product-market fit",
+                "Revoir pricing: augmenter ARPU avant d'accélérer l'acquisition",
+                "Calculer LTV/CAC ratio (objectif >3x pour justifier l'investissement)"
+            ]
+        },
+        {
+            "type": "warning",
+            "title": "Détérioration des marges sur 9 mois",
+            "description": "Marge passée de +10.5% à -21.1% en 9 mois. Croissance achetée trop cher.",
+            "value": -21.1,
+            "threshold": 5,
+            "actions": [
+                "Audit complet du ROI marketing par canal",
+                "Identifier les cohortes rentables vs non-rentables",
+                "Négocier avec fournisseurs infra (95k€ = 10% charges)"
+            ]
+        }
+    ],
+    "period": {
+        "start": "2024-01-01",
+        "end": "2024-10-31",
+        "months": 10
+    },
+    "dataQuality": {
+        "confidence": 0.85,
+        "transactionCount": 248,
+        "clientsCount": 142
+    }
+}

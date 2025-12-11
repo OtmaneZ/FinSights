@@ -30,21 +30,21 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                         Choisissez un scénario de démonstration
                     </h3>
                     <p className="text-center text-secondary mb-8">
-                        3 scénarios réalistes : PME Services • Startup SaaS • Scale-up Tech
+                        3 scénarios réalistes : Scale-up Hypercroissance • Startup SaaS • Scale-up Tech
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {/* Éditeur SaaS B2B - Forte rentabilité */}
+                        {/* Scale-up Hypercroissance - CA +180% mais burn élevé */}
                         <button
                             onClick={() => onDemoLoad('saine')}
                             className="surface rounded-xl p-6 surface-hover group text-left transition-all hover:scale-[1.02]"
                         >
-                            <h4 className="text-xl font-bold mb-2 text-primary">Éditeur SaaS B2B</h4>
-                            <p className="text-accent-success font-semibold mb-4 text-sm">Plateforme SaaS, clients grands comptes</p>
+                            <h4 className="text-xl font-bold mb-2 text-primary">Scale-up Hypercroissance</h4>
+                            <p className="text-accent-warning font-semibold mb-4 text-sm">CA +180% mais marge négative</p>
                             <div className="text-sm text-secondary space-y-1">
-                                <p>• 243k€ CA • Marge nette 64%</p>
-                                <p>• Cash flow: 155k€</p>
-                                <p>• DSO: 0 jours</p>
+                                <p>• 850k€ CA • Marge -8.2%</p>
+                                <p>• Cash flow: -70k€/mois</p>
+                                <p>• Sales & Marketing: 53%</p>
                             </div>
                         </button>
 

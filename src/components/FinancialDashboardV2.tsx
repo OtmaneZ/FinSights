@@ -953,10 +953,10 @@ export default function FinancialDashboardV2() {
 
         const scenarioConfig = {
             saine: {
-                file: '/demo-data.csv',
-                loadingMsg: '📤 Chargement données PME Services...',
-                companyName: 'PME Services B2B',
-                sector: 'services' as CompanySector
+                file: '/demo-scaleup-hypercroissance.csv',
+                loadingMsg: '📤 Chargement données Scale-up Hypercroissance...',
+                companyName: 'Scale-up Hypercroissance',
+                sector: 'saas' as CompanySector
             },
             difficulte: {
                 file: '/demo-startup-difficulte.csv',
