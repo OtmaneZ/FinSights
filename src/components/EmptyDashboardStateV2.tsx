@@ -62,13 +62,13 @@ export default function EmptyDashboardStateV2({ onDemoLoad }: EmptyDashboardStat
                             </div>
                         </button>
 
-                        {/* Scale-up Tech - Hypercroissance */}
+                        {/* Scale-up Tech - Phase de scale profitable */}
                         <button
                             onClick={() => onDemoLoad('croissance')}
                             className="surface rounded-xl p-6 surface-hover group text-left transition-all hover:scale-[1.02]"
                         >
                             <h4 className="text-xl font-bold mb-2 text-primary">Scale-up Tech</h4>
-                            <p className="text-accent-primary font-semibold mb-4 text-sm">Hypercroissance</p>
+                            <p className="text-accent-primary font-semibold mb-4 text-sm">Phase de scale profitable</p>
                             <div className="text-sm text-secondary space-y-1">
                                 <p>• 900k€ CA • Série A 350k€</p>
                                 <p>• Marge 65% • +195% YoY</p>
