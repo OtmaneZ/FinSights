@@ -39,13 +39,13 @@ const SECTOR_BENCHMARKS: Record<string, Record<string, { min: number; median: nu
         services: { min: -5, median: 10, max: 30 },
         commerce: { min: -10, median: 5, max: 20 },
         industrie: { min: -5, median: 8, max: 25 },
-        saas: { min: 50, median: 100, max: 200 },
+        saas: { min: 20, median: 80, max: 150 },
     },
     CHARGES_CROISSANCE: {
         services: { min: -10, median: 0, max: 15 },
         commerce: { min: -5, median: 5, max: 20 },
         industrie: { min: 0, median: 10, max: 25 },
-        saas: { min: 30, median: 50, max: 100 },
+        saas: { min: 20, median: 40, max: 80 },
     },
     CASH_FLOW_CROISSANCE: {
         services: { min: 0, median: 15, max: 35 },

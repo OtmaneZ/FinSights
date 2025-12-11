@@ -20,8 +20,8 @@
         },
         "dso": 28,
         "bfr": {
-            "value": -7979,
-            "percent": 40.0
+            "value": -799,
+            "percent": 4.0
         }
     },
     "charts": {
@@ -66,7 +66,7 @@
             },
             {
                 "month": "nov. 2024",
-                "marginPercentage": -126.6
+                "marginPercentage": -134.7
             }
         ],
         "categoryBreakdown": [
