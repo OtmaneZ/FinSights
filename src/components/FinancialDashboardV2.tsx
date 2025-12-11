@@ -333,6 +333,24 @@ export default function FinancialDashboardV2() {
 
     // 🎨 Sankey Data - Revenus → Charges → Cash Flow
     const getSankeyData = () => {
+        // 🆕 Utiliser les données JSON pré-calculées pour les démos
+        if (typeof window !== 'undefined' && (window as any).__demoChartData?.sankeyFlow) {
+            const sankey = (window as any).__demoChartData.sankeyFlow;
+            const nodes = [
+                { name: 'Revenus' },
+                { name: 'Charges' },
+                { name: 'Cash Flow Net' }
+            ];
+
+            const links = [
+                { source: 0, target: 1, value: sankey.totalExpenses },
+                { source: 0, target: 2, value: Math.max(0, sankey.cashFlowNet) }
+            ];
+
+            return { nodes, links };
+        }
+
+        // Sinon, calcul depuis rawData
         if (!rawData || rawData.length === 0) return { nodes: [], links: [] };
 
         const totalRevenue = rawData
@@ -1050,8 +1068,11 @@ export default function FinancialDashboardV2() {
                 setLoadingProgress(100);
                 setCompanySector(config.sector);
 
-                // Store config for charts
-                (window as any).__demoChartData = demoConfig.charts;
+                // Store config for charts AND KPIs
+                (window as any).__demoChartData = {
+                    ...demoConfig.charts,
+                    kpis: demoConfig.kpis // 🆕 Passer les KPIs pour le copilot
+                };
                 (window as any).__demoAnomalies = demoConfig.anomalies;
                 (window as any).__demoAlerts = demoConfig.alerts;
 
@@ -1471,32 +1492,33 @@ export default function FinancialDashboardV2() {
                                 {/* Description contextuelle - lisible */}
                                 <p className="text-sm text-secondary mb-3 leading-relaxed">{kpi.description}</p>
 
-                                {/* BenchmarkBar - Comparaison sectorielle */}
-                                <BenchmarkBar
-                                    kpiName={
-                                        kpi.title.includes('Revenus') ? 'REVENUS_CROISSANCE' :
-                                            kpi.title.includes('Charges') ? 'CHARGES_CROISSANCE' :
-                                                kpi.title.includes('Cash') ? 'CASH_FLOW_CROISSANCE' :
+                                {/* BenchmarkBar - Comparaison sectorielle (sauf pour Cash absolu) */}
+                                {!kpi.title.includes('Cash') && (
+                                    <BenchmarkBar
+                                        kpiName={
+                                            kpi.title.includes('Revenus') ? 'REVENUS_CROISSANCE' :
+                                                kpi.title.includes('Charges') ? 'CHARGES_CROISSANCE' :
                                                     kpi.title.includes('Marge') ? 'MARGE_NETTE' :
                                                         kpi.title.includes('DSO') ? 'DSO' :
                                                             kpi.title.includes('BFR') ? 'BFR' :
                                                                 'DSO'
-                                    }
-                                    currentValue={
-                                        kpi.title.includes('Revenus') || kpi.title.includes('Charges') || kpi.title.includes('Cash')
-                                            ? parseFloat(kpi.change.replace('%', '')) || 0
-                                            : kpi.title.includes('BFR')
-                                                ? parseFloat(kpi.change.replace(/[^\d.-]/g, '')) || 0
-                                                : parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0
-                                    }
-                                    sector={companySector}
-                                    unit={
-                                        kpi.title.includes('Revenus') || kpi.title.includes('Charges') || kpi.title.includes('Cash') || kpi.title.includes('BFR')
-                                            ? '%'
-                                            : kpi.value.includes('%') ? '%' : kpi.value.includes('jours') ? 'jours' : '€'
-                                    }
-                                    inverse={kpi.title.includes('DSO') || kpi.title.includes('BFR') || kpi.title.includes('Charges')}
-                                />
+                                        }
+                                        currentValue={
+                                            kpi.title.includes('Revenus') || kpi.title.includes('Charges')
+                                                ? parseFloat(kpi.change.replace('%', '')) || 0
+                                                : kpi.title.includes('BFR')
+                                                    ? parseFloat(kpi.change.replace(/[^\d.-]/g, '')) || 0
+                                                    : parseFloat(kpi.value.replace(/[^\d.-]/g, '')) || 0
+                                        }
+                                        sector={companySector}
+                                        unit={
+                                            kpi.title.includes('Revenus') || kpi.title.includes('Charges') || kpi.title.includes('BFR')
+                                                ? '%'
+                                                : kpi.value.includes('%') ? '%' : kpi.value.includes('jours') ? 'jours' : '€'
+                                        }
+                                        inverse={kpi.title.includes('DSO') || kpi.title.includes('BFR') || kpi.title.includes('Charges')}
+                                    />
+                                )}
                             </div>
                         ))}
                 </div>

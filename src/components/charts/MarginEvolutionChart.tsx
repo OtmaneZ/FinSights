@@ -23,6 +23,18 @@ export const MarginEvolutionChart: React.FC<MarginEvolutionChartProps> = ({ data
         return `${value.toFixed(1)}%`;
     };
 
+    // 🆕 Calculer le domaine dynamique pour supporter les marges négatives
+    const allMargins = data.map(d => d.marginPercentage);
+    const minMargin = Math.min(...allMargins);
+    const maxMargin = Math.max(...allMargins);
+
+    // Définir le domaine : si toutes les marges sont négatives, domaine négatif
+    const yDomain: [number, number] = minMargin < 0 && maxMargin < 0
+        ? [Math.floor(minMargin / 10) * 10 - 10, 0] // Ex: -150 à 0
+        : minMargin < 0
+            ? [Math.floor(minMargin / 10) * 10 - 10, Math.ceil(maxMargin / 10) * 10 + 10] // Ex: -150 à 50
+            : [0, Math.min(100, Math.ceil(maxMargin / 10) * 10 + 10)]; // Ex: 0 à 100
+
     return (
         <ResponsiveContainer width="100%" height={280}>
             <LineChart
@@ -39,7 +51,7 @@ export const MarginEvolutionChart: React.FC<MarginEvolutionChartProps> = ({ data
                     stroke="#64748b"
                     style={{ fontSize: '12px' }}
                     tickFormatter={formatPercentage}
-                    domain={[0, 100]}
+                    domain={yDomain}
                 />
                 <Tooltip
                     formatter={(value: number) => `${value.toFixed(1)}%`}
@@ -53,21 +65,39 @@ export const MarginEvolutionChart: React.FC<MarginEvolutionChartProps> = ({ data
                 <Legend
                     wrapperStyle={{ fontSize: '14px', paddingTop: '20px' }}
                 />
-                {/* ✅ Ligne objectif à 80% (stretch goal SaaS mature) */}
-                <ReferenceLine
-                    y={80}
-                    stroke="#10b981"
-                    strokeDasharray="5 5"
-                    strokeWidth={2}
-                    label={{
-                        value: 'Objectif',
-                        position: 'top',
-                        fill: '#10b981',
-                        fontSize: 13,
-                        fontWeight: 600,
-                        offset: 10
-                    }}
-                />
+                {/* ✅ Ligne objectif à 80% (seulement si dans le range) */}
+                {yDomain[1] >= 80 && (
+                    <ReferenceLine
+                        y={80}
+                        stroke="#10b981"
+                        strokeDasharray="5 5"
+                        strokeWidth={2}
+                        label={{
+                            value: 'Objectif',
+                            position: 'top',
+                            fill: '#10b981',
+                            fontSize: 13,
+                            fontWeight: 600,
+                            offset: 10
+                        }}
+                    />
+                )}
+                {/* 🆕 Ligne de référence 0% si marges négatives */}
+                {minMargin < 0 && (
+                    <ReferenceLine
+                        y={0}
+                        stroke="#94a3b8"
+                        strokeDasharray="3 3"
+                        strokeWidth={1.5}
+                        label={{
+                            value: 'Seuil rentabilité',
+                            position: 'insideTopRight',
+                            fill: '#64748b',
+                            fontSize: 11,
+                            offset: 5
+                        }}
+                    />
+                )}
                 <Line
                     type="monotone"
                     dataKey="marginPercentage"

@@ -199,6 +199,37 @@ export function generateAutoSummary(rawData: any[]): string {
         return "Aucune donnée à analyser. Uploadez votre fichier CSV pour commencer.";
     }
 
+    // 🆕 Si config démo disponible, utiliser les valeurs pré-calculées
+    if (typeof window !== 'undefined' && (window as any).__demoChartData?.kpis) {
+        const kpis = (window as any).__demoChartData.kpis;
+        const totalCA = kpis.revenue.value;
+        const totalCharges = kpis.expenses.value;
+        const margeNette = kpis.netMargin;
+        const cashFlow = kpis.cashFlow.value;
+
+        const alertes = [];
+        if (cashFlow < 0) {
+            const runway = kpis.cashFlow.runway;
+            alertes.push(`Trésorerie négative : ${cashFlow.toLocaleString('fr-FR')} € (runway: ${runway} mois)`);
+        }
+        if (margeNette < -100) {
+            alertes.push(`Marge nette critique : ${margeNette.toFixed(1)}% (burn rate élevé)`);
+        }
+
+        return `🔍 **Analyse automatique terminée**
+
+📊 **Vue d'ensemble** : ${rawData.length} transactions analysées
+💰 **CA total** : ${totalCA.toLocaleString('fr-FR')} €
+📈 **Marge nette** : ${margeNette.toFixed(1)}%
+💸 **Cash Flow** : ${cashFlow.toLocaleString('fr-FR')} €
+
+${alertes.length > 0 ? `⚠️ **${alertes.length} alerte${alertes.length > 1 ? 's' : ''} détectée${alertes.length > 1 ? 's' : ''}** :
+${alertes.map(a => `   • ${a}`).join('\n')}` : '✅ **Aucune alerte majeure détectée**'}
+
+💡 **Posez-moi vos questions ci-dessous** pour analyser vos données en profondeur.`;
+    }
+
+    // Calcul standard depuis rawData
     const revenus = rawData.filter(r => r.type === 'income');
     const charges = rawData.filter(r => r.type === 'expense');
     const totalCA = revenus.reduce((sum, r) => sum + r.amount, 0);
