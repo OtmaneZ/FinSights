@@ -16,12 +16,17 @@
         "netMargin": -8.2,
         "cashFlow": {
             "value": -70000,
-            "runway": 8
+            "runway": 8,
+            "severity": "neutral"
         },
-        "dso": 42,
+        "dso": {
+            "value": 42,
+            "label": "À améliorer"
+        },
         "bfr": {
             "value": 95000,
-            "percent": 11.2
+            "percent": 11.2,
+            "label": "Élevé"
         }
     },
     "charts": {

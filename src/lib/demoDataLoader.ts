@@ -18,9 +18,9 @@ export interface DemoConfig {
         expenses: { value: number; variation: number };
         grossMargin: number;
         netMargin: number;
-        cashFlow: { value: number; variation?: number; runway?: number };
-        dso: number;
-        bfr: { value: number; percent: number };
+        cashFlow: { value: number; variation?: number; runway?: number; severity?: 'positive' | 'neutral' | 'negative' };
+        dso: { value: number; label?: string };
+        bfr: { value: number; percent: number; label?: string };
     };
 
     // Données pour graphiques (cohérentes avec KPIs)
@@ -137,7 +137,7 @@ export function convertDemoToProcessedData(config: DemoConfig): ProcessedData {
             margin: kpis.cashFlow.value,
             marginPercentage: kpis.netMargin,
             averageTransaction: kpis.revenue.value / dataQuality.transactionCount,
-            transactionFrequency: kpis.dso,
+            transactionFrequency: typeof kpis.dso === 'number' ? kpis.dso : kpis.dso.value,
             topCategories: {
                 income: [],
                 expense: charts.categoryBreakdown.slice(0, 5).map(cat => ({
@@ -213,14 +213,14 @@ export function generateKPIsFromConfig(config: DemoConfig): any[] {
             title: 'Cash & Liquidité',
             value: formatCurrency(kpis.cashFlow.value),
             change: kpis.cashFlow.runway ? `Runway: ${kpis.cashFlow.runway} mois` : formatPercent(kpis.cashFlow.variation || 0),
-            changeType: kpis.cashFlow.value > 0 ? 'positive' as const : 'negative' as const,
+            changeType: kpis.cashFlow.severity || (kpis.cashFlow.value > 0 ? 'positive' as const : 'negative' as const),
             description: 'Flux de trésorerie net',
             isAvailable: true
         },
         {
             title: 'DSO & Cycles Paiement',
-            value: `${kpis.dso} jours`,
-            change: 'Excellent',
+            value: `${typeof kpis.dso === 'number' ? kpis.dso : kpis.dso.value} jours`,
+            change: typeof kpis.dso === 'number' ? 'Excellent' : (kpis.dso.label || 'Excellent'),
             changeType: 'positive' as const,
             description: 'Délai moyen de paiement réel',
             isAvailable: true
@@ -229,7 +229,7 @@ export function generateKPIsFromConfig(config: DemoConfig): any[] {
             title: 'BFR & Résilience',
             value: formatCurrency(kpis.bfr.value),
             change: formatPercent(kpis.bfr.percent) + ' du CA',
-            changeType: kpis.bfr.percent > 20 ? 'negative' as const : 'positive' as const,
+            changeType: kpis.bfr.label === 'À surveiller' ? 'neutral' as const : (kpis.bfr.percent > 20 ? 'negative' as const : 'positive' as const),
             description: `Estimation depuis flux de trésorerie (DSO + DPO) (confiance: ${Math.round(config.dataQuality.confidence * 100)}%)`,
             isAvailable: true
         }
