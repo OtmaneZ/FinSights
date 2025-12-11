@@ -1,0 +1,195 @@
+{
+    "id": "startup-difficulte",
+    "company": "Startup SaaS",
+    "sector": "saas",
+    "description": "Startup SaaS en difficulté trésorerie - Burn rate élevé, faible traction",
+    "kpis": {
+        "revenue": {
+            "value": 19953,
+            "variation": 8
+        },
+        "expenses": {
+            "value": 46824,
+            "variation": 25
+        },
+        "grossMargin": 89.0,
+        "netMargin": -134.7,
+        "cashFlow": {
+            "value": -26872,
+            "runway": 2
+        },
+        "dso": 28,
+        "bfr": {
+            "value": -7979,
+            "percent": 40.0
+        }
+    },
+    "charts": {
+        "cashFlowEvolution": [
+            {
+                "month": "août 2024",
+                "revenue": 5100,
+                "expenses": 12200,
+                "cashFlow": -7100
+            },
+            {
+                "month": "sept. 2024",
+                "revenue": 4900,
+                "expenses": 11900,
+                "cashFlow": -7000
+            },
+            {
+                "month": "oct. 2024",
+                "revenue": 5000,
+                "expenses": 11500,
+                "cashFlow": -6500
+            },
+            {
+                "month": "nov. 2024",
+                "revenue": 4953,
+                "expenses": 11224,
+                "cashFlow": -6271
+            }
+        ],
+        "marginEvolution": [
+            {
+                "month": "août 2024",
+                "marginPercentage": -139.2
+            },
+            {
+                "month": "sept. 2024",
+                "marginPercentage": -142.9
+            },
+            {
+                "month": "oct. 2024",
+                "marginPercentage": -130.0
+            },
+            {
+                "month": "nov. 2024",
+                "marginPercentage": -126.6
+            }
+        ],
+        "categoryBreakdown": [
+            {
+                "name": "Masse Salariale",
+                "value": 37000,
+                "percentage": "79.0"
+            },
+            {
+                "name": "Immobilier",
+                "value": 4800,
+                "percentage": "10.2"
+            },
+            {
+                "name": "Infrastructure IT",
+                "value": 3024,
+                "percentage": "6.5"
+            },
+            {
+                "name": "Autres",
+                "value": 2000,
+                "percentage": "4.3"
+            }
+        ],
+        "topClients": [
+            {
+                "name": "Boucherie Tradition",
+                "value": 1400
+            },
+            {
+                "name": "Petite Épicerie Bio",
+                "value": 1200
+            },
+            {
+                "name": "Artisan Plomberie",
+                "value": 1100
+            },
+            {
+                "name": "PME Industrie Local",
+                "value": 960
+            },
+            {
+                "name": "PME Services",
+                "value": 900
+            }
+        ],
+        "sankeyFlow": {
+            "totalRevenue": 19953,
+            "totalExpenses": 46824,
+            "cashFlowNet": -26871
+        }
+    },
+    "anomalies": [
+        {
+            "type": "spike",
+            "severity": "high",
+            "category": "Infrastructure IT",
+            "amount": 1848,
+            "date": "03/08/2024",
+            "description": "Transaction 2k€ dans 'Infrastructure IT', 5.0× supérieure à la moyenne (371€)",
+            "confidence": 0.90
+        },
+        {
+            "type": "unusual",
+            "severity": "medium",
+            "category": "Masse Salariale",
+            "amount": 9000,
+            "date": "18/08/2024",
+            "description": "Transaction de 9k€ détectée, +782% vs. moyenne (1k€)",
+            "confidence": 0.76
+        },
+        {
+            "type": "unusual",
+            "severity": "medium",
+            "category": "Masse Salariale",
+            "amount": 9000,
+            "date": "15/09/2024",
+            "description": "Transaction de 9k€ détectée, +782% vs. moyenne (1k€)",
+            "confidence": 0.76
+        },
+        {
+            "type": "unusual",
+            "severity": "medium",
+            "category": "Masse Salariale",
+            "amount": 9000,
+            "date": "15/10/2024",
+            "description": "Transaction de 9k€ détectée, +782% vs. moyenne (1k€)",
+            "confidence": 0.76
+        },
+        {
+            "type": "unusual",
+            "severity": "medium",
+            "category": "Masse Salariale",
+            "amount": 9000,
+            "date": "15/11/2024",
+            "description": "Transaction de 9k€ détectée, +782% vs. moyenne (1k€)",
+            "confidence": 0.76
+        }
+    ],
+    "alerts": [
+        {
+            "type": "critical",
+            "title": "Risque de rupture cash immédiat",
+            "description": "Trésorerie négative détectée: -26872€. Runway en zone rouge. Action immédiate requise.",
+            "value": -26872,
+            "threshold": 0,
+            "actions": [
+                "ACTION URGENTE: Établir un plan de trésorerie à 90 jours",
+                "Négocier avec vos fournisseurs (délais de paiement)",
+                "Accélérer le recouvrement clients (affacturage si nécessaire)",
+                "Reporter les investissements non critiques",
+                "Contacter votre banquier pour une ligne de crédit"
+            ]
+        }
+    ],
+    "period": {
+        "start": "2024-08-01",
+        "end": "2024-11-15",
+        "months": 4
+    },
+    "dataQuality": {
+        "confidence": 0.80,
+        "transactionCount": 64,
+        "clientsCount": 55
+    }
+}

@@ -195,6 +195,12 @@ export default function FinancialDashboardV2() {
     // �🔧 Fonctions de préparation des données pour les charts
 
     const getMonthlyData = () => {
+        // 🆕 Si données démo pré-calculées disponibles, les utiliser
+        if (typeof window !== 'undefined' && (window as any).__demoChartData?.cashFlowEvolution) {
+            return (window as any).__demoChartData.cashFlowEvolution;
+        }
+
+        // Sinon, calcul automatique
         if (!rawData || rawData.length === 0) return [];
 
         const monthlyStats = rawData.reduce((acc: any, record: any) => {
@@ -219,6 +225,12 @@ export default function FinancialDashboardV2() {
     };
 
     const getCategoryBreakdown = () => {
+        // 🆕 Si données démo pré-calculées disponibles, les utiliser
+        if (typeof window !== 'undefined' && (window as any).__demoChartData?.categoryBreakdown) {
+            return (window as any).__demoChartData.categoryBreakdown;
+        }
+
+        // Sinon, calcul automatique
         if (!rawData || rawData.length === 0) return [];
 
         const expenses = rawData.filter((r: any) => r.type === 'expense');
@@ -260,6 +272,12 @@ export default function FinancialDashboardV2() {
     };
 
     const getMarginData = () => {
+        // 🆕 Si données démo pré-calculées disponibles, les utiliser
+        if (typeof window !== 'undefined' && (window as any).__demoChartData?.marginEvolution) {
+            return (window as any).__demoChartData.marginEvolution;
+        }
+
+        // Sinon, calcul automatique
         if (!rawData || rawData.length === 0) return [];
 
         const monthlyStats = rawData.reduce((acc: any, record: any) => {
@@ -284,6 +302,12 @@ export default function FinancialDashboardV2() {
     };
 
     const getTopClients = () => {
+        // 🆕 Si données démo pré-calculées disponibles, les utiliser
+        if (typeof window !== 'undefined' && (window as any).__demoChartData?.topClients) {
+            return (window as any).__demoChartData.topClients;
+        }
+
+        // Sinon, calcul automatique
         if (!rawData || !rawData.length) return [];
 
         const clientTotals = rawData
@@ -909,6 +933,95 @@ export default function FinancialDashboardV2() {
         setLoadingMessage(config.loadingMsg);
 
         try {
+            // 🆕 Détection si c'est une démo avec config JSON
+            const { isDemoFile, loadDemo } = await import('@/lib/demoDataLoader');
+            const filename = config.file.split('/').pop() || '';
+
+            if (isDemoFile(filename)) {
+                // 🆕 NOUVEAU : Chargement depuis JSON pré-calculé
+                setLoadingProgress(30);
+                setLoadingMessage('Chargement configuration démo...');
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                const { processedData, config: demoConfig } = await loadDemo(filename);
+
+                setLoadingProgress(60);
+                setLoadingMessage('Génération KPIs cohérents...');
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // Import du système adaptatif
+                const { generateAdaptiveKPIs, detectCapabilities } = await import('@/lib/dashboardConfig');
+
+                // Créer capabilities fictifs pour la démo
+                const capabilities = {
+                    canShowKPIs: true,
+                    canShowBasicCharts: true,
+                    canShowMonthlyTrends: true,
+                    canShowCategoryAnalysis: true,
+                    canShowTopClients: true,
+                    canShowDSO: true,
+                    canShowProjections: false,
+                    canShowAlerts: true,
+                    canShowAIInsights: true,
+                    recordCount: demoConfig.dataQuality.transactionCount,
+                    uniqueCounterparties: demoConfig.dataQuality.clientsCount,
+                    uniqueCategories: demoConfig.charts.categoryBreakdown.length,
+                    monthsSpan: demoConfig.period.months,
+                    suggestions: []
+                };
+
+                // Générer KPIs depuis processedData
+                const kpis = generateAdaptiveKPIs(processedData, capabilities);
+
+                setDashboardConfig(capabilities);
+
+                setLoadingProgress(90);
+                setLoadingMessage('Finalisation...');
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // Mise à jour state
+                setKpis((kpis || []).map((kpi: any) => ({
+                    title: kpi.title,
+                    value: kpi.value,
+                    change: kpi.change,
+                    changeType: kpi.changeType as 'positive' | 'negative' | 'neutral',
+                    description: kpi.description
+                })));
+
+                // Wrapper ProcessedData → FinSightDataModel
+                const finSightModel: any = {
+                    id: `demo-${scenario}-${Date.now()}`,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    userId: 'demo-user',
+                    companyInfo: {
+                        name: config.companyName,
+                        sector: config.sector,
+                        employees: 10
+                    },
+                    dataSource: { type: 'csv', filename: filename },
+                    processedData: processedData,
+                    mlInsights: [],
+                    status: 'completed' as const
+                };
+
+                setFinSightData(finSightModel);
+                setRawData(processedData.records);
+                setIsDataLoaded(true);
+                setLoadingProgress(100);
+                setCompanySector(config.sector);
+
+                // Store config for charts
+                (window as any).__demoChartData = demoConfig.charts;
+                (window as any).__demoAnomalies = demoConfig.anomalies;
+                (window as any).__demoAlerts = demoConfig.alerts;
+
+                await new Promise(resolve => setTimeout(resolve, 500));
+                setIsLoadingDemo(false);
+                return;
+            }
+
+            // ⬇️ ANCIEN FLOW (pour démos sans config JSON)
             // Animation de progression
             setLoadingProgress(20);
             await new Promise(resolve => setTimeout(resolve, 500));
