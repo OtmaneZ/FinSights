@@ -73,6 +73,9 @@ export default function Header() {
                     <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                         Démo
                     </Link>
+                    <Link href="/pour-qui" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Pour qui ?
+                    </Link>
                     <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                         Tarifs
                     </Link>
