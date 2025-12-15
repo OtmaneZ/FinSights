@@ -103,32 +103,10 @@ const guides: Guide[] = [
         color: 'border-l-4 border-purple-600 bg-gray-50',
         badge: 'Complet',
         topics: ['KPIs', 'Dashboard', 'Performance', 'Pilotage']
-    },
-    {
-        id: 'guide-levee-fonds-cfo',
-        title: 'Guide Levée de Fonds pour CFO',
-        description: 'Préparez votre levée de fonds avec la checklist financière complète',
-        pages: '22 pages',
-        icon: FileText,
-        features: [
-            'Due diligence financière : documents requis',
-            'Business plan financier : 5 ans de prévisions',
-            'Valorisation : méthodes DCF, multiples, comparables',
-            'Timeline fundraising : 6 mois étape par étape',
-            'Term sheet : clauses à négocier',
-            'Red flags investisseurs & comment les éviter'
-        ],
-        downloadUrl: '/ressources/guides/guide-levee-fonds-cfo.pdf',
-        color: 'border-l-4 border-purple-600 bg-gray-50',
-        badge: 'Bientôt disponible',
-        topics: ['Levée de fonds', 'Valorisation', 'Fundraising', 'Investisseurs']
     }
 ]
 
 export default function GuidesPage() {
-    const availableGuides = guides.filter(g => g.badge !== 'Bientôt disponible')
-    const comingSoonGuides = guides.filter(g => g.badge === 'Bientôt disponible')
-
     return (
         <div className="min-h-screen bg-primary text-primary font-sans">
             <Header />
@@ -163,7 +141,7 @@ export default function GuidesPage() {
                 {/* Guides disponibles - Corporate Grid */}
                 <section className="mb-20">
                     <div className="space-y-8">
-                        {availableGuides.map((guide) => {
+                        {guides.map((guide) => {
                             const Icon = guide.icon
                             return (
                                 <div
