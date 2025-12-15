@@ -138,6 +138,10 @@ export default function ConsultingPage() {
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-secondary">Lecture experte + recommandations humaines</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                                 <span className="text-sm text-secondary">3 actions prioritaires</span>
                             </li>
                             <li className="flex items-start gap-3">
@@ -152,7 +156,7 @@ export default function ConsultingPage() {
                             rel="noopener noreferrer"
                             className="block w-full px-6 py-3 border-2 border-blue-600 hover:bg-blue-50 text-blue-600 rounded-lg font-semibold text-center transition-all"
                         >
-                            Commander
+                            Lancer le diagnostic
                         </a>
 
                         <p className="text-xs text-tertiary mt-4 text-center">
@@ -191,6 +195,10 @@ export default function ConsultingPage() {
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
                                 <span className="text-sm text-secondary">Analyse KPIs avancée (DSO, BFR, marge, cash flow)</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-secondary">Décisions priorisées à 90 jours</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
@@ -259,7 +267,7 @@ export default function ConsultingPage() {
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary">KPIs métier configurés (15-20 indicateurs)</span>
+                                <span className="text-sm text-secondary">KPIs décisionnels configurés (cash, marges, BFR, runway)</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
