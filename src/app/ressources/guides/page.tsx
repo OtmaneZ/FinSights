@@ -112,84 +112,81 @@ export default function GuidesPage() {
             <Header />
 
             <div className="max-w-6xl mx-auto px-6 py-20">
-                {/* Hero Section - Corporate Clean */}
-                <div className="text-center mb-20">
+                {/* Hero Section - Corporate Clean avec stats */}
+                <div className="text-center mb-16">
                     <h1 className="text-5xl font-bold mb-6 leading-tight text-primary tracking-tight">
                         Ressources Finance & Pilotage
                     </h1>
 
-                    <p className="text-xl text-secondary max-w-2xl mx-auto mb-8 leading-relaxed">
+                    <p className="text-xl text-secondary max-w-2xl mx-auto mb-6 leading-relaxed">
                         Guides méthodologiques gratuits pour structurer votre pilotage financier
                     </p>
 
-                    <div className="flex items-center justify-center gap-8 text-sm text-tertiary">
+                    <div className="flex items-center justify-center gap-6 text-sm text-tertiary mb-8">
+                        <div className="flex items-center gap-2">
+                            <div className="w-1 h-1 rounded-full bg-accent-primary"></div>
+                            <span>4 guides</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-1 h-1 rounded-full bg-accent-primary"></div>
+                            <span>43 pages</span>
+                        </div>
                         <div className="flex items-center gap-2">
                             <div className="w-1 h-1 rounded-full bg-accent-primary"></div>
                             <span>Téléchargement direct</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-1 h-1 rounded-full bg-accent-primary"></div>
-                            <span>Sans inscription</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-1 h-1 rounded-full bg-accent-primary"></div>
-                            <span>Format PDF professionnel</span>
-                        </div>
                     </div>
                 </div>
 
-                {/* Guides disponibles - Corporate Grid */}
+                {/* Guides disponibles - Grid 2x2 */}
                 <section className="mb-20">
-                    <div className="space-y-8">
+                    <div className="grid md:grid-cols-2 gap-8">
                         {guides.map((guide) => {
                             const Icon = guide.icon
                             return (
                                 <div
                                     key={guide.id}
-                                    className="surface rounded-xl p-10 border border-border-default hover:border-accent-primary transition-all group"
+                                    className="surface rounded-xl p-8 border border-border-default hover:border-accent-primary transition-all group"
                                 >
-                                    <div className="grid md:grid-cols-[auto_1fr_auto] gap-8 items-start">
-                                        {/* Icon minimaliste */}
-                                        <div className="w-14 h-14 rounded-lg border border-border-default flex items-center justify-center group-hover:border-accent-primary transition-all">
-                                            <Icon className="w-7 h-7 text-accent-primary" />
+                                    {/* Header avec icon + title */}
+                                    <div className="flex items-start gap-4 mb-4">
+                                        <div className="w-12 h-12 rounded-lg border border-border-default flex items-center justify-center group-hover:border-accent-primary transition-all flex-shrink-0">
+                                            <Icon className="w-6 h-6 text-accent-primary" />
                                         </div>
-
-                                        {/* Content */}
                                         <div className="flex-1">
-                                            <div className="flex items-center gap-3 mb-3">
-                                                <h3 className="text-2xl font-bold text-primary">
-                                                    {guide.title}
-                                                </h3>
-                                                <span className="text-xs text-tertiary uppercase tracking-wider font-medium">
-                                                    {guide.pages}
-                                                </span>
-                                            </div>
-
-                                            <p className="text-secondary mb-6 leading-relaxed">
-                                                {guide.description}
-                                            </p>
-
-                                            {/* Features liste compacte */}
-                                            <div className="grid md:grid-cols-2 gap-x-6 gap-y-2">
-                                                {guide.features.map((feature, idx) => (
-                                                    <div key={idx} className="flex items-start gap-2 text-sm text-secondary">
-                                                        <div className="w-1 h-1 rounded-full bg-accent-primary flex-shrink-0 mt-2"></div>
-                                                        <span>{feature}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                            <h3 className="text-xl font-bold text-primary mb-1 leading-tight">
+                                                {guide.title}
+                                            </h3>
+                                            <span className="text-xs text-tertiary uppercase tracking-wider font-medium">
+                                                {guide.pages}
+                                            </span>
                                         </div>
-
-                                        {/* CTA Button compact */}
-                                        <a
-                                            href={guide.downloadUrl}
-                                            download
-                                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all hover:shadow-md whitespace-nowrap"
-                                        >
-                                            <Download className="w-4 h-4" />
-                                            Télécharger
-                                        </a>
                                     </div>
+
+                                    {/* Description */}
+                                    <p className="text-secondary mb-6 leading-relaxed text-sm">
+                                        {guide.description}
+                                    </p>
+
+                                    {/* Features - Top 3 seulement */}
+                                    <ul className="space-y-2 mb-6">
+                                        {guide.features.slice(0, 3).map((feature, idx) => (
+                                            <li key={idx} className="flex items-start gap-2 text-sm text-secondary">
+                                                <div className="w-1 h-1 rounded-full bg-accent-primary flex-shrink-0 mt-2"></div>
+                                                <span>{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    {/* CTA Button */}
+                                    <a
+                                        href={guide.downloadUrl}
+                                        download
+                                        className="inline-flex items-center gap-2 w-full justify-center px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all hover:shadow-md"
+                                    >
+                                        <Download className="w-4 h-4" />
+                                        Télécharger le guide
+                                    </a>
                                 </div>
                             )
                         })}
