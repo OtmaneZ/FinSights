@@ -635,7 +635,62 @@ export default function Home() {
             {/* Consulting Section (brief offers) */}
             <ConsultingSection />
 
-            {/* Testimonials */}
+            {/* Témoignages clients – preuve sociale FP&A */}
+            <section className="max-w-5xl mx-auto px-6 py-16">
+                <h2 className="text-3xl font-bold mb-10 text-center text-primary">
+                    Ils m'ont confié leur pilotage financier
+                </h2>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                    {/* Témoignage 1 */}
+                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
+                        <p className="text-secondary mb-6 italic leading-relaxed">
+                            "Nous avons enfin une lecture claire de notre situation financière et
+                            des indicateurs réellement utiles pour décider.
+                            Otmane a structuré un pilotage adapté à notre réalité métier."
+                        </p>
+
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                <span className="text-blue-600 font-bold text-lg">DA</span>
+                            </div>
+
+                            <div>
+                                <p className="font-semibold text-primary">
+                                    Directrice Administrative
+                                </p>
+                                <p className="text-sm text-tertiary">
+                                    Groupe de formation professionnelle
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Témoignage 2 */}
+                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
+                        <p className="text-secondary mb-6 italic leading-relaxed">
+                            "Le suivi financier est devenu fiable et exploitable sans dépendre
+                            de fichiers manuels.
+                            Nous avons gagné en clarté et en sérénité dans nos décisions."
+                        </p>
+
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                                <span className="text-purple-600 font-bold text-lg">LB</span>
+                            </div>
+
+                            <div>
+                                <p className="font-semibold text-primary">Gérante</p>
+                                <p className="text-sm text-tertiary">
+                                    Agence de placement de guides
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Cas d'usage techniques */}
             <Testimonials />
 
             <Footer />
