@@ -521,13 +521,6 @@ export default function ConsultingPage() {
                         </div>
                     </div>
                 </div>
-
-                {/* Note explicative transparente */}
-                <div className="mt-8 p-6 bg-blue-50 border-l-4 border-accent-primary rounded-lg">
-                    <p className="text-sm text-secondary">
-                        <strong className="text-primary">Début d'activité consulting :</strong> Profil récent sur Malt (novembre 2024). FinSight démontre les capacités techniques (full-stack, IA, finance) pour construire des solutions data sur-mesure.
-                    </p>
-                </div>
             </section>
 
             {/* Expertises Section */}
