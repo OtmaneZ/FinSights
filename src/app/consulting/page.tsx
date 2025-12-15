@@ -379,6 +379,157 @@ export default function ConsultingPage() {
                 </div>
             </section>
 
+            {/* Réalisations récentes */}
+            <section className="max-w-6xl mx-auto px-6 pb-24">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold mb-4">Réalisations récentes</h2>
+                    <p className="text-secondary text-lg">
+                        Exemples de projets data/finance livrés
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Mission 1: PowerBI IDM */}
+                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                                <BarChart3 className="w-6 h-6 text-blue-600" />
+                            </div>
+                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                                Livré
+                            </span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">Dashboard PowerBI RH & Finance</h3>
+                        <p className="text-sm text-tertiary mb-4">
+                            Groupe formation professionnelle • 500M€ CA
+                        </p>
+                        <p className="text-secondary mb-6">
+                            Création dashboard PowerBI multi-sources (RH + comptabilité) avec KPIs personnalisés, automatisation refresh quotidien, formation équipe finance.
+                        </p>
+                        <div className="flex flex-wrap gap-2 mb-6">
+                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
+                                Power BI
+                            </span>
+                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
+                                ETL
+                            </span>
+                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
+                                DAX
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-4 text-sm">
+                            <span className="flex items-center gap-1 text-tertiary">
+                                <Clock className="w-4 h-4" />
+                                3 semaines
+                            </span>
+                            <span className="flex items-center gap-1 text-tertiary">
+                                <CheckCircle2 className="w-4 h-4 text-green-600" />
+                                Décembre 2024
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Mission 2: Le Bal de Saint Bonnet */}
+                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                                <Users className="w-6 h-6 text-purple-600" />
+                            </div>
+                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                                Livré
+                            </span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">Dashboard Suivi Placements Guides</h3>
+                        <p className="text-sm text-tertiary mb-4">
+                            Agence placement guides touristiques
+                        </p>
+                        <p className="text-secondary mb-6">
+                            Dashboard Excel/PowerBI pour suivi placements, disponibilités guides, facturation automatisée, KPIs occupation et CA par guide.
+                        </p>
+                        <div className="flex flex-wrap gap-2 mb-6">
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                Excel Pro
+                            </span>
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                Automatisation
+                            </span>
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                KPIs métier
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-4 text-sm">
+                            <span className="flex items-center gap-1 text-tertiary">
+                                <Clock className="w-4 h-4" />
+                                2 semaines
+                            </span>
+                            <span className="flex items-center gap-1 text-tertiary">
+                                <CheckCircle2 className="w-4 h-4 text-green-600" />
+                                2024
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Mission 3: FinSight (démo capacités) */}
+                    <div className="surface rounded-xl p-8 border-2 border-accent-primary md:col-span-2">
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-accent-primary flex items-center justify-center">
+                                <Sparkles className="w-6 h-6 text-white" />
+                            </div>
+                            <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full">
+                                Démo technique
+                            </span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">FinSight - Plateforme FP&A IA</h3>
+                        <p className="text-sm text-tertiary mb-4">
+                            Projet personnel • Démonstration full-stack + IA
+                        </p>
+                        <p className="text-secondary mb-6">
+                            Plateforme SaaS complète : 50+ KPIs automatiques, AI Copilot GPT-4, détection anomalies ML, Score FinSight™, exports PDF/Excel, collaboration temps réel. Démontre capacités techniques pour projets data/finance sur-mesure.
+                        </p>
+                        <div className="flex flex-wrap gap-2 mb-6">
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                Next.js 14
+                            </span>
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                TypeScript
+                            </span>
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                FastAPI Python
+                            </span>
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                OpenAI GPT-4
+                            </span>
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                ML
+                            </span>
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                PostgreSQL
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-6 text-sm">
+                            <Link
+                                href="/dashboard"
+                                className="inline-flex items-center gap-2 text-accent-primary font-semibold hover:underline"
+                            >
+                                Tester la démo
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
+                            <span className="flex items-center gap-1 text-tertiary">
+                                <CheckCircle2 className="w-4 h-4 text-accent-primary" />
+                                En production
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Note explicative transparente */}
+                <div className="mt-8 p-6 bg-blue-50 border-l-4 border-accent-primary rounded-lg">
+                    <p className="text-sm text-secondary">
+                        <strong className="text-primary">Début d'activité consulting :</strong> Profil récent sur Malt (novembre 2024). FinSight démontre les capacités techniques (full-stack, IA, finance) pour construire des solutions data sur-mesure.
+                    </p>
+                </div>
+            </section>
+
             {/* Expertises Section */}
             <section className="max-w-6xl mx-auto px-6 pb-24">
                 <div className="text-center mb-12">

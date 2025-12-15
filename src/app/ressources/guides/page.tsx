@@ -259,13 +259,15 @@ export default function GuidesPage() {
                                 <p className="text-sm text-tertiary mb-5">
                                     ✅ Missions récentes : DAF externalisé PME | Dashboards PowerBI FP&A | Automatisation reporting mensuel
                                 </p>
-                                <Link
-                                    href="/consulting"
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all"
                                 >
-                                    Voir les réalisations
+                                    Réserver 30 min gratuites
                                     <ArrowRight className="w-5 h-5" />
-                                </Link>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -417,13 +419,15 @@ export default function GuidesPage() {
                                 <strong>Mission type :</strong> Dashboard FP&A automatisé (Budget vs Réalisé, Cash Flow 12 mois, rapports PowerBI mensuels) → livré en 3-4 semaines
                             </p>
                         </div>
-                        <Link
-                            href="/consulting"
+                        <a
+                            href="https://calendly.com/zineinsight"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 w-full justify-center px-6 py-3 bg-white text-blue-600 hover:bg-gray-100 rounded-lg font-bold transition-all"
                         >
-                            Voir les réalisations
+                            Discutons de votre besoin
                             <ArrowRight className="w-5 h-5" />
-                        </Link>
+                        </a>
                         <p className="text-xs opacity-75 text-center mt-3">
                             Échangeons sur votre besoin spécifique
                         </p>
