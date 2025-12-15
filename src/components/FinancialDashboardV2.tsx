@@ -93,6 +93,10 @@ import RealtimeToast, { ToastNotification } from './realtime/RealtimeToast'
 // Import Alert Settings
 import AlertSettings from './AlertSettings'
 
+// Import SaaS Metrics
+import SaaSMetricsSection from './SaaSMetricsSection'
+import { calculateSaaSMetrics, type SaaSMetrics } from '@/lib/saasMetrics'
+
 // Import Exporters
 import { FinancialPDFExporter } from '@/lib/pdfExporter'
 import { FinancialExcelExporter } from '@/lib/excelExporter'
@@ -184,6 +188,9 @@ export default function FinancialDashboardV2() {
     const [predictionAlerts, setPredictionAlerts] = useState<PredictionAlert[]>([]);
     const [seasonalityDetected, setSeasonalityDetected] = useState(false);
     const [isLoadingPredictions, setIsLoadingPredictions] = useState(false);
+
+    // SaaS Metrics state
+    const [saasMetrics, setSaasMetrics] = useState<SaaSMetrics | null>(null);
 
     // 🔔 Toast notifications - Défini tôt pour être accessible partout
     const addToast = (toast: Omit<ToastNotification, 'id'>) => {
@@ -1210,6 +1217,27 @@ export default function FinancialDashboardV2() {
         }
     }, [rawData]);
 
+    // 📊 Calculate SaaS metrics when data changes (only for SaaS companies)
+    useEffect(() => {
+        if (rawData && rawData.length > 0 && companySector === 'saas') {
+            // Get revenue, expenses, cashFlow from KPIs or calculate from rawData
+            const revenue = kpis.find(k => k.title === 'Revenus & Croissance')?.value;
+            const expenses = kpis.find(k => k.title === 'Charges & Contrôle')?.value;
+            const cashFlow = kpis.find(k => k.title === 'Cash & Liquidité')?.value;
+
+            if (revenue && expenses && cashFlow) {
+                const revenueNum = parseFloat(revenue.replace(/[^0-9.-]/g, ''));
+                const expensesNum = parseFloat(expenses.replace(/[^0-9.-]/g, ''));
+                const cashFlowNum = parseFloat(cashFlow.replace(/[^0-9.-]/g, ''));
+
+                const metrics = calculateSaaSMetrics(rawData, revenueNum, expensesNum, cashFlowNum);
+                setSaasMetrics(metrics);
+            }
+        } else if (companySector !== 'saas') {
+            setSaasMetrics(null);
+        }
+    }, [rawData, kpis, companySector]);
+
     // 🔄 Load saved dashboard if ?id= parameter exists
     useEffect(() => {
         const dashboardId = searchParams?.get('id');
@@ -1501,6 +1529,11 @@ export default function FinancialDashboardV2() {
                 {/* 🤝 CTA Consulting Banner - Subtle après upload */}
                 {isDataLoaded && (
                     <ConsultingBanner variant="subtle" />
+                )}
+
+                {/* 💰 SaaS Metrics Section - Only for SaaS companies */}
+                {companySector === 'saas' && saasMetrics && (
+                    <SaaSMetricsSection metrics={saasMetrics} />
                 )}
 
                 {/* KPIs Grid - Layout CFO-friendly: 3 colonnes, plus dense */}
