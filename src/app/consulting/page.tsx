@@ -118,7 +118,7 @@ export default function ConsultingPage() {
 
                         <div className="mb-6">
                             <div className="flex items-baseline gap-2 mb-2">
-                                <span className="text-5xl font-bold text-blue-600">290€</span>
+                                <span className="text-5xl font-bold text-blue-600">590€</span>
                             </div>
                             <p className="text-secondary text-sm">Livrable en 48h</p>
                         </div>
@@ -178,7 +178,7 @@ export default function ConsultingPage() {
 
                         <div className="mb-6">
                             <div className="flex items-baseline gap-2 mb-2">
-                                <span className="text-5xl font-bold text-accent-primary">2 900€</span>
+                                <span className="text-5xl font-bold text-accent-primary">4 900€</span>
                             </div>
                             <p className="text-secondary text-sm">Livrable en 3-5 jours</p>
                         </div>
@@ -247,7 +247,7 @@ export default function ConsultingPage() {
 
                         <div className="mb-6">
                             <div className="flex items-baseline gap-2 mb-2">
-                                <span className="text-5xl font-bold text-accent-primary">6 900€</span>
+                                <span className="text-5xl font-bold text-accent-primary">9 900€</span>
                             </div>
                             <p className="text-secondary text-sm">Livrable en 2-3 semaines</p>
                         </div>
