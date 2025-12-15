@@ -155,176 +155,129 @@ export default function BlogPage() {
 
             <Header />
 
-            {/* Hero Section */}
-            <section className="max-w-7xl mx-auto px-6 pt-20 pb-12">
+            {/* Hero Section - Corporate */}
+            <section className="max-w-6xl mx-auto px-6 pt-24 pb-16">
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-6">
-                        <FileText className="w-4 h-4 text-accent-primary" />
-                        <span className="text-accent-primary text-sm font-medium">Blog Finance</span>
-                    </div>
-                    <h1 className="text-5xl font-bold mb-4">
-                        Finance × Data × IA
+                    <h1 className="text-5xl font-bold mb-6 text-primary tracking-tight">
+                        Ressources Finance & Data
                     </h1>
-                    <p className="text-xl text-secondary max-w-2xl mx-auto">
-                        Guides pratiques, formules financières et conseils pour CFO et DAF
+                    <p className="text-xl text-secondary max-w-2xl mx-auto leading-relaxed">
+                        Guides méthodologiques, formules de calcul et best practices pour le pilotage financier
                     </p>
                 </div>
 
-                {/* 🔍 Search + Filters */}
-                <div className="mb-12 space-y-4">
+                {/* Search + Filters - Plus sobre */}
+                <div className="mb-16 space-y-6">
                     {/* Barre de recherche */}
-                    <div className="relative max-w-2xl mx-auto">
+                    <div className="relative max-w-xl mx-auto">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary" />
                         <input
                             type="text"
-                            placeholder="Rechercher un article..."
+                            placeholder="Rechercher..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-4 py-4 surface rounded-xl border border-border-default focus:border-accent-primary-border focus:ring-2 focus:ring-accent-primary/20 transition-all text-base"
+                            className="w-full pl-12 pr-4 py-3 surface rounded-lg border border-border-default focus:border-accent-primary transition-all text-base"
                         />
                     </div>
 
-                    {/* Filtres catégories */}
-                    <div className="flex flex-wrap justify-center gap-3">
+                    {/* Filtres catégories minimalistes */}
+                    <div className="flex flex-wrap justify-center gap-2">
                         {categories.map((category) => (
                             <button
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all ${selectedCategory === category
-                                    ? 'bg-accent-primary text-white shadow-lg'
-                                    : 'bg-surface-elevated text-secondary hover:bg-accent-primary-subtle hover:text-accent-primary border border-border-subtle'
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${selectedCategory === category
+                                    ? 'bg-accent-primary text-white'
+                                    : 'bg-surface-elevated text-secondary hover:text-accent-primary border border-border-default hover:border-accent-primary'
                                     }`}
                             >
-                                {category !== 'Tous' && getCategoryIcon(category)}
                                 {category}
                             </button>
                         ))}
                     </div>
 
-                    {/* Badge tag actif */}
+                    {/* Badge tag actif sobre */}
                     {selectedTag && (
                         <div className="flex justify-center">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full text-accent-primary text-sm font-medium">
-                                <span>🏷️ Filtre : <strong>{selectedTag}</strong></span>
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface-elevated border border-border-default rounded-lg text-sm">
+                                <span className="text-secondary">Filtre : <strong className="text-primary">{selectedTag}</strong></span>
                                 <button
                                     onClick={() => setSelectedTag(null)}
-                                    className="ml-1 hover:bg-accent-primary hover:text-white rounded-full p-1 transition-all"
+                                    className="ml-1 text-tertiary hover:text-primary"
                                 >
-                                    ✕
+                                    ×
                                 </button>
                             </div>
                         </div>
                     )}
                 </div>
 
-                {/* 🌟 Featured Article (Hero) */}
+                {/* Featured Article - Plus sobre */}
                 {featuredPost && (
                     <Link
                         href={`/blog/${featuredPost.slug}`}
-                        className="block mb-12 surface rounded-2xl overflow-hidden border border-border-default hover:border-accent-primary-border transition-all hover:shadow-2xl group"
+                        className="block mb-16 surface rounded-xl p-10 border border-border-default hover:border-accent-primary transition-all group"
                     >
-                        <div className="grid md:grid-cols-2 gap-0">
-                            {/* Image article vedette */}
-                            <div className="relative h-80 md:h-auto overflow-hidden">
-                                <Image
-                                    src="/blog/calcul_dso.png"
-                                    alt={featuredPost.title}
-                                    width={800}
-                                    height={600}
-                                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                                    priority
-                                />
-                                <div className="absolute top-4 left-4">
-                                    <span className="px-4 py-2 bg-white/90 backdrop-blur-sm text-accent-primary text-sm font-bold rounded-full shadow-lg">
-                                        ⭐ Article vedette
-                                    </span>
-                                </div>
+                        <div className="max-w-4xl">
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className="text-xs text-tertiary uppercase tracking-wider font-medium">
+                                    {featuredPost.category}
+                                </span>
+                                <span className="w-1 h-1 rounded-full bg-border-default"></span>
+                                <span className="text-sm text-tertiary">
+                                    {featuredPost.date}
+                                </span>
+                                <span className="w-1 h-1 rounded-full bg-border-default"></span>
+                                <span className="text-sm text-tertiary">
+                                    {featuredPost.readTime}
+                                </span>
                             </div>
-
-                            {/* Content */}
-                            <div className="p-8 md:p-12 flex flex-col justify-center">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <span className="px-3 py-1 bg-accent-primary-subtle text-accent-primary text-xs font-medium rounded-full">
-                                        {featuredPost.category}
-                                    </span>
-                                    <span className="flex items-center gap-2 text-tertiary text-sm">
-                                        <Calendar className="w-4 h-4" />
-                                        {featuredPost.date}
-                                    </span>
-                                </div>
-                                <h2 className="text-3xl md:text-4xl font-bold mb-4 group-hover:text-accent-primary transition-colors">
-                                    {featuredPost.title}
-                                </h2>
-                                <p className="text-lg text-secondary leading-relaxed mb-6">
-                                    {featuredPost.description}
-                                </p>
-                                <div className="flex items-center gap-4 text-sm">
-                                    <span className="text-tertiary">⏱️ {featuredPost.readTime} de lecture</span>
-                                    <div className="flex items-center gap-2 text-accent-primary font-semibold group-hover:gap-3 transition-all">
-                                        Lire l'article
-                                        <ArrowRight className="w-5 h-5" />
-                                    </div>
-                                </div>
+                            <h2 className="text-4xl font-bold mb-4 text-primary group-hover:text-accent-primary transition-colors leading-tight">
+                                {featuredPost.title}
+                            </h2>
+                            <p className="text-lg text-secondary leading-relaxed mb-6">
+                                {featuredPost.description}
+                            </p>
+                            <div className="flex items-center gap-2 text-accent-primary font-semibold">
+                                Lire l'article
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </div>
                         </div>
                     </Link>
                 )}
 
-                {/* 📚 Regular Articles Grid */}
+                {/* Articles Grid - Corporate clean */}
                 <div className="space-y-6">
                     {regularPosts.length > 0 ? (
                         regularPosts.map((post) => (
                             <Link
                                 key={post.slug}
                                 href={`/blog/${post.slug}`}
-                                className="block surface rounded-xl p-8 border border-border-default hover:border-accent-primary-border transition-all hover:shadow-lg group"
+                                className="block surface rounded-lg p-8 border border-border-default hover:border-accent-primary transition-all group"
                             >
                                 <div className="flex items-start justify-between gap-6">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <button
-                                                onClick={(e) => {
-                                                    e.preventDefault()
-                                                    setSelectedCategory(post.category)
-                                                }}
-                                                className="px-3 py-1 bg-accent-primary-subtle text-accent-primary text-xs font-medium rounded-full hover:bg-accent-primary hover:text-white transition-all"
-                                            >
+                                            <span className="text-xs text-tertiary uppercase tracking-wider font-medium">
                                                 {post.category}
-                                            </button>
-                                            <span className="flex items-center gap-2 text-tertiary text-sm">
-                                                <Calendar className="w-4 h-4" />
+                                            </span>
+                                            <span className="w-1 h-1 rounded-full bg-border-default"></span>
+                                            <span className="text-sm text-tertiary">
                                                 {post.date}
                                             </span>
-                                            <span className="text-tertiary text-sm">
-                                                • {post.readTime} de lecture
+                                            <span className="w-1 h-1 rounded-full bg-border-default"></span>
+                                            <span className="text-sm text-tertiary">
+                                                {post.readTime}
                                             </span>
                                         </div>
-                                        <h2 className="text-2xl font-bold mb-3 group-hover:text-accent-primary transition-colors">
+                                        <h2 className="text-2xl font-bold mb-3 text-primary group-hover:text-accent-primary transition-colors">
                                             {post.title}
                                         </h2>
-                                        <p className="text-secondary leading-relaxed mb-4">
+                                        <p className="text-secondary leading-relaxed">
                                             {post.description}
                                         </p>
-                                        {/* 🏷️ Tags cliquables */}
-                                        <div className="flex flex-wrap gap-2">
-                                            {post.tags.map((tag) => (
-                                                <button
-                                                    key={tag}
-                                                    onClick={(e) => {
-                                                        e.preventDefault()
-                                                        setSelectedTag(tag === selectedTag ? null : tag)
-                                                    }}
-                                                    className={`px-3 py-1 text-xs font-medium rounded-full border transition-all ${selectedTag === tag
-                                                            ? 'bg-accent-primary text-white border-accent-primary'
-                                                            : 'bg-surface-elevated text-tertiary border-border-subtle hover:border-accent-primary-border hover:text-accent-primary'
-                                                        }`}
-                                                >
-                                                    {tag}
-                                                </button>
-                                            ))}
-                                        </div>
                                     </div>
-                                    <ArrowRight className="w-6 h-6 text-accent-primary flex-shrink-0 group-hover:translate-x-1 transition-transform" />
+                                    <ArrowRight className="w-5 h-5 text-accent-primary flex-shrink-0 group-hover:translate-x-1 transition-transform mt-1" />
                                 </div>
                             </Link>
                         ))
@@ -349,21 +302,29 @@ export default function BlogPage() {
                     )}
                 </div>
 
-                {/* CTA Section */}
-                <div className="mt-16 surface rounded-2xl p-12 border border-accent-primary-border text-center">
-                    <h2 className="text-3xl font-bold mb-4">
-                        Automatisez votre analyse financière
+                {/* CTA Section sobre */}
+                <div className="mt-20 surface rounded-xl p-12 border border-border-default text-center">
+                    <h2 className="text-3xl font-bold mb-4 text-primary">
+                        Automatisez votre pilotage financier
                     </h2>
-                    <p className="text-xl text-secondary mb-8 max-w-2xl mx-auto">
-                        FinSight calcule automatiquement tous vos KPIs depuis vos exports comptables
+                    <p className="text-lg text-secondary mb-8 max-w-2xl mx-auto leading-relaxed">
+                        Dashboards FP&A sur-mesure avec calcul automatique de vos KPIs
                     </p>
-                    <Link
-                        href="/dashboard"
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-lg transition-all hover:shadow-lg"
-                    >
-                        Essayer gratuitement
-                        <ArrowRight className="w-5 h-5" />
-                    </Link>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Link
+                            href="/dashboard"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all"
+                        >
+                            Voir la démo
+                            <ArrowRight className="w-5 h-5" />
+                        </Link>
+                        <Link
+                            href="/consulting"
+                            className="inline-flex items-center gap-2 px-8 py-4 border border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold transition-all"
+                        >
+                            Projets sur-mesure
+                        </Link>
+                    </div>
                 </div>
             </section>
 

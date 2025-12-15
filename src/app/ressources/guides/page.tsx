@@ -133,306 +133,181 @@ export default function GuidesPage() {
         <div className="min-h-screen bg-primary text-primary font-sans">
             <Header />
 
-            <div className="max-w-7xl mx-auto px-6 py-16">
-                {/* Hero Section */}
-                <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-6">
-                        <BookOpen className="w-4 h-4 text-accent-primary" />
-                        <span className="text-accent-primary text-sm font-semibold">Téléchargement Direct • Sans Email</span>
-                    </div>
-
-                    <h1 className="text-5xl font-bold mb-6 leading-tight">
-                        Guides PDF Professionnels<br />
-                        <span className="text-accent-primary">pour CFO & DAF</span>
+            <div className="max-w-6xl mx-auto px-6 py-20">
+                {/* Hero Section - Corporate Clean */}
+                <div className="text-center mb-20">
+                    <h1 className="text-5xl font-bold mb-6 leading-tight text-primary tracking-tight">
+                        Ressources Finance & Pilotage
                     </h1>
 
-                    <p className="text-xl text-secondary max-w-3xl mx-auto mb-4">
-                        Téléchargez gratuitement nos 4 guides pratiques :<br />
-                        Closing mensuel • 15 Ratios financiers • Optimisation BFR • 20 KPIs dashboard
+                    <p className="text-xl text-secondary max-w-2xl mx-auto mb-8 leading-relaxed">
+                        Guides méthodologiques gratuits pour structurer votre pilotage financier
                     </p>
 
-                    <div className="flex items-center justify-center gap-6 text-sm text-tertiary">
+                    <div className="flex items-center justify-center gap-8 text-sm text-tertiary">
                         <div className="flex items-center gap-2">
-                            <CheckSquare className="w-4 h-4 text-green-500" />
-                            <span>100% Gratuit</span>
+                            <div className="w-1 h-1 rounded-full bg-accent-primary"></div>
+                            <span>Téléchargement direct</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Download className="w-4 h-4 text-blue-500" />
-                            <span>Téléchargement instantané</span>
+                            <div className="w-1 h-1 rounded-full bg-accent-primary"></div>
+                            <span>Sans inscription</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <FileText className="w-4 h-4 text-purple-500" />
-                            <span>PDF Professionnel</span>
+                            <div className="w-1 h-1 rounded-full bg-accent-primary"></div>
+                            <span>Format PDF professionnel</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Guides disponibles */}
-                <section className="mb-16">
-                    <h2 className="text-3xl font-bold mb-8">Guides Disponibles</h2>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Guides disponibles - Corporate Grid */}
+                <section className="mb-20">
+                    <div className="space-y-8">
                         {availableGuides.map((guide) => {
                             const Icon = guide.icon
                             return (
                                 <div
                                     key={guide.id}
-                                    className="surface rounded-2xl p-8 border-2 border-border-default hover:border-accent-primary transition-all group"
+                                    className="surface rounded-xl p-10 border border-border-default hover:border-accent-primary transition-all group"
                                 >
-                                    {/* Header */}
-                                    <div className="flex items-start justify-between mb-6">
-                                        <div className={`${guide.color} p-4 rounded-xl`}>
-                                            <Icon className="w-8 h-8 text-gray-700" />
+                                    <div className="grid md:grid-cols-[auto_1fr_auto] gap-8 items-start">
+                                        {/* Icon minimaliste */}
+                                        <div className="w-14 h-14 rounded-lg border border-border-default flex items-center justify-center group-hover:border-accent-primary transition-all">
+                                            <Icon className="w-7 h-7 text-accent-primary" />
                                         </div>
-                                        {guide.badge && (
-                                            <span className="inline-block px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded">
-                                                {guide.badge}
-                                            </span>
-                                        )}
+
+                                        {/* Content */}
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-3 mb-3">
+                                                <h3 className="text-2xl font-bold text-primary">
+                                                    {guide.title}
+                                                </h3>
+                                                <span className="text-xs text-tertiary uppercase tracking-wider font-medium">
+                                                    {guide.pages}
+                                                </span>
+                                            </div>
+
+                                            <p className="text-secondary mb-6 leading-relaxed">
+                                                {guide.description}
+                                            </p>
+
+                                            {/* Features liste compacte */}
+                                            <div className="grid md:grid-cols-2 gap-x-6 gap-y-2">
+                                                {guide.features.map((feature, idx) => (
+                                                    <div key={idx} className="flex items-start gap-2 text-sm text-secondary">
+                                                        <div className="w-1 h-1 rounded-full bg-accent-primary flex-shrink-0 mt-2"></div>
+                                                        <span>{feature}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* CTA Button compact */}
+                                        <a
+                                            href={guide.downloadUrl}
+                                            download
+                                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all hover:shadow-md whitespace-nowrap"
+                                        >
+                                            <Download className="w-4 h-4" />
+                                            Télécharger
+                                        </a>
                                     </div>
-
-                                    {/* Title & Description */}
-                                    <h3 className="text-2xl font-bold mb-2 text-gray-900">
-                                        {guide.title}
-                                    </h3>
-                                    <p className="text-secondary mb-4">
-                                        {guide.description}
-                                    </p>
-                                    <p className="text-sm text-tertiary mb-6 flex items-center gap-2">
-                                        <FileText className="w-4 h-4" />
-                                        {guide.pages} • Format PDF
-                                    </p>
-
-                                    {/* Topics */}
-                                    <div className="flex flex-wrap gap-2 mb-6">
-                                        {guide.topics.map(topic => (
-                                            <span
-                                                key={topic}
-                                                className="px-3 py-1 bg-surface-secondary text-secondary text-xs font-medium rounded-full"
-                                            >
-                                                #{topic}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    {/* Features */}
-                                    <ul className="space-y-2 mb-8">
-                                        {guide.features.map((feature, idx) => (
-                                            <li key={idx} className="text-sm text-secondary flex items-start gap-2">
-                                                <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                                                <span>{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-
-                                    {/* CTA Button */}
-                                    <a
-                                        href={guide.downloadUrl}
-                                        download
-                                        className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-bold text-lg transition-all hover:shadow-lg"
-                                    >
-                                        <Download className="w-5 h-5" />
-                                        Télécharger le guide
-                                    </a>
-                                    <p className="text-xs text-tertiary text-center mt-3">
-                                        Aucun email requis • Téléchargement direct
-                                    </p>
                                 </div>
                             )
                         })}
                     </div>
                 </section>
 
-                {/* CTA Consulting après les guides */}
-                <section className="mb-16">
-                    <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 border-2 border-blue-200">
-                        <div className="flex flex-col md:flex-row items-start gap-6">
-                            <div className="w-16 h-16 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
-                                <MessageSquare className="w-8 h-8 text-white" />
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="text-2xl font-bold mb-3 text-gray-900">
-                                    Ces guides ne suffisent pas ? Discutons de votre situation.
-                                </h3>
-                                <p className="text-secondary mb-5">
-                                    <strong>10 ans de finance + data analytics</strong> → construction de dashboards sur-mesure (Budget vs Réalisé, Cash Flow prévisionnel, rapports automatiques).
-                                </p>
-                                <p className="text-sm text-tertiary mb-5">
-                                    ✅ Missions récentes : DAF externalisé PME | Dashboards PowerBI FP&A | Automatisation reporting mensuel
-                                </p>
+                {/* CTA Consulting - Corporate sobre */}
+                <section className="mb-20">
+                    <div className="surface rounded-xl p-12 border border-accent-primary-border">
+                        <div className="max-w-3xl mx-auto text-center">
+                            <h3 className="text-3xl font-bold mb-4 text-primary">
+                                Besoin d'un accompagnement sur-mesure ?
+                            </h3>
+                            <p className="text-lg text-secondary mb-8 leading-relaxed">
+                                Construction de dashboards FP&A, automatisation reporting, modélisation financière.
+                                <span className="text-primary font-medium"> 10 ans d'expérience finance & data analytics.</span>
+                            </p>
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <a
                                     href="https://calendly.com/zineinsight"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all"
+                                    className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all hover:shadow-lg"
                                 >
-                                    Réserver 30 min gratuites
+                                    Réserver un échange
                                     <ArrowRight className="w-5 h-5" />
                                 </a>
+                                <Link
+                                    href="/consulting"
+                                    className="inline-flex items-center gap-2 px-8 py-4 border border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold transition-all"
+                                >
+                                    Voir les réalisations
+                                </Link>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* Coming Soon (si applicable) */}
-                {comingSoonGuides.length > 0 && (
-                    <section className="mb-16">
-                        <h2 className="text-3xl font-bold mb-8">Bientôt Disponibles</h2>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            {comingSoonGuides.map((guide) => {
-                                const Icon = guide.icon
-                                return (
-                                    <div
-                                        key={guide.id}
-                                        className="surface rounded-2xl p-8 border-2 border-dashed border-border-default opacity-75"
-                                    >
-                                        <div className="flex items-start justify-between mb-6">
-                                            <div className={`p-4 rounded-xl bg-gradient-to-br ${guide.color} text-white opacity-50`}>
-                                                <Icon className="w-8 h-8" />
-                                            </div>
-                                            <span className="inline-block px-3 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded-full">
-                                                {guide.badge}
-                                            </span>
-                                        </div>
-                                        <h3 className="text-2xl font-bold mb-2">
-                                            {guide.title}
-                                        </h3>
-                                        <p className="text-secondary mb-4">
-                                            {guide.description}
-                                        </p>
-                                        <p className="text-sm text-tertiary mb-6">
-                                            📄 {guide.pages} • Disponible T1 2026
-                                        </p>
-                                        <ul className="space-y-2">
-                                            {guide.features.slice(0, 3).map((feature, idx) => (
-                                                <li key={idx} className="text-sm text-secondary flex items-start gap-2">
-                                                    <span className="mt-0.5">{feature}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </section>
-                )}
-
-                {/* Autres Ressources */}
+                {/* Autres Ressources - Plus sobre */}
                 <section className="mb-16">
-                    <h2 className="text-3xl font-bold mb-8">Autres Ressources Gratuites</h2>
+                    <h2 className="text-2xl font-bold mb-8 text-primary">Autres ressources</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <Link
                             href="/calculateurs"
-                            className="surface rounded-xl p-6 border-2 border-border-default hover:border-accent-primary transition-all group"
+                            className="surface rounded-lg p-6 border border-border-default hover:border-accent-primary transition-all group"
                         >
-                            <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
-                                <Calculator className="w-6 h-6 text-blue-600" />
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="w-10 h-10 rounded-lg border border-border-default flex items-center justify-center group-hover:border-accent-primary transition-all">
+                                    <Calculator className="w-5 h-5 text-accent-primary" />
+                                </div>
+                                <h3 className="text-lg font-semibold group-hover:text-accent-primary transition-colors">
+                                    Calculateurs
+                                </h3>
                             </div>
-                            <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
-                                9 Calculateurs Gratuits
-                            </h3>
-                            <p className="text-secondary text-sm mb-4">
-                                DSO, BFR, ROI, CAC/LTV, Burn Rate, Valorisation...
+                            <p className="text-secondary text-sm leading-relaxed">
+                                DSO, BFR, ROI, CAC/LTV, Burn Rate, Valorisation
                             </p>
-                            <div className="inline-flex items-center gap-2 text-accent-primary font-semibold text-sm">
-                                Calculer maintenant
-                                <ArrowRight className="w-4 h-4" />
-                            </div>
                         </Link>
 
                         <Link
                             href="/ressources/templates"
-                            className="surface rounded-xl p-6 border-2 border-border-default hover:border-accent-primary transition-all group"
+                            className="surface rounded-lg p-6 border border-border-default hover:border-accent-primary transition-all group"
                         >
-                            <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mb-4">
-                                <FileSpreadsheet className="w-6 h-6 text-green-600" />
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="w-10 h-10 rounded-lg border border-border-default flex items-center justify-center group-hover:border-accent-primary transition-all">
+                                    <FileSpreadsheet className="w-5 h-5 text-accent-primary" />
+                                </div>
+                                <h3 className="text-lg font-semibold group-hover:text-accent-primary transition-colors">
+                                    Templates Excel
+                                </h3>
                             </div>
-                            <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
-                                Templates Excel Pro
-                            </h3>
-                            <p className="text-secondary text-sm mb-4">
+                            <p className="text-secondary text-sm leading-relaxed">
                                 Budget, DSO, Cash Flow avec formules automatiques
                             </p>
-                            <div className="inline-flex items-center gap-2 text-accent-primary font-semibold text-sm">
-                                Télécharger les templates
-                                <ArrowRight className="w-4 h-4" />
-                            </div>
                         </Link>
 
                         <Link
                             href="/blog"
-                            className="surface rounded-xl p-6 border-2 border-border-default hover:border-accent-primary transition-all group"
+                            className="surface rounded-lg p-6 border border-border-default hover:border-accent-primary transition-all group"
                         >
-                            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mb-4">
-                                <BookMarked className="w-6 h-6 text-purple-600" />
-                            </div>
-                            <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
-                                Blog Finance PME
-                            </h3>
-                            <p className="text-secondary text-sm mb-4">
-                                Articles pratiques sur les KPIs et la gestion financière
-                            </p>
-                            <div className="inline-flex items-center gap-2 text-accent-primary font-semibold text-sm">
-                                Lire les articles
-                                <ArrowRight className="w-4 h-4" />
-                            </div>
-                        </Link>
-                    </div>
-                </section>
-
-                {/* CTA Double: Dashboard Demo + Consulting */}
-                <section className="grid md:grid-cols-2 gap-8 mb-16">
-                    {/* CTA 1: Dashboard Demo */}
-                    <div className="surface rounded-2xl p-8 border-2 border-accent-primary">
-                        <div className="mb-6">
-                            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mb-4">
-                                <BarChart3 className="w-6 h-6 text-purple-600" />
-                            </div>
-                            <h3 className="text-2xl font-bold mb-3">
-                                Testez le dashboard gratuit
-                            </h3>
-                            <p className="text-secondary mb-6">
-                                Uploadez votre compta → 50+ KPIs calculés automatiquement + AI Copilot pour vos questions
-                            </p>
-                        </div>
-                        <Link
-                            href="/dashboard"
-                            className="inline-flex items-center gap-2 w-full justify-center px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all"
-                        >
-                            Essayer maintenant
-                            <ArrowRight className="w-5 h-5" />
-                        </Link>
-                        <p className="text-xs text-tertiary text-center mt-3">
-                            Sans engagement • 10 questions IA gratuites
-                        </p>
-                    </div>
-
-                    {/* CTA 2: Consulting (PRIORITÉ) */}
-                    <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-8 border-2 border-blue-700 text-white">
-                        <div className="mb-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <Users className="w-8 h-8" />
-                                <h3 className="text-2xl font-bold">
-                                    Dashboard sur-mesure pour votre PME
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="w-10 h-10 rounded-lg border border-border-default flex items-center justify-center group-hover:border-accent-primary transition-all">
+                                    <BookMarked className="w-5 h-5 text-accent-primary" />
+                                </div>
+                                <h3 className="text-lg font-semibold group-hover:text-accent-primary transition-colors">
+                                    Articles
                                 </h3>
                             </div>
-                            <p className="mb-6 opacity-90">
-                                <strong>Mission type :</strong> Dashboard FP&A automatisé (Budget vs Réalisé, Cash Flow 12 mois, rapports PowerBI mensuels) → livré en 3-4 semaines
+                            <p className="text-secondary text-sm leading-relaxed">
+                                Guides pratiques KPIs et pilotage financier
                             </p>
-                        </div>
-                        <a
-                            href="https://calendly.com/zineinsight"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 w-full justify-center px-6 py-3 bg-white text-blue-600 hover:bg-gray-100 rounded-lg font-bold transition-all"
-                        >
-                            Discutons de votre besoin
-                            <ArrowRight className="w-5 h-5" />
-                        </a>
-                        <p className="text-xs opacity-75 text-center mt-3">
-                            Échangeons sur votre besoin spécifique
-                        </p>
+                        </Link>
                     </div>
                 </section>
+
+
             </div>
 
             <Footer />
