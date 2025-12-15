@@ -145,13 +145,14 @@ export default function PourQuiPage() {
                     </div>
 
                     <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight leading-tight">
-                        Pour qui est <span className="text-accent-primary">FinSight</span> ?
+                        Quelle solution FP&A<br />
+                        <span className="text-accent-primary">correspond à votre profil</span> ?
                     </h1>
 
                     <p className="text-xl text-secondary max-w-3xl mx-auto mb-8 leading-relaxed">
-                        Solutions FP&A adaptées à votre métier, votre secteur et vos enjeux.
+                        Dashboards sur-mesure, automatisation budgétaire et prévisions trésorerie
                         <br />
-                        <span className="font-semibold text-primary">Identifiez-vous et découvrez comment je peux vous aider.</span>
+                        <span className="font-semibold text-primary">adaptés aux enjeux spécifiques de votre métier.</span>
                     </p>
                 </div>
             </section>
@@ -259,12 +260,12 @@ export default function PourQuiPage() {
             <section className="bg-gradient-to-br from-accent-primary-subtle to-white py-20">
                 <div className="max-w-4xl mx-auto px-6 text-center">
                     <h2 className="text-4xl font-bold mb-6 text-primary">
-                        Vous ne trouvez pas votre profil ?
+                        Votre profil n'apparaît pas ?
                     </h2>
                     <p className="text-xl text-secondary mb-8 leading-relaxed">
-                        Chaque entreprise est unique. Discutons de vos besoins spécifiques
+                        Chaque entreprise a des besoins uniques.
                         <br />
-                        et construisons ensemble la solution adaptée.
+                        Échangeons sur vos enjeux spécifiques pour construire la solution adaptée.
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <a

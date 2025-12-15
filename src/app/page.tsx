@@ -39,47 +39,60 @@ export default function Home() {
 
                             {/* H1 Corporate */}
                             <h1 className="text-5xl lg:text-7xl font-extrabold leading-[1.05] tracking-tighter text-gray-900">
-                                Comprenez votre{' '}
+                                Dashboards FP&A sur-mesure<br />
                                 <span className="text-accent-primary">
-                                    santé financière
+                                    pour dirigeants de Scale-ups & PME
                                 </span>
-                                {' '}en moins de 2 minutes
                             </h1>
 
-                            {/* Target Audience */}
-                            <p className="text-base text-gray-600 max-w-xl">
-                                Pour dirigeants et DAF de PME (500k€ à 10M€ CA)
+                            {/* Value Proposition */}
+                            <p className="text-lg text-gray-700 leading-relaxed max-w-xl font-medium">
+                                Prévisions de trésorerie, budgets automatisés et métriques SaaS
+                                <br />
+                                <span className="text-gray-900">pour décider avant que le cash ne décide à votre place.</span>
                             </p>
 
-                            {/* Description */}
-                            <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
-                                Le moteur d'analyse financière qui calcule votre{' '}
-                                <span className="font-bold text-gray-900">Score FinSight™</span>, détecte les risques et simule vos scénarios de trésorerie.
-                            </p>
-
-                            {/* Credibility Badge */}
-                            <div className="inline-flex items-center gap-2 px-5 py-3 bg-gray-100 border-2 border-gray-200 rounded-lg shadow-sm">
-                                <span className="text-sm font-bold text-gray-700">
-                                    Conçu par Otmane Boulahia, analyste financier & data
-                                </span>
+                            {/* Positioning Statement */}
+                            <div className="p-6 bg-gradient-to-r from-blue-50 to-white border-l-4 border-accent-primary rounded-lg max-w-xl">
+                                <p className="text-base text-gray-800 leading-relaxed">
+                                    <span className="font-bold text-gray-900">FinSight est la vitrine technique.</span>
+                                    <br />
+                                    L'expertise : 10 ans de finance & data au service des décisions.
+                                </p>
                             </div>
 
-                            {/* CTAs Corporate */}
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <Link
-                                    href="/dashboard"
-                                    className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
-                                >
-                                    <Sparkles className="w-5 h-5" />
-                                    Obtenir mon Score FinSight™
-                                </Link>
+                            {/* CTAs Consulting-First */}
+                            <div className="space-y-4">
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <Link
+                                        href="/pour-qui"
+                                        className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
+                                    >
+                                        <BarChart3 className="w-5 h-5" />
+                                        Voir des réalisations
+                                    </Link>
 
-                                <Link
-                                    href="/auth/signup"
-                                    className="inline-flex items-center justify-center px-10 py-5 bg-white border-3 border-gray-300 hover:border-accent-primary hover:text-accent-primary text-lg font-bold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg"
-                                >
-                                    Voir la démo
-                                </Link>
+                                    <a
+                                        href="https://calendly.com/zineinsight"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-white border-3 border-gray-300 hover:border-accent-primary hover:text-accent-primary text-lg font-bold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg"
+                                    >
+                                        <Zap className="w-5 h-5" />
+                                        Discutons 30 min
+                                    </a>
+                                </div>
+
+                                {/* Secondary CTA - Demo tool */}
+                                <div className="text-center sm:text-left">
+                                    <Link
+                                        href="/dashboard"
+                                        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-accent-primary transition-colors font-medium"
+                                    >
+                                        <Sparkles className="w-4 h-4" />
+                                        💡 Vous pouvez tester la démo FinSight gratuitement avant d'échanger
+                                    </Link>
+                                </div>
                             </div>
 
                             {/* Social Proof - Clean */}
