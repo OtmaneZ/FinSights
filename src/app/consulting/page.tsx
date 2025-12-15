@@ -424,7 +424,7 @@ export default function ConsultingPage() {
                             </span>
                             <span className="flex items-center gap-1 text-tertiary">
                                 <CheckCircle2 className="w-4 h-4 text-green-600" />
-                                Décembre 2024
+                                Octobre 2025
                             </span>
                         </div>
                     </div>
@@ -464,7 +464,7 @@ export default function ConsultingPage() {
                             </span>
                             <span className="flex items-center gap-1 text-tertiary">
                                 <CheckCircle2 className="w-4 h-4 text-green-600" />
-                                2024
+                                Novembre 2025
                             </span>
                         </div>
                     </div>
