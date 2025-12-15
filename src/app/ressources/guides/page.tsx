@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Download, BookOpen, FileText, CheckSquare, TrendingUp, ArrowRight, Check, Calculator, FileSpreadsheet, BookMarked } from 'lucide-react'
+import { Download, BookOpen, FileText, CheckSquare, TrendingUp, ArrowRight, Check, Calculator, FileSpreadsheet, BookMarked, MessageSquare, BarChart3, Users } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -242,6 +242,35 @@ export default function GuidesPage() {
                     </div>
                 </section>
 
+                {/* CTA Consulting après les guides */}
+                <section className="mb-16">
+                    <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 border-2 border-blue-200">
+                        <div className="flex flex-col md:flex-row items-start gap-6">
+                            <div className="w-16 h-16 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
+                                <MessageSquare className="w-8 h-8 text-white" />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-2xl font-bold mb-3 text-gray-900">
+                                    Ces guides ne suffisent pas ? Discutons de votre situation.
+                                </h3>
+                                <p className="text-secondary mb-5">
+                                    <strong>10 ans de finance + data analytics</strong> → construction de dashboards sur-mesure (Budget vs Réalisé, Cash Flow prévisionnel, rapports automatiques).
+                                </p>
+                                <p className="text-sm text-tertiary mb-5">
+                                    ✅ Missions récentes : DAF externalisé PME | Dashboards PowerBI FP&A | Automatisation reporting mensuel
+                                </p>
+                                <Link
+                                    href="/consulting"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all"
+                                >
+                                    Voir les réalisations
+                                    <ArrowRight className="w-5 h-5" />
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* Coming Soon (si applicable) */}
                 {comingSoonGuides.length > 0 && (
                     <section className="mb-16">
@@ -269,7 +298,7 @@ export default function GuidesPage() {
                                             {guide.description}
                                         </p>
                                         <p className="text-sm text-tertiary mb-6">
-                                            📄 {guide.pages} • Disponible début décembre 2025
+                                            📄 {guide.pages} • Disponible T1 2026
                                         </p>
                                         <ul className="space-y-2">
                                             {guide.features.slice(0, 3).map((feature, idx) => (
@@ -348,25 +377,57 @@ export default function GuidesPage() {
                     </div>
                 </section>
 
-                {/* CTA Dashboard */}
-                <section className="surface rounded-2xl p-12 border-2 border-accent-primary bg-accent-primary-subtle text-center">
-                    <h2 className="text-3xl font-bold mb-4">
-                        Automatisez votre pilotage financier avec FinSight
-                    </h2>
-                    <p className="text-lg text-secondary mb-8 max-w-2xl mx-auto">
-                        Fini les heures passées sur Excel. Uploadez votre compta et obtenez<br />
-                        50+ KPIs calculés automatiquement + AI Copilot pour vos questions
-                    </p>
-                    <Link
-                        href="/dashboard"
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-lg transition-all hover:shadow-lg"
-                    >
-                        Essayer gratuitement
-                        <ArrowRight className="w-5 h-5" />
-                    </Link>
-                    <p className="text-sm text-tertiary mt-4">
-                        Sans engagement • 10 questions IA gratuites • Dashboard complet
-                    </p>
+                {/* CTA Double: Dashboard Demo + Consulting */}
+                <section className="grid md:grid-cols-2 gap-8 mb-16">
+                    {/* CTA 1: Dashboard Demo */}
+                    <div className="surface rounded-2xl p-8 border-2 border-accent-primary">
+                        <div className="mb-6">
+                            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mb-4">
+                                <BarChart3 className="w-6 h-6 text-purple-600" />
+                            </div>
+                            <h3 className="text-2xl font-bold mb-3">
+                                Testez le dashboard gratuit
+                            </h3>
+                            <p className="text-secondary mb-6">
+                                Uploadez votre compta → 50+ KPIs calculés automatiquement + AI Copilot pour vos questions
+                            </p>
+                        </div>
+                        <Link
+                            href="/dashboard"
+                            className="inline-flex items-center gap-2 w-full justify-center px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all"
+                        >
+                            Essayer maintenant
+                            <ArrowRight className="w-5 h-5" />
+                        </Link>
+                        <p className="text-xs text-tertiary text-center mt-3">
+                            Sans engagement • 10 questions IA gratuites
+                        </p>
+                    </div>
+
+                    {/* CTA 2: Consulting (PRIORITÉ) */}
+                    <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-8 border-2 border-blue-700 text-white">
+                        <div className="mb-6">
+                            <div className="flex items-center gap-3 mb-4">
+                                <Users className="w-8 h-8" />
+                                <h3 className="text-2xl font-bold">
+                                    Dashboard sur-mesure pour votre PME
+                                </h3>
+                            </div>
+                            <p className="mb-6 opacity-90">
+                                <strong>Mission type :</strong> Dashboard FP&A automatisé (Budget vs Réalisé, Cash Flow 12 mois, rapports PowerBI mensuels) → livré en 3-4 semaines
+                            </p>
+                        </div>
+                        <Link
+                            href="/consulting"
+                            className="inline-flex items-center gap-2 w-full justify-center px-6 py-3 bg-white text-blue-600 hover:bg-gray-100 rounded-lg font-bold transition-all"
+                        >
+                            Voir les réalisations
+                            <ArrowRight className="w-5 h-5" />
+                        </Link>
+                        <p className="text-xs opacity-75 text-center mt-3">
+                            Échangeons sur votre besoin spécifique
+                        </p>
+                    </div>
                 </section>
             </div>
 
