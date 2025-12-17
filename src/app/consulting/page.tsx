@@ -64,10 +64,6 @@ export default function ConsultingPage() {
                             <CheckCircle2 className="w-5 h-5 text-accent-primary" />
                             <span>Python, SQL, BI, ERP</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <CheckCircle2 className="w-5 h-5 text-accent-primary" />
-                            <span>TJM 500€</span>
-                        </div>
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -140,7 +136,7 @@ export default function ConsultingPage() {
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary">1h de restitution expert avec un CFO FinSight</span>
+                                <span className="text-sm text-secondary">1h de restitution avec un expert finance FinSight</span>
                             </li>
                         </ul>
 
