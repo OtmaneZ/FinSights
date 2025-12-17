@@ -1,0 +1,136 @@
+/**
+ * API n8n Integration - Ingest Transactions
+ *
+ * Endpoint pour recevoir des transactions depuis n8n workflows
+ * Use case : CRM → Pennylane → n8n → FinSights
+ *
+ * POST /api/integrations/n8n/ingest
+ */
+
+import { NextApiRequest, NextApiResponse } from 'next';
+import { prisma } from '@/lib/prisma';
+import { logger } from '@/lib/logger';
+import crypto from 'crypto';
+
+interface N8nTransaction {
+    date: string;
+    description: string;
+    amount: number;
+    type: 'income' | 'expense';
+    category?: string;
+    paymentStatus?: string;
+    source?: string;
+}
+
+interface IngestRequest {
+    transactions: N8nTransaction[];
+    companyId: string;
+    source?: string;
+}
+
+/**
+ * Vérifier la signature HMAC du webhook
+ */
+function verifyWebhookSignature(payload: string, signature: string, secret: string): boolean {
+    const expectedSignature = crypto
+        .createHmac('sha256', secret)
+        .update(payload)
+        .digest('hex');
+
+    return crypto.timingSafeEqual(
+        Buffer.from(signature),
+        Buffer.from(expectedSignature)
+    );
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    try {
+        // 🔐 Vérifier signature webhook (optionnel mais recommandé)
+        const signature = req.headers['x-webhook-signature'] as string;
+        const webhookSecret = process.env.N8N_WEBHOOK_SECRET;
+
+        if (webhookSecret && signature) {
+            const payload = JSON.stringify(req.body);
+            const isValid = verifyWebhookSignature(payload, signature, webhookSecret);
+
+            if (!isValid) {
+                logger.warn('[n8n] ❌ Signature webhook invalide');
+                return res.status(401).json({ error: 'Invalid webhook signature' });
+            }
+        }
+
+        const { transactions, companyId, source = 'n8n' } = req.body as IngestRequest;
+
+        // Validation
+        if (!transactions || !Array.isArray(transactions) || transactions.length === 0) {
+            return res.status(400).json({ error: 'No transactions provided' });
+        }
+
+        if (!companyId) {
+            return res.status(400).json({ error: 'companyId is required' });
+        }
+
+        logger.info(`[n8n] 📥 Ingestion de ${transactions.length} transactions pour company ${companyId}`);
+
+        // Vérifier que la company existe
+        const company = await prisma.company.findUnique({
+            where: { id: companyId }
+        });
+
+        if (!company) {
+            return res.status(404).json({ error: 'Company not found' });
+        }
+
+        // 📊 Insérer les transactions en batch
+        const createdRecords = await prisma.$transaction(
+            transactions.map((t) => prisma.financialRecord.create({
+                data: {
+                    date: new Date(t.date),
+                    description: t.description,
+                    amount: t.amount,
+                    type: t.type,
+                    category: t.category || (t.type === 'income' ? 'Ventes' : 'Autres charges'),
+                    paymentStatus: t.paymentStatus || 'Payé',
+                    companyId: companyId,
+                    source: `${source}_integration`
+                }
+            }))
+        );
+
+        logger.info(`[n8n] ✅ ${createdRecords.length} transactions insérées avec succès`);
+
+        // 🔔 Trigger webhook "dashboard.updated" si configuré
+        const webhooks = await prisma.webhook.findMany({
+            where: {
+                userId: company.userId,
+                active: true,
+                events: {
+                    has: 'dashboard.updated'
+                }
+            }
+        });
+
+        if (webhooks.length > 0) {
+            logger.debug(`[n8n] 🔔 Notification de ${webhooks.length} webhooks`);
+            // TODO: Implémenter notification asynchrone
+        }
+
+        return res.status(200).json({
+            success: true,
+            inserted: createdRecords.length,
+            companyId,
+            source
+        });
+
+    } catch (error: any) {
+        logger.error('[n8n] ❌ Erreur ingestion:', error);
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
+}
