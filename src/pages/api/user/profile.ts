@@ -42,7 +42,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             user: updatedUser
         });
     } catch (error) {
-        console.error('[Profile API] Error updating profile:', error);
         return res.status(500).json({ error: 'Erreur lors de la mise à jour du profil' });
     }
 }

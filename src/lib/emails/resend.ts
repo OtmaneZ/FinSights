@@ -3,9 +3,8 @@ import { Resend } from 'resend'
 // Allow build to succeed without RESEND_API_KEY (will fail at runtime if emails are sent)
 const apiKey = process.env.RESEND_API_KEY || 'placeholder-key-for-build'
 
-if (!process.env.RESEND_API_KEY && process.env.NODE_ENV === 'production') {
-    console.warn('⚠️ RESEND_API_KEY not set - email functionality will be disabled')
-}
+// Note: Email functionality requires RESEND_API_KEY in production
+// Errors will be handled by the email service layer
 
 export const resend = new Resend(apiKey)
 

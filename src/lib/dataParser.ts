@@ -514,26 +514,55 @@ function parseRecords(
                 continue;
             }
 
-            // ✅ Détecter le type AVANT de prendre la valeur absolue
+            // ✅ DÉTECTION ROBUSTE DU TYPE (Multi-critères)
+            // Critère 1: Signe du montant
             let transactionType: 'income' | 'expense' = amountValue >= 0 ? 'income' : 'expense';
 
-            // ✅ FALLBACK: Utiliser la description ou catégorie si montant positif suspect
+            // Critère 2: Colonne Type explicite (si présente)
+            const typeCol = headers.findIndex(h => /^type$/i.test(h.trim()));
+            if (typeCol >= 0 && cols[typeCol]) {
+                const explicitType = cols[typeCol].trim().toLowerCase();
+                if (/(debit|débit|expense|sortie|charge|paiement)/i.test(explicitType)) {
+                    transactionType = 'expense';
+                } else if (/(credit|crédit|income|entrée|recette|vente)/i.test(explicitType)) {
+                    transactionType = 'income';
+                }
+            }
+
+            // Critère 3: Description & Catégorie (validation sémantique)
             const description = descCol !== undefined ? cols[descCol].trim().toLowerCase() : '';
             const categoryCol = headers.findIndex(h => h.toLowerCase() === 'categorie' || h.toLowerCase() === 'category');
             const category = categoryCol >= 0 && cols[categoryCol] ? cols[categoryCol].trim().toLowerCase() : '';
 
-            // Mots-clés pour détecter les charges
-            const expenseKeywords = ['achat', 'frais', 'loyer', 'salaire', 'charge', 'facture', 'assurance', 'maintenance', 'abonnement', 'infrastructure', 'marketing'];
-            const expenseCategories = ['charges', 'infrastructure', 'marketing', 'expense', 'cost'];
+            // Mots-clés étendus pour détecter les charges (français + anglais)
+            const expenseKeywords = [
+                'achat', 'frais', 'loyer', 'salaire', 'charge', 'facture', 'assurance',
+                'maintenance', 'abonnement', 'infrastructure', 'marketing', 'paiement',
+                'expense', 'cost', 'payment', 'bill', 'rent', 'salary', 'purchase'
+            ];
+            const incomeKeywords = [
+                'vente', 'encaissement', 'recette', 'revenu', 'facture client',
+                'sale', 'revenue', 'income', 'receipt', 'invoice'
+            ];
+            const expenseCategories = ['charges', 'infrastructure', 'marketing', 'expense', 'cost', 'payroll'];
+            const incomeCategories = ['ventes', 'revenus', 'income', 'revenue', 'sales'];
 
+            // Validation croisée si incohérence signe/description
             if (transactionType === 'income') {
-                // Si le montant est positif mais la description/catégorie suggère une charge
                 const isExpenseByDescription = expenseKeywords.some(keyword => description.includes(keyword));
                 const isExpenseByCategory = expenseCategories.some(cat => category.includes(cat));
 
                 if (isExpenseByDescription || isExpenseByCategory) {
                     transactionType = 'expense';
-                    // logger.debug(`🔍 Correction: "${description}" détecté comme CHARGE (malgré montant positif)`);
+                    // logger.warn(`⚠️ Correction: "${description}" détecté comme CHARGE (malgré montant positif)`);
+                }
+            } else if (transactionType === 'expense') {
+                const isIncomeByDescription = incomeKeywords.some(keyword => description.includes(keyword));
+                const isIncomeByCategory = incomeCategories.some(cat => category.includes(cat));
+
+                if (isIncomeByDescription || isIncomeByCategory) {
+                    transactionType = 'income';
+                    // logger.warn(`⚠️ Correction: "${description}" détecté comme REVENU (malgré montant négatif)`);
                 }
             }
 
@@ -751,7 +780,7 @@ export function processFinancialData(records: FinancialRecord[], sourceId: strin
         margin: netCashFlow,
         marginPercentage: netMarginPercent, // ✅ Formule correcte
         averageTransaction: records.length > 0 ? totalIncome / income.length : 0,
-        transactionFrequency: dsoValue, // ✅ Maintenant c'est le vrai DSO
+        transactionFrequency: dsoValue ?? 0, // ✅ DSO réel ou 0 si null
         topCategories: {
             income: categoryStats.filter(c => c.type === 'income').slice(0, 5),
             expense: categoryStats.filter(c => c.type === 'expense').slice(0, 5)

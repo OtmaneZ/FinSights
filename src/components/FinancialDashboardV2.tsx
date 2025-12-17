@@ -53,6 +53,7 @@ import FinSightScoreCard from './FinSightScoreCard'
 
 // Import Consulting Banner
 import ConsultingBanner from './dashboard/ConsultingBanner'
+import DataSourcesPanel from './dashboard/DataSourcesPanel'
 
 // Import Auth Banner
 import AuthBanner from './AuthBanner'
@@ -1814,131 +1815,93 @@ export default function FinancialDashboardV2() {
                             </div>
                         )}
                     </div>
-                )}
 
-                {/* 📊 Alertes Intelligentes - Juste après What-If */}
-                {kpis.length > 0 && (
-                    <div className="mb-8 surface rounded-xl p-6">
-                        <div className="flex items-center justify-between mb-6">
-                            <div className="flex items-center gap-2">
-                                <AlertTriangle className="w-5 h-5 text-accent-orange" />
-                                <h3 className="text-xl font-semibold">Alertes Intelligentes</h3>
-                            </div>
-                            <button
-                                onClick={() => setShowAlertSettings(true)}
-                                className="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors"
-                            >
-                                Configurer
-                            </button>
-                        </div>
-                        <AlertsPanel
-                            dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                            cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                            netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                        />
-                    </div>
-                )}
+                    {/* Main Content Grid */}
+                    <div className="grid lg:grid-cols-12 gap-8">
+                        {/* Left Column: Charts & Insights (8 cols) */}
+                        <div className="lg:col-span-8 space-y-8">
+                            {/* Consulting Banner - Dynamic based on score */}
+                            <ConsultingBanner score={finSightScore?.total} />
 
-                {/* Charts Grid - Afficher uniquement si données disponibles */}
-                {finSightData && rawData && rawData.length > 0 && (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                        {/* Cash Flow Chart - Conditional on monthlyTrends capability */}
-                        {dashboardConfig?.canShowMonthlyTrends && (
-                            <div className="surface rounded-xl p-6">
-                                <h3 className="text-xl font-semibold mb-6">Évolution Cash Flow</h3>
-                                <CashFlowEvolutionChart data={getMonthlyData()} />
-                            </div>
-                        )}
-
-                        {/* Margin Chart - Conditional on monthlyTrends capability */}
-                        {dashboardConfig?.canShowMonthlyTrends && (
-                            <div className="surface rounded-xl p-6">
-                                <h3 className="text-xl font-semibold mb-6">Évolution Marge</h3>
-                                <MarginEvolutionChart data={getMarginData()} />
-                            </div>
-                        )}
-
-                        {/* Expense Breakdown - Conditional on category analysis */}
-                        {dashboardConfig?.canShowCategoryAnalysis && (
-                            <div className="surface rounded-xl p-6">
-                                <h3 className="text-xl font-semibold mb-6">Répartition Charges</h3>
-                                <ExpenseBreakdownChart data={getCategoryBreakdown()} />
-                            </div>
-                        )}
-
-                        {/* Top Clients - Conditional on counterparty data */}
-                        {dashboardConfig?.canShowTopClients && (
-                            <div className="surface rounded-xl p-6">
-                                <h3 className="text-xl font-semibold mb-6">Top Clients</h3>
-                                <TopClientsVerticalChart data={getTopClients()} />
-                            </div>
-                        )}
-                    </div>
-                )}
-
-                {/* 🎨 Charts Avancés D3.js - Sankey + Sunburst */}
-                {finSightData && rawData && rawData.length > 0 && dashboardConfig?.canShowBasicCharts && (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                        {/* Sankey Flow Chart - Always show if basic charts enabled */}
-                        <div className="surface rounded-xl p-6">
-                            <div className="flex items-center gap-2 mb-6">
-                                <Sparkles className="w-5 h-5 text-accent-primary" />
-                                <h3 className="text-xl font-semibold">Flux Financier (Sankey)</h3>
-                            </div>
-                            <SankeyFlowChart data={getSankeyData()} />
-                        </div>
-
-                        {/* Sunburst Expenses Chart - Conditional on category analysis */}
-                        {dashboardConfig?.canShowCategoryAnalysis && (
-                            <div className="surface rounded-xl p-6">
-                                <div className="flex items-center gap-2 mb-6">
-                                    <Sparkles className="w-5 h-5 text-accent-primary" />
-                                    <h3 className="text-xl font-semibold">Hiérarchie Dépenses (Sunburst)</h3>
+                            {/* Main Charts */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
+                                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                        <TrendingUp className="w-5 h-5 text-accent-primary" />
+                                        Évolution Trésorerie
+                                    </h3>
+                                    <div className="h-[300px]">
+                                        <CashFlowEvolutionChart data={getMonthlyData()} />
+                                    </div>
                                 </div>
-                                <SunburstExpensesChart data={getSunburstData()} />
-                            </div>
-                        )}
-                    </div>
-                )}
 
-                {/* 🤖 ML Anomaly Detection Panel + IA Patterns */}
-                {(anomalies.length > 0 || aiPatterns.length > 0) && (
-                    <div className="mb-12">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-2">
-                                <AlertTriangle className="w-5 h-5 text-accent-orange" />
-                                <h3 className="text-xl font-semibold">
-                                    Anomalies & Insights IA {anomalies.length > 0 && `(${anomalies.length} anomalies)`}
-                                    {aiPatterns.length > 0 && ` · ${aiPatterns.length} patterns`}
-                                </h3>
+                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
+                                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                        <Percent className="w-5 h-5 text-accent-primary" />
+                                        Répartition des Charges
+                                    </h3>
+                                    <div className="h-[300px]">
+                                        <ExpenseBreakdownChart data={getCategoryBreakdown()} />
+                                    </div>
+                                </div>
                             </div>
-                            <button
-                                onClick={() => setShowAnomalies(!showAnomalies)}
-                                className="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors"
-                            >
-                                {showAnomalies ? 'Masquer' : 'Afficher'}
-                            </button>
+
+                            {/* Advanced Insights Section */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
+                                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                        <Zap className="w-5 h-5 text-accent-primary" />
+                                        Analyse des Marges
+                                    </h3>
+                                    <div className="h-[300px]">
+                                        <MarginEvolutionChart data={getMarginData()} />
+                                    </div>
+                                </div>
+
+                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
+                                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                        <DollarSign className="w-5 h-5 text-accent-primary" />
+                                        Top Clients (Volume)
+                                    </h3>
+                                    <div className="h-[300px]">
+                                        <TopClientsVerticalChart data={getTopClients()} />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        {showAnomalies && (
-                            <AnomalyPanel
-                                anomalies={anomalies}
-                                patterns={aiPatterns}
-                            />
-                        )}
-                    </div>
-                )}
 
-                {/* 📊 Data Preview Panel */}
-                {rawData && rawData.length > 0 && (
-                    <div className="mb-8 surface rounded-xl p-6">
-                        <h3 className="text-xl font-semibold mb-6">Aperçu Données Brutes</h3>
-                        <DataPreviewPanel rawData={rawData} companyName={companyName} />
-                    </div>
-                )}
+                        {/* Right Column: Copilot & Tools (4 cols) */}
+                        <div className="lg:col-span-4 space-y-8">
+                            {/* Data Sources Panel */}
+                            <DataSourcesPanel />
 
-                {/* AI Copilot */}
-                <div className="mb-12" data-copilot>
-                    <AICopilot />
+                            {/* AI Copilot */}
+                            <AICopilot />
+
+                            {/* Alerts Panel */}
+                            {isDataLoaded && (
+                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className="flex items-center gap-2">
+                                            <AlertTriangle className="w-5 h-5 text-accent-orange" />
+                                            <h3 className="text-xl font-semibold">Alertes Intelligentes</h3>
+                                        </div>
+                                        <button
+                                            onClick={() => setShowAlertSettings(true)}
+                                            className="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors"
+                                        >
+                                            Configurer
+                                        </button>
+                                    </div>
+                                    <AlertsPanel
+                                        dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                                        cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                                        netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Modals & Overlays */}

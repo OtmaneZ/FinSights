@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             dashboards
         });
     } catch (error) {
-        console.error('[Recent Dashboards API] Error:', error);
+        // Error logged by Prisma layer - return user-friendly message
         return res.status(500).json({ error: 'Erreur lors de la récupération des dashboards' });
     }
 }

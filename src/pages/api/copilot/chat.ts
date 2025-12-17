@@ -7,6 +7,7 @@ import { storeConversation, searchSimilarConversations } from '@/lib/vectordb/co
 import { checkUnifiedRateLimit } from '@/lib/rateLimit'
 import { getClientIP } from '@/lib/rateLimitKV'
 import { logger } from '@/lib/logger';
+import { anonymizeFinancialData } from '@/lib/ai/anonymizer'
 
 interface CopilotRequest {
     message: string
@@ -47,7 +48,7 @@ export default async function handler(
     const userId = session?.user?.id
     const userPlan = (session?.user?.plan as any) || 'FREE'
     const clientIP = getClientIP(req)
-    
+
     // Identifier : userId si connecté, sinon IP
     const identifier = isAuthenticated && userId ? userId : clientIP
 
@@ -92,6 +93,9 @@ export default async function handler(
             remaining: rateLimit.remaining
         })
 
+        // 🛡️ ANONYMISATION RGPD
+        const anonymizedData = rawData ? anonymizeFinancialData(rawData) : null;
+
         // 🧠 Rechercher conversations similaires dans Pinecone
         let contextFromMemory = '';
         if (process.env.PINECONE_API_KEY) {
@@ -133,53 +137,19 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
             apiKey: process.env.OPENAI_API_KEY
         })
 
-        // Construire les messages pour GPT
-        const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
-            {
-                role: 'system',
-                content: SYSTEM_PROMPT
-            }
-        ]
+        // 🏗️ Construire le contexte financier pour l'IA
+        const financialContext = buildFinancialContext(anonymizedData || [], companyName);
 
-        // Ajouter contexte financier si données disponibles
-        if (rawData && rawData.length > 0) {
-            messages.push({
-                role: 'system',
-                content: buildFinancialContext(rawData) + contextFromMemory
-            })
-        } else if (contextFromMemory) {
-            messages.push({
-                role: 'system',
-                content: contextFromMemory
-            })
-        }
-
-        // Ajouter historique conversation (max 5 derniers messages)
-        if (conversationHistory && conversationHistory.length > 0) {
-            const recentHistory = conversationHistory.slice(-5)
-            messages.push(...recentHistory)
-        }
-
-        // Ajouter question utilisateur
-        messages.push({
-            role: 'user',
-            content: message
-        })
-
-        logger.debug('🧠 Appel OpenAI GPT-4o-mini...')
-
-        // Appel OpenAI
-        const completion = await openai.chat.completions.create({
+        const response = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
-            messages,
-            temperature: 0.3, // Précis, pas créatif
-            max_tokens: 600,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0
+            messages: [
+                { role: 'system', content: SYSTEM_PROMPT },
+                ...conversationHistory || [],
+                { role: 'user', content: `Contexte financier actuel :\n${financialContext}\n\nQuestion de l'utilisateur : ${message}` }
+            ],
+            temperature: 0.3,
+            max_tokens: 800
         })
-
-        const response = completion.choices[0].message.content || 'Désolé, je n\'ai pas pu générer de réponse.'
 
         logger.debug('✅ Réponse générée:', response.substring(0, 100) + '...')
 

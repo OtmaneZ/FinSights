@@ -154,7 +154,7 @@ function ManualImportTab({ userPlan }: { userPlan: string }) {
                 setQuota(data.quota);
             }
         } catch (error) {
-            console.error('Error fetching quota:', error);
+            // Quota display will show fallback if fetch fails
         } finally {
             setLoadingQuota(false);
         }
@@ -202,7 +202,7 @@ function ManualImportTab({ userPlan }: { userPlan: string }) {
 
             reader.readAsText(file);
         } catch (error) {
-            console.error('Upload error:', error);
+            // User-friendly error already shown via alert
             alert('Erreur réseau');
             setIsUploading(false);
         }

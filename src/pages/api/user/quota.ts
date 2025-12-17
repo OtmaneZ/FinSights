@@ -69,7 +69,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
         });
     } catch (error) {
-        console.error('[Quota API] Error fetching quota:', error);
         return res.status(500).json({ error: 'Erreur lors de la récupération du quota' });
     }
 }

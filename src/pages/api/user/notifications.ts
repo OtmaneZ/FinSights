@@ -57,7 +57,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 settings
             });
         } catch (error) {
-            console.error('[Notifications API] Error fetching settings:', error);
             return res.status(500).json({ error: 'Erreur lors de la récupération des préférences' });
         }
     }
@@ -93,7 +92,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 settings: updatedUser.notificationSettings
             });
         } catch (error) {
-            console.error('[Notifications API] Error updating settings:', error);
             return res.status(500).json({ error: 'Erreur lors de la sauvegarde des préférences' });
         }
     }

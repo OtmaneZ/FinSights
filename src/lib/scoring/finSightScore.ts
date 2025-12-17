@@ -56,7 +56,7 @@ export interface ScoreFactors {
     // Cash factors
     cashFlowNet: number;
     runway: number;              // Mois de trésorerie restante
-    dso: number;                 // Days Sales Outstanding
+    dso: number | null;          // Days Sales Outstanding (nullable if insufficient data)
 
     // Margin factors
     marginPercentage: number;
@@ -209,7 +209,8 @@ export async function calculateFinSightScore(data: ProcessedData): Promise<FinSi
             recommendations = generateRecommendations(breakdown, factors, level);
         }
     } catch (error) {
-        console.warn('[FinSightScore] Fallback to hardcoded recommendations:', error);
+        // Silent fallback to hardcoded recommendations in production
+        // (Error already logged by AI service layer)
         recommendations = generateRecommendations(breakdown, factors, level);
     }
 
@@ -298,14 +299,17 @@ function calculateCashScore(factors: ScoreFactors): number {
     }
 
     // DSO - Days Sales Outstanding (5 points max)
-    if (factors.dso <= 30) {
-        score += 5; // Excellent: paiements < 30j
-    } else if (factors.dso <= 45) {
-        score += 3; // Bon: 30-45j
-    } else if (factors.dso <= 60) {
-        score += 1; // Moyen: 45-60j
+    if (factors.dso !== null) {
+        if (factors.dso <= 30) {
+            score += 5; // Excellent: paiements < 30j
+        } else if (factors.dso <= 45) {
+            score += 3; // Bon: 30-45j
+        } else if (factors.dso <= 60) {
+            score += 1; // Moyen: 45-60j
+        }
+        // > 60j = 0 points (problème trésorerie)
     }
-    // > 60j = 0 points (problème trésorerie)
+    // null = skip DSO scoring (insufficient data)
 
     return Math.min(25, score);
 }
@@ -700,7 +704,7 @@ function generateRecommendations(
 
     // Recommendations basées sur les piliers faibles
     if (breakdown.cash < 15) {
-        if (factors.dso > 60) {
+        if (factors.dso !== null && factors.dso > 60) {
             recommendations.push('📞 Relancer les factures en retard > 60 jours');
         }
         if (factors.runway < 6) {

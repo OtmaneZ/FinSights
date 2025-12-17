@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, ArrowRight, ShieldCheck } from 'lucide-react'
 
 interface ConsultingBannerProps {
     variant?: 'subtle' | 'warning'
@@ -24,29 +24,33 @@ export default function ConsultingBanner({ variant = 'subtle', score }: Consulti
                 rounded-xl p-6 border-l-4
                 ${isWarning
                     ? 'bg-orange-50/50 border-orange-500 border border-orange-200'
-                    : 'bg-blue-50/50 border-blue-500 border border-blue-200'
+                    : 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-500 border-l-4 shadow-sm'
                 }
                 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4
-                hover:shadow-md transition-shadow
+                hover:shadow-md transition-all duration-300
             `}>
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-4">
                     <div className={`
-                        w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
+                        w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-inner
                         ${isWarning ? 'bg-orange-100' : 'bg-blue-100'}
                     `}>
-                        <Sparkles className={`w-5 h-5 ${isWarning ? 'text-orange-600' : 'text-accent-primary'}`} />
+                        {isWarning ? (
+                            <ShieldCheck className="w-6 h-6 text-orange-600" />
+                        ) : (
+                            <Sparkles className="w-6 h-6 text-accent-primary" />
+                        )}
                     </div>
                     <div>
-                        <p className="text-sm font-semibold text-gray-900 mb-1">
+                        <p className="text-base font-bold text-gray-900 mb-1">
                             {isWarning
-                                ? 'Votre score révèle des signaux faibles'
-                                : 'Besoin d\'un regard expert ?'
+                                ? 'Analyse de Risque : Signaux faibles détectés'
+                                : 'Audit Expert & Accompagnement Stratégique'
                             }
                         </p>
-                        <p className="text-xs text-gray-600">
+                        <p className="text-sm text-gray-600 max-w-2xl">
                             {isWarning
-                                ? 'Un audit approfondi peut identifier les leviers d\'action prioritaires et vous aider à redresser la situation.'
-                                : 'Un diagnostic approfondi de votre situation permet d\'obtenir des recommandations concrètes — du diagnostic express (2 500€) au dashboard IA sur-mesure (6 500€).'
+                                ? 'Votre score de santé financière est en baisse. Un audit expert peut identifier les leviers de redressement immédiats.'
+                                : 'Passez de la donnée à la décision. Nos experts vous accompagnent pour structurer votre fonction finance et automatiser vos reportings.'
                             }
                         </p>
                     </div>
@@ -54,17 +58,15 @@ export default function ConsultingBanner({ variant = 'subtle', score }: Consulti
                 <Link
                     href="/consulting"
                     className={`
-                        inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-sm whitespace-nowrap transition-all
+                        inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm whitespace-nowrap transition-all shadow-sm hover:shadow-md
                         ${isWarning
-                            ? 'bg-orange-600 text-white hover:bg-orange-700 shadow-md hover:shadow-lg'
+                            ? 'bg-orange-600 text-white hover:bg-orange-700'
                             : 'bg-accent-primary text-white hover:bg-accent-primary-hover'
                         }
                     `}
                 >
-                    {isWarning ? 'Réserver un audit' : 'Découvrir nos offres'}
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    {isWarning ? 'Réserver mon Audit' : 'Voir les Formules'}
+                    <ArrowRight className="w-4 h-4" />
                 </Link>
             </div>
         </div>

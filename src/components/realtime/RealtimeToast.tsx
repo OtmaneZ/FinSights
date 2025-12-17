@@ -29,12 +29,8 @@ interface RealtimeToastProps {
 }
 
 export default function RealtimeToast({ notifications, onDismiss }: RealtimeToastProps) {
-    // Debug: log notifications
-    useEffect(() => {
-        if (notifications.length > 0) {
-            console.log('🔔 RealtimeToast received notifications:', notifications);
-        }
-    }, [notifications]);
+    // Notifications are managed through state - no debug logging needed in production
+    // (Logger available via import if needed for debugging)
 
     // Auto-dismiss after duration
     useEffect(() => {
@@ -54,8 +50,6 @@ export default function RealtimeToast({ notifications, onDismiss }: RealtimeToas
             timers.forEach(timer => clearTimeout(timer));
         };
     }, [notifications, onDismiss]);
-
-    console.log('🎨 RealtimeToast render:', { count: notifications.length, notifications });
 
     if (notifications.length === 0) return null;
 

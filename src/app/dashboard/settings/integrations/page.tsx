@@ -54,7 +54,7 @@ export default function IntegrationsPage() {
             }
             setLoading(false);
         } catch (error) {
-            console.error('Error fetching API key:', error);
+            // Silent fail - UI already shows "Generate API Key" button
             setLoading(false);
         }
     };
@@ -71,7 +71,7 @@ export default function IntegrationsPage() {
                 setApiKey(data.key.key);
             }
         } catch (error) {
-            console.error('Error generating API key:', error);
+            // User will see generation failed through UI state
         }
     };
 

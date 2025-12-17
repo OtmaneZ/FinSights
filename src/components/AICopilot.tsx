@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { ShieldCheck, Info } from 'lucide-react'
 import { useFinancialData } from '@/lib/financialContext'
 import { generateAutoSummary } from '@/lib/copilot/prompts'
 import { logger } from '@/lib/logger';
@@ -117,13 +118,27 @@ export default function AICopilot() {
         <div className="surface rounded-xl shadow-2xl border border-gray-200 overflow-hidden">
             {/* Header */}
             <div className="bg-gradient-to-r from-accent-primary to-blue-700 px-6 py-4">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 surface/20 rounded-full flex items-center justify-center">
-                        <span className="text-2xl">🤖</span>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 surface/20 rounded-full flex items-center justify-center">
+                            <span className="text-2xl">🤖</span>
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-bold text-white">Copilote IA FinSight</h2>
+                            <p className="text-sm text-blue-100">Propulsé par GPT-4o • Analyse temps réel</p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 className="text-xl font-bold text-white">Copilote IA FinSight</h2>
-                        <p className="text-sm text-blue-100">Propulsé par GPT-4o • Analyse temps réel</p>
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full border border-white/20 backdrop-blur-sm group relative cursor-help">
+                        <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                        <span className="text-[10px] font-bold text-white uppercase tracking-wider">RGPD Safe</span>
+
+                        {/* Tooltip */}
+                        <div className="absolute bottom-full right-0 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
+                            <div className="flex items-start gap-2">
+                                <Info className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                                <p>Vos données sont <strong>anonymisées localement</strong> (nettoyage des noms, IBAN, emails) avant d'être analysées par l'IA.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

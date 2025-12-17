@@ -62,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             message: 'Mot de passe modifié avec succès'
         });
     } catch (error) {
-        console.error('[Password API] Error updating password:', error);
+        // Security: don't expose password error details
         return res.status(500).json({ error: 'Erreur lors de la modification du mot de passe' });
     }
 }

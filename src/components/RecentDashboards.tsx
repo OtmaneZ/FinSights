@@ -40,7 +40,7 @@ export default function RecentDashboards() {
                 setDashboards(data.dashboards || []);
             }
         } catch (error) {
-            console.error('Error fetching recent dashboards:', error);
+            // Silent fail - user can still access dashboards via main navigation
         } finally {
             setLoading(false);
         }

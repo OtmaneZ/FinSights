@@ -69,7 +69,7 @@ export default function NotificationsPage() {
                 }
             }
         } catch (error) {
-            console.error('Error fetching notification settings:', error);
+            // Default settings will be used if fetch fails
         }
     };
 

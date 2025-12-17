@@ -37,11 +37,12 @@ export function calculateDSO(receivables: number, revenue: number): number {
  * Méthode 2 : Sinon → estimation via créances moyennes
  *
  * @param records - Transactions financières
- * @returns DSO estimé en jours
+ * @returns DSO estimé en jours, ou null si données insuffisantes
  */
-export function calculateDSOFromTransactions(records: FinancialRecord[]): number {
+export function calculateDSOFromTransactions(records: FinancialRecord[]): number | null {
     if (!records || records.length === 0) {
-        return 30;
+        logger.warn('⚠️ DSO: Aucune transaction disponible');
+        return null;
     }
 
     // Filtrage robuste avec validation complète
@@ -55,7 +56,14 @@ export function calculateDSOFromTransactions(records: FinancialRecord[]): number
     });
 
     if (incomeRecords.length === 0) {
-        return 30; // Valeur par défaut réaliste
+        logger.warn('⚠️ DSO: Aucune transaction de revenu détectée');
+        return null;
+    }
+
+    // Minimum 3 transactions pour un calcul fiable
+    if (incomeRecords.length < 3) {
+        logger.warn('⚠️ DSO: Données insuffisantes (< 3 transactions revenus)');
+        return null;
     }    // Méthode 1 : Si nous avons des dates d'échéance
     const recordsWithDueDate = incomeRecords.filter(r => {
         return r.dueDate && !isNaN(r.dueDate.getTime());
@@ -100,7 +108,7 @@ export function calculateDSOFromTransactions(records: FinancialRecord[]): number
 
     if (isNaN(dso) || dso < 0) {
         logger.error('❌ DSO invalide:', { dso, totalRevenue, periodDays });
-        return 30;
+        return null;
     }
 
     const finalDSO = Math.min(Math.round(dso), 120);
@@ -155,6 +163,18 @@ export function calculateEstimatedBFR(records: FinancialRecord[], revenue: numbe
     // ✅ ESTIMER LES CRÉANCES CLIENTS
     // Méthode : DSO × (CA annualisé / 365)
     const dso = calculateDSOFromTransactions(records);
+
+    // ⚠️ Si DSO null, impossible de calculer BFR
+    if (dso === null) {
+        logger.warn('⚠️ BFR: DSO non calculable, estimation impossible');
+        return {
+            bfr: 0,
+            confidence: 0,
+            method: 'Impossible à estimer (DSO indisponible)',
+            details: { estimatedReceivables: 0, estimatedPayables: 0, estimatedStocks: 0 }
+        };
+    }
+
     const periodDays = (() => {
         const dates = records.map(r => r.date.getTime()).sort((a, b) => a - b);
         return dates.length > 1
@@ -166,12 +186,12 @@ export function calculateEstimatedBFR(records: FinancialRecord[], revenue: numbe
     const estimatedReceivables = (dso / 365) * annualizedRevenue;
 
     // ✅ ESTIMER LES DETTES FOURNISSEURS
+    // ⚠️ ATTENTION: DPO fixe de 30j = APPROXIMATION RISQUÉE
     // Méthode : DPO (Days Payable Outstanding) × Achats annualisés / 365
-    // On suppose DPO = 30 jours (standard français)
     const expenseRecords = records.filter(r => r.type === 'expense');
     const totalExpenses = Math.abs(expenseRecords.reduce((sum, r) => sum + r.amount, 0));
     const annualizedExpenses = totalExpenses * (365 / Math.max(periodDays, 1));
-    const estimatedPayables = (30 / 365) * annualizedExpenses; // DPO moyen 30j
+    const estimatedPayables = (30 / 365) * annualizedExpenses; // ⚠️ DPO HYPOTHÉTIQUE 30j
 
     // ✅ STOCKS : Non estimable depuis transactions (nécessite inventaire physique)
     const estimatedStocks = 0;
@@ -179,15 +199,15 @@ export function calculateEstimatedBFR(records: FinancialRecord[], revenue: numbe
     const bfr = estimatedStocks + estimatedReceivables - estimatedPayables;
 
     // Niveau de confiance basé sur la qualité des données
-    let confidence = 0.5; // Base
+    let confidence = 0.3; // ⚠️ Base réduite car DPO hypothétique
     if (dso > 0 && dso < 90) confidence += 0.2; // DSO réaliste
     if (records.length > 50) confidence += 0.1; // Beaucoup de données
     if (periodDays > 180) confidence += 0.1; // Période longue
 
     return {
         bfr: Math.round(bfr),
-        confidence: Math.min(confidence, 0.9), // Max 90% pour estimation
-        method: 'Estimation depuis flux de trésorerie (DSO + DPO)',
+        confidence: Math.min(confidence, 0.7), // ⚠️ Max 70% (pas 90%) car DPO estimé
+        method: '⚠️ Estimation approximative (DPO fixe 30j non réel)',
         details: {
             estimatedReceivables: Math.round(estimatedReceivables),
             estimatedPayables: Math.round(estimatedPayables),
