@@ -1216,6 +1216,7 @@ export default function FinancialDashboardV2() {
         if (rawData && rawData.length > 0) {
             detectAnomaliesFromData();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rawData]);
 
     // 📊 Calculate SaaS metrics when data changes (only for SaaS companies)
@@ -1245,7 +1246,8 @@ export default function FinancialDashboardV2() {
         if (dashboardId && !isDataLoaded && !loadingSavedDashboard) {
             loadSavedDashboard(dashboardId);
         }
-    }, [searchParams]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams, isDataLoaded, loadingSavedDashboard]);
 
     // 🎨 Recalculer KPIs simulés quand sliders changent
     useEffect(() => {
@@ -1254,6 +1256,7 @@ export default function FinancialDashboardV2() {
         } else {
             setSimulatedKPIs([]);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chargesReduction, paiementsAcceleration, prixAugmentation, kpis, rawData]);
 
 
@@ -1620,7 +1623,7 @@ export default function FinancialDashboardV2() {
                     </div>
                 )}
 
-                {/* 🔮 What-If Simulation Panel - Juste après Predictions */}
+                {/* 🔮 What-If Simulation Panel */}
                 {isDataLoaded && (
                     <div className="mb-8 surface rounded-2xl p-8 relative overflow-hidden border-2 border-accent-primary-border/20 bg-gradient-to-br from-accent-primary-subtle/10 to-transparent">
                         {/* Badge Mode Simulation actif */}
@@ -1637,7 +1640,7 @@ export default function FinancialDashboardV2() {
                                 <div>
                                     <h3 className="text-2xl font-bold">Simulation What-If</h3>
                                     <p className="text-sm text-secondary mt-1">
-                                        Mesurez l'impact en temps réel sur les KPIs ci-dessus
+                                        Mesurez l&apos;impact en temps réel sur les KPIs ci-dessus
                                     </p>
                                 </div>
                             </div>
@@ -1772,7 +1775,7 @@ export default function FinancialDashboardV2() {
                                             <h4 className="text-base font-bold">Augmentation prix</h4>
                                         </div>
                                         <p className="text-xs text-secondary">
-                                            Impact sur <strong className="text-accent-orange">Revenus & Croissance</strong>
+                                            Impact sur <strong className="text-accent-orange">Revenus &amp; Croissance</strong>
                                         </p>
                                     </div>
 
@@ -1815,9 +1818,10 @@ export default function FinancialDashboardV2() {
                             </div>
                         )}
                     </div>
+                )}
 
-                    {/* Main Content Grid */}
-                    <div className="grid lg:grid-cols-12 gap-8">
+                {/* Main Content Grid */}
+                <div className="grid lg:grid-cols-12 gap-8">
                         {/* Left Column: Charts & Insights (8 cols) */}
                         <div className="lg:col-span-8 space-y-8">
                             {/* Consulting Banner - Dynamic based on score */}
@@ -1942,7 +1946,6 @@ export default function FinancialDashboardV2() {
                         }}
                     />
                 )}
-            </div>
         </>
     )
 }
