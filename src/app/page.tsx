@@ -13,7 +13,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Testimonials from '@/components/Testimonials'
 import DashboardPreview from '@/components/landing/DashboardPreview'
-import ConsultingSection from '@/components/landing/ConsultingSection'
+import TwoPathsSection from '@/components/landing/TwoPathsSection'
 import AnimatedScoreDisplay from '@/components/landing/AnimatedScoreDisplay'
 
 export default function Home() {
@@ -632,8 +632,8 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Consulting Section (brief offers) */}
-            <ConsultingSection />
+            {/* Two Paths Section - Consulting vs SaaS */}
+            <TwoPathsSection />
 
             {/* Témoignages clients – preuve sociale FP&A */}
             <section className="max-w-5xl mx-auto px-6 py-16">
