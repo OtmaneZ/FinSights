@@ -86,7 +86,7 @@ export default function Home() {
                                 {/* Secondary CTA - Demo tool */}
                                 <div className="text-center sm:text-left">
                                     <Link
-                                        href="/dashboard"
+                                        href="/demo"
                                         className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-accent-primary transition-colors font-medium"
                                     >
                                         <Sparkles className="w-4 h-4" />
