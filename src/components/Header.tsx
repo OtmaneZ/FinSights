@@ -225,7 +225,7 @@ export default function Header() {
                                             </Link>
 
                                             <Link
-                                                href="/settings"
+                                                href="/dashboard/settings"
                                                 className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
                                                 onClick={() => setIsDropdownOpen(false)}
                                             >
