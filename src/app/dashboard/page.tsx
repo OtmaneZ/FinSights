@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import Header from '@/components/Header';
 import { CompanySwitcher } from '@/components/CompanySwitcher';
+import RecentDashboards from '@/components/RecentDashboards';
 
 type TabType = 'manual' | 'auto';
 
@@ -72,8 +73,11 @@ export default function DashboardPage() {
                             </p>
                         </div>
 
-                        {/* Company Switcher */}
-                        <CompanySwitcher />
+                        {/* Company Switcher + Recent Dashboards */}
+                        <div className="flex items-center gap-3">
+                            <CompanySwitcher />
+                            <RecentDashboards />
+                        </div>
                     </div>
 
                     {/* Info Banner */}
@@ -131,9 +135,11 @@ export default function DashboardPage() {
    TAB 1 : IMPORT MANUEL
    ============================================ */
 function ManualImportTab({ userPlan }: { userPlan: string }) {
+    const router = useRouter();
     const [isDragging, setIsDragging] = useState(false);
     const [quota, setQuota] = useState<any>(null);
     const [loadingQuota, setLoadingQuota] = useState(true);
+    const [isUploading, setIsUploading] = useState(false);
 
     // Fetch user quota on mount
     useState(() => {
@@ -154,14 +160,52 @@ function ManualImportTab({ userPlan }: { userPlan: string }) {
         }
     };
 
-    const handleFileUpload = (files: FileList | null) => {
+    const handleFileUpload = async (files: FileList | null) => {
         if (!files || files.length === 0) return;
 
-        // Dispatch event pour FinancialDashboardV2 (si on garde ce composant)
-        const event = new CustomEvent('fileUpload', {
-            detail: files
-        });
-        window.dispatchEvent(event);
+        const file = files[0];
+        setIsUploading(true);
+
+        try {
+            // Read file content
+            const reader = new FileReader();
+
+            reader.onload = async (e) => {
+                const fileContent = e.target?.result as string;
+
+                // Upload via API
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fileName: file.name,
+                        fileType: file.type,
+                        fileContent: fileContent,
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    // Redirect to results page
+                    router.push(`/dashboard/results?dashboardId=${result.dashboardId}`);
+                } else {
+                    const error = await response.json();
+                    alert(`Erreur: ${error.error || 'Impossible d\'uploader le fichier'}`);
+                    setIsUploading(false);
+                }
+            };
+
+            reader.onerror = () => {
+                alert('Erreur lors de la lecture du fichier');
+                setIsUploading(false);
+            };
+
+            reader.readAsText(file);
+        } catch (error) {
+            console.error('Upload error:', error);
+            alert('Erreur réseau');
+            setIsUploading(false);
+        }
     };    return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Upload Zone */}
@@ -172,48 +216,63 @@ function ManualImportTab({ userPlan }: { userPlan: string }) {
                 </div>
 
                 <div
-                    onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                    onDragOver={(e) => { e.preventDefault(); !isUploading && setIsDragging(true); }}
                     onDragLeave={() => setIsDragging(false)}
                     onDrop={(e) => {
                         e.preventDefault();
                         setIsDragging(false);
-                        handleFileUpload(e.dataTransfer.files);
+                        !isUploading && handleFileUpload(e.dataTransfer.files);
                     }}
                     className={`border-2 border-dashed rounded-xl p-12 text-center transition-all ${
-                        isDragging
+                        isUploading
+                            ? 'border-accent-primary bg-accent-primary-subtle opacity-75 pointer-events-none'
+                            : isDragging
                             ? 'border-accent-primary bg-accent-primary-subtle'
                             : 'border-border-default hover:border-accent-primary-border hover:bg-surface-elevated'
                     }`}
                 >
-                    <Upload className="w-16 h-16 text-accent-primary mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-primary mb-2">
-                        Glissez votre fichier ici
-                    </h3>
-                    <p className="text-secondary mb-4">
-                        ou cliquez pour sélectionner
-                    </p>
+                    {isUploading ? (
+                        <>
+                            <div className="w-16 h-16 border-4 border-accent-primary-border border-t-accent-primary rounded-full animate-spin mx-auto mb-4"></div>
+                            <h3 className="text-xl font-bold text-primary mb-2">
+                                Analyse en cours...
+                            </h3>
+                            <p className="text-secondary">
+                                Nous analysons vos données financières
+                            </p>
+                        </>
+                    ) : (
+                        <>
+                            <Upload className="w-16 h-16 text-accent-primary mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-primary mb-2">
+                                Glissez votre fichier ici
+                            </h3>
+                            <p className="text-secondary mb-4">
+                                ou cliquez pour sélectionner
+                            </p>
 
-                    <input
-                        id="file-input"
-                        type="file"
-                        accept=".csv,.xlsx,.xls"
-                        className="hidden"
-                        onChange={(e) => handleFileUpload(e.target.files)}
-                    />
-                    <label
-                        htmlFor="file-input"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold cursor-pointer transition-all"
-                    >
-                        <FileSpreadsheet className="w-5 h-5" />
-                        Sélectionner un fichier
-                    </label>
+                            <input
+                                id="file-input"
+                                type="file"
+                                accept=".csv,.xlsx,.xls"
+                                className="hidden"
+                                onChange={(e) => handleFileUpload(e.target.files)}
+                                disabled={isUploading}
+                            />
+                            <label
+                                htmlFor="file-input"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold cursor-pointer transition-all"
+                            >
+                                <FileSpreadsheet className="w-5 h-5" />
+                                Sélectionner un fichier
+                            </label>
 
-                    <p className="text-xs text-tertiary mt-4">
-                        Formats acceptés : CSV, Excel (.xlsx, .xls) • Max 10 MB
-                    </p>
-                </div>
-
-                {/* Quota Info */}
+                            <p className="text-xs text-tertiary mt-4">
+                                Formats acceptés : CSV, Excel (.xlsx, .xls) • Max 10 MB
+                            </p>
+                        </>
+                    )}
+                </div>                {/* Quota Info */}
                 <div className="mt-6 p-4 surface-elevated rounded-lg">
                     <div className="flex items-center justify-between">
                         <span className="text-sm text-secondary">Imports ce mois</span>

@@ -31,6 +31,9 @@ model User {
   apiKeys    ApiKey[]
   webhooks   Webhook[]
 
+  // Settings
+  notificationSettings Json? // Email alerts, thresholds, reports
+
   // Stripe Integration
   stripeCustomerId       String?   @unique
   stripeSubscriptionId   String?   @unique
