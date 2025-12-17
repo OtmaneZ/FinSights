@@ -1,0 +1,113 @@
+{
+  "name": "Generic CSV → FinSight (Manual Upload)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "finsight-csv-upload",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "CSV Upload Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "finsight-csv-trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse CSV data from webhook\nconst csvData = $input.all()[0].json.csvContent;\nconst lines = csvData.split('\\n');\nconst headers = lines[0].split(',').map(h => h.trim());\nconst transactions = [];\n\n// Parse rows\nfor (let i = 1; i < lines.length; i++) {\n  if (!lines[i].trim()) continue;\n  \n  const values = lines[i].split(',');\n  const transaction = {};\n  \n  headers.forEach((header, index) => {\n    transaction[header] = values[index]?.trim() || '';\n  });\n  \n  // Standardize format\n  transactions.push({\n    date: transaction.Date || transaction.date,\n    amount: parseFloat(transaction.Montant || transaction.amount || 0),\n    category: transaction.Catégorie || transaction.Category || 'Autre',\n    description: transaction.Description || transaction.Label || '',\n    client: transaction.Client || transaction.Contrepartie || ''\n  });\n}\n\nreturn {\n  transactions,\n  source: 'csv_upload',\n  sync_date: new Date().toISOString(),\n  total_count: transactions.length\n};"
+      },
+      "name": "Parse CSV",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://finsight.zineinsight.com/api/integrations/n8n/ingest",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_FINSIGHT_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "transactions",
+              "value": "={{$json.transactions}}"
+            },
+            {
+              "name": "source",
+              "value": "={{$json.source}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send to FinSight",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, message: 'CSV imported successfully', count: $json.inserted, dashboardId: $json.dashboardId } }}"
+      },
+      "name": "Return Success Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "CSV Upload Trigger": {
+      "main": [
+        [
+          {
+            "node": "Parse CSV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse CSV": {
+      "main": [
+        [
+          {
+            "node": "Send to FinSight",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to FinSight": {
+      "main": [
+        [
+          {
+            "node": "Return Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-17T00:00:00.000Z",
+  "versionId": "1"
+}

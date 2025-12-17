@@ -132,6 +132,27 @@ export default function DashboardPage() {
    ============================================ */
 function ManualImportTab({ userPlan }: { userPlan: string }) {
     const [isDragging, setIsDragging] = useState(false);
+    const [quota, setQuota] = useState<any>(null);
+    const [loadingQuota, setLoadingQuota] = useState(true);
+
+    // Fetch user quota on mount
+    useState(() => {
+        fetchQuota();
+    });
+
+    const fetchQuota = async () => {
+        try {
+            const res = await fetch('/api/user/quota');
+            if (res.ok) {
+                const data = await res.json();
+                setQuota(data.quota);
+            }
+        } catch (error) {
+            console.error('Error fetching quota:', error);
+        } finally {
+            setLoadingQuota(false);
+        }
+    };
 
     const handleFileUpload = (files: FileList | null) => {
         if (!files || files.length === 0) return;
@@ -141,9 +162,7 @@ function ManualImportTab({ userPlan }: { userPlan: string }) {
             detail: files
         });
         window.dispatchEvent(event);
-    };
-
-    return (
+    };    return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Upload Zone */}
             <div className="surface rounded-xl p-8">
@@ -198,14 +217,25 @@ function ManualImportTab({ userPlan }: { userPlan: string }) {
                 <div className="mt-6 p-4 surface-elevated rounded-lg">
                     <div className="flex items-center justify-between">
                         <span className="text-sm text-secondary">Imports ce mois</span>
-                        <span className="text-sm font-semibold text-primary">
-                            {userPlan === 'FREE' ? '3/10' : '∞'}
-                        </span>
+                        {loadingQuota ? (
+                            <span className="text-sm text-secondary">Chargement...</span>
+                        ) : quota ? (
+                            <span className="text-sm font-semibold text-primary">
+                                {quota.used}/{quota.limit}
+                            </span>
+                        ) : (
+                            <span className="text-sm font-semibold text-primary">
+                                {userPlan === 'FREE' ? '0/10' : '∞'}
+                            </span>
+                        )}
                     </div>
-                    {userPlan === 'FREE' && (
+                    {quota && quota.limit !== '∞' && (
                         <div className="mt-2">
                             <div className="w-full bg-surface h-2 rounded-full overflow-hidden">
-                                <div className="bg-accent-primary h-full" style={{ width: '30%' }}></div>
+                                <div
+                                    className="bg-accent-primary h-full transition-all"
+                                    style={{ width: `${quota.percentage}%` }}
+                                ></div>
                             </div>
                         </div>
                     )}

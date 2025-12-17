@@ -1,0 +1,113 @@
+{
+  "name": "Sellsy → FinSight (Real-time Webhook)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "finsight-sellsy",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Sellsy Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "finsight-sellsy-trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Transform Sellsy webhook data to FinSight format\nconst webhookData = $input.all()[0].json;\nconst transactions = [];\n\n// Sellsy sends invoice data\nif (webhookData.event === 'invoice.created' || webhookData.event === 'invoice.updated') {\n  const invoice = webhookData.data;\n  \n  transactions.push({\n    date: invoice.displayedDate,\n    amount: invoice.totalAmount,\n    category: invoice.type === 'invoice' ? 'Vente' : 'Achat',\n    client: invoice.thirdname || 'Client inconnu',\n    invoice_id: invoice.id,\n    status: invoice.step,\n    payment_date: invoice.paymentDate\n  });\n}\n\nreturn {\n  transactions,\n  source: 'sellsy',\n  sync_date: new Date().toISOString(),\n  event: webhookData.event,\n  total_count: transactions.length\n};"
+      },
+      "name": "Transform Sellsy Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://finsight.zineinsight.com/api/integrations/n8n/ingest",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_FINSIGHT_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "transactions",
+              "value": "={{$json.transactions}}"
+            },
+            {
+              "name": "source",
+              "value": "={{$json.source}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send to FinSight",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, message: 'Sync completed', count: $json.inserted } }}"
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Sellsy Webhook": {
+      "main": [
+        [
+          {
+            "node": "Transform Sellsy Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform Sellsy Data": {
+      "main": [
+        [
+          {
+            "node": "Send to FinSight",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to FinSight": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-17T00:00:00.000Z",
+  "versionId": "1"
+}

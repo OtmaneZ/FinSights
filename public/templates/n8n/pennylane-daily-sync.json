@@ -1,0 +1,127 @@
+{
+  "name": "Pennylane → FinSight (Daily Sync)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "name": "Every day at 8am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://app.pennylane.com/api/external/v1/customer_invoices",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{$credentials.pennylaneApiKey}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Fetch Pennylane Invoices",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Transform Pennylane invoices to FinSight format\nconst invoices = $input.all();\nconst transactions = [];\n\nfor (const invoice of invoices) {\n  const data = invoice.json;\n  \n  transactions.push({\n    date: data.invoice_date,\n    amount: data.amount,\n    category: 'Vente',\n    client: data.customer?.name || 'Client inconnu',\n    status: data.status,\n    invoice_number: data.invoice_number,\n    due_date: data.due_date\n  });\n}\n\nreturn {\n  transactions,\n  source: 'pennylane',\n  sync_date: new Date().toISOString(),\n  total_count: transactions.length\n};"
+      },
+      "name": "Transform Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://finsight.zineinsight.com/api/integrations/n8n/ingest",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_FINSIGHT_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "transactions",
+              "value": "={{$json.transactions}}"
+            },
+            {
+              "name": "source",
+              "value": "={{$json.source}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send to FinSight",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Every day at 8am": {
+      "main": [
+        [
+          {
+            "node": "Fetch Pennylane Invoices",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Pennylane Invoices": {
+      "main": [
+        [
+          {
+            "node": "Transform Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform Data": {
+      "main": [
+        [
+          {
+            "node": "Send to FinSight",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-17T00:00:00.000Z",
+  "versionId": "1"
+}

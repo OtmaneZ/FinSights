@@ -91,14 +91,16 @@ export default function IntegrationsPage() {
     };
 
     const downloadTemplate = (templateName: string) => {
-        // TODO: Implement template download
-        const templates = {
-            'pennylane': '/templates/n8n-pennylane-daily-sync.json',
-            'sellsy': '/templates/n8n-sellsy-realtime.json',
-            'generic': '/templates/n8n-generic-csv.json'
+        const templates: Record<string, string> = {
+            'pennylane': '/templates/n8n/pennylane-daily-sync.json',
+            'sellsy': '/templates/n8n/sellsy-realtime-webhook.json',
+            'generic': '/templates/n8n/generic-csv-upload.json'
         };
-        // window.location.href = templates[templateName];
-        alert(`Template ${templateName} téléchargé (à implémenter)`);
+
+        const templatePath = templates[templateName];
+        if (templatePath) {
+            window.location.href = templatePath;
+        }
     };
 
     if (loading) {
