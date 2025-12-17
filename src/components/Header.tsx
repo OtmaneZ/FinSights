@@ -79,6 +79,9 @@ export default function Header() {
                     <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                         Tarifs
                     </Link>
+                    <Link href="/integrations" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Intégrations
+                    </Link>
 
                     {/* Ressources Dropdown */}
                     <div className="relative" ref={resourcesRef}>

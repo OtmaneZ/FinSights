@@ -1,0 +1,114 @@
+{
+  "name": "FinSight - Pennylane Daily Sync",
+  "description": "Synchronise automatiquement les factures Pennylane vers FinSight chaque jour à 8h",
+  "scenario": {
+    "modules": [
+      {
+        "id": 1,
+        "module": "gateway:CustomWebHook",
+        "version": 1,
+        "parameters": {
+          "hook": "clock",
+          "schedule": {
+            "pattern": "0 8 * * *",
+            "timezone": "Europe/Paris"
+          }
+        },
+        "mapper": {},
+        "metadata": {
+          "designer": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      },
+      {
+        "id": 2,
+        "module": "http:ActionSendData",
+        "version": 3,
+        "parameters": {},
+        "mapper": {
+          "url": "https://api.pennylane.com/api/v1/customer_invoices",
+          "method": "get",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_PENNYLANE_API_KEY"
+            }
+          ],
+          "qs": [
+            {
+              "name": "filter[created_at_start]",
+              "value": "{{formatDate(addDays(now; -1); \"YYYY-MM-DD\")}}"
+            },
+            {
+              "name": "filter[created_at_end]",
+              "value": "{{formatDate(now; \"YYYY-MM-DD\")}}"
+            }
+          ]
+        },
+        "metadata": {
+          "designer": {
+            "x": 300,
+            "y": 0
+          }
+        }
+      },
+      {
+        "id": 3,
+        "module": "builtin:BasicAggregator",
+        "version": 1,
+        "parameters": {
+          "feeder": 2
+        },
+        "mapper": {
+          "date": "{{2.date}}",
+          "client": "{{2.customer.name}}",
+          "montant": "{{2.amount}}",
+          "numero": "{{2.number}}",
+          "statut": "{{2.status}}"
+        },
+        "metadata": {
+          "designer": {
+            "x": 600,
+            "y": 0
+          }
+        }
+      },
+      {
+        "id": 4,
+        "module": "http:ActionSendData",
+        "version": 3,
+        "parameters": {},
+        "mapper": {
+          "url": "https://finsight.zineinsight.com/api/upload",
+          "method": "post",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_FINSIGHT_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{{toString({\"fileName\": \"pennylane-sync-\" + formatDate(now; \"YYYY-MM-DD\") + \".csv\", \"fileContent\": 3.csv, \"companyId\": \"YOUR_COMPANY_ID\"})}}"
+        },
+        "metadata": {
+          "designer": {
+            "x": 900,
+            "y": 0
+          }
+        }
+      }
+    ]
+  },
+  "instructions": [
+    "1. Importez ce scénario dans Make",
+    "2. Remplacez YOUR_PENNYLANE_API_KEY par votre clé API Pennylane",
+    "3. Remplacez YOUR_FINSIGHT_API_KEY par votre clé API FinSight (à générer dans /dashboard/settings/integrations)",
+    "4. Remplacez YOUR_COMPANY_ID par l'ID de votre entreprise FinSight",
+    "5. Activez le scénario"
+  ]
+}

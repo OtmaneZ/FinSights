@@ -1,0 +1,56 @@
+{
+  "name": "FinSight - Pennylane Daily Sync",
+  "description": "Synchronise automatiquement les factures Pennylane vers FinSight chaque jour à 8h",
+  "trigger": {
+    "app": "Schedule by Zapier",
+    "event": "Every Day",
+    "time": "08:00",
+    "timezone": "Europe/Paris"
+  },
+  "steps": [
+    {
+      "app": "Webhooks by Zapier",
+      "action": "GET Request",
+      "url": "https://api.pennylane.com/api/v1/customer_invoices",
+      "headers": {
+        "Authorization": "Bearer YOUR_PENNYLANE_API_KEY"
+      },
+      "params": {
+        "filter[created_at_start]": "{{today_minus_1_day}}",
+        "filter[created_at_end]": "{{today}}"
+      }
+    },
+    {
+      "app": "Formatter by Zapier",
+      "action": "Utilities",
+      "transform": "Line Items to CSV",
+      "mapping": {
+        "date": "{{invoice.date}}",
+        "client": "{{invoice.customer.name}}",
+        "montant": "{{invoice.amount}}",
+        "numero": "{{invoice.number}}",
+        "statut": "{{invoice.status}}"
+      }
+    },
+    {
+      "app": "Webhooks by Zapier",
+      "action": "POST Request",
+      "url": "https://finsight.zineinsight.com/api/upload",
+      "headers": {
+        "Authorization": "Bearer YOUR_FINSIGHT_API_KEY",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "fileName": "pennylane-sync-{{today}}.csv",
+        "fileContent": "{{csv_data}}",
+        "companyId": "YOUR_COMPANY_ID"
+      }
+    }
+  ],
+  "instructions": [
+    "1. Remplacez YOUR_PENNYLANE_API_KEY par votre clé API Pennylane",
+    "2. Remplacez YOUR_FINSIGHT_API_KEY par votre clé API FinSight (à générer dans /dashboard/settings/integrations)",
+    "3. Remplacez YOUR_COMPANY_ID par l'ID de votre entreprise FinSight",
+    "4. Activez le Zap"
+  ]
+}
