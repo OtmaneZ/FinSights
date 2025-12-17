@@ -49,19 +49,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        // 🔐 Vérifier signature webhook (optionnel mais recommandé)
-        const signature = req.headers['x-webhook-signature'] as string;
-        const webhookSecret = process.env.N8N_WEBHOOK_SECRET;
+        // 🔐 Authentication via API Key (Bearer token)
+        const authHeader = req.headers['authorization'] as string;
 
-        if (webhookSecret && signature) {
-            const payload = JSON.stringify(req.body);
-            const isValid = verifyWebhookSignature(payload, signature, webhookSecret);
-
-            if (!isValid) {
-                logger.warn('[n8n] ❌ Signature webhook invalide');
-                return res.status(401).json({ error: 'Invalid webhook signature' });
-            }
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            logger.warn('[n8n] ❌ Missing or invalid Authorization header');
+            return res.status(401).json({
+                error: 'Unauthorized',
+                message: 'API Key required. Use: Authorization: Bearer YOUR_API_KEY'
+            });
         }
+
+        const apiKey = authHeader.replace('Bearer ', '');
+
+        // Vérifier l'API Key et récupérer le user
+        const { verifyApiKey } = await import('@/lib/apiKeys');
+        const keyInfo = await verifyApiKey(apiKey);
+
+        if (!keyInfo) {
+            logger.warn('[n8n] ❌ Invalid API Key');
+            return res.status(401).json({ error: 'Invalid API Key' });
+        }
+
+        const userId = keyInfo.user.id;
+        logger.debug(`[n8n] ✅ User authentifié: ${keyInfo.user.email}`);
 
         const { transactions, companyId, source = 'n8n' } = req.body as IngestRequest;
 
@@ -74,38 +85,44 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(400).json({ error: 'companyId is required' });
         }
 
-        logger.info(`[n8n] 📥 Ingestion de ${transactions.length} transactions pour company ${companyId}`);
+        logger.info(`[n8n] 📥 Ingestion de ${transactions.length} transactions pour company ${companyId || 'default'}`);
 
-        // Vérifier que la company existe, sinon créer une company de démo
-        let company = await prisma.company.findUnique({
-            where: { id: companyId }
-        });
+        // Récupérer ou créer la company du user authentifié
+        let company;
 
-        if (!company && companyId === 'demo_n8n') {
-            // Auto-créer une company de démo pour faciliter les tests
-            // Nécessite un userId valide - on prend le premier user admin
-            const firstUser = await prisma.user.findFirst({
+        if (companyId) {
+            // Vérifier que la company existe ET appartient au user
+            company = await prisma.company.findFirst({
+                where: {
+                    id: companyId,
+                    userId: userId
+                }
+            });
+
+            if (!company) {
+                return res.status(404).json({
+                    error: 'Company not found or unauthorized',
+                    message: `No company with ID ${companyId} found for your account`
+                });
+            }
+        } else {
+            // Si pas de companyId fourni, utiliser la première company du user
+            company = await prisma.company.findFirst({
+                where: { userId },
                 orderBy: { createdAt: 'asc' }
             });
 
-            if (firstUser) {
+            if (!company) {
+                // Créer une company par défaut si le user n'en a pas
                 company = await prisma.company.create({
                     data: {
-                        id: 'demo_n8n',
-                        name: 'Demo N8N Integration',
-                        sector: 'saas',
-                        userId: firstUser.id
+                        name: 'Entreprise Principal',
+                        sector: 'services',
+                        userId: userId
                     }
                 });
-                logger.info(`[n8n] ✅ Company de démo créée automatiquement`);
+                logger.info(`[n8n] ✅ Company par défaut créée pour user ${userId}`);
             }
-        }
-
-        if (!company) {
-            return res.status(404).json({
-                error: 'Company not found',
-                hint: 'Use companyId="demo_n8n" for testing, or create a company first'
-            });
         }
 
         // 📊 Récupérer ou créer un dashboard pour cette company

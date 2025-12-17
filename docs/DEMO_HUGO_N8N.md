@@ -1,4 +1,4 @@
-# 🎯 Démo N8N → FinSights (Message pour Hugo)
+x# 🎯 Démo N8N → FinSights (Message pour Hugo)
 
 ## 💬 Message LinkedIn à envoyer demain
 
