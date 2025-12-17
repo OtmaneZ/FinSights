@@ -13,6 +13,12 @@ const openai = new OpenAI({
     }
 });
 
+// Modèles disponibles par taille de fichier
+const AI_MODELS = {
+    SMALL_FILE: 'google/gemini-2.0-flash-exp:free',  // < 500 lignes : Gratuit + nettoyage intelligent
+    LARGE_FILE: 'google/gemini-2.0-flash-exp:free',  // > 500 lignes : Échantillon pour catégories
+} as const;
+
 // Définir une structure de retour pour notre parser IA
 interface AIParseResult {
     success: boolean;
@@ -25,13 +31,14 @@ interface AIParseResult {
  * Analyse le contenu textuel d'un fichier financier (format CSV) en utilisant l'IA
  * pour le transformer en un format de données structuré.
  * @param textContent Le contenu brut du fichier.
+ * @param mode Mode de parsing : 'full' (tout le fichier) ou 'sample' (échantillon pour enrichissement)
  * @returns Une promesse qui se résout en un objet AIParseResult.
  */
-export async function parseWithAI(textContent: string): Promise<AIParseResult> {
-    logger.debug('[AI Parser] Début du parsing avec IA...');
+export async function parseWithAI(textContent: string, mode: 'full' | 'sample' = 'full'): Promise<AIParseResult> {
+    logger.debug(`[AI Parser] Début du parsing avec IA (mode: ${mode})...`);
 
-    // Tronquer le contenu si trop long pour éviter de dépasser les limites de tokens
-    const MAX_INPUT_LENGTH = 50000; // Environ 13k tokens - GPT-4-turbo supporte 128k tokens
+    // Stratégie adaptative selon la taille du fichier
+    const MAX_INPUT_LENGTH = mode === 'sample' ? 15000 : 50000;
     const truncatedContent = textContent.length > MAX_INPUT_LENGTH
         ? textContent.substring(0, MAX_INPUT_LENGTH)
         : textContent;
@@ -80,9 +87,13 @@ export async function parseWithAI(textContent: string): Promise<AIParseResult> {
     `;
 
     try {
-        logger.debug('[AI Parser] Envoi de la requête à OpenRouter...');
+        // Sélectionner le modèle optimal selon la taille
+        const lineCount = textContent.split('\n').length;
+        const selectedModel = lineCount > 500 ? AI_MODELS.LARGE_FILE : AI_MODELS.SMALL_FILE;
+
+        logger.debug(`[AI Parser] Envoi de la requête à OpenRouter (${selectedModel}, ${lineCount} lignes)...`);
         const response = await openai.chat.completions.create({
-            model: "openai/gpt-4-turbo-preview", // Format OpenRouter: provider/model
+            model: selectedModel, // Gemini 2.0 Flash : rapide + gratuit
             messages: [
                 {
                     role: "system",

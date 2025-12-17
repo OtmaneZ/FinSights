@@ -206,8 +206,9 @@ model ParseLog {
 // ============================================
 
 enum ParseMethod {
-  AI       // AI parser (OpenRouter/GPT-4)
+  AI       // AI parser (Gemini Flash full parsing)
   CLASSIC  // Fallback CSV parser
+  HYBRID   // Classic parser (exhaustive) + AI enrichment (large files)
   ERROR    // Failed before parsing
 }
 

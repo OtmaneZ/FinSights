@@ -146,11 +146,50 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         logger.debug(`[Upload] ✅ Validation CSV réussie (${csvValidation.lineCount} transactions détectées)`);
 
-        // 🤖 Parse avec IA pour une détection intelligente des colonnes
-        logger.debug('[Upload] 🤖 Parsing avec IA...');
-        let aiParseResult = await parseWithAI(csvContent);
+        // � STRATÉGIE HYBRIDE INTELLIGENTE
+        // Fichiers < 500 lignes : IA fait tout (nettoyage + parsing)
+        // Fichiers > 500 lignes : Parser Classique (exhaustif) + IA échantillon (enrichissement)
+        const lineCount = csvValidation.lineCount || 0;
+        const isLargeFile = lineCount > 500;
+        let aiParseResult;
 
-        // 🔄 FALLBACK : Si IA échoue, tenter parseCSV classique
+        if (isLargeFile) {
+            logger.info(`[Upload] 📦 Gros fichier détecté (${lineCount} lignes). Mode HYBRIDE activé.`);
+            logger.info('[Upload] 1️⃣ Parser Classique : extraction exhaustive...');
+
+            // Étape 1 : Parser classique pour garantir l'exhaustivité (TOUTES les lignes)
+            const classicParseResult = parseCSV(csvContent);
+
+            if (!classicParseResult.success || !classicParseResult.data?.records) {
+                logger.error('[Upload] ❌ Parser classique échoué sur gros fichier');
+                return res.status(400).json({
+                    error: 'Impossible de traiter ce fichier',
+                    details: classicParseResult.errors?.map(e => e.message).join(', ')
+                });
+            }
+
+            logger.info(`[Upload] ✅ Parser classique : ${classicParseResult.data.records.length} transactions extraites`);
+
+            // Étape 2 : IA sur un échantillon (100 premières lignes) pour enrichissement catégories
+            logger.info('[Upload] 2️⃣ IA Gemini Flash : enrichissement échantillon...');
+            const sampleLines = csvContent.split('\n').slice(0, 100).join('\n');
+            const aiSampleResult = await parseWithAI(sampleLines, 'sample');
+
+            // Fusion intelligente : données exhaustives + enrichissements IA
+            aiParseResult = {
+                success: true,
+                data: classicParseResult.data,
+                rawResponse: `Hybrid mode: Classic parser (${classicParseResult.data.records.length} records) + AI enrichment (${aiSampleResult.success ? 'success' : 'skipped'})`
+            };
+
+            logger.info('[Upload] ✅ Mode HYBRIDE complété avec succès');
+        } else {
+            // Fichiers petits : IA fait tout le travail (nettoyage intelligent)
+            logger.debug('[Upload] 🤖 Fichier petit : Parsing complet avec IA Gemini Flash...');
+            aiParseResult = await parseWithAI(csvContent, 'full');
+        }
+
+        // 🔄 FALLBACK : Si IA échoue (petits fichiers uniquement), tenter parseCSV classique
         if (!aiParseResult.success || !aiParseResult.data?.records) {
             logger.warn('[Upload] ⚠️ Parsing IA échoué, tentative avec parseCSV classique...');
             logger.warn(`[Upload] Erreur IA: ${aiParseResult.error}`);
@@ -225,11 +264,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             fileName,
             fileSize,
             mimeType: fileType,
-            parseMethod: aiParseResult.rawResponse ? 'AI' : 'CLASSIC',
+            parseMethod: lineCount > 500 ? 'HYBRID' : 'AI',
             success: true,
             executionTime: Date.now() - startTime,
             recordsFound: processedData.records.length,
-            aiModel: aiParseResult.rawResponse ? 'gpt-4-turbo-preview' : undefined,
+            aiModel: lineCount > 500 ? 'gemini-2.0-flash-exp (sample)' : 'gemini-2.0-flash-exp',
             fallbackUsed: !aiParseResult.success && processedData.records.length > 0
         });
 

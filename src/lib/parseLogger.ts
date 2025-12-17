@@ -6,7 +6,7 @@
 import { prisma } from './prisma';
 import { logger } from './logger';
 
-export type ParseMethod = 'AI' | 'CLASSIC' | 'ERROR';
+export type ParseMethod = 'AI' | 'CLASSIC' | 'HYBRID' | 'ERROR';
 
 export interface ParseLogData {
     userId?: string;
