@@ -7,6 +7,9 @@
         "build": "prisma generate && next build",
         "start": "next start",
         "lint": "next lint",
+        "lint:fix": "next lint --fix",
+        "typecheck": "tsc --noEmit",
+        "check": "npm run lint && npm run typecheck",
         "postinstall": "prisma generate"
     },
     "dependencies": {

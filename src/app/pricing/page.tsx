@@ -10,25 +10,33 @@ import { Zap, Shield, Rocket, Building2 } from 'lucide-react'
 // Note: metadata export not allowed in client components
 // SEO handled by layout.tsx + OG tags dynamically
 
+type PlanColor = 'green' | 'blue' | 'orange' | 'red';
+
 export default function PricingPage() {
     const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
 
     const plans = [
         {
             name: 'Starter',
+            description: 'Découvrir sa situation financière',
+            tagline: 'Teaser intelligent, pas outil de pilotage',
             icon: Zap,
+            color: 'green' as PlanColor,
             price: 0,
             priceYearly: 0,
             features: [
                 '✅ 1 entreprise',
-                '✅ 10 uploads/mois',
                 '✅ Score FinSight™ instantané',
-                '✅ Analyse financière stratégique',
-                '✅ 10 questions CFO Virtuel/jour',
+                '✅ Dashboards financiers essentiels',
+                '✅ 10 imports / mois',
                 '✅ Visualisations interactives',
                 '✅ Export PDF avec watermark',
-                '❌ Sauvegarde cloud',
-                '❌ Alertes email'
+                '✅ 5 questions CFO Virtuel / jour',
+                '❌ Prévisions & stress tests',
+                '❌ Alertes',
+                '❌ Historique long',
+                '❌ API',
+                '❌ Automatisations'
             ],
             cta: 'Commencer gratuitement',
             highlight: false,
@@ -36,19 +44,25 @@ export default function PricingPage() {
         },
         {
             name: 'Business',
+            description: 'Piloter et anticiper',
+            tagline: 'Vous pilotez sérieusement, sans intégration SI lourde',
             icon: Shield,
-            price: 99,
-            priceYearly: 950, // -20%
+            color: 'blue' as PlanColor,
+            price: 249,
+            priceYearly: 2390, // -20%
             features: [
-                '✅ 3 entreprises',
-                '✅ CFO Virtuel illimité (GPT-4)',
-                '✅ Analyses illimitées',
-                '✅ Prévisions & Stress tests avancés',
-                '✅ Sauvegarde cloud 90 jours',
-                '✅ Alertes signaux faibles temps réel',
-                '✅ Export PDF/Excel branded',
-                '✅ Support email 48h',
-                '❌ API REST'
+                '✅ Jusqu\'à 3 entreprises',
+                '✅ Score FinSight™ temps réel',
+                '✅ CFO Virtuel illimité',
+                '✅ Analyses financières avancées',
+                '✅ Prévisions & stress tests',
+                '✅ Alertes signaux faibles (cash, BFR, DSO)',
+                '✅ Historique 12 mois',
+                '✅ Exports PDF / Excel branded',
+                '✅ Support email prioritaire',
+                '❌ API',
+                '❌ Webhooks',
+                '❌ Automatisations externes'
             ],
             cta: 'Essai gratuit 14 jours',
             highlight: true,
@@ -56,19 +70,23 @@ export default function PricingPage() {
         },
         {
             name: 'Growth',
+            description: 'Intégrer au système financier',
+            tagline: 'L\'intégration dans le système nerveux de l\'entreprise',
             icon: Rocket,
-            price: 199,
-            priceYearly: 1910, // -20%
+            color: 'orange' as PlanColor,
+            price: 499,
+            priceYearly: 4790, // -20%
             features: [
                 '✅ Entreprises illimitées',
-                '✅ Multi-utilisateurs (5 sièges)',
-                '✅ Score FinSight™ temps réel',
-                '✅ API REST complète (10k calls/jour)',
-                '✅ Historique données 3 ans',
+                '✅ Multi-utilisateurs (équipes finance)',
+                '✅ Score FinSight™ temps réel + benchmarks',
+                '✅ CFO Virtuel avancé',
+                '✅ Historique 3 ans',
+                '✅ API REST (quota défini)',
                 '✅ Webhooks événements critiques',
+                '✅ Monitoring performance',
                 '✅ Support prioritaire 24h',
-                '✅ Onboarding personnalisé',
-                '✅ Monitoring performances'
+                '✅ Onboarding personnalisé (1 session)'
             ],
             cta: 'Démo avec expert',
             highlight: false,
@@ -76,18 +94,22 @@ export default function PricingPage() {
         },
         {
             name: 'Enterprise',
+            description: 'Gouvernance financière avancée',
+            tagline: 'Un partenariat stratégique, pas juste un SaaS',
             icon: Building2,
+            color: 'red' as PlanColor,
             price: null,
             features: [
-                '✅ Score FinSight™ + tous piliers avancés',
-                '✅ Utilisateurs illimités (équipes DAF/CFO)',
-                '✅ Intégrations ERP/CRM sur-mesure',
-                '✅ Déploiement on-premise ou cloud dédié',
-                '✅ CFO Virtuel personnalisé (modèle métier)',
-                '✅ Formation équipe + Onboarding stratégique',
+                '✅ Tout Growth +',
+                '✅ Score FinSight™ personnalisé',
+                '✅ Modèle métier sur-mesure',
+                '✅ Intégrations ERP / CRM spécifiques',
+                '✅ Automatisations avancées (n8n / Make / Zapier)',
+                '✅ Déploiement cloud dédié ou on-premise',
                 '✅ Audit sécurité & conformité RGPD',
-                '✅ Contrat annuel avec SLA personnalisé',
-                '✅ Roadmap prioritaire (développement features)'
+                '✅ Formation équipes finance & direction',
+                '✅ SLA contractuel',
+                '✅ Roadmap prioritaire'
             ],
             cta: 'Nous contacter',
             highlight: false,
@@ -124,6 +146,9 @@ export default function PricingPage() {
                         <PricingCard
                             key={plan.name}
                             name={plan.name}
+                            description={plan.description}
+                            tagline={plan.tagline}
+                            color={plan.color}
                             price={plan.price}
                             priceYearly={plan.priceYearly}
                             billingPeriod={billingPeriod}
