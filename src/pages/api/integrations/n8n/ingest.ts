@@ -76,13 +76,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         logger.info(`[n8n] 📥 Ingestion de ${transactions.length} transactions pour company ${companyId}`);
 
-        // Vérifier que la company existe
-        const company = await prisma.company.findUnique({
+        // Vérifier que la company existe, sinon créer une company de démo
+        let company = await prisma.company.findUnique({
             where: { id: companyId }
         });
 
+        if (!company && companyId === 'demo_n8n') {
+            // Auto-créer une company de démo pour faciliter les tests
+            // Nécessite un userId valide - on prend le premier user admin
+            const firstUser = await prisma.user.findFirst({
+                orderBy: { createdAt: 'asc' }
+            });
+
+            if (firstUser) {
+                company = await prisma.company.create({
+                    data: {
+                        id: 'demo_n8n',
+                        name: 'Demo N8N Integration',
+                        sector: 'saas',
+                        userId: firstUser.id
+                    }
+                });
+                logger.info(`[n8n] ✅ Company de démo créée automatiquement`);
+            }
+        }
+
         if (!company) {
-            return res.status(404).json({ error: 'Company not found' });
+            return res.status(404).json({
+                error: 'Company not found',
+                hint: 'Use companyId="demo_n8n" for testing, or create a company first'
+            });
         }
 
         // 📊 Récupérer ou créer un dashboard pour cette company
