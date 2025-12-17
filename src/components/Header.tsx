@@ -70,7 +70,7 @@ export default function Header() {
                 </Link>
                 <nav className="hidden md:flex items-center gap-8">
                     {/* Produit */}
-                    <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                    <Link href="/demo" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                         Démo
                     </Link>
                     <Link href="/pour-qui" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
