@@ -85,23 +85,55 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(404).json({ error: 'Company not found' });
         }
 
-        // 📊 Insérer les transactions en batch
-        const createdRecords = await prisma.$transaction(
-            transactions.map((t) => prisma.financialRecord.create({
-                data: {
-                    date: new Date(t.date),
-                    description: t.description,
-                    amount: t.amount,
-                    type: t.type,
-                    category: t.category || (t.type === 'income' ? 'Ventes' : 'Autres charges'),
-                    paymentStatus: t.paymentStatus || 'Payé',
-                    companyId: companyId,
-                    source: `${source}_integration`
-                }
-            }))
-        );
+        // 📊 Récupérer ou créer un dashboard pour cette company
+        let dashboard = await prisma.dashboard.findFirst({
+            where: {
+                companyId: companyId,
+                fileName: { contains: 'n8n_integration' }
+            },
+            orderBy: { createdAt: 'desc' }
+        });
 
-        logger.info(`[n8n] ✅ ${createdRecords.length} transactions insérées avec succès`);
+        // Préparer les nouvelles transactions
+        const newTransactions = transactions.map((t) => ({
+            date: new Date(t.date).toISOString(),
+            description: t.description,
+            amount: t.amount,
+            type: t.type,
+            category: t.category || (t.type === 'income' ? 'Ventes' : 'Autres charges'),
+            paymentStatus: t.paymentStatus || 'Payé',
+            source: `${source}_integration`
+        }));
+
+        if (dashboard) {
+            // Mettre à jour le dashboard existant
+            const existingData = dashboard.rawData as any[];
+            const updatedData = [...existingData, ...newTransactions];
+
+            dashboard = await prisma.dashboard.update({
+                where: { id: dashboard.id },
+                data: {
+                    rawData: updatedData,
+                    updatedAt: new Date()
+                }
+            });
+
+            logger.info(`[n8n] ✅ Dashboard mis à jour : ${newTransactions.length} transactions ajoutées`);
+        } else {
+            // Créer un nouveau dashboard
+            dashboard = await prisma.dashboard.create({
+                data: {
+                    fileName: `n8n_integration_${Date.now()}.json`,
+                    fileUrl: 'n8n://integration',
+                    rawData: newTransactions,
+                    kpis: {},
+                    companyId: companyId,
+                    userId: company.userId
+                }
+            });
+
+            logger.info(`[n8n] ✅ Nouveau dashboard créé avec ${newTransactions.length} transactions`);
+        }
 
         // 🔔 Trigger webhook "dashboard.updated" si configuré
         const webhooks = await prisma.webhook.findMany({
@@ -121,7 +153,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         return res.status(200).json({
             success: true,
-            inserted: createdRecords.length,
+            inserted: newTransactions.length,
+            dashboardId: dashboard.id,
             companyId,
             source
         });
