@@ -138,9 +138,9 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
         })
 
         // 🏗️ Construire le contexte financier pour l'IA
-        const financialContext = buildFinancialContext(anonymizedData || [], companyName);
+        const financialContext = buildFinancialContext(anonymizedData || []);
 
-        const response = await openai.chat.completions.create({
+        const completion = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
             messages: [
                 { role: 'system', content: SYSTEM_PROMPT },
@@ -150,6 +150,8 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
             temperature: 0.3,
             max_tokens: 800
         })
+
+        const response = completion.choices[0]?.message?.content || 'Désolé, je n\'ai pas pu générer une réponse.';
 
         logger.debug('✅ Réponse générée:', response.substring(0, 100) + '...')
 

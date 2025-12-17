@@ -122,7 +122,7 @@ function prepareFinancialContext(
     lines.push(`💰 Cash Flow Net: ${factors.cashFlowNet.toLocaleString('fr-FR')}€`);
     lines.push(`📅 Runway: ${factors.runway.toFixed(1)} mois ${factors.runway < 6 ? '⚠️ CRITIQUE' : ''}`);
 
-    if (factors.dso > 0) {
+    if (factors.dso !== null && factors.dso > 0) {
         lines.push(`📅 DSO: ${factors.dso} jours ${factors.dso > 60 ? '⚠️ ÉLEVÉ' : ''}`);
     }
 

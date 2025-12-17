@@ -187,17 +187,19 @@ export function generateAdaptiveKPIs(data: any, capabilities: ReturnType<typeof 
     // ✅ KPI 6 : DSO - Délai de paiement clients (Vocabulaire V3)
     if (data.records.length > 0) {
         const dsoValue = calculateDSOFromTransactions(data.records);
-        kpis.push({
-            title: 'DSO & Cycles Paiement',
-            value: `${dsoValue} jours`,
-            change: dsoValue < 45 ? 'Excellent' : dsoValue < 60 ? 'Bon' : 'À surveiller',
-            changeType: dsoValue < 45 ? 'positive' : dsoValue < 60 ? 'neutral' : 'negative',
-            description: capabilities.canShowDSO
-                ? (dsoValue === 0 ? 'Paiements instantanés (comptant)' : 'Délai moyen de paiement réel')
-                : 'Délai moyen de paiement (estimation)',
-            confidence: capabilities.canShowDSO ? 0.95 : 0.7,
-            isAvailable: true // ✅ Toujours affiché (avec indication estimation si pas de dates)
-        });
+        if (dsoValue !== null) {
+            kpis.push({
+                title: 'DSO & Cycles Paiement',
+                value: `${dsoValue} jours`,
+                change: dsoValue < 45 ? 'Excellent' : dsoValue < 60 ? 'Bon' : 'À surveiller',
+                changeType: dsoValue < 45 ? 'positive' : dsoValue < 60 ? 'neutral' : 'negative',
+                description: capabilities.canShowDSO
+                    ? (dsoValue === 0 ? 'Paiements instantanés (comptant)' : 'Délai moyen de paiement réel')
+                    : 'Délai moyen de paiement (estimation)',
+                confidence: capabilities.canShowDSO ? 0.95 : 0.7,
+                isAvailable: true // ✅ Toujours affiché (avec indication estimation si pas de dates)
+            });
+        }
     }
 
     // ✅ KPI 7 : BFR - Besoin en Fonds de Roulement (Vocabulaire V3)
