@@ -114,6 +114,8 @@ interface KPI {
     confidence?: number    // Score de confiance (0-1)
 }
 
+type UploadStep = 'idle' | 'validating' | 'ai-parsing' | 'processing' | 'done';
+
 export default function FinancialDashboardV2() {
     const { data: session } = useSession();
     const router = useRouter();
@@ -174,7 +176,6 @@ export default function FinancialDashboardV2() {
     const [loadingMessage, setLoadingMessage] = useState('');
 
     // Upload Loading state - Granular steps
-    type UploadStep = 'idle' | 'validating' | 'ai-parsing' | 'processing' | 'done';
     const [uploadStep, setUploadStep] = useState<UploadStep>('idle');
     const [uploadProgress, setUploadProgress] = useState(0);
 
