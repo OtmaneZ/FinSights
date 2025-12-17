@@ -41,7 +41,11 @@ export function CompanyProvider({ children }: { children: ReactNode }) {
 export function useActiveCompany() {
     const context = useContext(CompanyContext);
     if (context === undefined) {
-        throw new Error('useActiveCompany must be used within CompanyProvider');
+        // En mode FREE sans provider, retourner un objet par défaut
+        return {
+            activeCompanyId: null,
+            setActiveCompanyId: () => {}
+        };
     }
     return context;
 }
