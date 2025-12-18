@@ -4,7 +4,7 @@
  */
 
 import { prisma } from './prisma';
-import { randomBytes } from 'crypto';
+import { randomBytes, createHash } from 'crypto';
 
 /**
  * Generate a new API key for a user
@@ -14,19 +14,24 @@ export async function createApiKey(
     name: string
 ): Promise<{ id: string; key: string; name: string; createdAt: Date }> {
     // Generate secure random key
-    const key = generateApiKey();
+    const plainKey = generateApiKey();
+
+    // Store only the hash and a short prefix in the DB
+    const keyHash = createHash('sha256').update(plainKey).digest('hex');
+    const prefix = plainKey.substring(0, 8);
 
     const apiKey = await prisma.apiKey.create({
         data: {
             userId,
-            key,
+            keyHash,
+            prefix,
             name,
         },
     });
 
     return {
         id: apiKey.id,
-        key: apiKey.key,
+        key: plainKey,
         name: apiKey.name,
         createdAt: apiKey.createdAt,
     };
@@ -44,16 +49,17 @@ export async function listApiKeys(userId: string) {
             name: true,
             lastUsed: true,
             createdAt: true,
-            key: true, // Will be masked in response
+            prefix: true, // only prefix stored/shown
         },
     });
 
-    return apiKeys.map((key) => ({
-        id: key.id,
-        name: key.name,
-        lastUsed: key.lastUsed,
-        createdAt: key.createdAt,
-        keyPreview: maskApiKey(key.key),
+    return apiKeys.map((k) => ({
+        id: k.id,
+        name: k.name,
+        lastUsed: k.lastUsed,
+        createdAt: k.createdAt,
+        // Show only stored prefix (e.g. fsk_live_), not the full key
+        keyPreview: `${k.prefix}...`,
     }));
 }
 
@@ -78,8 +84,11 @@ export async function deleteApiKey(userId: string, keyId: string): Promise<boole
  * Verify an API key and return user info
  */
 export async function verifyApiKey(apiKey: string) {
+    // Look up by SHA-256 hash of the provided key
+    const keyHash = createHash('sha256').update(apiKey).digest('hex');
+
     const key = await prisma.apiKey.findUnique({
-        where: { key: apiKey },
+        where: { keyHash },
         include: {
             user: {
                 select: {
