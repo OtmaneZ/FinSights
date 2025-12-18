@@ -109,6 +109,10 @@ export default function Home() {
                                     <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                                     <span>Sans engagement</span>
                                 </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                    <span>Réponse sous 24h</span>
+                                </div>
                             </div>
                         </div>
 
@@ -641,7 +645,7 @@ export default function Home() {
                     Ils m'ont confié leur pilotage financier
                 </h2>
 
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid md:grid-cols-3 gap-8">
                     {/* Témoignage 1 */}
                     <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
                         <p className="text-secondary mb-6 italic leading-relaxed">
@@ -683,6 +687,27 @@ export default function Home() {
                                 <p className="font-semibold text-primary">Gérante</p>
                                 <p className="text-sm text-tertiary">
                                     Agence de placement de guides
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Témoignage 3 */}
+                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
+                        <p className="text-secondary mb-6 italic leading-relaxed">
+                            "Mise en place d’un pilotage financier clair et fiable.
+                            Nous avons enfin une vision mensuelle du cash, des marges et des écarts vs budget."
+                        </p>
+
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                                <span className="text-green-600 font-bold text-lg">MC</span>
+                            </div>
+
+                            <div>
+                                <p className="font-semibold text-primary">CFO</p>
+                                <p className="text-sm text-tertiary">
+                                    PME – Services / Conseil
                                 </p>
                             </div>
                         </div>

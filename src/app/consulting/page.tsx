@@ -546,6 +546,80 @@ export default function ConsultingPage() {
                 </div>
             </section>
 
+            {/* À propos Section avec Photo */}
+            <section className="max-w-6xl mx-auto px-6 pb-24">
+                <div className="surface rounded-2xl p-12 border border-border-subtle">
+                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                        {/* Photo */}
+                        <div className="relative">
+                            <div className="aspect-square rounded-2xl overflow-hidden border-4 border-accent-primary-border shadow-2xl">
+                                <Image
+                                    src="/images/otmane-boulahia.jpg"
+                                    alt="Otmane Boulahia - Consultant Data Finance & IA"
+                                    width={500}
+                                    height={500}
+                                    className="object-cover w-full h-full"
+                                    priority
+                                />
+                            </div>
+                            {/* Badge flottant */}
+                            <div className="absolute -bottom-4 -right-4 bg-accent-primary text-white px-6 py-3 rounded-xl shadow-lg">
+                                <div className="text-sm font-semibold">10+ ans d'expérience</div>
+                                <div className="text-xs opacity-90">Finance × Data × IA</div>
+                            </div>
+                        </div>
+
+                        {/* Contenu */}
+                        <div className="space-y-6">
+                            <div>
+                                <h2 className="text-3xl font-bold mb-2">Otmane Boulahia</h2>
+                                <p className="text-xl text-accent-primary font-semibold mb-4">
+                                    Consultant Data Finance & Intelligence Artificielle
+                                </p>
+                            </div>
+
+                            <div className="space-y-4 text-secondary">
+                                <p className="leading-relaxed">
+                                    Après 10 ans passés entre Direction Financière et équipes Data de scale-ups françaises,
+                                    j'ai créé <span className="font-semibold text-accent-primary">FinSight™</span> pour démocratiser
+                                    l'accès à l'intelligence financière augmentée.
+                                </p>
+                                <p className="leading-relaxed">
+                                    Ma mission : transformer des données brutes en décisions stratégiques claires,
+                                    en combinant expertise finance, maîtrise technique et puissance de l'IA.
+                                </p>
+                                <p className="leading-relaxed">
+                                    <span className="font-semibold text-primary">FinSight n'est pas qu'un outil</span> —
+                                    c'est la vitrine de ma méthodologie et le prolongement de mes missions consulting.
+                                </p>
+                            </div>
+
+                            {/* CTAs Réseaux */}
+                            <div className="flex gap-4 pt-4">
+                                <a
+                                    href="https://www.linkedin.com/in/otmane-boulahia/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-lg font-semibold transition-all"
+                                >
+                                    <Linkedin className="w-5 h-5" />
+                                    LinkedIn
+                                </a>
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-3 border-2 border-accent-primary-border hover:bg-accent-primary-subtle text-accent-primary rounded-lg font-semibold transition-all"
+                                >
+                                    <Zap className="w-5 h-5" />
+                                    Discutons
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Process Section */}
             <section className="max-w-5xl mx-auto px-6 pb-24">
                 <div className="text-center mb-16">
