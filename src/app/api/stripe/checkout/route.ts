@@ -7,11 +7,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { stripe, STRIPE_PRICES } from '@/lib/stripe';
+import { stripe, isStripeConfigured, STRIPE_PRICES } from '@/lib/stripe';
 import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
     try {
+        // Vérifier que Stripe est configuré
+        if (!isStripeConfigured()) {
+            return NextResponse.json(
+                { error: 'Stripe non configuré' },
+                { status: 503 }
+            );
+        }
+
         // Vérifier l'authentification
         const session = await getServerSession(authOptions);
 

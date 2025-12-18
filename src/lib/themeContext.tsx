@@ -7,12 +7,13 @@ type Theme = 'light' | 'dark';
 interface ThemeContextType {
     theme: Theme;
     toggleTheme: () => void;
+    mounted: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<Theme>('dark');
+    const [theme, setTheme] = useState<Theme>('light'); // Default light pour éviter flash
     const [mounted, setMounted] = useState(false);
 
     // Charger le thème depuis localStorage au montage
@@ -41,13 +42,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
     };
 
-    // Éviter le flash de contenu incorrect pendant l'hydratation
-    if (!mounted) {
-        return null;
-    }
-
+    // Toujours rendre les enfants pour éviter les erreurs d'hydratation
+    // Le thème sera appliqué correctement après le montage côté client
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, toggleTheme, mounted }}>
             {children}
         </ThemeContext.Provider>
     );

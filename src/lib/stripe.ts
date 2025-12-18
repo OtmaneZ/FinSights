@@ -5,14 +5,21 @@
 
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY manquant dans .env');
-}
+// Créer le client Stripe uniquement si la clé est disponible
+// Cela permet au build de fonctionner même sans STRIPE_SECRET_KEY
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2024-11-20.acacia' as any, // Version Stripe actuelle (Nov 2024)
-    typescript: true,
-});
+export const stripe = stripeSecretKey 
+    ? new Stripe(stripeSecretKey, {
+        apiVersion: '2024-11-20.acacia' as any, // Version Stripe actuelle (Nov 2024)
+        typescript: true,
+    })
+    : null as unknown as Stripe; // Type assertion pour éviter les erreurs TS
+
+// Helper pour vérifier si Stripe est configuré
+export function isStripeConfigured(): boolean {
+    return !!process.env.STRIPE_SECRET_KEY;
+}
 
 // ============================================
 // STRIPE PRICE IDS (à créer dans Stripe Dashboard)
