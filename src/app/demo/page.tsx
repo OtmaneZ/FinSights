@@ -1,9 +1,22 @@
+import { Suspense } from 'react'
 import FinancialDashboardV2 from '@/components/FinancialDashboardV2'
 import CTAFixed from '@/components/CTAFixed'
 import TutorialButton from '@/components/TutorialButton'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Linkedin } from 'lucide-react'
+
+// Loading component for Suspense
+function DashboardLoading() {
+    return (
+        <div className="flex items-center justify-center min-h-[600px]">
+            <div className="text-center">
+                <div className="w-12 h-12 border-4 border-accent-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-secondary">Chargement du dashboard...</p>
+            </div>
+        </div>
+    )
+}
 
 export default function DemoPage() {
     return (
@@ -53,7 +66,9 @@ export default function DemoPage() {
             </header>
 
             <div className="pt-4">
-                <FinancialDashboardV2 />
+                <Suspense fallback={<DashboardLoading />}>
+                    <FinancialDashboardV2 />
+                </Suspense>
             </div>
 
             {/* Tutorial Button */}
