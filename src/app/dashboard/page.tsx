@@ -59,8 +59,8 @@ function WelcomeToast({ userName }: { userName: string }) {
             <div className="flex items-center gap-4 px-6 py-4 bg-gradient-to-r from-accent-primary to-blue-600 text-white rounded-xl shadow-2xl">
                 <Sparkles className="w-6 h-6 flex-shrink-0" />
                 <div>
-                    <p className="font-semibold">Bienvenue {userName} ! 🎉</p>
-                    <p className="text-sm text-white/90">Importez votre premier fichier pour découvrir vos KPIs 👇</p>
+                    <p className="font-semibold">Bienvenue {userName} !</p>
+                    <p className="text-sm text-white/90">Importez votre premier fichier pour découvrir vos KPIs</p>
                 </div>
                 <button 
                     onClick={() => setShowWelcome(false)}

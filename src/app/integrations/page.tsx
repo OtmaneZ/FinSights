@@ -126,14 +126,6 @@ export default function IntegrationsHubPage() {
 
                             {/* Footer */}
                             <div className="pt-6 border-t border-border-default">
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-xs text-tertiary">Difficulté</span>
-                                    <span className="text-xs font-medium text-secondary">{platform.difficulty}</span>
-                                </div>
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-xs text-tertiary">Prix</span>
-                                    <span className="text-xs font-medium text-secondary">{platform.price}</span>
-                                </div>
                                 <div className="flex items-center justify-center gap-2 text-accent-primary font-medium group-hover:gap-3 transition-all">
                                     Voir le guide
                                     <ArrowRight className="w-4 h-4" />
