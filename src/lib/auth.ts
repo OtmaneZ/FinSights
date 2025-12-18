@@ -10,6 +10,34 @@ import AzureADProvider from 'next-auth/providers/azure-ad';
 import { compare } from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
 
+// Extend NextAuth types to include custom fields
+declare module 'next-auth' {
+    interface Session {
+        user: {
+            id: string;
+            plan: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+            provider?: string;
+            name?: string | null;
+            email?: string | null;
+            image?: string | null;
+        };
+    }
+
+    interface User {
+        id: string;
+        plan: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+        provider?: string;
+    }
+}
+
+declare module 'next-auth/jwt' {
+    interface JWT {
+        id: string;
+        plan: 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+        provider?: string;
+    }
+}
+
 // Lazy load Prisma to avoid build-time issues
 const getPrisma = () => {
     const globalForPrisma = global as unknown as { prisma: PrismaClient };
