@@ -5,6 +5,8 @@
 
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+import AzureADProvider from 'next-auth/providers/azure-ad';
 import { compare } from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
 
@@ -21,6 +23,9 @@ const getPrisma = () => {
 
 export const authOptions: NextAuthOptions = {
     providers: [
+        // ============================================
+        // CREDENTIALS PROVIDER (Email/Password)
+        // ============================================
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
@@ -43,7 +48,16 @@ export const authOptions: NextAuthOptions = {
                     throw new Error('Email ou mot de passe incorrect');
                 }
 
+                // Vérifier que c'est bien un compte credentials (pas SSO)
+                if (user.provider && user.provider !== 'credentials') {
+                    throw new Error(`Ce compte utilise ${user.provider}. Connectez-vous via ${user.provider}.`);
+                }
+
                 // Vérifier le mot de passe
+                if (!user.password) {
+                    throw new Error('Compte SSO - utilisez Google ou Microsoft');
+                }
+
                 const isPasswordValid = await compare(credentials.password, user.password);
 
                 if (!isPasswordValid) {
@@ -56,8 +70,33 @@ export const authOptions: NextAuthOptions = {
                     email: user.email,
                     name: user.name,
                     plan: user.plan,
+                    image: user.avatar,
                 };
             },
+        }),
+
+        // ============================================
+        // GOOGLE SSO PROVIDER
+        // ============================================
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID || '',
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+            authorization: {
+                params: {
+                    prompt: 'consent',
+                    access_type: 'offline',
+                    response_type: 'code',
+                },
+            },
+        }),
+
+        // ============================================
+        // MICROSOFT (AZURE AD) SSO PROVIDER
+        // ============================================
+        AzureADProvider({
+            clientId: process.env.AZURE_AD_CLIENT_ID || '',
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET || '',
+            tenantId: process.env.AZURE_AD_TENANT_ID || 'common', // 'common' = multi-tenant
         }),
     ],
 
@@ -67,18 +106,92 @@ export const authOptions: NextAuthOptions = {
     },
 
     callbacks: {
-        async jwt({ token, user }) {
+        // ============================================
+        // SIGNIN CALLBACK - Gestion SSO
+        // ============================================
+        async signIn({ user, account, profile }) {
+            if (!account) return true;
+
+            const prisma = getPrisma();
+
+            // Si connexion SSO (Google ou Azure AD)
+            if (account.provider === 'google' || account.provider === 'azure-ad') {
+                const email = user.email;
+                const providerId = account.providerAccountId;
+                const provider = account.provider;
+
+                if (!email) {
+                    console.error('Email manquant dans le profil SSO');
+                    return false;
+                }
+
+                // Chercher un utilisateur existant avec cet email
+                let existingUser = await prisma.user.findUnique({
+                    where: { email },
+                });
+
+                if (!existingUser) {
+                    // Créer un nouveau compte SSO
+                    existingUser = await prisma.user.create({
+                        data: {
+                            email,
+                            name: user.name || email.split('@')[0],
+                            provider,
+                            providerId,
+                            providerEmail: email,
+                            avatar: user.image || null,
+                            password: null, // Pas de mot de passe pour SSO
+                            plan: 'FREE',
+                        },
+                    });
+                } else {
+                    // Compte existant - mettre à jour les infos SSO si nécessaire
+                    if (!existingUser.provider || !existingUser.providerId) {
+                        await prisma.user.update({
+                            where: { id: existingUser.id },
+                            data: {
+                                provider,
+                                providerId,
+                                providerEmail: email,
+                                avatar: user.image || existingUser.avatar,
+                            },
+                        });
+                    }
+                }
+
+                // Stocker l'ID utilisateur dans le token
+                user.id = existingUser.id;
+                user.plan = existingUser.plan;
+            }
+
+            return true;
+        },
+
+        // ============================================
+        // JWT CALLBACK
+        // ============================================
+        async jwt({ token, user, account }) {
             if (user) {
                 token.id = user.id;
                 token.plan = user.plan;
             }
+
+            // Stocker les infos du provider
+            if (account) {
+                token.provider = account.provider;
+            }
+
             return token;
         },
 
+        // ============================================
+        // SESSION CALLBACK
+        // ============================================
         async session({ session, token }) {
             if (session.user) {
                 session.user.id = token.id as string;
                 session.user.plan = token.plan as 'FREE' | 'PRO' | 'SCALE' | 'ENTERPRISE';
+                session.user.provider = token.provider as string;
             }
             return session;
         },

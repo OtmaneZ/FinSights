@@ -2,16 +2,15 @@
  * Integrations Settings Page
  * /dashboard/settings/integrations
  *
- * Permet aux users de :
- * - Générer API Key pour n8n
- * - Copier endpoint URL
- * - Télécharger templates n8n
- * - Voir logs de sync
+ * - API Key pour n8n
+ * - Pennylane OAuth
+ * - QuickBooks OAuth
+ * - Logs de sync
  */
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import {
@@ -25,7 +24,8 @@ import {
     CheckCircle,
     XCircle,
     ExternalLink,
-    Zap
+    Zap,
+    RefreshCw
 } from 'lucide-react';
 
 export default function IntegrationsPage() {
@@ -37,13 +37,51 @@ export default function IntegrationsPage() {
     const [copied, setCopied] = useState(false);
     const [loading, setLoading] = useState(true);
     const [syncLogs, setSyncLogs] = useState<any[]>([]);
+    const [pennylaneConnected, setPennylaneConnected] = useState(false);
+    const [quickbooksConnected, setQuickbooksConnected] = useState(false);
+    const [companies, setCompanies] = useState<any[]>([]);
+    const [selectedCompanyId, setSelectedCompanyId] = useState('');
+    const [syncing, setSyncing] = useState(false);
 
     const endpointUrl = 'https://finsight.zineinsight.com/api/integrations/n8n/ingest';
+
+    const fetchCompanies = useCallback(async () => {
+        try {
+            const res = await fetch('/api/companies');
+            const data = await res.json();
+            setCompanies(data.companies || []);
+            if (data.companies?.length > 0) {
+                setSelectedCompanyId(data.companies[0].id);
+            }
+        } catch (error) {
+            console.error('Error fetching companies:', error);
+        }
+    }, []);
+
+    const checkIntegrations = useCallback(async () => {
+        if (!selectedCompanyId) return;
+
+        try {
+            const res = await fetch(`/api/companies/${selectedCompanyId}/integrations`);
+            const data = await res.json();
+            setPennylaneConnected(data.integrations?.some((i: any) => i.provider === 'pennylane' && i.active) || false);
+            setQuickbooksConnected(data.integrations?.some((i: any) => i.provider === 'quickbooks' && i.active) || false);
+        } catch (error) {
+            console.error('Error checking integrations:', error);
+        }
+    }, [selectedCompanyId]);
 
     useEffect(() => {
         fetchApiKey();
         fetchSyncLogs();
-    }, []);
+        fetchCompanies();
+    }, [fetchCompanies]);
+
+    useEffect(() => {
+        if (selectedCompanyId) {
+            checkIntegrations();
+        }
+    }, [selectedCompanyId, checkIntegrations]);
 
     const fetchApiKey = async () => {
         try {
@@ -76,12 +114,82 @@ export default function IntegrationsPage() {
     };
 
     const fetchSyncLogs = async () => {
-        // TODO: Implement logs endpoint
         setSyncLogs([
             { date: '2025-12-17 08:00', status: 'success', transactions: 12, source: 'Pennylane' },
             { date: '2025-12-16 08:00', status: 'success', transactions: 8, source: 'Pennylane' },
-            { date: '2025-12-15 08:00', status: 'error', transactions: 0, source: 'Pennylane', error: 'API timeout' },
         ]);
+    };
+
+    const connectPennylane = async () => {
+        try {
+            const res = await fetch('/api/integrations/pennylane/connect', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ companyId: selectedCompanyId }),
+            });
+            const data = await res.json();
+            if (data.authUrl) {
+                window.location.href = data.authUrl;
+            }
+        } catch (error) {
+            console.error('Error connecting Pennylane:', error);
+        }
+    };
+
+    const connectQuickBooks = async () => {
+        try {
+            const res = await fetch('/api/integrations/quickbooks/connect', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ companyId: selectedCompanyId }),
+            });
+            const data = await res.json();
+            if (data.authUrl) {
+                window.location.href = data.authUrl;
+            }
+        } catch (error) {
+            console.error('Error connecting QuickBooks:', error);
+        }
+    };
+
+    const syncPennylane = async () => {
+        setSyncing(true);
+        try {
+            const res = await fetch('/api/integrations/pennylane/sync', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ companyId: selectedCompanyId }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert(`${data.count} transactions synchronisées`);
+                fetchSyncLogs();
+            }
+        } catch (error) {
+            console.error('Error syncing Pennylane:', error);
+        } finally {
+            setSyncing(false);
+        }
+    };
+
+    const syncQuickBooks = async () => {
+        setSyncing(true);
+        try {
+            const res = await fetch('/api/integrations/quickbooks/sync', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ companyId: selectedCompanyId }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert(`${data.count} transactions synchronisées`);
+                fetchSyncLogs();
+            }
+        } catch (error) {
+            console.error('Error syncing QuickBooks:', error);
+        } finally {
+            setSyncing(false);
+        }
     };
 
     const copyToClipboard = (text: string) => {
@@ -275,6 +383,77 @@ export default function IntegrationsPage() {
                         Voir la documentation complète
                         <ExternalLink className="w-4 h-4" />
                     </a>
+                </div>
+            </div>
+
+            {/* Accounting Integrations */}
+            <div className="surface rounded-xl p-6">
+                <h2 className="text-xl font-bold text-primary mb-4">Intégrations Comptables</h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Pennylane */}
+                    <div className="surface-elevated rounded-lg p-4">
+                        <div className="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 className="font-semibold text-primary">Pennylane</h3>
+                                <p className="text-sm text-secondary">Synchronisation automatique factures</p>
+                            </div>
+                            {pennylaneConnected ? (
+                                <CheckCircle className="w-5 h-5 text-green-500" />
+                            ) : (
+                                <XCircle className="w-5 h-5 text-gray-400" />
+                            )}
+                        </div>
+                        {pennylaneConnected ? (
+                            <button
+                                onClick={syncPennylane}
+                                disabled={syncing}
+                                className="btn-primary w-full flex items-center justify-center gap-2"
+                            >
+                                <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} />
+                                {syncing ? 'Synchronisation...' : 'Synchroniser'}
+                            </button>
+                        ) : (
+                            <button
+                                onClick={connectPennylane}
+                                className="btn-secondary w-full"
+                            >
+                                Connecter Pennylane
+                            </button>
+                        )}
+                    </div>
+
+                    {/* QuickBooks */}
+                    <div className="surface-elevated rounded-lg p-4">
+                        <div className="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 className="font-semibold text-primary">QuickBooks</h3>
+                                <p className="text-sm text-secondary">Import factures et clients</p>
+                            </div>
+                            {quickbooksConnected ? (
+                                <CheckCircle className="w-5 h-5 text-green-500" />
+                            ) : (
+                                <XCircle className="w-5 h-5 text-gray-400" />
+                            )}
+                        </div>
+                        {quickbooksConnected ? (
+                            <button
+                                onClick={syncQuickBooks}
+                                disabled={syncing}
+                                className="btn-primary w-full flex items-center justify-center gap-2"
+                            >
+                                <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} />
+                                {syncing ? 'Synchronisation...' : 'Synchroniser'}
+                            </button>
+                        ) : (
+                            <button
+                                onClick={connectQuickBooks}
+                                className="btn-secondary w-full"
+                            >
+                                Connecter QuickBooks
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
 

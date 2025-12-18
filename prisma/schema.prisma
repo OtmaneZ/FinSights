@@ -19,17 +19,26 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
-  password  String   // bcrypt hash (10 rounds)
+  password  String?  // bcrypt hash (10 rounds) - nullable for SSO users
   plan      Plan     @default(FREE)
+
+  // OAuth SSO fields
+  provider      String?  // "google", "microsoft", "credentials"
+  providerId    String?  // OAuth provider user ID
+  providerEmail String?  // Email from OAuth provider
+  avatar        String?  // Profile picture URL
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  companies  Company[]
-  dashboards Dashboard[]
-  apiKeys    ApiKey[]
-  webhooks   Webhook[]
+  companies                Company[]
+  dashboards               Dashboard[]
+  apiKeys                  ApiKey[]
+  webhooks                 Webhook[]
+  companyMembers           CompanyMember[]
+  invitationsSent          Invitation[]             @relation("InvitationsSent")
+  accountingIntegrations   AccountingIntegration[]  @relation("AccountingIntegrations")
 
   // Settings
   notificationSettings Json? // Email alerts, thresholds, reports
@@ -40,7 +49,9 @@ model User {
   stripePriceId          String?
   stripeCurrentPeriodEnd DateTime?
 
+  @@unique([provider, providerId]) // Un seul compte par provider/providerId
   @@index([email])
+  @@index([provider])
   @@map("users")
 }
 
@@ -56,8 +67,11 @@ model Company {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  dashboards Dashboard[]
-  createdAt  DateTime    @default(now())
+  dashboards             Dashboard[]
+  members                CompanyMember[]
+  invitations            Invitation[]
+  accountingIntegrations AccountingIntegration[]
+  createdAt              DateTime                @default(now())
 
   @@index([userId])
   @@map("companies")
@@ -222,4 +236,117 @@ enum Plan {
   PRO         // Ancien: PRO → Nouveau display: "Business" (99€/mois)
   SCALE       // Ancien: SCALE → Nouveau display: "Growth" (199€/mois)
   ENTERPRISE  // Inchangé
+}
+
+enum Role {
+  OWNER       // Créateur de l'entreprise (tous les droits)
+  ADMIN       // Administrateur (gestion membres + dashboards)
+  EDITOR      // Éditeur (upload, édition dashboards)
+  VIEWER      // Lecteur seul (consultation dashboards)
+}
+
+enum InvitationStatus {
+  PENDING     // En attente d'acceptation
+  ACCEPTED    // Acceptée
+  DECLINED    // Refusée
+  EXPIRED     // Expirée (> 7 jours)
+}
+
+// ============================================
+// COMPANY MEMBER MODEL - Collaboration
+// ============================================
+
+model CompanyMember {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  role Role @default(VIEWER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, userId]) // Un user ne peut avoir qu'un rôle par entreprise
+  @@index([companyId])
+  @@index([userId])
+  @@index([role])
+  @@map("company_members")
+}
+
+// ============================================
+// INVITATION MODEL - Collaboration
+// ============================================
+
+model Invitation {
+  id String @id @default(cuid())
+
+  email     String
+  role      Role
+  status    InvitationStatus @default(PENDING)
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  invitedBy String // User ID qui a envoyé l'invitation
+  inviter   User   @relation("InvitationsSent", fields: [invitedBy], references: [id], onDelete: Cascade)
+
+  // Token unique pour accepter l'invitation
+  token     String   @unique
+  expiresAt DateTime // Expiration à 7 jours
+
+  acceptedAt DateTime?
+  declinedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([email])
+  @@index([status])
+  @@index([token])
+  @@map("invitations")
+}
+
+// ============================================
+// ACCOUNTING INTEGRATION MODEL
+// ============================================
+
+model AccountingIntegration {
+  id String @id @default(cuid())
+
+  provider  String // "pennylane", "quickbooks", "xero"
+  active    Boolean @default(true)
+
+  // OAuth credentials (encrypted)
+  accessToken  String? // OAuth access token
+  refreshToken String? // OAuth refresh token
+  expiresAt    DateTime?
+
+  // Provider-specific data
+  providerAccountId String? // ID du compte chez le provider
+  metadata          Json?   // Metadata spécifique (webhooks, scopes, etc.)
+
+  // Sync settings
+  autoSync       Boolean  @default(false) // Sync automatique quotidien
+  lastSyncAt     DateTime?
+  syncFrequency  String   @default("daily") // "hourly", "daily", "weekly"
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation("AccountingIntegrations", fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, provider]) // Une seule intégration par provider par company
+  @@index([companyId])
+  @@index([userId])
+  @@index([provider])
+  @@map("accounting_integrations")
 }
