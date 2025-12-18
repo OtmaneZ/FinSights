@@ -96,18 +96,23 @@ model Dashboard {
 // ============================================
 
 model ApiKey {
-  id   String @id @default(cuid())
-  key  String @unique // Format: fsk_live_xxxxxxxxxxxxx
-  name String // "Production API", "Development"
+  id      String  @id @default(cuid())
+  keyHash String  @unique // SHA-256 hash de la clé (sécurité)
+  name    String  // "Production API", "Development"
+  prefix  String  // 8 premiers caractères (ex: "fs_a1b2c") pour identification
 
   userId   String
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  lastUsed DateTime?
+
+  lastUsed  DateTime? // Dernière utilisation
+  expiresAt DateTime? // Date d'expiration (optionnelle)
+  revoked   Boolean   @default(false) // Révocation manuelle
 
   createdAt DateTime @default(now())
 
   @@index([userId])
-  @@index([key])
+  @@index([keyHash])
+  @@index([revoked])
   @@map("api_keys")
 }
 

@@ -36,6 +36,9 @@ next-env.d.ts
 # Testing
 coverage/
 .nyc_output/
+test-results/
+playwright-report/
+playwright/.cache/
 
 # IDE
 .vscode/
@@ -43,4 +46,7 @@ coverage/
 
 # Archive (old exports, personal notes)
 docs/archive/
-test-pinecone.js.env.sentry-build-plugin
+
+# Sentry
+.sentryclirc
+.env.sentry-build-plugin
