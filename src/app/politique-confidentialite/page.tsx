@@ -8,15 +8,15 @@ export const metadata = {
 
 export default function PolitiqueConfidentialite() {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-primary">
             <Header />
 
             <main className="pt-24 pb-16">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                    <h1 className="text-4xl font-bold text-primary mb-4">
                         Politique de confidentialité
                     </h1>
-                    <p className="text-sm text-gray-500 mb-8">
+                    <p className="text-sm text-secondary mb-8">
                         Dernière mise à jour : 28 novembre 2025
                     </p>
 

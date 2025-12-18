@@ -9,9 +9,9 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
     Upload,
@@ -24,13 +24,54 @@ import {
     AlertCircle,
     Download,
     FileText,
-    PlayCircle
+    PlayCircle,
+    X,
+    Sparkles
 } from 'lucide-react';
 import Header from '@/components/Header';
 import { CompanySwitcher } from '@/components/CompanySwitcher';
 import RecentDashboards from '@/components/RecentDashboards';
 
 type TabType = 'manual' | 'auto';
+
+// Welcome Toast component that uses searchParams (needs Suspense)
+function WelcomeToast({ userName }: { userName: string }) {
+    const searchParams = useSearchParams();
+    const [showWelcome, setShowWelcome] = useState(false);
+
+    useEffect(() => {
+        if (searchParams?.get('welcome') === 'true') {
+            setShowWelcome(true);
+            // Remove ?welcome=true from URL without reload
+            const url = new URL(window.location.href);
+            url.searchParams.delete('welcome');
+            window.history.replaceState({}, '', url.pathname);
+            // Auto-hide after 8 seconds
+            const timer = setTimeout(() => setShowWelcome(false), 8000);
+            return () => clearTimeout(timer);
+        }
+    }, [searchParams]);
+
+    if (!showWelcome) return null;
+
+    return (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-slide-up">
+            <div className="flex items-center gap-4 px-6 py-4 bg-gradient-to-r from-accent-primary to-blue-600 text-white rounded-xl shadow-2xl">
+                <Sparkles className="w-6 h-6 flex-shrink-0" />
+                <div>
+                    <p className="font-semibold">Bienvenue {userName} ! 🎉</p>
+                    <p className="text-sm text-white/90">Importez votre premier fichier pour découvrir vos KPIs 👇</p>
+                </div>
+                <button 
+                    onClick={() => setShowWelcome(false)}
+                    className="p-1 hover:bg-white/20 rounded-lg transition-colors"
+                >
+                    <X className="w-5 h-5" />
+                </button>
+            </div>
+        </div>
+    );
+}
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -55,10 +96,16 @@ export default function DashboardPage() {
     }
 
     const userPlan = (session?.user as any)?.plan || 'FREE';
+    const userName = session?.user?.name?.split(' ')[0] || 'là';
 
     return (
         <div className="min-h-screen bg-primary">
             <Header />
+
+            {/* Welcome Toast - wrapped in Suspense for useSearchParams */}
+            <Suspense fallback={null}>
+                <WelcomeToast userName={userName} />
+            </Suspense>
 
             <div className="max-w-7xl mx-auto px-6 py-8">
                 {/* Header Section */}

@@ -5,7 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import PricingCard from '@/components/PricingCard'
 import PricingToggle from '@/components/PricingToggle'
-import { Zap, Shield, Rocket, Building2 } from 'lucide-react'
+import { Zap, Shield, Rocket, Building2, ChevronDown } from 'lucide-react'
 
 // Note: metadata export not allowed in client components
 // SEO handled by layout.tsx + OG tags dynamically
@@ -14,6 +14,7 @@ type PlanColor = 'green' | 'blue' | 'orange' | 'red';
 
 export default function PricingPage() {
     const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
+    const [showEnterprise, setShowEnterprise] = useState(false)
 
     const plans = [
         {
@@ -141,7 +142,92 @@ export default function PricingPage() {
 
             {/* Pricing Cards */}
             <section className="max-w-7xl mx-auto px-6 pb-20">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Mobile: Stack with Business first + Enterprise collapsed */}
+                <div className="lg:hidden space-y-6">
+                    {/* Business (Popular) first on mobile */}
+                    <PricingCard
+                        key="Business"
+                        name="Business"
+                        description="Piloter et anticiper"
+                        tagline="Vous pilotez sérieusement, sans intégration SI lourde"
+                        color="blue"
+                        price={249}
+                        priceYearly={2390}
+                        billingPeriod={billingPeriod}
+                        features={[
+                            '✅ Jusqu\'à 3 entreprises',
+                            '✅ Score FinSight™ temps réel',
+                            '✅ CFO Virtuel illimité',
+                            '✅ Analyses financières avancées',
+                            '✅ Prévisions & stress tests',
+                            '✅ Alertes signaux faibles (cash, BFR, DSO)',
+                            '✅ Historique 12 mois',
+                            '✅ Exports PDF / Excel branded',
+                            '✅ Support email prioritaire',
+                            '❌ API',
+                            '❌ Webhooks',
+                            '❌ Automatisations externes'
+                        ]}
+                        cta="Essai gratuit 14 jours"
+                        highlight={true}
+                        popular={true}
+                        ctaAction={() => window.location.href = '/auth/signup'}
+                    />
+                    {/* Starter */}
+                    {plans.filter(p => p.name === 'Starter').map((plan) => (
+                        <PricingCard
+                            key={plan.name}
+                            {...plan}
+                            billingPeriod={billingPeriod}
+                            ctaAction={() => window.location.href = '/auth/signup'}
+                        />
+                    ))}
+                    {/* Growth */}
+                    {plans.filter(p => p.name === 'Growth').map((plan) => (
+                        <PricingCard
+                            key={plan.name}
+                            {...plan}
+                            billingPeriod={billingPeriod}
+                            ctaAction={() => window.location.href = 'https://calendly.com/zineinsight'}
+                        />
+                    ))}
+                    {/* Enterprise - Collapsed by default on mobile */}
+                    <div className="surface rounded-2xl overflow-hidden">
+                        <button
+                            onClick={() => setShowEnterprise(!showEnterprise)}
+                            className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-surface-hover transition-colors"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="w-3 h-3 rounded-full bg-red-500" />
+                                <span className="font-bold text-lg">Enterprise</span>
+                                <span className="text-sm text-secondary">— Sur devis</span>
+                            </div>
+                            <ChevronDown className={`w-5 h-5 text-secondary transition-transform ${showEnterprise ? 'rotate-180' : ''}`} />
+                        </button>
+                        {showEnterprise && (
+                            <div className="px-6 pb-6 pt-2 border-t border-border-subtle">
+                                <p className="text-sm text-secondary mb-4">Gouvernance financière avancée — Un partenariat stratégique</p>
+                                <ul className="space-y-2 mb-6">
+                                    {['Tout Growth +', 'Score FinSight™ personnalisé', 'Modèle métier sur-mesure', 'Intégrations ERP/CRM', 'SLA contractuel'].map((f, i) => (
+                                        <li key={i} className="flex items-center gap-2 text-sm">
+                                            <span className="text-accent-success">✓</span>
+                                            {f}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    className="block w-full py-3 text-center border-2 border-border-default hover:border-accent-primary-border rounded-lg font-semibold transition-all"
+                                >
+                                    Nous contacter
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Desktop: 4-column grid */}
+                <div className="hidden lg:grid lg:grid-cols-4 gap-6">
                     {plans.map((plan) => (
                         <PricingCard
                             key={plan.name}
@@ -176,31 +262,31 @@ export default function PricingPage() {
                 <div className="space-y-6">
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">Puis-je changer de plan à tout moment ?</h3>
-                        <p className="text-secondary text-sm">
+                        <p className="text-secondary text-base">
                             Oui, vous pouvez upgrader immédiatement. Pour un downgrade, il prend effet à la fin de la période en cours.
                         </p>
                     </div>
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">Mes données sont-elles sécurisées ?</h3>
-                        <p className="text-secondary text-sm">
+                        <p className="text-secondary text-base">
                             Absolument. Chiffrement SSL, hébergement EU (Vercel), conformité RGPD. En version gratuite, les données restent en local uniquement.
                         </p>
                     </div>
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">Quels formats de fichiers acceptez-vous ?</h3>
-                        <p className="text-secondary text-sm">
+                        <p className="text-secondary text-base">
                             CSV et Excel (.xlsx, .xls). Nous fournissons des templates pour Sage, Cegid, QuickBooks et Excel générique.
                         </p>
                     </div>
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">L'IA GPT-4 a-t-elle accès à mes données ?</h3>
-                        <p className="text-secondary text-sm">
+                        <p className="text-secondary text-base">
                             Oui, mais uniquement en contexte chiffré pour répondre à vos questions. Vos données ne sont jamais stockées chez OpenAI.
                         </p>
                     </div>
                     <div className="surface rounded-xl p-6">
                         <h3 className="text-lg font-semibold mb-2">Proposez-vous des réductions pour les ONG ou éducation ?</h3>
-                        <p className="text-secondary text-sm">
+                        <p className="text-secondary text-base">
                             Oui, contactez-nous pour un tarif adapté aux organisations à but non lucratif et établissements d'enseignement.
                         </p>
                     </div>

@@ -46,8 +46,8 @@
     /* Noir profond - titres, texte important */
     --text-secondary: #6c757d;
     /* Gris moyen - labels, descriptions */
-    --text-tertiary: #adb5bd;
-    /* Gris clair - metadata, timestamps */
+    --text-tertiary: #8b939c;
+    /* Gris moyen-clair - metadata, timestamps (WCAG AA compliant) */
     --text-disabled: #dee2e6;
     /* Désactivé, placeholder */
 
