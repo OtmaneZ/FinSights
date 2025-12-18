@@ -47,12 +47,16 @@ export default function ConsultingPage() {
                     </div>
 
                     <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-tight">
-                        FinSight™ n’est pas un simple logiciel.<br />
-                        <span className="text-accent-primary">C’est un moteur d’intelligence financière.</span>
+                        FinSight™ n'est pas un simple logiciel.<br />
+                        <span className="text-accent-primary">C'est un moteur d'intelligence financière.</span>
                     </h1>
 
-                    <p className="text-xl text-secondary max-w-3xl mx-auto mb-12 leading-relaxed">
-                        Nous ne vous donnons pas juste un outil, nous construisons avec vous le système de décision qui fera passer votre entreprise au niveau supérieur. Chaque mission est conçue pour s’inscrire dans la continuité de la plateforme FinSight™.
+                    <p className="text-xl text-secondary max-w-3xl mx-auto mb-8 leading-relaxed">
+                        Nous ne vous donnons pas juste un outil, nous construisons avec vous le système de décision qui fera passer votre entreprise au niveau supérieur. Chaque mission est conçue pour s'inscrire dans la continuité de la plateforme FinSight™.
+                    </p>
+
+                    <p className="text-base text-tertiary max-w-2xl mx-auto mb-12 italic">
+                        Applicable aussi bien à une PME de 10 salariés qu'à une organisation plus structurée.
                     </p>
 
                     <div className="flex items-center justify-center gap-6 text-sm text-tertiary mb-8">
@@ -128,11 +132,11 @@ export default function ConsultingPage() {
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary">Analyse automatique de 50+ points de contrôle</span>
+                                <span className="text-sm text-secondary">Analyse automatique : <span className="font-semibold">Cash • Rentabilité • Risques • Décisions</span></span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary">Rapport PDF "Flash Audit" : Santé Cash, Risques, Opportunités</span>
+                                <span className="text-sm text-secondary">Rapport PDF "Flash Audit" avec diagnostic précis</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -348,7 +352,7 @@ export default function ConsultingPage() {
                         Besoin d'un renfort temporaire dans votre équipe data/finance ? Je peux intervenir en régie.
                     </p>
                     <div className="flex items-center justify-center gap-4 mb-4">
-                        <span className="text-4xl font-bold text-accent-primary">500€</span>
+                        <span className="text-4xl font-bold text-accent-primary">700€</span>
                         <span className="text-xl text-secondary">/ jour</span>
                     </div>
                     <p className="text-sm text-tertiary mb-6">
