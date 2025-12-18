@@ -11,7 +11,14 @@ import { Resend } from 'resend';
 import crypto from 'crypto';
 
 const prisma = new PrismaClient();
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Lazy-load Resend to avoid build errors when RESEND_API_KEY is not set
+const getResend = () => {
+    if (!process.env.RESEND_API_KEY) {
+        return null;
+    }
+    return new Resend(process.env.RESEND_API_KEY);
+};
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -126,13 +133,15 @@ export async function POST(req: NextRequest) {
 
         // Envoyer l'email d'invitation
         const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL}/invitations/${token}`;
+        const resend = getResend();
 
-        try {
-            await resend.emails.send({
-                from: process.env.RESEND_FROM_EMAIL || 'notifications@finsights.fr',
-                to: email,
-                subject: `Invitation à rejoindre ${invitation.company.name} sur FinSights`,
-                html: `
+        if (resend) {
+            try {
+                await resend.emails.send({
+                    from: process.env.RESEND_FROM_EMAIL || 'notifications@finsights.fr',
+                    to: email,
+                    subject: `Invitation à rejoindre ${invitation.company.name} sur FinSights`,
+                    html: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -173,10 +182,13 @@ export async function POST(req: NextRequest) {
 </body>
 </html>
                 `,
-            });
-        } catch (emailError) {
-            console.error('Erreur envoi email:', emailError);
-            // Ne pas bloquer la création de l'invitation si l'email échoue
+                });
+            } catch (emailError) {
+                console.error('Erreur envoi email:', emailError);
+                // Ne pas bloquer la création de l'invitation si l'email échoue
+            }
+        } else {
+            console.warn('RESEND_API_KEY non configurée - email non envoyé');
         }
 
         return NextResponse.json(

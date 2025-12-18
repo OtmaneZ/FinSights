@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook, ChevronDown } from 'lucide-react'
+import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook, ChevronDown, FolderOpen } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { useState, useRef, useEffect } from 'react'
 import { CompanySwitcher } from './CompanySwitcher'
@@ -187,6 +187,15 @@ export default function Header() {
                                             >
                                                 <User className="w-4 h-4" />
                                                 Mon Dashboard
+                                            </Link>
+
+                                            <Link
+                                                href="/dashboard/list"
+                                                className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors"
+                                                onClick={() => setIsDropdownOpen(false)}
+                                            >
+                                                <FolderOpen className="w-4 h-4" />
+                                                Mes Dashboards
                                             </Link>
 
                                             {session.user?.plan === 'FREE' && (

@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         // Hash du password (10 rounds bcrypt)
         const hashedPassword = await hash(password, 10);
 
-        // Créer l'utilisateur + company par défaut (transaction atomique)
+        // Créer l'utilisateur + company + CompanyMember OWNER (transaction atomique)
         const user = await prisma.user.create({
             data: {
                 email,
@@ -72,6 +72,17 @@ export async function POST(req: NextRequest) {
                 },
             },
         });
+
+        // Créer le CompanyMember OWNER pour la company créée
+        if (user.companies.length > 0) {
+            await prisma.companyMember.create({
+                data: {
+                    userId: user.id,
+                    companyId: user.companies[0].id,
+                    role: 'OWNER',
+                },
+            });
+        }
 
         // Envoyer email de bienvenue
         if (isEmailEnabled()) {
