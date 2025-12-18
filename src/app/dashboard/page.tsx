@@ -9,7 +9,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -142,23 +142,22 @@ function ManualImportTab({ userPlan }: { userPlan: string }) {
     const [isUploading, setIsUploading] = useState(false);
 
     // Fetch user quota on mount
-    useState(() => {
-        fetchQuota();
-    });
-
-    const fetchQuota = async () => {
-        try {
-            const res = await fetch('/api/user/quota');
-            if (res.ok) {
-                const data = await res.json();
-                setQuota(data.quota);
+    useEffect(() => {
+        const fetchQuota = async () => {
+            try {
+                const res = await fetch('/api/user/quota');
+                if (res.ok) {
+                    const data = await res.json();
+                    setQuota(data.quota);
+                }
+            } catch (error) {
+                // Quota display will show fallback if fetch fails
+            } finally {
+                setLoadingQuota(false);
             }
-        } catch (error) {
-            // Quota display will show fallback if fetch fails
-        } finally {
-            setLoadingQuota(false);
-        }
-    };
+        };
+        fetchQuota();
+    }, []);
 
     const handleFileUpload = async (files: FileList | null) => {
         if (!files || files.length === 0) return;
