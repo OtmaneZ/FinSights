@@ -95,6 +95,7 @@ export function useSavedDashboards(companyId?: string): UseSavedDashboardsResult
 
     useEffect(() => {
         fetchDashboards();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, companyId]);
 
     return {

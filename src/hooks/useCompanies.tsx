@@ -137,6 +137,7 @@ export function useCompanies(): UseCompaniesReturn {
     // Fetch on mount
     useEffect(() => {
         fetchCompanies();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return {

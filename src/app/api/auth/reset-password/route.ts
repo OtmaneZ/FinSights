@@ -18,7 +18,10 @@ export async function POST(req: NextRequest) {
         // 3. Store token in database
         // 4. Send email with reset link
         
-        console.log(`Password reset requested for: ${email}`)
+        // Log pour debug (en production, ceci sera supprimé)
+        if (process.env.NODE_ENV === 'development') {
+            console.log(`Password reset requested for: ${email}`);
+        }
 
         // Simulate processing delay
         await new Promise(resolve => setTimeout(resolve, 500))
@@ -28,7 +31,7 @@ export async function POST(req: NextRequest) {
         })
 
     } catch (error) {
-        console.error('Reset password error:', error)
+        // Ne pas logger les emails en production pour la sécurité
         return NextResponse.json(
             { error: 'Une erreur est survenue' },
             { status: 500 }

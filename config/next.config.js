@@ -91,11 +91,11 @@ const nextConfig = {
                         key: 'Content-Security-Policy',
                         value: [
                             "default-src 'self'",
-                            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com",
+                            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com https://www.clarity.ms",
                             "style-src 'self' 'unsafe-inline'",
-                            "img-src 'self' data: https:",
+                            "img-src 'self' data: https: blob:",
                             "font-src 'self' data:",
-                            "connect-src 'self' https://api.openrouter.ai https://api.openai.com https://api.stripe.com",
+                            "connect-src 'self' https://api.openrouter.ai https://api.openai.com https://api.stripe.com https://*.upstash.io https://*.pinecone.io https://*.pusher.com wss://*.pusher.com https://app.posthog.com https://vitals.vercel-insights.com",
                             "frame-src 'self' https://js.stripe.com",
                         ].join('; ')
                     },
