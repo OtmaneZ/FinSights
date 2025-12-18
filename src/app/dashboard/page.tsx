@@ -185,8 +185,10 @@ function ManualImportTab({ userPlan }: { userPlan: string }) {
 
                 if (response.ok) {
                     const result = await response.json();
-                    // Redirect to results page
-                    router.push(`/dashboard/results?dashboardId=${result.dashboardId}`);
+                    // Redirect to results page (API returns savedDashboardId)
+                    // FinancialDashboardV2 reads searchParams.get('id')
+                    const dashboardId = result.savedDashboardId;
+                    router.push(`/dashboard/results${dashboardId ? `?id=${dashboardId}` : ''}`);
                 } else {
                     const error = await response.json();
                     alert(`Erreur: ${error.error || 'Impossible d\'uploader le fichier'}`);

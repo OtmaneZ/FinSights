@@ -59,7 +59,8 @@ export default function RecentDashboards() {
     };
 
     const handleDashboardClick = (dashboardId: string) => {
-        router.push(`/dashboard/results?dashboardId=${dashboardId}`);
+        // FinancialDashboardV2 reads searchParams.get('id')
+        router.push(`/dashboard/results?id=${dashboardId}`);
         setIsOpen(false);
     };
 
