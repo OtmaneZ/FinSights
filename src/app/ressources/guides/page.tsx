@@ -44,7 +44,7 @@ const guides: Guide[] = [
         ],
         downloadUrl: '/ressources/guides/checklist-closing-financier.pdf',
         color: 'border-l-4 border-green-600 bg-gray-50',
-        badge: 'Gain de temps',
+        badge: '🆕 Nouveau',
         topics: ['Closing', 'Process', 'Checklist', 'Comptabilité']
     },
     {
@@ -101,7 +101,7 @@ const guides: Guide[] = [
         ],
         downloadUrl: '/ressources/guides/tableau-de-bord-cfo-20-kpis.pdf',
         color: 'border-l-4 border-purple-600 bg-gray-50',
-        badge: 'Complet',
+        badge: '🆕 Nouveau',
         topics: ['KPIs', 'Dashboard', 'Performance', 'Pilotage']
     }
 ]

@@ -21,20 +21,29 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
     {
+        slug: '5-erreurs-tresorerie-pme',
+        title: '5 erreurs de trésorerie qui coûtent cher aux PME',
+        description: 'Les erreurs fatales que commettent 80% des dirigeants de PME avec leur trésorerie, et comment les éviter',
+        date: '18 décembre 2025',
+        readTime: '7 min',
+        category: 'Trésorerie',
+        tags: ['Trésorerie', 'PME', 'Erreurs', 'Cash', 'Pilotage'],
+        featured: true // 🌟 Article hero
+    },
+    {
         slug: 'calcul-dso-formule-2025',
         title: 'Comment calculer son DSO (formule PCG 2025)',
         description: 'Guide complet pour calculer le DSO avec exemples pratiques et benchmarks sectoriels français',
-        date: '28 novembre 2025',
+        date: '16 décembre 2025',
         readTime: '8 min',
         category: 'KPIs',
-        tags: ['DSO', 'Trésorerie', 'Formule', 'PCG 2025'],
-        featured: true // 🌟 Article hero
+        tags: ['DSO', 'Trésorerie', 'Formule', 'PCG 2025']
     },
     {
         slug: '5-kpis-financiers-pme',
         title: 'Les 5 KPIs financiers essentiels pour PME',
         description: 'Découvrez les indicateurs clés que tout dirigeant de PME devrait suivre mensuellement',
-        date: '28 novembre 2025',
+        date: '18 décembre 2025',
         readTime: '6 min',
         category: 'Gestion',
         tags: ['KPIs', 'PME', 'Indicateurs', 'Pilotage']
@@ -43,7 +52,7 @@ const blogPosts: BlogPost[] = [
         slug: 'bfr-formule-optimisation',
         title: 'BFR : formule de calcul et optimisation 2025',
         description: 'Tout savoir sur le Besoin en Fonds de Roulement : calcul, interprétation et leviers d\'optimisation',
-        date: '28 novembre 2025',
+        date: '17 décembre 2025',
         readTime: '10 min',
         category: 'Trésorerie',
         tags: ['BFR', 'Trésorerie', 'Optimisation', 'Formule']
@@ -52,7 +61,7 @@ const blogPosts: BlogPost[] = [
         slug: 'marge-nette-vs-brute',
         title: 'Marge nette vs marge brute : différences et calculs',
         description: 'Comprenez la différence entre marge brute et marge nette avec formules et benchmarks sectoriels',
-        date: '28 novembre 2025',
+        date: '10 décembre 2025',
         readTime: '7 min',
         category: 'Rentabilité',
         tags: ['Marges', 'Rentabilité', 'Calcul', 'Benchmark']
@@ -61,7 +70,7 @@ const blogPosts: BlogPost[] = [
         slug: 'cash-flow-previsionnel-pme',
         title: 'Cash flow prévisionnel : méthode pratique pour PME',
         description: 'Guide complet pour construire un cash flow prévisionnel fiable et anticiper vos besoins de trésorerie',
-        date: '28 novembre 2025',
+        date: '5 décembre 2025',
         readTime: '9 min',
         category: 'Trésorerie',
         tags: ['Cash Flow', 'Prévisionnel', 'PME', 'Méthode']
@@ -70,7 +79,7 @@ const blogPosts: BlogPost[] = [
         slug: 'top-7-kpis-startups-saas',
         title: 'Top 7 KPIs financiers pour startups SaaS',
         description: 'Les indicateurs essentiels pour piloter une startup SaaS : MRR, Churn, CAC, LTV et plus',
-        date: '28 novembre 2025',
+        date: '2 décembre 2025',
         readTime: '8 min',
         category: 'SaaS',
         tags: ['SaaS', 'MRR', 'Churn', 'CAC', 'LTV']
@@ -79,7 +88,7 @@ const blogPosts: BlogPost[] = [
         slug: 'creances-clients-reduire-impayes',
         title: 'Créances clients : comment réduire les impayés',
         description: 'Stratégies concrètes pour améliorer le recouvrement et diminuer les retards de paiement',
-        date: '28 novembre 2025',
+        date: '25 novembre 2025',
         readTime: '7 min',
         category: 'Recouvrement',
         tags: ['Créances', 'Impayés', 'Recouvrement', 'DSO']
@@ -88,7 +97,7 @@ const blogPosts: BlogPost[] = [
         slug: 'tresorerie-pme-5-erreurs-eviter',
         title: 'Trésorerie PME : 5 erreurs à éviter',
         description: 'Les erreurs fréquentes qui mettent en péril la trésorerie des PME et comment les éviter',
-        date: '28 novembre 2025',
+        date: '18 novembre 2025',
         readTime: '6 min',
         category: 'Trésorerie',
         tags: ['Trésorerie', 'PME', 'Erreurs', 'Conseils']
@@ -97,7 +106,7 @@ const blogPosts: BlogPost[] = [
         slug: 'ratio-liquidite-interpretation',
         title: 'Ratio de liquidité : interpréter les résultats',
         description: 'Comprendre les ratios de liquidité et évaluer la santé financière de votre entreprise',
-        date: '28 novembre 2025',
+        date: '12 novembre 2025',
         readTime: '8 min',
         category: 'Analyse',
         tags: ['Ratios', 'Liquidité', 'Analyse', 'Santé financière']
@@ -106,7 +115,7 @@ const blogPosts: BlogPost[] = [
         slug: 'budget-previsionnel-dashboard-ia',
         title: 'Budget prévisionnel : template Excel vs dashboard IA',
         description: 'Comparaison des méthodes pour construire et suivre votre budget prévisionnel efficacement',
-        date: '28 novembre 2025',
+        date: '5 novembre 2025',
         readTime: '7 min',
         category: 'Outils',
         tags: ['Budget', 'IA', 'Excel', 'Dashboard']
@@ -201,31 +210,54 @@ export default function BlogPage() {
                     ))}
                 </div>
 
-                {/* Grid 3 articles featured */}
-                <div className="grid md:grid-cols-3 gap-6 mb-16">
-                    {filteredPosts.slice(0, 3).map((post) => (
-                        <Link
-                            key={post.slug}
-                            href={`/blog/${post.slug}`}
-                            className="surface rounded-lg p-6 border border-border-default hover:border-accent-primary transition-all group"
-                        >
-                            <div className="flex items-center gap-2 mb-3">
-                                <span className="text-xs text-tertiary uppercase tracking-wider font-medium">
-                                    {post.category}
-                                </span>
-                                <span className="w-1 h-1 rounded-full bg-border-default"></span>
-                                <span className="text-xs text-tertiary">
-                                    {post.readTime}
-                                </span>
-                            </div>
-                            <h3 className="text-lg font-bold mb-2 text-primary group-hover:text-accent-primary transition-colors leading-tight">
-                                {post.title}
-                            </h3>
-                            <p className="text-sm text-secondary leading-relaxed line-clamp-3">
-                                {post.description}
-                            </p>
-                        </Link>
-                    ))}
+                {/* 🆕 Section Derniers ajouts */}
+                <div className="mb-16 surface rounded-xl p-8 border-l-4 border-accent-primary shadow-sm">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <Sparkles className="w-6 h-6 text-accent-primary" />
+                            <h2 className="text-2xl font-bold text-primary">Derniers ajouts</h2>
+                        </div>
+                        <span className="text-xs text-accent-primary font-semibold uppercase tracking-wider px-3 py-1.5 bg-accent-primary-subtle rounded-full">
+                            Mis à jour cette semaine
+                        </span>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {filteredPosts.slice(0, 3).map((post, idx) => (
+                            <Link
+                                key={post.slug}
+                                href={`/blog/${post.slug}`}
+                                className="relative surface rounded-lg p-6 border border-border-default hover:border-accent-primary transition-all group"
+                            >
+                                {/* Badge NOUVEAU */}
+                                <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                                    🆕 NOUVEAU
+                                </div>
+
+                                <div className="flex items-center gap-2 mb-3">
+                                    <Calendar className="w-3.5 h-3.5 text-tertiary" />
+                                    <span className="text-xs text-tertiary">{post.date}</span>
+                                    <span className="w-1 h-1 rounded-full bg-border-default"></span>
+                                    <span className="text-xs text-tertiary">{post.readTime}</span>
+                                </div>
+                                <div className="flex items-center gap-2 mb-3">
+                                    {getCategoryIcon(post.category)}
+                                    <span className="text-xs text-accent-primary uppercase tracking-wider font-medium">
+                                        {post.category}
+                                    </span>
+                                </div>
+                                <h3 className="text-lg font-bold mb-2 text-primary group-hover:text-accent-primary transition-colors leading-tight">
+                                    {post.title}
+                                </h3>
+                                <p className="text-sm text-secondary leading-relaxed line-clamp-2">
+                                    {post.description}
+                                </p>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Grid 3 articles featured - section cachée car remplacée par Derniers ajouts */}
+                <div className="hidden">
                 </div>
 
                 {/* Articles par catégorie - 2 colonnes */}
@@ -241,7 +273,10 @@ export default function BlogPage() {
                                         href={`/blog/${post.slug}`}
                                         className="surface rounded-lg p-6 border border-border-default hover:border-accent-primary transition-all group"
                                     >
-                                        <div className="flex items-center gap-2 mb-2">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <Calendar className="w-3.5 h-3.5 text-tertiary" />
+                                            <span className="text-xs text-tertiary">{post.date}</span>
+                                            <span className="w-1 h-1 rounded-full bg-border-default"></span>
                                             <span className="text-xs text-tertiary">{post.readTime}</span>
                                         </div>
                                         <h3 className="text-xl font-bold mb-2 text-primary group-hover:text-accent-primary transition-colors">
@@ -265,7 +300,10 @@ export default function BlogPage() {
                                         href={`/blog/${post.slug}`}
                                         className="surface rounded-lg p-6 border border-border-default hover:border-accent-primary transition-all group"
                                     >
-                                        <div className="flex items-center gap-2 mb-2">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <Calendar className="w-3.5 h-3.5 text-tertiary" />
+                                            <span className="text-xs text-tertiary">{post.date}</span>
+                                            <span className="w-1 h-1 rounded-full bg-border-default"></span>
                                             <span className="text-xs text-tertiary">{post.readTime}</span>
                                         </div>
                                         <h3 className="text-xl font-bold mb-2 text-primary group-hover:text-accent-primary transition-colors">
@@ -289,7 +327,10 @@ export default function BlogPage() {
                                         href={`/blog/${post.slug}`}
                                         className="surface rounded-lg p-6 border border-border-default hover:border-accent-primary transition-all group"
                                     >
-                                        <div className="flex items-center gap-2 mb-2">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <Calendar className="w-3.5 h-3.5 text-tertiary" />
+                                            <span className="text-xs text-tertiary">{post.date}</span>
+                                            <span className="w-1 h-1 rounded-full bg-border-default"></span>
                                             <span className="text-xs text-tertiary">{post.readTime}</span>
                                         </div>
                                         <h3 className="text-xl font-bold mb-2 text-primary group-hover:text-accent-primary transition-colors">

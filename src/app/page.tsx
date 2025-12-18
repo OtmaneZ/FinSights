@@ -15,11 +15,13 @@ import Testimonials from '@/components/Testimonials'
 import DashboardPreview from '@/components/landing/DashboardPreview'
 import TwoPathsSection from '@/components/landing/TwoPathsSection'
 import AnimatedScoreDisplay from '@/components/landing/AnimatedScoreDisplay'
+import NewsletterPopup from '@/components/NewsletterPopup'
 
 export default function Home() {
     return (
         <div className="min-h-screen bg-primary text-primary font-sans">
             <Header />
+            <NewsletterPopup />
 
             {/* Hero Section - Premium 2 Columns Layout */}
             <section className="relative bg-gradient-to-br from-blue-50 via-blue-50/50 to-white overflow-hidden">

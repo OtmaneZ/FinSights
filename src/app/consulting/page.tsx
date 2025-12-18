@@ -568,8 +568,8 @@ export default function ConsultingPage() {
                             </div>
                             {/* Badge flottant */}
                             <div className="absolute -bottom-4 -right-4 bg-accent-primary text-white px-6 py-3 rounded-xl shadow-lg">
-                                <div className="text-sm font-semibold">10+ ans d'expérience</div>
-                                <div className="text-xs opacity-90">Finance × Data × IA</div>
+                                <div className="text-sm font-semibold">10+ ans</div>
+                                <div className="text-xs opacity-90">Finance d'entreprise & pilotage</div>
                             </div>
                         </div>
 
@@ -584,17 +584,15 @@ export default function ConsultingPage() {
 
                             <div className="space-y-4 text-secondary">
                                 <p className="leading-relaxed">
-                                    Après 10 ans passés entre Direction Financière et équipes Data de scale-ups françaises,
-                                    j'ai créé <span className="font-semibold text-accent-primary">FinSight™</span> pour démocratiser
-                                    l'accès à l'intelligence financière augmentée.
+                                    Beaucoup de dirigeants pilotent leur entreprise avec des chiffres incomplets, en retard ou difficiles à exploiter.
                                 </p>
                                 <p className="leading-relaxed">
-                                    Ma mission : transformer des données brutes en décisions stratégiques claires,
-                                    en combinant expertise finance, maîtrise technique et puissance de l'IA.
+                                    Après plus de 10 ans à travailler et enseigner la finance d'entreprise, et à concevoir des outils data pour le pilotage financier,
+                                    j'ai créé <span className="font-semibold text-accent-primary">FinSight™</span> pour transformer des données brutes en décisions stratégiques claires.
                                 </p>
                                 <p className="leading-relaxed">
-                                    <span className="font-semibold text-primary">FinSight n'est pas qu'un outil</span> —
-                                    c'est la vitrine de ma méthodologie et le prolongement de mes missions consulting.
+                                    <span className="font-semibold text-primary">FinSight n'est pas qu'un outil</span> :
+                                    c'est la vitrine de ma méthodologie et le prolongement de mes missions de conseil en finance et data.
                                 </p>
                             </div>
 
