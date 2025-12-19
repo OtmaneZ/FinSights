@@ -1821,89 +1821,88 @@ export default function FinancialDashboardV2() {
                     </div>
                 )}
 
-                {/* Main Content Grid */}
-                <div className="grid lg:grid-cols-12 gap-8">
-                        {/* Left Column: Charts & Insights (8 cols) */}
-                        <div className="lg:col-span-8 space-y-8">
-                            {/* Consulting Banner - Dynamic based on score */}
-                            <ConsultingBanner score={finSightScore?.total} />
+                {/* Main Content - Full Width */}
+                <div className="space-y-8">
+                    {/* Consulting Banner - Dynamic based on score */}
+                    <ConsultingBanner score={finSightScore?.total} />
 
-                            {/* Main Charts */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
-                                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                        <TrendingUp className="w-5 h-5 text-accent-primary" />
-                                        Évolution Trésorerie
-                                    </h3>
-                                    <div className="h-[300px]">
-                                        <CashFlowEvolutionChart data={monthlyData} />
-                                    </div>
-                                </div>
-
-                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
-                                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                        <Percent className="w-5 h-5 text-accent-primary" />
-                                        Répartition des Charges
-                                    </h3>
-                                    <div className="h-[300px]">
-                                        <ExpenseBreakdownChart data={categoryBreakdown} />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Advanced Insights Section */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
-                                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                        <Zap className="w-5 h-5 text-accent-primary" />
-                                        Analyse des Marges
-                                    </h3>
-                                    <div className="h-[300px]">
-                                        <MarginEvolutionChart data={marginData} />
-                                    </div>
-                                </div>
-
-                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
-                                    <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                        <DollarSign className="w-5 h-5 text-accent-primary" />
-                                        Top Clients (Volume)
-                                    </h3>
-                                    <div className="h-[300px]">
-                                        <TopClientsVerticalChart data={topClients} />
-                                    </div>
-                                </div>
+                    {/* Main Charts */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
+                            <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                <TrendingUp className="w-5 h-5 text-accent-primary" />
+                                Évolution Trésorerie
+                            </h3>
+                            <div className="h-[300px]">
+                                <CashFlowEvolutionChart data={monthlyData} />
                             </div>
                         </div>
 
-                        {/* Right Column: Copilot & Tools (4 cols) */}
-                        <div className="lg:col-span-4 space-y-8">
-                            {/* Data Sources Panel */}
-                            <DataSourcesPanel />
-
-                            {/* Alerts Panel */}
-                            {isDataLoaded && (
-                                <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
-                                    <div className="flex items-center justify-between mb-6">
-                                        <div className="flex items-center gap-2">
-                                            <AlertTriangle className="w-5 h-5 text-accent-orange" />
-                                            <h3 className="text-xl font-semibold">Alertes Intelligentes</h3>
-                                        </div>
-                                        <button
-                                            onClick={() => setShowAlertSettings(true)}
-                                            className="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors"
-                                        >
-                                            Configurer
-                                        </button>
-                                    </div>
-                                    <AlertsPanel
-                                        dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                                        cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                                        netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
-                                    />
-                                </div>
-                            )}
+                        <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
+                            <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                <Percent className="w-5 h-5 text-accent-primary" />
+                                Répartition des Charges
+                            </h3>
+                            <div className="h-[300px]">
+                                <ExpenseBreakdownChart data={categoryBreakdown} />
+                            </div>
                         </div>
                     </div>
+
+                    {/* Advanced Insights Section */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
+                            <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                <Zap className="w-5 h-5 text-accent-primary" />
+                                Analyse des Marges
+                            </h3>
+                            <div className="h-[300px]">
+                                <MarginEvolutionChart data={marginData} />
+                            </div>
+                        </div>
+
+                        <div className="surface rounded-xl p-6 shadow-sm border border-gray-100">
+                            <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                <DollarSign className="w-5 h-5 text-accent-primary" />
+                                Top Clients (Volume)
+                            </h3>
+                            <div className="h-[300px]">
+                                <TopClientsVerticalChart data={topClients} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Bottom Tools Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                    {/* Data Sources Panel */}
+                    <div>
+                        <DataSourcesPanel />
+                    </div>
+
+                    {/* Alerts Panel */}
+                    {isDataLoaded && (
+                        <div className="surface rounded-xl p-6 shadow-sm border border-gray-100 h-full">
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="flex items-center gap-2">
+                                    <AlertTriangle className="w-5 h-5 text-accent-orange" />
+                                    <h3 className="text-xl font-semibold">Alertes Intelligentes</h3>
+                                </div>
+                                <button
+                                    onClick={() => setShowAlertSettings(true)}
+                                    className="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors"
+                                >
+                                    Configurer
+                                </button>
+                            </div>
+                            <AlertsPanel
+                                dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                                cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                                netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                            />
+                        </div>
+                    )}
+                </div>
 
                     {/* AI Copilot - Full Width Bottom */}
                     <div className="mt-8">
