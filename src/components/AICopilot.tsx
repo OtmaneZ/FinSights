@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { ShieldCheck, Info } from 'lucide-react'
 import { useFinancialData } from '@/lib/financialContext'
-import { generateAutoSummary } from '@/lib/copilot/prompts'
+import { generateAutoSummary, buildFinancialContext } from '@/lib/copilot/prompts'
 import { logger } from '@/lib/logger';
 
 interface Message {
@@ -65,6 +65,9 @@ export default function AICopilot() {
         setShouldAutoScroll(true) // ✅ Active scroll après envoi message
 
         try {
+            // 🧠 Optimisation : On construit le contexte côté client pour éviter d'envoyer tout le CSV
+            const context = buildFinancialContext(rawData || []);
+
             const response = await fetch('/api/copilot/chat', {
                 method: 'POST',
                 headers: {
@@ -72,7 +75,8 @@ export default function AICopilot() {
                 },
                 body: JSON.stringify({
                     message: input,
-                    rawData: rawData || [],
+                    precomputedContext: context, // ✅ Envoi du contexte optimisé (string)
+                    // rawData: rawData || [], // ❌ On n'envoie plus les données brutes pour économiser la bande passante
                     companyName: 'demo-user', // Pour la démo, utiliser un ID générique
                     conversationHistory: messages.slice(-5).map(m => ({
                         role: m.isUser ? 'user' as const : 'assistant' as const,

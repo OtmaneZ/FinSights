@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useFinancialData } from '@/lib/financialContext'
@@ -203,7 +203,7 @@ export default function FinancialDashboardV2() {
 
     // �🔧 Fonctions de préparation des données pour les charts
 
-    const getMonthlyData = () => {
+    const monthlyData = useMemo(() => {
         // 🆕 Si données démo pré-calculées disponibles, les utiliser
         if (typeof window !== 'undefined' && (window as any).__demoChartData?.cashFlowEvolution) {
             return (window as any).__demoChartData.cashFlowEvolution;
@@ -231,9 +231,9 @@ export default function FinancialDashboardV2() {
             ...m,
             cashFlow: m.revenue - m.expenses
         }));
-    };
+    }, [rawData]);
 
-    const getCategoryBreakdown = () => {
+    const categoryBreakdown = useMemo(() => {
         // 🆕 Si données démo pré-calculées disponibles, les utiliser
         if (typeof window !== 'undefined' && (window as any).__demoChartData?.categoryBreakdown) {
             return (window as any).__demoChartData.categoryBreakdown;
@@ -278,9 +278,9 @@ export default function FinancialDashboardV2() {
         }
 
         return majorCategories;
-    };
+    }, [rawData]);
 
-    const getMarginData = () => {
+    const marginData = useMemo(() => {
         // 🆕 Si données démo pré-calculées disponibles, les utiliser
         if (typeof window !== 'undefined' && (window as any).__demoChartData?.marginEvolution) {
             return (window as any).__demoChartData.marginEvolution;
@@ -308,9 +308,9 @@ export default function FinancialDashboardV2() {
             month: m.month,
             marginPercentage: m.revenue > 0 ? ((m.revenue - m.expenses) / m.revenue) * 100 : 0
         }));
-    };
+    }, [rawData]);
 
-    const getTopClients = () => {
+    const topClients = useMemo(() => {
         // 🆕 Si données démo pré-calculées disponibles, les utiliser
         if (typeof window !== 'undefined' && (window as any).__demoChartData?.topClients) {
             return (window as any).__demoChartData.topClients;
@@ -338,7 +338,7 @@ export default function FinancialDashboardV2() {
                 name: client.name,
                 value: client.total
             }));
-    };
+    }, [rawData]);
 
     // 🎨 Sankey Data - Revenus → Charges → Cash Flow
     const getSankeyData = () => {
@@ -1836,7 +1836,7 @@ export default function FinancialDashboardV2() {
                                         Évolution Trésorerie
                                     </h3>
                                     <div className="h-[300px]">
-                                        <CashFlowEvolutionChart data={getMonthlyData()} />
+                                        <CashFlowEvolutionChart data={monthlyData} />
                                     </div>
                                 </div>
 
@@ -1846,7 +1846,7 @@ export default function FinancialDashboardV2() {
                                         Répartition des Charges
                                     </h3>
                                     <div className="h-[300px]">
-                                        <ExpenseBreakdownChart data={getCategoryBreakdown()} />
+                                        <ExpenseBreakdownChart data={categoryBreakdown} />
                                     </div>
                                 </div>
                             </div>
@@ -1859,7 +1859,7 @@ export default function FinancialDashboardV2() {
                                         Analyse des Marges
                                     </h3>
                                     <div className="h-[300px]">
-                                        <MarginEvolutionChart data={getMarginData()} />
+                                        <MarginEvolutionChart data={marginData} />
                                     </div>
                                 </div>
 
@@ -1869,7 +1869,7 @@ export default function FinancialDashboardV2() {
                                         Top Clients (Volume)
                                     </h3>
                                     <div className="h-[300px]">
-                                        <TopClientsVerticalChart data={getTopClients()} />
+                                        <TopClientsVerticalChart data={topClients} />
                                     </div>
                                 </div>
                             </div>
@@ -1879,9 +1879,6 @@ export default function FinancialDashboardV2() {
                         <div className="lg:col-span-4 space-y-8">
                             {/* Data Sources Panel */}
                             <DataSourcesPanel />
-
-                            {/* AI Copilot */}
-                            <AICopilot />
 
                             {/* Alerts Panel */}
                             {isDataLoaded && (
@@ -1906,6 +1903,11 @@ export default function FinancialDashboardV2() {
                                 </div>
                             )}
                         </div>
+                    </div>
+
+                    {/* AI Copilot - Full Width Bottom */}
+                    <div className="mt-8">
+                        <AICopilot />
                     </div>
                 </div>
 

@@ -12,6 +12,7 @@ import { anonymizeFinancialData } from '@/lib/ai/anonymizer'
 interface CopilotRequest {
     message: string
     rawData?: any[]
+    precomputedContext?: string
     companyName?: string
     conversationHistory?: Array<{
         role: 'user' | 'assistant'
@@ -74,7 +75,7 @@ export default async function handler(
     }
 
     try {
-        const { message, rawData, companyName, conversationHistory }: CopilotRequest = req.body
+        const { message, rawData, precomputedContext, companyName, conversationHistory }: CopilotRequest = req.body
 
         if (!message || typeof message !== 'string' || message.trim().length === 0) {
             return res.status(400).json({
@@ -85,7 +86,7 @@ export default async function handler(
 
         logger.debug('🤖 Copilot v3.0 - Requête:', {
             message: message.substring(0, 100),
-            hasData: !!rawData,
+            hasData: !!rawData || !!precomputedContext,
             dataCount: rawData?.length || 0,
             company: companyName,
             user: isAuthenticated ? userId : `IP:${clientIP}`,
@@ -93,8 +94,18 @@ export default async function handler(
             remaining: rateLimit.remaining
         })
 
-        // 🛡️ ANONYMISATION RGPD
-        const anonymizedData = rawData ? anonymizeFinancialData(rawData) : null;
+        // 🏗️ Construire le contexte financier pour l'IA
+        // Si le contexte est pré-calculé (client-side), on l'utilise directement pour économiser la bande passante
+        // Sinon, on le construit à partir des données brutes (backward compatibility)
+        let financialContext = '';
+        
+        if (precomputedContext) {
+            financialContext = precomputedContext;
+        } else {
+            // 🛡️ ANONYMISATION RGPD (seulement si on traite les données brutes côté serveur)
+            const anonymizedData = rawData ? anonymizeFinancialData(rawData) : null;
+            financialContext = buildFinancialContext(anonymizedData || []);
+        }
 
         // 🧠 Rechercher conversations similaires dans Pinecone
         let contextFromMemory = '';
@@ -136,9 +147,6 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
         const openai = new OpenAI({
             apiKey: process.env.OPENAI_API_KEY
         })
-
-        // 🏗️ Construire le contexte financier pour l'IA
-        const financialContext = buildFinancialContext(anonymizedData || []);
 
         const completion = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
