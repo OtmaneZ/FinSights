@@ -45,13 +45,21 @@ export default async function handler(
 
     // 🔐 Récupérer session utilisateur
     const session = await getServerSession(req, res, authOptions)
-    const isAuthenticated = !!session?.user
-    const userId = session?.user?.id
-    const userPlan = (session?.user?.plan as any) || 'FREE'
+    
+    if (!session?.user) {
+        return res.status(401).json({
+            success: false,
+            error: 'Authentification requise'
+        })
+    }
+
+    const isAuthenticated = true
+    const userId = session.user.id
+    const userPlan = (session.user.plan as any) || 'FREE'
     const clientIP = getClientIP(req)
 
-    // Identifier : userId si connecté, sinon IP
-    const identifier = isAuthenticated && userId ? userId : clientIP
+    // Identifier : userId
+    const identifier = userId
 
     // 🛡️ RATE LIMITING UNIFIÉ (IP ou User selon session)
     const rateLimit = await checkUnifiedRateLimit(

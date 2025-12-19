@@ -27,13 +27,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // 🔐 Récupérer session utilisateur
     const session = await getServerSession(req, res, authOptions);
-    const isAuthenticated = !!session?.user;
-    const userId = session?.user?.id;
-    const userPlan = (session?.user?.plan as any) || 'FREE';
+    
+    if (!session?.user) {
+        return res.status(401).json({ error: 'Authentification requise' });
+    }
+
+    const isAuthenticated = true;
+    const userId = session.user.id;
+    const userPlan = (session.user.plan as any) || 'FREE';
     const clientIP = getClientIP(req);
 
-    // Identifier : userId si connecté, sinon IP
-    const identifier = isAuthenticated && userId ? userId : clientIP;
+    // Identifier : userId (toujours présent car auth requise)
+    const identifier = userId;
 
     // 🛡️ RATE LIMITING pour uploads (5/mois pour FREE)
     const rateLimit = await checkUnifiedRateLimit(

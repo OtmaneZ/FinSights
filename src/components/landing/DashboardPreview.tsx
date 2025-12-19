@@ -11,9 +11,9 @@ export default function DashboardPreview() {
     useEffect(() => {
         const interval = setInterval(() => {
             setCounters(prev => ({
-                revenue: Math.min(prev.revenue + 8000, 850000),  // 850k€ CA annuel (PME services B2B)
-                margin: Math.min(prev.margin + 2, 72),           // 72/100 Score FinSight (niveau "good")
-                cash: Math.min(prev.cash + 3000, 180000)         // 180k€ tréso (cohérent avec 850k CA)
+                revenue: Math.min(prev.revenue + 8000, 850000),  // 850k€ CA annuel
+                margin: Math.min(prev.margin + 2, 72),           // 72 Score FinSight
+                cash: Math.min(prev.cash + 3000, 140000)         // 140k€ tréso
             }))
             setChartProgress(prev => Math.min(prev + 2, 100))
         }, 30)
@@ -39,52 +39,54 @@ export default function DashboardPreview() {
                 </div>
 
                 {/* Score Badge (Floating) */}
-                <div className="absolute -top-4 -right-4 px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl shadow-xl animate-float">
-                    <div className="text-3xl font-bold text-white">{counters.margin}</div>
-                    <div className="text-xs text-white/80 font-medium">Score FinSight™</div>
+                <div className="absolute -top-6 -right-6 px-5 py-4 bg-gradient-to-br from-orange-400 to-orange-500 rounded-[2rem] shadow-xl animate-float flex flex-col items-center justify-center min-w-[110px] border-4 border-white">
+                    <div className="text-4xl font-extrabold text-white leading-none mb-1">{counters.margin}</div>
+                    <div className="text-[10px] text-white/90 font-bold tracking-wider uppercase">FINSIGHT™</div>
                 </div>
 
                 {/* KPI Cards Grid */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-2 gap-5 mb-6">
 
                     {/* Revenue Card */}
-                    <div className="group bg-gradient-to-br from-blue-50 to-blue-100/50 backdrop-blur-xl rounded-2xl p-4 border border-blue-200/50 hover:shadow-lg transition-all cursor-pointer">
-                        <div className="flex items-center gap-2 mb-2">
-                            <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center">
+                    <div className="group bg-blue-50/80 backdrop-blur-xl rounded-2xl p-5 border border-blue-100 hover:shadow-lg transition-all cursor-pointer">
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm">
                                 <DollarSign className="w-4 h-4 text-white" />
                             </div>
-                            <span className="text-xs text-gray-600 font-medium">Chiffre d&apos;affaires</span>
+                            <span className="text-sm text-gray-600 font-semibold">CA annuel</span>
                         </div>
-                        <div className="text-2xl font-bold text-gray-900">
+                        <div className="text-3xl font-extrabold text-gray-900 mb-2">
                             {(counters.revenue / 1000).toFixed(0)}k€
                         </div>
-                        <div className="text-xs text-green-600 flex items-center gap-1 mt-1">
+                        <div className="text-xs text-green-600 flex items-center gap-1 font-medium bg-green-100/50 px-2 py-1 rounded-full w-fit">
                             <TrendingUp className="w-3 h-3" />
-                            +12% vs prev
+                            +15% vs N-1
                         </div>
                     </div>
 
                     {/* Margin Card */}
-                    <div className="group bg-gradient-to-br from-green-50 to-green-100/50 backdrop-blur-xl rounded-2xl p-4 border border-green-200/50 hover:shadow-lg transition-all cursor-pointer">
-                        <div className="flex items-center gap-2 mb-2">
-                            <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center">
+                    <div className="group bg-orange-50/80 backdrop-blur-xl rounded-2xl p-5 border border-orange-100 hover:shadow-lg transition-all cursor-pointer">
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center shadow-sm">
                                 <Activity className="w-4 h-4 text-white" />
                             </div>
-                            <span className="text-xs text-gray-600 font-medium">Marge nette</span>
+                            <span className="text-sm text-gray-600 font-semibold">Marge</span>
                         </div>
-                        <div className="text-2xl font-bold text-gray-900">
-                            28%
+                        <div className="text-3xl font-extrabold text-gray-900 mb-2">
+                            24%
                         </div>
-                        <div className="text-xs text-green-600 mt-1">Objectif: 25%</div>
+                        <div className="text-xs text-orange-600 font-medium">Obj: 28%</div>
                     </div>
 
                     {/* Cash Card */}
-                    <div className="col-span-2 bg-gradient-to-br from-purple-50 to-purple-100/50 backdrop-blur-xl rounded-2xl p-4 border border-purple-200/50">
+                    <div className="col-span-2 bg-orange-50/50 backdrop-blur-xl rounded-2xl p-5 border border-orange-100/50">
                         <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs text-gray-600 font-medium">Trésorerie disponible</span>
-                            <span className="text-xs text-purple-600 font-semibold">Runway: 6 mois</span>
+                            <span className="text-sm text-gray-600 font-semibold">Trésorerie</span>
+                            <span className="px-3 py-1.5 bg-orange-500 text-white text-xs font-bold rounded-lg shadow-sm">
+                                2.5 mois runway
+                            </span>
                         </div>
-                        <div className="text-3xl font-bold text-gray-900">
+                        <div className="text-3xl font-extrabold text-gray-900">
                             {(counters.cash / 1000).toFixed(0)}k€
                         </div>
                     </div>
@@ -191,20 +193,23 @@ export default function DashboardPreview() {
                         {/* Tooltip dernier point (Décembre) */}
                         {chartProgress > 95 && (
                             <>
-                                <rect x="255" y="38" width="38" height="18" rx="3" fill="white" stroke="#e5e7eb" strokeWidth="0.5" />
-                                <text x="274" y="48" fontSize="7" fill="#10b981" fontWeight="600" textAnchor="middle">156k€</text>
+                                <rect x="255" y="38" width="32" height="16" rx="4" fill="#10b981" />
+                                <text x="271" y="49" fontSize="9" fill="white" fontWeight="bold" textAnchor="middle">73k€</text>
+                                
+                                <rect x="255" y="70" width="32" height="16" rx="4" fill="#f87171" />
+                                <text x="271" y="81" fontSize="9" fill="white" fontWeight="bold" textAnchor="middle">55k€</text>
                             </>
                         )}
                     </svg>
 
                     {/* Stats en bas */}
                     {chartProgress > 95 && (
-                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-200">
-                            <div className="text-xs text-gray-500">
-                                Cash Flow Net: <span className="font-semibold text-green-600">+68k€</span>
+                        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                            <div className="text-sm text-gray-600 font-medium">
+                                Cash Flow: <span className="font-bold text-green-600">+18k€</span>
                             </div>
-                            <div className="text-xs text-gray-500">
-                                Marge moyenne: <span className="font-semibold text-gray-700">28%</span>
+                            <div className="text-sm text-gray-600 font-medium flex items-center gap-2">
+                                Tendance: <span className="font-bold text-green-600 flex items-center gap-1"><TrendingUp className="w-3 h-3" /> +15%</span>
                             </div>
                         </div>
                     )}
