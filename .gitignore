@@ -50,3 +50,4 @@ docs/archive/
 # Sentry
 .sentryclirc
 .env.sentry-build-plugin
+.env*.local
