@@ -177,7 +177,7 @@ export default function ConsultingPage() {
                         </div>
 
                         <p className="text-sm text-secondary mb-6 italic">
-                            "Votre santé financière scannée par l'IA et validée par un expert — en 5 jours."
+                            "Votre santé financière analysée par un expert finance en 5 jours."
                         </p>
 
                         <ul className="space-y-3 mb-8 flex-grow">
@@ -187,7 +187,7 @@ export default function ConsultingPage() {
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary"><span className="font-semibold">Analyse automatique + validation expert</span> : Cash flow, Rentabilité, Risques</span>
+                                <span className="text-sm text-secondary"><span className="font-semibold">Analyse complète + validation expert</span> : Cash flow, Rentabilité, Risques</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -328,7 +328,16 @@ export default function ConsultingPage() {
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-sm text-secondary"><span className="font-semibold">IA FinSight™ (Chatbot CFO)</span> : Questions en langage naturel + Détection anomalies + Alertes intelligentes</span>
+                                <span className="text-sm text-secondary"><span className="font-semibold">IA FinSight™ (Chatbot CFO sur vos données)</span> :</span>
+                            </li>
+                            <li className="flex items-start gap-3 ml-8">
+                                <span className="text-sm text-secondary">• Posez des questions en langage naturel ("Quel client me coûte le plus cher ?")</span>
+                            </li>
+                            <li className="flex items-start gap-3 ml-8">
+                                <span className="text-sm text-secondary">• Détection automatique d'anomalies (retard paiement, dérive marge)</span>
+                            </li>
+                            <li className="flex items-start gap-3 ml-8">
+                                <span className="text-sm text-secondary">• Alertes intelligentes (seuil trésorerie, concentration client)</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
@@ -414,6 +423,16 @@ export default function ConsultingPage() {
                                 Rentabilité analytique
                             </span>
                         </div>
+
+                        {/* Témoignage */}
+                        <div className="mt-6 pt-6 border-t border-border-subtle">
+                            <p className="text-sm text-secondary italic mb-2">
+                                "Otmane a identifié en 3 semaines ce que nous n'avions pas vu en interne. L'analyse était précise et les recommandations immédiatement actionnables."
+                            </p>
+                            <p className="text-xs text-tertiary">
+                                — Directeur Financier, Groupe formation professionnelle
+                            </p>
+                        </div>
                     </div>
 
                     {/* Réalisation 2: Le Bal */}
@@ -462,6 +481,16 @@ export default function ConsultingPage() {
                             <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
                                 KPIs métier
                             </span>
+                        </div>
+
+                        {/* Témoignage */}
+                        <div className="mt-6 pt-6 border-t border-border-subtle">
+                            <p className="text-sm text-secondary italic mb-2">
+                                "Avant, je passais mes journées sur Excel. Maintenant tout est automatisé et j'ai enfin de la visibilité sur ma rentabilité. Le gain de temps est énorme."
+                            </p>
+                            <p className="text-xs text-tertiary">
+                                — Fondateur, Agence placement guides
+                            </p>
                         </div>
                     </div>
                 </div>
