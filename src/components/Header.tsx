@@ -12,8 +12,10 @@ export default function Header() {
     const { data: session, status } = useSession()
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const [isResourcesOpen, setIsResourcesOpen] = useState(false)
+    const [isSaasOpen, setIsSaasOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
     const resourcesRef = useRef<HTMLDivElement>(null)
+    const saasRef = useRef<HTMLDivElement>(null)
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -23,6 +25,9 @@ export default function Header() {
             }
             if (resourcesRef.current && !resourcesRef.current.contains(event.target as Node)) {
                 setIsResourcesOpen(false)
+            }
+            if (saasRef.current && !saasRef.current.contains(event.target as Node)) {
+                setIsSaasOpen(false)
             }
         }
         document.addEventListener('mousedown', handleClickOutside)
@@ -69,19 +74,78 @@ export default function Header() {
                     <span className="text-2xl font-bold">FinSight</span>
                 </Link>
                 <nav className="hidden md:flex items-center gap-8">
-                    {/* Produit */}
-                    <Link href="/demo" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Démo
+                    {/* Consulting */}
+                    <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Consulting
                     </Link>
-                    <Link href="/pour-qui" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Pour qui ?
-                    </Link>
-                    <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Tarifs
-                    </Link>
-                    <Link href="/integrations" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Intégrations
-                    </Link>
+
+                    {/* SaaS Dropdown */}
+                    <div className="relative" ref={saasRef}>
+                        <button
+                            onClick={() => setIsSaasOpen(!isSaasOpen)}
+                            className="flex items-center gap-1 text-secondary hover:text-primary transition-colors text-base font-semibold"
+                        >
+                            SaaS
+                            <ChevronDown className={`w-4 h-4 transition-transform ${isSaasOpen ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {/* SaaS Dropdown Menu */}
+                        {isSaasOpen && (
+                            <div className="absolute left-0 mt-2 w-56 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50 animate-slide-up">
+                                <Link
+                                    href="/demo"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                    onClick={() => setIsSaasOpen(false)}
+                                >
+                                    Démo
+                                </Link>
+                                <Link
+                                    href="/pour-qui"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                    onClick={() => setIsSaasOpen(false)}
+                                >
+                                    Pour qui ?
+                                </Link>
+                                <Link
+                                    href="/pricing"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                    onClick={() => setIsSaasOpen(false)}
+                                >
+                                    Tarifs
+                                </Link>
+                                <Link
+                                    href="/integrations"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                    onClick={() => setIsSaasOpen(false)}
+                                >
+                                    Intégrations
+                                </Link>
+
+                                {/* Divider */}
+                                <div className="border-t border-border-default my-1"></div>
+
+                                {/* Auth links */}
+                                {!session && (
+                                    <>
+                                        <Link
+                                            href="/auth/signin"
+                                            className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                            onClick={() => setIsSaasOpen(false)}
+                                        >
+                                            Se connecter
+                                        </Link>
+                                        <Link
+                                            href="/auth/signup"
+                                            className="block px-4 py-2.5 text-sm text-accent-primary hover:bg-accent-primary/5 font-semibold transition-all duration-200"
+                                            onClick={() => setIsSaasOpen(false)}
+                                        >
+                                            Essai gratuit
+                                        </Link>
+                                    </>
+                                )}
+                            </div>
+                        )}
+                    </div>
 
                     {/* Ressources Dropdown */}
                     <div className="relative" ref={resourcesRef}>
@@ -135,11 +199,7 @@ export default function Header() {
                         )}
                     </div>
 
-                    <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Consulting
-                    </Link>
-
-                    {/* Auth Section */}
+                    {/* Auth Section - Only show user dropdown if logged in */}
                     {status === 'loading' ? (
                         <div className="w-24 h-10 bg-surface-elevated animate-pulse rounded-lg" />
                     ) : session ? (
@@ -242,23 +302,8 @@ export default function Header() {
                                 )}
                             </div>
                         </div>
-                    ) : (
-                        // User not logged in - Show auth buttons
-                        <>
-                            <Link
-                                href="/auth/signin"
-                                className="text-secondary hover:text-primary transition-colors text-sm font-medium"
-                            >
-                                Se connecter
-                            </Link>
-                            <Link
-                                href="/auth/signup"
-                                className="px-6 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
-                            >
-                                Essai gratuit
-                            </Link>
-                        </>
-                    )}
+                    ) : null}
+                    {/* Removed auth buttons from main nav - they're now in SaaS dropdown */}
                 </nav>
             </div>
         </header>
