@@ -213,13 +213,16 @@ export default function TresorisPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-200 bg-slate-900"
+                className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-200 bg-slate-900 group cursor-pointer"
               >
+                {/* Video Element - Lazy loaded */}
                 <video
+                  id="demo-video"
                   className="w-full h-full object-cover"
                   controls
                   controlsList="nodownload"
-                  poster="/video/agentIA-presentation-bpi-poster.jpg"
+                  preload="none"
+                  poster="/images/vue-NY.png"
                 >
                   <source
                     src="/video/agentIA-presentation-bpi.mp4"
@@ -227,11 +230,40 @@ export default function TresorisPage() {
                   />
                   Votre navigateur ne supporte pas la lecture vidéo HTML5.
                 </video>
+
+                {/* Loading indicator */}
+                <div id="video-loading" className="absolute inset-0 items-center justify-center bg-slate-900/40 backdrop-blur-sm group-hover:bg-slate-900/50 transition-all" style={{ display: 'none' }}>
+                  <div className="text-center flex flex-col items-center justify-center h-full">
+                    <div className="w-16 h-16 rounded-full border-4 border-slate-400 border-t-accent-primary animate-spin mb-4" />
+                    <p className="text-white text-sm">Chargement de la vidéo...</p>
+                  </div>
+                </div>
               </motion.div>
 
               <p className="text-center text-slate-500 italic mt-6">
-                * Présentation réalisée devant la BPI
+                * Présentation réalisée devant la BPI — Chargement à la demande pour meilleure performance
               </p>
+
+              <script dangerouslySetInnerHTML={{__html: `
+                (function() {
+                  const video = document.getElementById('demo-video');
+                  const loading = document.getElementById('video-loading');
+                  
+                  if (video) {
+                    video.addEventListener('play', function() {
+                      if (loading) loading.style.display = 'none';
+                    });
+                    
+                    video.addEventListener('playing', function() {
+                      if (loading) loading.style.display = 'none';
+                    });
+                    
+                    video.addEventListener('waiting', function() {
+                      if (loading) loading.style.display = 'flex';
+                    });
+                  }
+                })();
+              `}} />
             </div>
           </div>
         </section>
