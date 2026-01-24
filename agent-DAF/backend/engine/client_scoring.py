@@ -108,9 +108,9 @@ class ClientRiskScorer:
         positive_factors = self._identify_positive_factors(pattern)
         
         # 6. Évaluer confiance
-        if pattern.invoice_count >= 12 and pattern.days_in_analysis >= 180:
+        if pattern.total_invoices >= 12 and pattern.analysis_period_months >= 6:
             confidence = "high"
-        elif pattern.invoice_count >= 5 and pattern.days_in_analysis >= 90:
+        elif pattern.total_invoices >= 5 and pattern.analysis_period_months >= 3:
             confidence = "medium"
         else:
             confidence = "low"
@@ -140,23 +140,27 @@ class ClientRiskScorer:
         Returns:
             Score 0-100 (0 = excellent, 100 = très mauvais)
         """
-        # Inverser reliability_score (100 = risque max)
-        base_score = 100 - pattern.reliability_score
+        # Inverser reliability_score avec coefficient 0.8 pour adoucir
+        base_score = (100 - pattern.reliability_score) * 0.8
         
         # Pénalités additionnelles
         penalties = 0
         
         # Pénalité retards fréquents
-        if pattern.late_rate > 0.3:
-            penalties += 10
+        if pattern.late_rate > 0.4:
+            penalties += 8
+        elif pattern.late_rate > 0.3:
+            penalties += 5
         
         # Pénalité retards graves
-        if pattern.very_late_rate > 0.1:
-            penalties += 20
+        if pattern.very_late_rate > 0.2:
+            penalties += 15
+        elif pattern.very_late_rate > 0.1:
+            penalties += 8
         
         # Pénalité paiements partiels
         if pattern.has_partial_payments:
-            penalties += 15
+            penalties += 10
         
         # Score final
         score = base_score + penalties
@@ -235,13 +239,13 @@ class ClientRiskScorer:
             risk_score: Score 0-100
             
         Returns:
-            Rating: "A" (0-25), "B" (25-50), "C" (50-75), "D" (75-100)
+            Rating: "A" (0-35), "B" (35-47), "C" (47-73), "D" (73-100)
         """
-        if risk_score < 25:
+        if risk_score < 35:
             return "A"  # Excellent
-        elif risk_score < 50:
+        elif risk_score < 47:
             return "B"  # Bon
-        elif risk_score < 75:
+        elif risk_score < 73:
             return "C"  # Surveillé
         else:
             return "D"  # À risque
@@ -374,8 +378,8 @@ def _test_calculate_risk_score():
     reliable_pattern = ClientPaymentPattern(
         client_id="CLI001",
         client_name="Client Fiable SA",
-        invoice_count=20,
-        days_in_analysis=365,
+        total_invoices=20,
+        analysis_period_months=12,
         avg_delay_days=2.0,
         median_delay_days=1.0,
         std_delay_days=5.0,
@@ -383,11 +387,12 @@ def _test_calculate_risk_score():
         late_rate=0.1,
         very_late_rate=0.0,
         has_partial_payments=False,
+        partial_payment_count=0,
         trend="stable",
         trend_slope=0.0,
         reliability_score=85.0,
-        first_invoice_date=datetime.now(),
-        last_invoice_date=datetime.now()
+        risk_level="low",
+        last_payment_date=datetime.now()
     )
     
     scorer = ClientRiskScorer()
@@ -410,8 +415,8 @@ def _test_calculate_risk_score():
     risky_pattern = ClientPaymentPattern(
         client_id="CLI002",
         client_name="Client Risqué SARL",
-        invoice_count=15,
-        days_in_analysis=180,
+        total_invoices=15,
+        analysis_period_months=6,
         avg_delay_days=45.0,
         median_delay_days=40.0,
         std_delay_days=25.0,
@@ -419,10 +424,12 @@ def _test_calculate_risk_score():
         late_rate=0.6,
         very_late_rate=0.3,
         has_partial_payments=True,
+        partial_payment_count=3,
         trend="worsening",
         trend_slope=5.0,
         reliability_score=20.0,
-        first_invoice_date=datetime.now(),
+        risk_level="critical",
+        last_payment_date=datetime.now(),
         last_invoice_date=datetime.now()
     )
     
