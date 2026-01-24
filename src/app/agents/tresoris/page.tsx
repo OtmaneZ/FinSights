@@ -192,7 +192,7 @@ export default function TresorisPage() {
         </section>
 
         {/* Vidéo Démo */}
-        <section id="video-demo" className="py-24 bg-slate-50">
+        <section id="video-demo" className="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
               <motion.div
@@ -201,10 +201,10 @@ export default function TresorisPage() {
                 viewport={{ once: true }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
                   Découvrez TRESORIS en action
                 </h2>
-                <p className="text-xl text-slate-600">
+                <p className="text-xl text-slate-200">
                   Démonstration complète de l'analyse prédictive en moins de 3 minutes
                 </p>
               </motion.div>
@@ -240,7 +240,7 @@ export default function TresorisPage() {
                 </div>
               </motion.div>
 
-              <p className="text-center text-slate-500 italic mt-6">
+              <p className="text-center text-slate-300 italic mt-6">
                 * Présentation réalisée devant la BPI — Chargement à la demande pour meilleure performance
               </p>
 
@@ -406,8 +406,19 @@ export default function TresorisPage() {
         </section>
 
         {/* Comment ça marche */}
-        <section className="py-24 bg-slate-50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-24">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <Image
+              src="/images/bureau-nuit.png"
+              alt="Background"
+              fill
+              className="object-cover opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900/90" />
+          </div>
+
+          <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -415,10 +426,10 @@ export default function TresorisPage() {
                 viewport={{ once: true }}
                 className="text-center mb-16"
               >
-                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
                   Simple et rapide
                 </h2>
-                <p className="text-xl text-slate-600">
+                <p className="text-xl text-slate-200">
                   De vos données à vos insights en 3 étapes
                 </p>
               </motion.div>
@@ -435,10 +446,10 @@ export default function TresorisPage() {
                     1
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                    <h3 className="text-2xl font-bold text-white mb-2">
                       Connectez vos données
                     </h3>
-                    <p className="text-slate-600 leading-relaxed">
+                    <p className="text-slate-200 leading-relaxed">
                       Import Excel/CSV de vos factures ou connexion directe à votre comptabilité 
                       (Pennylane, Quickbooks, Sage). Minimum 8-10 factures payées par client pour une analyse fiable.
                     </p>
@@ -457,10 +468,10 @@ export default function TresorisPage() {
                     2
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                    <h3 className="text-2xl font-bold text-white mb-2">
                       L'IA analyse en moins d'1 seconde
                     </h3>
-                    <p className="text-slate-600 leading-relaxed">
+                    <p className="text-slate-200 leading-relaxed">
                       6 engines spécialisés travaillent en parallèle : analyse patterns, scoring risque, 
                       détection signaux faibles, prévisions paiement, priorisation actions, ajustements saisonniers.
                     </p>
@@ -479,10 +490,10 @@ export default function TresorisPage() {
                     3
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                    <h3 className="text-2xl font-bold text-white mb-2">
                       Agissez sur vos priorités
                     </h3>
-                    <p className="text-slate-600 leading-relaxed">
+                    <p className="text-slate-200 leading-relaxed">
                       Dashboard en temps réel avec scores clients, alertes urgentes, actions recommandées. 
                       Export PDF, notifications email/Slack, API REST pour intégration dans vos outils.
                     </p>
@@ -646,8 +657,19 @@ export default function TresorisPage() {
         </section>
 
         {/* Pricing */}
-        <section className="py-24 bg-slate-50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-24">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <Image
+              src="/images/bureau-nuit.png"
+              alt="Background"
+              fill
+              className="object-cover opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900/90" />
+          </div>
+
+          <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -655,10 +677,10 @@ export default function TresorisPage() {
                 viewport={{ once: true }}
                 className="text-center mb-16"
               >
-                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
                   Investissement
                 </h2>
-                <p className="text-xl text-slate-600">
+                <p className="text-xl text-slate-200">
                   Solution clé en main pour piloter votre trésorerie
                 </p>
               </motion.div>
@@ -676,7 +698,7 @@ export default function TresorisPage() {
                   </div>
                 </div>
 
-                <div className="max-w-2xl mx-auto text-center">
+                <div className="max-w-5xl mx-auto text-center">
                   <h3 className="text-3xl font-bold mb-4">
                     TRESORIS Entreprise
                   </h3>
@@ -695,7 +717,7 @@ export default function TresorisPage() {
 
                   <div className="bg-white/10 rounded-2xl p-8 mb-8 text-left">
                     <div className="font-semibold mb-4 text-lg">Ce qui est inclus :</div>
-                    <ul className="space-y-3">
+                    <ul className="grid md:grid-cols-2 gap-3">
                       <li className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-accent-primary flex-shrink-0" />
                         <span>Installation et configuration complète</span>
@@ -751,22 +773,22 @@ export default function TresorisPage() {
                   <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
                     <Shield className="w-6 h-6 text-green-600" />
                   </div>
-                  <div className="font-semibold text-slate-900 mb-1">Satisfaction garantie</div>
-                  <div className="text-sm text-slate-600">30 jours pour tester</div>
+                  <div className="font-semibold text-white mb-1">Satisfaction garantie</div>
+                  <div className="text-sm text-slate-300">30 jours pour tester</div>
                 </div>
                 <div className="text-center">
                   <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
                     <Clock className="w-6 h-6 text-blue-600" />
                   </div>
-                  <div className="font-semibold text-slate-900 mb-1">Livraison rapide</div>
-                  <div className="text-sm text-slate-600">Généralement sous 7 jours</div>
+                  <div className="font-semibold text-white mb-1">Livraison rapide</div>
+                  <div className="text-sm text-slate-300">Généralement sous 7 jours</div>
                 </div>
                 <div className="text-center">
                   <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3">
                     <Users className="w-6 h-6 text-purple-600" />
                   </div>
-                  <div className="font-semibold text-slate-900 mb-1">Accompagnement</div>
-                  <div className="text-sm text-slate-600">Support dédié inclus</div>
+                  <div className="font-semibold text-white mb-1">Accompagnement</div>
+                  <div className="text-sm text-slate-300">Support dédié inclus</div>
                 </div>
               </div>
             </div>
