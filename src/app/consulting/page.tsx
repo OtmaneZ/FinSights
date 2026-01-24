@@ -185,6 +185,272 @@ export default function ConsultingPage() {
                 </div>
             </section>
 
+            {/* À propos Section avec Photo */}
+            <section className="max-w-6xl mx-auto px-6 pb-24">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold mb-4">Qui suis-je</h2>
+                </div>
+
+                <div className="surface rounded-2xl p-12 border border-border-subtle">
+                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                        {/* Photo */}
+                        <div className="relative">
+                            <div className="aspect-square rounded-2xl overflow-hidden border-4 border-accent-primary-border shadow-2xl">
+                                <Image
+                                    src="/images/Photo_profil.jpeg"
+                                    alt="Otmane Boulahia - Audit Stratégique Data & Finance"
+                                    width={500}
+                                    height={500}
+                                    className="object-cover w-full h-full"
+                                    priority
+                                />
+                            </div>
+                            {/* Badge flottant */}
+                            <div className="absolute -bottom-4 -right-4 bg-accent-primary text-white px-6 py-3 rounded-xl shadow-lg">
+                                <div className="text-sm font-semibold">10+ ans</div>
+                                <div className="text-xs opacity-90">Finance d'entreprise</div>
+                            </div>
+                        </div>
+
+                        {/* Contenu */}
+                        <div className="space-y-6">
+                            <div>
+                                <h3 className="text-3xl font-bold mb-2">Otmane Boulahia</h3>
+                                <p className="text-xl text-accent-primary font-semibold mb-4">
+                                    Fondateur ZineInsights • Audit Stratégique Data & Finance
+                                </p>
+                            </div>
+
+                            <div className="space-y-4 text-secondary leading-relaxed">
+                                <p>
+                                    10+ ans en finance d'entreprise et enseignement.
+                                </p>
+                                <p>
+                                    Master Finance • Data Analyst • Professeur Sciences Économiques.
+                                </p>
+                                <p className="font-semibold text-primary">
+                                    J'ai créé ZineInsights parce que trop de dirigeants pilotent leur boîte avec des chiffres en retard, incomplets, ou inexploitables.
+                                </p>
+                                <p>
+                                    Ma mission : transformer vos données en décisions stratégiques claires — avec la rigueur d'un cabinet d'audit et la réactivité d'un expert terrain.
+                                </p>
+                            </div>
+
+                            {/* CTAs Réseaux */}
+                            <div className="flex gap-4 pt-4">
+                                <a
+                                    href="https://www.linkedin.com/in/otmane-boulahia/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-lg font-semibold transition-all"
+                                >
+                                    <Linkedin className="w-5 h-5" />
+                                    LinkedIn
+                                </a>
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-3 border-2 border-accent-primary-border hover:bg-accent-primary-subtle text-accent-primary rounded-lg font-semibold transition-all"
+                                >
+                                    <Zap className="w-5 h-5" />
+                                    Discutons
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Réalisations récentes - Social Proof */}
+            <section className="max-w-6xl mx-auto px-6 pb-24">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold mb-4">Réalisations récentes</h2>
+                    <p className="text-secondary text-lg">
+                        Impact concret, résultats mesurables
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {/* Réalisation 1: PowerBI IDM */}
+                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                                <BarChart3 className="w-6 h-6 text-blue-600" />
+                            </div>
+                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                                Livré
+                            </span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">Groupe formation professionnelle</h3>
+                        <p className="text-sm text-tertiary mb-4">
+                            500M€ CA
+                        </p>
+
+                        <div className="space-y-4 mb-6">
+                            <div>
+                                <p className="text-xs font-semibold text-red-600 mb-1">❌ PROBLÈME</p>
+                                <p className="text-sm text-secondary">
+                                    Impossible de savoir quel centre de coût plombait la marge. Données RH et comptables dispersées.
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-xs font-semibold text-blue-600 mb-1">🔧 SOLUTION</p>
+                                <p className="text-sm text-secondary">
+                                    Dashboard PowerBI multi-sources + analyse rentabilité par centre + ETL automatisé.
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-xs font-semibold text-green-600 mb-1">✅ RÉSULTAT</p>
+                                <p className="text-sm font-semibold text-primary">
+                                    Identification de 2 budgets inutiles → récupération de trésorerie à court terme
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
+                                Power BI
+                            </span>
+                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
+                                ETL
+                            </span>
+                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
+                                Rentabilité analytique
+                            </span>
+                        </div>
+
+                        {/* Témoignage */}
+                        <div className="mt-6 pt-6 border-t border-border-subtle">
+                            <p className="text-sm text-secondary italic mb-2">
+                                " Le travail mené a permis de mettre en évidence des points que nous n'avions pas identifiés en interne. L'analyse était structurée et les recommandations directement exploitables."
+                            </p>
+                            <p className="text-xs text-tertiary">
+                                — Directeur Financier, Groupe formation professionnelle
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Réalisation 2: PME BTP/Services - OFFENSIF */}
+                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-green-300 transition-all">
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+                                <TrendingUp className="w-6 h-6 text-green-600" />
+                            </div>
+                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                                Livré
+                            </span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">PME BTP/Services en croissance</h3>
+                        <p className="text-sm text-tertiary mb-4">
+                            7M€ CA • Expansion rapide
+                        </p>
+
+                        <div className="space-y-4 mb-6">
+                            <div>
+                                <p className="text-xs font-semibold text-orange-600 mb-1">🎯 CONTEXTE</p>
+                                <p className="text-sm text-secondary">
+                                    Croissance 40%/an mais perte de visibilité : marges par chantier floues, arbitrages difficiles, cash imprévisible.
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-xs font-semibold text-blue-600 mb-1">🔧 SOLUTION</p>
+                                <p className="text-sm text-secondary">
+                                    Modèle rentabilité analytique par chantier/client + Dashboard temps réel + Prévisions cash 90j.
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-xs font-semibold text-green-600 mb-1">✅ RÉSULTAT</p>
+                                <p className="text-sm font-semibold text-primary">
+                                    Vision exploitable cash & marges → Arbitrages rapides → Accélération croissance rentable
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                            <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
+                                Rentabilité par projet
+                            </span>
+                            <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
+                                Cash flow prédictif
+                            </span>
+                            <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
+                                Dashboard temps réel
+                            </span>
+                        </div>
+
+                        {/* Témoignage */}
+                        <div className="mt-6 pt-6 border-t border-border-subtle">
+                            <p className="text-sm text-secondary italic mb-2">
+                                "Nous avons enfin une vision exploitable de nos chantiers, du cash et des marges, ce qui nous permet d'arbitrer rapidement et d'agir là où c'est nécessaire."
+                            </p>
+                            <p className="text-xs text-tertiary">
+                                — Dirigeant, PME BTP/Services
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Réalisation 3: CFO PME Services/Conseil - AUTOMATISATION */}
+                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-purple-300 transition-all">
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                                <Zap className="w-6 h-6 text-purple-600" />
+                            </div>
+                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                                Livré
+                            </span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">PME Services / Conseil</h3>
+                        <p className="text-sm text-tertiary mb-4">
+                            CFO • Structuration pilotage
+                        </p>
+
+                        <div className="space-y-4 mb-6">
+                            <div>
+                                <p className="text-xs font-semibold text-red-600 mb-1">❌ PROBLÈME</p>
+                                <p className="text-sm text-secondary">
+                                    Dépendance totale à retraitements Excel manuels. Indicateurs non fiables pour comités de direction.
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-xs font-semibold text-blue-600 mb-1">🔧 SOLUTION</p>
+                                <p className="text-sm text-secondary">
+                                    Cadre de pilotage robuste + Automatisation complète + KPIs exploitables temps réel.
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-xs font-semibold text-green-600 mb-1">✅ RÉSULTAT</p>
+                                <p className="text-sm font-semibold text-primary">
+                                    Pilotage fiable sans retraitements manuels → Indicateurs exploitables en comité de direction
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                Automatisation
+                            </span>
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                KPIs stratégiques
+                            </span>
+                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
+                                Dashboards CFO
+                            </span>
+                        </div>
+
+                        {/* Témoignage */}
+                        <div className="mt-6 pt-6 border-t border-border-subtle">
+                            <p className="text-sm text-secondary italic mb-2">
+                                "Le travail réalisé a permis de structurer un cadre de pilotage robuste et automatisé, sans dépendre de retraitements manuels, avec des indicateurs exploitables en comité de direction."
+                            </p>
+                            <p className="text-xs text-tertiary">
+                                — CFO, PME Services / Conseil
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Solution Section */}
             <section className="max-w-5xl mx-auto px-6 pb-20">
                 <div className="text-center mb-12">
@@ -479,272 +745,6 @@ export default function ConsultingPage() {
                                     <li>• Dirigeants dominant leur marché avec la data</li>
                                     <li>• Expansion (acquisition, internationalisation)</li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Réalisations récentes - Social Proof */}
-            <section className="max-w-6xl mx-auto px-6 pb-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4">Réalisations récentes</h2>
-                    <p className="text-secondary text-lg">
-                        Impact concret, résultats mesurables
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Réalisation 1: PowerBI IDM */}
-                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
-                        <div className="flex items-start justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                                <BarChart3 className="w-6 h-6 text-blue-600" />
-                            </div>
-                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                                Livré
-                            </span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">Groupe formation professionnelle</h3>
-                        <p className="text-sm text-tertiary mb-4">
-                            500M€ CA
-                        </p>
-
-                        <div className="space-y-4 mb-6">
-                            <div>
-                                <p className="text-xs font-semibold text-red-600 mb-1">❌ PROBLÈME</p>
-                                <p className="text-sm text-secondary">
-                                    Impossible de savoir quel centre de coût plombait la marge. Données RH et comptables dispersées.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-blue-600 mb-1">🔧 SOLUTION</p>
-                                <p className="text-sm text-secondary">
-                                    Dashboard PowerBI multi-sources + analyse rentabilité par centre + ETL automatisé.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-green-600 mb-1">✅ RÉSULTAT</p>
-                                <p className="text-sm font-semibold text-primary">
-                                    Identification de 2 budgets inutiles → récupération de trésorerie à court terme
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
-                                Power BI
-                            </span>
-                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
-                                ETL
-                            </span>
-                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
-                                Rentabilité analytique
-                            </span>
-                        </div>
-
-                        {/* Témoignage */}
-                        <div className="mt-6 pt-6 border-t border-border-subtle">
-                            <p className="text-sm text-secondary italic mb-2">
-                                " Le travail mené a permis de mettre en évidence des points que nous n’avions pas identifiés en interne. L’analyse était structurée et les recommandations directement exploitables."
-                            </p>
-                            <p className="text-xs text-tertiary">
-                                — Directeur Financier, Groupe formation professionnelle
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Réalisation 2: PME BTP/Services - OFFENSIF */}
-                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-green-300 transition-all">
-                        <div className="flex items-start justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                                <TrendingUp className="w-6 h-6 text-green-600" />
-                            </div>
-                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                                Livré
-                            </span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">PME BTP/Services en croissance</h3>
-                        <p className="text-sm text-tertiary mb-4">
-                            7M€ CA • Expansion rapide
-                        </p>
-
-                        <div className="space-y-4 mb-6">
-                            <div>
-                                <p className="text-xs font-semibold text-orange-600 mb-1">🎯 CONTEXTE</p>
-                                <p className="text-sm text-secondary">
-                                    Croissance 40%/an mais perte de visibilité : marges par chantier floues, arbitrages difficiles, cash imprévisible.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-blue-600 mb-1">🔧 SOLUTION</p>
-                                <p className="text-sm text-secondary">
-                                    Modèle rentabilité analytique par chantier/client + Dashboard temps réel + Prévisions cash 90j.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-green-600 mb-1">✅ RÉSULTAT</p>
-                                <p className="text-sm font-semibold text-primary">
-                                    Vision exploitable cash & marges → Arbitrages rapides → Accélération croissance rentable
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
-                                Rentabilité par projet
-                            </span>
-                            <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
-                                Cash flow prédictif
-                            </span>
-                            <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
-                                Dashboard temps réel
-                            </span>
-                        </div>
-
-                        {/* Témoignage */}
-                        <div className="mt-6 pt-6 border-t border-border-subtle">
-                            <p className="text-sm text-secondary italic mb-2">
-                                "Nous avons enfin une vision exploitable de nos chantiers, du cash et des marges, ce qui nous permet d'arbitrer rapidement et d'agir là où c'est nécessaire."
-                            </p>
-                            <p className="text-xs text-tertiary">
-                                — Dirigeant, PME BTP/Services
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Réalisation 3: CFO PME Services/Conseil - AUTOMATISATION */}
-                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-purple-300 transition-all">
-                        <div className="flex items-start justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                                <Zap className="w-6 h-6 text-purple-600" />
-                            </div>
-                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                                Livré
-                            </span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">PME Services / Conseil</h3>
-                        <p className="text-sm text-tertiary mb-4">
-                            CFO • Structuration pilotage
-                        </p>
-
-                        <div className="space-y-4 mb-6">
-                            <div>
-                                <p className="text-xs font-semibold text-red-600 mb-1">❌ PROBLÈME</p>
-                                <p className="text-sm text-secondary">
-                                    Dépendance totale à retraitements Excel manuels. Indicateurs non fiables pour comités de direction.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-blue-600 mb-1">🔧 SOLUTION</p>
-                                <p className="text-sm text-secondary">
-                                    Cadre de pilotage robuste + Automatisation complète + KPIs exploitables temps réel.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-green-600 mb-1">✅ RÉSULTAT</p>
-                                <p className="text-sm font-semibold text-primary">
-                                    Pilotage fiable sans retraitements manuels → Indicateurs exploitables en comité de direction
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
-                                Automatisation
-                            </span>
-                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
-                                KPIs stratégiques
-                            </span>
-                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
-                                Dashboards CFO
-                            </span>
-                        </div>
-
-                        {/* Témoignage */}
-                        <div className="mt-6 pt-6 border-t border-border-subtle">
-                            <p className="text-sm text-secondary italic mb-2">
-                                "Le travail réalisé a permis de structurer un cadre de pilotage robuste et automatisé, sans dépendre de retraitements manuels, avec des indicateurs exploitables en comité de direction."
-                            </p>
-                            <p className="text-xs text-tertiary">
-                                — CFO, PME Services / Conseil
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* À propos Section avec Photo */}
-            <section className="max-w-6xl mx-auto px-6 pb-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4">Qui suis-je</h2>
-                </div>
-
-                <div className="surface rounded-2xl p-12 border border-border-subtle">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
-                        {/* Photo */}
-                        <div className="relative">
-                            <div className="aspect-square rounded-2xl overflow-hidden border-4 border-accent-primary-border shadow-2xl">
-                                <Image
-                                    src="/images/Photo_profil.jpeg"
-                                    alt="Otmane Boulahia - Audit Stratégique Data & Finance"
-                                    width={500}
-                                    height={500}
-                                    className="object-cover w-full h-full"
-                                    priority
-                                />
-                            </div>
-                            {/* Badge flottant */}
-                            <div className="absolute -bottom-4 -right-4 bg-accent-primary text-white px-6 py-3 rounded-xl shadow-lg">
-                                <div className="text-sm font-semibold">10+ ans</div>
-                                <div className="text-xs opacity-90">Finance d'entreprise</div>
-                            </div>
-                        </div>
-
-                        {/* Contenu */}
-                        <div className="space-y-6">
-                            <div>
-                                <h3 className="text-3xl font-bold mb-2">Otmane Boulahia</h3>
-                                <p className="text-xl text-accent-primary font-semibold mb-4">
-                                    Fondateur ZineInsights • Audit Stratégique Data & Finance
-                                </p>
-                            </div>
-
-                            <div className="space-y-4 text-secondary leading-relaxed">
-                                <p>
-                                    10+ ans en finance d'entreprise et enseignement.
-                                </p>
-                                <p>
-                                    Master Finance • Data Analyst • Professeur Sciences Économiques.
-                                </p>
-                                <p className="font-semibold text-primary">
-                                    J'ai créé ZineInsights parce que trop de dirigeants pilotent leur boîte avec des chiffres en retard, incomplets, ou inexploitables.
-                                </p>
-                                <p>
-                                    Ma mission : transformer vos données en décisions stratégiques claires — avec la rigueur d'un cabinet d'audit et la réactivité d'un expert terrain.
-                                </p>
-                            </div>
-
-                            {/* CTAs Réseaux */}
-                            <div className="flex gap-4 pt-4">
-                                <a
-                                    href="https://www.linkedin.com/in/otmane-boulahia/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-lg font-semibold transition-all"
-                                >
-                                    <Linkedin className="w-5 h-5" />
-                                    LinkedIn
-                                </a>
-                                <a
-                                    href="https://calendly.com/zineinsight"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-6 py-3 border-2 border-accent-primary-border hover:bg-accent-primary-subtle text-accent-primary rounded-lg font-semibold transition-all"
-                                >
-                                    <Zap className="w-5 h-5" />
-                                    Discutons
-                                </a>
                             </div>
                         </div>
                     </div>
