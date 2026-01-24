@@ -1,248 +1,402 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 import {
     Check,
-    Sparkles,
-    Zap,
-    AlertCircle,
     ArrowRight,
-    CheckCircle2,
     TrendingUp,
     BarChart3,
     Linkedin,
     Mail,
-    Clock,
     Target,
-    Code,
-    Shield
+    Shield,
+    ChevronRight,
+    LineChart,
+    PieChart,
+    Calendar,
+    Users,
+    Sparkles,
+    Play,
+    Quote
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export default function ConsultingPage() {
     return (
-        <div className="min-h-screen bg-primary text-primary font-sans">
+        <div className="min-h-screen bg-background-primary text-text-primary font-sans">
             <Header />
 
-            {/* Hero Section - Accroche dominante */}
-            <section className="relative max-w-5xl mx-auto px-6 pt-24 pb-16 text-center">
-                {/* Radial gradient glow effect */}
-                <div className="absolute inset-x-0 top-0 h-[400px] pointer-events-none overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-radial from-accent-primary/20 via-accent-primary/5 to-transparent blur-3xl"
-                        style={{
-                            background: 'radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 40%, transparent 70%)'
-                        }}>
-                    </div>
+            {/* ============================================
+                HERO SECTION - Premium avec image de fond
+               ============================================ */}
+            <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0">
+                    <Image
+                        src="/images/bureau.png"
+                        alt="Bureau professionnel"
+                        fill
+                        className="object-cover opacity-15"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-900/70" />
                 </div>
 
-                <div className="relative z-10">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-8">
-                        <Sparkles className="w-4 h-4 text-accent-primary" />
-                        <span className="text-accent-primary text-sm font-medium">DAF externalisé | Pilotage stratégique data-driven</span>
-                    </div>
+                {/* Decorative elements */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-20 right-10 w-72 h-72 bg-accent-primary/10 rounded-full blur-3xl" />
+                    <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent-primary/5 rounded-full blur-3xl" />
+                </div>
 
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight leading-[1.1]">
-                        Vous avez du CA. Des ambitions.<br />
-                        <span className="text-secondary">Pilotez-vous avec 3 mois d'avance ?</span>
-                    </h1>
-
-                    <p className="text-xl md:text-2xl font-semibold text-accent-primary mb-12 max-w-3xl mx-auto">
-                        Stabiliser ou accélérer — le pilotage financier fiable transforme l'intuition en décision.
-                    </p>
-
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-                        <a
-                            href="https://calendly.com/zineinsight"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-base transition-all hover:shadow-lg hover:-translate-y-0.5"
+                <div className="relative max-w-7xl mx-auto px-6 lg:px-12 pt-32 pb-24 lg:pt-40 lg:pb-32">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                        {/* LEFT: Content */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="space-y-8"
                         >
-                            <Zap className="w-5 h-5" />
-                            Réserver un appel stratégique
-                        </a>
-                    </div>
+                            {/* Badge */}
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary/10 border border-accent-primary/30 rounded-full">
+                                <Sparkles className="w-4 h-4 text-accent-primary" />
+                                <span className="text-accent-primary text-sm font-semibold">
+                                    Conseil Finance &amp; Data
+                                </span>
+                            </div>
 
-                    <p className="text-sm text-tertiary">
-                        30 min gratuit • Réponse sous 24h
-                    </p>
+                            {/* H1 */}
+                            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
+                                Transformez vos données en{' '}
+                                <span className="text-accent-primary">décisions stratégiques</span>
+                            </h1>
+
+                            {/* Subheadline */}
+                            <p className="text-xl text-gray-300 leading-relaxed max-w-xl">
+                                Audit financier, tableaux de bord intelligents et pilotage de trésorerie.
+                                <span className="text-white font-semibold"> Anticipez avec 90 jours d&apos;avance.</span>
+                            </p>
+
+                            {/* Stats row */}
+                            <div className="flex flex-wrap gap-8 py-4">
+                                <div className="text-center">
+                                    <p className="text-3xl font-bold text-white">10+</p>
+                                    <p className="text-sm text-gray-400">Années d&apos;expertise</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-3xl font-bold text-accent-primary">500M€</p>
+                                    <p className="text-sm text-gray-400">CA accompagné</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-3xl font-bold text-white">90j</p>
+                                    <p className="text-sm text-gray-400">Visibilité cash</p>
+                                </div>
+                            </div>
+
+                            {/* CTAs */}
+                            <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
+                                >
+                                    <Calendar className="w-5 h-5" />
+                                    Réserver un diagnostic gratuit
+                                </a>
+                                <a
+                                    href="#offres"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-white text-lg font-semibold rounded-xl border border-white/20 transition-all duration-200"
+                                >
+                                    Voir les offres
+                                    <ArrowRight className="w-5 h-5" />
+                                </a>
+                            </div>
+
+                            {/* Trust */}
+                            <div className="flex items-center gap-4 text-sm text-gray-400 pt-2">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                    <span>Réponse sous 24h</span>
+                                </div>
+                                <span className="text-gray-600">•</span>
+                                <span>30 min gratuit</span>
+                            </div>
+                        </motion.div>
+
+                        {/* RIGHT: Photo + Dashboard preview */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="relative hidden lg:block"
+                        >
+                            <div className="relative">
+                                {/* Glow effect */}
+                                <div className="absolute -inset-4 bg-accent-primary/20 rounded-3xl blur-2xl" />
+
+                                {/* Dashboard mockup */}
+                                <div className="relative bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-white/10 p-6 shadow-2xl">
+                                    {/* Header */}
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-3 h-3 rounded-full bg-red-500" />
+                                            <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                                            <div className="w-3 h-3 rounded-full bg-green-500" />
+                                        </div>
+                                        <span className="text-xs text-gray-500">Dashboard CFO</span>
+                                    </div>
+
+                                    {/* KPIs Grid */}
+                                    <div className="grid grid-cols-2 gap-4 mb-6">
+                                        <div className="bg-slate-900/60 rounded-xl p-4 border border-white/5">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <TrendingUp className="w-4 h-4 text-green-400" />
+                                                <span className="text-xs text-gray-400">Marge brute</span>
+                                            </div>
+                                            <p className="text-2xl font-bold text-white">+23%</p>
+                                            <p className="text-xs text-green-400">↑ vs N-1</p>
+                                        </div>
+                                        <div className="bg-slate-900/60 rounded-xl p-4 border border-white/5">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <BarChart3 className="w-4 h-4 text-accent-primary" />
+                                                <span className="text-xs text-gray-400">Cash-flow</span>
+                                            </div>
+                                            <p className="text-2xl font-bold text-white">+145k€</p>
+                                            <p className="text-xs text-accent-primary">90j ahead</p>
+                                        </div>
+                                        <div className="bg-slate-900/60 rounded-xl p-4 border border-white/5">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <PieChart className="w-4 h-4 text-purple-400" />
+                                                <span className="text-xs text-gray-400">ROI identifié</span>
+                                            </div>
+                                            <p className="text-2xl font-bold text-white">3.2x</p>
+                                            <p className="text-xs text-purple-400">potentiel</p>
+                                        </div>
+                                        <div className="bg-slate-900/60 rounded-xl p-4 border border-white/5">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Target className="w-4 h-4 text-orange-400" />
+                                                <span className="text-xs text-gray-400">DSO</span>
+                                            </div>
+                                            <p className="text-2xl font-bold text-white">-15j</p>
+                                            <p className="text-xs text-orange-400">optimisé</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Chart placeholder */}
+                                    <div className="bg-slate-900/40 rounded-xl p-4 border border-white/5">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <span className="text-sm text-gray-300 font-medium">Évolution trésorerie</span>
+                                            <span className="text-xs text-accent-primary">Live</span>
+                                        </div>
+                                        <div className="flex items-end gap-1 h-20">
+                                            {[40, 55, 45, 60, 50, 75, 65, 80, 70, 85, 90, 95].map((h, i) => (
+                                                <div
+                                                    key={i}
+                                                    className="flex-1 bg-gradient-to-t from-accent-primary/60 to-accent-primary rounded-t"
+                                                    style={{ height: `${h}%` }}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
                 </div>
             </section>
 
-            {/* Problem Section - 2 Profils */}
-            <section className="max-w-6xl mx-auto px-6 pb-20">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                        Deux profils. Un même besoin : piloter avec clarté.
-                    </h2>
-                    <p className="text-xl text-secondary max-w-3xl mx-auto">
-                        Que vous soyez en mode résolution de problème ou en mode conquête de marché
-                    </p>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                    {/* COLONNE GAUCHE : Profil Défensif */}
-                    <div className="surface rounded-2xl p-10 border-2 border-red-200 bg-red-50/30">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center">
-                                <AlertCircle className="w-6 h-6 text-red-600" />
-                            </div>
-                            <h3 className="text-2xl font-bold text-gray-900">Pilotage sous tension</h3>
-                        </div>
-                        
-                        <p className="text-sm text-gray-600 mb-6 italic">
-                            Votre pilotage financier manque de visibilité. Vous devez stabiliser, clarifier, anticiper.
+            {/* ============================================
+                PROBLÉMATIQUES - Cards modernes
+               ============================================ */}
+            <section className="py-20 bg-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-16"
+                    >
+                        <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary-subtle rounded-full mb-4">
+                            Diagnostic
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                            Vous vous reconnaissez ?
+                        </h2>
+                        <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+                            Deux situations, une même exigence de clarté financière
                         </p>
+                    </motion.div>
 
-                        <div className="space-y-4">
-                            <div className="flex items-start gap-3">
-                                <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-1">
-                                    <AlertCircle className="w-3 h-3 text-red-600" />
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* Card 1 - Stabilisation */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            className="group relative bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
+                        >
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-2xl" />
+                            <div className="relative">
+                                <div className="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center mb-6">
+                                    <Shield className="w-7 h-7 text-red-600" />
                                 </div>
-                                <p className="text-base text-gray-700">
-                                    <span className="font-semibold">Cash tendu</span> – Vous découvrez vos problèmes de trésorerie trop tard
+                                <span className="text-xs font-semibold text-red-600 uppercase tracking-wider">Contexte A</span>
+                                <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">Pilotage sous tension</h3>
+                                <p className="text-text-secondary mb-6">
+                                    Votre pilotage financier manque de visibilité. Vous devez stabiliser, clarifier et anticiper.
                                 </p>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-1">
-                                    <AlertCircle className="w-3 h-3 text-red-600" />
+                                <ul className="space-y-3">
+                                    {['Trésorerie difficile à anticiper', 'Marges par activité floues', 'Reporting manuel chronophage', 'Décisions sur données incomplètes'].map((item, i) => (
+                                        <li key={i} className="flex items-center gap-3 text-text-secondary">
+                                            <div className="w-1.5 h-1.5 bg-red-500 rounded-full" />
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="mt-8 pt-6 border-t border-border-subtle">
+                                    <p className="text-sm font-semibold text-text-primary flex items-center gap-2">
+                                        <Target className="w-4 h-4 text-red-600" />
+                                        Objectif : Stabiliser. Clarifier. Anticiper.
+                                    </p>
                                 </div>
-                                <p className="text-base text-gray-700">
-                                    <span className="font-semibold">Marges floues</span> – Vous ne savez pas où vous perdez de l'argent
-                                </p>
                             </div>
-                            <div className="flex items-start gap-3">
-                                <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-1">
-                                    <AlertCircle className="w-3 h-3 text-red-600" />
-                                </div>
-                                <p className="text-base text-gray-700">
-                                    <span className="font-semibold">Excel manuel</span> – Vous passez des heures sans vision claire
-                                </p>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-1">
-                                    <AlertCircle className="w-3 h-3 text-red-600" />
-                                </div>
-                                <p className="text-base text-gray-700">
-                                    <span className="font-semibold">Décisions à l'aveugle</span> – Vous prenez des décisions sur des chiffres incomplets
-                                </p>
-                            </div>
-                        </div>
+                        </motion.div>
 
-                        <div className="mt-8 pt-6 border-t border-red-200">
-                            <p className="text-lg font-bold text-red-700 text-center">
-                                → Besoin : Stabiliser. Clarifier. Anticiper.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* COLONNE DROITE : Profil Offensif */}
-                    <div className="surface rounded-2xl p-10 border-2 border-green-200 bg-green-50/30">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center">
-                                <TrendingUp className="w-6 h-6 text-green-600" />
-                            </div>
-                            <h3 className="text-2xl font-bold text-gray-900">Pilotage de croissance</h3>
-                        </div>
-                        
-                        <p className="text-sm text-gray-600 mb-6 italic">
-                            Votre activité fonctionne. Vous voulez structurer l’accélération. Gagner en visibilité stratégique. Identifier vos leviers clés.
-                        </p>
-
-                        <div className="space-y-4">
-                            <div className="flex items-start gap-3">
-                                <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-1">
-                                    <TrendingUp className="w-3 h-3 text-green-600" />
+                        {/* Card 2 - Croissance */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="group relative bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
+                        >
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/5 rounded-full blur-2xl" />
+                            <div className="relative">
+                                <div className="w-14 h-14 bg-accent-primary-subtle rounded-2xl flex items-center justify-center mb-6">
+                                    <TrendingUp className="w-7 h-7 text-accent-primary" />
                                 </div>
-                                <p className="text-base text-gray-700">
-                                    <span className="font-semibold">Croissance rapide</span> – Vous croissez mais perdez en visibilité stratégique
+                                <span className="text-xs font-semibold text-accent-primary uppercase tracking-wider">Contexte B</span>
+                                <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">Pilotage de croissance</h3>
+                                <p className="text-text-secondary mb-6">
+                                    Votre activité fonctionne. Vous voulez structurer l&apos;accélération et identifier vos leviers.
                                 </p>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-1">
-                                    <TrendingUp className="w-3 h-3 text-green-600" />
+                                <ul className="space-y-3">
+                                    {['Croissance rapide, visibilité réduite', 'Leviers de rentabilité non exploités', 'Besoin de structuration data', 'Préparation de phase stratégique'].map((item, i) => (
+                                        <li key={i} className="flex items-center gap-3 text-text-secondary">
+                                            <div className="w-1.5 h-1.5 bg-accent-primary rounded-full" />
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="mt-8 pt-6 border-t border-border-subtle">
+                                    <p className="text-sm font-semibold text-text-primary flex items-center gap-2">
+                                        <Target className="w-4 h-4 text-accent-primary" />
+                                        Objectif : Accélérer. Structurer. Conquérir.
+                                    </p>
                                 </div>
-                                <p className="text-base text-gray-700">
-                                    <span className="font-semibold">Leviers cachés</span> – Vous voulez identifier vos meilleurs clients, offres, canaux
-                                </p>
                             </div>
-                            <div className="flex items-start gap-3">
-                                <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-1">
-                                    <TrendingUp className="w-3 h-3 text-green-600" />
-                                </div>
-                                <p className="text-base text-gray-700">
-                                    <span className="font-semibold">Avantage concurrentiel</span> – Vous voulez dominer votre marché avec la data
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="mt-8 pt-6 border-t border-green-200">
-                            <p className="text-lg font-bold text-green-700 text-center">
-                                → Besoin : Accélérer. Conquérir. Structurer un avantage durable.
-                            </p>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
 
-            {/* À propos Section avec Photo */}
-            <section className="max-w-6xl mx-auto px-6 pb-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4">Qui suis-je</h2>
-                </div>
-
-                <div className="surface rounded-2xl p-12 border border-border-subtle">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* ============================================
+                À PROPOS - Section avec photo
+               ============================================ */}
+            <section className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                         {/* Photo */}
-                        <div className="relative">
-                            <div className="aspect-square rounded-2xl overflow-hidden border-4 border-accent-primary-border shadow-2xl">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="relative"
+                        >
+                            <div className="absolute -inset-4 bg-accent-primary/20 rounded-3xl blur-2xl" />
+                            <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl">
                                 <Image
                                     src="/images/Photo_profil.jpeg"
-                                    alt="Otmane Boulahia - Audit Stratégique Data & Finance"
+                                    alt="Otmane Boulahia - Consultant Finance et Data"
                                     width={500}
-                                    height={500}
-                                    className="object-cover w-full h-full"
-                                    priority
+                                    height={600}
+                                    className="object-cover w-full"
                                 />
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
+                                <div className="absolute bottom-0 left-0 right-0 p-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-full bg-accent-primary flex items-center justify-center">
+                                            <span className="text-white font-bold text-lg">OB</span>
+                                        </div>
+                                        <div>
+                                            <p className="text-white font-bold">Otmane Boulahia</p>
+                                            <p className="text-gray-300 text-sm">Financial Strategy Consultant</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            {/* Badge flottant */}
-                            <div className="absolute -bottom-4 -right-4 bg-accent-primary text-white px-6 py-3 rounded-xl shadow-lg">
-                                <div className="text-sm font-semibold">10+ ans</div>
-                                <div className="text-xs opacity-90">Finance d'entreprise</div>
-                            </div>
-                        </div>
+                        </motion.div>
 
-                        {/* Contenu */}
-                        <div className="space-y-6">
-                            <div>
-                                <h3 className="text-3xl font-bold mb-2">Otmane Boulahia</h3>
-                                <p className="text-xl text-accent-primary font-semibold mb-4">
-                                    Fondateur ZineInsights • Audit Stratégique Data & Finance
+                        {/* Content */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="space-y-6"
+                        >
+                            <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary/10 border border-accent-primary/30 rounded-full">
+                                Fondateur
+                            </span>
+                            <h2 className="text-3xl md:text-4xl font-bold">
+                                Un partenaire engagé pour votre{' '}
+                                <span className="text-accent-primary">réussite financière</span>
+                            </h2>
+
+                            <div className="space-y-4 text-gray-300 leading-relaxed">
+                                <p>
+                                    <span className="text-white font-semibold">+10 ans d&apos;expérience</span> en finance d&apos;entreprise et data analyse.
+                                    Master en Finance, certification Data Analyst, enseignant en Sciences Économiques.
+                                </p>
+                                <p>
+                                    J&apos;ai fondé ZineInsights avec une conviction : trop de dirigeants prennent des décisions
+                                    stratégiques sur des données incomplètes ou en retard.
+                                </p>
+                                <p>
+                                    Ma mission est de transformer vos données financières en{' '}
+                                    <span className="text-accent-primary font-semibold">avantage concurrentiel mesurable</span>.
                                 </p>
                             </div>
 
-                            <div className="space-y-4 text-secondary leading-relaxed">
-                                <p>
-                                    10+ ans en finance d'entreprise et enseignement.
-                                </p>
-                                <p>
-                                    Master Finance • Data Analyst • Professeur Sciences Économiques.
-                                </p>
-                                <p className="font-semibold text-primary">
-                                    J'ai créé ZineInsights parce que trop de dirigeants pilotent leur boîte avec des chiffres en retard, incomplets, ou inexploitables.
-                                </p>
-                                <p>
-                                    Ma mission : transformer vos données en décisions stratégiques claires — avec la rigueur d'un cabinet d'audit et la réactivité d'un expert terrain.
-                                </p>
+                            {/* Credentials */}
+                            <div className="grid grid-cols-2 gap-4 pt-4">
+                                {[
+                                    { icon: BarChart3, label: 'Finance & Data' },
+                                    { icon: Users, label: 'PME 1-10M€' },
+                                    { icon: Target, label: 'ROI mesurable' },
+                                    { icon: Shield, label: 'Confidentialité' }
+                                ].map((item, i) => (
+                                    <div key={i} className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3">
+                                        <item.icon className="w-5 h-5 text-accent-primary" />
+                                        <span className="text-sm text-gray-300">{item.label}</span>
+                                    </div>
+                                ))}
                             </div>
 
-                            {/* CTAs Réseaux */}
-                            <div className="flex gap-4 pt-4">
+                            {/* CTAs */}
+                            <div className="flex flex-wrap gap-4 pt-4">
                                 <a
                                     href="https://www.linkedin.com/in/otmane-boulahia/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-lg font-semibold transition-all"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-semibold transition-all"
                                 >
                                     <Linkedin className="w-5 h-5" />
                                     LinkedIn
@@ -251,562 +405,333 @@ export default function ConsultingPage() {
                                     href="https://calendly.com/zineinsight"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-6 py-3 border-2 border-accent-primary-border hover:bg-accent-primary-subtle text-accent-primary rounded-lg font-semibold transition-all"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover rounded-xl font-semibold transition-all"
                                 >
-                                    <Zap className="w-5 h-5" />
-                                    Discutons
+                                    Échanger
+                                    <ArrowRight className="w-5 h-5" />
                                 </a>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
 
-            {/* Réalisations récentes - Social Proof */}
-            <section className="max-w-6xl mx-auto px-6 pb-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4">Réalisations récentes</h2>
-                    <p className="text-secondary text-lg">
-                        Impact concret, résultats mesurables
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Réalisation 1: PowerBI IDM */}
-                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
-                        <div className="flex items-start justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                                <BarChart3 className="w-6 h-6 text-blue-600" />
-                            </div>
-                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                                Livré
-                            </span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">Groupe formation professionnelle</h3>
-                        <p className="text-sm text-tertiary mb-4">
-                            500M€ CA
+            {/* ============================================
+                ÉTUDES DE CAS - Cards premium
+               ============================================ */}
+            <section className="py-20 bg-background-primary">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-16"
+                    >
+                        <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary-subtle rounded-full mb-4">
+                            Études de cas
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                            Missions récentes
+                        </h2>
+                        <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+                            Des résultats concrets pour des entreprises comme la vôtre
                         </p>
+                    </motion.div>
 
-                        <div className="space-y-4 mb-6">
-                            <div>
-                                <p className="text-xs font-semibold text-red-600 mb-1">❌ PROBLÈME</p>
-                                <p className="text-sm text-secondary">
-                                    Impossible de savoir quel centre de coût plombait la marge. Données RH et comptables dispersées.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-blue-600 mb-1">🔧 SOLUTION</p>
-                                <p className="text-sm text-secondary">
-                                    Dashboard PowerBI multi-sources + analyse rentabilité par centre + ETL automatisé.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-green-600 mb-1">✅ RÉSULTAT</p>
-                                <p className="text-sm font-semibold text-primary">
-                                    Identification de 2 budgets inutiles → récupération de trésorerie à court terme
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
-                                Power BI
-                            </span>
-                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
-                                ETL
-                            </span>
-                            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
-                                Rentabilité analytique
-                            </span>
-                        </div>
-
-                        {/* Témoignage */}
-                        <div className="mt-6 pt-6 border-t border-border-subtle">
-                            <p className="text-sm text-secondary italic mb-2">
-                                " Le travail mené a permis de mettre en évidence des points que nous n'avions pas identifiés en interne. L'analyse était structurée et les recommandations directement exploitables."
-                            </p>
-                            <p className="text-xs text-tertiary">
-                                — Directeur Financier, Groupe formation professionnelle
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Réalisation 2: PME BTP/Services - OFFENSIF */}
-                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-green-300 transition-all">
-                        <div className="flex items-start justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                                <TrendingUp className="w-6 h-6 text-green-600" />
-                            </div>
-                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                                Livré
-                            </span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">PME BTP/Services en croissance</h3>
-                        <p className="text-sm text-tertiary mb-4">
-                            7M€ CA • Expansion rapide
-                        </p>
-
-                        <div className="space-y-4 mb-6">
-                            <div>
-                                <p className="text-xs font-semibold text-orange-600 mb-1">🎯 CONTEXTE</p>
-                                <p className="text-sm text-secondary">
-                                    Croissance 40%/an mais perte de visibilité : marges par chantier floues, arbitrages difficiles, cash imprévisible.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-blue-600 mb-1">🔧 SOLUTION</p>
-                                <p className="text-sm text-secondary">
-                                    Modèle rentabilité analytique par chantier/client + Dashboard temps réel + Prévisions cash 90j.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-green-600 mb-1">✅ RÉSULTAT</p>
-                                <p className="text-sm font-semibold text-primary">
-                                    Vision exploitable cash & marges → Arbitrages rapides → Accélération croissance rentable
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
-                                Rentabilité par projet
-                            </span>
-                            <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
-                                Cash flow prédictif
-                            </span>
-                            <span className="px-3 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
-                                Dashboard temps réel
-                            </span>
-                        </div>
-
-                        {/* Témoignage */}
-                        <div className="mt-6 pt-6 border-t border-border-subtle">
-                            <p className="text-sm text-secondary italic mb-2">
-                                "Nous avons enfin une vision exploitable de nos chantiers, du cash et des marges, ce qui nous permet d'arbitrer rapidement et d'agir là où c'est nécessaire."
-                            </p>
-                            <p className="text-xs text-tertiary">
-                                — Dirigeant, PME BTP/Services
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Réalisation 3: CFO PME Services/Conseil - AUTOMATISATION */}
-                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-purple-300 transition-all">
-                        <div className="flex items-start justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                                <Zap className="w-6 h-6 text-purple-600" />
-                            </div>
-                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                                Livré
-                            </span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">PME Services / Conseil</h3>
-                        <p className="text-sm text-tertiary mb-4">
-                            CFO • Structuration pilotage
-                        </p>
-
-                        <div className="space-y-4 mb-6">
-                            <div>
-                                <p className="text-xs font-semibold text-red-600 mb-1">❌ PROBLÈME</p>
-                                <p className="text-sm text-secondary">
-                                    Dépendance totale à retraitements Excel manuels. Indicateurs non fiables pour comités de direction.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-blue-600 mb-1">🔧 SOLUTION</p>
-                                <p className="text-sm text-secondary">
-                                    Cadre de pilotage robuste + Automatisation complète + KPIs exploitables temps réel.
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-green-600 mb-1">✅ RÉSULTAT</p>
-                                <p className="text-sm font-semibold text-primary">
-                                    Pilotage fiable sans retraitements manuels → Indicateurs exploitables en comité de direction
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
-                                Automatisation
-                            </span>
-                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
-                                KPIs stratégiques
-                            </span>
-                            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-full">
-                                Dashboards CFO
-                            </span>
-                        </div>
-
-                        {/* Témoignage */}
-                        <div className="mt-6 pt-6 border-t border-border-subtle">
-                            <p className="text-sm text-secondary italic mb-2">
-                                "Le travail réalisé a permis de structurer un cadre de pilotage robuste et automatisé, sans dépendre de retraitements manuels, avec des indicateurs exploitables en comité de direction."
-                            </p>
-                            <p className="text-xs text-tertiary">
-                                — CFO, PME Services / Conseil
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Solution Section */}
-            <section className="max-w-5xl mx-auto px-6 pb-20">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                        FinSight, c'est l'audit stratégique data & finance<br />
-                        <span className="text-accent-primary">qui transforme vos données en avantage concurrentiel.</span>
-                    </h2>
-                    <p className="text-xl text-secondary max-w-3xl mx-auto mb-8">
-                        Nous ne faisons pas de dashboards "jolis".<br />
-                        Nous construisons le système de pilotage qui vous permet de :
-                    </p>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                    {/* Défensif */}
-                    <div className="surface rounded-xl p-6 border border-border-subtle hover:border-red-300 transition-all">
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
-                                <Shield className="w-5 h-5 text-red-600" />
-                            </div>
-                            <p className="text-lg font-semibold">Stabiliser & Sécuriser</p>
-                        </div>
-                        <p className="text-secondary">Anticiper vos problèmes de trésorerie 3 mois à l'avance, identifier les fuites de cash</p>
-                    </div>
-
-                    {/* Offensif */}
-                    <div className="surface rounded-xl p-6 border border-border-subtle hover:border-green-300 transition-all">
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                                <TrendingUp className="w-5 h-5 text-green-600" />
-                            </div>
-                            <p className="text-lg font-semibold">Accélérer & Conquérir</p>
-                        </div>
-                        <p className="text-secondary">Identifier vos leviers de croissance, optimiser vos marges, dominer votre marché</p>
-                    </div>
-
-                    {/* Stratégique */}
-                    <div className="surface rounded-xl p-6 border border-border-subtle hover:border-blue-300 transition-all">
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                                <Target className="w-5 h-5 text-blue-600" />
-                            </div>
-                            <p className="text-lg font-semibold">Préparer & Structurer</p>
-                        </div>
-                        <p className="text-secondary">Levée de fonds, acquisition, expansion : chiffres béton et modèles fiables</p>
-                    </div>
-
-                    {/* Opérationnel */}
-                    <div className="surface rounded-xl p-6 border border-border-subtle hover:border-purple-300 transition-all">
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-                                <Zap className="w-5 h-5 text-purple-600" />
-                            </div>
-                            <p className="text-lg font-semibold">Automatiser & Gagner du temps</p>
-                        </div>
-                        <p className="text-secondary">Arrêter Excel manuel, dashboards temps réel, alertes intelligentes</p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Offres Section - 3 packages hiérarchisés */}
-            <section className="max-w-7xl mx-auto px-6 pb-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl font-bold mb-4 text-primary">3 formules d'accompagnement</h2>
-                    <p className="text-xl text-secondary max-w-2xl mx-auto">
-                        Hiérarchie claire, pricing progressif
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                    {/* Offre 1: Diagnostic FinSight™ Stratégique */}
-                    <div className="surface rounded-2xl p-6 border border-border-subtle hover:border-accent-primary-border transition-all flex flex-col">
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 rounded-xl bg-blue-100 border border-blue-300 flex items-center justify-center">
-                                <Sparkles className="w-5 h-5 text-blue-600" />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold leading-tight">Diagnostic FinSight™ Stratégique</h3>
-                            </div>
-                        </div>
-
-                        <div className="mb-3">
-                            <div className="flex items-baseline gap-2 mb-1">
-                                <span className="text-3xl font-bold text-blue-600">1 490€</span>
-                            </div>
-                            <p className="text-secondary text-xs">Livrable en 3-5 jours</p>
-                        </div>
-
-                        <p className="text-xs text-secondary mb-4 italic">
-                            "Votre santé financière analysée par un expert finance en 5 jours."
-                        </p>
-
-                        <ul className="space-y-2 mb-6 flex-grow">
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">Connexion sécurisée à vos données (compta, banque, ERP)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary"><span className="font-semibold">Analyse complète + validation expert</span> : Cash flow, Rentabilité, Risques</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">Rapport PDF "Diagnostic FinSight™" (12-15 pages)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">1h de restitution en visio avec plan d'action immédiat</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary"><span className="font-semibold">3 Quick Wins chiffrés</span> (gains potentiels à 30 jours)</span>
-                            </li>
-                        </ul>
-
-                        <div className="mt-auto">
-                            <a
-                                href="https://calendly.com/zineinsight"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block w-full px-4 py-2.5 border-2 border-blue-600 hover:bg-blue-50 text-blue-600 rounded-lg font-semibold text-sm text-center transition-all"
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            {
+                                sector: 'Formation professionnelle',
+                                size: '500M€ CA',
+                                icon: Users,
+                                color: 'purple',
+                                challenge: 'Identification des centres de coût déficitaires. Données RH et comptables dispersées.',
+                                solution: 'Dashboard PowerBI multi-sources, analyse rentabilité par centre, ETL automatisé.',
+                                result: 'Récupération de trésorerie significative',
+                                tags: ['Power BI', 'ETL', 'Rentabilité']
+                            },
+                            {
+                                sector: 'BTP / Services',
+                                size: '7M€ CA',
+                                icon: TrendingUp,
+                                color: 'blue',
+                                challenge: 'Croissance 40%/an avec perte de visibilité sur les marges chantier et le cash.',
+                                solution: 'Modèle rentabilité par projet, dashboard temps réel, prévisions trésorerie 90 jours.',
+                                result: 'Arbitrages rapides, croissance rentable',
+                                tags: ['Cash-flow', 'Dashboard', 'Projet']
+                            },
+                            {
+                                sector: 'Services / Conseil',
+                                size: 'PME',
+                                icon: BarChart3,
+                                color: 'green',
+                                challenge: 'Dépendance aux retraitements Excel manuels. Indicateurs non fiables en comité.',
+                                solution: 'Cadre de pilotage structuré, automatisation complète, KPIs temps réel.',
+                                result: 'Pilotage fiable sans intervention manuelle',
+                                tags: ['Automatisation', 'KPIs', 'CFO']
+                            }
+                        ].map((study, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: i * 0.1 }}
+                                className="group bg-white rounded-2xl p-6 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                             >
+                                {/* Header */}
+                                <div className="flex items-start justify-between mb-6">
+                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${study.color === 'purple' ? 'bg-purple-100' : study.color === 'blue' ? 'bg-accent-primary-subtle' : 'bg-green-100'}`}>
+                                        <study.icon className={`w-6 h-6 ${study.color === 'purple' ? 'text-purple-600' : study.color === 'blue' ? 'text-accent-primary' : 'text-green-600'}`} />
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="font-semibold text-text-primary">{study.sector}</p>
+                                        <p className="text-sm text-text-tertiary">{study.size}</p>
+                                    </div>
+                                </div>
+
+                                {/* Content */}
+                                <div className="space-y-4">
+                                    <div>
+                                        <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-1">Problématique</p>
+                                        <p className="text-sm text-text-secondary">{study.challenge}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-1">Solution</p>
+                                        <p className="text-sm text-text-secondary">{study.solution}</p>
+                                    </div>
+                                    <div className="bg-accent-success-subtle rounded-xl px-4 py-3">
+                                        <p className="text-sm font-semibold text-accent-success flex items-center gap-2">
+                                            <Check className="w-4 h-4" />
+                                            {study.result}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Tags */}
+                                <div className="flex flex-wrap gap-2 mt-6 pt-4 border-t border-border-subtle">
+                                    {study.tags.map((tag, j) => (
+                                        <span key={j} className="px-3 py-1 text-xs font-medium text-text-secondary bg-background-primary rounded-full">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ============================================
+                MÉTHODOLOGIE - Section sombre
+               ============================================ */}
+            <section id="methode" className="py-20 bg-slate-900 text-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-16"
+                    >
+                        <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary/10 border border-accent-primary/30 rounded-full mb-4">
+                            Notre approche
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                            Ce que nous construisons ensemble
+                        </h2>
+                        <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                            Une méthodologie éprouvée pour des résultats mesurables
+                        </p>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[
+                            { icon: Shield, title: 'Stabiliser', desc: 'Anticipation trésorerie 90 jours, identification des fuites de cash, sécurisation des marges.', color: 'red' },
+                            { icon: TrendingUp, title: 'Accélérer', desc: 'Identification des leviers de croissance, optimisation des marges, analyse de rentabilité.', color: 'blue' },
+                            { icon: Target, title: 'Structurer', desc: 'Préparation levée de fonds, due diligence, modèles financiers fiables et documentés.', color: 'purple' },
+                            { icon: BarChart3, title: 'Automatiser', desc: 'Dashboards temps réel, alertes intelligentes, élimination des traitements manuels.', color: 'green' }
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: i * 0.1 }}
+                                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-accent-primary/30 hover:bg-white/10 transition-all duration-300"
+                            >
+                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${item.color === 'red' ? 'bg-red-500/20' : item.color === 'blue' ? 'bg-accent-primary/20' : item.color === 'purple' ? 'bg-purple-500/20' : 'bg-green-500/20'}`}>
+                                    <item.icon className={`w-6 h-6 ${item.color === 'red' ? 'text-red-400' : item.color === 'blue' ? 'text-accent-primary' : item.color === 'purple' ? 'text-purple-400' : 'text-green-400'}`} />
+                                </div>
+                                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                                <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ============================================
+                OFFRES - Pricing cards premium
+               ============================================ */}
+            <section id="offres" className="py-20 bg-white">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-16"
+                    >
+                        <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary-subtle rounded-full mb-4">
+                            Offres
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                            Trois niveaux d&apos;accompagnement
+                        </h2>
+                        <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+                            Choisissez l&apos;offre adaptée à vos enjeux
+                        </p>
+                    </motion.div>
+
+                    <div className="grid lg:grid-cols-3 gap-8">
+                        {/* Diagnostic */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            className="bg-background-primary rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
+                        >
+                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Niveau 1</p>
+                            <h3 className="text-2xl font-bold text-text-primary mb-2">Diagnostic Stratégique</h3>
+                            <div className="flex items-baseline gap-1 mb-4">
+                                <span className="text-4xl font-bold text-text-primary">1 490</span>
+                                <span className="text-text-secondary">€</span>
+                            </div>
+                            <p className="text-text-secondary mb-6">Analyse complète de votre santé financière en 5 jours ouvrés.</p>
+
+                            <ul className="space-y-3 mb-8">
+                                {['Connexion sécurisée aux données', 'Analyse cash-flow, rentabilité, risques', 'Rapport PDF structuré (15 pages)', 'Restitution 1h avec plan d\'action', '3 quick wins chiffrés'].map((item, i) => (
+                                    <li key={i} className="flex items-start gap-3 text-sm text-text-secondary">
+                                        <Check className="w-5 h-5 text-accent-success flex-shrink-0 mt-0.5" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="block w-full py-4 text-center bg-white border-2 border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white font-bold rounded-xl transition-all duration-200">
                                 Lancer le diagnostic
                             </a>
-                            
-                            {/* Idéal pour */}
-                            <div className="mt-3 p-3 bg-blue-50/50 border border-blue-200 rounded-lg">
-                                <p className="text-xs font-bold text-blue-900 mb-1.5">✅ IDÉAL POUR :</p>
-                                <ul className="space-y-0.5 text-xs text-gray-700">
-                                    <li>• Valider une intuition stratégique</li>
-                                    <li>• Identifier 3 quick wins immédiats</li>
-                                    <li>• Préparer une levée avec chiffres fiables</li>
-                                </ul>
+                        </motion.div>
+
+                        {/* Audit - Featured */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 text-white shadow-2xl scale-105"
+                        >
+                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-accent-primary text-white text-xs font-bold rounded-full">
+                                Recommandé
                             </div>
-                        </div>
-                    </div>
-
-                    {/* Offre 2: Audit FinSight™ Complet - RECOMMANDÉ */}
-                    <div className="surface rounded-2xl p-6 border-2 border-accent-primary relative overflow-hidden flex flex-col shadow-xl">
-                        {/* Badge "Recommandé" */}
-                        <div className="absolute top-0 right-0 bg-accent-primary text-white px-3 py-0.5 text-xs font-semibold rounded-bl-lg">
-                            ⭐ Recommandé
-                        </div>
-
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 rounded-xl bg-accent-primary flex items-center justify-center">
-                                <BarChart3 className="w-5 h-5 text-white" />
+                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Niveau 2</p>
+                            <h3 className="text-2xl font-bold mb-2">Audit Complet</h3>
+                            <div className="flex items-baseline gap-1 mb-4">
+                                <span className="text-4xl font-bold">4 990</span>
+                                <span className="text-gray-400">€</span>
                             </div>
-                            <div>
-                                <h3 className="text-lg font-bold leading-tight">Audit FinSight™ Complet</h3>
-                            </div>
-                        </div>
+                            <p className="text-gray-300 mb-6">Feuille de route complète pour débloquer votre rentabilité.</p>
 
-                        <div className="mb-3">
-                            <div className="flex items-baseline gap-2 mb-1">
-                                <span className="text-4xl font-bold text-accent-primary">4 990€</span>
-                            </div>
-                            <p className="text-secondary text-xs">Livrable en 10-15 jours</p>
-                        </div>
+                            <ul className="space-y-3 mb-8">
+                                {['Tout le Diagnostic Stratégique', 'Immersion processus financiers', 'Structuration données 24 mois', 'Modèle rentabilité analytique', 'Dashboards Power BI / Tableau', 'Plan d\'action chiffré 6 mois', 'Formation 2h + 1 mois support'].map((item, i) => (
+                                    <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
+                                        <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
 
-                        <p className="text-xs text-secondary mb-4 italic">
-                            "La feuille de route précise pour débloquer votre rentabilité."
-                        </p>
-
-                        <ul className="space-y-2 mb-6 flex-grow">
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary font-semibold">Tout le Diagnostic FinSight™ +</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">Immersion dans vos processus financiers (Facturation, Recouvrement, Achats, Paie)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">Nettoyage et structuration de vos données historiques (12-24 mois)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary"><span className="font-semibold">Modèle de Rentabilité Analytique</span> : par client, par offre/produit, par canal</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">Dashboards automatisés (Power BI ou Tableau) : P&L, Trésorerie 90j, KPIs commerciaux</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">Plan d'action stratégique chiffré (Gains à 3/6 mois, priorisés)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">1 session de formation (2h) + 1 mois de support</span>
-                            </li>
-                        </ul>
-
-                        <div className="mt-auto">
-                            <a
-                                href="https://calendly.com/zineinsight"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block w-full px-4 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-sm text-center transition-all hover:shadow-xl"
-                            >
+                            <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="block w-full py-4 text-center bg-accent-primary hover:bg-accent-primary-hover text-white font-bold rounded-xl transition-all duration-200 shadow-lg">
                                 Réserver un audit
                             </a>
-                            
-                            {/* Idéal pour */}
-                            <div className="mt-3 p-3 bg-accent-primary/10 border border-accent-primary/30 rounded-lg">
-                                <p className="text-xs font-bold text-accent-primary mb-1.5">🎯 IDÉAL POUR :</p>
-                                <ul className="space-y-0.5 text-xs text-gray-700">
-                                    <li>• PME ambitieuses structurant leur croissance</li>
-                                    <li>• Dirigeants cherchant avantage concurrentiel</li>
-                                    <li>• Process financiers à organiser/automatiser</li>
-                                </ul>
+                        </motion.div>
+
+                        {/* Decision System */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                            className="bg-background-primary rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
+                        >
+                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Niveau 3</p>
+                            <h3 className="text-2xl font-bold text-text-primary mb-2">Decision System</h3>
+                            <div className="flex items-baseline gap-1 mb-4">
+                                <span className="text-4xl font-bold text-text-primary">9 990</span>
+                                <span className="text-text-secondary">€</span>
                             </div>
-                        </div>
-                    </div>
+                            <p className="text-text-secondary mb-6">Cockpit financier automatisé et intelligent, clé en main.</p>
 
-                    {/* Offre 3: FinSight™ Decision System */}
-                    <div className="surface rounded-2xl p-6 border border-border-subtle hover:border-accent-primary-border transition-all flex flex-col">
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 rounded-xl bg-accent-primary-subtle border border-accent-primary-border flex items-center justify-center">
-                                <TrendingUp className="w-5 h-5 text-accent-primary" />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold leading-tight">FinSight™ Decision System</h3>
-                            </div>
-                        </div>
+                            <ul className="space-y-3 mb-8">
+                                {['Tout l\'Audit Complet', 'Infrastructure data complète', 'ETL automatisé multi-sources', 'Dashboards avancés temps réel', 'IA sur vos données (chatbot CFO)', 'Détection automatique anomalies', 'Formation équipe + 3 mois support'].map((item, i) => (
+                                    <li key={i} className="flex items-start gap-3 text-sm text-text-secondary">
+                                        <Check className="w-5 h-5 text-accent-success flex-shrink-0 mt-0.5" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
 
-                        <div className="mb-3">
-                            <div className="flex items-baseline gap-2 mb-1">
-                                <span className="text-4xl font-bold text-accent-primary">9 990€</span>
-                            </div>
-                            <p className="text-secondary text-xs">Livrable en 3-4 semaines</p>
-                        </div>
-
-                        <p className="text-xs text-secondary mb-4 italic">
-                            "Votre cockpit financier automatisé et intelligent, clé en main."
-                        </p>
-
-                        <ul className="space-y-2 mb-6 flex-grow">
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary font-semibold">Tout l'Audit FinSight™ Complet +</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">Infrastructure Data Finance complète : Connexion automatisée toutes sources + ETL automatisé</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">Dashboards Avancés : P&L temps réel, Trésorerie 6 mois, Suivi commercial, Suivi RH</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary"><span className="font-semibold">IA FinSight™ (Chatbot CFO sur vos données)</span> :</span>
-                            </li>
-                            <li className="flex items-start gap-2 ml-6">
-                                <span className="text-xs text-secondary">• Posez des questions en langage naturel ("Quel client me coûte le plus cher ?")</span>
-                            </li>
-                            <li className="flex items-start gap-2 ml-6">
-                                <span className="text-xs text-secondary">• Détection automatique d'anomalies (retard paiement, dérive marge)</span>
-                            </li>
-                            <li className="flex items-start gap-2 ml-6">
-                                <span className="text-xs text-secondary">• Alertes intelligentes (seuil trésorerie, concentration client)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">Formation complète équipe (2 sessions de 2h)</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
-                                <span className="text-xs text-secondary">3 mois de support premium (ajustements illimités, réponse sous 48h, point mensuel)</span>
-                            </li>
-                        </ul>
-
-                        <div className="mt-auto">
-                            <a
-                                href="https://calendly.com/zineinsight"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block w-full px-4 py-2.5 border-2 border-accent-primary-border hover:bg-accent-primary-subtle text-accent-primary rounded-lg font-semibold text-sm text-center transition-all"
-                            >
-                                Planifier un appel
+                            <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="block w-full py-4 text-center bg-white border-2 border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white font-bold rounded-xl transition-all duration-200">
+                                Planifier un échange
                             </a>
-                            
-                            {/* Idéal pour */}
-                            <div className="mt-3 p-3 bg-purple-50 border border-purple-200 rounded-lg">
-                                <p className="text-xs font-bold text-purple-900 mb-1.5">🚀 IDÉAL POUR :</p>
-                                <ul className="space-y-0.5 text-xs text-gray-700">
-                                    <li>• Scale-ups voulant automatiser leur DAF</li>
-                                    <li>• Dirigeants dominant leur marché avec la data</li>
-                                    <li>• Expansion (acquisition, internationalisation)</li>
-                                </ul>
-                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ============================================
+                TECH STACK - Minimal
+               ============================================ */}
+            <section className="py-12 bg-background-primary border-y border-border-subtle">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <p className="text-sm text-text-tertiary uppercase tracking-wider font-semibold">Stack technique</p>
+                        <div className="flex flex-wrap justify-center gap-6">
+                            {['Python', 'SQL', 'Power BI', 'Tableau', 'Next.js', 'PostgreSQL', 'OpenAI', 'Pandas'].map((tech, i) => (
+                                <span key={i} className="text-sm text-text-secondary font-medium">{tech}</span>
+                            ))}
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Stack technique - Section discrète en bas */}
-            <section className="max-w-4xl mx-auto px-6 pb-24">
-                <div className="text-center mb-8">
-                    <h3 className="text-xl font-semibold mb-2 text-secondary">Stack technique</h3>
+            {/* ============================================
+                CTA FINAL - Premium
+               ============================================ */}
+            <section className="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-primary/10 rounded-full blur-3xl" />
                 </div>
 
-                <div className="flex flex-wrap justify-center gap-3">
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        Python
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        SQL
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        Power BI
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        Tableau
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        Next.js
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        React
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        TypeScript
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        FastAPI
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        PostgreSQL
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        OpenAI GPT-4
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        Pandas
-                    </span>
-                    <span className="px-4 py-2 surface border border-border-subtle rounded-lg text-sm text-secondary">
-                        ETL
-                    </span>
-                </div>
-            </section>
-
-            {/* CTA Final */}
-            <section className="max-w-4xl mx-auto px-6 pb-32">
-                <div className="surface rounded-2xl p-12 text-center border-2 border-accent-primary-border relative overflow-hidden">
-                    {/* Background gradient */}
-                    <div className="absolute inset-0 bg-gradient-radial from-accent-primary/10 via-transparent to-transparent opacity-50"></div>
-
-                    <div className="relative z-10">
-                        <h2 className="text-4xl font-bold mb-4">Prêt à prendre le contrôle de votre pilotage financier ?</h2>
-                        <p className="text-xl text-secondary mb-8 max-w-2xl mx-auto">
-                            Discutons de votre projet lors d'un appel de 30 minutes (gratuit, sans engagement)
+                <div className="relative max-w-4xl mx-auto px-6 lg:px-12 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary/10 border border-accent-primary/30 rounded-full mb-6">
+                            Passez à l&apos;action
+                        </span>
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                            Prêt à transformer votre{' '}
+                            <span className="text-accent-primary">pilotage financier</span> ?
+                        </h2>
+                        <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                            Échangeons 30 minutes sur vos enjeux. Sans engagement.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -814,24 +739,31 @@ export default function ConsultingPage() {
                                 href="https://calendly.com/zineinsight"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-xl font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-1"
+                                className="inline-flex items-center gap-3 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
                             >
-                                Réserver un appel stratégique
-                                <ArrowRight className="w-5 h-5" />
+                                <Calendar className="w-6 h-6" />
+                                Réserver un créneau
                             </a>
                             <a
                                 href="mailto:otmane@zineinsight.com"
-                                className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-accent-primary-border text-primary rounded-xl font-semibold text-lg transition-all hover:bg-surface-elevated"
+                                className="inline-flex items-center gap-2 px-8 py-5 bg-white/10 hover:bg-white/20 border border-white/20 text-lg font-semibold rounded-xl transition-all"
                             >
                                 <Mail className="w-5 h-5" />
-                                Envoyer un email
+                                otmane@zineinsight.com
                             </a>
                         </div>
 
-                        <p className="text-sm text-tertiary mt-6">
-                            Réponse sous 24h • Disponibilité immédiate
-                        </p>
-                    </div>
+                        <div className="flex items-center justify-center gap-6 text-sm text-gray-400 mt-8">
+                            <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                <span>Réponse sous 24h</span>
+                            </div>
+                            <span className="text-gray-600">•</span>
+                            <span>30 min gratuit</span>
+                            <span className="text-gray-600">•</span>
+                            <span>Sans engagement</span>
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 
