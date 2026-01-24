@@ -21,9 +21,7 @@ export default function Footer() {
                         <div className="text-2xl font-bold">FinSight</div>
                     </div>
                     <p className="text-base text-gray-600 max-w-2xl leading-relaxed font-medium">
-                        FinSight est un moteur d'intelligence financière pour dirigeants de PME.
-                        Conçu par Otmane Boulahia, analyste financier & data engineer,
-                        inspiré des meilleures pratiques CFO, FP&A et pilotage BFR.
+                        FinSight aide les dirigeants de PME à structurer leur pilotage financier et à décider sur des bases fiables, en s’appuyant sur des pratiques éprouvées de direction financière et de contrôle de gestion.
                     </p>
                 </div>
 
@@ -34,10 +32,7 @@ export default function Footer() {
 
                     {/* Navigation principale */}
                     <nav className="flex flex-wrap items-center gap-8">
-                        <Link href="/dashboard" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                            Essayer gratuitement
-                        </Link>
-                        <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                             Tarifs
                         </Link>
                         <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
@@ -86,7 +81,7 @@ export default function Footer() {
                             <span className="text-xs">LinkedIn</span>
                         </a>
                         <span className="text-xs text-tertiary">
-                            © 2025 <a href="https://www.zineinsight.com" className="hover:text-secondary transition-colors">ZineInsight</a>
+                            © 2026 <a href="https://www.zineinsight.com" className="hover:text-secondary transition-colors">ZineInsight</a>
                         </span>
                     </div>
                 </div>

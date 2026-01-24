@@ -1,18 +1,27 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import {
     Sparkles,
     Zap,
     DollarSign,
     BarChart3,
     AlertTriangle,
-    Shield
+    Shield,
+    GraduationCap,
+    Briefcase,
+    Award,
+    Linkedin,
+    Calendar,
+    ArrowRight,
+    Users,
+    TrendingUp,
+    Target
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Testimonials from '@/components/Testimonials'
-import DashboardPreview from '@/components/landing/DashboardPreview'
 
 import AnimatedScoreDisplay from '@/components/landing/AnimatedScoreDisplay'
 import NewsletterPopup from '@/components/NewsletterPopup'
@@ -23,818 +32,531 @@ export default function Home() {
             <Header />
             <NewsletterPopup />
 
-            {/* Hero Section - Premium 2 Columns Layout */}
-            <section className="relative bg-gradient-to-br from-blue-50 via-blue-50/50 to-white overflow-hidden">
-                {/* Subtle overlay for depth */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,120,212,0.05),transparent_50%)]"></div>
+            {/* Hero Section - Premium Consultant Style */}
+            <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+                {/* Background Image - Bureau */}
+                <div className="absolute inset-0">
+                    <Image
+                        src="/images/bureau.png"
+                        alt="Bureau professionnel"
+                        fill
+                        className="object-cover opacity-20"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-900/60"></div>
+                </div>
 
-                <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-36 lg:pt-36 lg:pb-44">
-                    <div className="grid lg:grid-cols-2 gap-20 lg:gap-24 items-center">                        {/* LEFT: Content */}
+                <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-20 lg:pt-36 lg:pb-28">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                        {/* LEFT: Content */}
                         <div className="space-y-8">
-                            {/* Trust Badge - Corporate */}
-                            <div className="inline-flex items-center gap-3 px-6 py-4 bg-white border-2 border-gray-200 rounded-xl shadow-md">
-                                <Shield className="w-5 h-5 text-accent-primary" />
-                                <span className="text-base font-bold text-gray-800">
-                                    Réponse instantanée • RGPD France • Sans engagement
+                            {/* Badge Consultant */}
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary/10 border border-accent-primary/30 rounded-full">
+                                <Sparkles className="w-4 h-4 text-accent-primary" />
+                                <span className="text-accent-primary text-sm font-semibold">
+                                    DAF externalisé | Finance & Data
                                 </span>
                             </div>
 
-                            {/* H1 Corporate */}
-                            <h1 className="text-5xl lg:text-7xl font-extrabold leading-[1.05] tracking-tighter text-gray-900">
-                                Audit Finance +<br />
+                            {/* H1 - Messaging clair */}
+                            <h1 className="text-4xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
+                                Pilotez votre cash,<br />
+                                vos marges et votre<br />
                                 <span className="text-accent-primary">
-                                    Agents IA décisionnels
+                                    trésorerie
                                 </span>
                             </h1>
 
-                            {/* Value Proposition */}
-                            <p className="text-lg text-gray-700 leading-relaxed max-w-xl font-medium">
-                                Découvrez où vous perdez de l'argent. Anticipez les tensions de trésorerie 3 mois à l'avance.
-                                <br />
-                                <span className="text-gray-900">Pour dirigeants de PME (1–10 M€ CA).</span>
+                            {/* Subheadline */}
+                            <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
+                                J'aide les dirigeants de PME (1–10 M€) à avoir une vision claire et anticipée de leur finance.
+                                <span className="text-white font-semibold"> Avec la data.</span>
                             </p>
 
-                            {/* Positioning Statement */}
-                            <div className="p-6 bg-gradient-to-r from-blue-50 to-white border-l-4 border-accent-primary rounded-lg max-w-xl">
-                                <p className="text-base text-gray-800 leading-relaxed">
-                                    <span className="font-bold text-gray-900">FinSight est la vitrine technique.</span>
-                                    <br />
-                                    L'expertise : 10 ans de finance & data au service des décisions.
-                                </p>
+                            {/* Value Props - Quick */}
+                            <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+                                <div className="flex items-center gap-2">
+                                    <Target className="w-4 h-4 text-accent-primary" />
+                                    <span>PME 1-10M€ CA</span>
+                                </div>
                             </div>
 
-                            {/* CTAs Consulting-First */}
-                            <div className="space-y-4">
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <Link
-                                        href="/pour-qui"
-                                        className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
-                                    >
-                                        <BarChart3 className="w-5 h-5" />
-                                        Voir des réalisations
-                                    </Link>
+                            {/* CTAs - Clear Hierarchy */}
+                            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
+                                >
+                                    <Calendar className="w-5 h-5" />
+                                    Réserver un diagnostic
+                                </a>
 
-                                    <a
-                                        href="https://calendly.com/zineinsight"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-white border-3 border-gray-300 hover:border-accent-primary hover:text-accent-primary text-lg font-bold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg"
-                                    >
-                                        <Zap className="w-5 h-5" />
-                                        Discutons 30 min
-                                    </a>
-                                </div>
-
-
+                                <Link
+                                    href="/consulting"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-white text-lg font-semibold rounded-xl border border-white/20 transition-all duration-200"
+                                >
+                                    Voir les offres
+                                    <ArrowRight className="w-5 h-5" />
+                                </Link>
                             </div>
 
-                            {/* Social Proof - Clean */}
-                            <div className="flex items-center gap-6 text-sm text-gray-600">
+                            {/* Trust indicators */}
+                            <div className="flex items-center gap-6 text-sm text-gray-400 pt-2">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                    <span>Sans installation</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                    <span>RGPD conforme</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                    <span>Sans engagement</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                                     <span>Réponse sous 24h</span>
                                 </div>
+                                <span className="text-gray-600">•</span>
+                                <span>30 min gratuit</span>
+                                <span className="text-gray-600">•</span>
+                                <span>Accompagnement personnalisé</span>
                             </div>
                         </div>
 
-                        {/* RIGHT: Dashboard Preview Animé */}
+                        {/* RIGHT: Photo Otmane devant dashboard */}
                         <div className="relative lg:block hidden">
-                            <DashboardPreview />
+                            <div className="relative">
+                                {/* Glow effect behind */}
+                                <div className="absolute -inset-4 bg-accent-primary/20 rounded-3xl blur-2xl"></div>
+                                
+                                {/* Main image */}
+                                <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl">
+                                    <Image
+                                        src="/images/moi-bureau.png"
+                                        alt="Otmane Boulahia - Consultant Finance & Data"
+                                        width={600}
+                                        height={500}
+                                        className="object-cover w-full"
+                                        priority
+                                    />
+                                    
+                                    {/* Overlay gradient */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+                                    
+                                    {/* Caption overlay */}
+                                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-full bg-accent-primary flex items-center justify-center">
+                                                <span className="text-white font-bold text-lg">OB</span>
+                                            </div>
+                                            <div>
+                                                <p className="text-white font-bold">Otmane Boulahia</p>
+                                                <p className="text-gray-300 text-sm">Financial Strategy Consultant</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Floating stats card */}
+                                <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-xl border border-gray-100">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+                                            <TrendingUp className="w-5 h-5 text-green-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-2xl font-bold text-gray-900">10+</p>
+                                            <p className="text-xs text-gray-500">Ans d'expertise</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* CTA Consulting Banner - Subtle */}
-            <div className="max-w-6xl mx-auto px-6 -mt-8 mb-12 relative z-10">
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-accent-primary rounded-xl px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-accent-primary-subtle flex items-center justify-center flex-shrink-0">
-                            <Sparkles className="w-5 h-5 text-accent-primary" />
+            {/* About Otmane Section - Credibility */}
+            <section className="py-20 bg-white">
+                <div className="max-w-6xl mx-auto px-6">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        {/* LEFT: Photo + Credentials */}
+                        <div className="relative">
+                            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                                <Image
+                                    src="/images/bureau-nuit.png"
+                                    alt="Bureau Otmane Boulahia - Workspace"
+                                    width={600}
+                                    height={400}
+                                    className="object-cover w-full"
+                                />
+                                {/* Overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                                
+                                {/* Bottom caption */}
+                                <div className="absolute bottom-0 left-0 right-0 p-6">
+                                    <p className="text-white/80 text-sm italic">
+                                        "Là où vos données deviennent des décisions"
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            {/* Floating credential badge */}
+                            <div className="absolute -top-4 -right-4 bg-accent-primary text-white px-4 py-2 rounded-lg shadow-lg">
+                                <p className="font-bold">10+ ans</p>
+                                <p className="text-xs opacity-90">Finance & Data</p>
+                            </div>
                         </div>
-                        <div>
-                            <p className="text-sm font-semibold text-gray-900">
-                                Besoin d'un accompagnement personnalisé ?
-                            </p>
-                            <p className="text-xs text-gray-600">
-                                Audit express, dashboard IA sur-mesure ou refonte data complète
-                            </p>
+
+                        {/* RIGHT: About Content */}
+                        <div className="space-y-6">
+                            <div>
+                                <p className="text-accent-primary font-semibold text-sm uppercase tracking-wider mb-2">
+                                    Votre expert
+                                </p>
+                                <h2 className="text-4xl font-extrabold text-gray-900 mb-4">
+                                    Otmane Boulahia
+                                </h2>
+                                <p className="text-xl text-gray-600 font-medium">
+                                    Financial Strategy Consultant
+                                </p>
+                            </div>
+
+                            {/* Credentials Grid */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                    <GraduationCap className="w-5 h-5 text-accent-primary" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900 text-sm">Master Finance</p>
+                                        <p className="text-xs text-gray-500">Université Côte d'Azur</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                    <Briefcase className="w-5 h-5 text-accent-primary" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900 text-sm">Data Analyst</p>
+                                        <p className="text-xs text-gray-500">Le Wagon</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                    <Award className="w-5 h-5 text-accent-primary" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900 text-sm">10 ans Enseignement</p>
+                                        <p className="text-xs text-gray-500">Sciences Économiques</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                    <Users className="w-5 h-5 text-accent-primary" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900 text-sm">Double expertise</p>
+                                        <p className="text-xs text-gray-500">Finance & Data</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Mission statement */}
+                            <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-l-4 border-accent-primary">
+                                <p className="text-gray-800 leading-relaxed">
+                                    <span className="font-bold">"Trop de dirigeants pilotent leur boîte avec des chiffres en retard, incomplets, ou inexploitables."</span>
+                                    <br /><br />
+                                    Ma mission : transformer vos données en décisions stratégiques claires — avec la rigueur d'un cabinet d'audit et la réactivité d'un expert terrain.
+                                </p>
+                            </div>
+
+                            {/* CTAs */}
+                            <div className="flex gap-4">
+                                <a
+                                    href="https://www.linkedin.com/in/otmane-boulahia/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-lg font-semibold transition-all"
+                                >
+                                    <Linkedin className="w-5 h-5" />
+                                    LinkedIn
+                                </a>
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-3 border-2 border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white rounded-lg font-semibold transition-all"
+                                >
+                                    <Calendar className="w-5 h-5" />
+                                    Discutons
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <Link
-                        href="/consulting"
-                        className="inline-flex items-center gap-2 px-6 py-2.5 bg-accent-primary text-white text-sm font-semibold rounded-lg hover:bg-accent-primary-hover transition-colors whitespace-nowrap"
-                    >
-                        Voir nos offres
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                    </Link>
                 </div>
-            </div>
+            </section>
 
-            {/* Agents IA Section - 3 Specialized AI Agents */}
-            <section id="agents" className="py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-                <div className="max-w-6xl mx-auto px-6">
-                    {/* Header */}
+            {/* Value Proposition - What I Do */}
+            <section className="py-20 bg-gray-50">
+                <div className="max-w-5xl mx-auto px-6">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6">
-                            Vos 3 Agents IA Décisionnels
+                        <h2 className="text-4xl font-extrabold text-gray-900 mb-6">
+                            Comment je peux vous aider
                         </h2>
-                        <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                            Après l'audit, automatisez les décisions financières quotidiennes. Chaque agent se spécialise dans un enjeu critique.
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Deux approches complémentaires pour transformer votre pilotage financier
                         </p>
                     </div>
 
-                    {/* 3 Agents Grid */}
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {/* TRESORIS - Cash & Trésorerie */}
-                        <div className="relative bg-gradient-to-br from-blue-900/40 to-blue-900/20 border border-blue-500/30 rounded-2xl p-8 hover:border-blue-500/60 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10">
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* Phase 1: Audit */}
+                        <div className="bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-accent-primary transition-all shadow-lg">
                             <div className="flex items-center gap-3 mb-6">
-                                <div className="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                                    <AlertTriangle className="w-6 h-6 text-blue-400" />
+                                <div className="w-12 h-12 rounded-xl bg-accent-primary flex items-center justify-center">
+                                    <Target className="w-6 h-6 text-white" />
                                 </div>
-                                <h3 className="text-2xl font-bold text-white">TRESORIS</h3>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-gray-900">Audit Stratégique</h3>
+                                </div>
                             </div>
-                            <p className="text-blue-200 mb-4 text-sm">
-                                Surveillance continue de la trésorerie
+                            
+                            <p className="text-gray-600 mb-6 leading-relaxed">
+                                Une lecture claire et fiable de votre situation financière, validée par un expert, pour décider avec 3 mois d’avance.
                             </p>
-                            <div className="space-y-3 mb-6">
-                                <div className="flex items-start gap-3">
-                                    <span className="text-blue-400 font-bold">✓</span>
-                                    <span className="text-gray-200">Détection risques (26 situations → 2-5 critiques)</span>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <span className="text-blue-400 font-bold">✓</span>
-                                    <span className="text-gray-200">Prévisions runway 4/8/13 semaines</span>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <span className="text-blue-400 font-bold">✓</span>
-                                    <span className="text-gray-200">Alertes et recommandations prioritaires</span>
-                                </div>
-                            </div>
-                            <div className="pt-6 border-t border-blue-500/20">
-                                <p className="text-xs text-blue-300 font-semibold">À partir de</p>
-                                <p className="text-2xl font-bold text-white">300€<span className="text-sm text-gray-400">/mois</span></p>
+
+                            <ul className="space-y-3 mb-8">
+                                <li className="flex items-center gap-3 text-gray-700">
+                                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                        <svg className="w-3 h-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <span>Analyse cash, marges, risques</span>
+                                </li>
+                                <li className="flex items-center gap-3 text-gray-700">
+                                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                        <svg className="w-3 h-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <span>Score FinSight™ (0-100)</span>
+                                </li>
+                                <li className="flex items-center gap-3 text-gray-700">
+                                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                        <svg className="w-3 h-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <span>Plan d'action chiffré</span>
+                                </li>
+                            </ul>
+
+                            <div className="pt-6 border-t border-gray-200">
+                                <p className="text-sm text-gray-500 mb-2">À partir de</p>
+                                <p className="text-3xl font-bold text-gray-900 mb-4">1 490€</p>
+                                <Link
+                                    href="/consulting"
+                                    className="block w-full px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-xl font-semibold text-center transition-all"
+                                >
+                                    Découvrir les audits
+                                </Link>
                             </div>
                         </div>
 
-                        {/* MARGIS - Rentabilité */}
-                        <div className="relative bg-gradient-to-br from-purple-900/40 to-purple-900/20 border border-purple-500/30 rounded-2xl p-8 hover:border-purple-500/60 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
+                        {/* Agents IA */}
+                        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 border-2 border-slate-700 hover:border-accent-primary transition-all shadow-lg">
                             <div className="flex items-center gap-3 mb-6">
-                                <div className="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                                    <BarChart3 className="w-6 h-6 text-purple-400" />
+                                <div className="w-12 h-12 rounded-xl bg-accent-primary flex items-center justify-center">
+                                    <Sparkles className="w-6 h-6 text-white" />
                                 </div>
-                                <h3 className="text-2xl font-bold text-white">MARGIS</h3>
+                                <div>                                    <h3 className="text-2xl font-bold text-white">Agents IA</h3>
+                                </div>
                             </div>
-                            <p className="text-purple-200 mb-4 text-sm">
-                                Vérité sur la rentabilité réelle
+                            
+                            <p className="text-gray-300 mb-6 leading-relaxed">
+                                Automatisez le monitoring quotidien avec 3 agents IA spécialisés. Plus de fichiers Excel manuels : uniquement des décisions basées sur vos données réelles.
                             </p>
-                            <div className="space-y-3 mb-6">
-                                <div className="flex items-start gap-3">
-                                    <span className="text-purple-400 font-bold">✓</span>
-                                    <span className="text-gray-200">Marge par produit, service, client</span>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <span className="text-purple-400 font-bold">✓</span>
-                                    <span className="text-gray-200">Identification coûts cachés</span>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <span className="text-purple-400 font-bold">✓</span>
-                                    <span className="text-gray-200">Recommandations prix & mix produit</span>
-                                </div>
-                            </div>
-                            <div className="pt-6 border-t border-purple-500/20">
-                                <p className="text-xs text-purple-300 font-semibold">À partir de</p>
-                                <p className="text-2xl font-bold text-white">350€<span className="text-sm text-gray-400">/mois</span></p>
-                            </div>
-                        </div>
 
-                        {/* SCENARIS - Scénarios & Décisions */}
-                        <div className="relative bg-gradient-to-br from-green-900/40 to-green-900/20 border border-green-500/30 rounded-2xl p-8 hover:border-green-500/60 transition-all duration-300 hover:shadow-xl hover:shadow-green-500/10">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center">
-                                    <Zap className="w-6 h-6 text-green-400" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-white">SCENARIS</h3>
-                            </div>
-                            <p className="text-green-200 mb-4 text-sm">
-                                Scénarios financiers & what-if
-                            </p>
-                            <div className="space-y-3 mb-6">
-                                <div className="flex items-start gap-3">
-                                    <span className="text-green-400 font-bold">✓</span>
-                                    <span className="text-gray-200">Simulations optimiste/réaliste/pessimiste</span>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <span className="text-green-400 font-bold">✓</span>
-                                    <span className="text-gray-200">Impact de décisions (recrutement, prix, etc.)</span>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <span className="text-green-400 font-bold">✓</span>
-                                    <span className="text-gray-200">Prévisions 12-24 mois chiffrées</span>
-                                </div>
-                            </div>
-                            <div className="pt-6 border-t border-green-500/20">
-                                <p className="text-xs text-green-300 font-semibold">À partir de</p>
-                                <p className="text-2xl font-bold text-white">400€<span className="text-sm text-gray-400">/mois</span></p>
+                            <ul className="space-y-3 mb-8">
+                                <li className="flex items-center gap-3 text-gray-200">
+                                    <div className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                                        <AlertTriangle className="w-3 h-3 text-blue-400" />
+                                    </div>
+                                    <span><span className="font-semibold">TRESORIS</span> : Surveillance trésorerie</span>
+                                </li>
+                                <li className="flex items-center gap-3 text-gray-200">
+                                    <div className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                                        <BarChart3 className="w-3 h-3 text-purple-400" />
+                                    </div>
+                                    <span><span className="font-semibold">MARGIS</span> : Rentabilité réelle</span>
+                                </li>
+                                <li className="flex items-center gap-3 text-gray-200">
+                                    <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                                        <Zap className="w-3 h-3 text-green-400" />
+                                    </div>
+                                    <span><span className="font-semibold">SCENARIS</span> : Scénarios what-if</span>
+                                </li>
+                            </ul>
+
+                            <div className="pt-6 border-t border-slate-700">
+                                <p className="text-sm text-gray-400 mb-2">À partir de</p>
+                                <p className="text-3xl font-bold text-white mb-4">300€<span className="text-lg text-gray-400">/mois</span></p>
+                                <Link
+                                    href="/agents"
+                                    className="block w-full px-6 py-3 bg-white hover:bg-gray-100 text-gray-900 rounded-xl font-semibold text-center transition-all"
+                                >
+                                    Explorer les agents
+                                </Link>
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
 
-                    {/* CTA */}
-                    <div className="text-center mt-16">
-                        <p className="text-gray-400 mb-6">Les agents sont activés après un audit pour contexte optimal</p>
+            {/* Témoignages - Social Proof */}
+            <section className="py-20 bg-white">
+                <div className="max-w-6xl mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-extrabold text-gray-900 mb-4">
+                            Ils m'ont fait confiance
+                        </h2>
+                        <p className="text-xl text-gray-600">
+                            Retours de dirigeants qui ont transformé leur pilotage financier
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {/* Témoignage 1 */}
+                        <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200 hover:border-accent-primary transition-all">
+                            <div className="mb-6">
+                                <div className="flex gap-1 mb-4">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    ))}
+                                </div>
+                                <p className="text-gray-700 italic leading-relaxed mb-6">
+                                    "Nous disposons désormais d’un cadre de pilotage financier fiable et homogène, aligné avec nos enjeux métiers et utilisable au quotidien."
+                                </p>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <span className="text-blue-600 font-bold text-lg">DA</span>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-gray-900">Directrice Administrative</p>
+                                    <p className="text-sm text-gray-500">Groupe Formation (500M€)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Témoignage 2 */}
+                        <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200 hover:border-accent-primary transition-all">
+                            <div className="mb-6">
+                                <div className="flex gap-1 mb-4">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    ))}
+                                </div>
+                                <p className="text-gray-700 italic leading-relaxed mb-6">
+                                    "Nous avons enfin une vision exploitable de nos chantiers, du cash et des marges, ce qui nous permet d’arbitrer rapidement et d’agir là où c’est nécessaire."
+                                </p>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                                    <span className="text-purple-600 font-bold text-lg">LB</span>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-gray-900">Dirigeant</p>
+                                    <p className="text-sm text-gray-500">PME BTP/Services (7M€)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Témoignage 3 */}
+                        <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200 hover:border-accent-primary transition-all">
+                            <div className="mb-6">
+                                <div className="flex gap-1 mb-4">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    ))}
+                                </div>
+                                <p className="text-gray-700 italic leading-relaxed mb-6">
+                                    " Le travail réalisé a permis de structurer un cadre de pilotage robuste et automatisé, sans dépendre de retraitements manuels, avec des indicateurs exploitables en comité de direction. "
+                                </p>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                                    <span className="text-green-600 font-bold text-lg">MC</span>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-gray-900">CFO</p>
+                                    <p className="text-sm text-gray-500">PME Services / Conseil</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* CTA Final - Puissant */}
+            <section className="py-28 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0">
+                    <Image
+                        src="/images/bureau-nuit.png"
+                        alt="Bureau"
+                        fill
+                        className="object-cover opacity-10"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 to-slate-900/80"></div>
+                </div>
+
+                <div className="relative max-w-4xl mx-auto px-6 text-center">
+                    <h2 className="text-4xl lg:text-5xl font-extrabold text-white mb-6">
+                        Prêt à reprendre le contrôle ?
+                    </h2>
+                    <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+                        Discutons de votre situation lors d'un appel de 30 minutes.<br />
+                        <span className="text-white font-semibold">Gratuit. Sans engagement. Sous 24h.</span>
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                        <a
+                            href="https://calendly.com/zineinsight"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-2xl hover:shadow-accent-primary/50 hover:-translate-y-1 transition-all duration-200"
+                        >
+                            <Calendar className="w-5 h-5" />
+                            Réserver mon diagnostic
+                        </a>
+
                         <Link
                             href="/consulting"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 font-bold rounded-xl hover:bg-gray-100 transition-all duration-200 hover:shadow-lg"
+                            className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-white/10 hover:bg-white/20 text-white text-lg font-semibold rounded-xl border border-white/20 transition-all duration-200"
                         >
-                            Démarrer avec un audit
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* Score FinSight™ Section - Corporate Premium with Animation */}
-            <section className="relative py-28 lg:py-36 bg-gray-50">
-                <div className="max-w-6xl mx-auto px-6">
-
-                    {/* Badge Corporate */}
-                    <div className="flex justify-center mb-12">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-lg shadow-sm">
-                            <Sparkles className="w-4 h-4" />
-                            <span className="text-xs font-semibold uppercase tracking-wider">Notre indicateur signature</span>
-                        </div>
-                    </div>
-
-                    {/* Header Corporate */}
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
-                            Le Score FinSight™
-                        </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                            Nous analysons <span className="font-semibold text-accent-primary">12+ KPIs financiers</span> et les condensons en un score unique de{' '}
-                            <span className="font-semibold text-accent-primary">0 à 100</span>.
-                            <br />
-                            Simple à comprendre. Impossible à ignorer.
-                        </p>
-                    </div>
-
-                    {/* Composant animé avec les 4 piliers + jauge */}
-                    <AnimatedScoreDisplay />
-                </div>
-            </section>
-
-            {/* Before/After Section - Pennylane Style */}
-            <section className="py-20 bg-white">
-                <div className="max-w-6xl mx-auto px-6">
-
-                    {/* Header */}
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
-                            La différence FinSight
-                        </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                            Passez d'une gestion financière réactive à une stratégie anticipative basée sur l'intelligence de données
-                        </p>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-
-                        {/* AVANT - Sans FinSight */}
-                        <div className="relative bg-gray-50 rounded-2xl p-8 border border-gray-200">
-                            {/* Badge sobre */}
-                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-300 text-gray-600 rounded-md mb-6 text-xs font-semibold uppercase tracking-wider">
-                                Sans FinSight
-                            </div>
-
-                            <h3 className="text-xl font-bold mb-6 text-gray-900">
-                                Vision partielle et réactive
-                            </h3>
-
-                            <ul className="space-y-3.5">
-                                {[
-                                    { text: 'Analyse financière manuelle et chronophage', metric: '15h/mois' },
-                                    { text: 'Risques invisibles jusqu\'à leur matérialisation', metric: null },
-                                    { text: 'Prévisions approximatives via tableurs', metric: '±20%' },
-                                    { text: 'Tensions de trésorerie découvertes trop tard', metric: null }
-                                ].map((item, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 text-gray-600 text-sm">
-                                        <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <svg className="w-2.5 h-2.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </div>
-                                        <div className="flex-1">
-                                            <span className="leading-relaxed">{item.text}</span>
-                                            {item.metric && (
-                                                <span className="ml-2 text-xs text-gray-400 font-mono">{item.metric}</span>
-                                            )}
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* APRÈS - Avec FinSight */}
-                        <div className="relative bg-gradient-to-br from-blue-50/50 to-white rounded-2xl p-8 border border-blue-100/60 shadow-sm">
-                            {/* Badge premium */}
-                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent-primary text-white rounded-md mb-6 text-xs font-semibold uppercase tracking-wider shadow-sm">
-                                Avec FinSight
-                            </div>
-
-                            <h3 className="text-xl font-bold mb-6 text-gray-900">
-                                Intelligence financière complète
-                            </h3>
-
-                            <ul className="space-y-3.5">
-                                {[
-                                    { text: 'Score FinSight™ : santé financière en un coup d\'œil', metric: '0-100' },
-                                    { text: 'Détection précoce des signaux faibles critiques', metric: 'ML' },
-                                    { text: 'Prévisions fiables avec scénarios multiples', metric: '±5%' },
-                                    { text: 'Anticipation des tensions de trésorerie', metric: '90j' }
-                                ].map((item, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 text-gray-900 text-sm">
-                                        <div className="w-4 h-4 rounded-full bg-accent-primary-subtle flex items-center justify-center flex-shrink-0 mt-0.5">
-                                            <svg className="w-2.5 h-2.5 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <div className="flex-1">
-                                            <span className="leading-relaxed font-medium">{item.text}</span>
-                                            {item.metric && (
-                                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-accent-primary-subtle text-accent-primary">
-                                                    {item.metric}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-
-                            {/* Subtle indicator */}
-                            <div className="mt-6 pt-6 border-t border-blue-100">
-                                <p className="text-xs text-gray-500 flex items-center gap-2">
-                                    <svg className="w-3.5 h-3.5 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                    Résultat en 10 secondes • 100% confidentiel
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Features Grid - 4 Piliers Premium Stripe Style */}
-            <section id="features" className="py-20 bg-gray-50">
-                <div className="max-w-6xl mx-auto px-6">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
-                            Notre approche en 4 piliers
-                        </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                            Une approche structurée qui transforme vos données financières en décisions stratégiques actionnables
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Pilier 1 - Analyse Stratégique */}
-                        <div className="group relative bg-gradient-to-br from-white to-blue-50/30 rounded-2xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                            {/* Gradient border animé au hover */}
-                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-blue-400 via-purple-400 to-blue-400 bg-[length:200%_200%] animate-gradient p-[2px]">
-                                <div className="w-full h-full bg-white rounded-2xl"></div>
-                            </div>
-
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-xl group-hover:shadow-blue-500/50 transition-all">
-                                        <BarChart3 className="w-7 h-7 text-white" />
-                                    </div>
-                                    <div>
-                                        <div className="inline-block px-2 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-[10px] font-bold uppercase tracking-wider rounded mb-1">
-                                            Pilier 1
-                                        </div>
-                                        <h3 className="text-xl font-bold text-gray-900">Analyse Stratégique</h3>
-                                    </div>
-                                </div>
-                                <ul className="space-y-3 text-gray-700">
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-accent-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Structure de marge et rentabilité</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-accent-primary bg-accent-primary-subtle px-2 py-1 rounded">28%</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-accent-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Signaux faibles de trésorerie</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-accent-primary bg-accent-primary-subtle px-2 py-1 rounded">3 KPIs</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-accent-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Dépendance clients (concentration)</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-accent-primary bg-accent-primary-subtle px-2 py-1 rounded">Top 5</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-accent-primary mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Analyse des cycles de paiement</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-accent-primary bg-accent-primary-subtle px-2 py-1 rounded">DSO</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        {/* Pilier 2 - Prévisions & Scénarios */}
-                        <div className="group relative bg-gradient-to-br from-white to-green-50/30 rounded-2xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-green-400 via-emerald-400 to-green-400 bg-[length:200%_200%] animate-gradient p-[2px]">
-                                <div className="w-full h-full bg-white rounded-2xl"></div>
-                            </div>
-
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/30 group-hover:shadow-xl group-hover:shadow-green-500/50 transition-all">
-                                        <Sparkles className="w-7 h-7 text-white" />
-                                    </div>
-                                    <div>
-                                        <div className="inline-block px-2 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-[10px] font-bold uppercase tracking-wider rounded mb-1">
-                                            Pilier 2
-                                        </div>
-                                        <h3 className="text-xl font-bold text-gray-900">Prévisions & Scénarios</h3>
-                                    </div>
-                                </div>
-                                <ul className="space-y-3 text-gray-700">
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Cash-flow prévisionnel</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">3-12 mois</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Stress tests automatiques</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">-10/-30%</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Simulations retards clients / charges</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">15-60j</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Scénarios what-if en temps réel</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">Instantané</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        {/* Pilier 3 - Moteur de Risque */}
-                        <div className="group relative bg-gradient-to-br from-white to-orange-50/30 rounded-2xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-orange-400 via-red-400 to-orange-400 bg-[length:200%_200%] animate-gradient p-[2px]">
-                                <div className="w-full h-full bg-white rounded-2xl"></div>
-                            </div>
-
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/30 group-hover:shadow-xl group-hover:shadow-orange-500/50 transition-all">
-                                        <AlertTriangle className="w-7 h-7 text-white" />
-                                    </div>
-                                    <div>
-                                        <div className="inline-block px-2 py-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold uppercase tracking-wider rounded mb-1">
-                                            Pilier 3
-                                        </div>
-                                        <h3 className="text-xl font-bold text-gray-900">Moteur de Risque</h3>
-                                    </div>
-                                </div>
-                                <ul className="space-y-3 text-gray-700">
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Risque rupture de trésorerie</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">Runway</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Dette cachée (créances &gt;60j)</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">Aging</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Score FinSight™ (santé 0-100)</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">72/100</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Détection anomalies ML</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">Z-score</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        {/* Pilier 4 - CFO Virtuel */}
-                        <div className="group relative bg-gradient-to-br from-white to-purple-50/30 rounded-2xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-purple-400 via-pink-400 to-purple-400 bg-[length:200%_200%] animate-gradient p-[2px]">
-                                <div className="w-full h-full bg-white rounded-2xl"></div>
-                            </div>
-
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:shadow-xl group-hover:shadow-purple-500/50 transition-all">
-                                        <Sparkles className="w-7 h-7 text-white" />
-                                    </div>
-                                    <div>
-                                        <div className="inline-block px-2 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold uppercase tracking-wider rounded mb-1">
-                                            Pilier 4
-                                        </div>
-                                        <h3 className="text-xl font-bold text-gray-900">CFO Virtuel</h3>
-                                    </div>
-                                </div>
-                                <ul className="space-y-3 text-gray-700">
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Analyse en langage naturel</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded">GPT-4</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Plans d'action priorisés</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded">Top 5</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Synthèse PDF "consultant" prête</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded">Export</span>
-                                    </li>
-                                    <li className="flex items-start justify-between gap-3 group/item">
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0 group-hover/item:scale-150 transition-transform"></div>
-                                            <span className="group-hover/item:text-gray-900 transition-colors">Recommandations contextualisées</span>
-                                        </div>
-                                        <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded">IA</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Free Resources Section - Corporate */}
-            <section className="py-20 bg-white">
-                <div className="max-w-6xl mx-auto px-6">
-
-                    {/* Header */}
-                    <div className="text-center mb-16">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-200 rounded-lg mb-6">
-                            <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Ressources Gratuites</span>
-                        </div>
-                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-gray-900">
-                            Outils gratuits pour DAF et Contrôleurs de Gestion
-                        </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                            Templates Excel, guides PDF et calculateurs pour piloter votre PME
-                        </p>
-                    </div>
-
-                    {/* Resources Grid */}
-                    <div className="grid md:grid-cols-3 gap-8">
-
-                        {/* Templates Excel */}
-                        <Link
-                            href="/ressources/templates"
-                            className="group relative bg-gray-50 rounded-2xl p-8 border-2 border-gray-200 hover:border-accent-primary shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
-                        >
-                            <div className="flex flex-col h-full">
-                                {/* Icon */}
-                                <div className="mb-6">
-                                    <div className="w-16 h-16 rounded-xl bg-accent-primary-subtle border-2 border-blue-100 flex items-center justify-center group-hover:bg-accent-primary-subtle group-hover:border-accent-primary transition-colors">
-                                        <svg className="w-8 h-8 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                {/* Content */}
-                                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-accent-primary transition-colors">
-                                    Templates Excel
-                                </h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed flex-grow font-medium">
-                                    Budget prévisionnel 2025, Tracker DSO et Dashboard Cash Flow avec formules automatiques
-                                </p>
-
-                                {/* CTA */}
-                                <div className="flex items-center gap-2 text-accent-primary font-bold group-hover:gap-3 transition-all">
-                                    <span>Découvrir</span>
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </Link>
-
-                        {/* Guides PDF */}
-                        <Link
-                            href="/ressources/guides"
-                            className="group relative bg-gray-50 rounded-2xl p-8 border-2 border-gray-200 hover:border-green-500 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
-                        >
-                            <div className="flex flex-col h-full">
-                                {/* Icon */}
-                                <div className="mb-6">
-                                    <div className="w-14 h-14 rounded-xl bg-green-50 border border-green-200 flex items-center justify-center group-hover:bg-green-100 transition-colors">
-                                        <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                {/* Content */}
-                                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
-                                    Guides PDF
-                                </h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
-                                    Checklist closing mensuel, 15 ratios financiers, Guide BFR et 20 KPIs essentiels
-                                </p>
-
-                                {/* CTA */}
-                                <div className="flex items-center gap-2 text-green-600 font-semibold group-hover:gap-3 transition-all">
-                                    <span>Découvrir</span>
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </Link>
-
-                        {/* Calculateurs */}
-                        <Link
-                            href="/calculateurs"
-                            className="group relative bg-gray-50 rounded-2xl p-8 border-2 border-gray-200 hover:border-purple-500 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
-                        >
-                            <div className="flex flex-col h-full">
-                                {/* Icon */}
-                                <div className="mb-6">
-                                    <div className="w-14 h-14 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center group-hover:bg-purple-100 transition-colors">
-                                        <svg className="w-7 h-7 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                {/* Content */}
-                                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
-                                    Calculateurs
-                                </h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
-                                    Calculateurs DSO et BFR avec résultats instantanés et explications détaillées
-                                </p>
-
-                                {/* CTA */}
-                                <div className="flex items-center gap-2 text-purple-600 font-semibold group-hover:gap-3 transition-all">
-                                    <span>Découvrir</span>
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </div>
-                            </div>
+                            Voir toutes les offres
+                            <ArrowRight className="w-5 h-5" />
                         </Link>
                     </div>
 
-                    {/* Bottom Trust Bar */}
-                    <div className="mt-12 text-center">
-                        <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
-                            <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="flex items-center justify-center gap-8 text-sm text-gray-400">
+                        <div className="flex items-center gap-2">
+                            <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
-                            <span>Sans inscription • Téléchargement immédiat • RGPD France</span>
+                            <span>Réponse sous 24h</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                            <span>Échange ciblé</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                            <span>Approche terrain</span>
                         </div>
                     </div>
                 </div>
             </section>
-
-            {/* Témoignages clients – preuve sociale FP&A */}
-            <section className="max-w-5xl mx-auto px-6 py-16">
-                <h2 className="text-3xl font-bold mb-10 text-center text-primary">
-                    Ils m'ont confié leur pilotage financier
-                </h2>
-
-                <div className="grid md:grid-cols-3 gap-8">
-                    {/* Témoignage 1 */}
-                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
-                        <p className="text-secondary mb-6 italic leading-relaxed">
-                            "Nous avons enfin une lecture claire de notre situation financière et
-                            des indicateurs réellement utiles pour décider.
-                            Otmane a structuré un pilotage adapté à notre réalité métier."
-                        </p>
-
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                                <span className="text-blue-600 font-bold text-lg">DA</span>
-                            </div>
-
-                            <div>
-                                <p className="font-semibold text-primary">
-                                    Directrice Administrative
-                                </p>
-                                <p className="text-sm text-tertiary">
-                                    Groupe de formation professionnelle
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Témoignage 2 */}
-                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
-                        <p className="text-secondary mb-6 italic leading-relaxed">
-                            "Le suivi financier est devenu fiable et exploitable sans dépendre
-                            de fichiers manuels.
-                            Nous avons gagné en clarté et en sérénité dans nos décisions."
-                        </p>
-
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
-                                <span className="text-purple-600 font-bold text-lg">LB</span>
-                            </div>
-
-                            <div>
-                                <p className="font-semibold text-primary">Gérante</p>
-                                <p className="text-sm text-tertiary">
-                                    Agence de placement de guides
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Témoignage 3 */}
-                    <div className="surface rounded-xl p-8 border-2 border-border-default hover:border-accent-primary transition-all">
-                        <p className="text-secondary mb-6 italic leading-relaxed">
-                            "Mise en place d’un pilotage financier clair et fiable.
-                            Nous avons enfin une vision mensuelle du cash, des marges et des écarts vs budget."
-                        </p>
-
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                                <span className="text-green-600 font-bold text-lg">MC</span>
-                            </div>
-
-                            <div>
-                                <p className="font-semibold text-primary">CFO</p>
-                                <p className="text-sm text-tertiary">
-                                    PME – Services / Conseil
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Cas d'usage techniques */}
-            <Testimonials />
 
             <Footer />
         </div>
     )
 }
-
