@@ -222,10 +222,6 @@ export default function TresorisPage() {
                   poster="/video/agentIA-presentation-bpi-poster.jpg"
                 >
                   <source
-                    src="/video/agentIA-presentation-bpi.mov"
-                    type="video/quicktime"
-                  />
-                  <source
                     src="/video/agentIA-presentation-bpi.mp4"
                     type="video/mp4"
                   />
