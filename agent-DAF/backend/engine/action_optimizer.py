@@ -81,16 +81,69 @@ class ActionPrioritizer:
         Returns:
             Liste OptimizedAction triée par priority_score (desc)
         """
-        # TODO: Pour chaque action:
-        #       - Calculer impact_score
-        #       - Calculer ease_score
-        #       - Calculer urgency_score
-        #       - Calculer priority_score
-        #       - Déterminer priority_level (P1/P2/P3)
-        #       - Enrichir avec client_risk_score si disponible
-        # TODO: Trier par priority_score (desc)
-        # TODO: Retourner liste OptimizedAction
-        raise NotImplementedError("TODO: Implémenter prioritize_actions()")
+        optimized = []
+        current_date = datetime.now()
+        
+        for action in actions:
+            client_id = action["client_id"]
+            client_score = client_scores.get(client_id) if client_scores else None
+            
+            # Calculer scores composants
+            impact_score = self._calculate_impact_score(
+                amount=action.get("amount", 0),
+                success_rate=self._estimate_success_rate(
+                    action_type=action["action_type"],
+                    client_risk_score=client_score
+                ),
+                runway_impact_days=action.get("runway_impact_days", 0)
+            )
+            
+            ease_score = self._calculate_ease_score(
+                time_required_minutes=action.get("time_required_minutes", 30),
+                client_responsiveness=action.get("client_responsiveness", "medium"),
+                complexity=action.get("complexity", "medium")
+            )
+            
+            deadline = action.get("deadline", current_date + timedelta(days=30))
+            urgency_score = self._calculate_urgency_score(deadline, current_date)
+            
+            # Score priorité final
+            priority_score = self._calculate_priority_score(impact_score, ease_score, urgency_score)
+            priority_level = self._determine_priority_level(priority_score, urgency_score)
+            
+            # Construire action optimisée
+            opt_action = OptimizedAction(
+                action_id=action.get("action_id", f"ACT_{len(optimized)+1:03d}"),
+                action_type=action["action_type"],
+                client_id=client_id,
+                client_name=action.get("client_name", "Client inconnu"),
+                invoice_id=action.get("invoice_id"),
+                title=action.get("title", "Action"),
+                description=action.get("description", ""),
+                detailed_steps=action.get("detailed_steps", []),
+                impact_score=round(impact_score, 2),
+                ease_score=round(ease_score, 2),
+                urgency_score=round(urgency_score, 2),
+                priority_score=round(priority_score, 2),
+                priority_level=priority_level,
+                amount=action.get("amount", 0),
+                estimated_success_rate=self._estimate_success_rate(
+                    action["action_type"],
+                    client_score
+                ),
+                expected_impact_days=action.get("runway_impact_days", 0),
+                time_required_minutes=action.get("time_required_minutes", 30),
+                recommended_date=action.get("recommended_date", current_date),
+                deadline=deadline,
+                client_risk_score=client_score
+            )
+            
+            optimized.append(opt_action)
+        
+        # Trier par priorité décroissante
+        optimized.sort(key=lambda a: a.priority_score, reverse=True)
+        
+        return optimized
     
     def _calculate_impact_score(
         self,
@@ -109,12 +162,21 @@ class ActionPrioritizer:
         Returns:
             Score 0-100
         """
-        # TODO: Normaliser montant (ex: 10k€ = 50 points, 50k€ = 100 points)
-        # TODO: Pondérer par success_rate
-        # TODO: Booster si runway critique (< 30j)
-        # TODO: Calculer score final 0-100
-        # TODO: Retourner score
-        raise NotImplementedError("TODO: Implémenter _calculate_impact_score()")
+        # Normaliser montant (10k€ = 50 points, 50k€+ = 100 points)
+        amount_score = min((amount / 50000) * 100, 100)
+        
+        # Pondérer par probabilité succès
+        expected_value = amount_score * success_rate
+        
+        # Booster si runway critique
+        boost = 0
+        if self.runway_days < 30:
+            boost = min(runway_impact_days * 2, 30)  # Max +30 points
+        
+        # Score final
+        score = expected_value + boost
+        
+        return min(score, 100)  # Limiter à 100
     
     def _calculate_ease_score(
         self,
@@ -133,12 +195,34 @@ class ActionPrioritizer:
         Returns:
             Score 0-100 (100 = très facile)
         """
-        # TODO: Score temps: < 15min = 100, 30min = 70, 60min = 40, >60 = 20
-        # TODO: Score réactivité: high = +20, medium = +10, low = 0
-        # TODO: Score complexité: low = +20, medium = +10, high = 0
-        # TODO: Calculer moyenne pondérée
-        # TODO: Retourner score 0-100
-        raise NotImplementedError("TODO: Implémenter _calculate_ease_score()")
+        # Score temps (0-50 points)
+        if time_required_minutes <= 15:
+            time_score = 50
+        elif time_required_minutes <= 30:
+            time_score = 35
+        elif time_required_minutes <= 60:
+            time_score = 20
+        else:
+            time_score = 10
+        
+        # Score réactivité client (0-25 points)
+        responsiveness_scores = {
+            "high": 25,
+            "medium": 15,
+            "low": 5
+        }
+        resp_score = responsiveness_scores.get(client_responsiveness, 15)
+        
+        # Score complexité (0-25 points)
+        complexity_scores = {
+            "low": 25,
+            "medium": 15,
+            "high": 5
+        }
+        comp_score = complexity_scores.get(complexity, 15)
+        
+        # Score final
+        return time_score + resp_score + comp_score
     
     def _calculate_urgency_score(
         self,
@@ -151,13 +235,16 @@ class ActionPrioritizer:
         Returns:
             Score 0-100 (100 = très urgent)
         """
-        # TODO: Calculer jours restants
-        # TODO: < 7 jours = 100
-        # TODO: 7-14 jours = 80
-        # TODO: 14-30 jours = 50
-        # TODO: > 30 jours = 20
-        # TODO: Retourner score
-        raise NotImplementedError("TODO: Implémenter _calculate_urgency_score()")
+        days_left = (deadline - current_date).days
+        
+        if days_left < 7:
+            return 100
+        elif days_left < 14:
+            return 80
+        elif days_left < 30:
+            return 50
+        else:
+            return 20
     
     def _calculate_priority_score(
         self,
@@ -194,11 +281,17 @@ class ActionPrioritizer:
         Returns:
             "P1" | "P2" | "P3"
         """
-        # TODO: P1 si priority > 75 OU urgency > 90
-        # TODO: P2 si priority > 50 OU urgency > 70
-        # TODO: P3 sinon
-        # TODO: Retourner level
-        raise NotImplementedError("TODO: Implémenter _determine_priority_level()")
+        # P1 : Critique (fort impact ou très urgent)
+        if priority_score > 75 or urgency_score > 90:
+            return "P1"
+        
+        # P2 : Important (bon impact ou urgent)
+        elif priority_score > 50 or urgency_score > 70:
+            return "P2"
+        
+        # P3 : Normal
+        else:
+            return "P3"
     
     def _estimate_success_rate(
         self,
@@ -215,18 +308,29 @@ class ActionPrioritizer:
         Returns:
             Probabilité 0-1
         """
-        # TODO: Taux base selon action_type:
-        #       - relance_client: 0.7
-        #       - negocier_delai: 0.5
-        #       - securiser_paiement: 0.8
-        # TODO: Ajuster selon client_risk_score:
-        #       - Rating A: +0.2
-        #       - Rating B: +0.1
-        #       - Rating C: 0
-        #       - Rating D: -0.2
-        # TODO: Limiter à 0.1-0.95
-        # TODO: Retourner proba
-        raise NotImplementedError("TODO: Implémenter _estimate_success_rate()")
+        # Taux base selon type d'action
+        base_rates = {
+            "relance_client": 0.7,
+            "negocier_delai": 0.5,
+            "securiser_paiement": 0.8,
+            "accelerer_facturation": 0.9,
+            "reduire_delai_paiement": 0.6
+        }
+        base_rate = base_rates.get(action_type, 0.6)
+        
+        # Ajuster selon profil client
+        if client_risk_score:
+            rating_adjustments = {
+                "A": 0.2,   # Client fiable : +20%
+                "B": 0.1,   # Bon client : +10%
+                "C": 0.0,   # Surveillé : 0%
+                "D": -0.2   # Risqué : -20%
+            }
+            adjustment = rating_adjustments.get(client_risk_score.rating, 0)
+            base_rate += adjustment
+        
+        # Limiter entre 0.1 et 0.95
+        return max(0.1, min(base_rate, 0.95))
     
     def suggest_quick_wins(
         self,
@@ -243,13 +347,21 @@ class ActionPrioritizer:
         Returns:
             Liste quick wins triée par priority_score
         """
-        # TODO: Filtrer actions avec:
-        #       - time_required <= max_time_minutes
-        #       - ease_score > 70
-        #       - impact_score > 50
-        # TODO: Trier par priority_score
-        # TODO: Retourner top 5
-        raise NotImplementedError("TODO: Implémenter suggest_quick_wins()")
+        # Filtrer quick wins
+        quick_wins = [
+            a for a in actions
+            if (
+                a.time_required_minutes <= max_time_minutes and
+                a.ease_score > 70 and
+                a.impact_score > 50
+            )
+        ]
+        
+        # Trier par priorité
+        quick_wins.sort(key=lambda a: a.priority_score, reverse=True)
+        
+        # Retourner top 5
+        return quick_wins[:5]
 
 
 # ============================================================================
@@ -258,20 +370,117 @@ class ActionPrioritizer:
 
 def _test_prioritize_actions():
     """Test priorisation actions"""
-    # TODO: Créer 5 actions variées
-    # TODO: Appeler prioritize_actions()
-    # TODO: Vérifier tri par priority_score
-    # TODO: Vérifier niveaux P1/P2/P3 cohérents
-    print("TODO: Implémenter _test_prioritize_actions()")
+    print("\n--- Test prioritize_actions() ---")
+    
+    # Créer actions variées
+    actions = [
+        {
+            "action_type": "relance_client",
+            "client_id": "CLI001",
+            "client_name": "Client A",
+            "amount": 50000,
+            "time_required_minutes": 15,
+            "runway_impact_days": 10,
+            "deadline": datetime.now() + timedelta(days=5),
+            "client_responsiveness": "high",
+            "complexity": "low"
+        },
+        {
+            "action_type": "negocier_delai",
+            "client_id": "CLI002",
+            "client_name": "Client B",
+            "amount": 10000,
+            "time_required_minutes": 60,
+            "runway_impact_days": 3,
+            "deadline": datetime.now() + timedelta(days=20),
+            "client_responsiveness": "low",
+            "complexity": "high"
+        },
+        {
+            "action_type": "securiser_paiement",
+            "client_id": "CLI003",
+            "client_name": "Client C",
+            "amount": 25000,
+            "time_required_minutes": 30,
+            "runway_impact_days": 7,
+            "deadline": datetime.now() + timedelta(days=10),
+            "client_responsiveness": "medium",
+            "complexity": "medium"
+        }
+    ]
+    
+    prioritizer = ActionPrioritizer(treasury_runway_days=25)
+    optimized = prioritizer.prioritize_actions(actions)
+    
+    print(f"Actions priorisées ({len(optimized)}):")
+    for i, action in enumerate(optimized, 1):
+        print(f"  {i}. [{action.priority_level}] {action.client_name} - "
+              f"Priority={action.priority_score:.1f} "
+              f"(Impact={action.impact_score:.1f}, Ease={action.ease_score:.1f})")
+    
+    # Vérifier tri
+    for i in range(len(optimized) - 1):
+        assert optimized[i].priority_score >= optimized[i+1].priority_score, \
+            "Actions devraient être triées par priority_score"
+    
+    # Vérifier niveaux P1/P2/P3
+    assert all(a.priority_level in ["P1", "P2", "P3"] for a in optimized), \
+        "Tous les niveaux doivent être P1/P2/P3"
+    
+    print("\n✅ Test prioritize_actions() passé")
 
 
 def _test_quick_wins():
     """Test suggestion quick wins"""
-    # TODO: Créer mix actions (faciles + difficiles)
-    # TODO: Appeler suggest_quick_wins()
-    # TODO: Vérifier filtre temps correct
-    # TODO: Vérifier top actions retournées
-    print("TODO: Implémenter _test_quick_wins()")
+    print("\n--- Test quick_wins() ---")
+    
+    # Créer mix actions (faciles + difficiles)
+    actions_data = [
+        {"action_type": "relance_client", "client_id": "CLI001", "amount": 40000,
+         "time_required_minutes": 10, "runway_impact_days": 8,
+         "deadline": datetime.now() + timedelta(days=5),
+         "client_responsiveness": "high", "complexity": "low"},
+        
+        {"action_type": "relance_client", "client_id": "CLI002", "amount": 25000,
+         "time_required_minutes": 15, "runway_impact_days": 5,
+         "deadline": datetime.now() + timedelta(days=7),
+         "client_responsiveness": "high", "complexity": "low"},
+        
+        {"action_type": "negocier_delai", "client_id": "CLI003", "amount": 60000,
+         "time_required_minutes": 90, "runway_impact_days": 12,
+         "deadline": datetime.now() + timedelta(days=3),
+         "client_responsiveness": "low", "complexity": "high"},
+        
+        {"action_type": "securiser_paiement", "client_id": "CLI004", "amount": 15000,
+         "time_required_minutes": 25, "runway_impact_days": 4,
+         "deadline": datetime.now() + timedelta(days=10),
+         "client_responsiveness": "medium", "complexity": "medium"}
+    ]
+    
+    prioritizer = ActionPrioritizer(treasury_runway_days=30)
+    optimized = prioritizer.prioritize_actions(actions_data)
+    
+    # Suggérer quick wins
+    quick_wins = prioritizer.suggest_quick_wins(optimized, max_time_minutes=30)
+    
+    print(f"Quick wins suggérés ({len(quick_wins)}):")
+    for i, qw in enumerate(quick_wins, 1):
+        print(f"  {i}. {qw.client_name} - {qw.time_required_minutes}min - "
+              f"Impact={qw.impact_score:.1f}, Ease={qw.ease_score:.1f}")
+    
+    # Vérifier filtre temps
+    for qw in quick_wins:
+        assert qw.time_required_minutes <= 30, \
+            f"Quick win devrait prendre ≤30min, obtenu {qw.time_required_minutes}min"
+        assert qw.ease_score > 70, \
+            f"Quick win devrait avoir ease_score >70, obtenu {qw.ease_score}"
+        assert qw.impact_score > 50, \
+            f"Quick win devrait avoir impact_score >50, obtenu {qw.impact_score}"
+    
+    # Vérifier top actions
+    assert len(quick_wins) <= 5, "Maximum 5 quick wins"
+    
+    print("\n✅ Test quick_wins() passé")
 
 
 def _run_all_tests():
@@ -283,14 +492,20 @@ def _run_all_tests():
     try:
         _test_prioritize_actions()
         print("✅ Test prioritize_actions OK")
+    except AssertionError as e:
+        print(f"❌ Test prioritize_actions ÉCHEC: {e}")
     except NotImplementedError as e:
         print(f"⏳ Test prioritize_actions: {e}")
     
     try:
         _test_quick_wins()
         print("✅ Test quick_wins OK")
+    except AssertionError as e:
+        print(f"❌ Test quick_wins ÉCHEC: {e}")
     except NotImplementedError as e:
         print(f"⏳ Test quick_wins: {e}")
+    
+    print("=" * 60)
 
 
 if __name__ == "__main__":

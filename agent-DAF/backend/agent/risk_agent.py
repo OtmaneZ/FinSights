@@ -24,6 +24,20 @@ from typing import Dict, List, Optional, Callable, Any
 import pandas as pd
 import numpy as np
 import uuid
+import sys
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# IMPORTS ENGINES V2 - Sophistication avancée
+# ═══════════════════════════════════════════════════════════════════════════════
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from engine.payment_patterns import ClientPaymentAnalyzer, ClientPaymentPattern
+from engine.smart_forecast import SmartForecaster, SmartForecast
+from engine.early_warning import EarlyWarningDetector, EarlyWarning
+from engine.client_scoring import ClientRiskScorer, ClientRiskScore
+from engine.action_optimizer import ActionPrioritizer, OptimizedAction
+from engine.seasonality import SeasonalityAdjuster
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -159,6 +173,25 @@ class RiskRequalificationAgent:
             "retard_critical": 90,      # Jours retard = critique
             "retard_uncertain": 45,     # Jours retard = incertain
         }
+        
+        # ═══════════════════════════════════════════════════════════════════════
+        # ENGINES V2 - Sophistication avancée
+        # ═══════════════════════════════════════════════════════════════════════
+        
+        self.payment_analyzer = ClientPaymentAnalyzer()
+        self.forecaster = SmartForecaster()
+        self.warning_detector = EarlyWarningDetector()
+        self.risk_scorer = ClientRiskScorer()
+        self.action_prioritizer = ActionPrioritizer(treasury_runway_days=60)
+        self.seasonality_adjuster = SeasonalityAdjuster()
+        
+        print("✅ Engines V2 initialisés:")
+        print("   - ClientPaymentAnalyzer (patterns clients)")
+        print("   - SmartForecaster (prévisions intelligentes)")
+        print("   - EarlyWarningDetector (signaux faibles)")
+        print("   - ClientRiskScorer (scoring 0-100)")
+        print("   - ActionPrioritizer (impact×0.7 + ease×0.3)")
+        print("   - SeasonalityAdjuster (facteurs saisonniers)")
         
         # Callbacks pour WebSocket
         self.event_callbacks: List[Callable] = []
@@ -337,22 +370,21 @@ class RiskRequalificationAgent:
         return pending['days_overdue'].mean()
     
     # ═══════════════════════════════════════════════════════════════════════════
-    # STEP 2: REQUALIFY RISKS
+    # STEP 2: REQUALIFY RISKS (V2 avec Engines sophistiqués)
     # ═══════════════════════════════════════════════════════════════════════════
     
     async def requalify_risks(self) -> List[Risk]:
         """
-        Requalifie chaque encours : CERTAIN → UNCERTAIN → CRITICAL
+        Requalifie chaque encours avec sophistication V2 :
         
-        Critères de requalification :
-        - Retard > 90j → CRITICAL
-        - Retard 45-90j → UNCERTAIN
-        - Concentration > 40% → CRITICAL
-        - Concentration 30-40% → UNCERTAIN
-        - Historique client dégradé → +1 niveau
+        V2 ENGINES:
+        1. ClientPaymentAnalyzer → Analyse patterns historiques par client
+        2. ClientRiskScorer → Score 0-100 + rating A/B/C/D
+        3. EarlyWarningDetector → Détecte signaux faibles (progressive_delay, concentration, etc.)
+        4. SmartForecaster → Prévisions ajustées par trend + probabilités
         
         Returns:
-            Liste des risques requalifiés
+            Liste des risques requalifiés avec sophistication V2
         """
         invoices = self._load_invoices()
         if invoices is None or invoices.empty:
@@ -360,59 +392,138 @@ class RiskRequalificationAgent:
         
         risks: List[Risk] = []
         
-        # Filtrer les factures non payées
-        pending = invoices[invoices.get('status', pd.Series([''])) != 'paid'].copy()
+        print("\n🔍 REQUALIFICATION V2 avec engines sophistiqués...")
+        
+        # ─────────────────────────────────────────────────────────────────────
+        # ÉTAPE 1: Analyser patterns de paiement par client
+        # ─────────────────────────────────────────────────────────────────────
+        
+        client_patterns = {}
+        client_col = 'client_name' if 'client_name' in invoices.columns else 'client'
+        
+        print("📊 Analyse patterns clients...")
+        for client in invoices[client_col].unique():
+            try:
+                pattern = self.payment_analyzer.analyze_client(invoices, str(client))
+                client_patterns[str(client)] = pattern
+            except Exception as e:
+                print(f"⚠️  Erreur pattern {client}: {e}")
+                continue
+        
+        print(f"✅ {len(client_patterns)} patterns clients analysés")
+        
+        # ─────────────────────────────────────────────────────────────────────
+        # ÉTAPE 2: Scorer chaque client (0-100 + A/B/C/D)
+        # ─────────────────────────────────────────────────────────────────────
+        
+        client_scores = {}
+        pending = invoices[invoices.get('status', '') != 'paid'].copy()
+        total_pending = pending['amount'].sum() if not pending.empty else 0
+        
+        print("🎯 Scoring risque clients...")
+        for client, pattern in client_patterns.items():
+            try:
+                client_pending = pending[pending[client_col] == client]['amount'].sum() if not pending.empty else 0
+                
+                score = self.risk_scorer.calculate_risk_score(
+                    pattern=pattern,
+                    pending_amount=float(client_pending),
+                    total_portfolio=float(total_pending) if total_pending > 0 else 1
+                )
+                client_scores[client] = score
+            except Exception as e:
+                print(f"⚠️  Erreur scoring {client}: {e}")
+                continue
+        
+        print(f"✅ {len(client_scores)} clients scorés")
+        
+        # ─────────────────────────────────────────────────────────────────────
+        # ÉTAPE 3: Détecter early warnings (signaux faibles)
+        # ─────────────────────────────────────────────────────────────────────
+        
+        print("🚨 Détection early warnings...")
+        early_warnings = self.warning_detector.detect_all_warnings(
+            invoices_df=invoices,
+            client_patterns=client_patterns
+        )
+        print(f"✅ {len(early_warnings)} warnings détectés")
+        
+        # Grouper warnings par client
+        warnings_by_client = {}
+        for warning in early_warnings:
+            if warning.client_id not in warnings_by_client:
+                warnings_by_client[warning.client_id] = []
+            warnings_by_client[warning.client_id].append(warning)
+        
+        # ─────────────────────────────────────────────────────────────────────
+        # ÉTAPE 4: Créer risques avec toute la sophistication V2
+        # ─────────────────────────────────────────────────────────────────────
+        
+        print("📋 Création risques sophistiqués...")
         
         for _, row in pending.iterrows():
-            # Extraire données (support des deux noms de colonnes)
             days_overdue = int(row.get('days_overdue', 0))
             amount = float(row.get('amount', 0))
-            client = str(row.get('client_name', row.get('client', 'Inconnu')))
+            client = str(row.get(client_col, 'Inconnu'))
             invoice_id = str(row.get('invoice_id', row.get('id', 'N/A')))
             
             # Skip si montant trop faible
             if amount < self.thresholds["amount_min"]:
                 continue
             
-            # Déterminer le statut
-            status, justification, probability = self._determine_risk_status(
+            # Récupérer données V2
+            client_score = client_scores.get(client)
+            client_warnings = warnings_by_client.get(client, [])
+            
+            # Déterminer statut avec sophistication V2
+            status, justification, probability = self._determine_risk_status_v2(
                 days_overdue=days_overdue,
                 amount=amount,
                 client=client,
+                client_score=client_score,
+                warnings=client_warnings,
                 invoices=invoices
             )
             
-            # Calculer le score (0-100)
-            score = self._calculate_risk_score(
+            # Calculer score final (intégration V2)
+            score = self._calculate_risk_score_v2(
                 days_overdue=days_overdue,
                 amount=amount,
                 probability=probability,
+                client_score=client_score,
                 status=status
             )
             
-            # Déterminer qualité des données
-            data_quality = self._assess_data_quality(row)
+            # Déterminer type de risque
+            risk_type = self._determine_risk_type_v2(
+                days_overdue=days_overdue,
+                client=client,
+                warnings=client_warnings,
+                invoices=invoices
+            )
             
-            # Créer le risque
+            # Créer risque
             risk = Risk(
                 id=f"RISK_{invoice_id}_{datetime.now().strftime('%Y%m%d')}",
-                type=self._determine_risk_type(days_overdue, client, invoices),
+                type=risk_type,
                 client=client,
                 invoice_id=invoice_id,
                 amount=amount,
                 probability=probability,
                 days_overdue=days_overdue,
                 status=status,
-                horizon_weeks=self._estimate_horizon(days_overdue, status),
+                horizon_weeks=self._estimate_horizon_v2(days_overdue, status, client_score),
                 score=score,
                 justification=justification,
-                data_quality=data_quality
+                data_quality=self._assess_data_quality(row)
             )
             
             risks.append(risk)
         
         # Trier par score décroissant
         risks.sort(key=lambda r: r.score, reverse=True)
+        
+        print(f"✅ {len(risks)} risques créés avec engines V2\n")
         
         return risks
     
@@ -537,6 +648,221 @@ class RiskRequalificationAgent:
         else:
             return 8  # Horizon plus lointain
     
+    # ═══════════════════════════════════════════════════════════════════════════
+    # MÉTHODES V2 - Utilisant engines sophistiqués
+    # ═══════════════════════════════════════════════════════════════════════════
+    
+    def _determine_risk_status_v2(
+        self,
+        days_overdue: int,
+        amount: float,
+        client: str,
+        client_score: Optional[ClientRiskScore],
+        warnings: List[EarlyWarning],
+        invoices: pd.DataFrame
+    ) -> tuple[RiskStatus, str, float]:
+        """
+        Détermine statut risque avec sophistication V2.
+        
+        Intègre:
+        - Client risk score (A/B/C/D)
+        - Early warnings détectés
+        - Patterns de paiement
+        
+        Returns:
+            (status, justification, probability)
+        """
+        reasons = []
+        
+        # ─── CRITICAL si warnings critiques ───
+        critical_warnings = [w for w in warnings if w.severity == "critical"]
+        if critical_warnings:
+            reasons.append(f"{len(critical_warnings)} warning(s) critique(s)")
+            status = RiskStatus.CRITICAL
+            probability = 0.95
+        
+        # ─── CRITICAL si client rating D ───
+        elif client_score and client_score.rating == "D":
+            reasons.append(f"Client rating D (score {client_score.risk_score:.0f})")
+            reasons.extend(client_score.risk_factors[:2])  # Top 2 facteurs
+            status = RiskStatus.CRITICAL
+            probability = 0.9
+        
+        # ─── CRITICAL si retard > 90j ───
+        elif days_overdue > self.thresholds["retard_critical"]:
+            reasons.append(f"Retard > {self.thresholds['retard_critical']}j ({days_overdue}j)")
+            status = RiskStatus.CRITICAL
+            probability = 0.85
+        
+        # ─── UNCERTAIN si warnings high + client C ───
+        elif warnings and client_score and client_score.rating in ["C", "D"]:
+            high_warnings = [w for w in warnings if w.severity == "high"]
+            if high_warnings:
+                reasons.append(f"Client {client_score.rating} + {len(high_warnings)} warning(s)")
+                status = RiskStatus.UNCERTAIN
+                probability = 0.7
+            else:
+                reasons.append(f"Client {client_score.rating} + warnings détectés")
+                status = RiskStatus.UNCERTAIN
+                probability = 0.6
+        
+        # ─── UNCERTAIN si retard 45-90j ───
+        elif days_overdue > self.thresholds["retard_uncertain"]:
+            reasons.append(f"Retard {self.thresholds['retard_uncertain']}-{self.thresholds['retard_critical']}j")
+            if client_score:
+                reasons.append(f"Client rating {client_score.rating}")
+            status = RiskStatus.UNCERTAIN
+            probability = 0.55
+        
+        # ─── CERTAIN si client A/B sans warnings ───
+        elif client_score and client_score.rating in ["A", "B"] and not warnings:
+            reasons.append(f"Client fiable (rating {client_score.rating})")
+            if client_score.positive_factors:
+                reasons.append(client_score.positive_factors[0])
+            status = RiskStatus.CERTAIN
+            probability = 0.15
+        
+        # ─── CERTAIN par défaut ───
+        else:
+            status = RiskStatus.CERTAIN
+            probability = 0.25
+            reasons.append("Dans les normes")
+            if client_score:
+                reasons.append(f"Rating {client_score.rating}")
+        
+        justification = f"V2: {status.value.upper()} - {' | '.join(reasons)}"
+        
+        return status, justification, probability
+    
+    def _calculate_risk_score_v2(
+        self,
+        days_overdue: int,
+        amount: float,
+        probability: float,
+        client_score: Optional[ClientRiskScore],
+        status: RiskStatus
+    ) -> int:
+        """
+        Calcule score risque avec sophistication V2.
+        
+        Formule: 
+        - Retard (20%)
+        - Montant (20%)
+        - Probabilité (30%)
+        - Client risk_score (30%)
+        
+        Returns:
+            Score 0-100
+        """
+        # Score retard (max 20 points)
+        retard_score = min(days_overdue / 120, 1) * 20
+        
+        # Score montant (max 20 points)
+        amount_score = min(amount / 500000, 1) * 20
+        
+        # Score probabilité (max 30 points)
+        proba_score = probability * 30
+        
+        # Score client V2 (max 30 points)
+        if client_score:
+            # Utiliser directement le risk_score du client (0-100)
+            client_risk = client_score.risk_score * 0.3  # Max 30 points
+        else:
+            client_risk = 15  # Valeur moyenne si pas de score
+        
+        total = int(retard_score + amount_score + proba_score + client_risk)
+        
+        # Booster si status CRITICAL
+        if status == RiskStatus.CRITICAL:
+            total = min(100, total + 15)
+        
+        return min(100, max(0, total))
+    
+    def _determine_risk_type_v2(
+        self,
+        days_overdue: int,
+        client: str,
+        warnings: List[EarlyWarning],
+        invoices: pd.DataFrame
+    ) -> str:
+        """
+        Détermine type risque avec sophistication V2.
+        
+        Types V2:
+        - "progressive_delay" : Dégradation progressive
+        - "concentration" : Risque concentration
+        - "seasonal_risk" : Risque saisonnier
+        - "retard" : Retard classique
+        - "deviation_scenario" : Déviation scénario
+        """
+        # Prioriser type basé sur warnings V2
+        if warnings:
+            # Grouper par type
+            warning_types = [w.warning_type for w in warnings]
+            
+            if "progressive_delay" in warning_types:
+                return "progressive_delay"
+            elif "concentration_risk" in warning_types:
+                return "concentration"
+            elif "seasonal_risk" in warning_types:
+                return "seasonal_risk"
+            elif "partial_payments" in warning_types:
+                return "partial_payments"
+        
+        # Fallback sur logique classique
+        client_col = 'client_name' if 'client_name' in invoices.columns else 'client'
+        pending = invoices[invoices.get('status', pd.Series([''])) != 'paid']
+        
+        if not pending.empty and client_col in pending.columns:
+            total = pending['amount'].sum()
+            client_total = pending[pending[client_col] == client]['amount'].sum()
+            concentration = (client_total / total * 100) if total > 0 else 0
+            
+            if concentration > 30:
+                return "concentration"
+        
+        if days_overdue > 45:
+            return "retard"
+        
+        return "deviation_scenario"
+    
+    def _estimate_horizon_v2(
+        self,
+        days_overdue: int,
+        status: RiskStatus,
+        client_score: Optional[ClientRiskScore]
+    ) -> int:
+        """
+        Estime horizon impact avec sophistication V2.
+        
+        Facteurs:
+        - Status (CRITICAL/UNCERTAIN/CERTAIN)
+        - Client rating (D=immédiat, A=plus long)
+        - Retard actuel
+        
+        Returns:
+            Horizon en semaines (1-12)
+        """
+        if status == RiskStatus.CRITICAL:
+            # Critique: impact immédiat
+            if client_score and client_score.rating == "D":
+                return 1  # 1 semaine si client D
+            return 2  # 2 semaines sinon
+        
+        elif status == RiskStatus.UNCERTAIN:
+            # Incertain: impact moyen terme
+            if client_score and client_score.rating == "C":
+                return 3  # 3 semaines si client C
+            return 4  # 4 semaines sinon
+        
+        else:
+            # Certain: horizon plus long
+            if client_score and client_score.rating == "A":
+                return 12  # 12 semaines si client A (très fiable)
+            elif client_score and client_score.rating == "B":
+                return 8   # 8 semaines si client B
+            return 6  # 6 semaines par défaut
+    
     def _assess_data_quality(self, row) -> str:
         """Évalue la qualité des données pour cette ligne"""
         issues = 0
@@ -556,88 +882,181 @@ class RiskRequalificationAgent:
         return "green"
     
     # ═══════════════════════════════════════════════════════════════════════════
-    # STEP 3: PROPOSE ACTIONS
+    # STEP 3: PROPOSE ACTIONS (V2 avec ActionPrioritizer)
     # ═══════════════════════════════════════════════════════════════════════════
     
     async def propose_actions(self, risks: List[Risk]) -> List[Action]:
         """
-        Propose max 3 actions urgentes basées sur les risques.
+        Propose actions avec ActionPrioritizer V2.
         
-        Chaque action répond à :
-        "Que faire maintenant pour ne pas subir plus tard ?"
+        V2 Features:
+        - Priorisation intelligente (impact×0.7 + ease×0.3)
+        - Quick wins detection
+        - Success rate estimation par client
+        - Niveaux P1/P2/P3 dynamiques
         
         Returns:
-            Liste de max 3 actions prioritaires
+            Liste max 3 actions optimisées
         """
         if not risks:
             return []
         
-        actions: List[Action] = []
+        print("\n🎯 PROPOSITION ACTIONS V2 avec ActionPrioritizer...")
         
-        # Trier par score pour traiter les plus urgents
-        critical_risks = [r for r in risks if r.status == RiskStatus.CRITICAL]
-        uncertain_risks = [r for r in risks if r.status == RiskStatus.UNCERTAIN]
+        # ─────────────────────────────────────────────────────────────────────
+        # Préparer actions brutes pour le prioritizer
+        # ─────────────────────────────────────────────────────────────────────
         
-        # Action P1: Risque critique le plus urgent
-        if critical_risks:
-            top_critical = critical_risks[0]
-            actions.append(Action(
-                id=f"ACT_P1_{datetime.now().strftime('%Y%m%d_%H%M')}",
-                risk_id=top_critical.id,
-                priority=ActionPriority.P1,
-                title=f"Requalifier encaissement {top_critical.client}",
-                description=self._build_action_description(top_critical, "P1"),
-                justification=top_critical.justification,
-                impact_amount=top_critical.amount,
-                deadline="Immédiat"
-            ))
+        actions_data = []
         
-        # Action P2: Concentration ou second risque critique
+        for risk in risks:
+            # Action relance pour risques critiques/incertains
+            if risk.status in [RiskStatus.CRITICAL, RiskStatus.UNCERTAIN]:
+                actions_data.append({
+                    "action_type": "relance_client",
+                    "client_id": risk.client,
+                    "client_name": risk.client,
+                    "invoice_id": risk.invoice_id,
+                    "amount": risk.amount,
+                    "title": f"Relancer {risk.client}",
+                    "description": f"Requalifier encaissement {risk.amount/1000:.0f}K€",
+                    "detailed_steps": [
+                        "1. Contacter client pour statut paiement",
+                        "2. Requalifier forecast si nécessaire",
+                        "3. Notifier contrôle de gestion"
+                    ],
+                    "time_required_minutes": 20 if risk.status == RiskStatus.CRITICAL else 30,
+                    "client_responsiveness": "high" if risk.days_overdue < 30 else "medium",
+                    "complexity": "low" if risk.amount < 50000 else "medium",
+                    "runway_impact_days": max(1, 30 - risk.horizon_weeks * 7),
+                    "deadline": datetime.now() + timedelta(days=2 if risk.status == RiskStatus.CRITICAL else 7)
+                })
+        
+        # Action concentration si détectée
         concentration_risks = [r for r in risks if r.type == "concentration"]
-        if concentration_risks and len(actions) < 3:
-            risk = concentration_risks[0]
-            if risk.id not in [a.risk_id for a in actions]:
-                actions.append(Action(
-                    id=f"ACT_P2_{datetime.now().strftime('%Y%m%d_%H%M')}",
-                    risk_id=risk.id,
-                    priority=ActionPriority.P2,
-                    title=f"Réviser exposition {risk.client}",
-                    description=self._build_action_description(risk, "P2"),
-                    justification=risk.justification,
-                    impact_amount=risk.amount,
-                    deadline="Cette semaine"
+        if concentration_risks:
+            top_conc = concentration_risks[0]
+            actions_data.append({
+                "action_type": "negocier_delai",
+                "client_id": top_conc.client,
+                "client_name": top_conc.client,
+                "amount": top_conc.amount,
+                "title": f"Réviser exposition {top_conc.client}",
+                "description": "Analyser et sécuriser concentration client",
+                "detailed_steps": [
+                    "1. Analyser exposition totale",
+                    "2. Évaluer options sécurisation",
+                    "3. Préparer scénario alternatif"
+                ],
+                "time_required_minutes": 60,
+                "client_responsiveness": "medium",
+                "complexity": "high",
+                "runway_impact_days": 21,
+                "deadline": datetime.now() + timedelta(days=10)
+            })
+        
+        # ─────────────────────────────────────────────────────────────────────
+        # Utiliser ActionPrioritizer V2
+        # ─────────────────────────────────────────────────────────────────────
+        
+        # Calculer runway actuel (approximation)
+        total_at_risk = sum(r.amount * r.probability for r in risks)
+        estimated_monthly_revenue = sum(r.amount for r in risks) * 2  # Approximation
+        runway_days = int((estimated_monthly_revenue - total_at_risk) / (estimated_monthly_revenue / 30)) if estimated_monthly_revenue > 0 else 60
+        
+        prioritizer = ActionPrioritizer(treasury_runway_days=max(30, runway_days))
+        optimized_actions = prioritizer.prioritize_actions(actions_data)
+        
+        print(f"✅ {len(optimized_actions)} actions priorisées")
+        
+        # ─────────────────────────────────────────────────────────────────────
+        # Convertir en format Action (max 3)
+        # ─────────────────────────────────────────────────────────────────────
+        
+        final_actions = []
+        
+        for opt_action in optimized_actions[:3]:  # Top 3
+            # Mapper priority_level V2 vers ActionPriority
+            priority_map = {
+                "P1": ActionPriority.P1,
+                "P2": ActionPriority.P2,
+                "P3": ActionPriority.P3
+            }
+            
+            # Trouver risque associé
+            related_risk = next((r for r in risks if r.client == opt_action.client_name), None)
+            
+            action = Action(
+                id=opt_action.action_id,
+                risk_id=related_risk.id if related_risk else "GLOBAL",
+                priority=priority_map.get(opt_action.priority_level, ActionPriority.P2),
+                title=opt_action.title,
+                description=self._build_action_description_v2(opt_action, related_risk),
+                justification=f"Priority={opt_action.priority_score:.0f} (Impact={opt_action.impact_score:.0f}, Ease={opt_action.ease_score:.0f}) | Success rate={opt_action.estimated_success_rate*100:.0f}%",
+                impact_amount=opt_action.amount,
+                deadline=opt_action.deadline.strftime("%d/%m/%Y")
+            )
+            
+            final_actions.append(action)
+        
+        # Ajouter action globale si fort risque cumulé
+        if len(final_actions) < 3:
+            total_at_risk = sum(r.amount * r.probability for r in risks if r.status in [RiskStatus.CRITICAL, RiskStatus.UNCERTAIN])
+            if total_at_risk > 100000:
+                final_actions.append(Action(
+                    id=f"ACT_GLOBAL_{datetime.now().strftime('%Y%m%d_%H%M')}",
+                    risk_id="GLOBAL",
+                    priority=ActionPriority.P3,
+                    title="Réviser forecast trésorerie",
+                    description=f"Intégrer {total_at_risk/1000:.0f}K€ de risque dans prévisions",
+                    justification=f"{len([r for r in risks if r.status != RiskStatus.CERTAIN])} risques identifiés",
+                    impact_amount=total_at_risk,
+                    deadline=(datetime.now() + timedelta(days=14)).strftime("%d/%m/%Y")
                 ))
-        elif len(critical_risks) > 1 and len(actions) < 3:
-            risk = critical_risks[1]
-            actions.append(Action(
-                id=f"ACT_P2_{datetime.now().strftime('%Y%m%d_%H%M')}",
-                risk_id=risk.id,
-                priority=ActionPriority.P2,
-                title=f"Sécuriser encaissement {risk.client}",
-                description=self._build_action_description(risk, "P2"),
-                justification=risk.justification,
-                impact_amount=risk.amount,
-                deadline="Cette semaine"
-            ))
         
-        # Action P3: Acter une dégradation de scénario si nécessaire
-        total_at_risk = sum(r.amount * r.probability for r in risks if r.status in [RiskStatus.CRITICAL, RiskStatus.UNCERTAIN])
-        if total_at_risk > 100000 and len(actions) < 3:
-            actions.append(Action(
-                id=f"ACT_P3_{datetime.now().strftime('%Y%m%d_%H%M')}",
-                risk_id="GLOBAL",
-                priority=ActionPriority.P3,
-                title="Acter une dégradation de scénario trésorerie",
-                description=f"Valider une révision structurante des prévisions de trésorerie pour intégrer un risque de {total_at_risk/1000:.0f}K€ sur les encaissements incertains. Cette décision impact le plan de financement.",
-                justification=f"Cumul des risques identifiés: {len([r for r in risks if r.status != RiskStatus.CERTAIN])} encours à surveiller",
-                impact_amount=total_at_risk,
-                deadline="Sous 2 semaines"
-            ))
+        print(f"✅ {len(final_actions)} actions finales proposées\n")
         
-        return actions[:3]  # Max 3 actions
+        return final_actions
+    
+    def _build_action_description_v2(
+        self,
+        opt_action: OptimizedAction,
+        related_risk: Optional[Risk]
+    ) -> str:
+        """Construit description action avec détails V2"""
+        
+        priority_text = {
+            "P1": "Action immédiate requise",
+            "P2": "Action importante cette semaine",
+            "P3": "Action à planifier"
+        }
+        
+        desc = f"""{priority_text.get(opt_action.priority_level, 'Action')} sur {opt_action.client_name}:
+
+{opt_action.description}
+
+ÉTAPES:
+"""
+        for step in opt_action.detailed_steps:
+            desc += f"\n{step}"
+        
+        desc += f"""
+
+CONTEXTE V2:
+• Montant: {opt_action.amount/1000:.0f}K€
+• Temps requis: {opt_action.time_required_minutes}min
+• Succès estimé: {opt_action.estimated_success_rate*100:.0f}%
+• Impact runway: +{opt_action.expected_impact_days}j si réussi
+"""
+        
+        if related_risk:
+            desc += f"• Retard actuel: {related_risk.days_overdue}j\n"
+            desc += f"• Score risque: {related_risk.score}/100\n"
+        
+        return desc
     
     def _build_action_description(self, risk: Risk, priority: str) -> str:
-        """Construit la description détaillée d'une action"""
+        """Construit la description détaillée d'une action (legacy)"""
         if priority == "P1":
             return f"""Action immédiate requise sur {risk.client}:
 

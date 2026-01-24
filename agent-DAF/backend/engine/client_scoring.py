@@ -77,17 +77,61 @@ class ClientRiskScorer:
         Returns:
             ClientRiskScore avec score, rating, explications
         """
-        # TODO: Calculer payment_behavior_score (inversé de reliability_score)
-        # TODO: Calculer trend_score
-        # TODO: Calculer stability_score
-        # TODO: Calculer amount_score
-        # TODO: Calculer risk_score (moyenne pondérée)
-        # TODO: Déterminer rating (A/B/C/D)
-        # TODO: Générer explications
-        # TODO: Identifier facteurs risque et points positifs
-        # TODO: Évaluer confiance
-        # TODO: Construire et retourner ClientRiskScore
-        raise NotImplementedError("TODO: Implémenter calculate_risk_score()")
+        # 1. Calculer scores composants
+        payment_behavior_score = self._calculate_payment_behavior_score(pattern)
+        trend_score = self._calculate_trend_score(pattern)
+        stability_score = self._calculate_stability_score(pattern)
+        amount_score = self._calculate_amount_score(pending_amount, total_portfolio)
+        
+        # 2. Score global (moyenne pondérée)
+        risk_score = (
+            payment_behavior_score * self.weights["payment_behavior"] +
+            trend_score * self.weights["trend"] +
+            stability_score * self.weights["stability"] +
+            amount_score * self.weights["amount"]
+        )
+        
+        # 3. Déterminer rating
+        rating = self._determine_rating(risk_score)
+        
+        # 4. Générer explications
+        scores_dict = {
+            "payment_behavior": payment_behavior_score,
+            "trend": trend_score,
+            "stability": stability_score,
+            "amount": amount_score
+        }
+        explanation = self._generate_explanation(pattern, scores_dict, rating)
+        
+        # 5. Identifier facteurs
+        risk_factors = self._identify_risk_factors(pattern)
+        positive_factors = self._identify_positive_factors(pattern)
+        
+        # 6. Évaluer confiance
+        if pattern.invoice_count >= 12 and pattern.days_in_analysis >= 180:
+            confidence = "high"
+        elif pattern.invoice_count >= 5 and pattern.days_in_analysis >= 90:
+            confidence = "medium"
+        else:
+            confidence = "low"
+        
+        # 7. Construire et retourner score complet
+        return ClientRiskScore(
+            client_id=pattern.client_id,
+            client_name=pattern.client_name,
+            risk_score=round(risk_score, 2),
+            rating=rating,
+            payment_behavior_score=round(payment_behavior_score, 2),
+            trend_score=round(trend_score, 2),
+            stability_score=round(stability_score, 2),
+            amount_score=round(amount_score, 2),
+            weights=self.weights,
+            explanation=explanation,
+            risk_factors=risk_factors,
+            positive_factors=positive_factors,
+            calculated_at=datetime.now(),
+            confidence=confidence
+        )
     
     def _calculate_payment_behavior_score(self, pattern: ClientPaymentPattern) -> float:
         """
@@ -96,13 +140,28 @@ class ClientRiskScorer:
         Returns:
             Score 0-100 (0 = excellent, 100 = très mauvais)
         """
-        # TODO: Inverser reliability_score (100 - reliability)
-        # TODO: Pénaliser si late_rate > 0.3 (+10 points)
-        # TODO: Pénaliser si very_late_rate > 0.1 (+20 points)
-        # TODO: Pénaliser si has_partial_payments (+15 points)
-        # TODO: Limiter à 100 max
-        # TODO: Retourner score
-        raise NotImplementedError("TODO: Implémenter _calculate_payment_behavior_score()")
+        # Inverser reliability_score (100 = risque max)
+        base_score = 100 - pattern.reliability_score
+        
+        # Pénalités additionnelles
+        penalties = 0
+        
+        # Pénalité retards fréquents
+        if pattern.late_rate > 0.3:
+            penalties += 10
+        
+        # Pénalité retards graves
+        if pattern.very_late_rate > 0.1:
+            penalties += 20
+        
+        # Pénalité paiements partiels
+        if pattern.has_partial_payments:
+            penalties += 15
+        
+        # Score final
+        score = base_score + penalties
+        
+        return min(score, 100)  # Limiter à 100 max
     
     def _calculate_trend_score(self, pattern: ClientPaymentPattern) -> float:
         """
@@ -111,13 +170,21 @@ class ClientRiskScorer:
         Returns:
             Score 0-100 (0 = amélioration, 100 = forte dégradation)
         """
-        # TODO: Si trend == "improving": score = 20
-        # TODO: Si trend == "stable": score = 50
-        # TODO: Si trend == "worsening":
-        #       - Base score = 70
-        #       - Ajouter trend_slope * 5 (max 100)
-        # TODO: Retourner score
-        raise NotImplementedError("TODO: Implémenter _calculate_trend_score()")
+        if pattern.trend == "improving":
+            # Client s'améliore = faible risque
+            score = 20
+        elif pattern.trend == "stable":
+            # Client stable = risque moyen
+            score = 50
+        else:  # worsening
+            # Client se dégrade = risque élevé
+            base_score = 70
+            
+            # Ajouter gravité selon pente
+            penalty = pattern.trend_slope * 5
+            score = base_score + penalty
+        
+        return min(score, 100)  # Limiter à 100 max
     
     def _calculate_stability_score(self, pattern: ClientPaymentPattern) -> float:
         """
@@ -126,11 +193,13 @@ class ClientRiskScorer:
         Returns:
             Score 0-100 (0 = très stable, 100 = très imprévisible)
         """
-        # TODO: Normaliser std_delay_days (0-30 jours)
-        # TODO: score = (std_delay_days / 30) * 100
-        # TODO: Limiter à 100 max
-        # TODO: Retourner score
-        raise NotImplementedError("TODO: Implémenter _calculate_stability_score()")
+        # Normaliser écart-type (0-30 jours typique)
+        std_delay = min(pattern.std_delay_days, 30)
+        
+        # Convertir en score 0-100
+        score = (std_delay / 30) * 100
+        
+        return min(score, 100)  # Limiter à 100 max
     
     def _calculate_amount_score(
         self,
@@ -143,11 +212,20 @@ class ClientRiskScorer:
         Returns:
             Score 0-100 (0 = faible exposition, 100 = très forte)
         """
-        # TODO: Calculer concentration = pending_amount / total_portfolio
-        # TODO: score = concentration * 200 (max 100)
-        # TODO: Si concentration > 0.5: score = 100
-        # TODO: Retourner score
-        raise NotImplementedError("TODO: Implémenter _calculate_amount_score()")
+        if total_portfolio <= 0:
+            return 0
+        
+        # Calculer concentration (0-1)
+        concentration = pending_amount / total_portfolio
+        
+        # Convertir en score (doubler pour pénaliser forte concentration)
+        score = concentration * 200
+        
+        # Concentration >50% = risque max
+        if concentration > 0.5:
+            score = 100
+        
+        return min(score, 100)  # Limiter à 100 max
     
     def _determine_rating(self, risk_score: float) -> str:
         """
@@ -159,11 +237,14 @@ class ClientRiskScorer:
         Returns:
             Rating: "A" (0-25), "B" (25-50), "C" (50-75), "D" (75-100)
         """
-        # TODO: 0-25: "A" (excellent)
-        # TODO: 25-50: "B" (bon)
-        # TODO: 50-75: "C" (surveillé)
-        # TODO: 75-100: "D" (à risque)
-        raise NotImplementedError("TODO: Implémenter _determine_rating()")
+        if risk_score < 25:
+            return "A"  # Excellent
+        elif risk_score < 50:
+            return "B"  # Bon
+        elif risk_score < 75:
+            return "C"  # Surveillé
+        else:
+            return "D"  # À risque
     
     def _generate_explanation(
         self,
@@ -177,20 +258,52 @@ class ClientRiskScorer:
         Returns:
             Texte clair pour DAF
         """
-        # TODO: Construire phrase basée sur rating
-        # TODO: Mentionner facteurs principaux
-        # TODO: Donner contexte chiffré
-        # TODO: Retourner texte
-        raise NotImplementedError("TODO: Implémenter _generate_explanation()")
+        # Texte selon rating
+        if rating == "A":
+            base = f"Client {pattern.client_name} présente un risque très faible (rating A)."
+        elif rating == "B":
+            base = f"Client {pattern.client_name} présente un risque modéré (rating B)."
+        elif rating == "C":
+            base = f"Client {pattern.client_name} nécessite une surveillance (rating C)."
+        else:  # D
+            base = f"Client {pattern.client_name} présente un risque élevé (rating D)."
+        
+        # Ajouter facteurs principaux
+        main_factor = max(scores.items(), key=lambda x: x[1])
+        factor_name = main_factor[0].replace("_", " ")
+        
+        context = (
+            f" Le facteur principal est le {factor_name} (score {main_factor[1]:.0f}/100). "
+            f"Paiements à temps: {pattern.on_time_rate*100:.0f}%, "
+            f"retards: {pattern.late_rate*100:.0f}%, "
+            f"tendance: {pattern.trend}."
+        )
+        
+        return base + context
     
     def _identify_risk_factors(self, pattern: ClientPaymentPattern) -> List[str]:
         """Identifie facteurs de risque spécifiques"""
         factors = []
         
-        # TODO: Si late_rate > 0.3: ajouter "Retards fréquents"
-        # TODO: Si trend worsening: ajouter "Dégradation progressive"
-        # TODO: Si has_partial_payments: ajouter "Paiements partiels"
-        # TODO: Si std_delay_days > 20: ajouter "Comportement imprévisible"
+        # Retards fréquents
+        if pattern.late_rate > 0.3:
+            factors.append(f"Retards fréquents ({pattern.late_rate*100:.0f}% des factures)")
+        
+        # Dégradation
+        if pattern.trend == "worsening":
+            factors.append(f"Dégradation progressive (+{pattern.trend_slope:.1f}j/mois)")
+        
+        # Paiements partiels
+        if pattern.has_partial_payments:
+            factors.append("Paiements partiels récurrents")
+        
+        # Imprévisibilité
+        if pattern.std_delay_days > 20:
+            factors.append(f"Comportement imprévisible (écart-type {pattern.std_delay_days:.1f}j)")
+        
+        # Retards graves
+        if pattern.very_late_rate > 0.1:
+            factors.append(f"Retards graves ({pattern.very_late_rate*100:.0f}% >30j)")
         
         return factors
     
@@ -198,9 +311,21 @@ class ClientRiskScorer:
         """Identifie points positifs"""
         factors = []
         
-        # TODO: Si on_time_rate > 0.8: ajouter "Paye à temps régulièrement"
-        # TODO: Si trend improving: ajouter "Amélioration récente"
-        # TODO: Si std_delay_days < 10: ajouter "Comportement stable"
+        # Ponctualité
+        if pattern.on_time_rate > 0.8:
+            factors.append(f"Paye à temps régulièrement ({pattern.on_time_rate*100:.0f}%)")
+        
+        # Amélioration
+        if pattern.trend == "improving":
+            factors.append(f"Amélioration récente ({abs(pattern.trend_slope):.1f}j/mois)")
+        
+        # Stabilité
+        if pattern.std_delay_days < 10:
+            factors.append(f"Comportement stable (écart-type {pattern.std_delay_days:.1f}j)")
+        
+        # Aucun retard grave
+        if pattern.very_late_rate == 0:
+            factors.append("Aucun retard grave (>30j)")
         
         return factors
     
@@ -214,10 +339,27 @@ class ClientRiskScorer:
         Returns:
             Liste ClientRiskScore triée par risk_score (desc)
         """
-        # TODO: Pour chaque client, appeler calculate_risk_score()
-        # TODO: Trier par risk_score (desc)
-        # TODO: Retourner liste
-        raise NotImplementedError("TODO: Implémenter score_portfolio()")
+        scores = []
+        
+        # Calculer total portefeuille
+        total_portfolio = sum(c.get("pending_amount", 0) for c in clients_data)
+        
+        # Scorer chaque client
+        for client in clients_data:
+            pattern = client["pattern"]
+            pending_amount = client.get("pending_amount", 0)
+            
+            score = self.calculate_risk_score(
+                pattern=pattern,
+                pending_amount=pending_amount,
+                total_portfolio=total_portfolio
+            )
+            scores.append(score)
+        
+        # Trier par risque décroissant (D puis C puis B puis A)
+        scores.sort(key=lambda s: s.risk_score, reverse=True)
+        
+        return scores
 
 
 # ============================================================================
@@ -226,21 +368,104 @@ class ClientRiskScorer:
 
 def _test_calculate_risk_score():
     """Test calcul score complet"""
-    # TODO: Créer pattern client fiable
-    # TODO: Calculer score
-    # TODO: Vérifier risk_score faible (< 30)
-    # TODO: Vérifier rating = "A" ou "B"
-    # TODO: Créer pattern client à risque
-    # TODO: Vérifier risk_score élevé (> 70)
-    # TODO: Vérifier rating = "D"
-    print("TODO: Implémenter _test_calculate_risk_score()")
+    print("\n--- Test calculate_risk_score() ---")
+    
+    # Client fiable (A)
+    reliable_pattern = ClientPaymentPattern(
+        client_id="CLI001",
+        client_name="Client Fiable SA",
+        invoice_count=20,
+        days_in_analysis=365,
+        avg_delay_days=2.0,
+        median_delay_days=1.0,
+        std_delay_days=5.0,
+        on_time_rate=0.9,
+        late_rate=0.1,
+        very_late_rate=0.0,
+        has_partial_payments=False,
+        trend="stable",
+        trend_slope=0.0,
+        reliability_score=85.0,
+        first_invoice_date=datetime.now(),
+        last_invoice_date=datetime.now()
+    )
+    
+    scorer = ClientRiskScorer()
+    score_reliable = scorer.calculate_risk_score(
+        pattern=reliable_pattern,
+        pending_amount=10000,
+        total_portfolio=100000
+    )
+    
+    print(f"Client fiable: Score={score_reliable.risk_score}, Rating={score_reliable.rating}")
+    print(f"  Composants: behavior={score_reliable.payment_behavior_score}, "
+          f"trend={score_reliable.trend_score}, stability={score_reliable.stability_score}, "
+          f"amount={score_reliable.amount_score}")
+    print(f"  Explication: {score_reliable.explanation}")
+    
+    assert score_reliable.risk_score < 30, f"Score devrait être <30, obtenu {score_reliable.risk_score}"
+    assert score_reliable.rating in ["A", "B"], f"Rating devrait être A ou B, obtenu {score_reliable.rating}"
+    
+    # Client à risque (D)
+    risky_pattern = ClientPaymentPattern(
+        client_id="CLI002",
+        client_name="Client Risqué SARL",
+        invoice_count=15,
+        days_in_analysis=180,
+        avg_delay_days=45.0,
+        median_delay_days=40.0,
+        std_delay_days=25.0,
+        on_time_rate=0.1,
+        late_rate=0.6,
+        very_late_rate=0.3,
+        has_partial_payments=True,
+        trend="worsening",
+        trend_slope=5.0,
+        reliability_score=20.0,
+        first_invoice_date=datetime.now(),
+        last_invoice_date=datetime.now()
+    )
+    
+    score_risky = scorer.calculate_risk_score(
+        pattern=risky_pattern,
+        pending_amount=60000,
+        total_portfolio=100000
+    )
+    
+    print(f"\nClient risqué: Score={score_risky.risk_score}, Rating={score_risky.rating}")
+    print(f"  Facteurs risque: {score_risky.risk_factors}")
+    
+    assert score_risky.risk_score > 70, f"Score devrait être >70, obtenu {score_risky.risk_score}"
+    assert score_risky.rating == "D", f"Rating devrait être D, obtenu {score_risky.rating}"
+    
+    print("\n✅ Test calculate_risk_score() passé")
 
 
 def _test_ratings_consistency():
     """Vérifie cohérence ratings"""
-    # TODO: Tester limites ratings (25, 50, 75)
-    # TODO: Vérifier transitions correctes
-    print("TODO: Implémenter _test_ratings_consistency()")
+    print("\n--- Test ratings_consistency() ---")
+    
+    scorer = ClientRiskScorer()
+    
+    # Tester limites
+    test_cases = [
+        (0, "A"),
+        (24.9, "A"),
+        (25, "B"),
+        (49.9, "B"),
+        (50, "C"),
+        (74.9, "C"),
+        (75, "D"),
+        (100, "D")
+    ]
+    
+    for risk_score, expected_rating in test_cases:
+        actual_rating = scorer._determine_rating(risk_score)
+        print(f"Score {risk_score:5.1f} → Rating {actual_rating} (attendu: {expected_rating})")
+        assert actual_rating == expected_rating, \
+            f"Score {risk_score} devrait donner {expected_rating}, obtenu {actual_rating}"
+    
+    print("\n✅ Test ratings_consistency() passé")
 
 
 def _run_all_tests():
@@ -252,15 +477,22 @@ def _run_all_tests():
     try:
         _test_calculate_risk_score()
         print("✅ Test calculate_risk_score OK")
+    except AssertionError as e:
+        print(f"❌ Test calculate_risk_score ÉCHEC: {e}")
     except NotImplementedError as e:
         print(f"⏳ Test calculate_risk_score: {e}")
     
     try:
         _test_ratings_consistency()
         print("✅ Test ratings_consistency OK")
+    except AssertionError as e:
+        print(f"❌ Test ratings_consistency ÉCHEC: {e}")
     except NotImplementedError as e:
         print(f"⏳ Test ratings_consistency: {e}")
+    
+    print("=" * 60)
 
 
 if __name__ == "__main__":
     _run_all_tests()
+
