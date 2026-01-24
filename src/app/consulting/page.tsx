@@ -186,19 +186,48 @@ export default function ConsultingPage() {
                                         </div>
                                     </div>
 
-                                    {/* Chart placeholder */}
+                                    {/* Chart - Animated */}
                                     <div className="bg-slate-900/40 rounded-xl p-4 border border-white/5">
-                                        <div className="flex items-center justify-between mb-3">
+                                        <div className="flex items-center justify-between mb-4">
                                             <span className="text-sm text-gray-300 font-medium">Évolution trésorerie</span>
-                                            <span className="text-xs text-accent-primary">Live</span>
+                                            <div className="flex items-center gap-2">
+                                                <span className="relative flex h-2 w-2">
+                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                                </span>
+                                                <span className="text-xs text-green-400 font-semibold">Live</span>
+                                            </div>
                                         </div>
-                                        <div className="flex items-end gap-1 h-20">
-                                            {[40, 55, 45, 60, 50, 75, 65, 80, 70, 85, 90, 95].map((h, i) => (
-                                                <div
+                                        {/* Bars with animation */}
+                                        <div className="flex items-end gap-1.5 h-24 mb-2">
+                                            {[
+                                                { h: 40, month: 'J' },
+                                                { h: 55, month: 'F' },
+                                                { h: 45, month: 'M' },
+                                                { h: 60, month: 'A' },
+                                                { h: 50, month: 'M' },
+                                                { h: 75, month: 'J' },
+                                                { h: 65, month: 'J' },
+                                                { h: 80, month: 'A' },
+                                                { h: 70, month: 'S' },
+                                                { h: 85, month: 'O' },
+                                                { h: 90, month: 'N' },
+                                                { h: 95, month: 'D' }
+                                            ].map((bar, i) => (
+                                                <motion.div
                                                     key={i}
-                                                    className="flex-1 bg-gradient-to-t from-accent-primary/60 to-accent-primary rounded-t"
-                                                    style={{ height: `${h}%` }}
+                                                    initial={{ height: 0 }}
+                                                    whileInView={{ height: `${bar.h}%` }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ duration: 0.5, delay: i * 0.05, ease: 'easeOut' }}
+                                                    className="flex-1 bg-gradient-to-t from-accent-primary via-blue-400 to-cyan-300 rounded-t shadow-lg shadow-accent-primary/20"
                                                 />
+                                            ))}
+                                        </div>
+                                        {/* Month labels */}
+                                        <div className="flex gap-1.5">
+                                            {['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'].map((month, i) => (
+                                                <span key={i} className="flex-1 text-center text-[10px] text-gray-500">{month}</span>
                                             ))}
                                         </div>
                                     </div>
