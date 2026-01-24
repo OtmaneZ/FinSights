@@ -5,6 +5,26 @@
 
 ---
 
+## ⚠️ AVERTISSEMENT
+
+**Cette analyse est pour :**
+- 🏢 Équipes de 3-10 personnes
+- 💰 Levée de fonds (200-500K€)
+- 🚀 Objectif licorne / scale-up
+
+**Si tu es solo dev pour PME 1-100M€ :**  
+→ **LIS PLUTÔT [`PRIORITES_SOLO_DEV.md`](./PRIORITES_SOLO_DEV.md)** (10 min)
+- Les 3 vraies priorités
+- Roadmap réaliste bootstrap
+- Ce qu'il faut ignorer
+
+**Cette analyse reste utile si :**
+- Tu veux comprendre le gap complet
+- Tu prépares une levée de fonds
+- Tu recrutes une équipe technique
+
+---
+
 ## 🎯 RÉSUMÉ EXÉCUTIF
 
 ### État Global

@@ -13,18 +13,22 @@ Chaque agent exécute **seul** un cycle autonome, produit des livrables chiffré
 
 ## 🎯 Commencer
 
-### 🆕 Nouveau ? Commence ici :
-1. Lis **`GETTING_STARTED.md`** (5 min overview)
-2. Consulte **`4-agents-ia-finance.md`** (stratégie produit)
-3. Voir **`STRUCTURE.md`** (organisation du projet)
-4. **`GAP_ANALYSIS.md`** (5 min - État actuel vs agent idéal) ⭐ NOUVEAU
+### 🆕 Solo Dev qui veut vendre TRESORIS ? ⭐ COMMENCE ICI
+→ **`PRIORITES_SOLO_DEV.md`** (lecture 10 min)
+- 🎯 Les 3 vraies priorités (pas 50)
+- ✅ Ce qui suffit pour vendre aux PME
+- 💰 Roadmap réaliste 12 mois (bootstrap)
+- ❌ Ce qu'il faut IGNORER pour l'instant
 
-### 📊 Analyse comparative complète
-→ **`ANALYSE_ETAT_VS_IDEAL.md`** (50 pages)
-- ✅ Ce qui existe dans TRESORIS V1
-- 🔴 Ce qui manque pour l'agent idéal
-- 🚀 Roadmap priorisée (12-14 mois)
-- 💰 Estimations effort & budget (~200K€)
+### 📚 Analyses détaillées (si tu veux tout comprendre)
+- **`GAP_ANALYSIS.md`** (5 min) - Vue d'ensemble
+- **`ANALYSE_ETAT_VS_IDEAL.md`** (50 pages) - Analyse complète
+  ⚠️ Utile si tu veux lever des fonds ou recruter une équipe
+  
+### 📖 Documentation générale
+1. **`GETTING_STARTED.md`** (5 min overview)
+2. **`4-agents-ia-finance.md`** (stratégie produit)
+3. **`STRUCTURE.md`** (organisation du projet)
 
 ### 👨‍💼 Product Owner ?
 → **`4-agents-ia-finance.md`** (vision, roadmap, business model)
