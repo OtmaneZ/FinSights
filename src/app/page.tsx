@@ -13,7 +13,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Testimonials from '@/components/Testimonials'
 import DashboardPreview from '@/components/landing/DashboardPreview'
-import TwoPathsSection from '@/components/landing/TwoPathsSection'
+
 import AnimatedScoreDisplay from '@/components/landing/AnimatedScoreDisplay'
 import NewsletterPopup from '@/components/NewsletterPopup'
 
@@ -49,7 +49,7 @@ export default function Home() {
 
                             {/* Value Proposition */}
                             <p className="text-lg text-gray-700 leading-relaxed max-w-xl font-medium">
-                                Prévisions de trésorerie, budgets automatisés et métriques SaaS
+                                Prévisions de trésorerie, budgets automatisés et KPIs financiers clés
                                 <br />
                                 <span className="text-gray-900">pour décider avant que le cash ne décide à votre place.</span>
                             </p>
@@ -85,16 +85,7 @@ export default function Home() {
                                     </a>
                                 </div>
 
-                                {/* Secondary CTA - Demo tool */}
-                                <div className="text-center sm:text-left">
-                                    <Link
-                                        href="/demo"
-                                        className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-accent-primary transition-colors font-medium"
-                                    >
-                                        <Sparkles className="w-4 h-4" />
-                                        💡 Vous pouvez tester la démo FinSight gratuitement avant d'échanger
-                                    </Link>
-                                </div>
+
                             </div>
 
                             {/* Social Proof - Clean */}
@@ -637,9 +628,6 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-
-            {/* Two Paths Section - Consulting vs SaaS */}
-            <TwoPathsSection />
 
             {/* Témoignages clients – preuve sociale FP&A */}
             <section className="max-w-5xl mx-auto px-6 py-16">
