@@ -17,6 +17,14 @@ Chaque agent exécute **seul** un cycle autonome, produit des livrables chiffré
 1. Lis **`GETTING_STARTED.md`** (5 min overview)
 2. Consulte **`4-agents-ia-finance.md`** (stratégie produit)
 3. Voir **`STRUCTURE.md`** (organisation du projet)
+4. **`GAP_ANALYSIS.md`** (5 min - État actuel vs agent idéal) ⭐ NOUVEAU
+
+### 📊 Analyse comparative complète
+→ **`ANALYSE_ETAT_VS_IDEAL.md`** (50 pages)
+- ✅ Ce qui existe dans TRESORIS V1
+- 🔴 Ce qui manque pour l'agent idéal
+- 🚀 Roadmap priorisée (12-14 mois)
+- 💰 Estimations effort & budget (~200K€)
 
 ### 👨‍💼 Product Owner ?
 → **`4-agents-ia-finance.md`** (vision, roadmap, business model)
