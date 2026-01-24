@@ -1,0 +1,22 @@
+schedule_id,invoice_id,client_name,date,amount,probability,notes,type
+SCH-001,F-2026-005,MedTech Diagnostics,2026-02-07,395000,0.95,Client fiable - historique bon,inflow
+SCH-002,F-2026-006,Conseil Stratégie & Finance,2026-02-14,125000,0.90,PME stable,inflow
+SCH-003,F-2025-061,Groupe Pharmaceutique Nord,2026-02-11,525000,0.85,Grand compte - process validation lent,inflow
+SCH-004,F-2025-050,FinTech Solutions Europe,2026-02-09,195000,0.90,Paiement régulier,inflow
+SCH-005,F-2026-004,Solutions IoT France,2026-01-25,280000,0.70,En retard 1j - relance envoyée,inflow
+SCH-006,F-2025-054,Cabinet Conseil RH Tech,2026-02-04,85000,0.95,Client régulier,inflow
+SCH-007,F-2025-064,FinTech Solutions Europe,2026-01-22,205000,0.85,Échéance proche,inflow
+SCH-008,F-2025-067,Cabinet Conseil RH Tech,2026-01-24,92000,0.90,Échéance proche,inflow
+SCH-009,F-2025-052,Plateforme Logistique Verte,2026-01-28,425000,0.75,Retard 6j - relance en cours,inflow
+SCH-010,F-2025-057,Manufacturing 4.0 SAS,2026-01-26,410000,0.70,Retard 11j - contact établi,inflow
+SCH-011,F-2025-063,Réseau Distribution B2B,2026-01-24,290000,0.75,Retard 13j - échéancier proposé,inflow
+SCH-012,F-2026-002,TechVision Industries,2026-01-30,320000,0.60,Retard 16j - tension détectée,inflow
+SCH-013,F-2025-049,Robotique Industrielle SA,2026-02-15,380000,0.55,Retard 20j - médiation nécessaire,inflow
+SCH-014,F-2025-047,DataScience Partners,2026-02-20,245000,0.50,Retard 21j - litige en cours,inflow
+SCH-015,F-2025-069,Manufacturing 4.0 SAS,2026-02-28,395000,0.45,Retard 23j - escalade juridique,inflow
+SCH-016,F-2026-001,Laboratoires BioPharm SAS,2026-03-15,485000,0.40,Retard 36j - difficulté trésorerie client,inflow
+SCH-017,F-2025-055,Énergie Renouvelable Ouest,2026-03-30,340000,0.35,Retard 41j - plan apurement demandé,inflow
+SCH-018,F-2025-059,Startup DeepTech IA,2026-04-15,180000,0.30,Retard 46j - risque défaillance,inflow
+SCH-019,F-2025-066,Institut Recherche Appliquée,2026-05-01,640000,0.25,Retard 57j - contentieux probable,inflow
+SCH-020,F-2026-003,Groupe Innov Santé,2026-05-15,615000,0.20,Retard 62j - provision à constituer,inflow
+SCH-021,F-2025-070,Startup DeepTech IA,2026-06-01,165000,0.15,Retard 81j - créance douteuse,inflow

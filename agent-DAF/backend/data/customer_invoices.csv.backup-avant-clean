@@ -1,0 +1,38 @@
+invoice_id,client_id,client_name,invoice_date,due_date,amount,status,payment_date,days_overdue,risk_level
+F-2026-001,CLI-001,Laboratoires BioPharm SAS,2025-11-15,2025-12-15,485000,overdue,,36,critical
+F-2026-002,CLI-002,TechVision Industries,2025-12-05,2026-01-04,320000,overdue,,16,high
+F-2026-003,CLI-003,Groupe Innov Santé,2025-10-20,2025-11-19,615000,overdue,,62,critical
+F-2026-004,CLI-004,Solutions IoT France,2025-12-20,2026-01-19,280000,pending,,1,medium
+F-2026-005,CLI-005,MedTech Diagnostics,2026-01-08,2026-02-07,395000,pending,,0,low
+F-2026-006,CLI-006,Conseil Stratégie & Finance,2026-01-15,2026-02-14,125000,pending,,0,low
+F-2025-047,CLI-007,DataScience Partners,2025-11-30,2025-12-30,245000,overdue,,21,high
+F-2025-048,CLI-001,Laboratoires BioPharm SAS,2025-10-10,2025-11-09,520000,paid,2025-12-15,-36,low
+F-2025-049,CLI-008,Robotique Industrielle SA,2025-12-01,2025-12-31,380000,overdue,,20,high
+F-2025-050,CLI-009,FinTech Solutions Europe,2026-01-10,2026-02-09,195000,pending,,0,low
+F-2025-051,CLI-002,TechVision Industries,2025-11-20,2025-12-20,305000,paid,2025-12-28,-8,low
+F-2025-052,CLI-010,Plateforme Logistique Verte,2025-12-15,2026-01-14,425000,pending,,6,medium
+F-2025-053,CLI-003,Groupe Innov Santé,2025-09-15,2025-10-15,580000,paid,2025-11-10,-26,low
+F-2025-054,CLI-011,Cabinet Conseil RH Tech,2026-01-05,2026-02-04,85000,pending,,0,low
+F-2025-055,CLI-012,Énergie Renouvelable Ouest,2025-11-10,2025-12-10,340000,overdue,,41,critical
+F-2025-056,CLI-004,Solutions IoT France,2025-11-25,2025-12-25,295000,paid,2026-01-10,-16,low
+F-2025-057,CLI-013,Manufacturing 4.0 SAS,2025-12-10,2026-01-09,410000,pending,,11,medium
+F-2025-058,CLI-005,MedTech Diagnostics,2025-10-30,2025-11-29,450000,paid,2025-12-05,-6,low
+F-2025-059,CLI-014,Startup DeepTech IA,2025-11-05,2025-12-05,180000,overdue,,46,critical
+F-2025-060,CLI-007,DataScience Partners,2025-10-15,2025-11-14,235000,paid,2025-11-28,-14,low
+F-2025-061,CLI-015,Groupe Pharmaceutique Nord,2026-01-12,2026-02-11,525000,pending,,0,low
+F-2025-062,CLI-008,Robotique Industrielle SA,2025-11-15,2025-12-15,365000,paid,2026-01-05,-21,low
+F-2025-063,CLI-016,Réseau Distribution B2B,2025-12-08,2026-01-07,290000,pending,,13,medium
+F-2025-064,CLI-009,FinTech Solutions Europe,2025-12-18,2026-01-17,205000,pending,,3,low
+F-2025-065,CLI-010,Plateforme Logistique Verte,2025-11-22,2025-12-22,415000,paid,2026-01-08,-17,low
+F-2025-066,CLI-017,Institut Recherche Appliquée,2025-10-25,2025-11-24,640000,overdue,,57,critical
+F-2025-067,CLI-011,Cabinet Conseil RH Tech,2025-12-20,2026-01-19,92000,pending,,1,low
+F-2025-068,CLI-012,Énergie Renouvelable Ouest,2025-10-08,2025-11-07,355000,paid,2025-12-02,-25,low
+F-2025-069,CLI-013,Manufacturing 4.0 SAS,2025-11-28,2025-12-28,395000,overdue,,23,high
+F-2025-070,CLI-014,Startup DeepTech IA,2025-10-01,2025-10-31,165000,overdue,,81,critical
+F-2026-DEMO,CLI-999,Client Test Démo BPI,2025-12-01,2026-01-01,850000,overdue,,20,critical
+F-2026-FORCE,CLI-888,Analyse Force Nouvelles Données,2025-12-15,2026-01-14,450000,overdue,,7,high
+F-2026-TRIGGER,CLI-NEW,Déclenchement Analyse Nouvelles Données,2025-12-01,2026-01-01,750000,overdue,,20,critical
+F-2026-NOUVELLE,CLI-888,Client Force Nouvelle Analyse,2025-11-15,2025-12-15,650000,overdue,,36,critical
+F-2026-TEST-BPI,CLI-999,Test BPI Force Analyse,2025-11-01,2025-12-01,780000,overdue,,51,critical
+F-2026-BPI-FINAL,CLI-BPI-TEST,BPI Test Final Analyse,2025-11-05,2025-12-05,825000,overdue,,47,critical
+F-DEMO-20260121-185639,CLI-TEST-IMPOR,Test Import Demo BPI,2025-10-15,2025-11-15,950000.0,overdue,,67,high

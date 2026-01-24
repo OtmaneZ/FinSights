@@ -1,0 +1,27 @@
+invoice_id,client_id,client_name,invoice_date,due_date,amount,status,payment_date,days_overdue,risk_level
+F-2026-001,CLI-001,Laboratoires BioPharm SAS,2025-11-20,2025-12-20,485000,overdue,,32,critical
+F-2026-002,CLI-002,TechVision Industries,2026-01-05,2026-02-04,320000,pending,,0,low
+F-2026-003,CLI-003,Groupe Innov Santé,2025-10-15,2025-11-14,615000,overdue,,68,high
+F-2026-004,CLI-004,Solutions IoT France,2025-12-10,2026-01-09,285000,pending,,0,low
+F-2026-005,CLI-005,MedTech Diagnostics,2025-12-08,2026-01-07,395000,pending,,0,low
+F-2026-006,CLI-006,Conseil Stratégie & Finance,2025-11-28,2025-12-28,125000,overdue,,24,medium
+F-2026-007,CLI-007,Startup DeepTech IA,2025-11-15,2025-12-15,165000,overdue,,37,critical
+F-2026-008,CLI-008,Industries Mécaniques France,2026-01-10,2026-02-09,450000,pending,,0,low
+F-2025-061,CLI-009,Groupe Pharmaceutique Nord,2025-09-20,2025-10-20,525000,overdue,,93,high
+F-2025-050,CLI-010,FinTech Solutions Europe,2025-12-01,2025-12-31,195000,overdue,,21,medium
+F-2026-009,CLI-011,Cabinet Juridique & Associés,2026-01-15,2026-02-14,85000,pending,,0,low
+F-2026-010,CLI-012,DataScience Analytics,2025-12-20,2026-01-19,340000,pending,,0,low
+F-2025-078,CLI-013,Institut Recherche Appliquée,2025-10-01,2025-11-01,640000,overdue,,81,high
+F-2026-011,CLI-014,Consulting Digital,2026-01-12,2026-02-11,155000,pending,,0,low
+F-2026-012,CLI-015,SaaS Platform Europe,2025-12-15,2026-01-14,275000,pending,,0,low
+F-2025-085,CLI-016,PME Innovation Santé,2025-11-01,2025-12-01,380000,overdue,,51,high
+F-2026-013,CLI-017,Cabinet Expertise Comptable,2026-01-08,2026-02-07,95000,pending,,0,low
+F-2026-014,CLI-018,Startup Biotech France,2025-12-28,2026-01-27,425000,pending,,0,low
+F-2025-092,CLI-019,Groupe Export International,2025-11-10,2025-12-10,560000,overdue,,42,high
+F-2026-015,CLI-020,Services Cloud & Infrastructure,2026-01-18,2026-02-17,185000,pending,,0,low
+F-2025-098,CLI-021,ETI Manufacturing,2025-11-25,2025-12-25,315000,overdue,,27,medium
+F-2026-016,CLI-022,Cabinet Formation Professionnelle,2026-01-20,2026-02-19,125000,pending,,0,low
+F-2026-017,CLI-023,Solutions Cybersécurité,2025-12-22,2026-01-21,405000,pending,,0,low
+F-2025-105,CLI-024,Groupe Industrie 4.0,2025-11-18,2025-12-18,490000,overdue,,34,critical
+F-2026-018,CLI-025,Conseil Transformation Digitale,2026-01-14,2026-02-13,215000,pending,,0,low
+F-DEMO-20260121-212938,CLI-LABORATOIR,Laboratoires BioPharm SAS,2025-09-01,2025-09-15,850000.0,overdue,,128,critical

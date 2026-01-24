@@ -1,0 +1,1 @@
+{"_default": {}, "triggers": {"1": {"rule_id": "balance_critical", "rule_name": "Solde critique", "priority": 1, "timestamp": "2026-01-21T20:44:04.989733", "context": {"recent_changes": [], "monitor_decision": {"should_trigger": false, "reason": "no_changes"}, "last_run_date": null, "current_balance": 0, "cash_runway_days": 180}, "saved_at": "2026-01-21T20:44:04.989838"}}}

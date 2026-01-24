@@ -1,0 +1,101 @@
+# Règles métier pour l'Agent IA DAF
+# Version: PME quasi-ETI (5-50M€ CA)
+
+company:
+  name: "Demo PME-ETI"
+  ca_annual: 25000000  # 25M€
+  employees: 180
+  sector: "Services B2B"
+
+# A) TRÉSORERIE
+treasury:
+  # Seuil minimum de trésorerie (en jours de charges fixes)
+  min_cash_days: 45
+  
+  # Alertes par horizon temporel
+  alerts:
+    short_term: 4   # 4 semaines
+    medium_term: 8  # 8 semaines  
+    long_term: 13   # 13 semaines
+  
+  # Montants critiques
+  absolute_minimum: 500000  # 500K€ plancher absolu
+  comfort_level: 2000000    # 2M€ niveau confortable
+
+# B) CLIENTS / ENCAISSEMENTS  
+clients:
+  # Retards de paiement
+  late_payment_days: 45     # Facture en retard > 45j
+  critical_late_days: 90    # Retard critique > 90j
+  
+  # Concentration client
+  max_client_concentration: 25  # % max d'un client sur CA total
+  top3_concentration: 50        # % max des 3 premiers clients
+  
+  # Clients stratégiques (à surveiller de près)
+  strategic_clients: ["CLIENT_001", "CLIENT_003", "CLIENT_007"]
+
+# C) FOURNISSEURS / DÉCAISSEMENTS
+suppliers:
+  # Détection d'anomalies
+  unusual_payment_threshold: 1.5  # x fois la moyenne historique
+  spike_detection_period: 30      # jours pour détecter un pic
+  
+  # Seuils d'alerte
+  large_payment_alert: 100000     # 100K€
+  monthly_budget_variance: 20     # % d'écart vs budget mensuel
+
+# D) PRÉVISION / RISQUE
+forecast:
+  # Écarts acceptable forecast vs réel
+  variance_threshold: 15      # % d'écart max acceptable
+  
+  # Dégradation de trajectoire
+  trend_analysis_period: 12   # semaines pour analyser la tendance
+  degradation_threshold: -10  # % de dégradation critique
+  
+  # Scenarios de stress
+  stress_scenarios:
+    - name: "Retard client principal"
+      impact_weeks: 8
+      cash_impact: -800000
+    - name: "Perte client top 3"
+      impact_weeks: 26
+      cash_impact: -2500000
+
+# SEUILS D'ALERTES GLOBAUX
+alerts:
+  levels:
+    info: "ℹ️"
+    warning: "⚠️"  
+    critical: "🚨"
+  
+  # Codes couleur pour l'interface
+  colors:
+    safe: "#22c55e"      # vert
+    warning: "#f59e0b"   # orange
+    critical: "#ef4444"  # rouge
+
+# RÈGLES DE CALCUL SPÉCIFIQUES
+calculations:
+  # Moyenne mobile pour lissage
+  moving_average_days: 30
+  
+  # Pondération pour projections
+  historical_weight: 0.7
+  seasonal_weight: 0.3
+  
+  # Facteurs de saisonnalité (par mois)
+  seasonal_factors:
+    1: 0.85   # Janvier
+    2: 0.90   # Février  
+    3: 1.05   # Mars
+    4: 1.10   # Avril
+    5: 1.05   # Mai
+    6: 0.95   # Juin
+    7: 0.80   # Juillet
+    8: 0.75   # Août
+    9: 1.15   # Septembre
+    10: 1.20  # Octobre
+    11: 1.15  # Novembre
+    12: 0.95  # Décembre

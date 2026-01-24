@@ -1,0 +1,12 @@
+[
+  {
+    "id": "DEC_20260122_212706",
+    "analysis_id": "ANALYSIS_20260122_212706",
+    "action_id": "ACT_P1_20260122_2127",
+    "decision": "approved",
+    "validated_by": "Test DAF",
+    "comment": "Validation de test",
+    "timestamp": "2026-01-22T21:27:06.421819",
+    "outcome_due_date": "2026-02-19T21:27:06.421821"
+  }
+]

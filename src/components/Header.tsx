@@ -71,7 +71,12 @@ export default function Header() {
                 <nav className="hidden md:flex items-center gap-8">
                     {/* Consulting */}
                     <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Consulting
+                        Audit Finance
+                    </Link>
+
+                    {/* Agents IA */}
+                    <Link href="#agents" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Agents IA
                     </Link>
 
                     {/* Ressources Dropdown */}

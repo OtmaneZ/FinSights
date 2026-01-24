@@ -41,17 +41,17 @@ export default function Home() {
 
                             {/* H1 Corporate */}
                             <h1 className="text-5xl lg:text-7xl font-extrabold leading-[1.05] tracking-tighter text-gray-900">
-                                Dashboards FP&A sur-mesure<br />
+                                Audit Finance +<br />
                                 <span className="text-accent-primary">
-                                    pour dirigeants de Scale-ups & PME
+                                    Agents IA décisionnels
                                 </span>
                             </h1>
 
                             {/* Value Proposition */}
                             <p className="text-lg text-gray-700 leading-relaxed max-w-xl font-medium">
-                                Prévisions de trésorerie, budgets automatisés et KPIs financiers clés
+                                Découvrez où vous perdez de l'argent. Anticipez les tensions de trésorerie 3 mois à l'avance.
                                 <br />
-                                <span className="text-gray-900">pour décider avant que le cash ne décide à votre place.</span>
+                                <span className="text-gray-900">Pour dirigeants de PME (1–10 M€ CA).</span>
                             </p>
 
                             {/* Positioning Statement */}
@@ -144,6 +144,131 @@ export default function Home() {
                     </Link>
                 </div>
             </div>
+
+            {/* Agents IA Section - 3 Specialized AI Agents */}
+            <section id="agents" className="py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+                <div className="max-w-6xl mx-auto px-6">
+                    {/* Header */}
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6">
+                            Vos 3 Agents IA Décisionnels
+                        </h2>
+                        <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                            Après l'audit, automatisez les décisions financières quotidiennes. Chaque agent se spécialise dans un enjeu critique.
+                        </p>
+                    </div>
+
+                    {/* 3 Agents Grid */}
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {/* TRESORIS - Cash & Trésorerie */}
+                        <div className="relative bg-gradient-to-br from-blue-900/40 to-blue-900/20 border border-blue-500/30 rounded-2xl p-8 hover:border-blue-500/60 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                                    <AlertTriangle className="w-6 h-6 text-blue-400" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white">TRESORIS</h3>
+                            </div>
+                            <p className="text-blue-200 mb-4 text-sm">
+                                Surveillance continue de la trésorerie
+                            </p>
+                            <div className="space-y-3 mb-6">
+                                <div className="flex items-start gap-3">
+                                    <span className="text-blue-400 font-bold">✓</span>
+                                    <span className="text-gray-200">Détection risques (26 situations → 2-5 critiques)</span>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <span className="text-blue-400 font-bold">✓</span>
+                                    <span className="text-gray-200">Prévisions runway 4/8/13 semaines</span>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <span className="text-blue-400 font-bold">✓</span>
+                                    <span className="text-gray-200">Alertes et recommandations prioritaires</span>
+                                </div>
+                            </div>
+                            <div className="pt-6 border-t border-blue-500/20">
+                                <p className="text-xs text-blue-300 font-semibold">À partir de</p>
+                                <p className="text-2xl font-bold text-white">300€<span className="text-sm text-gray-400">/mois</span></p>
+                            </div>
+                        </div>
+
+                        {/* MARGIS - Rentabilité */}
+                        <div className="relative bg-gradient-to-br from-purple-900/40 to-purple-900/20 border border-purple-500/30 rounded-2xl p-8 hover:border-purple-500/60 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                                    <BarChart3 className="w-6 h-6 text-purple-400" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white">MARGIS</h3>
+                            </div>
+                            <p className="text-purple-200 mb-4 text-sm">
+                                Vérité sur la rentabilité réelle
+                            </p>
+                            <div className="space-y-3 mb-6">
+                                <div className="flex items-start gap-3">
+                                    <span className="text-purple-400 font-bold">✓</span>
+                                    <span className="text-gray-200">Marge par produit, service, client</span>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <span className="text-purple-400 font-bold">✓</span>
+                                    <span className="text-gray-200">Identification coûts cachés</span>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <span className="text-purple-400 font-bold">✓</span>
+                                    <span className="text-gray-200">Recommandations prix & mix produit</span>
+                                </div>
+                            </div>
+                            <div className="pt-6 border-t border-purple-500/20">
+                                <p className="text-xs text-purple-300 font-semibold">À partir de</p>
+                                <p className="text-2xl font-bold text-white">350€<span className="text-sm text-gray-400">/mois</span></p>
+                            </div>
+                        </div>
+
+                        {/* SCENARIS - Scénarios & Décisions */}
+                        <div className="relative bg-gradient-to-br from-green-900/40 to-green-900/20 border border-green-500/30 rounded-2xl p-8 hover:border-green-500/60 transition-all duration-300 hover:shadow-xl hover:shadow-green-500/10">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center">
+                                    <Zap className="w-6 h-6 text-green-400" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white">SCENARIS</h3>
+                            </div>
+                            <p className="text-green-200 mb-4 text-sm">
+                                Scénarios financiers & what-if
+                            </p>
+                            <div className="space-y-3 mb-6">
+                                <div className="flex items-start gap-3">
+                                    <span className="text-green-400 font-bold">✓</span>
+                                    <span className="text-gray-200">Simulations optimiste/réaliste/pessimiste</span>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <span className="text-green-400 font-bold">✓</span>
+                                    <span className="text-gray-200">Impact de décisions (recrutement, prix, etc.)</span>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <span className="text-green-400 font-bold">✓</span>
+                                    <span className="text-gray-200">Prévisions 12-24 mois chiffrées</span>
+                                </div>
+                            </div>
+                            <div className="pt-6 border-t border-green-500/20">
+                                <p className="text-xs text-green-300 font-semibold">À partir de</p>
+                                <p className="text-2xl font-bold text-white">400€<span className="text-sm text-gray-400">/mois</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="text-center mt-16">
+                        <p className="text-gray-400 mb-6">Les agents sont activés après un audit pour contexte optimal</p>
+                        <Link
+                            href="/consulting"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 font-bold rounded-xl hover:bg-gray-100 transition-all duration-200 hover:shadow-lg"
+                        >
+                            Démarrer avec un audit
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </Link>
+                    </div>
+                </div>
+            </section>
 
             {/* Score FinSight™ Section - Corporate Premium with Animation */}
             <section className="relative py-28 lg:py-36 bg-gray-50">

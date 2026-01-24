@@ -1,0 +1,16 @@
+invoice_id,supplier_id,supplier_name,invoice_date,due_date,amount,status,payment_date,days_overdue,category
+SUPP-2026-001,SUPP-001,Cloud Services Europe,2025-12-15,2026-01-14,15000,pending,,6,it_services
+SUPP-2026-002,SUPP-002,Cabinet Audit & Contrôle,2025-11-20,2025-12-20,45000,overdue,,31,consulting
+SUPP-2026-003,SUPP-003,Équipements Laboratoire Pro,2025-12-10,2026-01-09,45000,pending,,11,equipment
+SUPP-2026-004,SUPP-004,Matières Premières R&D SAS,2026-01-05,2026-02-04,68000,pending,,0,supplies
+SUPP-2026-005,SUPP-005,Licences Logicielles Enterprise,2025-12-20,2026-01-19,22000,pending,,1,it_services
+SUPP-2025-089,SUPP-006,Prestations Consulting Tech,2025-11-15,2025-12-15,38000,paid,2025-12-22,-7,consulting
+SUPP-2025-090,SUPP-007,Assurance Responsabilité Pro,2025-12-01,2025-12-31,12000,pending,,20,insurance
+SUPP-2025-091,SUPP-008,Avocat Contentieux & Recouvrement,2025-12-08,2026-01-07,8500,pending,,13,legal_fees
+SUPP-2025-092,SUPP-009,Société Immobilière Bureaux,2025-12-15,2026-01-14,28000,pending,,6,rent
+SUPP-2025-093,SUPP-001,Cloud Services Europe,2025-11-10,2025-12-10,14500,paid,2025-12-18,-8,it_services
+SUPP-2025-094,SUPP-010,Fournisseur Énergie & Utilities,2025-12-20,2026-01-19,6800,pending,,1,utilities
+SUPP-2025-095,SUPP-004,Matières Premières R&D SAS,2025-11-18,2025-12-18,72000,paid,2026-01-05,-18,supplies
+SUPP-2025-096,SUPP-011,Maintenance Équipements Industriels,2025-12-05,2026-01-04,18500,pending,,16,maintenance
+SUPP-2025-097,SUPP-005,Licences Logicielles Enterprise,2025-11-15,2025-12-15,21000,paid,2025-12-28,-13,it_services
+SUPP-2025-098,SUPP-012,Prestataire Logistique France,2025-12-10,2026-01-09,9200,pending,,11,logistics
