@@ -897,6 +897,35 @@ export default function TresorisPage() {
             </motion.div>
           </div>
         </section>
+
+        {/* Integration Section - Lien vers /agents */}
+        <section className="py-24 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center"
+              >
+                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
+                  TRESORIS fonctionne mieux avec les autres agents
+                </h2>
+                <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
+                  Découvrez comment combiner TRESORIS avec MARGIS (marges réelles) et SCENARIS (scénarios cash) 
+                  pour une vision complète de votre finance.
+                </p>
+                <Link
+                  href="/agents#tresoris"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
+                >
+                  Voir les intégrations
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </motion.div>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

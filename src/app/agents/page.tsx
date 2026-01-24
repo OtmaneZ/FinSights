@@ -146,13 +146,13 @@ export default function AgentsPage() {
                 Surveille votre cash 24h/24, détecte les risques avant qu&apos;ils ne deviennent critiques, 
                 et propose des actions prioritaires chiffrées.
               </p>
-              <a
-                href="#tresoris"
+              <Link
+                href="/agents/tresoris"
                 className="inline-flex items-center text-slate-900 font-semibold hover:text-accent-primary transition-colors"
               >
                 En savoir plus
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </Link>
             </motion.div>
 
             {/* MARGIS Card */}
