@@ -13,7 +13,14 @@ Chaque agent exécute **seul** un cycle autonome, produit des livrables chiffré
 
 ## 🎯 Commencer
 
-### 🆕 Solo Dev qui veut vendre TRESORIS ? ⭐ COMMENCE ICI
+### 🔥 NOUVEAU : Où tu en es vraiment ?
+→ **`OU_TU_EN_ES.md`** (lecture 10 min) ⭐ LIS ÇA EN PREMIER
+- 📊 Score actuel : **42% "Prêt à Vendre"** (Backend 75%, Packaging client 25%)
+- 🔴 Les 4 bloquants vente (Landing, Deploy, Import, Emails)
+- 🚀 Roadmap 4-6 semaines pour être vendable
+- 💰 Budget réaliste : 100€/mois
+
+### 🆕 Solo Dev qui veut vendre TRESORIS ?
 → **`PRIORITES_SOLO_DEV.md`** (lecture 10 min)
 - 🎯 Les 3 vraies priorités (pas 50)
 - ✅ Ce qui suffit pour vendre aux PME
