@@ -75,7 +75,7 @@ export default function Header() {
                     </Link>
 
                     {/* Agents IA */}
-                    <Link href="#agents" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                    <Link href="/agents" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                         Agents IA
                     </Link>
 

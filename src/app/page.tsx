@@ -69,15 +69,19 @@ export default function Home() {
 
                             {/* Subheadline */}
                             <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
-                                J'aide les dirigeants de PME (1–10 M€) à avoir une vision claire et anticipée de leur finance.
-                                <span className="text-white font-semibold"> Avec la data.</span>
+                                J'aide les dirigeants de PME et ETI à avoir une vision claire et anticipée de leur finance.
+                                <span className="text-white font-semibold"> Avec la data et l'IA.</span>
                             </p>
 
                             {/* Value Props - Quick */}
                             <div className="flex flex-wrap gap-4 text-sm text-gray-400">
                                 <div className="flex items-center gap-2">
                                     <Target className="w-4 h-4 text-accent-primary" />
-                                    <span>PME 1-10M€ CA</span>
+                                    <span>De 1M€ à 100M€ CA</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Sparkles className="w-4 h-4 text-accent-primary" />
+                                    <span>3 agents spécialisés</span>
                                 </div>
                             </div>
 
@@ -158,6 +162,7 @@ export default function Home() {
                                         <div>
                                             <p className="text-2xl font-bold text-gray-900">10+</p>
                                             <p className="text-xs text-gray-500">Ans d'expertise</p>
+                                            <p className="text-xs text-gray-500"> Finance & Data</p>
                                         </div>
                                     </div>
                                 </div>
@@ -281,13 +286,24 @@ export default function Home() {
             </section>
 
             {/* Value Proposition - What I Do */}
-            <section className="py-20 bg-gray-50">
-                <div className="max-w-5xl mx-auto px-6">
+            <section className="relative py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+                {/* Background Image - Moi Classe */}
+                <div className="absolute inset-0">
+                    <Image
+                        src="/images/moi-classe.png"
+                        alt="Otmane Boulahia enseignement"
+                        fill
+                        className="object-cover opacity-20"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-900/60"></div>
+                </div>
+
+                <div className="relative max-w-5xl mx-auto px-6">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl font-extrabold text-gray-900 mb-6">
+                        <h2 className="text-4xl font-extrabold text-white mb-6">
                             Comment je peux vous aider
                         </h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        <p className="text-xl text-gray-300 max-w-3xl mx-auto">
                             Deux approches complémentaires pour transformer votre pilotage financier
                         </p>
                     </div>
@@ -384,7 +400,7 @@ export default function Home() {
 
                             <div className="pt-6 border-t border-slate-700">
                                 <p className="text-sm text-gray-400 mb-2">À partir de</p>
-                                <p className="text-3xl font-bold text-white mb-4">300€<span className="text-lg text-gray-400">/mois</span></p>
+                                <p className="text-3xl font-bold text-white mb-4">15 000€<span className="text-lg text-gray-400"> clé en main</span></p>
                                 <Link
                                     href="/agents"
                                     className="block w-full px-6 py-3 bg-white hover:bg-gray-100 text-gray-900 rounded-xl font-semibold text-center transition-all"
@@ -493,15 +509,15 @@ export default function Home() {
 
             {/* CTA Final - Puissant */}
             <section className="py-28 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
-                {/* Background Image */}
+                {/* Background Image - Vue NY */}
                 <div className="absolute inset-0">
                     <Image
-                        src="/images/bureau-nuit.png"
-                        alt="Bureau"
+                        src="/images/vue-NY.png"
+                        alt="Vue New York bureau"
                         fill
-                        className="object-cover opacity-10"
+                        className="object-cover opacity-20"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 to-slate-900/80"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-900/60"></div>
                 </div>
 
                 <div className="relative max-w-4xl mx-auto px-6 text-center">
