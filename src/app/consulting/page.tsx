@@ -81,18 +81,26 @@ export default function ConsultingPage() {
                             </p>
 
                             {/* Stats row */}
-                            <div className="flex flex-wrap gap-8 py-4">
-                                <div className="text-center">
-                                    <p className="text-3xl font-bold text-white">10+</p>
-                                    <p className="text-sm text-gray-400">Années d&apos;expertise</p>
+                            <div className="flex flex-col md:flex-row gap-8 py-4">
+                                <div className="text-left md:text-center flex-1">
+                                    <p className="text-3xl font-bold text-white mb-2">10+</p>
+                                    <p className="text-sm text-gray-300 leading-relaxed">
+                                        ans d&apos;expertise en finance &amp; économie
+                                    </p>
+                                    <p className="text-xs text-gray-400 mt-2">Formation académique + terrain + data</p>
                                 </div>
-                                <div className="text-center">
-                                    <p className="text-3xl font-bold text-accent-primary">500M€</p>
-                                    <p className="text-sm text-gray-400">CA accompagné</p>
+                                <div className="text-left md:text-center flex-1">
+                                    <p className="text-3xl font-bold text-accent-primary mb-2">Testée</p>
+                                    <p className="text-sm text-gray-300 leading-relaxed">
+                                        Méthodes utilisées par des PME &amp; institutions
+                                    </p>
+                                    <p className="text-xs text-gray-400 mt-2">Approche rigoureuse, testée et outillée</p>
                                 </div>
-                                <div className="text-center">
-                                    <p className="text-3xl font-bold text-white">90j</p>
-                                    <p className="text-sm text-gray-400">Visibilité cash</p>
+                                <div className="text-left md:text-center flex-1">
+                                    <p className="text-3xl font-bold text-white mb-2">90j</p>
+                                    <p className="text-sm text-gray-300 leading-relaxed">
+                                        Visibilité cash pilotée par l&apos;IA
+                                    </p>
                                 </div>
                             </div>
 
