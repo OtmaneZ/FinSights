@@ -85,7 +85,7 @@ export default function ConsultingPage() {
                                 <div className="text-left md:text-center flex-1">
                                     <p className="text-3xl font-bold text-white mb-2">10+</p>
                                     <p className="text-sm text-gray-300 leading-relaxed">
-                                        ans d&apos;expertise en finance &amp; économie
+                                        ans d&apos;expertise en finance &amp; pédagogie
                                     </p>
                                     <p className="text-xs text-gray-400 mt-2">Formation académique + terrain + data</p>
                                 </div>

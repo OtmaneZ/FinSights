@@ -65,22 +65,22 @@ export default function TresorisPage() {
 
               <p className="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
                 Anticipez les retards de paiement avec une <span className="text-white font-semibold">précision validée sur datasets PME</span>.
-                Détection précoce en moyenne 15-60 jours à l'avance. Actions prioritaires automatiques.
+                Détection précoce observée entre 15 et 60 jours selon l'historique et la structure client.
               </p>
 
               {/* Validation Badges */}
               <div className="flex flex-wrap gap-4 justify-center mb-12">
                 <div className="flex items-center gap-2 px-4 py-2 bg-green-500/20 rounded-lg border border-green-500/30">
                   <CheckCircle2 className="w-5 h-5 text-green-400" />
-                  <span className="text-green-300 font-medium">100% validé sur nos tests PME</span>
+                  <span className="text-green-300 font-medium">Validé sur l'ensemble de nos scénarios de test</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 rounded-lg border border-blue-500/30">
                   <Zap className="w-5 h-5 text-blue-400" />
-                  <span className="text-blue-300 font-medium">Détection 15-60j d'avance</span>
+                  <span className="text-blue-300 font-medium">Détection 15-60j selon historique</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 rounded-lg border border-purple-500/30">
                   <Target className="w-5 h-5 text-purple-400" />
-                  <span className="text-purple-300 font-medium">Aucun faux positif observé</span>
+                  <span className="text-purple-300 font-medium">0 faux positif sur tests de référence</span>
                 </div>
               </div>
 
@@ -170,7 +170,7 @@ export default function TresorisPage() {
                   <ul className="space-y-3 text-slate-700">
                     <li className="flex items-start gap-3">
                       <span className="text-green-600 mt-1">✅</span>
-                      <span><strong>15 à 60 jours d'avance</strong> sur les retards probables</span>
+                      <span><strong>15 à 60 jours d'avance</strong> selon historique client</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-green-600 mt-1">✅</span>
@@ -182,7 +182,7 @@ export default function TresorisPage() {
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="text-green-600 mt-1">✅</span>
-                      <span><strong>Jusqu'à 15h/mois économisées</strong> sur le recouvrement</span>
+                      <span><strong>Gain de temps substantiel</strong> sur le recouvrement</span>
                     </li>
                   </ul>
                 </motion.div>
@@ -204,9 +204,24 @@ export default function TresorisPage() {
                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
                   Découvrez TRESORIS en action
                 </h2>
-                <p className="text-xl text-slate-200">
-                  Démonstration complète de l'analyse prédictive en moins de 3 minutes
+                <p className="text-xl text-slate-200 mb-8">
+                  Démonstration complète de l'analyse prédictive en moins de 5 minutes
                 </p>
+                
+                {/* Framing AVANT la vidéo */}
+                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 text-left max-w-3xl mx-auto mb-8">
+                  <h3 className="text-lg font-semibold text-white mb-3">
+                    Ce que vous allez voir
+                  </h3>
+                  <p className="text-slate-200 leading-relaxed">
+                    Cette démonstration montre comment TRESORIS analyse une situation PME réelle, 
+                    détecte une dérive avant qu'elle n'impacte la trésorerie, et propose des actions priorisées.
+                    <br /><br />
+                    <span className="text-accent-primary font-medium">
+                      TRESORIS n'exécute aucune action et fonctionne toujours comme un copilote décisionnel accompagné.
+                    </span>
+                  </p>
+                </div>
               </motion.div>
 
               <motion.div
@@ -243,6 +258,70 @@ export default function TresorisPage() {
               <p className="text-center text-slate-300 italic mt-6">
                 * Présentation réalisée devant la BPI — Chargement à la demande pour meilleure performance
               </p>
+
+              {/* Wording APRÈS la vidéo - Ce que TRESORIS est (et n'est pas) */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-left mt-12"
+              >
+                <h3 className="text-2xl font-bold text-white mb-6 text-center">
+                  Ce que TRESORIS est (et n'est pas)
+                </h3>
+                
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Ce que TRESORIS EST */}
+                  <div>
+                    <h4 className="text-lg font-semibold text-accent-primary mb-4">
+                      TRESORIS est :
+                    </h4>
+                    <ul className="space-y-3 text-slate-200">
+                      <li className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                        <span>un moteur d'analyse décisionnelle de trésorerie,</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                        <span>déployé et paramétré avec vous,</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                        <span>utilisé en accompagnement DAF / dirigeant,</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                        <span>conçu pour anticiper les tensions, pas pour automatiser aveuglément.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Ce que TRESORIS N'EST PAS */}
+                  <div>
+                    <h4 className="text-lg font-semibold text-red-400 mb-4">
+                      TRESORIS n'est pas :
+                    </h4>
+                    <ul className="space-y-3 text-slate-200">
+                      <li className="flex items-start gap-3">
+                        <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                        <span>un SaaS en libre-service,</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                        <span>un outil de paiement ou de blocage,</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                        <span>un système infaillible,</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                        <span>un remplacement du jugement humain.</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
 
               <script dangerouslySetInnerHTML={{__html: `
                 (function() {
@@ -469,7 +548,7 @@ export default function TresorisPage() {
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold text-white mb-2">
-                      L'IA analyse en moins d'1 seconde
+                      L'IA analyse en moins d'1 minute
                     </h3>
                     <p className="text-slate-200 leading-relaxed">
                       6 engines spécialisés travaillent en parallèle : analyse patterns, scoring risque, 
@@ -537,20 +616,26 @@ export default function TresorisPage() {
                     <div>
                       <div className="flex justify-between mb-2">
                         <span className="text-slate-700">Précision détection</span>
-                        <span className="text-green-600 font-bold">100%</span>
+                        <span className="text-green-600 font-bold">Validée</span>
                       </div>
                       <div className="w-full bg-slate-200 rounded-full h-2">
                         <div className="bg-green-600 h-2 rounded-full" style={{ width: '100%' }}></div>
                       </div>
+                      <p className="text-xs text-slate-500 mt-1">
+                        Sur l'ensemble de nos scénarios PME avec seuils conservateurs
+                      </p>
                     </div>
                     <div>
                       <div className="flex justify-between mb-2">
                         <span className="text-slate-700">Détection précoce</span>
-                        <span className="text-green-600 font-bold">100%</span>
+                        <span className="text-green-600 font-bold">Validée</span>
                       </div>
                       <div className="w-full bg-slate-200 rounded-full h-2">
                         <div className="bg-green-600 h-2 rounded-full" style={{ width: '100%' }}></div>
                       </div>
+                      <p className="text-xs text-slate-500 mt-1">
+                        Détection entre 15 et 60 jours selon historique et structure client
+                      </p>
                     </div>
                     <div>
                       <div className="flex justify-between mb-2">
@@ -560,19 +645,26 @@ export default function TresorisPage() {
                       <div className="w-full bg-slate-200 rounded-full h-2">
                         <div className="bg-green-600 h-2 rounded-full" style={{ width: '0%' }}></div>
                       </div>
+                      <p className="text-xs text-slate-500 mt-1">
+                        Aucun faux positif sur scénarios de référence avec seuils calibrés
+                      </p>
                     </div>
                     <div>
                       <div className="flex justify-between mb-2">
                         <span className="text-slate-700">Pertinence actions</span>
-                        <span className="text-green-600 font-bold">100%</span>
+                        <span className="text-green-600 font-bold">Validée</span>
                       </div>
                       <div className="w-full bg-slate-200 rounded-full h-2">
                         <div className="bg-green-600 h-2 rounded-full" style={{ width: '100%' }}></div>
                       </div>
+                      <p className="text-xs text-slate-500 mt-1">
+                        Sur l'ensemble de nos tests avec priorisation impact×facilité
+                      </p>
                     </div>
                   </div>
                   <p className="text-sm text-slate-500 mt-4 italic">
-                    * Résultats sur nos scénarios de test PME (84 factures, 7 clients)
+                    * Résultats sur nos scénarios de test PME (84 factures, 7 clients).
+                    Les performances réelles peuvent varier selon la qualité des données et la complexité de votre structure.
                   </p>
                 </motion.div>
 
@@ -703,7 +795,7 @@ export default function TresorisPage() {
                     TRESORIS Entreprise
                   </h3>
                   <p className="text-slate-300 mb-8 text-lg">
-                    Installation complète, paramétrage personnalisé, formation équipe
+                    Déploiement accompagné, paramétrage personnalisé, formation équipe
                   </p>
 
                   <div className="mb-8">
@@ -711,7 +803,7 @@ export default function TresorisPage() {
                       15 000 €
                     </div>
                     <div className="text-slate-400 text-lg">
-                      Clé en main
+                      Installation complète
                     </div>
                   </div>
 
@@ -720,7 +812,7 @@ export default function TresorisPage() {
                     <ul className="grid md:grid-cols-2 gap-3">
                       <li className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-accent-primary flex-shrink-0" />
-                        <span>Installation et configuration complète</span>
+                        <span>Déploiement accompagné (environnement Docker sécurisé)</span>
                       </li>
                       <li className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-accent-primary flex-shrink-0" />
@@ -751,6 +843,10 @@ export default function TresorisPage() {
                         <span>API REST pour intégration à vos outils</span>
                       </li>
                     </ul>
+                    <p className="text-sm text-slate-300 mt-6 border-t border-white/10 pt-4">
+                      Livraison d'un environnement Docker Compose prêt à l'emploi, paramétré selon votre structure, 
+                      accompagné à l'installation et à la prise en main.
+                    </p>
                   </div>
 
                   <Link
@@ -874,9 +970,9 @@ export default function TresorisPage() {
                     Combien de temps pour voir les premiers résultats ?
                   </h3>
                   <p className="text-slate-600 leading-relaxed">
-                    Installation complète généralement en <strong>7 jours ouvrés</strong>. Vous aurez vos premiers insights 
+                    Déploiement accompagné généralement en <strong>7 jours ouvrés</strong>. Vous aurez vos premiers insights 
                     dès la connexion de vos données. Les alertes précoces apparaissent après 2-3 semaines d'utilisation, 
-                    selon la complexité de votre infrastructure.
+                    le temps que le système accumule suffisamment d'historique pour détecter les patterns.
                   </p>
                 </motion.div>
 
