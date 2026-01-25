@@ -45,6 +45,1450 @@ const categoryImages: Record<string, string> = {
 }
 
 const baseArticles: Record<string, BlogArticle> = {
+    'lire-bilan-compte-resultat-guide-pratique': {
+        slug: 'lire-bilan-compte-resultat-guide-pratique',
+        title: 'Lire un bilan et un compte de résultat : guide pratique',
+        description: 'Apprenez à décrypter vos états financiers en 15 minutes : bilan, compte de résultat, signaux d\'alerte et questions à poser à votre comptable',
+        date: '25 janvier 2026',
+        readTime: '12 min',
+        category: 'Gestion',
+        image: '/images/bureau-nuit.png',
+        content: (
+            <>
+                <p className="lead">
+                    Vous recevez le bilan de votre expert-comptable : 50 pages de chiffres, des comptes numérotés, 
+                    des totaux partout... et vous ne comprenez <strong>rien</strong>. C'est normal. 
+                    En 15 minutes, vous allez apprendre à lire un bilan et un compte de résultat comme un pro.
+                </p>
+
+                <h2>Le syndrome du bilan illisible</h2>
+                <p>
+                    Chaque année, des milliers de dirigeants de PME reçoivent leurs états financiers et se retrouvent 
+                    face au même problème : <strong>comment interpréter ces chiffres ?</strong>
+                </p>
+
+                <div className="warning-box">
+                    <strong>🤯 La réalité :</strong>
+                    <ul>
+                        <li>80% des dirigeants de PME ne savent pas lire un bilan</li>
+                        <li>60% confondent résultat et trésorerie</li>
+                        <li>La plupart signent leurs comptes annuels sans les comprendre</li>
+                    </ul>
+                    <p>
+                        <strong>Ce n'est pas de votre faute.</strong> Les états financiers sont conçus pour les comptables, 
+                        pas pour les chefs d'entreprise. C'est comme recevoir un manuel technique de voiture en chinois.
+                    </p>
+                </div>
+
+                <h2>Ce que vous allez apprendre</h2>
+                <p>Dans ce guide pratico-pratique, vous allez découvrir :</p>
+
+                <ul>
+                    <li>✅ Les 3 blocs du bilan expliqués simplement</li>
+                    <li>✅ Les 5 lignes clés à surveiller en priorité</li>
+                    <li>✅ Comment lire le compte de résultat du CA au résultat net</li>
+                    <li>✅ Les 7 signaux d'alerte qui doivent vous inquiéter</li>
+                    <li>✅ Les questions essentielles à poser à votre expert-comptable</li>
+                    <li>✅ Un cas pratique avec un vrai bilan décrypté ligne par ligne</li>
+                </ul>
+
+                <h2>Le bilan en 3 blocs simples</h2>
+                <p>
+                    Le bilan, c'est la <strong>photo de votre entreprise à un instant T</strong> (généralement le 31 décembre). 
+                    Il se compose de 2 grandes colonnes :
+                </p>
+
+                <div className="info-box">
+                    <strong>📸 Le bilan en une phrase :</strong>
+                    <p>
+                        <strong>ACTIF</strong> (colonne gauche) = Ce que vous possédez<br />
+                        <strong>PASSIF</strong> (colonne droite) = Comment c'est financé
+                    </p>
+                    <p className="result">
+                        <strong>Règle d'or :</strong> ACTIF = PASSIF (équilibre obligatoire)
+                    </p>
+                </div>
+
+                <h3>Bloc 1 : L'ACTIF (ce que vous possédez)</h3>
+
+                <table className="benchmark-table">
+                    <thead>
+                        <tr>
+                            <th>Type d'actif</th>
+                            <th>Ce que c'est</th>
+                            <th>Exemples concrets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Actif immobilisé</strong></td>
+                            <td>Biens durables (&gt; 1 an)</td>
+                            <td>Locaux, machines, véhicules, logiciels, brevets</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Actif circulant</strong></td>
+                            <td>Biens à court terme (&lt; 1 an)</td>
+                            <td>Stocks, créances clients, trésorerie</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div className="example-box">
+                    <p><strong>💡 Exemple concret - PME de distribution :</strong></p>
+                    <p><strong>Actif immobilisé :</strong></p>
+                    <ul>
+                        <li>Entrepôt : 500 k€</li>
+                        <li>Camions de livraison : 150 k€</li>
+                        <li>Logiciel de gestion : 20 k€</li>
+                        <li><strong>Total actif immobilisé : 670 k€</strong></li>
+                    </ul>
+
+                    <p><strong>Actif circulant :</strong></p>
+                    <ul>
+                        <li>Stocks de marchandises : 200 k€</li>
+                        <li>Créances clients (factures non payées) : 180 k€</li>
+                        <li>Trésorerie (banque) : 80 k€</li>
+                        <li><strong>Total actif circulant : 460 k€</strong></li>
+                    </ul>
+
+                    <p className="result">
+                        <strong>TOTAL ACTIF = 670 k€ + 460 k€ = 1 130 k€</strong>
+                    </p>
+                </div>
+
+                <h3>Bloc 2 : Le PASSIF (comment c'est financé)</h3>
+
+                <table className="benchmark-table">
+                    <thead>
+                        <tr>
+                            <th>Type de passif</th>
+                            <th>Ce que c'est</th>
+                            <th>Exemples concrets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Capitaux propres</strong></td>
+                            <td>Argent des actionnaires + bénéfices accumulés</td>
+                            <td>Capital social, réserves, résultat de l'année</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dettes</strong></td>
+                            <td>Argent emprunté ou dû</td>
+                            <td>Emprunts bancaires, dettes fournisseurs, charges sociales</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div className="example-box">
+                    <p><strong>Suite exemple PME distribution :</strong></p>
+                    <p><strong>Capitaux propres :</strong></p>
+                    <ul>
+                        <li>Capital social : 100 k€</li>
+                        <li>Réserves (bénéfices passés) : 250 k€</li>
+                        <li>Résultat de l'année : 80 k€</li>
+                        <li><strong>Total capitaux propres : 430 k€</strong></li>
+                    </ul>
+
+                    <p><strong>Dettes :</strong></p>
+                    <ul>
+                        <li>Emprunt bancaire : 400 k€</li>
+                        <li>Dettes fournisseurs : 250 k€</li>
+                        <li>Charges sociales à payer : 50 k€</li>
+                        <li><strong>Total dettes : 700 k€</strong></li>
+                    </ul>
+
+                    <p className="result">
+                        <strong>TOTAL PASSIF = 430 k€ + 700 k€ = 1 130 k€</strong>
+                        <br />
+                        ✅ ACTIF (1 130 k€) = PASSIF (1 130 k€) → Le bilan est équilibré !
+                    </p>
+                </div>
+
+                <h3>Bloc 3 : La règle de l'équilibre</h3>
+
+                <div className="info-box">
+                    <strong>💡 Comprendre l'équilibre du bilan :</strong>
+                    <p>
+                        Imaginez que vous achetez une maison de 300 k€ :
+                    </p>
+                    <ul>
+                        <li><strong>ACTIF</strong> : Vous possédez une maison de 300 k€</li>
+                        <li><strong>PASSIF</strong> : Financée par :
+                            <ul>
+                                <li>Votre apport personnel (capitaux propres) : 100 k€</li>
+                                <li>Emprunt bancaire (dette) : 200 k€</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>
+                        <strong>300 k€ (actif) = 100 k€ (capitaux propres) + 200 k€ (dette)</strong>
+                    </p>
+                    <p>
+                        C'est exactement le même principe pour une entreprise !
+                    </p>
+                </div>
+
+                <h2>Les 5 lignes clés du bilan à surveiller</h2>
+
+                <h3>1. Trésorerie : "Combien d'argent RÉEL j'ai ?"</h3>
+                <div className="kpi-box">
+                    <p><strong>Où la trouver :</strong> ACTIF → Actif circulant → Disponibilités</p>
+                    <p><strong>Ce que c'est :</strong> Solde de vos comptes bancaires + caisse</p>
+                    
+                    <p><strong>Seuils d'alerte :</strong></p>
+                    <ul>
+                        <li>Trésorerie &lt; 1 mois de charges fixes : 🚨 <strong>Critique</strong></li>
+                        <li>Trésorerie = 1-2 mois de charges : ⚠️ <strong>À surveiller</strong></li>
+                        <li>Trésorerie &gt; 3 mois de charges : ✅ <strong>Confortable</strong></li>
+                    </ul>
+
+                    <p className="example">
+                        <strong>Exemple :</strong> PME avec 50 k€ de charges mensuelles
+                        <ul>
+                            <li>Trésorerie 30 k€ → 🚨 Moins d'un mois de survie</li>
+                            <li>Trésorerie 80 k€ → ⚠️ 1,6 mois (juste)</li>
+                            <li>Trésorerie 200 k€ → ✅ 4 mois (sécurisé)</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <h3>2. Créances clients : "Combien on me doit ?"</h3>
+                <div className="kpi-box">
+                    <p><strong>Où la trouver :</strong> ACTIF → Actif circulant → Créances clients</p>
+                    <p><strong>Ce que c'est :</strong> Factures émises mais pas encore encaissées</p>
+                    
+                    <p><strong>Signal d'alerte :</strong></p>
+                    <ul>
+                        <li>Créances qui augmentent plus vite que le CA : 🚨 <strong>Clients qui paient mal</strong></li>
+                        <li>Créances &gt; 3 mois de CA : ⚠️ <strong>DSO trop élevé</strong></li>
+                    </ul>
+
+                    <p className="example">
+                        <strong>Exemple :</strong> CA annuel 1,2 M€ → Créances normales : 100-150 k€ (1-1,5 mois)
+                        <br />
+                        Si créances = 400 k€ → 🚨 Problème grave de recouvrement (DSO 122 jours)
+                    </p>
+                </div>
+
+                <h3>3. Dettes fournisseurs : "Combien je dois ?"</h3>
+                <div className="kpi-box">
+                    <p><strong>Où la trouver :</strong> PASSIF → Dettes → Dettes fournisseurs</p>
+                    <p><strong>Ce que c'est :</strong> Factures fournisseurs reçues mais pas encore payées</p>
+                    
+                    <p><strong>Bon à savoir :</strong></p>
+                    <ul>
+                        <li>Dettes fournisseurs = financement gratuit (tant que vous respectez les délais)</li>
+                        <li>Délai légal maximum en France : 60 jours</li>
+                    </ul>
+
+                    <p className="warning">
+                        ⚠️ <strong>Attention :</strong> Si vos dettes fournisseurs explosent soudainement, 
+                        c'est souvent que vous n'arrivez plus à payer à temps (problème de trésorerie).
+                    </p>
+                </div>
+
+                <h3>4. Capitaux propres : "La valeur nette de mon entreprise"</h3>
+                <div className="kpi-box">
+                    <p><strong>Où les trouver :</strong> PASSIF → Capitaux propres → Total</p>
+                    <p><strong>Ce que c'est :</strong> Ce qui reste si vous vendez tout et remboursez toutes les dettes</p>
+                    
+                    <div className="formula-box">
+                        <code>Capitaux propres = Actif total - Dettes totales</code>
+                    </div>
+
+                    <p><strong>Signaux d'alerte :</strong></p>
+                    <ul>
+                        <li>Capitaux propres <strong>négatifs</strong> : 🚨 <strong>Situation de faillite juridique</strong></li>
+                        <li>Capitaux propres en baisse 2 années consécutives : ⚠️ <strong>Érosion de la valeur</strong></li>
+                        <li>Capitaux propres &lt; 10% du total bilan : ⚠️ <strong>Sous-capitalisation</strong></li>
+                    </ul>
+
+                    <p className="example">
+                        <strong>Exemple :</strong>
+                        <ul>
+                            <li>Actif total : 1 M€</li>
+                            <li>Dettes totales : 800 k€</li>
+                            <li>Capitaux propres : 1 M€ - 800 k€ = 200 k€ (20% du bilan) ✅</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <h3>5. Dettes bancaires : "Mon niveau d'endettement"</h3>
+                <div className="kpi-box">
+                    <p><strong>Où les trouver :</strong> PASSIF → Dettes financières → Emprunts</p>
+                    <p><strong>Ce que c'est :</strong> Crédits bancaires à rembourser</p>
+                    
+                    <p><strong>Ratio clé à calculer :</strong></p>
+                    <div className="formula-box">
+                        <code>Ratio d'endettement = Dettes bancaires / Capitaux propres</code>
+                    </div>
+
+                    <table className="benchmark-table">
+                        <thead>
+                            <tr>
+                                <th>Ratio</th>
+                                <th>Interprétation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>&lt; 0,5</td>
+                                <td>✅ Faible endettement (capacité d'emprunt)</td>
+                            </tr>
+                            <tr>
+                                <td>0,5 - 1</td>
+                                <td>✅ Endettement raisonnable</td>
+                            </tr>
+                            <tr>
+                                <td>1 - 2</td>
+                                <td>⚠️ Endettement élevé (surveiller)</td>
+                            </tr>
+                            <tr>
+                                <td>&gt; 2</td>
+                                <td>🚨 Surendettement (difficulté à emprunter)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p className="example">
+                        <strong>Exemple :</strong>
+                        <ul>
+                            <li>Dettes bancaires : 300 k€</li>
+                            <li>Capitaux propres : 200 k€</li>
+                            <li>Ratio = 300 / 200 = 1,5 → ⚠️ Endettement élevé mais gérable</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <h2>Le compte de résultat : du CA au résultat net</h2>
+
+                <p>
+                    Le compte de résultat, c'est le <strong>film de votre activité sur l'année</strong>. 
+                    Contrairement au bilan (photo), il montre les flux (entrées/sorties).
+                </p>
+
+                <h3>Structure en cascade</h3>
+
+                <div className="formula-box">
+                    <p><strong>Chiffre d'affaires (CA)</strong></p>
+                    <p>- Coût des ventes (achats, marchandises, production)</p>
+                    <p>= <strong>Marge brute</strong></p>
+                    <p>- Charges d'exploitation (salaires, loyers, marketing...)</p>
+                    <p>= <strong>Résultat d'exploitation (EBIT)</strong></p>
+                    <p>- Charges financières (intérêts d'emprunt)</p>
+                    <p>+/- Résultat exceptionnel</p>
+                    <p>- Impôt sur les sociétés</p>
+                    <p>= <strong>RÉSULTAT NET</strong></p>
+                </div>
+
+                <h3>Exemple chiffré - PME e-commerce</h3>
+
+                <div className="example-box">
+                    <table className="benchmark-table">
+                        <tbody>
+                            <tr>
+                                <td><strong>Chiffre d'affaires</strong></td>
+                                <td className="text-right">2 000 k€</td>
+                            </tr>
+                            <tr>
+                                <td>- Coût des marchandises vendues</td>
+                                <td className="text-right">-1 200 k€</td>
+                            </tr>
+                            <tr>
+                                <td><strong>= Marge brute (40%)</strong></td>
+                                <td className="text-right"><strong>800 k€</strong></td>
+                            </tr>
+                            <tr>
+                                <td>- Salaires et charges sociales</td>
+                                <td className="text-right">-400 k€</td>
+                            </tr>
+                            <tr>
+                                <td>- Loyers et charges</td>
+                                <td className="text-right">-80 k€</td>
+                            </tr>
+                            <tr>
+                                <td>- Marketing et publicité</td>
+                                <td className="text-right">-150 k€</td>
+                            </tr>
+                            <tr>
+                                <td>- Autres charges d'exploitation</td>
+                                <td className="text-right">-70 k€</td>
+                            </tr>
+                            <tr>
+                                <td><strong>= Résultat d'exploitation</strong></td>
+                                <td className="text-right"><strong>100 k€</strong></td>
+                            </tr>
+                            <tr>
+                                <td>- Intérêts d'emprunt</td>
+                                <td className="text-right">-20 k€</td>
+                            </tr>
+                            <tr>
+                                <td>+/- Résultat exceptionnel</td>
+                                <td className="text-right">0 k€</td>
+                            </tr>
+                            <tr>
+                                <td>- Impôt sur les sociétés (25%)</td>
+                                <td className="text-right">-20 k€</td>
+                            </tr>
+                            <tr>
+                                <td><strong>= RÉSULTAT NET</strong></td>
+                                <td className="text-right"><strong>60 k€</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p className="result">
+                        <strong>Marge nette = 60 k€ / 2 000 k€ = 3%</strong>
+                    </p>
+                </div>
+
+                <h3>Les 3 types de résultats</h3>
+
+                <table className="benchmark-table">
+                    <thead>
+                        <tr>
+                            <th>Type de résultat</th>
+                            <th>Ce qu'il mesure</th>
+                            <th>Pourquoi c'est important</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Résultat d'exploitation</strong></td>
+                            <td>Rentabilité de votre activité principale</td>
+                            <td>Indicateur de performance opérationnelle (hors finance)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Résultat financier</strong></td>
+                            <td>Coût de l'endettement</td>
+                            <td>Impact des intérêts d'emprunt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Résultat exceptionnel</strong></td>
+                            <td>Événements rares (vente actif, litige...)</td>
+                            <td>Ne se reproduit pas (ignorer pour tendance)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>⚠️ PIÈGE MORTEL : Résultat ≠ Trésorerie</h2>
+
+                <div className="warning-box">
+                    <strong>🚨 L'erreur que font 60% des dirigeants :</strong>
+                    <p>
+                        <strong>"J'ai 100 k€ de résultat net, donc j'ai 100 k€ en banque"</strong>
+                        <br /><br />
+                        <strong>FAUX !</strong> Le résultat est comptable, pas du cash réel.
+                    </p>
+
+                    <p><strong>Pourquoi résultat ≠ trésorerie ?</strong></p>
+                    <ol>
+                        <li><strong>Décalages de paiement</strong> : Vous avez facturé 100 k€, mais les clients n'ont pas encore payé</li>
+                        <li><strong>Investissements</strong> : Vous avez acheté une machine 50 k€ (pas dans le résultat, mais sorti du compte)</li>
+                        <li><strong>Remboursements d'emprunt</strong> : Vous remboursez 30 k€ de crédit (pas une charge, mais du cash qui sort)</li>
+                        <li><strong>Stocks</strong> : Vous avez acheté 80 k€ de marchandises pas encore vendues (cash sorti, pas dans le résultat)</li>
+                    </ol>
+
+                    <p className="example">
+                        <strong>Exemple concret :</strong>
+                        <ul>
+                            <li>Résultat net : 100 k€</li>
+                            <li>Créances clients non encaissées : -80 k€</li>
+                            <li>Investissements machines : -50 k€</li>
+                            <li>Remboursement emprunt : -30 k€</li>
+                            <li>Augmentation stocks : -40 k€</li>
+                        </ul>
+                        <p className="result">
+                            <strong>Trésorerie réelle = 100 k€ - 80 k€ - 50 k€ - 30 k€ - 40 k€ = -100 k€</strong>
+                            <br />
+                            🚨 L'entreprise est rentable (+100k€) mais en difficulté de trésorerie (-100k€) !
+                        </p>
+                    </p>
+                </div>
+
+                <h2>Les 7 signaux d'alerte à repérer immédiatement</h2>
+
+                <h3>1. Capitaux propres négatifs</h3>
+                <div className="warning-box">
+                    <p><strong>🚨 Situation de faillite juridique</strong></p>
+                    <p>
+                        Si vos capitaux propres sont négatifs, cela signifie que vos dettes sont supérieures 
+                        à vos actifs. Juridiquement, c'est une situation de "fonds propres insuffisants" 
+                        qui peut entraîner une dissolution de la société.
+                    </p>
+                    <p><strong>Action :</strong> Augmentation de capital urgente ou restructuration</p>
+                </div>
+
+                <h3>2. Trésorerie &lt; 1 mois de charges</h3>
+                <div className="warning-box">
+                    <p><strong>🚨 Risque d'asphyxie immédiate</strong></p>
+                    <p>
+                        Avec moins d'un mois de trésorerie, un simple retard de paiement d'un gros client 
+                        peut vous mettre en difficulté pour payer les salaires.
+                    </p>
+                    <p><strong>Action :</strong> Relance clients agressive, négociation délais fournisseurs, crédit court terme</p>
+                </div>
+
+                <h3>3. Créances clients &gt; Dettes fournisseurs</h3>
+                <div className="warning-box">
+                    <p><strong>⚠️ BFR qui explose</strong></p>
+                    <p>
+                        Vous financez vos clients alors qu'ils devraient vous payer avant que vous ne payiez vos fournisseurs. 
+                        Votre cash est bloqué.
+                    </p>
+                    <p><strong>Action :</strong> Réduire DSO (délai clients), négocier délais fournisseurs plus longs</p>
+                </div>
+
+                <h3>4. Résultat négatif 2 années consécutives</h3>
+                <div className="warning-box">
+                    <p><strong>🚨 Modèle économique non viable</strong></p>
+                    <p>
+                        Un résultat négatif ponctuel peut s'expliquer (investissements, crise...). 
+                        Deux années consécutives = problème structurel de rentabilité.
+                    </p>
+                    <p><strong>Action :</strong> Revoir tarifs, réduire coûts, pivoter modèle économique</p>
+                </div>
+
+                <h3>5. Dettes bancaires &gt; 2× Capitaux propres</h3>
+                <div className="warning-box">
+                    <p><strong>⚠️ Surendettement</strong></p>
+                    <p>
+                        Ratio d'endettement supérieur à 2 = banque considère que vous êtes trop endetté 
+                        pour emprunter davantage.
+                    </p>
+                    <p><strong>Action :</strong> Rembourser rapidement, augmenter capitaux propres, éviter nouveaux emprunts</p>
+                </div>
+
+                <h3>6. Stocks qui augmentent plus vite que le CA</h3>
+                <div className="warning-box">
+                    <p><strong>⚠️ Surstockage ou invendus</strong></p>
+                    <p>
+                        CA +10%, stocks +40% = vous achetez trop ou vous ne vendez pas assez. 
+                        Cash immobilisé + risque d'obsolescence.
+                    </p>
+                    <p><strong>Action :</strong> Promotions, déstockage, réduire commandes fournisseurs</p>
+                </div>
+
+                <h3>7. Charges financières &gt; 5% du CA</h3>
+                <div className="warning-box">
+                    <p><strong>⚠️ Endettement trop coûteux</strong></p>
+                    <p>
+                        Si vos intérêts d'emprunt représentent plus de 5% de votre CA, c'est que vous payez 
+                        trop cher votre dette. Votre rentabilité est plombée par le coût du financement.
+                    </p>
+                    <p><strong>Action :</strong> Renégocier taux, racheter crédits coûteux, désendetter</p>
+                </div>
+
+                <h2>Les 3 ratios de base à calculer en 2 minutes</h2>
+
+                <h3>1. Ratio de liquidité générale</h3>
+                <div className="formula-box">
+                    <code>Liquidité générale = Actif circulant / Dettes court terme</code>
+                </div>
+                <ul>
+                    <li><strong>&lt; 1</strong> : 🚨 Vous ne pouvez pas payer vos dettes court terme</li>
+                    <li><strong>1 - 1,5</strong> : ⚠️ Juste suffisant</li>
+                    <li><strong>&gt; 1,5</strong> : ✅ Bonne capacité de paiement</li>
+                </ul>
+
+                <h3>2. Ratio d'endettement</h3>
+                <div className="formula-box">
+                    <code>Endettement = Dettes totales / Capitaux propres</code>
+                </div>
+                <ul>
+                    <li><strong>&lt; 1</strong> : ✅ Faible endettement</li>
+                    <li><strong>1 - 2</strong> : ✅ Endettement raisonnable</li>
+                    <li><strong>&gt; 2</strong> : 🚨 Surendettement</li>
+                </ul>
+
+                <h3>3. Ratio d'autonomie financière</h3>
+                <div className="formula-box">
+                    <code>Autonomie = Capitaux propres / Total passif × 100</code>
+                </div>
+                <ul>
+                    <li><strong>&lt; 20%</strong> : 🚨 Sous-capitalisation dangereuse</li>
+                    <li><strong>20-40%</strong> : ⚠️ Autonomie moyenne</li>
+                    <li><strong>&gt; 40%</strong> : ✅ Bonne autonomie financière</li>
+                </ul>
+
+                <h2>Cas pratique : décrypter un vrai bilan</h2>
+
+                <p>Analysons ensemble le bilan d'une PME e-commerce :</p>
+
+                <div className="example-box">
+                    <p><strong>📊 Bilan simplifié - PME E-commerce "ShopTech"</strong></p>
+
+                    <table className="benchmark-table">
+                        <thead>
+                            <tr>
+                                <th colSpan={2}><strong>ACTIF</strong></th>
+                                <th colSpan={2}><strong>PASSIF</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colSpan={2}><strong>Actif immobilisé</strong></td>
+                                <td colSpan={2}><strong>Capitaux propres</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Matériel informatique</td>
+                                <td className="text-right">50 k€</td>
+                                <td>Capital social</td>
+                                <td className="text-right">50 k€</td>
+                            </tr>
+                            <tr>
+                                <td>Aménagements</td>
+                                <td className="text-right">30 k€</td>
+                                <td>Réserves</td>
+                                <td className="text-right">80 k€</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sous-total</strong></td>
+                                <td className="text-right"><strong>80 k€</strong></td>
+                                <td>Résultat de l'année</td>
+                                <td className="text-right">-20 k€</td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}></td>
+                                <td><strong>Sous-total</strong></td>
+                                <td className="text-right"><strong>110 k€</strong></td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}><strong>Actif circulant</strong></td>
+                                <td colSpan={2}><strong>Dettes</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Stocks</td>
+                                <td className="text-right">250 k€</td>
+                                <td>Emprunt bancaire</td>
+                                <td className="text-right">180 k€</td>
+                            </tr>
+                            <tr>
+                                <td>Créances clients</td>
+                                <td className="text-right">180 k€</td>
+                                <td>Dettes fournisseurs</td>
+                                <td className="text-right">120 k€</td>
+                            </tr>
+                            <tr>
+                                <td>Trésorerie</td>
+                                <td className="text-right">40 k€</td>
+                                <td>Charges sociales</td>
+                                <td className="text-right">60 k€</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Autres dettes CT</td>
+                                <td className="text-right">80 k€</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sous-total</strong></td>
+                                <td className="text-right"><strong>470 k€</strong></td>
+                                <td><strong>Sous-total</strong></td>
+                                <td className="text-right"><strong>440 k€</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>TOTAL ACTIF</strong></td>
+                                <td className="text-right"><strong>550 k€</strong></td>
+                                <td><strong>TOTAL PASSIF</strong></td>
+                                <td className="text-right"><strong>550 k€</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p><strong>📈 Analyse détaillée :</strong></p>
+
+                    <div className="warning-box">
+                        <p><strong>🚨 Signaux d'alerte détectés :</strong></p>
+                        <ol>
+                            <li>
+                                <strong>Résultat négatif -20 k€</strong>
+                                <p>L'entreprise perd de l'argent. Si c'est la 2e année consécutive → problème grave</p>
+                            </li>
+                            <li>
+                                <strong>Trésorerie 40 k€</strong>
+                                <p>Si charges mensuelles = 50 k€ → moins d'1 mois de survie 🚨</p>
+                            </li>
+                            <li>
+                                <strong>Créances 180 k€ &gt; Dettes fournisseurs 120 k€</strong>
+                                <p>BFR positif de 60 k€ (180 - 120) = cash bloqué chez les clients</p>
+                            </li>
+                            <li>
+                                <strong>Stocks 250 k€</strong>
+                                <p>Si CA annuel = 1,2 M€ → stocks = 3 mois de ventes. Beaucoup trop élevé (normal = 1-1,5 mois)</p>
+                            </li>
+                            <li>
+                                <strong>Ratio d'endettement = 440 k€ / 110 k€ = 4</strong>
+                                <p>🚨 Surendettement critique (dettes = 4× capitaux propres)</p>
+                            </li>
+                            <li>
+                                <strong>Autonomie financière = 110 / 550 = 20%</strong>
+                                <p>⚠️ Juste à la limite acceptable (minimum 20%)</p>
+                            </li>
+                        </ol>
+
+                        <p className="result">
+                            <strong>Diagnostic : Entreprise en grande difficulté</strong>
+                            <br />
+                            Actions urgentes : réduire stocks (promotions), accélérer recouvrement clients, 
+                            négocier étalement dettes, augmentation de capital ou restructuration.
+                        </p>
+                    </div>
+                </div>
+
+                <h2>Les questions à poser à votre expert-comptable</h2>
+
+                <p>Ne restez pas dans le flou. Voici les questions essentielles à poser lors de la remise du bilan :</p>
+
+                <div className="kpi-box">
+                    <h3><strong>Questions sur le bilan :</strong></h3>
+                    <ol>
+                        <li>
+                            <strong>"Pourquoi mes capitaux propres ont diminué/augmenté ?"</strong>
+                            <p>Comprendre si c'est dû au résultat, à des retraits, ou à une augmentation de capital</p>
+                        </li>
+                        <li>
+                            <strong>"Mon niveau de trésorerie est-il suffisant pour mon activité ?"</strong>
+                            <p>Comparer aux charges mensuelles (objectif : 2-3 mois minimum)</p>
+                        </li>
+                        <li>
+                            <strong>"Est-ce que mon ratio d'endettement est normal pour mon secteur ?"</strong>
+                            <p>Benchmarker vs secteur d'activité</p>
+                        </li>
+                        <li>
+                            <strong>"Pourquoi mes créances clients ont augmenté ?"</strong>
+                            <p>Identifier si c'est dû à la croissance ou à un problème de recouvrement</p>
+                        </li>
+                        <li>
+                            <strong>"Mes stocks sont-ils normaux ou trop élevés ?"</strong>
+                            <p>Calculer la rotation des stocks (objectif : 8-12 rotations/an selon secteur)</p>
+                        </li>
+                    </ol>
+
+                    <h3><strong>Questions sur le compte de résultat :</strong></h3>
+                    <ol>
+                        <li>
+                            <strong>"Quelle est ma marge brute et est-elle en ligne avec mon secteur ?"</strong>
+                            <p>Benchmarker pour identifier si le problème vient des achats ou des prix de vente</p>
+                        </li>
+                        <li>
+                            <strong>"Pourquoi j'ai un résultat positif mais pas de trésorerie ?"</strong>
+                            <p>Comprendre les décalages (BFR, investissements, remboursements)</p>
+                        </li>
+                        <li>
+                            <strong>"Quelles sont mes charges qui ont le plus augmenté ?"</strong>
+                            <p>Identifier les dérives de coûts (salaires, marketing, loyers...)</p>
+                        </li>
+                        <li>
+                            <strong>"Mon résultat exceptionnel vient de quoi ?"</strong>
+                            <p>Vérifier que ce n'est pas artificiel (cession d'actif, abandon de créance...)</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <h2>Automatisez la lecture de vos états financiers</h2>
+
+                <p>
+                    Lire manuellement un bilan prend du temps et vous risquez de passer à côté de signaux d'alerte. 
+                    <strong>TRESORIS</strong> analyse automatiquement vos états financiers et vous alerte en temps réel.
+                </p>
+
+                <div className="cta-box">
+                    <h3>🚀 TRESORIS lit vos bilans et vous alerte automatiquement</h3>
+                    <ul>
+                        <li>✅ Import automatique depuis exports comptables (Sage, Cegid, Excel)</li>
+                        <li>✅ Détection des 7 signaux d'alerte en temps réel</li>
+                        <li>✅ Calcul automatique des 10 ratios financiers clés</li>
+                        <li>✅ Tableaux de bord simplifiés (pas de jargon comptable)</li>
+                        <li>✅ Alertes personnalisées selon votre secteur</li>
+                        <li>✅ Recommandations d'actions prioritaires chiffrées</li>
+                    </ul>
+                    <Link href="/agents/tresoris" className="cta-button">
+                        Découvrir TRESORIS →
+                    </Link>
+                </div>
+
+                <h2>Conclusion : de l'illisible à l'actionnable</h2>
+
+                <p>
+                    Vous savez maintenant lire un bilan et un compte de résultat. Plus important encore, 
+                    vous savez repérer les signaux d'alerte et poser les bonnes questions à votre comptable.
+                </p>
+
+                <div className="info-box">
+                    <p><strong>🎯 Les 5 points clés à retenir :</strong></p>
+                    <ol>
+                        <li><strong>Bilan = photo</strong> (ce que vous possédez vs comment c'est financé)</li>
+                        <li><strong>Compte de résultat = film</strong> (du CA au résultat net)</li>
+                        <li><strong>Résultat ≠ Trésorerie</strong> (piège mortel à éviter)</li>
+                        <li><strong>7 signaux d'alerte</strong> à surveiller (capitaux propres négatifs, trésorerie faible...)</li>
+                        <li><strong>3 ratios essentiels</strong> : liquidité, endettement, autonomie</li>
+                    </ol>
+                </div>
+
+                <p>
+                    Ne laissez plus votre expert-comptable être le seul à comprendre vos chiffres. 
+                    Reprenez le contrôle de vos finances en comprenant ce qui compte vraiment.
+                </p>
+            </>
+        )
+    },
+    'eva-roic-illusion-performance': {
+        slug: 'eva-roic-illusion-performance',
+        title: 'Pourquoi une entreprise rentable peut détruire de la valeur',
+        description: 'EVA, ROIC et WACC : découvrez pourquoi la rentabilité comptable ne suffit pas et comment mesurer la création de valeur réelle',
+        date: '25 janvier 2026',
+        readTime: '14 min',
+        category: 'Analyse',
+        image: '/images/bureau.png',
+        content: (
+            <>
+                <p className="lead">
+                    Vous avez une marge nette positive, un résultat en croissance, des investisseurs satisfaits... 
+                    et pourtant, vous détruisez peut-être de la valeur. Découvrez l'EVA et le ROIC, les indicateurs 
+                    qui révèlent la <strong>création de valeur réelle</strong> au-delà des illusions comptables.
+                </p>
+
+                <h2>Le paradoxe de la rentabilité comptable</h2>
+                <p>
+                    Imaginez deux entreprises de e-commerce :
+                </p>
+
+                <div className="example-box">
+                    <p><strong>Entreprise A :</strong></p>
+                    <ul>
+                        <li>CA : 5 M€</li>
+                        <li>Résultat net : 500 k€ (marge nette 10%)</li>
+                        <li>Capitaux investis : 2 M€</li>
+                        <li>Coût du capital : 8%</li>
+                    </ul>
+
+                    <p><strong>Entreprise B :</strong></p>
+                    <ul>
+                        <li>CA : 3 M€</li>
+                        <li>Résultat net : 300 k€ (marge nette 10%)</li>
+                        <li>Capitaux investis : 1 M€</li>
+                        <li>Coût du capital : 8%</li>
+                    </ul>
+
+                    <p className="warning">
+                        <strong>Question :</strong> Laquelle crée le plus de valeur ?
+                    </p>
+                </div>
+
+                <p>
+                    À première vue, l'entreprise A semble meilleure (500k€ vs 300k€ de profit). 
+                    Mais en réalité, <strong>seule l'entreprise B crée de la valeur</strong>. Pourquoi ? 
+                    Parce que le profit comptable ne tient pas compte du <strong>coût d'opportunité du capital</strong>.
+                </p>
+
+                <h2>Qu'est-ce que l'EVA (Economic Value Added) ?</h2>
+                <p>
+                    L'<strong>EVA</strong> (Economic Value Added), ou Valeur Économique Ajoutée, mesure le profit 
+                    économique réel après déduction du coût du capital investi. C'est l'indicateur développé par 
+                    Stern Stewart & Co. dans les années 90.
+                </p>
+
+                <div className="formula-box">
+                    <code>EVA = NOPAT - (Capital investi × WACC)</code>
+                    <br /><br />
+                    <p><strong>Où :</strong></p>
+                    <ul>
+                        <li><strong>NOPAT</strong> = Net Operating Profit After Tax (résultat opérationnel après impôt)</li>
+                        <li><strong>Capital investi</strong> = Actif économique (immobilisations + BFR)</li>
+                        <li><strong>WACC</strong> = Weighted Average Cost of Capital (coût moyen pondéré du capital)</li>
+                    </ul>
+                </div>
+
+                <div className="info-box">
+                    <strong>💡 En français simple</strong>
+                    <p>
+                        L'EVA répond à la question : <strong>"Combien ai-je gagné au-delà du coût de financement ?"</strong>
+                        <br /><br />
+                        Si vous empruntez à 5% et investissez dans un projet qui rapporte 7%, vous créez 2% de valeur. 
+                        Si le projet rapporte 3%, vous détruisez 2% de valeur, même si vous êtes "rentable" comptablement.
+                    </p>
+                </div>
+
+                <h2>Reprenons notre exemple</h2>
+
+                <div className="example-box">
+                    <p><strong>Entreprise A :</strong></p>
+                    <ul>
+                        <li>NOPAT : 500 k€</li>
+                        <li>Capital investi : 2 M€</li>
+                        <li>WACC : 8%</li>
+                        <li>Charge de capital : 2 M€ × 8% = <strong>160 k€</strong></li>
+                    </ul>
+                    <code className="result">EVA = 500 k€ - 160 k€ = <strong>+340 k€</strong></code>
+
+                    <p><strong>Entreprise B :</strong></p>
+                    <ul>
+                        <li>NOPAT : 300 k€</li>
+                        <li>Capital investi : 1 M€</li>
+                        <li>WACC : 8%</li>
+                        <li>Charge de capital : 1 M€ × 8% = <strong>80 k€</strong></li>
+                    </ul>
+                    <code className="result">EVA = 300 k€ - 80 k€ = <strong>+220 k€</strong></code>
+
+                    <p className="result">
+                        <strong>✅ Verdict :</strong> Entreprise A crée plus de valeur (+340k€ vs +220k€)
+                    </p>
+                </div>
+
+                <p>
+                    Mais attention : si l'entreprise A avait investi 7 M€ pour générer 500 k€ de NOPAT :
+                </p>
+
+                <div className="warning-box">
+                    <p><strong>EVA = 500 k€ - (7 M€ × 8%) = 500 k€ - 560 k€ = <span className="text-red-600">-60 k€</span></strong></p>
+                    <p>
+                        🚨 L'entreprise est comptablement rentable (+500k€), mais économiquement 
+                        elle <strong>détruit 60 k€ de valeur</strong> car elle mobilise trop de capital 
+                        pour un rendement trop faible.
+                    </p>
+                </div>
+
+                <h2>Le ROIC : mesurer l'efficacité du capital</h2>
+                <p>
+                    Le <strong>ROIC</strong> (Return On Invested Capital) mesure la rentabilité économique 
+                    du capital investi. C'est le pendant "ratio" de l'EVA.
+                </p>
+
+                <div className="formula-box">
+                    <code>ROIC = NOPAT / Capital investi × 100</code>
+                </div>
+
+                <p><strong>Règle de création de valeur :</strong></p>
+
+                <div className="info-box">
+                    <ul>
+                        <li><strong>ROIC &gt; WACC</strong> → ✅ Création de valeur</li>
+                        <li><strong>ROIC = WACC</strong> → ⚖️ Équilibre (pas de création, pas de destruction)</li>
+                        <li><strong>ROIC &lt; WACC</strong> → 🚨 Destruction de valeur</li>
+                    </ul>
+                </div>
+
+                <h2>Exemple pratique : Scale-up SaaS B2B</h2>
+
+                <div className="example-box">
+                    <p><strong>Situation :</strong></p>
+                    <ul>
+                        <li>CA annuel : 2,5 M€</li>
+                        <li>EBITDA : 600 k€</li>
+                        <li>Résultat opérationnel (EBIT) : 500 k€</li>
+                        <li>Impôt (25%) : 125 k€</li>
+                        <li><strong>NOPAT = 500 k€ - 125 k€ = 375 k€</strong></li>
+                    </ul>
+
+                    <p><strong>Capitaux investis :</strong></p>
+                    <ul>
+                        <li>Immobilisations nettes : 200 k€</li>
+                        <li>BFR (créances - dettes) : 150 k€</li>
+                        <li><strong>Capital investi = 350 k€</strong></li>
+                    </ul>
+
+                    <p><strong>Calcul ROIC :</strong></p>
+                    <code>ROIC = 375 k€ / 350 k€ = 107%</code>
+
+                    <p><strong>WACC estimé pour une scale-up SaaS :</strong></p>
+                    <ul>
+                        <li>Coût de la dette : 5% (emprunt BPI)</li>
+                        <li>Coût des fonds propres : 15% (attente investisseurs)</li>
+                        <li>Structure : 30% dette / 70% equity</li>
+                        <li><strong>WACC = (30% × 5%) + (70% × 15%) = 12%</strong></li>
+                    </ul>
+
+                    <p className="result">
+                        <strong>✅ ROIC (107%) &gt;&gt; WACC (12%)</strong>
+                        <br />
+                        Cette entreprise crée massivement de la valeur. Elle devrait lever des fonds 
+                        pour accélérer sa croissance.
+                    </p>
+
+                    <p><strong>EVA :</strong></p>
+                    <code>EVA = 375 k€ - (350 k€ × 12%) = 375 k€ - 42 k€ = <strong>+333 k€</strong></code>
+                </div>
+
+                <h2>Cas d'école : la destruction de valeur invisible</h2>
+                <p>
+                    Prenons maintenant une PME industrielle rentable qui détruit de la valeur :
+                </p>
+
+                <div className="warning-box">
+                    <p><strong>PME Industrie :</strong></p>
+                    <ul>
+                        <li>CA : 8 M€</li>
+                        <li>Marge nette : 6% (480 k€)</li>
+                        <li>Capitaux propres : 3 M€</li>
+                        <li>Dettes : 2 M€</li>
+                        <li><strong>Capital total : 5 M€</strong></li>
+                        <li>NOPAT : 500 k€</li>
+                    </ul>
+
+                    <p><strong>WACC :</strong></p>
+                    <ul>
+                        <li>Coût dette : 4%</li>
+                        <li>Coût fonds propres : 10%</li>
+                        <li>WACC = (40% × 4%) + (60% × 10%) = 7,6%</li>
+                    </ul>
+
+                    <p><strong>Calcul :</strong></p>
+                    <code>ROIC = 500 k€ / 5 M€ = 10%</code>
+                    <br />
+                    <code>EVA = 500 k€ - (5 M€ × 7,6%) = 500 k€ - 380 k€ = <strong>+120 k€</strong></code>
+
+                    <p className="result">
+                        <strong>✅ Création de valeur modeste (+120k€)</strong>
+                    </p>
+
+                    <p><strong>Mais... si l'entreprise investit 3 M€ dans une nouvelle usine :</strong></p>
+                    <ul>
+                        <li>Nouveau capital investi : 8 M€</li>
+                        <li>NOPAT projeté : 650 k€ (+30%)</li>
+                    </ul>
+
+                    <code>Nouveau ROIC = 650 k€ / 8 M€ = 8,1%</code>
+                    <br />
+                    <code>Nouvelle EVA = 650 k€ - (8 M€ × 7,6%) = 650 k€ - 608 k€ = <strong>+42 k€</strong></code>
+
+                    <p className="warning">
+                        🚨 <strong>Alerte destruction de valeur !</strong>
+                        <br />
+                        L'investissement de 3 M€ fait passer l'EVA de +120 k€ à +42 k€. 
+                        La rentabilité comptable augmente (+170k€), mais la valeur créée <strong>diminue de 78 k€</strong>.
+                        <br /><br />
+                        <strong>Décision :</strong> Cet investissement devrait être refusé ou repensé.
+                    </p>
+                </div>
+
+                <h2>Comment calculer le WACC simplement ?</h2>
+                <p>
+                    Le <strong>WACC</strong> (Weighted Average Cost of Capital) est le coût moyen pondéré 
+                    de l'ensemble de vos sources de financement.
+                </p>
+
+                <div className="formula-box">
+                    <code>WACC = (% Dette × Coût dette × (1 - Taux IS)) + (% Equity × Coût equity)</code>
+                </div>
+
+                <p><strong>Détail des composants :</strong></p>
+
+                <table className="benchmark-table">
+                    <thead>
+                        <tr>
+                            <th>Composant</th>
+                            <th>Comment le trouver ?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>% Dette</strong></td>
+                            <td>Dette financière / (Dette + Capitaux propres)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Coût dette</strong></td>
+                            <td>Taux d'intérêt moyen de vos emprunts (ex: 4%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Taux IS</strong></td>
+                            <td>Impôt sur les sociétés en France : 25%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>% Equity</strong></td>
+                            <td>Capitaux propres / (Dette + Capitaux propres)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Coût equity</strong></td>
+                            <td>Rentabilité attendue par actionnaires (8-15% PME, 15-25% startup)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Exemple de calcul WACC pour une PME</h3>
+
+                <div className="example-box">
+                    <p><strong>Structure financière :</strong></p>
+                    <ul>
+                        <li>Dette bancaire : 1 M€ à 4,5%</li>
+                        <li>Capitaux propres : 2 M€</li>
+                        <li>Rentabilité attendue actionnaires : 12%</li>
+                    </ul>
+
+                    <p><strong>Calcul :</strong></p>
+                    <ul>
+                        <li>% Dette = 1 M€ / 3 M€ = 33%</li>
+                        <li>% Equity = 2 M€ / 3 M€ = 67%</li>
+                        <li>Coût dette après IS = 4,5% × (1 - 25%) = 3,375%</li>
+                    </ul>
+
+                    <code>WACC = (33% × 3,375%) + (67% × 12%) = 1,11% + 8,04% = <strong>9,15%</strong></code>
+
+                    <p className="result">
+                        Pour créer de la valeur, cette PME doit générer un ROIC &gt; 9,15%
+                    </p>
+                </div>
+
+                <h2>Benchmarks ROIC par secteur</h2>
+                <p>Voici les ROIC moyens observés en France (2025) :</p>
+
+                <table className="benchmark-table">
+                    <thead>
+                        <tr>
+                            <th>Secteur</th>
+                            <th>ROIC Faible</th>
+                            <th>ROIC Moyen</th>
+                            <th>ROIC Excellent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SaaS B2B</td>
+                            <td>&lt; 20%</td>
+                            <td>20-50%</td>
+                            <td>&gt; 50%</td>
+                        </tr>
+                        <tr>
+                            <td>E-commerce</td>
+                            <td>&lt; 15%</td>
+                            <td>15-30%</td>
+                            <td>&gt; 30%</td>
+                        </tr>
+                        <tr>
+                            <td>Services B2B</td>
+                            <td>&lt; 12%</td>
+                            <td>12-25%</td>
+                            <td>&gt; 25%</td>
+                        </tr>
+                        <tr>
+                            <td>Industrie</td>
+                            <td>&lt; 8%</td>
+                            <td>8-15%</td>
+                            <td>&gt; 15%</td>
+                        </tr>
+                        <tr>
+                            <td>Commerce retail</td>
+                            <td>&lt; 10%</td>
+                            <td>10-20%</td>
+                            <td>&gt; 20%</td>
+                        </tr>
+                        <tr>
+                            <td>BTP</td>
+                            <td>&lt; 8%</td>
+                            <td>8-12%</td>
+                            <td>&gt; 12%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Les 5 leviers pour améliorer votre ROIC</h2>
+
+                <p>Le ROIC se décompose en deux facteurs clés :</p>
+
+                <div className="formula-box">
+                    <code>ROIC = (NOPAT / CA) × (CA / Capital investi)</code>
+                    <br /><br />
+                    <p>= <strong>Marge opérationnelle</strong> × <strong>Rotation du capital</strong></p>
+                </div>
+
+                <h3>Levier 1 : Augmenter la marge opérationnelle</h3>
+                <ul>
+                    <li>✅ Optimiser la structure de coûts (automatisation, outsourcing)</li>
+                    <li>✅ Augmenter les prix (repositionnement premium, valeur perçue)</li>
+                    <li>✅ Améliorer le mix produit (pousser les offres à forte marge)</li>
+                    <li>✅ Négocier avec les fournisseurs (volumes, délais)</li>
+                </ul>
+
+                <h3>Levier 2 : Accélérer la rotation du capital</h3>
+                <ul>
+                    <li>✅ Réduire le BFR (DSO, stocks, délais fournisseurs)</li>
+                    <li>✅ Optimiser l'utilisation des actifs (taux de remplissage, capacité)</li>
+                    <li>✅ Externaliser les actifs lourds (leasing vs achat)</li>
+                </ul>
+
+                <h3>Levier 3 : Arbitrer les investissements</h3>
+                <ul>
+                    <li>✅ Calculer le ROIC prévisionnel de chaque projet</li>
+                    <li>✅ Prioriser les projets avec ROIC &gt; WACC + marge de sécurité</li>
+                    <li>✅ Désinvestir des actifs à faible ROIC</li>
+                </ul>
+
+                <h3>Levier 4 : Optimiser la structure financière</h3>
+                <ul>
+                    <li>✅ Endettement optimal : utiliser la dette (moins chère) si ROIC &gt; coût dette</li>
+                    <li>✅ Lever des fonds si ROIC &gt;&gt; coût equity (forte création de valeur)</li>
+                    <li>✅ Renégocier le coût de la dette (taux, garanties)</li>
+                </ul>
+
+                <h3>Levier 5 : Piloter avec MARGIS</h3>
+                <p>
+                    L'agent IA <strong>MARGIS</strong> calcule automatiquement votre ROIC par produit, 
+                    client, et segment d'activité. Il identifie où vous créez vraiment de la valeur.
+                </p>
+
+                <div className="info-box">
+                    <strong>💡 Exemple MARGIS</strong>
+                    <p>
+                        Une PME industrielle découvre grâce à MARGIS que :
+                    </p>
+                    <ul>
+                        <li>Produit A : ROIC 25% → ✅ À développer</li>
+                        <li>Produit B : ROIC 8% (WACC 10%) → 🚨 Destructeur de valeur</li>
+                        <li>Client X : ROIC 30% → ✅ Client stratégique</li>
+                        <li>Client Y : ROIC 5% (WACC 10%) → 🚨 Renégocier ou abandonner</li>
+                    </ul>
+                    <p>
+                        <strong>Décision :</strong> Arrêter le Produit B, refuser Client Y, doubler la production de A.
+                    </p>
+                </div>
+
+                <h2>EVA vs ROE vs ROA : quelles différences ?</h2>
+
+                <table className="benchmark-table">
+                    <thead>
+                        <tr>
+                            <th>Indicateur</th>
+                            <th>Formule</th>
+                            <th>Ce qu'il mesure</th>
+                            <th>Limite</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ROE</strong></td>
+                            <td>Résultat net / Capitaux propres</td>
+                            <td>Rentabilité pour actionnaires</td>
+                            <td>Ignore le coût des fonds propres</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ROA</strong></td>
+                            <td>Résultat net / Total actif</td>
+                            <td>Rentabilité globale des actifs</td>
+                            <td>Ignore la structure financière</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ROIC</strong></td>
+                            <td>NOPAT / Capital investi</td>
+                            <td>Rentabilité économique opérationnelle</td>
+                            <td>Ne donne pas la valeur absolue créée</td>
+                        </tr>
+                        <tr>
+                            <td><strong>EVA</strong></td>
+                            <td>NOPAT - (Capital × WACC)</td>
+                            <td>Valeur économique créée (€)</td>
+                            <td>Calcul WACC parfois complexe</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div className="info-box">
+                    <strong>💡 Quel indicateur utiliser ?</strong>
+                    <ul>
+                        <li><strong>ROE</strong> : Pour comparer la rentabilité actionnaires entre entreprises</li>
+                        <li><strong>ROIC</strong> : Pour mesurer l'efficacité opérationnelle (indépendant de la structure financière)</li>
+                        <li><strong>EVA</strong> : Pour piloter la création de valeur et arbitrer les investissements</li>
+                    </ul>
+                </div>
+
+                <h2>Cas réel : pourquoi WeWork a détruit de la valeur</h2>
+
+                <div className="warning-box">
+                    <p><strong>WeWork (2019) :</strong></p>
+                    <ul>
+                        <li>Valorisation visée IPO : 47 Md$</li>
+                        <li>CA : 1,8 Md$</li>
+                        <li>Pertes : -1,9 Md$</li>
+                        <li>Capital investi : &gt; 12 Md$ (levées + dette)</li>
+                    </ul>
+
+                    <p><strong>Calcul EVA simplifié :</strong></p>
+                    <ul>
+                        <li>NOPAT : -1,9 Md$ (perte opérationnelle)</li>
+                        <li>Charge de capital : 12 Md$ × 15% = 1,8 Md$</li>
+                    </ul>
+
+                    <code>EVA = -1,9 Md$ - 1,8 Md$ = <strong className="text-red-600">-3,7 Md$ de destruction de valeur annuelle</strong></code>
+
+                    <p className="warning">
+                        🚨 WeWork avait une <strong>croissance forte</strong> (+100%/an), un <strong>CA massif</strong> (1,8Md$), 
+                        une <strong>valorisation élevée</strong> (47Md$)... mais détruisait massivement de la valeur 
+                        car le ROIC était négatif et très inférieur au coût du capital.
+                        <br /><br />
+                        <strong>Leçon :</strong> Croissance ≠ Création de valeur
+                    </p>
+                </div>
+
+                <h2>Comment piloter avec EVA et ROIC au quotidien ?</h2>
+
+                <h3>Tableau de bord recommandé</h3>
+
+                <div className="kpi-box">
+                    <p><strong>KPIs à suivre mensuellement :</strong></p>
+                    <ol>
+                        <li>
+                            <strong>ROIC global</strong>
+                            <p>Objectif : &gt; WACC + 5 points (marge de sécurité)</p>
+                        </li>
+                        <li>
+                            <strong>ROIC par segment</strong>
+                            <p>Identifier les activités créatrices vs destructrices de valeur</p>
+                        </li>
+                        <li>
+                            <strong>EVA mensuelle</strong>
+                            <p>Tendance : croissante ou décroissante ?</p>
+                        </li>
+                        <li>
+                            <strong>WACC</strong>
+                            <p>Recalculer tous les 6 mois (évolution taux, structure financière)</p>
+                        </li>
+                        <li>
+                            <strong>Rotation du capital</strong>
+                            <p>CA / Capital investi (objectif : amélioration continue)</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>Intégration dans les décisions stratégiques</h3>
+
+                <table className="benchmark-table">
+                    <thead>
+                        <tr>
+                            <th>Décision</th>
+                            <th>Question EVA/ROIC</th>
+                            <th>Règle de décision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Investissement</td>
+                            <td>ROIC projet &gt; WACC ?</td>
+                            <td>OUI → GO / NON → STOP</td>
+                        </tr>
+                        <tr>
+                            <td>Acquisition</td>
+                            <td>ROIC cible + synergies &gt; WACC ?</td>
+                            <td>Valoriser selon EVA future</td>
+                        </tr>
+                        <tr>
+                            <td>Nouveau produit</td>
+                            <td>Marge × Rotation capital &gt; WACC ?</td>
+                            <td>Priorité aux produits à fort ROIC</td>
+                        </tr>
+                        <tr>
+                            <td>Client</td>
+                            <td>ROIC client (marge/BFR) &gt; WACC ?</td>
+                            <td>Refuser clients destructeurs</td>
+                        </tr>
+                        <tr>
+                            <td>Levée de fonds</td>
+                            <td>ROIC actuel &gt;&gt; Coût nouveau capital ?</td>
+                            <td>Lever si forte création valeur</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Les 3 erreurs fatales avec EVA/ROIC</h2>
+
+                <h3>Erreur 1 : Confondre rentabilité comptable et création de valeur</h3>
+                <div className="warning-box">
+                    <p>
+                        🚨 <strong>"On a 15% de marge nette, on est super rentables !"</strong>
+                        <br /><br />
+                        Oui, mais si vous mobilisez 10 M€ de capital pour générer 200 k€ de profit, 
+                        votre ROIC est de 2%... très probablement inférieur à votre WACC (8-12%).
+                        <br /><br />
+                        <strong>✅ Bonne pratique :</strong> Toujours croiser marge nette ET ROIC
+                    </p>
+                </div>
+
+                <h3>Erreur 2 : Ignorer le coût des fonds propres</h3>
+                <div className="warning-box">
+                    <p>
+                        🚨 <strong>"On n'a pas de dette, donc pas de coût du capital"</strong>
+                        <br /><br />
+                        FAUX. Les fonds propres ont un coût (coût d'opportunité pour les actionnaires). 
+                        Si vous générez 8% de rentabilité alors que vos actionnaires pourraient placer 
+                        leur argent à 12% ailleurs, vous détruisez de la valeur.
+                        <br /><br />
+                        <strong>✅ Bonne pratique :</strong> Estimer le coût des fonds propres (8-15% PME)
+                    </p>
+                </div>
+
+                <h3>Erreur 3 : Optimiser le ROIC court terme au détriment du long terme</h3>
+                <div className="warning-box">
+                    <p>
+                        🚨 <strong>"On coupe la R&D et le marketing pour améliorer le ROIC"</strong>
+                        <br /><br />
+                        Attention : réduire les investissements améliore le ROIC court terme, 
+                        mais peut détruire la valeur future (perte compétitivité, innovation).
+                        <br /><br />
+                        <strong>✅ Bonne pratique :</strong> Piloter le ROIC sur un horizon 3-5 ans, pas trimestre par trimestre
+                    </p>
+                </div>
+
+                <h2>MARGIS & SCENARIS : vos agents IA pour piloter la création de valeur</h2>
+
+                <p>
+                    Calculer l'EVA et le ROIC manuellement sur Excel prend du temps et génère des erreurs. 
+                    Nos agents IA automatisent ces calculs et vous alertent des actions prioritaires.
+                </p>
+
+                <div className="kpi-box">
+                    <h3><strong>MARGIS</strong> - Agent de rentabilité réelle</h3>
+                    <ul>
+                        <li>✅ Calcul automatique du ROIC par produit, client, segment</li>
+                        <li>✅ Identification des activités créatrices vs destructrices de valeur</li>
+                        <li>✅ Simulation d'impact sur EVA si vous arrêtez une activité</li>
+                        <li>✅ Alertes si ROIC &lt; WACC sur un segment</li>
+                    </ul>
+
+                    <h3><strong>SCENARIS</strong> - Agent de simulation stratégique</h3>
+                    <ul>
+                        <li>✅ Simulation ROIC et EVA avant investissement</li>
+                        <li>✅ Comparaison de scénarios (investir vs ne rien faire)</li>
+                        <li>✅ Analyse de sensibilité (impact variations CA, marge, WACC)</li>
+                        <li>✅ Recommandation : GO / NO GO / REVOIR basé sur création de valeur</li>
+                    </ul>
+                </div>
+
+                <h2>Conclusion : passez de la rentabilité à la création de valeur</h2>
+
+                <p>
+                    L'EVA et le ROIC sont les indicateurs qui révèlent la <strong>création de valeur réelle</strong>, 
+                    au-delà des illusions de la comptabilité traditionnelle.
+                </p>
+
+                <div className="info-box">
+                    <p><strong>🎯 Les 3 règles d'or :</strong></p>
+                    <ol>
+                        <li><strong>ROIC &gt; WACC</strong> → Vous créez de la valeur (continuez !)</li>
+                        <li><strong>ROIC &lt; WACC</strong> → Vous détruisez de la valeur (pivotez !)</li>
+                        <li><strong>Croissance ≠ Valeur</strong> → Croître en détruisant de la valeur mène à la faillite</li>
+                    </ol>
+                </div>
+
+                <p>
+                    Ne vous contentez plus d'un résultat net positif. Mesurez la valeur économique 
+                    réelle que vous créez pour vos actionnaires, vos salariés, et votre entreprise.
+                </p>
+
+                <div className="cta-box">
+                    <h3>🚀 Calculez votre EVA et ROIC avec MARGIS</h3>
+                    <ul>
+                        <li>✅ Calcul automatique EVA et ROIC depuis vos exports comptables</li>
+                        <li>✅ ROIC par produit, client, segment d'activité</li>
+                        <li>✅ Benchmarks sectoriels et alertes si ROIC &lt; WACC</li>
+                        <li>✅ Simulation d'impact investissements avec SCENARIS</li>
+                        <li>✅ Reporting Excel/PDF pour investisseurs et banquiers</li>
+                    </ul>
+                    <Link href="/agents" className="cta-button">
+                        Découvrir MARGIS & SCENARIS →
+                    </Link>
+                </div>
+            </>
+        )
+    },
     'calcul-dso-formule-2025': {
         slug: 'calcul-dso-formule-2025',
         title: 'Comment calculer son DSO (formule PCG 2025)',
@@ -195,7 +1639,7 @@ const baseArticles: Record<string, BlogArticle> = {
                         <li>✅ Benchmarks sectoriels intégrés</li>
                         <li>✅ Liste des factures en retard</li>
                     </ul>
-                    <Link href="/dashboard" className="cta-button">
+                    <Link href="/consulting" className="cta-button">
                         Analyser mes données →
                     </Link>
                 </div>
@@ -359,7 +1803,7 @@ const baseArticles: Record<string, BlogArticle> = {
                         <li>✅ Visualisations graphiques claires</li>
                         <li>✅ Export PDF/Excel pour votre banquier</li>
                     </ul>
-                    <Link href="/dashboard" className="cta-button">
+                    <Link href="/consulting" className="cta-button">
                         Essayer gratuitement →
                     </Link>
                 </div>
@@ -919,7 +2363,7 @@ const baseArticles: Record<string, BlogArticle> = {
                         <li>✅ Alertes si marges en baisse</li>
                         <li>✅ Analyse détaillée par produit/client</li>
                     </ul>
-                    <Link href="/dashboard" className="cta-button">
+                    <Link href="/consulting" className="cta-button">
                         Analyser ma rentabilité →
                     </Link>
                 </div>
@@ -933,7 +2377,7 @@ const baseArticles: Record<string, BlogArticle> = {
         date: '28 novembre 2025',
         readTime: '9 min',
         category: 'Trésorerie',
-        image: '/images/bureau-nuit.png',
+        image: '/images/cash-flow-prev.png',
         content: (
             <>
                 <p className="lead">
@@ -1293,7 +2737,7 @@ const baseArticles: Record<string, BlogArticle> = {
                         <li>✅ Export PDF pour banquier</li>
                         <li>✅ Mise à jour automatique depuis vos comptes</li>
                     </ul>
-                    <Link href="/dashboard" className="cta-button">
+                    <Link href="/consulting" className="cta-button">
                         Créer mon prévisionnel →
                     </Link>
                 </div>
@@ -1477,7 +2921,7 @@ function MidArticleCTA() {
                     </p>
                 </div>
                 <Link
-                    href="/dashboard"
+                    href="/consulting"
                     onClick={() => trackCTAClick('mid-article-cta', 'blog-article')}
                     className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-slate-900 font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/30"
                 >
@@ -1542,7 +2986,7 @@ export default function BlogArticlePage() {
                                     </p>
                                 </div>
                                 <a 
-                                    href="/dashboard"
+                                    href="/consulting"
                                     style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--color-accent-primary); color: #0f172a; font-weight: 600; border-radius: 0.75rem; transition: all 0.3s; text-decoration: none;"
                                 >
                                     Analyser mes finances
@@ -1723,7 +3167,7 @@ export default function BlogArticlePage() {
                             </p>
                             <div className="flex flex-wrap gap-4">
                                 <Link
-                                    href="/dashboard"
+                                    href="/consulting"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-slate-900 font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/30"
                                 >
                                     Analyser mes données

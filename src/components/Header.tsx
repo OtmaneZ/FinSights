@@ -131,6 +131,11 @@ export default function Header() {
                         )}
                     </div>
 
+                    {/* Contact */}
+                    <Link href="/contact" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Contact
+                    </Link>
+
                     {/* Auth Section - Only show user dropdown if logged in */}
                     {status === 'loading' ? (
                         <div className="w-24 h-10 bg-surface-elevated animate-pulse rounded-lg" />

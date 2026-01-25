@@ -15,7 +15,8 @@ import {
     ChevronRight,
     BookOpen,
     Target,
-    BarChart3
+    BarChart3,
+    Zap
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -35,6 +36,28 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
     {
+        slug: 'lire-bilan-compte-resultat-guide-pratique',
+        title: 'Lire un bilan et un compte de résultat : guide pratique',
+        description: 'Apprenez à décrypter vos états financiers en 15 minutes : bilan, compte de résultat, signaux d\'alerte et questions à poser à votre comptable',
+        date: '25 janvier 2026',
+        readTime: '12 min',
+        category: 'Gestion',
+        tags: ['Bilan', 'Compte de résultat', 'États financiers', 'Comptabilité'],
+        featured: true,
+        image: '/images/bureau-nuit.png'
+    },
+    {
+        slug: 'eva-roic-illusion-performance',
+        title: 'Pourquoi une entreprise rentable peut détruire de la valeur',
+        description: 'EVA, ROIC et WACC : découvrez pourquoi la rentabilité comptable ne suffit pas et comment mesurer la création de valeur réelle',
+        date: '25 janvier 2026',
+        readTime: '14 min',
+        category: 'Analyse',
+        tags: ['EVA', 'ROIC', 'WACC', 'Valeur', 'Performance'],
+        featured: false,
+        image: '/images/bureau.png'
+    },
+    {
         slug: '5-erreurs-tresorerie-pme',
         title: '5 erreurs de trésorerie qui coûtent cher aux PME',
         description: 'Les erreurs fatales que commettent 80% des dirigeants de PME avec leur trésorerie, et comment les éviter',
@@ -42,7 +65,7 @@ const blogPosts: BlogPost[] = [
         readTime: '7 min',
         category: 'Trésorerie',
         tags: ['Trésorerie', 'PME', 'Erreurs', 'Cash', 'Pilotage'],
-        featured: true,
+        featured: false,
         image: '/images/bureau-nuit.png'
     },
     {
@@ -93,7 +116,7 @@ const blogPosts: BlogPost[] = [
         readTime: '9 min',
         category: 'Trésorerie',
         tags: ['Cash Flow', 'Prévisionnel', 'PME', 'Méthode'],
-        image: '/images/bureau-nuit.png'
+        image: '/images/cash-flow-prev.png',
     },
     {
         slug: 'top-7-kpis-startups-saas',
@@ -103,7 +126,7 @@ const blogPosts: BlogPost[] = [
         readTime: '8 min',
         category: 'SaaS',
         tags: ['SaaS', 'MRR', 'Churn', 'CAC', 'LTV'],
-        image: '/images/vue-NY.png'
+        image: '/images/7kpisfiSaaS.png'
     },
     {
         slug: 'creances-clients-reduire-impayes',
@@ -113,7 +136,7 @@ const blogPosts: BlogPost[] = [
         readTime: '7 min',
         category: 'Recouvrement',
         tags: ['Créances', 'Impayés', 'Recouvrement', 'DSO'],
-        image: '/images/bureau.png'
+        image: '/images/impayés.png'
     },
     {
         slug: 'tresorerie-pme-5-erreurs-eviter',
@@ -123,7 +146,7 @@ const blogPosts: BlogPost[] = [
         readTime: '6 min',
         category: 'Trésorerie',
         tags: ['Trésorerie', 'PME', 'Erreurs', 'Conseils'],
-        image: '/images/bfr.png'
+        image: '/images/5-erreurs.png'
     },
     {
         slug: 'ratio-liquidite-interpretation',
@@ -133,7 +156,7 @@ const blogPosts: BlogPost[] = [
         readTime: '8 min',
         category: 'Analyse',
         tags: ['Ratios', 'Liquidité', 'Analyse', 'Santé financière'],
-        image: '/images/bureau.png'
+        image: '/images/ratio-liquidité.png'
     },
     {
         slug: 'budget-previsionnel-dashboard-ia',
@@ -532,36 +555,33 @@ export default function BlogPage() {
                         viewport={{ once: true }}
                     >
                         <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary/10 border border-accent-primary/30 rounded-full mb-6">
-                            <Target className="w-4 h-4 text-accent-primary" />
+                            <Sparkles className="w-4 h-4 text-accent-primary" />
                             <span className="text-accent-primary text-sm font-semibold">
-                                Besoin d&apos;accompagnement ?
+                                Prêt à agir ?
                             </span>
                         </div>
 
                         <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-                            Automatisez votre pilotage financier
+                            Pilotage financier et agents IA au service de vos décisions
                         </h2>
 
                         <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                            Dashboards FP&A sur-mesure, agents IA spécialisés et accompagnement 
-                            personnalisé pour anticiper avec 90 jours d&apos;avance.
+                            Que vous ayez besoin de structurer votre pilotage financier ou de vous appuyer sur des agents IA décisionnels, FinSight vous accompagne pour anticiper, arbitrer et décider au bon moment.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <a
-                                href="https://calendly.com/zineinsight"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <Link
+                                href="/agents"
                                 className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all"
                             >
-                                <Calendar className="w-5 h-5" />
-                                Réserver un diagnostic gratuit
-                            </a>
+                                <Zap className="w-5 h-5" />
+                                Pilotage & Conseil
+                            </Link>
                             <Link
-                                href="/agents/tresoris"
+                                href="/consulting"
                                 className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 transition-all"
                             >
-                                Découvrir TRESORIS
+                                Découvrir les agents IA
                                 <ArrowRight className="w-5 h-5" />
                             </Link>
                         </div>
