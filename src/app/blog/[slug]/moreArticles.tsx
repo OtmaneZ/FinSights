@@ -13,6 +13,7 @@ export const moreArticles = {
         date: '28 novembre 2025',
         readTime: '7 min',
         category: 'Recouvrement',
+        image: '/images/bureau.png',
         content: (
             <>
                 <p className="lead">

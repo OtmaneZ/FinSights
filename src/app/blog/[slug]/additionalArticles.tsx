@@ -11,6 +11,7 @@ export const additionalArticles = {
         date: '28 novembre 2025',
         readTime: '8 min',
         category: 'SaaS',
+        image: '/images/vue-NY.png',
         content: (
             <>
                 <p className="lead">

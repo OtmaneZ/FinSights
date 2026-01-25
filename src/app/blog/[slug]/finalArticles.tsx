@@ -6,6 +6,7 @@ export const finalArticles = {
         category: 'Trésorerie',
         readTime: '8 min',
         date: '2025-01-15',
+        image: '/images/bfr.png',
         keywords: ['ratio liquidité', 'current ratio', 'quick ratio', 'cash ratio', 'trésorerie', 'PME'],
         content: (
             <>

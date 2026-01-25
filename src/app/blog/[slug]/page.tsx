@@ -1,9 +1,11 @@
 'use client'
 
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { useParams } from 'next/navigation'
-import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
-import { Calendar, Clock, ArrowLeft, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { Calendar, Clock, ArrowLeft, ArrowRight, BookOpen, ChevronRight, Share2, Bookmark, TrendingUp, BarChart3, Wallet, PiggyBank, FileText } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
@@ -21,6 +23,25 @@ interface BlogArticle {
     readTime: string
     category: string
     content: React.ReactNode
+    image?: string
+}
+
+// Configuration des catégories avec icônes et couleurs
+const categoryConfig: Record<string, { icon: React.ElementType; color: string; bgColor: string }> = {
+    'KPIs': { icon: TrendingUp, color: 'text-blue-400', bgColor: 'bg-blue-500/20' },
+    'Trésorerie': { icon: Wallet, color: 'text-emerald-400', bgColor: 'bg-emerald-500/20' },
+    'Analyse': { icon: BarChart3, color: 'text-purple-400', bgColor: 'bg-purple-500/20' },
+    'Gestion': { icon: FileText, color: 'text-orange-400', bgColor: 'bg-orange-500/20' },
+    'Rentabilité': { icon: PiggyBank, color: 'text-pink-400', bgColor: 'bg-pink-500/20' }
+}
+
+// Images hero par catégorie
+const categoryImages: Record<string, string> = {
+    'KPIs': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop',
+    'Trésorerie': 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=600&fit=crop',
+    'Analyse': 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=600&fit=crop',
+    'Gestion': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=600&fit=crop',
+    'Rentabilité': 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&h=600&fit=crop'
 }
 
 const baseArticles: Record<string, BlogArticle> = {
@@ -31,6 +52,7 @@ const baseArticles: Record<string, BlogArticle> = {
         date: '28 novembre 2025',
         readTime: '8 min',
         category: 'KPIs',
+        image: '/images/vue-NY.png',
         content: (
             <>
                 <p className="lead">
@@ -187,6 +209,7 @@ const baseArticles: Record<string, BlogArticle> = {
         date: '28 novembre 2025',
         readTime: '6 min',
         category: 'Gestion',
+        image: '/images/bureau.png',
         content: (
             <>
                 <p className="lead">
@@ -350,6 +373,7 @@ const baseArticles: Record<string, BlogArticle> = {
         date: '28 novembre 2025',
         readTime: '10 min',
         category: 'Trésorerie',
+        image: '/images/bfr.png',
         content: (
             <>
                 <p className="lead">
@@ -606,6 +630,7 @@ const baseArticles: Record<string, BlogArticle> = {
         date: '28 novembre 2025',
         readTime: '7 min',
         category: 'Rentabilité',
+        image: '/images/marge.png',
         content: (
             <>
                 <p className="lead">
@@ -908,6 +933,7 @@ const baseArticles: Record<string, BlogArticle> = {
         date: '28 novembre 2025',
         readTime: '9 min',
         category: 'Trésorerie',
+        image: '/images/bureau-nuit.png',
         content: (
             <>
                 <p className="lead">
@@ -1297,11 +1323,246 @@ const baseArticles: Record<string, BlogArticle> = {
     }
 }
 
+// Merge all articles from different files
+const articles: Record<string, BlogArticle> = {
+    ...baseArticles,
+    ...additionalArticles,
+    ...moreArticles,
+    ...finalArticles
+}
+
+// Composant Table des Matières
+function TableOfContents({ headings }: { headings: string[] }) {
+    const [activeId, setActiveId] = useState<string>('')
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveId(entry.target.id)
+                    }
+                })
+            },
+            { rootMargin: '-100px 0px -70% 0px' }
+        )
+
+        headings.forEach((heading) => {
+            const id = heading.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')
+            const element = document.getElementById(id)
+            if (element) observer.observe(element)
+        })
+
+        return () => observer.disconnect()
+    }, [headings])
+
+    if (headings.length === 0) return null
+
+    return (
+        <nav className="hidden xl:block">
+            <div className="sticky top-24">
+                <div className="p-6 rounded-2xl bg-slate-800/40 border border-slate-700/50 backdrop-blur-sm">
+                    <h3 className="flex items-center gap-2 text-sm font-semibold text-white mb-4">
+                        <BookOpen className="w-4 h-4 text-accent-primary" />
+                        Table des matières
+                    </h3>
+                    <ul className="space-y-2">
+                        {headings.map((heading, index) => {
+                            const id = heading.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')
+                            const isActive = activeId === id
+                            return (
+                                <li key={index}>
+                                    <a
+                                        href={`#${id}`}
+                                        className={`block text-sm py-1.5 px-3 rounded-lg transition-all ${
+                                            isActive
+                                                ? 'bg-accent-primary/20 text-accent-primary font-medium'
+                                                : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
+                                        }`}
+                                    >
+                                        {heading}
+                                    </a>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    )
+}
+
+// Composant Articles Connexes
+function RelatedArticles({ currentSlug, category }: { currentSlug: string; category: string }) {
+    const relatedArticles = useMemo(() => {
+        return Object.values(articles)
+            .filter(a => a.slug !== currentSlug && a.category === category)
+            .slice(0, 3)
+    }, [currentSlug, category])
+
+    // Si pas assez d'articles dans la même catégorie, ajouter d'autres articles
+    const allRelated = useMemo(() => {
+        if (relatedArticles.length >= 3) return relatedArticles
+        const others = Object.values(articles)
+            .filter(a => a.slug !== currentSlug && a.category !== category)
+            .slice(0, 3 - relatedArticles.length)
+        return [...relatedArticles, ...others]
+    }, [relatedArticles, currentSlug, category])
+
+    if (allRelated.length === 0) return null
+
+    return (
+        <section className="mt-20 pt-16 border-t border-slate-700/50">
+            <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold text-white mb-4">Articles connexes</h2>
+                <p className="text-slate-400">Continuez votre lecture</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+                {allRelated.map((article, index) => {
+                    const config = categoryConfig[article.category] || categoryConfig['KPIs']
+                    const CategoryIcon = config.icon
+                    return (
+                        <motion.article
+                            key={article.slug}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                        >
+                            <Link
+                                href={`/blog/${article.slug}`}
+                                className="group block h-full p-6 rounded-2xl bg-slate-800/40 border border-slate-700/50 hover:border-accent-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/10"
+                            >
+                                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full ${config.bgColor} ${config.color} text-xs font-medium mb-4`}>
+                                    <CategoryIcon className="w-3.5 h-3.5" />
+                                    {article.category}
+                                </div>
+                                <h3 className="font-bold text-white group-hover:text-accent-primary transition-colors mb-3 line-clamp-2">
+                                    {article.title}
+                                </h3>
+                                <p className="text-sm text-slate-400 line-clamp-2 mb-4">
+                                    {article.description}
+                                </p>
+                                <div className="flex items-center gap-4 text-xs text-slate-500">
+                                    <span className="flex items-center gap-1">
+                                        <Clock className="w-3.5 h-3.5" />
+                                        {article.readTime}
+                                    </span>
+                                </div>
+                            </Link>
+                        </motion.article>
+                    )
+                })}
+            </div>
+        </section>
+    )
+}
+
+// Composant CTA mid-article
+function MidArticleCTA() {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="not-prose my-12 p-8 rounded-2xl bg-gradient-to-r from-accent-primary/20 via-accent-primary/10 to-transparent border border-accent-primary/30"
+        >
+            <div className="flex flex-col md:flex-row items-center gap-6">
+                <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-2">
+                        🚀 Passez à l'action avec FinSight
+                    </h3>
+                    <p className="text-slate-300">
+                        Importez vos données comptables et obtenez vos KPIs en 30 secondes. 
+                        Gratuit, sans inscription.
+                    </p>
+                </div>
+                <Link
+                    href="/dashboard"
+                    onClick={() => trackCTAClick('mid-article-cta', 'blog-article')}
+                    className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-slate-900 font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/30"
+                >
+                    Analyser mes finances
+                    <ArrowRight className="w-4 h-4" />
+                </Link>
+            </div>
+        </motion.div>
+    )
+}
+
 export default function BlogArticlePage() {
     const params = useParams()
     const slug = params?.slug as string
     const article = articles[slug]
     const startTimeRef = useRef<number>(Date.now())
+    const [headings, setHeadings] = useState<string[]>([])
+
+    // Extraire les headings pour la table des matières
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const articleContent = document.querySelector('.article-content')
+            if (articleContent) {
+                const h2Elements = articleContent.querySelectorAll('h2')
+                const extractedHeadings = Array.from(h2Elements).map((h2, index) => {
+                    const text = h2.textContent || `Section ${index + 1}`
+                    const id = text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')
+                    h2.id = id
+                    return text
+                })
+                setHeadings(extractedHeadings)
+                
+                // Injecter le CTA mid-article après le h2 du milieu
+                if (h2Elements.length >= 3 && !document.querySelector('#mid-article-cta-inserted')) {
+                    const middleIndex = Math.floor(h2Elements.length / 2)
+                    const middleH2 = h2Elements[middleIndex]
+                    
+                    // Trouver le prochain élément après ce h2
+                    let nextElement = middleH2.nextElementSibling
+                    // Chercher la fin de cette section (avant le prochain h2 ou à la fin)
+                    while (nextElement && nextElement.tagName !== 'H2' && nextElement.nextElementSibling) {
+                        if (nextElement.nextElementSibling.tagName === 'H2') {
+                            break
+                        }
+                        nextElement = nextElement.nextElementSibling
+                    }
+                    
+                    // Créer le CTA
+                    const ctaContainer = document.createElement('div')
+                    ctaContainer.id = 'mid-article-cta-inserted'
+                    ctaContainer.className = 'not-prose my-12'
+                    ctaContainer.innerHTML = `
+                        <div style="padding: 2rem; border-radius: 1rem; background: linear-gradient(to right, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1), transparent); border: 1px solid rgba(212, 175, 55, 0.3);">
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+                                <div style="flex: 1;">
+                                    <h3 style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">
+                                        🚀 Passez à l'action avec FinSight
+                                    </h3>
+                                    <p style="color: #cbd5e1;">
+                                        Importez vos données comptables et obtenez vos KPIs en 30 secondes. 
+                                        Gratuit, sans inscription.
+                                    </p>
+                                </div>
+                                <a 
+                                    href="/dashboard"
+                                    style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--color-accent-primary); color: #0f172a; font-weight: 600; border-radius: 0.75rem; transition: all 0.3s; text-decoration: none;"
+                                >
+                                    Analyser mes finances
+                                    <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    `
+                    
+                    // Insérer le CTA après l'élément trouvé
+                    if (nextElement && nextElement.parentNode) {
+                        nextElement.parentNode.insertBefore(ctaContainer, nextElement.nextSibling)
+                    }
+                }
+            }
+        }, 100)
+        return () => clearTimeout(timer)
+    }, [article])
 
     // Track article view on mount
     useEffect(() => {
@@ -1312,9 +1573,10 @@ export default function BlogArticlePage() {
 
     // Track read time on unmount
     useEffect(() => {
+        const startTime = startTimeRef.current
         return () => {
             if (article) {
-                const timeSpent = Math.floor((Date.now() - startTimeRef.current) / 1000)
+                const timeSpent = Math.floor((Date.now() - startTime) / 1000)
                 trackArticleReadTime(article.slug, timeSpent)
             }
         }
@@ -1322,21 +1584,35 @@ export default function BlogArticlePage() {
 
     if (!article) {
         return (
-            <div className="min-h-screen bg-primary text-primary font-sans">
+            <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white font-sans">
                 <Header />
                 <div className="max-w-4xl mx-auto px-6 py-20 text-center">
-                    <h1 className="text-4xl font-bold mb-4">Article non trouvé</h1>
-                    <Link href="/blog" className="text-accent-primary hover:underline">
-                        ← Retour au blog
-                    </Link>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                    >
+                        <h1 className="text-4xl font-bold mb-4">Article non trouvé</h1>
+                        <p className="text-slate-400 mb-8">Cet article n'existe pas ou a été déplacé.</p>
+                        <Link 
+                            href="/blog" 
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-slate-900 font-semibold rounded-xl transition-all"
+                        >
+                            <ArrowLeft className="w-4 h-4" />
+                            Retour au blog
+                        </Link>
+                    </motion.div>
                 </div>
                 <Footer />
             </div>
         )
     }
 
+    const config = categoryConfig[article.category] || categoryConfig['KPIs']
+    const CategoryIcon = config.icon
+    const heroImage = article.image || categoryImages[article.category] || categoryImages['KPIs']
+
     return (
-        <div className="min-h-screen bg-primary text-primary font-sans">
+        <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white font-sans">
             <StructuredData data={generateArticleJsonLd({
                 title: article.title,
                 description: article.description,
@@ -1346,95 +1622,172 @@ export default function BlogArticlePage() {
             })} />
             <Header />
 
-            <article className="max-w-3xl mx-auto px-6 py-12">
-                {/* Breadcrumb */}
-                <Link
-                    href="/blog"
-                    className="inline-flex items-center gap-2 text-secondary hover:text-accent-primary transition-colors mb-8"
-                >
-                    <ArrowLeft className="w-4 h-4" />
-                    Retour au blog
-                </Link>
-
-                {/* Article Header */}
-                <header className="mb-12">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="px-3 py-1 bg-accent-primary-subtle text-accent-primary text-xs font-medium rounded-full">
-                            {article.category}
-                        </span>
-                        <span className="flex items-center gap-2 text-tertiary text-sm">
-                            <Calendar className="w-4 h-4" />
-                            {article.date}
-                        </span>
-                        <span className="flex items-center gap-2 text-tertiary text-sm">
-                            <Clock className="w-4 h-4" />
-                            {article.readTime}
-                        </span>
-                    </div>
-
-                    <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                        {article.title}
-                    </h1>
-
-                    <p className="text-xl text-secondary leading-relaxed">
-                        {article.description}
-                    </p>
-                </header>
-
-                {/* Article Content */}
-                <div className="prose prose-lg max-w-none article-content">
-                    {article.content}
+            {/* Hero Section Premium */}
+            <section className="relative pt-24 pb-16 overflow-hidden">
+                {/* Background avec image */}
+                <div className="absolute inset-0">
+                    <Image
+                        src={heroImage}
+                        alt=""
+                        fill
+                        className="object-cover opacity-20"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/90 to-slate-900" />
                 </div>
 
-                {/* Article Footer */}
-                <footer className="mt-16 pt-8 border-t border-border-subtle">
-                    <div className="flex items-center justify-between">
-                        <Link
-                            href="/blog"
-                            className="inline-flex items-center gap-2 text-secondary hover:text-accent-primary transition-colors"
-                        >
-                            <ArrowLeft className="w-4 h-4" />
-                            Tous les articles
+                {/* Decorative elements */}
+                <div className="absolute top-20 left-10 w-72 h-72 bg-accent-primary/20 rounded-full blur-3xl" />
+                <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+
+                <div className="relative max-w-5xl mx-auto px-6">
+                    {/* Breadcrumb */}
+                    <motion.nav
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex items-center gap-2 text-sm text-slate-400 mb-8"
+                    >
+                        <Link href="/blog" className="hover:text-white transition-colors">
+                            Blog
                         </Link>
-                        <Link
-                            href="/dashboard"
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all"
-                        >
-                            Essayer FinSight
-                            <ArrowRight className="w-4 h-4" />
-                        </Link>
-                    </div>
-                </footer>
-            </article>
+                        <ChevronRight className="w-4 h-4" />
+                        <span className={config.color}>{article.category}</span>
+                    </motion.nav>
+
+                    {/* Article Header */}
+                    <motion.header
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                    >
+                        <div className="flex items-center gap-4 mb-6">
+                            <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${config.bgColor} ${config.color} text-sm font-medium`}>
+                                <CategoryIcon className="w-4 h-4" />
+                                {article.category}
+                            </span>
+                            <span className="flex items-center gap-2 text-slate-400 text-sm">
+                                <Calendar className="w-4 h-4" />
+                                {article.date}
+                            </span>
+                            <span className="flex items-center gap-2 text-slate-400 text-sm">
+                                <Clock className="w-4 h-4" />
+                                {article.readTime}
+                            </span>
+                        </div>
+
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                            {article.title}
+                        </h1>
+
+                        <p className="text-xl text-slate-300 leading-relaxed max-w-3xl">
+                            {article.description}
+                        </p>
+
+                        {/* Share buttons */}
+                        <div className="flex items-center gap-4 mt-8">
+                            <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:border-slate-600 transition-all">
+                                <Share2 className="w-4 h-4" />
+                                <span className="text-sm">Partager</span>
+                            </button>
+                            <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:text-white hover:border-slate-600 transition-all">
+                                <Bookmark className="w-4 h-4" />
+                                <span className="text-sm">Sauvegarder</span>
+                            </button>
+                        </div>
+                    </motion.header>
+                </div>
+            </section>
+
+            {/* Article Content avec layout 2 colonnes */}
+            <section className="relative max-w-7xl mx-auto px-6 py-12">
+                <div className="grid grid-cols-1 xl:grid-cols-[1fr_280px] gap-12">
+                    {/* Main Content */}
+                    <motion.article
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="max-w-3xl"
+                    >
+                        <div className="prose prose-lg prose-invert max-w-none article-content">
+                            {article.content}
+                        </div>
+
+                        {/* CTA en fin d'article */}
+                        <div className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-accent-primary/20 via-accent-primary/10 to-transparent border border-accent-primary/30">
+                            <h3 className="text-2xl font-bold text-white mb-4">
+                                🎯 Prêt à optimiser vos finances ?
+                            </h3>
+                            <p className="text-slate-300 mb-6">
+                                FinSight analyse automatiquement vos données comptables et vous fournit des insights 
+                                actionnables pour piloter votre entreprise. Gratuit, sans inscription.
+                            </p>
+                            <div className="flex flex-wrap gap-4">
+                                <Link
+                                    href="/dashboard"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-slate-900 font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/30"
+                                >
+                                    Analyser mes données
+                                    <ArrowRight className="w-4 h-4" />
+                                </Link>
+                                <Link
+                                    href="/blog"
+                                    className="inline-flex items-center gap-2 px-6 py-3 border border-slate-600 text-white hover:bg-slate-800/50 rounded-xl transition-all"
+                                >
+                                    <ArrowLeft className="w-4 h-4" />
+                                    Tous les articles
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* Related Articles */}
+                        <RelatedArticles currentSlug={article.slug} category={article.category} />
+                    </motion.article>
+
+                    {/* Sidebar - Table of Contents */}
+                    <TableOfContents headings={headings} />
+                </div>
+            </section>
 
             <Footer />
 
             <style jsx global>{`
                 .article-content {
-                    color: var(--color-text-primary);
+                    color: #e2e8f0;
                 }
 
                 .article-content .lead {
                     font-size: 1.25rem;
                     line-height: 1.75;
-                    color: var(--color-text-secondary);
+                    color: #94a3b8;
                     margin-bottom: 2rem;
-                    padding-left: 1rem;
+                    padding-left: 1.5rem;
                     border-left: 4px solid var(--color-accent-primary);
+                    background: linear-gradient(to right, rgba(212, 175, 55, 0.1), transparent);
+                    padding: 1.5rem;
+                    border-radius: 0 0.75rem 0.75rem 0;
                 }
 
                 .article-content h2 {
-                    font-size: 2rem;
+                    font-size: 1.75rem;
                     font-weight: 700;
                     margin-top: 3rem;
                     margin-bottom: 1.5rem;
-                    color: var(--color-text-primary);
+                    color: #f8fafc;
+                    scroll-margin-top: 100px;
+                }
+
+                .article-content h3 {
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    margin-top: 2rem;
+                    margin-bottom: 1rem;
+                    color: #f1f5f9;
                 }
 
                 .article-content p {
                     margin-bottom: 1.5rem;
-                    line-height: 1.75;
-                    color: var(--color-text-secondary);
+                    line-height: 1.8;
+                    color: #cbd5e1;
                 }
 
                 .article-content ul, .article-content ol {
@@ -1444,25 +1797,26 @@ export default function BlogArticlePage() {
 
                 .article-content li {
                     margin-bottom: 0.75rem;
-                    line-height: 1.75;
-                    color: var(--color-text-secondary);
+                    line-height: 1.8;
+                    color: #cbd5e1;
                 }
 
                 .article-content strong {
-                    color: var(--color-text-primary);
+                    color: #f8fafc;
                     font-weight: 600;
                 }
 
                 .article-content code {
                     display: block;
-                    background: var(--color-surface-elevated);
-                    border: 1px solid var(--color-border-default);
+                    background: rgba(30, 41, 59, 0.8);
+                    border: 1px solid rgba(71, 85, 105, 0.5);
                     padding: 1rem 1.5rem;
-                    border-radius: 0.5rem;
+                    border-radius: 0.75rem;
                     font-family: 'Monaco', 'Courier New', monospace;
-                    font-size: 0.95rem;
+                    font-size: 0.9rem;
                     margin: 1.5rem 0;
                     color: var(--color-accent-primary);
+                    backdrop-filter: blur(8px);
                 }
 
                 .article-content .info-box,
@@ -1470,30 +1824,37 @@ export default function BlogArticlePage() {
                 .article-content .example-box,
                 .article-content .kpi-box,
                 .article-content .cta-box {
-                    padding: 1.5rem;
-                    border-radius: 0.75rem;
+                    padding: 1.5rem 2rem;
+                    border-radius: 1rem;
                     margin: 2rem 0;
                     border-left: 4px solid;
+                    backdrop-filter: blur(8px);
                 }
 
                 .article-content .info-box {
-                    background: rgba(59, 130, 246, 0.1);
+                    background: rgba(59, 130, 246, 0.15);
                     border-color: #3b82f6;
+                    border: 1px solid rgba(59, 130, 246, 0.3);
+                    border-left: 4px solid #3b82f6;
                 }
 
                 .article-content .warning-box {
-                    background: rgba(251, 191, 36, 0.1);
+                    background: rgba(251, 191, 36, 0.15);
                     border-color: #fbbf24;
+                    border: 1px solid rgba(251, 191, 36, 0.3);
+                    border-left: 4px solid #fbbf24;
                 }
 
                 .article-content .example-box {
-                    background: var(--color-surface-elevated);
-                    border-color: var(--color-accent-primary);
+                    background: rgba(30, 41, 59, 0.6);
+                    border: 1px solid rgba(71, 85, 105, 0.5);
+                    border-left: 4px solid var(--color-accent-primary);
                 }
 
                 .article-content .kpi-box {
-                    background: var(--color-surface-elevated);
-                    border-color: var(--color-accent-primary);
+                    background: rgba(30, 41, 59, 0.6);
+                    border: 1px solid rgba(71, 85, 105, 0.5);
+                    border-left: 4px solid var(--color-accent-primary);
                 }
 
                 .article-content .kpi-box code {
@@ -1501,15 +1862,16 @@ export default function BlogArticlePage() {
                 }
 
                 .article-content .cta-box {
-                    background: var(--color-accent-primary-subtle);
-                    border-color: var(--color-accent-primary);
+                    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    border-left: 4px solid var(--color-accent-primary);
                     text-align: center;
                 }
 
                 .article-content .cta-box h3 {
                     font-size: 1.5rem;
                     margin-bottom: 1rem;
-                    color: var(--color-text-primary);
+                    color: #f8fafc;
                 }
 
                 .article-content .cta-box ul {
@@ -1520,29 +1882,30 @@ export default function BlogArticlePage() {
 
                 .article-content .cta-button {
                     display: inline-block;
-                    padding: 0.75rem 2rem;
+                    padding: 0.875rem 2rem;
                     background: var(--color-accent-primary);
-                    color: white;
-                    border-radius: 0.5rem;
+                    color: #0f172a;
+                    border-radius: 0.75rem;
                     font-weight: 600;
                     text-decoration: none;
-                    transition: all 0.2s;
+                    transition: all 0.3s;
                     margin-top: 1rem;
                 }
 
                 .article-content .cta-button:hover {
                     background: var(--color-accent-primary-hover);
                     transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+                    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
                 }
 
                 .article-content .formula-box {
-                    background: var(--color-surface-elevated);
+                    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.4));
                     border: 2px solid var(--color-accent-primary);
                     padding: 2rem;
-                    border-radius: 0.75rem;
+                    border-radius: 1rem;
                     text-align: center;
                     margin: 2rem 0;
+                    backdrop-filter: blur(8px);
                 }
 
                 .article-content .formula-box code {
@@ -1558,23 +1921,30 @@ export default function BlogArticlePage() {
                     width: 100%;
                     border-collapse: collapse;
                     margin: 2rem 0;
+                    border-radius: 1rem;
+                    overflow: hidden;
                 }
 
                 .article-content .benchmark-table th,
                 .article-content .benchmark-table td {
-                    padding: 1rem;
+                    padding: 1rem 1.25rem;
                     text-align: left;
-                    border-bottom: 1px solid var(--color-border-default);
+                    border-bottom: 1px solid rgba(71, 85, 105, 0.5);
                 }
 
                 .article-content .benchmark-table th {
-                    background: var(--color-surface-elevated);
+                    background: rgba(30, 41, 59, 0.8);
                     font-weight: 600;
-                    color: var(--color-text-primary);
+                    color: #f8fafc;
                 }
 
                 .article-content .benchmark-table td {
-                    color: var(--color-text-secondary);
+                    color: #cbd5e1;
+                    background: rgba(30, 41, 59, 0.4);
+                }
+
+                .article-content .benchmark-table tr:hover td {
+                    background: rgba(30, 41, 59, 0.6);
                 }
 
                 .article-content .result {
@@ -1582,11 +1952,17 @@ export default function BlogArticlePage() {
                     font-weight: 700;
                     color: var(--color-accent-primary);
                     margin-top: 1rem;
+                    padding: 0.75rem 1rem;
+                    background: rgba(212, 175, 55, 0.1);
+                    border-radius: 0.5rem;
+                    display: inline-block;
                 }
 
                 .article-content .inline-link {
                     color: var(--color-accent-primary);
                     text-decoration: underline;
+                    text-underline-offset: 3px;
+                    transition: opacity 0.2s;
                 }
 
                 .article-content .inline-link:hover {
@@ -1595,22 +1971,14 @@ export default function BlogArticlePage() {
 
                 .article-content .tip {
                     font-style: italic;
-                    color: var(--color-text-secondary);
+                    color: #94a3b8;
                 }
 
                 .article-content .warning {
-                    color: #f59e0b;
+                    color: #fbbf24;
                     font-weight: 600;
                 }
             `}</style>
         </div>
     )
-}
-
-// Merge all articles from different files
-const articles: Record<string, BlogArticle> = {
-    ...baseArticles,
-    ...additionalArticles,
-    ...moreArticles,
-    ...finalArticles
 }
