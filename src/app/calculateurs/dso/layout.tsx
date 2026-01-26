@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Calculateur DSO gratuit - FinSight',
         description: 'Outil gratuit pour calculer votre DSO avec benchmarks sectoriels',
-        url: 'https://finsight.zineinsight.com/calculateurs/dso',
+        url: 'https://getfinsight.fr/calculateurs/dso',
         siteName: 'FinSight',
         locale: 'fr_FR',
         type: 'website',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
         description: 'Calculez votre délai de paiement clients en 30 secondes',
     },
     alternates: {
-        canonical: 'https://finsight.zineinsight.com/calculateurs/dso',
+        canonical: 'https://getfinsight.fr/calculateurs/dso',
     },
 }
 

@@ -21,6 +21,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/auth/', '/dashboard/', '/dashboard-v1/'],
       }
     ],
-    sitemap: 'https://finsight.zineinsight.com/sitemap.xml',
+    sitemap: 'https://getfinsight.fr/sitemap.xml',
   }
 }

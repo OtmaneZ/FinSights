@@ -152,17 +152,15 @@ export default async function handler(
                     const emailPayload = {
                         to: mockUserSettings.userEmail,
                         alertData: {
-                            companyName: mockUserSettings.companyName,
-                            alertType: alert.type,
-                            severity: alert.type === 'tresorerie' ? 'critical' : 'warning',
-                            value: alertValue,
-                            threshold: alert.threshold,
-                            details: `Alerte automatique détectée le ${new Date().toLocaleDateString('fr-FR')}`,
-                            actionUrl: 'https://finsight.zineinsight.com/dashboard',
-                        },
-                    };
-
-                    const sendResponse = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/api/alerts/send`, {
+                        companyName: mockUserSettings.companyName,
+                        alertType: alert.type,
+                        severity: alert.type === 'tresorerie' ? 'critical' : 'warning',
+                        value: alertValue,
+                        threshold: alert.threshold,
+                        details: `Alerte automatique détectée le ${new Date().toLocaleDateString('fr-FR')}`,
+                        actionUrl: 'https://getfinsight.fr/dashboard',
+                    },
+                };                    const sendResponse = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/api/alerts/send`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(emailPayload),

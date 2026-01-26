@@ -96,7 +96,7 @@ export default function MakeGuidePage() {
                     <div className="space-y-2 text-sm">
                         <div className="bg-surface-secondary rounded p-3">
                             <span className="text-tertiary">URL :</span>{' '}
-                            <code className="text-secondary">https://finsight.zineinsight.com/api/upload</code>
+                            <code className="text-secondary">https://getfinsight.fr/api/upload</code>
                         </div>
                         <div className="bg-surface-secondary rounded p-3">
                             <span className="text-tertiary">Method :</span>{' '}

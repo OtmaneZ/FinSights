@@ -6,9 +6,9 @@ export const metadata = {
         type: 'website',
         title: 'Blog FinSight - Guides Finance pour CFO & DAF',
         description: '10+ guides pratiques : DSO, BFR, ratios, trésorerie, budget. Benchmarks France 2025.',
-        url: 'https://finsight.zineinsight.com/blog',
+        url: 'https://getfinsight.fr/blog',
         images: [{
-            url: 'https://finsight.zineinsight.com/images/og-blog.png',
+            url: 'https://getfinsight.fr/images/og-blog.png',
             width: 1200,
             height: 630,
             alt: 'Blog FinSight Finance'
@@ -18,10 +18,10 @@ export const metadata = {
         card: 'summary_large_image',
         title: 'Blog FinSight - Guides Finance CFO & DAF',
         description: '10+ guides gratuits : DSO, BFR, ratios, trésorerie',
-        images: ['https://finsight.zineinsight.com/images/og-blog.png']
+        images: ['https://getfinsight.fr/images/og-blog.png']
     },
     alternates: {
-        canonical: 'https://finsight.zineinsight.com/blog'
+        canonical: 'https://getfinsight.fr/blog'
     }
 }
 

@@ -5,9 +5,9 @@ export const metadata = {
     openGraph: {
         title: 'Plateforme Intelligence Financière | Score FinSight™',
         description: 'Analyse stratégique CFO : Score FinSight™, prévisions, détection risques, CFO Virtuel',
-        url: 'https://finsight.zineinsight.com/dashboard',
+        url: 'https://getfinsight.fr/dashboard',
         images: [{
-            url: 'https://finsight.zineinsight.com/images/og-dashboard.png',
+            url: 'https://getfinsight.fr/images/og-dashboard.png',
             width: 1200,
             height: 630,
             alt: 'FinSight - Moteur Intelligence Financière'

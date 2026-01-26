@@ -25,7 +25,7 @@ export default function MentionsLegales() {
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Éditeur du site</h2>
                             <p className="text-gray-600 leading-relaxed mb-4">
-                                Le site <strong>FinSight</strong> (accessible à l'adresse finsight.zineinsight.com) est édité par :
+                                Le site <strong>FinSight</strong> (accessible à l'adresse getfinsight.fr) est édité par :
                             </p>
                             <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
                                 <p className="text-gray-900 font-bold text-lg mb-3">ZINEINSIGHTS</p>

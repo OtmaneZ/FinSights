@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Liste blanche des domaines autorisés
 const ALLOWED_ORIGINS = [
-    'https://finsight.zineinsight.com',
+    'https://getfinsight.fr',
     'https://www.finsight.zineinsight.com',
     'https://finsights.app',
     'https://www.finsights.app',
