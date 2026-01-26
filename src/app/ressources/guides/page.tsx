@@ -201,7 +201,7 @@ export default function GuidesPage() {
                                 Besoin d'un accompagnement sur-mesure ?
                             </h3>
                             <p className="text-lg text-secondary mb-8 leading-relaxed">
-                                Construction de dashboards FP&A, automatisation reporting, modélisation financière.
+                                Construction de dashboards, automatisation reporting, modélisation financière.
                                 <span className="text-primary font-medium"> 10 ans d'expérience finance & data analytics.</span>
                             </p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

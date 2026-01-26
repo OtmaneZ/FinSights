@@ -217,7 +217,7 @@ export default function TemplatesPage() {
                             <ArrowRight className="w-5 h-5" />
                         </Link>
                         <Link
-                            href="/dashboard"
+                            href="/contact"
                             className="inline-flex items-center gap-2 px-8 py-4 border-2 border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white rounded-lg font-semibold transition-all"
                         >
                             Voir la démo (30 sec)
