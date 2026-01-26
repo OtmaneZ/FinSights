@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Calculateur BFR gratuit - FinSight',
         description: 'Outil gratuit pour calculer votre BFR et optimiser votre trésorerie',
-        url: 'https://getfinsight.fr/calculateurs/bfr',
+        url: 'https://finsight.zineinsight.com/calculateurs/bfr',
         siteName: 'FinSight',
         locale: 'fr_FR',
         type: 'website',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
         description: 'Calculez votre Besoin en Fonds de Roulement en quelques clics',
     },
     alternates: {
-        canonical: 'https://getfinsight.fr/calculateurs/bfr',
+        canonical: 'https://finsight.zineinsight.com/calculateurs/bfr',
     },
 }
 

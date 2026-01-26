@@ -26,12 +26,12 @@ export const metadata = {
     openGraph: {
         type: 'website',
         locale: 'fr_FR',
-        url: 'https://getfinsight.fr',
+        url: 'https://finsight.zineinsight.com',
         siteName: 'FinSight',
         title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
         description: 'Analyse stratégique, prévisions & scénarios, moteur de risque IA. Comprenez votre santé financière. Anticipez les risques. Décidez en confiance.',
         images: [{
-            url: 'https://getfinsight.fr/images/og-default.png',
+            url: 'https://finsight.zineinsight.com/images/og-default.png',
             width: 1200,
             height: 630,
             alt: 'FinSight - Moteur d\'Intelligence Financière'
@@ -41,7 +41,7 @@ export const metadata = {
         card: 'summary_large_image',
         title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
         description: 'Analyse stratégique + Prévisions + Risque IA + CFO Virtuel. Score santé financière 0-100.',
-        images: ['https://getfinsight.fr/images/og-default.png']
+        images: ['https://finsight.zineinsight.com/images/og-default.png']
     },
     icons: {
         icon: [
@@ -110,8 +110,8 @@ export default function RootLayout({
                             '@context': 'https://schema.org',
                             '@type': 'Organization',
                             name: 'FinSight',
-                            url: 'https://getfinsight.fr',
-                            logo: 'https://getfinsight.fr/images/logo.png',
+                            url: 'https://finsight.zineinsight.com',
+                            logo: 'https://finsight.zineinsight.com/images/logo.png',
                             description: 'Dashboard financier intelligent pour CFO et DAF. Analyse automatisée des données comptables avec intelligence artificielle.',
                             founder: {
                                 '@type': 'Person',
@@ -121,7 +121,7 @@ export default function RootLayout({
                             contactPoint: {
                                 '@type': 'ContactPoint',
                                 contactType: 'customer support',
-                                email: 'contact@getfinsight.fr'
+                                email: 'contact@finsight.zineinsight.com'
                             },
                             sameAs: [
                                 'https://www.linkedin.com/company/finsight-ai'

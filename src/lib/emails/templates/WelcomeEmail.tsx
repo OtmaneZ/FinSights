@@ -33,7 +33,7 @@ export const WelcomeEmail = ({
                 {/* Logo */}
                 <Section style={logoSection}>
                     <Img
-                        src="https://getfinsight.fr/images/zineinsights_logo.jpeg"
+                        src="https://finsight.zineinsight.com/images/zineinsights_logo.jpeg"
                         width="48"
                         height="48"
                         alt="FinSight"
@@ -72,7 +72,7 @@ export const WelcomeEmail = ({
                 {/* Footer */}
                 <Text style={footer}>
                     Besoin d'aide ? Consultez notre{' '}
-                    <Link href="https://getfinsight.fr/faq" style={link}>
+                    <Link href="https://finsight.zineinsight.com/faq" style={link}>
                         FAQ
                     </Link>{' '}
                     ou contactez-nous à{' '}

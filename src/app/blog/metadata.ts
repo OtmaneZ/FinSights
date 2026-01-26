@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Blog Finance & Data | FinSight',
     description: 'Guides pratiques finance pour CFO et DAF : formules, benchmarks, conseils.',
-    url: 'https://getfinsight.fr/blog',
+    url: 'https://finsight.zineinsight.com/blog',
     siteName: 'FinSight',
     locale: 'fr_FR',
     type: 'website',
@@ -18,6 +18,6 @@ export const metadata: Metadata = {
     description: 'Guides pratiques finance pour CFO et DAF',
   },
   alternates: {
-    canonical: 'https://getfinsight.fr/blog',
+    canonical: 'https://finsight.zineinsight.com/blog',
   },
 }

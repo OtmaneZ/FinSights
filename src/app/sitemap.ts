@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { BLOG_ARTICLES } from '@/lib/seo'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://getfinsight.fr'
+  const baseUrl = 'https://finsight.zineinsight.com'
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [

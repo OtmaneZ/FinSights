@@ -5,7 +5,7 @@
 
 import type { Metadata } from 'next'
 
-const SITE_URL = 'https://getfinsight.fr'
+const SITE_URL = 'https://finsight.zineinsight.com'
 const SITE_NAME = 'FinSight'
 const SITE_DESCRIPTION = 'Dashboard financier intelligent pour CFO et DAF. Analyse automatique de vos données comptables avec IA.'
 

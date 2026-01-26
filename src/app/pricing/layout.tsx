@@ -5,9 +5,9 @@ export const metadata = {
     openGraph: {
         title: 'Tarifs FinSight - Essai Gratuit',
         description: 'Plan Starter gratuit, Business 99€/mois, Growth 199€/mois. IA GPT-4, API REST, alertes email.',
-        url: 'https://getfinsight.fr/pricing',
+        url: 'https://finsight.zineinsight.com/pricing',
         images: [{
-            url: 'https://getfinsight.fr/images/og-pricing.png',
+            url: 'https://finsight.zineinsight.com/images/og-pricing.png',
             width: 1200,
             height: 630,
             alt: 'Tarifs FinSight'
@@ -17,10 +17,10 @@ export const metadata = {
         card: 'summary_large_image',
         title: 'Tarifs FinSight - Essai Gratuit',
         description: 'Plan Starter gratuit, Business 99€/mois, Growth 199€/mois',
-        images: ['https://getfinsight.fr/images/og-pricing.png']
+        images: ['https://finsight.zineinsight.com/images/og-pricing.png']
     },
     alternates: {
-        canonical: 'https://getfinsight.fr/pricing'
+        canonical: 'https://finsight.zineinsight.com/pricing'
     }
 }
 

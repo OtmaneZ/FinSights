@@ -106,7 +106,7 @@ export default function AlertSettings({ isOpen, onClose, companyName }: AlertSet
             value: alert.threshold,
             threshold: alert.threshold,
             details: `Exemple d'alerte ${ALERT_LABELS[previewAlertType].title}`,
-            actionUrl: 'https://getfinsight.fr/dashboard',
+            actionUrl: 'https://finsight.zineinsight.com/dashboard',
         });
     }, [previewAlertType, settings]);
 

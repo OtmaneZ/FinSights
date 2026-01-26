@@ -43,7 +43,7 @@ export default function IntegrationsPage() {
     const [selectedCompanyId, setSelectedCompanyId] = useState('');
     const [syncing, setSyncing] = useState(false);
 
-    const endpointUrl = 'https://getfinsight.fr/api/integrations/n8n/ingest';
+    const endpointUrl = 'https://finsight.zineinsight.com/api/integrations/n8n/ingest';
 
     const fetchCompanies = useCallback(async () => {
         try {
