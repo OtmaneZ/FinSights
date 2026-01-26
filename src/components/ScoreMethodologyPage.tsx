@@ -18,12 +18,18 @@ import {
     Layers,
     Eye,
     FileText,
-    Lock
+    Lock,
+    Sparkles,
+    Users
 } from 'lucide-react'
+import Header from './Header'
+import Footer from './Footer'
 
 export default function ScoreMethodologyPage() {
     return (
-        <div className="min-h-screen bg-white">
+        <>
+            <Header />
+            <div className="min-h-screen bg-white">
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-32 pb-24">
                 {/* Background */}
@@ -91,20 +97,41 @@ export default function ScoreMethodologyPage() {
                         </div>
 
                         {/* CTAs */}
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                             <Link
-                                href="/contact"
+                                href="/consulting"
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                             >
-                                Demander une analyse de mon score
-                                <ArrowRight className="w-5 h-5" />
+                                <Users className="w-5 h-5" />
+                                Accompagnement expert
+                            </Link>
+                            <Link
+                                href="/agents"
+                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
+                            >
+                                <Sparkles className="w-5 h-5" />
+                                Agents IA finance
                             </Link>
                             <a
                                 href="#methodology"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
+                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/5 backdrop-blur-sm text-white font-medium rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300"
                             >
                                 Voir la méthodologie
+                                <ArrowRight className="w-5 h-5" />
                             </a>
+                        </div>
+                        
+                        {/* Descriptions sous les CTAs */}
+                        <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto text-sm">
+                            <p className="text-slate-400">
+                                Faites-vous accompagner par un expert finance pour piloter votre entreprise
+                            </p>
+                            <p className="text-slate-400">
+                                Automatisez votre pilotage avec nos 3 agents IA spécialisés
+                            </p>
+                            <p className="text-slate-400">
+                                Découvrez comment nous calculons votre score de santé financière
+                            </p>
                         </div>
                     </motion.div>
                 </div>
@@ -966,5 +993,7 @@ export default function ScoreMethodologyPage() {
                 </div>
             </section>
         </div>
+        <Footer />
+        </>
     )
 }
