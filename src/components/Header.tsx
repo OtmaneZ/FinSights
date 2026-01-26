@@ -71,12 +71,12 @@ export default function Header() {
                 <nav className="hidden md:flex items-center gap-8">
                     {/* Consulting */}
                     <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Audit Finance
+                        Consulting Finance
                     </Link>
 
                     {/* Agents IA */}
                     <Link href="/agents" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Agents IA
+                       Nos Agents IA
                     </Link>
 
                     {/* Ressources Dropdown */}
@@ -92,6 +92,13 @@ export default function Header() {
                         {/* Resources Dropdown Menu */}
                         {isResourcesOpen && (
                             <div className="absolute left-0 mt-2 w-48 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50 animate-slide-up">
+                                <Link
+                                    href="/fondamentaux"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Fondamentaux
+                                </Link>
                                 <Link
                                     href="/ressources/templates"
                                     className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
