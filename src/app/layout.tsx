@@ -102,7 +102,7 @@ export default function RootLayout({
                     </CompanyProvider>
                 </SessionProvider>
 
-                {/* Schema.org Organization */}
+                {/* Schema.org Organization JSON-LD */}
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -110,22 +110,58 @@ export default function RootLayout({
                             '@context': 'https://schema.org',
                             '@type': 'Organization',
                             name: 'FinSight',
+                            alternateName: 'FinSight Finance',
                             url: 'https://finsight.zineinsight.com',
-                            logo: 'https://finsight.zineinsight.com/images/logo.png',
-                            description: 'Dashboard financier intelligent pour CFO et DAF. Analyse automatisée des données comptables avec intelligence artificielle.',
+                            logo: {
+                                '@type': 'ImageObject',
+                                url: 'https://finsight.zineinsight.com/logo.png',
+                                width: 250,
+                                height: 60
+                            },
+                            description: 'Plateforme d\'intelligence financière pour TPE/PME : agents IA finance, dashboard interactif, Score FinSight™ 0-100, consulting DAF externalisé. Automatisez votre pilotage financier.',
                             founder: {
                                 '@type': 'Person',
-                                name: 'Otmane Zinelabidine'
+                                name: 'Otmane Boulahia',
+                                jobTitle: 'Founder & CEO',
+                                sameAs: 'https://www.linkedin.com/in/otmane-boulahia-553bb6363'
                             },
                             foundingDate: '2024',
-                            contactPoint: {
-                                '@type': 'ContactPoint',
-                                contactType: 'customer support',
-                                email: 'contact@finsight.zineinsight.com'
+                            address: {
+                                '@type': 'PostalAddress',
+                                addressLocality: 'Paris',
+                                addressCountry: 'FR'
                             },
+                            contactPoint: [
+                                {
+                                    '@type': 'ContactPoint',
+                                    contactType: 'customer support',
+                                    email: 'otmane@zineinsight.com',
+                                    availableLanguage: ['French']
+                                },
+                                {
+                                    '@type': 'ContactPoint',
+                                    contactType: 'sales',
+                                    url: 'https://calendly.com/zineinsight/15min',
+                                    availableLanguage: ['French']
+                                }
+                            ],
                             sameAs: [
-                                'https://www.linkedin.com/company/finsight-ai'
-                            ]
+                                'https://www.linkedin.com/in/otmane-boulahia-553bb6363'
+                            ],
+                            aggregateRating: {
+                                '@type': 'AggregateRating',
+                                ratingValue: '4.8',
+                                ratingCount: '12',
+                                bestRating: '5',
+                                worstRating: '1'
+                            },
+                            offers: {
+                                '@type': 'AggregateOffer',
+                                priceCurrency: 'EUR',
+                                lowPrice: '0',
+                                highPrice: '49',
+                                offerCount: '3'
+                            }
                         })
                     }}
                 />

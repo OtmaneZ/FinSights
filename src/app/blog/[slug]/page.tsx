@@ -9,6 +9,7 @@ import { Calendar, Clock, ArrowLeft, ArrowRight, BookOpen, ChevronRight, Share2,
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
+import BlogCTA from '@/components/BlogCTA'
 import { generateArticleJsonLd, getArticleBySlug } from '@/lib/seo'
 import { trackArticleView, trackArticleReadTime, trackCTAClick } from '@/lib/analytics'
 import { additionalArticles } from './additionalArticles'
@@ -794,20 +795,7 @@ const baseArticles: Record<string, BlogArticle> = {
                     <strong>TRESORIS</strong> analyse automatiquement vos états financiers et vous alerte en temps réel.
                 </p>
 
-                <div className="cta-box">
-                    <h3>🚀 TRESORIS lit vos bilans et vous alerte automatiquement</h3>
-                    <ul>
-                        <li>✅ Import automatique depuis exports comptables (Sage, Cegid, Excel)</li>
-                        <li>✅ Détection des 7 signaux d'alerte en temps réel</li>
-                        <li>✅ Calcul automatique des 10 ratios financiers clés</li>
-                        <li>✅ Tableaux de bord simplifiés (pas de jargon comptable)</li>
-                        <li>✅ Alertes personnalisées selon votre secteur</li>
-                        <li>✅ Recommandations d'actions prioritaires chiffrées</li>
-                    </ul>
-                    <Link href="/agents/tresoris" className="cta-button">
-                        Découvrir TRESORIS →
-                    </Link>
-                </div>
+                <BlogCTA variant="platform" />
 
                 <h2>Conclusion : de l'illisible à l'actionnable</h2>
 
@@ -1631,18 +1619,7 @@ const baseArticles: Record<string, BlogArticle> = {
                     Plus besoin de formules manuelles ni de tableaux Excel.
                 </p>
 
-                <div className="cta-box">
-                    <h3>🚀 Essayez FinSight gratuitement</h3>
-                    <ul>
-                        <li>✅ DSO calculé automatiquement</li>
-                        <li>✅ Alertes quand le DSO dépasse votre seuil</li>
-                        <li>✅ Benchmarks sectoriels intégrés</li>
-                        <li>✅ Liste des factures en retard</li>
-                    </ul>
-                    <Link href="/consulting" className="cta-button">
-                        Analyser mes données →
-                    </Link>
-                </div>
+                <BlogCTA variant="consultation" />
             </>
         )
     },

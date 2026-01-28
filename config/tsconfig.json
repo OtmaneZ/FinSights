@@ -37,6 +37,7 @@
     ],
     "exclude": [
         "node_modules",
-        "finsight_pages_export"
+        "finsight_pages_export",
+        "agent-DAF"
     ]
 }
