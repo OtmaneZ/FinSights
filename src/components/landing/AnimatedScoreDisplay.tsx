@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react'
 import { DollarSign, BarChart3, Shield, AlertTriangle } from 'lucide-react'
 
 interface PillarScore {
@@ -21,58 +21,14 @@ export default function AnimatedScoreDisplay() {
     const componentRef = useRef<HTMLDivElement>(null)
 
     // Scores réels du dashboard (850k€ CA, 28% marge, 180k€ tréso, runway 6 mois)
-    const pillars: PillarScore[] = [
+    const pillars: PillarScore[] = useMemo(() => [
         { icon: DollarSign, label: 'Cash & Liquidité', score: 18, max: 25, color: 'text-accent-primary', bgColor: 'bg-blue-50' },
         { icon: BarChart3, label: 'Marges & Rentabilité', score: 20, max: 25, color: 'text-green-600', bgColor: 'bg-green-50' },
         { icon: Shield, label: 'Résilience', score: 19, max: 25, color: 'text-purple-600', bgColor: 'bg-purple-50' },
         { icon: AlertTriangle, label: 'Gestion Risques', score: 15, max: 25, color: 'text-orange-600', bgColor: 'bg-orange-50' }
-    ]
+    ], [])
 
-    useEffect(() => {
-        // Intersection Observer pour détecter quand le composant est visible
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting && !hasAnimated) {
-                        setHasAnimated(true)
-                        startAnimation()
-                    }
-                })
-            },
-            { threshold: 0.3 } // Démarre quand 30% du composant est visible
-        )
-
-        if (componentRef.current) {
-            observer.observe(componentRef.current)
-        }
-
-        return () => {
-            if (componentRef.current) {
-                observer.unobserve(componentRef.current)
-            }
-        }
-    }, [hasAnimated])
-
-    const startAnimation = () => {
-        // Séquence d'animation
-        const sequence = [
-            // Étape 1-4 : Animer chaque pilier (0-4s)
-            { delay: 500, action: () => animatePillar(0) },
-            { delay: 1000, action: () => animatePillar(1) },
-            { delay: 1500, action: () => animatePillar(2) },
-            { delay: 2000, action: () => animatePillar(3) },
-            // Étape 5 : Calculer le total (4.5s)
-            { delay: 2500, action: () => calculateTotal() },
-            // Étape 6 : Remplir la jauge (5s)
-            { delay: 3000, action: () => fillGauge() }
-        ]
-
-        sequence.forEach(({ delay, action }) => {
-            setTimeout(action, delay)
-        })
-    }
-
-    const animatePillar = (index: number) => {
+    const animatePillar = useCallback((index: number) => {
         const targetScore = pillars[index].score
         let current = 0
         const increment = targetScore / 20 // 20 frames pour atteindre le score
@@ -91,9 +47,9 @@ export default function AnimatedScoreDisplay() {
         }, 25)
 
         setAnimationStep(index + 1)
-    }
+    }, [pillars])
 
-    const calculateTotal = () => {
+    const calculateTotal = useCallback(() => {
         const total = pillars.reduce((sum, p) => sum + p.score, 0)
         let current = 0
         const increment = total / 20
@@ -108,9 +64,9 @@ export default function AnimatedScoreDisplay() {
         }, 25)
 
         setAnimationStep(5)
-    }
+    }, [pillars])
 
-    const fillGauge = () => {
+    const fillGauge = useCallback(() => {
         let progress = 0
         const targetProgress = 72 // Score final
 
@@ -124,7 +80,54 @@ export default function AnimatedScoreDisplay() {
         }, 25)
 
         setAnimationStep(6)
-    }
+    }, [])
+
+    const startAnimation = useCallback(() => {
+        // Séquence d'animation
+        const sequence = [
+            // Étape 1-4 : Animer chaque pilier (0-4s)
+            { delay: 500, action: () => animatePillar(0) },
+            { delay: 1000, action: () => animatePillar(1) },
+            { delay: 1500, action: () => animatePillar(2) },
+            { delay: 2000, action: () => animatePillar(3) },
+            // Étape 5 : Calculer le total (4.5s)
+            { delay: 2500, action: () => calculateTotal() },
+            // Étape 6 : Remplir la jauge (5s)
+            { delay: 3000, action: () => fillGauge() }
+        ]
+
+        sequence.forEach(({ delay, action }) => {
+            setTimeout(action, delay)
+        })
+    }, [animatePillar, calculateTotal, fillGauge])
+
+    useEffect(() => {
+        // Capture la référence dans une variable locale pour le cleanup
+        const currentRef = componentRef.current
+        
+        // Intersection Observer pour détecter quand le composant est visible
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !hasAnimated) {
+                        setHasAnimated(true)
+                        startAnimation()
+                    }
+                })
+            },
+            { threshold: 0.3 } // Démarre quand 30% du composant est visible
+        )
+
+        if (currentRef) {
+            observer.observe(currentRef)
+        }
+
+        return () => {
+            if (currentRef) {
+                observer.unobserve(currentRef)
+            }
+        }
+    }, [hasAnimated, startAnimation])
 
     // Couleur de la jauge selon le score
     const getGaugeColor = (score: number) => {
