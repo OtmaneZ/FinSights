@@ -459,6 +459,17 @@ export default function CalculateurBFR() {
                     <h3 className="text-2xl font-bold mb-4">📚 Ressources utiles</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Link
+                            href="/blog/bfr-negatif-bon-ou-mauvais"
+                            className="p-4 border border-border-default rounded-lg hover:border-accent-primary transition-all group"
+                        >
+                            <h4 className="font-semibold mb-2 group-hover:text-accent-primary">
+                                🔍 BFR Négatif : Bon ou Mauvais ? →
+                            </h4>
+                            <p className="text-sm text-secondary">
+                                Comprendre quand un BFR négatif est une force ou un signal d'alerte
+                            </p>
+                        </Link>
+                        <Link
                             href="/calculateurs/dso"
                             className="p-4 border border-border-default rounded-lg hover:border-accent-primary transition-all group"
                         >
@@ -467,6 +478,17 @@ export default function CalculateurBFR() {
                             </h4>
                             <p className="text-sm text-secondary">
                                 Calculez votre délai moyen de paiement clients
+                            </p>
+                        </Link>
+                        <Link
+                            href="/blog/reduire-dso-50-pourcent-90-jours"
+                            className="p-4 border border-border-default rounded-lg hover:border-accent-primary transition-all group"
+                        >
+                            <h4 className="font-semibold mb-2 group-hover:text-accent-primary">
+                                Réduire son DSO de 50% →
+                            </h4>
+                            <p className="text-sm text-secondary">
+                                10 actions pour accélérer les encaissements et réduire le BFR
                             </p>
                         </Link>
                         <Link

@@ -352,6 +352,28 @@ export default function CalculateurDSO() {
                     <h3 className="text-2xl font-bold mb-4">📚 En savoir plus sur le DSO</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Link
+                            href="/blog/reduire-dso-50-pourcent-90-jours"
+                            className="p-4 border border-border-default rounded-lg hover:border-accent-primary transition-all group"
+                        >
+                            <h4 className="font-semibold mb-2 group-hover:text-accent-primary">
+                                🚀 Réduire son DSO de 50% en 90 jours →
+                            </h4>
+                            <p className="text-sm text-secondary">
+                                10 actions concrètes pour accélérer vos encaissements et libérer de la trésorerie
+                            </p>
+                        </Link>
+                        <Link
+                            href="/blog/dso-vs-dpo-optimiser-tresorerie"
+                            className="p-4 border border-border-default rounded-lg hover:border-accent-primary transition-all group"
+                        >
+                            <h4 className="font-semibold mb-2 group-hover:text-accent-primary">
+                                DSO vs DPO : Optimiser votre trésorerie →
+                            </h4>
+                            <p className="text-sm text-secondary">
+                                Comprendre le Cash Conversion Cycle et équilibrer clients/fournisseurs
+                            </p>
+                        </Link>
+                        <Link
                             href="/blog/calcul-dso-formule-2025"
                             className="p-4 border border-border-default rounded-lg hover:border-accent-primary transition-all group"
                         >
@@ -363,14 +385,14 @@ export default function CalculateurDSO() {
                             </p>
                         </Link>
                         <Link
-                            href="/blog/5-kpis-financiers-pme"
+                            href="/calculateurs/bfr"
                             className="p-4 border border-border-default rounded-lg hover:border-accent-primary transition-all group"
                         >
                             <h4 className="font-semibold mb-2 group-hover:text-accent-primary">
-                                Les 5 KPIs essentiels pour PME →
+                                Calculateur BFR gratuit →
                             </h4>
                             <p className="text-sm text-secondary">
-                                DSO, marge nette, BFR, trésorerie... Les indicateurs à suivre absolument
+                                Besoin en Fonds de Roulement : impact du DSO sur votre BFR
                             </p>
                         </Link>
                     </div>

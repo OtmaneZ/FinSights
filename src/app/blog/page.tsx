@@ -167,6 +167,38 @@ const blogPosts: BlogPost[] = [
         category: 'Outils',
         tags: ['Budget', 'IA', 'Excel', 'Dashboard'],
         image: '/images/moi-bureau.png'
+    },
+    // SEO optimized articles (January 2026)
+    {
+        slug: 'reduire-dso-50-pourcent-90-jours',
+        title: 'Réduire son DSO de 50% en 90 jours : Guide Pratique',
+        description: 'Méthode éprouvée pour améliorer votre DSO et libérer jusqu\'à 200k€ de trésorerie. 10 actions concrètes + cas client.',
+        date: '28 janvier 2026',
+        readTime: '12 min',
+        category: 'Trésorerie',
+        tags: ['DSO', 'Réduire DSO', 'Trésorerie', 'Recouvrement', 'PME'],
+        featured: true,
+        image: '/images/bureau-nuit.png'
+    },
+    {
+        slug: 'bfr-negatif-bon-ou-mauvais',
+        title: 'BFR Négatif : Bon ou Mauvais pour Votre Entreprise ?',
+        description: 'Un BFR négatif est-il signe de bonne santé ou de danger ? Exemples par secteur : grande distribution, SaaS, e-commerce.',
+        date: '28 janvier 2026',
+        readTime: '10 min',
+        category: 'Trésorerie',
+        tags: ['BFR', 'BFR Négatif', 'Trésorerie', 'Analyse'],
+        image: '/images/bfr.png'
+    },
+    {
+        slug: 'dso-vs-dpo-optimiser-tresorerie',
+        title: 'DSO vs DPO : Optimiser l\'Équilibre Clients-Fournisseurs',
+        description: 'Comprendre la différence DSO/DPO et optimiser votre Cash Conversion Cycle pour libérer de la trésorerie.',
+        date: '28 janvier 2026',
+        readTime: '9 min',
+        category: 'Trésorerie',
+        tags: ['DSO', 'DPO', 'Cash Conversion Cycle', 'Trésorerie'],
+        image: '/images/vue-NY.png'
     }
 ]
 

@@ -15,6 +15,7 @@ import { trackArticleView, trackArticleReadTime, trackCTAClick } from '@/lib/ana
 import { additionalArticles } from './additionalArticles'
 import { moreArticles } from './moreArticles'
 import { finalArticles } from './finalArticles'
+import { seoArticles } from './seoArticles'
 
 interface BlogArticle {
     slug: string
@@ -2749,7 +2750,8 @@ const articles: Record<string, BlogArticle> = {
     ...baseArticles,
     ...additionalArticles,
     ...moreArticles,
-    ...finalArticles
+    ...finalArticles,
+    ...seoArticles
 }
 
 // Composant Table des Matières
