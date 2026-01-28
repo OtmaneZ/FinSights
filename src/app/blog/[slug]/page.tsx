@@ -10,7 +10,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
 import BlogCTA from '@/components/BlogCTA'
-import { generateArticleJsonLd, getArticleBySlug } from '@/lib/seo'
+import { generateArticleJsonLd, generateBreadcrumbJsonLd, getArticleBySlug } from '@/lib/seo'
 import { trackArticleView, trackArticleReadTime, trackCTAClick } from '@/lib/analytics'
 import { additionalArticles } from './additionalArticles'
 import { moreArticles } from './moreArticles'
@@ -3034,6 +3034,7 @@ export default function BlogArticlePage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white font-sans">
+            {/* Article JSON-LD */}
             <StructuredData data={generateArticleJsonLd({
                 title: article.title,
                 description: article.description,
@@ -3041,6 +3042,15 @@ export default function BlogArticlePage() {
                 publishedDate: article.date,
                 category: article.category
             })} />
+            
+            {/* Breadcrumb JSON-LD */}
+            <StructuredData data={generateBreadcrumbJsonLd([
+                { name: 'Accueil', path: '/' },
+                { name: 'Blog', path: '/blog' },
+                { name: article.category, path: `/blog?category=${article.category}` },
+                { name: article.title, path: `/blog/${article.slug}` }
+            ])} />
+            
             <Header />
 
             {/* Hero Section Premium */}

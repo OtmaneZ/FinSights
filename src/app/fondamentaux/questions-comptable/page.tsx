@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import StructuredData from '@/components/StructuredData';
+import { generateArticleJsonLd, generateBreadcrumbJsonLd } from '@/lib/seo';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -26,6 +28,22 @@ import {
 export default function QuestionsComptablePage() {
   return (
     <main className="min-h-screen bg-white">
+      {/* Article JSON-LD */}
+      <StructuredData data={generateArticleJsonLd({
+        title: '20 questions essentielles à poser à votre comptable',
+        description: 'Les bonnes questions à poser à votre expert-comptable pour optimiser votre gestion financière et fiscale.',
+        slug: 'questions-comptable',
+        publishedDate: '25 janvier 2026',
+        category: 'Fondamentaux'
+      })} />
+      
+      {/* Breadcrumb JSON-LD */}
+      <StructuredData data={generateBreadcrumbJsonLd([
+        { name: 'Accueil', path: '/' },
+        { name: 'Fondamentaux', path: '/fondamentaux' },
+        { name: 'Questions à poser à votre comptable', path: '/fondamentaux/questions-comptable' }
+      ])} />
+      
       <Header />
       
       {/* Hero Section */}

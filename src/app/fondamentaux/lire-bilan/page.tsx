@@ -15,10 +15,28 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StructuredData from "@/components/StructuredData";
+import { generateArticleJsonLd, generateBreadcrumbJsonLd } from "@/lib/seo";
 
 export default function LireBilanPage() {
   return (
     <div className="min-h-screen bg-white">
+      {/* Article JSON-LD */}
+      <StructuredData data={generateArticleJsonLd({
+        title: 'Lire un bilan comptable : guide pratique',
+        description: 'Le bilan est la photo de votre entreprise à un instant T. Apprenez à le décrypter en 15 minutes.',
+        slug: 'lire-bilan',
+        publishedDate: '25 janvier 2026',
+        category: 'Fondamentaux'
+      })} />
+      
+      {/* Breadcrumb JSON-LD */}
+      <StructuredData data={generateBreadcrumbJsonLd([
+        { name: 'Accueil', path: '/' },
+        { name: 'Fondamentaux', path: '/fondamentaux' },
+        { name: 'Lire un bilan comptable', path: '/fondamentaux/lire-bilan' }
+      ])} />
+      
       <Header />
       <main>
         {/* Hero Section */}

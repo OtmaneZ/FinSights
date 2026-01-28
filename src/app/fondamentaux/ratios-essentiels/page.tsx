@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import StructuredData from '@/components/StructuredData';
+import { generateArticleJsonLd, generateBreadcrumbJsonLd } from '@/lib/seo';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -22,6 +24,22 @@ import {
 export default function RatiosEssentielsPage() {
   return (
     <main className="min-h-screen bg-white">
+      {/* Article JSON-LD */}
+      <StructuredData data={generateArticleJsonLd({
+        title: 'Les 15 ratios financiers essentiels',
+        description: 'Découvrez les 15 ratios clés pour piloter votre entreprise : liquidité, rentabilité, solvabilité et efficacité.',
+        slug: 'ratios-essentiels',
+        publishedDate: '25 janvier 2026',
+        category: 'Fondamentaux'
+      })} />
+      
+      {/* Breadcrumb JSON-LD */}
+      <StructuredData data={generateBreadcrumbJsonLd([
+        { name: 'Accueil', path: '/' },
+        { name: 'Fondamentaux', path: '/fondamentaux' },
+        { name: 'Les ratios financiers essentiels', path: '/fondamentaux/ratios-essentiels' }
+      ])} />
+      
       <Header />
       
       {/* Hero Section */}

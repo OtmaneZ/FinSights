@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import StructuredData from '@/components/StructuredData';
+import { generateArticleJsonLd, generateBreadcrumbJsonLd } from '@/lib/seo';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -21,6 +23,22 @@ import {
 export default function ComprendreCashFlowPage() {
   return (
     <main className="min-h-screen bg-white">
+      {/* Article JSON-LD */}
+      <StructuredData data={generateArticleJsonLd({
+        title: 'Comprendre le cash flow : guide complet',
+        description: 'Maîtrisez le cash flow de votre entreprise : définition, calcul, optimisation et gestion au quotidien.',
+        slug: 'comprendre-cash-flow',
+        publishedDate: '25 janvier 2026',
+        category: 'Fondamentaux'
+      })} />
+      
+      {/* Breadcrumb JSON-LD */}
+      <StructuredData data={generateBreadcrumbJsonLd([
+        { name: 'Accueil', path: '/' },
+        { name: 'Fondamentaux', path: '/fondamentaux' },
+        { name: 'Comprendre le cash flow', path: '/fondamentaux/comprendre-cash-flow' }
+      ])} />
+      
       <Header />
       
       {/* Hero Section */}

@@ -15,10 +15,28 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StructuredData from "@/components/StructuredData";
+import { generateArticleJsonLd, generateBreadcrumbJsonLd } from "@/lib/seo";
 
 export default function LireCompteResultatPage() {
   return (
     <div className="min-h-screen bg-white">
+      {/* Article JSON-LD */}
+      <StructuredData data={generateArticleJsonLd({
+        title: 'Lire un compte de résultat : guide pratique',
+        description: 'Comprendre le compte de résultat de votre entreprise en 15 minutes : du chiffre d\'affaires au résultat net.',
+        slug: 'lire-compte-resultat',
+        publishedDate: '25 janvier 2026',
+        category: 'Fondamentaux'
+      })} />
+      
+      {/* Breadcrumb JSON-LD */}
+      <StructuredData data={generateBreadcrumbJsonLd([
+        { name: 'Accueil', path: '/' },
+        { name: 'Fondamentaux', path: '/fondamentaux' },
+        { name: 'Lire un compte de résultat', path: '/fondamentaux/lire-compte-resultat' }
+      ])} />
+      
       <Header />
       <main>
         {/* Hero Section */}
