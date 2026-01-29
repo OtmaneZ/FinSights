@@ -79,6 +79,11 @@ export default function Header() {
                        Nos Agents IA
                     </Link>
 
+                    {/* Financial Dashboard IA */}
+                    <Link href="/demo" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Financial Dashboard IA
+                    </Link>
+
                     {/* Ressources Dropdown */}
                     <div className="relative" ref={resourcesRef}>
                         <button
