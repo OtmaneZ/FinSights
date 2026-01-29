@@ -957,6 +957,15 @@ export default function FinancialDashboardV2() {
 
     // Load demo scenario avec animation de progression
     const loadDemoScenario = async (scenario: 'saine' | 'difficulte' | 'croissance') => {
+        // 🔥 VIDER LE SESSIONSTORAGE AVANT DE CHARGER UNE NOUVELLE DÉMO
+        sessionStorage.removeItem('finsight_rawData');
+        sessionStorage.removeItem('finsight_data');
+        
+        // Réinitialiser les états
+        setRawData(null);
+        setFinSightData(null);
+        setIsDataLoaded(false);
+        
         setIsLoadingDemo(true);
         setLoadingProgress(0);
 
@@ -1474,6 +1483,24 @@ export default function FinancialDashboardV2() {
                     </div>
 
                     <div className="flex flex-wrap gap-3">
+                        {/* Bouton Réinitialiser - Nouveau */}
+                        <button
+                            onClick={() => {
+                                // Vider sessionStorage
+                                sessionStorage.removeItem('finsight_rawData');
+                                sessionStorage.removeItem('finsight_data');
+                                // Recharger la page
+                                window.location.reload();
+                            }}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg font-semibold text-sm transition-all"
+                            title="Réinitialiser et charger une nouvelle démo"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            Réinitialiser
+                        </button>
+
                         {/* Bouton Mes Dashboards - NEW */}
                         <button
                             onClick={() => router.push('/dashboard/list')}
