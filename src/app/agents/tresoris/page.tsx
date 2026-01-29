@@ -484,6 +484,304 @@ export default function TresorisPage() {
           </div>
         </section>
 
+        {/* Section 6 Engines IA - Architecture technique */}
+        <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center mb-16"
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 border border-slate-200 mb-6">
+                  <span className="text-sm text-slate-600 font-medium">Architecture technique</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                  6 moteurs d'analyse spécialisés
+                </h2>
+                <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                  Chaque moteur est conçu pour une fonction précise. Ensemble, ils forment un système 
+                  d'analyse financière complet et cohérent.
+                </p>
+              </motion.div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                {/* Engine 1 - Payment Patterns */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-slate-300 transition-all duration-300"
+                >
+                  <div className="p-6 border-b border-slate-100">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center">
+                        <LineChart className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Engine 01</div>
+                        <h3 className="text-lg font-bold text-slate-900">Payment Patterns</h3>
+                      </div>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Analyse l'historique de paiement de chaque client pour identifier les comportements 
+                      récurrents et les dérives progressives.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-slate-50">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Métriques calculées</div>
+                    <ul className="space-y-2 text-sm text-slate-700">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Délai moyen, médian, écart-type</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Taux de paiement à temps vs retard</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Tendance : stable, amélioration, dégradation</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Score de fiabilité 0-100</span>
+                      </li>
+                    </ul>
+                  </div>
+                </motion.div>
+
+                {/* Engine 2 - Client Scoring */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.15 }}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-slate-300 transition-all duration-300"
+                >
+                  <div className="p-6 border-b border-slate-100">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center">
+                        <Target className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Engine 02</div>
+                        <h3 className="text-lg font-bold text-slate-900">Client Scoring</h3>
+                      </div>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Attribue un score de risque pondéré à chaque client, combinant comportement historique, 
+                      tendance et exposition financière.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-slate-50">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Formule de scoring</div>
+                    <div className="bg-white rounded-lg border border-slate-200 p-3 mb-3">
+                      <code className="text-xs text-slate-700 font-mono block break-words">
+                        score = behavior × 0.4 + trend × 0.3 + stability × 0.2 + amount × 0.1
+                      </code>
+                    </div>
+                    <ul className="space-y-2 text-sm text-slate-700">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Rating A/B/C/D avec seuils calibrés</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Explication textuelle pour le DAF</span>
+                      </li>
+                    </ul>
+                  </div>
+                </motion.div>
+
+                {/* Engine 3 - Smart Forecast */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-slate-300 transition-all duration-300"
+                >
+                  <div className="p-6 border-b border-slate-100">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center">
+                        <TrendingUp className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Engine 03</div>
+                        <h3 className="text-lg font-bold text-slate-900">Smart Forecast</h3>
+                      </div>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Prédit la date probable de paiement de chaque facture en attente, avec intervalles 
+                      de confiance et probabilités.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-slate-50">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Sorties du modèle</div>
+                    <ul className="space-y-2 text-sm text-slate-700">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Date de paiement attendue</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Intervalle de confiance (min/max)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Probabilité de paiement à la date prévue</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Impact sur le runway de trésorerie</span>
+                      </li>
+                    </ul>
+                  </div>
+                </motion.div>
+
+                {/* Engine 4 - Early Warning */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.25 }}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-slate-300 transition-all duration-300"
+                >
+                  <div className="p-6 border-b border-slate-100">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center">
+                        <AlertTriangle className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Engine 04</div>
+                        <h3 className="text-lg font-bold text-slate-900">Early Warning</h3>
+                      </div>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Détecte les signaux faibles annonciateurs de problèmes, 15 à 60 jours avant leur 
+                      impact réel sur la trésorerie.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-slate-50">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Types de signaux détectés</div>
+                    <ul className="space-y-2 text-sm text-slate-700">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Dégradation progressive des délais</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Paiements partiels répétés</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Concentration du risque client</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Périodes saisonnières à risque</span>
+                      </li>
+                    </ul>
+                  </div>
+                </motion.div>
+
+                {/* Engine 5 - Action Optimizer */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-slate-300 transition-all duration-300"
+                >
+                  <div className="p-6 border-b border-slate-100">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center">
+                        <Zap className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Engine 05</div>
+                        <h3 className="text-lg font-bold text-slate-900">Action Optimizer</h3>
+                      </div>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Priorise les actions recommandées selon leur impact potentiel et leur facilité 
+                      d'exécution, pour maximiser l'efficacité.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-slate-50">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Algorithme de priorisation</div>
+                    <div className="bg-white rounded-lg border border-slate-200 p-3 mb-3">
+                      <code className="text-xs text-slate-700 font-mono block">
+                        priority = impact × 0.7 + ease × 0.3
+                      </code>
+                    </div>
+                    <ul className="space-y-2 text-sm text-slate-700">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Maximum 3 actions par analyse</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Identification des quick wins</span>
+                      </li>
+                    </ul>
+                  </div>
+                </motion.div>
+
+                {/* Engine 6 - Seasonality */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.35 }}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-slate-300 transition-all duration-300"
+                >
+                  <div className="p-6 border-b border-slate-100">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center">
+                        <Calendar className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500 font-medium uppercase tracking-wide">Engine 06</div>
+                        <h3 className="text-lg font-bold text-slate-900">Seasonality</h3>
+                      </div>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Ajuste les prévisions et les alertes en fonction des variations saisonnières 
+                      connues du comportement de paiement.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-slate-50">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Facteurs saisonniers</div>
+                    <ul className="space-y-2 text-sm text-slate-700">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Août : +30% de retards attendus</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Décembre : +15% (clôtures)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Avril : +10% (période fiscale)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5 flex-shrink-0"></span>
+                        <span>Calibrage possible par secteur</span>
+                      </li>
+                    </ul>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Comment ça marche */}
         <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-24">
           {/* Background Image */}
@@ -742,6 +1040,382 @@ export default function TresorisPage() {
                       <li>• Audit logs</li>
                     </ul>
                   </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section Workflow de l'agent */}
+        <section className="py-24 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-5xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center mb-16"
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 border border-slate-200 mb-6">
+                  <span className="text-sm text-slate-600 font-medium">Fonctionnement</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                  Comment l'agent analyse et décide
+                </h2>
+                <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                  Un cycle complet en 6 étapes, de l'ingestion des données jusqu'à 
+                  la validation humaine et l'apprentissage continu.
+                </p>
+              </motion.div>
+
+              {/* Timeline verticale */}
+              <div className="relative">
+                {/* Ligne verticale */}
+                <div className="absolute left-8 top-0 bottom-0 w-px bg-slate-200 hidden md:block"></div>
+
+                <div className="space-y-8">
+                  {/* Étape 1 */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    className="relative flex gap-6"
+                  >
+                    <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-slate-900 text-white font-bold text-xl flex items-center justify-center z-10">
+                      01
+                    </div>
+                    <div className="flex-1 bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                      <h3 className="text-xl font-bold text-slate-900 mb-2">Ingestion des données</h3>
+                      <p className="text-slate-600 mb-4">
+                        Import des factures clients depuis votre logiciel comptable ou fichier CSV. 
+                        Colonnes attendues : identifiant client, date d'échéance, date de paiement, montant, statut.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-3 py-1 bg-white rounded-lg text-xs font-medium text-slate-600 border border-slate-200">CSV / Excel</span>
+                        <span className="px-3 py-1 bg-white rounded-lg text-xs font-medium text-slate-600 border border-slate-200">Pennylane API</span>
+                        <span className="px-3 py-1 bg-white rounded-lg text-xs font-medium text-slate-600 border border-slate-200">Quickbooks</span>
+                        <span className="px-3 py-1 bg-white rounded-lg text-xs font-medium text-slate-600 border border-slate-200">Sage</span>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Étape 2 */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 }}
+                    className="relative flex gap-6"
+                  >
+                    <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-slate-900 text-white font-bold text-xl flex items-center justify-center z-10">
+                      02
+                    </div>
+                    <div className="flex-1 bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                      <h3 className="text-xl font-bold text-slate-900 mb-2">Analyse parallèle</h3>
+                      <p className="text-slate-600 mb-4">
+                        Les 6 moteurs s'exécutent simultanément sur l'ensemble du portefeuille. 
+                        Temps de traitement inférieur à 60 secondes pour 100 factures.
+                      </p>
+                      <div className="grid grid-cols-3 gap-2 text-xs">
+                        <div className="bg-white rounded-lg p-2 border border-slate-200 text-center text-slate-600">Payment Patterns</div>
+                        <div className="bg-white rounded-lg p-2 border border-slate-200 text-center text-slate-600">Client Scoring</div>
+                        <div className="bg-white rounded-lg p-2 border border-slate-200 text-center text-slate-600">Smart Forecast</div>
+                        <div className="bg-white rounded-lg p-2 border border-slate-200 text-center text-slate-600">Early Warning</div>
+                        <div className="bg-white rounded-lg p-2 border border-slate-200 text-center text-slate-600">Action Optimizer</div>
+                        <div className="bg-white rounded-lg p-2 border border-slate-200 text-center text-slate-600">Seasonality</div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Étape 3 */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 }}
+                    className="relative flex gap-6"
+                  >
+                    <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-slate-900 text-white font-bold text-xl flex items-center justify-center z-10">
+                      03
+                    </div>
+                    <div className="flex-1 bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                      <h3 className="text-xl font-bold text-slate-900 mb-2">Requalification des risques</h3>
+                      <p className="text-slate-600 mb-4">
+                        Chaque encaissement attendu est classé selon sa probabilité de réalisation.
+                      </p>
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="bg-white rounded-lg p-3 border border-slate-200">
+                          <div className="text-sm font-semibold text-slate-900 mb-1">CERTAIN</div>
+                          <div className="text-xs text-slate-500">Score &gt; 85</div>
+                          <div className="text-xs text-slate-500">Encaissement très probable</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-3 border border-slate-200">
+                          <div className="text-sm font-semibold text-slate-900 mb-1">INCERTAIN</div>
+                          <div className="text-xs text-slate-500">Score 60-85</div>
+                          <div className="text-xs text-slate-500">Doute raisonnable</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-3 border border-slate-200">
+                          <div className="text-sm font-semibold text-slate-900 mb-1">CRITIQUE</div>
+                          <div className="text-xs text-slate-500">Score &lt; 60</div>
+                          <div className="text-xs text-slate-500">Action requise</div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Étape 4 */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 }}
+                    className="relative flex gap-6"
+                  >
+                    <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-slate-900 text-white font-bold text-xl flex items-center justify-center z-10">
+                      04
+                    </div>
+                    <div className="flex-1 bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                      <h3 className="text-xl font-bold text-slate-900 mb-2">Proposition d'actions</h3>
+                      <p className="text-slate-600 mb-4">
+                        L'agent génère maximum 3 actions prioritaires, chacune liée à un risque identifié. 
+                        Chaque action inclut sa justification et son impact estimé.
+                      </p>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3 bg-white rounded-lg p-3 border border-slate-200">
+                          <span className="px-2 py-1 bg-slate-900 text-white text-xs font-bold rounded">P1</span>
+                          <span className="text-sm text-slate-700">Action immédiate — Impact élevé</span>
+                        </div>
+                        <div className="flex items-center gap-3 bg-white rounded-lg p-3 border border-slate-200">
+                          <span className="px-2 py-1 bg-slate-700 text-white text-xs font-bold rounded">P2</span>
+                          <span className="text-sm text-slate-700">Action cette semaine — Impact modéré</span>
+                        </div>
+                        <div className="flex items-center gap-3 bg-white rounded-lg p-3 border border-slate-200">
+                          <span className="px-2 py-1 bg-slate-500 text-white text-xs font-bold rounded">P3</span>
+                          <span className="text-sm text-slate-700">Action sous 2 semaines — Prévention</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Étape 5 */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 }}
+                    className="relative flex gap-6"
+                  >
+                    <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-slate-900 text-white font-bold text-xl flex items-center justify-center z-10">
+                      05
+                    </div>
+                    <div className="flex-1 bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                      <h3 className="text-xl font-bold text-slate-900 mb-2">Validation humaine</h3>
+                      <p className="text-slate-600 mb-4">
+                        L'agent attend systématiquement la validation du DAF ou du dirigeant avant toute considération d'action. 
+                        Aucune décision n'est exécutée automatiquement.
+                      </p>
+                      <div className="flex gap-4">
+                        <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-slate-200">
+                          <CheckCircle2 className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm text-slate-700">Approuver</span>
+                        </div>
+                        <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-slate-200">
+                          <AlertTriangle className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm text-slate-700">Rejeter</span>
+                        </div>
+                        <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-slate-200">
+                          <Clock className="w-4 h-4 text-slate-600" />
+                          <span className="text-sm text-slate-700">Reporter</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Étape 6 */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 }}
+                    className="relative flex gap-6"
+                  >
+                    <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-slate-900 text-white font-bold text-xl flex items-center justify-center z-10">
+                      06
+                    </div>
+                    <div className="flex-1 bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                      <h3 className="text-xl font-bold text-slate-900 mb-2">Apprentissage continu</h3>
+                      <p className="text-slate-600">
+                        4 semaines après chaque analyse, le système compare ses prédictions aux résultats réels. 
+                        Ce feedback permet d'affiner les modèles et d'améliorer la précision au fil du temps.
+                      </p>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section Audit Trail & Gouvernance */}
+        <section className="py-24 bg-gradient-to-b from-white to-slate-50">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center mb-16"
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 border border-slate-200 mb-6">
+                  <span className="text-sm text-slate-600 font-medium">Traçabilité et conformité</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                  Audit trail complet
+                </h2>
+                <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                  Chaque analyse, chaque décision, chaque résultat est enregistré. 
+                  Pour la gouvernance, la conformité et l'amélioration continue.
+                </p>
+              </motion.div>
+
+              <div className="grid md:grid-cols-2 gap-8 mb-12">
+                {/* Colonne gauche - Ce qui est tracé */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden"
+                >
+                  <div className="p-6 border-b border-slate-100 bg-slate-50">
+                    <h3 className="text-lg font-bold text-slate-900">Ce qui est enregistré</h3>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                        <BarChart3 className="w-5 h-5 text-slate-600" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-slate-900 text-sm">Analyses</div>
+                        <div className="text-sm text-slate-600">Risques détectés, scores calculés, alertes générées</div>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                        <Users className="w-5 h-5 text-slate-600" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-slate-900 text-sm">Décisions DAF</div>
+                        <div className="text-sm text-slate-600">Actions approuvées, rejetées, commentaires</div>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                        <TrendingUp className="w-5 h-5 text-slate-600" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-slate-900 text-sm">Résultats réels</div>
+                        <div className="text-sm text-slate-600">Paiements effectifs vs prédictions, écarts observés</div>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                        <Clock className="w-5 h-5 text-slate-600" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-slate-900 text-sm">Horodatage complet</div>
+                        <div className="text-sm text-slate-600">Date et heure de chaque événement, durée des analyses</div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Colonne droite - Exemple de trace */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden"
+                >
+                  <div className="p-6 border-b border-slate-100 bg-slate-50">
+                    <h3 className="text-lg font-bold text-slate-900">Exemple de trace</h3>
+                  </div>
+                  <div className="p-6">
+                    <div className="space-y-4 font-mono text-xs">
+                      {/* Trace 1 */}
+                      <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                        <div className="flex justify-between mb-2">
+                          <span className="text-slate-500">29/01/2026 09:15:22</span>
+                          <span className="px-2 py-0.5 bg-slate-200 rounded text-slate-600">ANALYSIS</span>
+                        </div>
+                        <div className="text-slate-700">
+                          5 risques détectés sur 7 clients<br />
+                          Montant exposé : 280 000 EUR<br />
+                          3 actions proposées
+                        </div>
+                      </div>
+                      {/* Trace 2 */}
+                      <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                        <div className="flex justify-between mb-2">
+                          <span className="text-slate-500">29/01/2026 10:42:08</span>
+                          <span className="px-2 py-0.5 bg-slate-200 rounded text-slate-600">DECISION</span>
+                        </div>
+                        <div className="text-slate-700">
+                          Action P1 approuvée par M. Dupont<br />
+                          Action P2 approuvée<br />
+                          Action P3 rejetée : &quot;Non prioritaire&quot;
+                        </div>
+                      </div>
+                      {/* Trace 3 */}
+                      <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                        <div className="flex justify-between mb-2">
+                          <span className="text-slate-500">26/02/2026 09:00:00</span>
+                          <span className="px-2 py-0.5 bg-slate-200 rounded text-slate-600">OUTCOME</span>
+                        </div>
+                        <div className="text-slate-700">
+                          Client CLI_005 : paiement reçu J-5<br />
+                          Prédiction validée, scoring renforcé<br />
+                          Gain trésorerie : +50 000 EUR
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Bénéfices */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="grid sm:grid-cols-3 gap-6"
+              >
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 text-center">
+                  <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-4">
+                    <Shield className="w-6 h-6 text-slate-600" />
+                  </div>
+                  <h4 className="font-bold text-slate-900 mb-2">Conformité</h4>
+                  <p className="text-sm text-slate-600">
+                    Piste d'audit complète pour les commissaires aux comptes et auditeurs
+                  </p>
+                </div>
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 text-center">
+                  <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-4">
+                    <TrendingUp className="w-6 h-6 text-slate-600" />
+                  </div>
+                  <h4 className="font-bold text-slate-900 mb-2">Amélioration</h4>
+                  <p className="text-sm text-slate-600">
+                    Comparaison prédictions vs réalité pour affiner les modèles
+                  </p>
+                </div>
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 text-center">
+                  <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-4">
+                    <DollarSign className="w-6 h-6 text-slate-600" />
+                  </div>
+                  <h4 className="font-bold text-slate-900 mb-2">ROI mesurable</h4>
+                  <p className="text-sm text-slate-600">
+                    Quantification précise des gains de trésorerie générés
+                  </p>
                 </div>
               </motion.div>
             </div>
