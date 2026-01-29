@@ -8,7 +8,7 @@ import {
 
 interface Alert {
     id: string;
-    type: 'critical' | 'warning' | 'success';
+    type: 'critical' | 'warning' | 'success' | 'info';
     title: string;
     message: string;
     actions: string[];
@@ -19,12 +19,24 @@ interface Alert {
     };
 }
 
+// Interface pour les alertes venant du demo config JSON
+export interface DemoAlert {
+    type: 'critical' | 'warning' | 'info';
+    title: string;
+    description: string;
+    value: number;
+    threshold: number;
+    actions: string[];
+}
+
 interface AlertsPanelProps {
     dso?: number;
     cashFlow?: number;
     netMargin?: number;
     grossMargin?: number;
     bfr?: number;
+    // Nouvelles props pour alertes externes (mode demo)
+    externalAlerts?: DemoAlert[];
 }
 
 export const AlertsPanel: React.FC<AlertsPanelProps> = ({
@@ -33,7 +45,24 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
     netMargin,
     grossMargin,
     bfr,
+    externalAlerts,
 }) => {
+    // Convertit les alertes demo config en format Alert interne
+    const convertExternalAlerts = (external: DemoAlert[]): Alert[] => {
+        return external.map((alert, index) => ({
+            id: `external-${index}`,
+            type: alert.type === 'info' ? 'success' : alert.type, // 'info' devient 'success' pour le styling
+            title: alert.title,
+            message: alert.description,
+            actions: alert.actions,
+            metric: {
+                current: alert.value,
+                threshold: alert.threshold,
+                unit: alert.value > 100 ? '€' : (alert.value <= 1 ? 'mois' : '%'),
+            },
+        }));
+    };
+
     const generateAlerts = (): Alert[] => {
         const alerts: Alert[] = [];
 
@@ -159,7 +188,10 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
         return alerts;
     };
 
-    const alerts = generateAlerts();
+    // Utilise les alertes externes (demo config) si disponibles, sinon génère automatiquement
+    const alerts = externalAlerts && externalAlerts.length > 0 
+        ? convertExternalAlerts(externalAlerts) 
+        : generateAlerts();
 
     const getAlertIcon = (type: Alert['type']) => {
         switch (type) {
@@ -168,6 +200,7 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
             case 'warning':
                 return <ExclamationTriangleIcon className="w-6 h-6 text-orange-500" />;
             case 'success':
+            case 'info':
                 return <CheckCircleIcon className="w-6 h-6 text-emerald-600" />;
         }
     };
@@ -179,6 +212,7 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
             case 'warning':
                 return 'border-l-orange-500 bg-orange-50';
             case 'success':
+            case 'info':
                 return 'border-l-emerald-600 bg-emerald-50';
         }
     };
@@ -190,6 +224,7 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({
             case 'warning':
                 return 'text-orange-900';
             case 'success':
+            case 'info':
                 return 'text-emerald-900';
         }
     };

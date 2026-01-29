@@ -18,8 +18,9 @@
         "netMargin": 7.0,
         "cashFlow": {
             "value": 20000,
-            "runway": 18,
-            "severity": "neutral"
+            "runway": 0.9,
+            "severity": "critical",
+            "comment": "Runway réel = Cash (20k€) / Burn mensuel moyen (22k€) = 0.9 mois - CRITIQUE en basse saison"
         },
         "dso": {
             "value": 8,
@@ -178,29 +179,39 @@
     ],
     "alerts": [
         {
+            "type": "critical",
+            "title": "🚨 URGENCE: Runway critique < 1 mois",
+            "description": "Avec 20k€ de cash et un burn de 22k€/mois en basse saison, votre runway réel est de 0.9 mois. Risque de rupture de trésorerie imminent en Q1.",
+            "value": 0.9,
+            "threshold": 3,
+            "actions": [
+                "🔴 ACTION IMMÉDIATE: Négocier une ligne de crédit court terme (50-80k€)",
+                "Contacter votre banquier CETTE SEMAINE pour anticiper les besoins Q1",
+                "Calculer le besoin de financement exact: (22k€ x 8 mois) - 20k€ = 156k€",
+                "Constituer une réserve de 3 mois minimum en Q4 pour financer Q1-Q3"
+            ]
+        },
+        {
             "type": "warning",
-            "title": "Saisonnalité extrême détectée",
-            "description": "80% du CA concentré sur Q4 (oct-déc). Cash flow négatif 8 mois/an. Risque de trésorerie structurel.",
+            "title": "⚠️ Saisonnalité extrême détectée",
+            "description": "80% du CA concentré sur Q4 (oct-déc). Cash flow négatif 8 mois/an. Structure financière fragile.",
             "value": 80,
             "threshold": 50,
             "actions": [
-                "⚠️ PRIORITÉ: Constituer une réserve de trésorerie en Q4 pour financer Q1-Q3",
-                "Négocier une ligne de crédit court terme avec votre banque (50-80k€)",
-                "Calculer le BFR max par mois pour anticiper les besoins de financement",
-                "Diversifier les sources de revenus (abonnements, services) pour lisser",
-                "Optimiser les stocks : réappro tardif septembre pour réduire coûts de portage"
+                "Diversifier les sources de revenus (abonnements, services) pour lisser le CA",
+                "Optimiser les stocks : réappro tardif septembre pour réduire coûts de portage",
+                "Envisager l'affacturage pour les créances Q4 si tension"
             ]
         },
         {
             "type": "info",
-            "title": "Opportunité d'optimisation fiscale",
+            "title": "💡 Opportunité d'optimisation fiscale",
             "description": "Profil PME avec forte saisonnalité : IS calculé sur bénéfice annuel (20k€). Possibilité de provisions Q4.",
             "value": 20000,
             "threshold": 0,
             "actions": [
                 "Consulter expert-comptable pour provisions réglementées",
-                "Investir en Q4 (matériel, R&D) pour lisser la charge fiscale",
-                "Envisager un PEE/PERCO pour optimiser charges sociales"
+                "Investir en Q4 (matériel, R&D) pour lisser la charge fiscale"
             ]
         }
     ],

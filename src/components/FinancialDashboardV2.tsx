@@ -36,7 +36,7 @@ import { SunburstExpensesChart } from './charts/SunburstExpensesChart'
 
 // Import Components
 import { BenchmarkBar } from './BenchmarkBar'
-import { AlertsPanel } from './AlertsPanel'
+import { AlertsPanel, DemoAlert } from './AlertsPanel'
 import { CompanyInfoModal, CompanySector } from './CompanyInfoModal'
 import { DataPreviewPanel } from './DataPreviewPanel'
 import { AnomalyPanel } from './AnomalyPanel'
@@ -190,6 +190,9 @@ export default function FinancialDashboardV2() {
     const [predictionAlerts, setPredictionAlerts] = useState<PredictionAlert[]>([]);
     const [seasonalityDetected, setSeasonalityDetected] = useState(false);
     const [isLoadingPredictions, setIsLoadingPredictions] = useState(false);
+
+    // Demo alerts from config JSON (rich alerts with actions)
+    const [demoAlerts, setDemoAlerts] = useState<DemoAlert[]>([]);
 
     // SaaS Metrics state
     const [saasMetrics, setSaasMetrics] = useState<SaaSMetrics | null>(null);
@@ -965,6 +968,7 @@ export default function FinancialDashboardV2() {
         setRawData(null);
         setFinSightData(null);
         setIsDataLoaded(false);
+        setDemoAlerts([]);  // Reset demo alerts
         
         setIsLoadingDemo(true);
         setLoadingProgress(0);
@@ -1133,6 +1137,9 @@ export default function FinancialDashboardV2() {
                 };
                 (window as any).__demoAnomalies = demoConfig.anomalies;
                 (window as any).__demoAlerts = demoConfig.alerts;
+                
+                // 🆕 Set demo alerts in state for AlertsPanel
+                setDemoAlerts(demoConfig.alerts || []);
 
                 await new Promise(resolve => setTimeout(resolve, 500));
                 setIsLoadingDemo(false);
@@ -1483,57 +1490,60 @@ export default function FinancialDashboardV2() {
                     </div>
 
                     <div className="flex flex-wrap gap-3">
-                        {/* Bouton Réinitialiser - Nouveau */}
+                        {/* Bouton principal: Importer */}
                         <button
-                            onClick={() => {
-                                // Vider sessionStorage
-                                sessionStorage.removeItem('finsight_rawData');
-                                sessionStorage.removeItem('finsight_data');
-                                // Recharger la page
-                                window.location.reload();
-                            }}
-                            className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg font-semibold text-sm transition-all"
-                            title="Réinitialiser et charger une nouvelle démo"
+                            onClick={() => document.getElementById('dashboard-file-input')?.click()}
+                            className="inline-flex items-center gap-2 px-6 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-sm transition-all shadow-sm hover:shadow-md"
                         >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                            Réinitialiser
+                            <Upload className="w-4 h-4" />
+                            Importer Données
                         </button>
 
-                        {/* Bouton Mes Dashboards - NEW */}
+                        {/* Bouton secondaire: Mes Dashboards */}
                         <button
                             onClick={() => router.push('/dashboard/list')}
-                            className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-accent-primary text-accent-primary hover:bg-accent-primary-subtle rounded-lg font-semibold text-sm transition-all"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg text-sm transition-all"
                         >
                             <FolderOpen className="w-4 h-4" />
                             Mes Dashboards
                         </button>
 
-                        <button
-                            onClick={exportToPDF}
-                            disabled={isExporting}
-                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-md disabled:opacity-50"
-                        >
-                            <Download className="w-4 h-4" />
-                            {isExporting ? 'Export...' : 'Export PDF'}
-                        </button>
+                        {/* Groupe Export */}
+                        <div className="flex gap-2">
+                            <button
+                                onClick={exportToPDF}
+                                disabled={isExporting}
+                                className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg text-sm transition-all disabled:opacity-50"
+                                title="Exporter en PDF"
+                            >
+                                <Download className="w-4 h-4" />
+                                PDF
+                            </button>
 
-                        <button
-                            onClick={exportToExcel}
-                            disabled={isExporting}
-                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-success hover:bg-accent-success-hover text-white rounded-lg font-semibold text-sm transition-all hover:shadow-md disabled:opacity-50"
-                        >
-                            <FileText className="w-4 h-4" />
-                            {isExporting ? 'Export...' : 'Export Excel'}
-                        </button>
+                            <button
+                                onClick={exportToExcel}
+                                disabled={isExporting}
+                                className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg text-sm transition-all disabled:opacity-50"
+                                title="Exporter en Excel"
+                            >
+                                <FileText className="w-4 h-4" />
+                                Excel
+                            </button>
+                        </div>
 
+                        {/* Bouton Reset - Très discret */}
                         <button
-                            onClick={() => document.getElementById('dashboard-file-input')?.click()}
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-border-default hover:border-accent-primary-border text-primary rounded-lg font-semibold text-sm transition-all hover:bg-surface-elevated"
+                            onClick={() => {
+                                sessionStorage.removeItem('finsight_rawData');
+                                sessionStorage.removeItem('finsight_data');
+                                window.location.reload();
+                            }}
+                            className="inline-flex items-center gap-1.5 px-3 py-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg text-sm transition-all"
+                            title="Réinitialiser"
                         >
-                            <Upload className="w-4 h-4" />
-                            Importer Données
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
                         </button>
 
                         {/* Hidden file input */}
@@ -1926,6 +1936,7 @@ export default function FinancialDashboardV2() {
                                 dso={parseFloat(kpis.find(k => k.title.includes('DSO'))?.value.replace(/[^\d.-]/g, '') || '0')}
                                 cashFlow={parseFloat(kpis.find(k => k.title.includes('Cash'))?.value.replace(/[^\d.-]/g, '') || '0')}
                                 netMargin={parseFloat(kpis.find(k => k.title.includes('Marge'))?.value.replace(/[^\d.-]/g, '') || '0')}
+                                externalAlerts={demoAlerts}
                             />
                         </div>
                     )}
