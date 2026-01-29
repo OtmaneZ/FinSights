@@ -25,22 +25,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    // 🔐 Récupérer session utilisateur
+    // � SESSION OPTIONNELLE (public access pour démo)
     const session = await getServerSession(req, res, authOptions);
     
-    if (!session?.user) {
-        return res.status(401).json({ error: 'Authentification requise' });
-    }
-
-    const isAuthenticated = true;
-    const userId = session.user.id;
-    const userPlan = (session.user.plan as any) || 'FREE';
+    const isAuthenticated = !!session?.user;
+    const userId = session?.user?.id || null;
+    const userPlan = (session?.user?.plan as any) || 'FREE';
     const clientIP = getClientIP(req);
 
-    // Identifier : userId (toujours présent car auth requise)
-    const identifier = userId;
+    // Identifier : userId si connecté, sinon IP
+    const identifier = userId || clientIP;
 
-    // 🛡️ RATE LIMITING pour uploads (5/mois pour FREE)
+    // 🛡️ RATE LIMITING pour uploads
+    // - Connecté FREE: 5/mois
+    // - Non connecté (IP): 3/jour
     const rateLimit = await checkUnifiedRateLimit(
         identifier,
         'uploads',
@@ -245,7 +243,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (!validation.valid) {
             // 📊 Log failed parse (data quality issues)
             await logParseAttempt({
-                userId,
+                userId: userId || undefined,
                 fileName,
                 fileSize,
                 mimeType: fileType,
@@ -265,7 +263,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // 📊 Log successful parse
         await logParseAttempt({
-            userId,
+            userId: userId || undefined,
             fileName,
             fileSize,
             mimeType: fileType,
@@ -382,7 +380,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // 📊 Log error
         await logParseAttempt({
-            userId,
+            userId: userId || undefined,
             fileName,
             fileSize,
             mimeType: fileType,

@@ -37,6 +37,15 @@ interface AIParseResult {
 export async function parseWithAI(textContent: string, mode: 'full' | 'sample' = 'full'): Promise<AIParseResult> {
     logger.debug(`[AI Parser] Début du parsing avec IA (mode: ${mode})...`);
 
+    // ⚠️ Si pas de clé API, retourner erreur (fallback sera utilisé)
+    if (!process.env.OPENAI_API_KEY) {
+        logger.warn('[AI Parser] ⚠️ OPENAI_API_KEY non définie, skip parsing IA');
+        return {
+            success: false,
+            error: 'IA indisponible (clé API manquante)',
+        };
+    }
+
     // Stratégie adaptative selon la taille du fichier
     const MAX_INPUT_LENGTH = mode === 'sample' ? 15000 : 50000;
     const truncatedContent = textContent.length > MAX_INPUT_LENGTH
