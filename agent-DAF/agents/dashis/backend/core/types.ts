@@ -152,12 +152,24 @@ export interface SimulationResult {
 
 export interface Anomaly {
     id: string;
-    type: string;
+    type: 'amount_outlier' | 'payment_delay' | 'category_spike' | 'duplicate';
     severity: 'low' | 'medium' | 'high';
+    title: string;
     description: string;
-    value: number;
-    expectedRange: { min: number; max: number };
     date: string;
+    confidence: number;
+    
+    // Optional fields from ML detector
+    value?: number;
+    expectedRange?: { min: number; max: number };
+    metadata?: {
+        amount?: number;
+        counterparty?: string;
+        category?: string;
+        expectedValue?: number;
+        actualValue?: number;
+        deviation?: number;
+    };
 }
 
 export interface CashFlowPrediction {
@@ -172,40 +184,67 @@ export interface CashFlowPrediction {
 }
 
 export interface AdvancedPattern {
-    id: string;
-    type: string;
+    id?: string; // Optional for compatibility with AI API
+    type: 'seasonality' | 'correlation' | 'client_behavior' | 'cost_structure' | 'opportunity' | 'risk_signal';
+    title: string;
     description: string;
-    impact: 'positive' | 'negative' | 'neutral';
+    insight: string;
+    impact?: string;
     confidence: number;
-    recommendations?: string[];
+}
+
+export type ScoreLevel = 'critical' | 'warning' | 'good' | 'excellent';
+export type ScoreConfidence = 'low' | 'medium' | 'high';
+
+export interface ScoreBreakdown {
+    cash: number;
+    margin: number;
+    resilience: number;
+    risk: number;
+}
+
+export interface DataQualityInfo {
+    recordCount: number;
+    hasRevenue: boolean;
+    hasExpenses: boolean;
+    counterpartyRate: number;
+    categoryRate: number;
+    timeSpanMonths: number;
 }
 
 export interface FinSightScore {
-    score: number; // 0-100
-    grade: string; // A+, A, B, C, D, E
-    color: string;
-    breakdown: {
-        cashFlow: number;
-        profitability: number;
-        efficiency: number;
-        growth: number;
-    };
+    total: number; // 0-100
+    level: ScoreLevel;
+    confidence: ScoreConfidence;
+    breakdown: ScoreBreakdown;
+    insights: string[];
     recommendations: string[];
-    strengths: string[];
-    weaknesses: string[];
+    dataQuality: DataQualityInfo;
+    calculatedAt: Date;
+}
+
+export interface PredictionAlert {
+    type: 'warning' | 'danger' | 'info';
+    message: string;
+    month?: string;
 }
 
 export interface AnalysisResult {
+    // ML/AI Results
     anomalies: Anomaly[];
-    predictions: CashFlowPrediction[];
+    cashFlowPredictions: CashFlowPrediction[];
+    predictionAlerts: PredictionAlert[];
     patterns: AdvancedPattern[];
-    score: FinSightScore | null;
+    finSightScore: FinSightScore | null;
     seasonalityDetected: boolean;
-    alerts: Array<{
-        type: 'warning' | 'danger' | 'info';
-        message: string;
-        month?: string;
-    }>;
+    
+    // Metadata
+    metadata: {
+        analyzedAt: Date;
+        recordCount: number;
+        modulesExecuted: string[];
+        executionTimeMs: number;
+    };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -242,9 +281,11 @@ export interface AgentState {
 export interface AgentConfig {
     companyName?: string;
     sector?: string;
+    teamSize?: number;
     autoAnalyze?: boolean;        // Auto-lancer ML/AI après load
     enableSimulations?: boolean;  // Activer What-If
     enableRealtime?: boolean;     // Pusher WebSocket
+    enableCache?: boolean;        // Enable caching
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -252,8 +293,11 @@ export interface AgentConfig {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export type AgentCapability = 
+    | 'data-processing'
     | 'kpi-calculation'
     | 'anomaly-detection'
+    | 'ml-analysis'
+    | 'ai-predictions'
     | 'cash-flow-prediction'
     | 'pattern-detection'
     | 'scoring'
