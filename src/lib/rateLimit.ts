@@ -7,6 +7,9 @@ import { kv } from '@vercel/kv';
 import type { Plan } from '@prisma/client';
 import { logger } from '@/lib/logger';
 
+// Check if Vercel KV is configured
+const isKVConfigured = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+
 // ============================================
 // RATE LIMITS BY PLAN (per day)
 // Version finale optimale (ChatGPT + Otmane)
@@ -69,6 +72,20 @@ export async function checkUnifiedRateLimit(
     userPlan: Plan = 'FREE',
     isAuthenticated: boolean = false
 ): Promise<UnifiedRateLimitResult> {
+
+    // ============================================
+    // DEV MODE: Skip rate limiting if KV not configured
+    // ============================================
+    if (!isKVConfigured) {
+        logger.debug('[RateLimit] Vercel KV not configured - allowing request (dev mode)');
+        return {
+            allowed: true,
+            current: 0,
+            limit: 999,
+            remaining: 999,
+            resetAt: null
+        };
+    }
 
     // ============================================
     // CAS 1: User NON CONNECTÉ (IP-based)

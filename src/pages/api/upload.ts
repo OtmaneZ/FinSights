@@ -68,6 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         fileType = fileData.fileType || '';
         const fileContent = fileData.fileContent;
         const companyId = fileData.companyId;
+        const isDemo = fileData.isDemo || false; // Flag to skip AI for demos
 
         if (!fileContent) {
             return res.status(400).json({ error: 'No file content provided' });
@@ -149,7 +150,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         logger.debug(`[Upload] ✅ Validation CSV réussie (${csvValidation.lineCount} transactions détectées)`);
 
-        // � STRATÉGIE HYBRIDE INTELLIGENTE
+        // 🎬 DÉMOS : Skip AI, use classic parser only
+        if (isDemo) {
+            logger.info('[Upload] 🎭 Mode DEMO détecté - Skip parsing IA, parser classique uniquement');
+            const classicParseResult = parseCSV(csvContent);
+
+            if (!classicParseResult.success || !classicParseResult.data?.records) {
+                logger.error('[Upload] ❌ Parser classique échoué sur demo');
+                return res.status(400).json({
+                    error: 'Impossible de traiter ce fichier de démo',
+                    details: classicParseResult.errors?.map(e => e.message).join(', ')
+                });
+            }
+
+            logger.info(`[Upload] ✅ Demo parsed: ${classicParseResult.data.records.length} transactions`);
+
+            // Process data (minimal processing for demos)
+            const processedData = processFinancialData(classicParseResult.data.records, 'demo-upload');
+            const capabilities = detectCapabilities([], processedData.records);
+            const dashboardKPIs = generateAdaptiveKPIs(processedData, capabilities);
+
+            return res.status(200).json({
+                success: true,
+                data: classicParseResult.data.records,
+                financialData: processedData,
+                kpis: dashboardKPIs,
+                capabilities,
+                rawData: classicParseResult.data,
+                message: `✅ ${classicParseResult.data.records.length} transactions analysées (Mode Demo - No AI)`
+            });
+        }
+
+        // � STRATÉGIE HYBRIDE INTELLIGENTE (non-demo files only)
         // Fichiers < 500 lignes : IA fait tout (nettoyage + parsing)
         // Fichiers > 500 lignes : Parser Classique (exhaustif) + IA échantillon (enrichissement)
         const lineCount = csvValidation.lineCount || 0;

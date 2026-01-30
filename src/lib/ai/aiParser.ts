@@ -2,16 +2,25 @@ import OpenAI from 'openai';
 import { FinancialRecord, ProcessedData } from '@/lib/dataModel';
 import { logger } from '@/lib/logger';
 
-// Initialiser le client OpenAI configuré pour OpenRouter
-// OpenRouter est compatible avec l'API OpenAI, il suffit de changer l'URL de base
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY, // Votre clé OpenRouter
-    baseURL: 'https://openrouter.ai/api/v1',
-    defaultHeaders: {
-        'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://finsights.app',
-        'X-Title': 'FinSight',
+// Client OpenAI initialisé de façon lazy (seulement si clé API présente)
+let openaiClient: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI | null {
+    if (!process.env.OPENAI_API_KEY) {
+        return null;
     }
-});
+    if (!openaiClient) {
+        openaiClient = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+            baseURL: 'https://openrouter.ai/api/v1',
+            defaultHeaders: {
+                'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://finsights.app',
+                'X-Title': 'FinSight',
+            }
+        });
+    }
+    return openaiClient;
+}
 
 // Modèles disponibles par taille de fichier
 const AI_MODELS = {
@@ -96,6 +105,15 @@ export async function parseWithAI(textContent: string, mode: 'full' | 'sample' =
     `;
 
     try {
+        // Obtenir le client OpenAI (lazy init)
+        const openai = getOpenAIClient();
+        if (!openai) {
+            return {
+                success: false,
+                error: 'IA indisponible (client non initialisé)',
+            };
+        }
+
         // Sélectionner le modèle optimal selon la taille
         const lineCount = textContent.split('\n').length;
         const selectedModel = lineCount > 500 ? AI_MODELS.LARGE_FILE : AI_MODELS.SMALL_FILE;

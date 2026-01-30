@@ -1,3 +1,81 @@
-date,amount,type,description,counterparty,category
-2024-01-15,3500,income,Vente en ligne,Client particulier,Ventes
-2024-01-20,8200,expense,Achats marchandises,Fournisseur Chine,Achats
+Date,Description,Montant,Client,Date_echeance,Statut_paiement,Categorie,Prix_vente,Cout_unitaire
+05/01/2024,Vente en ligne - Période creuse janvier,1850.00,Client Web Janvier,20/01/2024,Payé,Ventes E-commerce,1850.00,1295.00
+08/01/2024,Frais stockage entrepôt,-2800.00,Entrepôt Logistique Pro,15/01/2024,Payé,Logistique,0,2800.00
+12/01/2024,Vente boutique physique - Soldes,3200.00,Clients Boutique,12/01/2024,Payé,Ventes Boutique,3200.00,2240.00
+15/01/2024,Salaires janvier - 4 employés,-12500.00,URSSAF Région,31/01/2024,Payé,Masse Salariale,0,12500.00
+18/01/2024,Commande grossiste petit lot,2100.00,Grossiste Régional,10/02/2024,En attente,Ventes B2B,2100.00,1470.00
+22/01/2024,Électricité entrepôt janvier,-890.00,EDF Pro,31/01/2024,Payé,Charges,0,890.00
+25/01/2024,Vente marketplace - Amazon,1450.00,Amazon Marketplace,25/02/2024,Payé,Ventes E-commerce,1450.00,1015.00
+28/01/2024,Loyer boutique + entrepôt,-4200.00,SCI Commerce Local,01/02/2024,Payé,Immobilier,0,4200.00
+02/02/2024,Vente boutique - Période très calme,1680.00,Clients Boutique,02/02/2024,Payé,Ventes Boutique,1680.00,1176.00
+08/02/2024,Réapprovisionnement stock minimal,-3500.00,Fournisseur Chine,28/02/2024,Payé,Achats Stock,0,3500.00
+12/02/2024,Vente en ligne Saint-Valentin,4800.00,Clients Web,28/02/2024,Payé,Ventes E-commerce,4800.00,3360.00
+15/02/2024,Salaires février,-12500.00,URSSAF Région,28/02/2024,Payé,Masse Salariale,0,12500.00
+18/02/2024,Frais transport livraisons,-1200.00,Transporteur Express,28/02/2024,Payé,Logistique,0,1200.00
+22/02/2024,Vente B2B petit client,2800.00,PME Locale,15/03/2024,En attente,Ventes B2B,2800.00,1960.00
+25/02/2024,Assurance commerce annuelle,-1800.00,AXA Commerce,25/02/2024,Payé,Assurances,0,1800.00
+28/02/2024,Loyer mars,-4200.00,SCI Commerce Local,01/03/2024,Payé,Immobilier,0,4200.00
+05/03/2024,Vente boutique - Début printemps,3100.00,Clients Boutique,05/03/2024,Payé,Ventes Boutique,3100.00,2170.00
+10/03/2024,Vente en ligne - Légère reprise,2650.00,Clients Web,25/03/2024,Payé,Ventes E-commerce,2650.00,1855.00
+15/03/2024,Salaires mars,-12500.00,URSSAF Région,31/03/2024,Payé,Masse Salariale,0,12500.00
+18/03/2024,Commande B2B moyenne,4200.00,Revendeur Département,10/04/2024,En attente,Ventes B2B,4200.00,2940.00
+22/03/2024,Frais marketing local,-800.00,Radio Locale,22/03/2024,Payé,Marketing,0,800.00
+25/03/2024,Vente marketplace Cdiscount,1890.00,Cdiscount,15/04/2024,Payé,Ventes E-commerce,1890.00,1323.00
+28/03/2024,Électricité trimestre,-2400.00,EDF Pro,15/04/2024,Payé,Charges,0,2400.00
+02/04/2024,Vente boutique Pâques,5600.00,Clients Boutique,02/04/2024,Payé,Ventes Boutique,5600.00,3920.00
+08/04/2024,Vente en ligne - Reprise progressive,3800.00,Clients Web,25/04/2024,Payé,Ventes E-commerce,3800.00,2660.00
+12/04/2024,Achat stock été anticipé,-8500.00,Fournisseur Europe,30/04/2024,Payé,Achats Stock,0,8500.00
+15/04/2024,Salaires avril,-12500.00,URSSAF Région,30/04/2024,Payé,Masse Salariale,0,12500.00
+18/04/2024,Commande grossiste,-5200.00,Revendeur National,15/05/2024,En attente,Ventes B2B,5200.00,3640.00
+22/04/2024,Frais comptable annuel,-1500.00,Cabinet Comptable,22/04/2024,Payé,Services Externes,0,1500.00
+25/04/2024,Vente flash en ligne,4100.00,Clients Web,10/05/2024,Payé,Ventes E-commerce,4100.00,2870.00
+28/04/2024,Loyer mai,-4200.00,SCI Commerce Local,01/05/2024,Payé,Immobilier,0,4200.00
+05/05/2024,Vente fête des mères,6800.00,Clients Boutique,05/05/2024,Payé,Ventes Boutique,6800.00,4760.00
+10/05/2024,Vente en ligne - Bon mois,5200.00,Clients Web,25/05/2024,Payé,Ventes E-commerce,5200.00,3640.00
+15/05/2024,Salaires mai,-12500.00,URSSAF Région,31/05/2024,Payé,Masse Salariale,0,12500.00
+18/05/2024,Commande B2B moyenne,4800.00,Distributeur Région,10/06/2024,En attente,Ventes B2B,4800.00,3360.00
+22/05/2024,Frais maintenance site,-600.00,Agence Web,22/05/2024,Payé,Marketing,0,600.00
+25/05/2024,Vente marketplace multiple,3200.00,Marketplaces,15/06/2024,Payé,Ventes E-commerce,3200.00,2240.00
+28/05/2024,Frais transport haute saison,-1800.00,Transporteur Express,15/06/2024,Payé,Logistique,0,1800.00
+02/06/2024,Vente boutique - Début été,4500.00,Clients Boutique,02/06/2024,Payé,Ventes Boutique,4500.00,3150.00
+08/06/2024,Vente en ligne soldes été,7200.00,Clients Web,25/06/2024,Payé,Ventes E-commerce,7200.00,5040.00
+12/06/2024,Achat stock rentrée Q4,-15000.00,Fournisseur Asie,30/06/2024,Payé,Achats Stock,0,15000.00
+15/06/2024,Salaires juin,-12500.00,URSSAF Région,30/06/2024,Payé,Masse Salariale,0,12500.00
+18/06/2024,Commande grossiste été,6500.00,Grossiste National,10/07/2024,Payé,Ventes B2B,6500.00,4550.00
+22/06/2024,Électricité trimestre,-2600.00,EDF Pro,15/07/2024,Payé,Charges,0,2600.00
+28/06/2024,Loyer juillet,-4200.00,SCI Commerce Local,01/07/2024,Payé,Immobilier,0,4200.00
+05/07/2024,Vente boutique vacances,3800.00,Clients Boutique Touristes,05/07/2024,Payé,Ventes Boutique,3800.00,2660.00
+12/07/2024,Vente en ligne - Période calme été,2900.00,Clients Web,28/07/2024,Payé,Ventes E-commerce,2900.00,2030.00
+15/07/2024,Salaires juillet,-12500.00,URSSAF Région,31/07/2024,Payé,Masse Salariale,0,12500.00
+22/07/2024,Préparation stock Black Friday,-22000.00,Fournisseurs Multiples,15/08/2024,Payé,Achats Stock,0,22000.00
+28/07/2024,Loyer août,-4200.00,SCI Commerce Local,01/08/2024,Payé,Immobilier,0,4200.00
+05/08/2024,Vente boutique août - Touristes,4200.00,Clients Boutique,05/08/2024,Payé,Ventes Boutique,4200.00,2940.00
+15/08/2024,Salaires août,-12500.00,URSSAF Région,31/08/2024,Payé,Masse Salariale,0,12500.00
+25/08/2024,Vente rentrée anticipée,5800.00,Clients Web,10/09/2024,Payé,Ventes E-commerce,5800.00,4060.00
+01/09/2024,Vente rentrée scolaire boutique,8500.00,Clients Boutique,01/09/2024,Payé,Ventes Boutique,8500.00,5950.00
+08/09/2024,Vente en ligne - Rentrée,7200.00,Clients Web,25/09/2024,Payé,Ventes E-commerce,7200.00,5040.00
+15/09/2024,Salaires septembre,-13500.00,URSSAF Région,30/09/2024,Payé,Masse Salariale,0,13500.00
+18/09/2024,Commande B2B rentrée,9800.00,Distributeurs,10/10/2024,Payé,Ventes B2B,9800.00,6860.00
+25/09/2024,Réapprovisionnement Q4,-28000.00,Fournisseurs Premium,15/10/2024,Payé,Achats Stock,0,28000.00
+28/09/2024,Loyer octobre,-4200.00,SCI Commerce Local,01/10/2024,Payé,Immobilier,0,4200.00
+05/10/2024,Vente boutique automne,12500.00,Clients Boutique,05/10/2024,Payé,Ventes Boutique,12500.00,8750.00
+12/10/2024,Vente en ligne - Pré-fêtes,18000.00,Clients Web,28/10/2024,Payé,Ventes E-commerce,18000.00,12600.00
+15/10/2024,Salaires octobre + intérimaires,-16500.00,URSSAF Région,31/10/2024,Payé,Masse Salariale,0,16500.00
+20/10/2024,Commande grossiste Q4,15000.00,Grossiste National,15/11/2024,Payé,Ventes B2B,15000.00,10500.00
+25/10/2024,Campagne marketing Black Friday,-4500.00,Agences Pub,25/10/2024,Payé,Marketing,0,4500.00
+28/10/2024,Loyer novembre,-4200.00,SCI Commerce Local,01/11/2024,Payé,Immobilier,0,4200.00
+01/11/2024,Vente boutique Toussaint,9800.00,Clients Boutique,01/11/2024,Payé,Ventes Boutique,9800.00,6860.00
+10/11/2024,Vente Singles Day,22000.00,Clients Web,25/11/2024,Payé,Ventes E-commerce,22000.00,15400.00
+15/11/2024,Salaires novembre + primes,-18000.00,URSSAF Région,30/11/2024,Payé,Masse Salariale,0,18000.00
+22/11/2024,BLACK FRIDAY - Ventes exceptionnelles,65000.00,Tous Canaux,08/12/2024,Payé,Ventes E-commerce,65000.00,45500.00
+25/11/2024,CYBER MONDAY - Suite Black Friday,42000.00,Clients Web,10/12/2024,Payé,Ventes E-commerce,42000.00,29400.00
+28/11/2024,Loyer décembre,-4200.00,SCI Commerce Local,01/12/2024,Payé,Immobilier,0,4200.00
+01/12/2024,Vente boutique Noël - Semaine 1,28000.00,Clients Boutique,01/12/2024,Payé,Ventes Boutique,28000.00,19600.00
+08/12/2024,Vente en ligne Noël,35000.00,Clients Web,22/12/2024,Payé,Ventes E-commerce,35000.00,24500.00
+10/12/2024,Commande entreprise cadeaux,18000.00,Entreprises CSE,24/12/2024,Payé,Ventes B2B,18000.00,12600.00
+15/12/2024,Salaires décembre + 13ème mois,-24000.00,URSSAF Région,31/12/2024,Payé,Masse Salariale,0,24000.00
+18/12/2024,Vente boutique Noël - Rush final,42000.00,Clients Boutique,18/12/2024,Payé,Ventes Boutique,42000.00,29400.00
+22/12/2024,Dernière ligne droite Noël web,28000.00,Clients Web Express,28/12/2024,Payé,Ventes E-commerce,28000.00,19600.00
+24/12/2024,Vente réveillon Noël,15000.00,Clients Boutique,24/12/2024,Payé,Ventes Boutique,15000.00,10500.00
+28/12/2024,Soldes anticipées post-Noël,18500.00,Clients Boutique + Web,10/01/2025,En attente,Ventes E-commerce,18500.00,12950.00
+31/12/2024,Bilan électricité annuel,-3200.00,EDF Pro,15/01/2025,Payé,Charges,0,3200.00

@@ -7,14 +7,25 @@ import OpenAI from 'openai';
 import { FinancialRecord } from '@/lib/dataModel';
 import { logger } from '@/lib/logger';
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-    baseURL: 'https://openrouter.ai/api/v1',
-    defaultHeaders: {
-        'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://finsights.app',
-        'X-Title': 'FinSight',
+// Lazy initialization - only create client when API key is present
+let openaiClient: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI | null {
+    if (!process.env.OPENAI_API_KEY) {
+        return null;
     }
-});
+    if (!openaiClient) {
+        openaiClient = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+            baseURL: 'https://openrouter.ai/api/v1',
+            defaultHeaders: {
+                'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://finsights.app',
+                'X-Title': 'FinSight',
+            }
+        });
+    }
+    return openaiClient;
+}
 
 export interface CashFlowPrediction {
     month: string;
@@ -104,7 +115,17 @@ export default async function handler(
             Génère les prédictions pour les 3 prochains mois.
         `;
 
-        const response = await openai.chat.completions.create({
+        const client = getOpenAIClient();
+        if (!client) {
+            return res.status(200).json({
+                success: true,
+                predictions: [],
+                alerts: [{ type: 'info' as const, message: 'Configuration IA manquante - prédictions non disponibles' }],
+                seasonalityDetected: false
+            });
+        }
+
+        const response = await client.chat.completions.create({
             model: "openai/gpt-4-turbo-preview",
             messages: [
                 { role: "system", content: systemPrompt },

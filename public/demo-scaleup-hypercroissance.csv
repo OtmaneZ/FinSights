@@ -1,3 +1,66 @@
-date,amount,type,description,counterparty,category
-2024-01-15,12000,income,Abonnement MRR,MegaCorp,Ventes
-2024-01-20,8500,income,Abonnement MRR,Enterprise Client A,Ventes
+Date,Description,Montant,Client,Date_echeance,Statut_paiement,Categorie,Prix_vente,Cout_unitairedate,amount,type,description,counterparty,category
+
+01/08/2024,Contrat Enterprise Annuel - TechCorp Global,85000.00,TechCorp Global,15/08/2024,Payé,Ventes,85000.00,42500.002024-01-15,12000,income,Abonnement MRR,MegaCorp,Ventes
+
+03/08/2024,Licence SaaS Pro - Scale-up FinanceApp,12500.00,FinanceApp SAS,20/08/2024,Payé,Ventes,12500.00,6250.002024-01-20,8500,income,Abonnement MRR,Enterprise Client A,Ventes
+
+05/08/2024,Salaires équipe août - 12 personnes,-78000.00,URSSAF Île-de-France,31/08/2024,Payé,Masse Salariale,0,78000.00
+07/08/2024,Campagne Google Ads - Acquisition,-45000.00,Google Ireland Ltd,07/08/2024,Payé,Marketing,0,45000.00
+08/08/2024,Contrat Enterprise - DataViz Corp,65000.00,DataViz Corporation,25/08/2024,Payé,Ventes,65000.00,32500.00
+10/08/2024,Infrastructure AWS - Scaling servers,-28500.00,Amazon Web Services,10/08/2024,Payé,Infrastructure IT,0,28500.00
+12/08/2024,Licence SaaS Pro - RetailTech,15000.00,RetailTech Solutions,05/09/2024,En attente,Ventes,15000.00,7500.00
+14/08/2024,Campagne LinkedIn Ads,-18000.00,LinkedIn Corporation,14/08/2024,Payé,Marketing,0,18000.00
+15/08/2024,Loyer bureaux premium - 400m² Paris,-22000.00,Foncière Paris Premium,01/08/2024,Payé,Immobilier,0,22000.00
+17/08/2024,Contrat Enterprise - LogiSoft,72000.00,LogiSoft International,10/09/2024,En attente,Ventes,72000.00,36000.00
+19/08/2024,Recrutement - Chasseurs de têtes,-35000.00,Michael Page France,19/08/2024,Payé,Recrutement,0,35000.00
+21/08/2024,Licence SaaS Pro - MedTech Startup,18500.00,MedTech Innovation,15/09/2024,Payé,Ventes,18500.00,9250.00
+23/08/2024,Événement lancement produit,-28000.00,Agence Event Premium,23/08/2024,Payé,Marketing,0,28000.00
+25/08/2024,Contrat Enterprise - BankSecure,95000.00,BankSecure AG,20/09/2024,Payé,Ventes,95000.00,47500.00
+27/08/2024,Consulting technique externe,-15000.00,Cabinet Tech Experts,27/08/2024,Payé,Services Externes,0,15000.00
+29/08/2024,Licence SaaS Pro - EdTech Platform,14000.00,EdTech Learning,25/09/2024,En attente,Ventes,14000.00,7000.00
+31/08/2024,Abonnements SaaS équipe,-4500.00,Divers Fournisseurs,31/08/2024,Payé,Infrastructure IT,0,4500.00
+02/09/2024,Contrat Enterprise - AutoMotive AI,88000.00,AutoMotive AI Corp,30/09/2024,Payé,Ventes,88000.00,44000.00
+04/09/2024,Salaires équipe sept - 15 personnes,-95000.00,URSSAF Île-de-France,30/09/2024,Payé,Masse Salariale,0,95000.00
+06/09/2024,Campagne Facebook Ads,-22000.00,Meta Platforms Ireland,06/09/2024,Payé,Marketing,0,22000.00
+08/09/2024,Licence SaaS Pro - PropTech,16500.00,PropTech Immobilier,05/10/2024,Payé,Ventes,16500.00,8250.00
+10/09/2024,Contrat Enterprise - InsurTech Leader,110000.00,InsurTech Global,10/10/2024,Payé,Ventes,110000.00,55000.00
+12/09/2024,Infrastructure GCP - ML Pipeline,-32000.00,Google Cloud Platform,12/09/2024,Payé,Infrastructure IT,0,32000.00
+14/09/2024,Licence SaaS Pro - LegalTech,13500.00,LegalTech Solutions,12/10/2024,En attente,Ventes,13500.00,6750.00
+16/09/2024,Salon Tech Paris - Stand premium,-45000.00,Paris Tech Events,16/09/2024,Payé,Marketing,0,45000.00
+18/09/2024,Contrat Enterprise - Pharma Research,125000.00,Pharma Research Labs,15/10/2024,Payé,Ventes,125000.00,62500.00
+20/09/2024,Recrutement senior devs,-28000.00,Hays Technology,20/09/2024,Payé,Recrutement,0,28000.00
+22/09/2024,Licence SaaS Pro - HealthTech,19500.00,HealthTech Care,20/10/2024,Payé,Ventes,19500.00,9750.00
+24/09/2024,Campagne influenceurs B2B,-18000.00,Agence Influence Pro,24/09/2024,Payé,Marketing,0,18000.00
+26/09/2024,Contrat Enterprise - AeroSpace Tech,145000.00,AeroSpace Industries,25/10/2024,En attente,Ventes,145000.00,72500.00
+28/09/2024,Loyer bureaux sept,-22000.00,Foncière Paris Premium,01/09/2024,Payé,Immobilier,0,22000.00
+30/09/2024,Licence SaaS Pro - AgriTech,11500.00,AgriTech Solutions,28/10/2024,Payé,Ventes,11500.00,5750.00
+02/10/2024,Contrat Enterprise - TelecomGiant,135000.00,TelecomGiant Corp,01/11/2024,Payé,Ventes,135000.00,67500.00
+04/10/2024,Salaires équipe oct - 18 personnes,-115000.00,URSSAF Île-de-France,31/10/2024,Payé,Masse Salariale,0,115000.00
+06/10/2024,Campagne Google Ads Scale,-55000.00,Google Ireland Ltd,06/10/2024,Payé,Marketing,0,55000.00
+08/10/2024,Licence SaaS Pro - CleanTech,17500.00,CleanTech Energy,05/11/2024,Payé,Ventes,17500.00,8750.00
+10/10/2024,Contrat Enterprise - RetailChain,98000.00,RetailChain Global,08/11/2024,En attente,Ventes,98000.00,49000.00
+12/10/2024,Infrastructure Azure - Enterprise,-38000.00,Microsoft Azure,12/10/2024,Payé,Infrastructure IT,0,38000.00
+14/10/2024,Licence SaaS Pro - SportsTech,14500.00,SportsTech Analytics,12/11/2024,Payé,Ventes,14500.00,7250.00
+16/10/2024,Contrat Enterprise - MediaGroup,88000.00,MediaGroup International,15/11/2024,Payé,Ventes,88000.00,44000.00
+18/10/2024,Campagne LinkedIn Enterprise,-25000.00,LinkedIn Corporation,18/10/2024,Payé,Marketing,0,25000.00
+20/10/2024,Licence SaaS Pro - FoodTech,16000.00,FoodTech Delivery,18/11/2024,En attente,Ventes,16000.00,8000.00
+22/10/2024,Contrat Enterprise - EnergyGiant,165000.00,EnergyGiant Corp,20/11/2024,Payé,Ventes,165000.00,82500.00
+24/10/2024,Recrutement équipe sales,-42000.00,Randstad Professionals,24/10/2024,Payé,Recrutement,0,42000.00
+26/10/2024,Loyer bureaux oct,-22000.00,Foncière Paris Premium,01/10/2024,Payé,Immobilier,0,22000.00
+28/10/2024,Licence SaaS Pro - TravelTech,13000.00,TravelTech Booking,26/11/2024,Payé,Ventes,13000.00,6500.00
+30/10/2024,Contrat Enterprise - ConsultingFirm,78000.00,ConsultingFirm Global,28/11/2024,Payé,Ventes,78000.00,39000.00
+01/11/2024,Contrat Enterprise - ConstructionMega,155000.00,ConstructionMega Corp,30/11/2024,Payé,Ventes,155000.00,77500.00
+03/11/2024,Salaires équipe nov - 22 personnes,-145000.00,URSSAF Île-de-France,30/11/2024,Payé,Masse Salariale,0,145000.00
+05/11/2024,Campagne acquisition massive,-68000.00,Meta + Google Ads,05/11/2024,Payé,Marketing,0,68000.00
+07/11/2024,Licence SaaS Pro - CyberSec,21500.00,CyberSec Solutions,05/12/2024,Payé,Ventes,21500.00,10750.00
+09/11/2024,Contrat Enterprise - LogisticsKing,118000.00,LogisticsKing Corp,08/12/2024,En attente,Ventes,118000.00,59000.00
+11/11/2024,Infrastructure multi-cloud,-45000.00,AWS + GCP + Azure,11/11/2024,Payé,Infrastructure IT,0,45000.00
+13/11/2024,Licence SaaS Pro - HRTech,15500.00,HRTech Platform,12/12/2024,Payé,Ventes,15500.00,7750.00
+15/11/2024,Contrat Enterprise - BioTech Research,142000.00,BioTech Research Labs,15/12/2024,Payé,Ventes,142000.00,71000.00
+17/11/2024,Événement clients VIP,-35000.00,Luxury Events Paris,17/11/2024,Payé,Marketing,0,35000.00
+19/11/2024,Licence SaaS Pro - GameTech,18000.00,GameTech Studios,18/12/2024,En attente,Ventes,18000.00,9000.00
+21/11/2024,Contrat Enterprise - ChemicalCorp,128000.00,ChemicalCorp Industries,20/12/2024,Payé,Ventes,128000.00,64000.00
+23/11/2024,Loyer bureaux nov,-22000.00,Foncière Paris Premium,01/11/2024,Payé,Immobilier,0,22000.00
+25/11/2024,Licence SaaS Pro - SmartCity,19500.00,SmartCity Solutions,24/12/2024,Payé,Ventes,19500.00,9750.00
+27/11/2024,Contrat Enterprise - DefenseTech,185000.00,DefenseTech Corp,27/12/2024,En attente,Ventes,185000.00,92500.00
+29/11/2024,Campagne fin d'année,-48000.00,Agence Marketing Premium,29/11/2024,Payé,Marketing,0,48000.00

@@ -73,21 +73,22 @@ export default function DashisAgentUI() {
     // ═══════════════════════════════════════════════════════════════════════════════
     // DASHIS AGENT BACKEND
     // ═══════════════════════════════════════════════════════════════════════════════
+    // REACT STATE (UI only) - Compatible with API response format
+    // ═══════════════════════════════════════════════════════════════════════════════
     
+    const [agentState, setAgentState] = useState<DashisState>('idle')
+    const [financialData, setFinancialData] = useState<any>(null)  // ProcessedData from API
+    const [rawData, setRawData] = useState<FinancialRecord[]>([])  // Raw records for AI analysis
+    const [kpis, setKpis] = useState<KPI[]>([])
+    const [charts, setCharts] = useState<ChartDataset | null>(null)
+    const [analysis, setAnalysis] = useState<AnalysisResult | null>(null)
+    const [dashboardConfig, setDashboardConfig] = useState<any>(null)  // Capabilities
+
+    // DASHIS Agent for optional AI/ML analysis
     const [agent] = useState(() => new DashisAgent({
         autoAnalyze: true,
         enableSimulations: true
     }))
-
-    // ═══════════════════════════════════════════════════════════════════════════════
-    // REACT STATE (UI only)
-    // ═══════════════════════════════════════════════════════════════════════════════
-    
-    const [agentState, setAgentState] = useState<DashisState>('idle')
-    const [financialData, setFinancialData] = useState<FinancialData | null>(null)
-    const [kpis, setKpis] = useState<KPI[]>([])
-    const [charts, setCharts] = useState<ChartDataset | null>(null)
-    const [analysis, setAnalysis] = useState<AnalysisResult | null>(null)
 
     // Upload UI state
     const [isUploading, setIsUploading] = useState(false)
@@ -105,54 +106,156 @@ export default function DashisAgentUI() {
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     // ═══════════════════════════════════════════════════════════════════════════════
-    // DATA UPLOAD HANDLER (defined early for useEffect)
+    // PROCESS API RESPONSE (used by both file upload and demo load)
     // ═══════════════════════════════════════════════════════════════════════════════
 
-    const handleDataUpload = useCallback(async (rawRecords: FinancialRecord[]) => {
-        try {
-            logger.debug('[DashisAgentUI] 🚀 Processing with DASHIS Agent...', {
-                recordCount: rawRecords.length
-            })
+    const processApiResponse = useCallback(async (result: any) => {
+        // Extract data from API response (same structure as FinancialDashboardV2)
+        const records = result.data.records || result.data.rawData || [];
+        const apiKpis = result.data.kpis || [];
+        const processedData = result.data.financialData || result.data.processedData;
+        const capabilities = result.data.dashboardConfig;
 
-            // STEP 1: Process data (validation, KPIs, charts)
-            setAgentState('loading')
-            const data = await agent.processData(rawRecords)
-            
-            // Update UI state from agent
-            const state = agent.getState()
-            setFinancialData(data)
-            setKpis(state.kpis)
-            setCharts(state.charts)
-            setAgentState(state.current)
-
-            logger.debug('[DashisAgentUI] ✅ Data processed', {
-                kpiCount: state.kpis.length,
-                chartCount: state.charts ? Object.keys(state.charts).length : 0
-            })
-
-            // STEP 2: Run AI/ML analysis (async, non-blocking)
-            setUploadStep('analyzing')
-            setAgentState('analyzing')
-
-            const analysisResult = await agent.analyze(data)
-            setAnalysis(analysisResult)
-            setAgentState('ready')
-
-            logger.debug('[DashisAgentUI] ✅ Analysis complete', {
-                anomalies: analysisResult.anomalies.length,
-                predictions: analysisResult.cashFlowPredictions.length,
-                patterns: analysisResult.patterns.length,
-                score: analysisResult.finSightScore?.total
-            })
-
-            setUploadStep('done')
-
-        } catch (error) {
-            logger.error('[DashisAgentUI] ❌ Processing failed:', error)
-            setAgentState('error')
-            throw error
+        if (!records || records.length === 0) {
+            throw new Error('Aucune transaction détectée. Vérifiez le format: Date, Montant, Type');
         }
-    }, [agent])
+
+        // Update state with API data
+        setRawData(records);
+        setFinancialData(processedData);
+        setDashboardConfig(capabilities);
+        
+        // Convert API KPIs to our format
+        const formattedKpis: KPI[] = apiKpis.map((kpi: any, index: number) => ({
+            id: `kpi-${index}`,
+            title: kpi.title,
+            value: kpi.value,
+            change: kpi.change || '',
+            changeType: kpi.changeType || 'neutral',
+            description: kpi.description || '',
+            isAvailable: kpi.isAvailable !== false,
+            confidence: kpi.confidence
+        }));
+        setKpis(formattedKpis);
+
+        // Generate chart data from records
+        const chartData = generateChartsFromRecords(records);
+        setCharts(chartData);
+
+        setAgentState('ready');
+        
+        logger.debug('[DashisAgentUI] ✅ API data processed', {
+            recordCount: records.length,
+            kpiCount: formattedKpis.length
+        });
+
+        // Optional: Run DASHIS Agent analysis in background (non-blocking)
+        try {
+            setUploadStep('analyzing');
+            setAgentState('analyzing');
+            
+            // Process with agent for AI/ML analysis
+            const agentData = await agent.processData(records);
+            const analysisResult = await agent.analyze(agentData);
+            setAnalysis(analysisResult);
+            
+            logger.debug('[DashisAgentUI] ✅ AI/ML analysis complete');
+        } catch (analysisError) {
+            // Non-blocking - continue even if analysis fails
+            logger.warn('[DashisAgentUI] ⚠️ AI/ML analysis skipped:', analysisError);
+        }
+        
+        setAgentState('ready');
+        setUploadStep('done');
+    }, [agent]);
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // GENERATE CHARTS FROM RECORDS (helper function)
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    const generateChartsFromRecords = (records: FinancialRecord[]): ChartDataset => {
+        // Group by month for cash flow evolution
+        const monthlyData: { [key: string]: { income: number; expense: number } } = {};
+        const categoryData: { [key: string]: number } = {};
+        const clientData: { [key: string]: number } = {};
+
+        records.forEach(record => {
+            const date = new Date(record.date);
+            const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+            
+            if (!monthlyData[monthKey]) {
+                monthlyData[monthKey] = { income: 0, expense: 0 };
+            }
+            
+            if (record.type === 'income') {
+                monthlyData[monthKey].income += record.amount;
+                // Track clients
+                const client = record.counterparty || record.description || 'Inconnu';
+                clientData[client] = (clientData[client] || 0) + record.amount;
+            } else {
+                monthlyData[monthKey].expense += record.amount;
+                // Track categories
+                const category = record.category || 'Autres';
+                categoryData[category] = (categoryData[category] || 0) + record.amount;
+            }
+        });
+
+        // Calculate totals for percentages
+        const totalExpenses = Object.values(categoryData).reduce((a, b) => a + b, 0);
+        const totalRevenue = Object.values(clientData).reduce((a, b) => a + b, 0);
+
+        // Format monthly data
+        const sortedMonths = Object.keys(monthlyData).sort();
+        const formattedMonthlyData = sortedMonths.map(month => {
+            const data = monthlyData[month];
+            return {
+                month,
+                revenue: data.income,
+                expenses: data.expense,
+                cashFlow: data.income - data.expense
+            };
+        });
+
+        // Format category breakdown with percentage
+        const categoryBreakdown = Object.entries(categoryData)
+            .map(([name, value]) => ({ 
+                name, 
+                value, 
+                percentage: totalExpenses > 0 ? `${((value / totalExpenses) * 100).toFixed(1)}%` : '0%'
+            }))
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 10);
+
+        // Format top clients with percentage
+        const topClients = Object.entries(clientData)
+            .map(([name, revenue]) => ({ 
+                name, 
+                revenue, 
+                percentage: totalRevenue > 0 ? (revenue / totalRevenue) * 100 : 0
+            }))
+            .sort((a, b) => b.revenue - a.revenue)
+            .slice(0, 10);
+
+        // Format margin data (monthly)
+        const marginData = formattedMonthlyData.map(m => ({
+            month: m.month,
+            revenue: m.revenue,
+            expenses: m.expenses,
+            margin: m.revenue - m.expenses,
+            marginPercent: m.revenue > 0 ? ((m.revenue - m.expenses) / m.revenue * 100) : 0
+        }));
+
+        return {
+            monthlyData: formattedMonthlyData,
+            categoryBreakdown,
+            topClients,
+            marginData,
+            outstandingInvoices: [],
+            paymentStatus: [],
+            sankeyData: { nodes: [], links: [] },
+            sunburstData: { name: 'root', children: [] }
+        };
+    };
 
     // ═══════════════════════════════════════════════════════════════════════════════
     // DATA LOADING (from URL param or context)
@@ -166,15 +269,33 @@ export default function DashisAgentUI() {
             if (!dataParam) return
 
             try {
-                const rawData = JSON.parse(decodeURIComponent(dataParam))
-                await handleDataUpload(rawData)
+                const data = JSON.parse(decodeURIComponent(dataParam))
+                // Wrap in API-like response format
+                await processApiResponse({ data: { records: data } });
             } catch (error) {
                 logger.error('[DashisAgentUI] Failed to load data from URL:', error)
             }
         }
 
         loadData()
-    }, [searchParams, handleDataUpload])
+    }, [searchParams, processApiResponse])
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // LISTEN FOR FILE UPLOAD EVENT FROM EmptyDashboardStateV2
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    useEffect(() => {
+        const handleFileSelected = (event: Event) => {
+            const customEvent = event as CustomEvent;
+            if (customEvent.detail) {
+                handleFileUpload(customEvent.detail as FileList);
+            }
+        };
+
+        window.addEventListener('fileUpload', handleFileSelected);
+        return () => window.removeEventListener('fileUpload', handleFileSelected);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // ═══════════════════════════════════════════════════════════════════════════════
     // FILE UPLOAD HANDLER
@@ -185,6 +306,7 @@ export default function DashisAgentUI() {
 
         const file = files[0]
         setIsUploading(true)
+        setAgentState('loading')
         setUploadStep('validating')
         setUploadProgress(10)
 
@@ -199,7 +321,7 @@ export default function DashisAgentUI() {
                 setUploadProgress(20)
                 await new Promise(resolve => setTimeout(resolve, 300))
 
-                // STEP 2: AI Parsing (call upload API)
+                // STEP 2: AI Parsing (call upload API - same as FinancialDashboardV2)
                 setUploadStep('ai-parsing')
                 setUploadProgress(40)
 
@@ -216,21 +338,25 @@ export default function DashisAgentUI() {
 
                 const result = await response.json()
 
-                if (response.ok) {
-                    // STEP 3: Processing with DASHIS Agent
-                    setUploadStep('processing')
-                    setUploadProgress(70)
-
-                    const rawRecords: FinancialRecord[] = result.data.records || result.data.rawData || []
-                    await handleDataUpload(rawRecords)
-
-                    setUploadProgress(100)
-                    await new Promise(resolve => setTimeout(resolve, 300))
-                } else {
-                    throw new Error(result.error || 'Upload failed')
+                if (!response.ok) {
+                    // Handle API errors
+                    const errorMessage = result.details 
+                        ? `${result.error}\n${result.details}`
+                        : result.error || 'Upload failed'
+                    throw new Error(errorMessage)
                 }
+
+                // STEP 3: Process API response
+                setUploadStep('processing')
+                setUploadProgress(70)
+
+                await processApiResponse(result);
+
+                setUploadProgress(100)
+                await new Promise(resolve => setTimeout(resolve, 300))
             } catch (error) {
                 logger.error('[DashisAgentUI] Upload error:', error)
+                setAgentState('error')
                 alert(`Erreur: ${error instanceof Error ? error.message : 'Upload failed'}`)
             } finally {
                 setIsUploading(false)
@@ -264,6 +390,84 @@ export default function DashisAgentUI() {
     }
 
     // ═══════════════════════════════════════════════════════════════════════════════
+    // DEMO SCENARIO LOADER
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    const loadDemoScenario = useCallback(async (scenario: 'saine' | 'difficulte' | 'croissance') => {
+        const scenarioConfig = {
+            saine: {
+                file: '/demo-scaleup-hypercroissance.csv',
+                name: 'Scale-up Hypercroissance'
+            },
+            difficulte: {
+                file: '/demo-startup-difficulte.csv',
+                name: 'Startup SaaS'
+            },
+            croissance: {
+                file: '/demo-pme-saisonnalite.csv',
+                name: 'PME Saisonnière'
+            }
+        };
+
+        const config = scenarioConfig[scenario];
+        
+        setIsUploading(true);
+        setUploadStep('validating');
+        setUploadProgress(10);
+
+        try {
+            // Fetch the demo CSV file
+            setUploadStep('validating');
+            setUploadProgress(20);
+            
+            const response = await fetch(config.file);
+            if (!response.ok) {
+                throw new Error(`Failed to load demo file: ${config.file}`);
+            }
+            
+            const fileContent = await response.text();
+            
+            // Call upload API (same as file upload)
+            setUploadStep('ai-parsing');
+            setUploadProgress(40);
+
+            const uploadResponse = await fetch('/api/upload', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fileContent,
+                    fileName: config.file.split('/').pop(),
+                    fileType: 'text/csv',
+                    companyId: activeCompanyId,
+                    isDemo: true // Skip AI parsing for demos
+                })
+            });
+
+            const result = await uploadResponse.json();
+
+            if (!uploadResponse.ok) {
+                throw new Error(result.error || 'Upload failed');
+            }
+
+            // Process API response (same as file upload)
+            setUploadStep('processing');
+            setUploadProgress(70);
+
+            await processApiResponse(result);
+
+            setUploadProgress(100);
+            
+            logger.debug(`[DashisAgentUI] ✅ Demo loaded: ${config.name}`);
+        } catch (error) {
+            logger.error('[DashisAgentUI] Demo load error:', error);
+            setAgentState('error');
+            alert(`Erreur: ${error instanceof Error ? error.message : 'Failed to load demo'}`);
+        } finally {
+            setIsUploading(false);
+        }
+    }, [activeCompanyId, processApiResponse]);
+
+    // ═══════════════════════════════════════════════════════════════════════════════
     // EMPTY STATE
     // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -271,10 +475,7 @@ export default function DashisAgentUI() {
         return (
             <div className="min-h-screen bg-primary">
                 <EmptyDashboardStateV2
-                    onDemoLoad={(scenario) => {
-                        // TODO: Charger les données de démo selon le scénario
-                        console.log('Demo scenario:', scenario);
-                    }}
+                    onDemoLoad={loadDemoScenario}
                 />
                 
                 {/* Hidden file input */}
