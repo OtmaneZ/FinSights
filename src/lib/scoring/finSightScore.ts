@@ -239,13 +239,13 @@ function extractScoreFactors(data: ProcessedData): ScoreFactors {
 
     // Margin factors
     const marginPercentage = kpis.marginPercentage;
-    const revenueGrowth = kpis.trends.revenueGrowth;
-    const expenseGrowth = kpis.trends.expenseGrowth;
+    const revenueGrowth = kpis.trends?.revenueGrowth ?? 0;
+    const expenseGrowth = kpis.trends?.expenseGrowth ?? 0;
 
     // Resilience factors
     const fixedCostsRatio = calculateSmartFixedCostsRatio(records, kpis.revenue); // ✅ AMÉLIORATION 2
     const topClientDependency = calculateTopClientDependency(records, kpis.revenue);
-    const categoryDiversity = summary.categories.length;
+    const categoryDiversity = summary.categories?.length ?? 0;
 
     // Risk factors
     const anomalyResult = detectAnomalies(records);

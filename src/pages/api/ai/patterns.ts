@@ -119,7 +119,7 @@ export default async function handler(
         }
 
         const response = await client.chat.completions.create({
-            model: "openai/gpt-4-turbo-preview",
+            model: "google/gemini-2.5-flash", // $0.30/$2.50 per M tokens
             messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: userPrompt }

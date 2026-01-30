@@ -150,34 +150,59 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         logger.debug(`[Upload] ✅ Validation CSV réussie (${csvValidation.lineCount} transactions détectées)`);
 
-        // 🎬 DÉMOS : Skip AI, use classic parser only
+        // 🎬 DÉMOS : Use AI (Gemini free) for better handling of demo CSV formats
+        // Demo CSVs may have duplicate headers or complex structures
         if (isDemo) {
-            logger.info('[Upload] 🎭 Mode DEMO détecté - Skip parsing IA, parser classique uniquement');
-            const classicParseResult = parseCSV(csvContent);
+            logger.info('[Upload] 🎭 Mode DEMO détecté - Utilisation IA Gemini (gratuit) pour nettoyage intelligent');
+            
+            const aiParseResult = await parseWithAI(csvContent, 'full');
+            
+            if (!aiParseResult.success || !aiParseResult.data?.records) {
+                logger.warn('[Upload] ⚠️ IA échouée sur démo, tentative parser classique...');
+                
+                // Fallback to classic parser
+                const classicParseResult = parseCSV(csvContent);
+                
+                if (!classicParseResult.success || !classicParseResult.data?.records) {
+                    logger.error('[Upload] ❌ Démo - IA et parser classique échoués');
+                    const errorDetails = classicParseResult.errors?.map(e => e.message).join(', ') || 'Unknown error';
+                    return res.status(400).json({
+                        error: 'Impossible de traiter ce fichier de démo',
+                        details: errorDetails
+                    });
+                }
+                
+                // Use classic result
+                const processedData = processFinancialData(classicParseResult.data.records, 'demo-upload');
+                const capabilities = detectCapabilities([], processedData.records);
+                const dashboardKPIs = generateAdaptiveKPIs(processedData, capabilities);
 
-            if (!classicParseResult.success || !classicParseResult.data?.records) {
-                logger.error('[Upload] ❌ Parser classique échoué sur demo');
-                return res.status(400).json({
-                    error: 'Impossible de traiter ce fichier de démo',
-                    details: classicParseResult.errors?.map(e => e.message).join(', ')
+                return res.status(200).json({
+                    success: true,
+                    data: classicParseResult.data.records,
+                    financialData: processedData,
+                    kpis: dashboardKPIs,
+                    capabilities,
+                    rawData: classicParseResult.data,
+                    message: `✅ ${classicParseResult.data.records.length} transactions analysées (Mode Demo - Classic Parser)`
                 });
             }
-
-            logger.info(`[Upload] ✅ Demo parsed: ${classicParseResult.data.records.length} transactions`);
-
-            // Process data (minimal processing for demos)
-            const processedData = processFinancialData(classicParseResult.data.records, 'demo-upload');
+            
+            // AI succeeded - process and return
+            logger.info(`[Upload] ✅ Demo parsed with AI: ${aiParseResult.data.records.length} transactions`);
+            
+            const processedData = processFinancialData(aiParseResult.data.records, 'demo-upload');
             const capabilities = detectCapabilities([], processedData.records);
             const dashboardKPIs = generateAdaptiveKPIs(processedData, capabilities);
 
             return res.status(200).json({
                 success: true,
-                data: classicParseResult.data.records,
+                data: aiParseResult.data.records,
                 financialData: processedData,
                 kpis: dashboardKPIs,
                 capabilities,
-                rawData: classicParseResult.data,
-                message: `✅ ${classicParseResult.data.records.length} transactions analysées (Mode Demo - No AI)`
+                rawData: aiParseResult.data,
+                message: `✅ ${aiParseResult.data.records.length} transactions analysées (Mode Demo - AI Gemini)`
             });
         }
 

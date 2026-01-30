@@ -8,14 +8,25 @@ import { FinancialRecord } from '@/lib/dataModel';
 import { ScoreBreakdown, ScoreFactors, ScoreLevel } from '@/lib/scoring/finSightScore';
 import { logger } from '@/lib/logger';
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-    baseURL: 'https://openrouter.ai/api/v1',
-    defaultHeaders: {
-        'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://finsights.app',
-        'X-Title': 'FinSight',
+// Lazy initialization - only create client when API key is present
+let openaiClient: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI | null {
+    if (!process.env.OPENAI_API_KEY) {
+        return null;
     }
-});
+    if (!openaiClient) {
+        openaiClient = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+            baseURL: 'https://openrouter.ai/api/v1',
+            defaultHeaders: {
+                'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://finsights.app',
+                'X-Title': 'FinSight',
+            }
+        });
+    }
+    return openaiClient;
+}
 
 interface RecommendationsResponse {
     success: boolean;
@@ -80,22 +91,42 @@ export default async function handler(
             Génère 3-5 recommandations priorisées et actionnables.
         `;
 
-        const response = await openai.chat.completions.create({
-            model: "openai/gpt-4-turbo-preview",
+        const client = getOpenAIClient();
+        if (!client) {
+            // Return default recommendations when AI not available
+            return res.status(200).json({
+                success: true,
+                recommendations: [
+                    '📊 Analysez vos flux de trésorerie mensuels pour identifier les tendances',
+                    '💰 Optimisez vos délais de paiement clients (DSO)',
+                    '📉 Réduisez les dépenses non essentielles pour améliorer vos marges',
+                    '🎯 Diversifiez votre base client pour réduire la dépendance'
+                ]
+            });
+        }
+
+        const response = await client.chat.completions.create({
+            model: "google/gemini-2.5-flash",
             messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: userPrompt }
             ],
-            response_format: { type: "json_object" },
             temperature: 0.7
         });
 
-        const rawJson = response.choices[0].message.content;
-        if (!rawJson) {
+        const rawContent = response.choices[0].message.content;
+        if (!rawContent) {
             throw new Error('Réponse IA vide');
         }
 
-        const result = JSON.parse(rawJson);
+        // Parse JSON from response (may be wrapped in markdown code blocks)
+        let jsonContent = rawContent;
+        const jsonMatch = rawContent.match(/```(?:json)?\s*([\s\S]*?)```/);
+        if (jsonMatch) {
+            jsonContent = jsonMatch[1].trim();
+        }
+        
+        const result = JSON.parse(jsonContent);
 
         return res.status(200).json({
             success: true,

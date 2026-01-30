@@ -24,8 +24,8 @@ function getOpenAIClient(): OpenAI | null {
 
 // Modèles disponibles par taille de fichier
 const AI_MODELS = {
-    SMALL_FILE: 'google/gemini-2.0-flash-exp:free',  // < 500 lignes : Gratuit + nettoyage intelligent
-    LARGE_FILE: 'google/gemini-2.0-flash-exp:free',  // > 500 lignes : Échantillon pour catégories
+    SMALL_FILE: 'google/gemini-2.5-flash',  // < 500 lignes : Meilleur rapport qualité/prix
+    LARGE_FILE: 'google/gemini-2.5-flash',  // > 500 lignes : Rapide + multimodal
 } as const;
 
 // Définir une structure de retour pour notre parser IA

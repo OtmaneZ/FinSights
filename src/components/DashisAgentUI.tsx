@@ -110,11 +110,12 @@ export default function DashisAgentUI() {
     // ═══════════════════════════════════════════════════════════════════════════════
 
     const processApiResponse = useCallback(async (result: any) => {
-        // Extract data from API response (same structure as FinancialDashboardV2)
-        const records = result.data.records || result.data.rawData || [];
-        const apiKpis = result.data.kpis || [];
-        const processedData = result.data.financialData || result.data.processedData;
-        const capabilities = result.data.dashboardConfig;
+        // Extract data from API response
+        // API returns: { data: [...records], financialData: {...}, kpis: [...] }
+        const records = result.data || result.rawData || [];
+        const apiKpis = result.kpis || [];
+        const processedData = result.financialData || result.processedData;
+        const capabilities = result.capabilities || result.dashboardConfig;
 
         if (!records || records.length === 0) {
             throw new Error('Aucune transaction détectée. Vérifiez le format: Date, Montant, Type');
@@ -174,6 +175,9 @@ export default function DashisAgentUI() {
     // ═══════════════════════════════════════════════════════════════════════════════
 
     const generateChartsFromRecords = (records: FinancialRecord[]): ChartDataset => {
+        // DEBUG: Log first 3 records to see data structure
+        logger.debug('[DashisAgentUI] Sample records:', records.slice(0, 3));
+        
         // Group by month for cash flow evolution
         const monthlyData: { [key: string]: { income: number; expense: number } } = {};
         const categoryData: { [key: string]: number } = {};
@@ -235,6 +239,17 @@ export default function DashisAgentUI() {
             }))
             .sort((a, b) => b.revenue - a.revenue)
             .slice(0, 10);
+
+        // DEBUG: Log aggregated data
+        logger.debug('[DashisAgentUI] Chart data summary:', {
+            monthsCount: sortedMonths.length,
+            months: sortedMonths,
+            categoriesCount: Object.keys(categoryData).length,
+            clientsCount: Object.keys(clientData).length,
+            totalRevenue,
+            totalExpenses,
+            topClientsPreview: topClients.slice(0, 3)
+        });
 
         // Format margin data (monthly)
         const marginData = formattedMonthlyData.map(m => ({

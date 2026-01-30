@@ -93,8 +93,8 @@ export const ExpenseBreakdownChart: React.FC<ExpenseBreakdownChartProps> = ({ da
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '350px' }}>
             {/* ✅ Graphique donut à gauche (70% de l'espace) */}
-            <div style={{ width: '70%', height: '100%' }}>
-                <ResponsiveContainer width="100%" height="100%">
+            <div style={{ width: '70%', height: '350px' }}>
+                <ResponsiveContainer width="100%" height={320}>
                     <PieChart>
                         <Pie
                             data={data}
