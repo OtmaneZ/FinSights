@@ -30,7 +30,7 @@ import { DataProcessor } from './DataProcessor';
 import { KPIEngine } from './KPIEngine';
 import { SimulationEngine } from './SimulationEngine';
 import { AnalysisOrchestrator } from './AnalysisOrchestrator';
-import { logger } from '../../../../../src/lib/logger';
+import { logger } from '@/lib/logger';
 
 export class DashisAgent implements IFinancialAgent {
     public readonly id: string = 'dashis';

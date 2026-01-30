@@ -30,7 +30,7 @@ export class SimulationEngine {
 
         // Calcul factures en attente
         const pendingInvoices = data.records
-            .filter(r => r.type === 'income' && r.status === 'pending')
+            .filter(r => r.type === 'income' && r.paymentStatus === 'pending')
             .reduce((sum, r) => sum + r.amount, 0);
 
         // ═══════════════════════════════════════════════════════════════════════

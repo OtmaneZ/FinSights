@@ -4,6 +4,7 @@
  */
 
 import type { FinancialRecord, FinancialData } from './types';
+import { normalizeFinancialRecords } from './adapters';
 
 export class DataProcessor {
     /**
@@ -59,39 +60,49 @@ export class DataProcessor {
      * Normalise un enregistrement au format FinancialRecord
      */
     private normalizeRecord(record: any): FinancialRecord {
+        const id = record.id || `record-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        
         return {
+            id,
             date: this.normalizeDate(record.date),
-            type: this.normalizeType(record.type),
+            description: record.description || record.libelle || record.counterparty || record.client || 'N/A',
             amount: Math.abs(record.amount),
+            type: this.normalizeType(record.type),
             category: record.category || record.categorie || undefined,
-            client: record.client || record.counterparty || record.contrepartie || undefined,
-            description: record.description || record.libelle || undefined,
-            invoiceId: record.invoiceId || record.invoice_id || undefined,
-            status: this.normalizeStatus(record.status || record.statut),
-            dueDate: record.dueDate || record.due_date || record.dateEcheance || undefined
+            counterparty: record.counterparty || record.client || record.contrepartie || undefined,
+            sourceId: record.sourceId || 'dashis-agent',
+            confidence: record.confidence ?? 1.0,
+            reference: record.invoiceId || record.invoice_id || undefined,
+            paymentStatus: this.normalizeStatus(record.status || record.statut),
+            dueDate: record.dueDate || record.due_date || record.dateEcheance 
+                ? this.normalizeDate(record.dueDate || record.due_date || record.dateEcheance)
+                : undefined
         };
     }
 
     /**
-     * Normalise une date au format ISO
+     * Normalise une date au format Date object
      */
-    private normalizeDate(date: any): string {
+    private normalizeDate(date: any): Date {
+        if (date instanceof Date) {
+            return date;
+        }
+        
         if (typeof date === 'string') {
             // Déjà au format ISO
             if (date.match(/^\d{4}-\d{2}-\d{2}/)) {
-                return date;
+                return new Date(date);
             }
             
             // Format français DD/MM/YYYY
             if (date.match(/^\d{2}\/\d{2}\/\d{4}/)) {
                 const [day, month, year] = date.split('/');
-                return `${year}-${month}-${day}`;
+                return new Date(`${year}-${month}-${day}`);
             }
         }
         
-        // Fallback: créer Date et convertir
-        const d = new Date(date);
-        return d.toISOString().split('T')[0];
+        // Fallback: créer Date
+        return new Date(date);
     }
 
     /**
@@ -243,7 +254,7 @@ export class DataProcessor {
         ).size;
         
         const uniqueClients = new Set(
-            records.filter(r => r.client).map(r => r.client)
+            records.filter(r => r.counterparty).map(r => r.counterparty)
         ).size;
         
         return {

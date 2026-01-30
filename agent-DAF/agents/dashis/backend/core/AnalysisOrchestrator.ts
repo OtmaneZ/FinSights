@@ -21,12 +21,12 @@ import type {
     FinSightScore
 } from './types';
 
-// External dependencies (existing modules)
-import { AnomalyDetector } from '../../../../../src/lib/ml/anomalyDetector';
-import { generateCashFlowPredictions } from '../../../../../src/lib/ai/predictions';
-import { detectAdvancedPatterns } from '../../../../../src/lib/ai/patterns';
-import { calculateFinSightScore } from '../../../../../src/lib/scoring/finSightScore';
-import { logger } from '../../../../../src/lib/logger';
+// External dependencies (existing modules in src/lib)
+import { AnomalyDetector } from '@/lib/ml/anomalyDetector';
+import { generateCashFlowPredictions } from '@/lib/ai/predictions';
+import { detectAdvancedPatterns } from '@/lib/ai/patterns';
+import { calculateFinSightScore } from '@/lib/scoring/finSightScore';
+import { logger } from '@/lib/logger';
 
 export interface AnalysisConfig {
     // ML Detection

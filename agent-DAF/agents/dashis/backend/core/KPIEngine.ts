@@ -234,7 +234,7 @@ export class KPIEngine {
         if (revenues.length === 0) return [];
 
         const clientTotals = revenues.reduce((acc: any, record) => {
-            const client = record.client || record.description || 'Client inconnu';
+            const client = record.counterparty || record.description || 'Client inconnu';
             if (!acc[client]) {
                 acc[client] = { name: client, revenue: 0 };
             }
@@ -260,21 +260,21 @@ export class KPIEngine {
     calculateOutstandingInvoices(records: FinancialRecord[]): OutstandingInvoice[] {
         const pending = records.filter(r => 
             r.type === 'income' && 
-            (r.status === 'pending' || r.status === 'overdue') &&
-            r.invoiceId &&
+            (r.paymentStatus === 'pending' || r.paymentStatus === 'overdue') &&
+            r.reference &&
             r.dueDate
         );
 
         return pending.map(r => {
-            const dueDate = new Date(r.dueDate!);
+            const dueDate = r.dueDate instanceof Date ? r.dueDate : new Date(r.dueDate!);
             const today = new Date();
             const daysOverdue = Math.floor((today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
 
             return {
-                invoiceId: r.invoiceId!,
-                client: r.client || r.description || 'Inconnu',
+                invoiceId: r.reference!,
+                client: r.counterparty || r.description || 'Inconnu',
                 amount: r.amount,
-                dueDate: r.dueDate!,
+                dueDate: dueDate.toISOString().split('T')[0], // Date → string
                 daysOverdue: Math.max(0, daysOverdue),
                 status: (daysOverdue > 0 ? 'overdue' : 'pending') as 'pending' | 'overdue'
             };
@@ -285,11 +285,11 @@ export class KPIEngine {
      * Calcule la répartition des statuts de paiement
      */
     calculatePaymentStatus(records: FinancialRecord[]): PaymentStatus[] {
-        const invoices = records.filter(r => r.type === 'income' && r.status);
+        const invoices = records.filter(r => r.type === 'income' && r.paymentStatus);
         if (invoices.length === 0) return [];
 
         const statusCounts = invoices.reduce((acc: any, r) => {
-            const status = r.status || 'unknown';
+            const status = r.paymentStatus || 'unknown';
             acc[status] = (acc[status] || 0) + r.amount;
             return acc;
         }, {});
@@ -406,7 +406,7 @@ export class KPIEngine {
     private calculateDSO(records: FinancialRecord[]): number | null {
         const invoices = records.filter(r => 
             r.type === 'income' && 
-            r.status === 'paid' &&
+            r.paymentStatus === 'paid' &&
             r.dueDate
         );
 

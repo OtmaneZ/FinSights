@@ -1,23 +1,23 @@
 /**
  * DASHIS Agent - Types Core
  * Types centralisés pour l'agent DASHIS
+ * 
+ * Réutilise les types du projet (src/lib/dataModel) pour la robustesse.
  */
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// FINANCIAL DATA TYPES
+// FINANCIAL DATA TYPES (réutilisés depuis dataModel)
 // ═══════════════════════════════════════════════════════════════════════════════
 
-export interface FinancialRecord {
-    date: string;
-    type: 'income' | 'expense';
-    amount: number;
-    category?: string;
-    client?: string;
-    description?: string;
-    invoiceId?: string;
-    status?: 'paid' | 'pending' | 'overdue';
-    dueDate?: string;
-}
+// Réutiliser les types existants du projet pour garantir la compatibilité
+import type { 
+    FinancialRecord as DataModelFinancialRecord,
+    ProcessedData 
+} from '@/lib/dataModel';
+
+// Ré-exporter pour usage dans l'agent
+export type FinancialRecord = DataModelFinancialRecord;
+export type { ProcessedData };
 
 export interface FinancialData {
     records: FinancialRecord[];
