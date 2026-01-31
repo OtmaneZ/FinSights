@@ -9,6 +9,7 @@ import { ThemeProvider } from '@/lib/themeContext'
 import SessionProvider from '@/components/SessionProvider'
 import Analytics from '@/components/Analytics'
 import CookieConsent from '@/components/CookieConsent'
+import AnalyticsDebugger from '@/components/AnalyticsDebugger'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -92,6 +93,7 @@ export default function RootLayout({
 
                 <Analytics />
                 <CookieConsent />
+                <AnalyticsDebugger />
                 <SessionProvider>
                     <CompanyProvider>
                         <ThemeProvider>

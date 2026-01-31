@@ -5,31 +5,62 @@ import Script from 'next/script'
 
 export default function Analytics() {
   const [hasConsent, setHasConsent] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+  
+  // IDs Google Analytics (fallback à des IDs de démo si pas d'env vars)
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-58BZSL7W'
   const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || 'ud37rbzjnx'
   const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-GEE0265TEB'
 
+  // Vérifier le consentement au mount ET quand localStorage change
   useEffect(() => {
-    // Vérifier le consentement cookies
-    const consent = localStorage.getItem('cookie-consent')
-    if (consent) {
-      const consentData = JSON.parse(consent)
-      setHasConsent(consentData.analytics === true)
+    setIsMounted(true)
+    
+    const checkConsent = () => {
+      const consent = localStorage.getItem('cookie-consent')
+      if (consent) {
+        try {
+          const consentData = JSON.parse(consent)
+          setHasConsent(consentData.analytics === true)
+        } catch (e) {
+          console.error('❌ Invalid cookie consent data:', e)
+          setHasConsent(false)
+        }
+      } else {
+        setHasConsent(false)
+      }
     }
+
+    checkConsent()
+
+    // Écouter les changements de localStorage (cross-tab)
+    const handleStorageChange = () => {
+      checkConsent()
+    }
+    
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
-  // Ne charger les scripts que si l'utilisateur a consenti
-  if (!hasConsent) {
+  // Ne charger les scripts que si:
+  // 1) Monté en client
+  // 2) Utilisateur a consenti
+  if (!isMounted || !hasConsent) {
     return null
   }
 
   return (
     <>
-      {/* Google Analytics 4 */}
+      {/* Google Analytics 4 - Load gtag library */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
         strategy="afterInteractive"
+        onLoad={() => {
+          console.log('✅ Google Analytics script loaded')
+        }}
       />
+
+      {/* Google Analytics 4 - Initialize gtag */}
       <Script
         id="google-analytics"
         strategy="afterInteractive"
@@ -42,11 +73,12 @@ export default function Analytics() {
               anonymize_ip: true,
               cookie_flags: 'SameSite=None;Secure'
             });
+            console.log('✅ GA4 initialized with ID: ${GA_ID}');
           `
         }}
       />
 
-      {/* Google Tag Manager */}
+      {/* Google Tag Manager - For GTM container */}
       <Script
         id="google-tag-manager"
         strategy="afterInteractive"
@@ -57,11 +89,12 @@ export default function Analytics() {
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer',${JSON.stringify(GTM_ID)});
+            console.log('✅ GTM initialized with ID: ${GTM_ID}');
           `
         }}
       />
 
-      {/* Microsoft Clarity */}
+      {/* Microsoft Clarity - Behavior analytics */}
       <Script
         id="microsoft-clarity"
         strategy="afterInteractive"
@@ -72,6 +105,24 @@ export default function Analytics() {
                 t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
                 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
             })(window, document, "clarity", "script", ${JSON.stringify(CLARITY_ID)});
+            console.log('✅ Microsoft Clarity initialized with ID: ${CLARITY_ID}');
+          `
+        }}
+      />
+
+      {/* GA4 Enhanced Ecommerce - Track page views */}
+      <Script
+        id="ga-page-view"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            if (window.gtag) {
+              gtag('event', 'page_view', {
+                page_path: window.location.pathname,
+                page_title: document.title,
+                page_location: window.location.href
+              });
+            }
           `
         }}
       />
