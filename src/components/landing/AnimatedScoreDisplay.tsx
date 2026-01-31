@@ -102,6 +102,9 @@ export default function AnimatedScoreDisplay() {
     }, [animatePillar, calculateTotal, fillGauge])
 
     useEffect(() => {
+        // Vérifier qu'on est côté client
+        if (typeof window === 'undefined') return
+        
         // Capture la référence dans une variable locale pour le cleanup
         const currentRef = componentRef.current
         

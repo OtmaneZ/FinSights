@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { CheckCircle, XCircle, AlertCircle } from 'lucide-react'
 
 export default function AnalyticsDebugger() {
+  const [mounted, setMounted] = useState(false)
   const [debug, setDebug] = useState({
     cookieConsent: false,
     ga4Loaded: false,
@@ -18,6 +19,8 @@ export default function AnalyticsDebugger() {
   })
 
   useEffect(() => {
+    setMounted(true)
+    
     const checkAnalytics = () => {
       // Only run on client-side
       if (typeof window === 'undefined') return
@@ -43,8 +46,8 @@ export default function AnalyticsDebugger() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Only show in development or if explicitly enabled
-  if (typeof window === 'undefined') {
+  // Ne rien afficher côté serveur
+  if (!mounted) {
     return null
   }
   
