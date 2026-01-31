@@ -3,16 +3,18 @@
 /**
  * AutonomousAgentPanel - Panneau de contrôle de l'agent autonome
  * 
- * Affiche:
+ * V2 Features:
  * - Bouton START/STOP avec état visible
  * - Machine à états (IDLE → MONITORING → ANALYZING → WAITING)
+ * - MODE AUTO-SCAN: Scan automatique toutes les X secondes
  * - Uptime et compteurs de décisions/triggers
  * - Dernière décision de l'agent
+ * - Callback pour ouvrir modal validation DAF
  * 
  * Architecture McKinsey-grade: clair, rigoureux, factuel
  */
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
     Play,
@@ -26,7 +28,10 @@ import {
     Zap,
     Timer,
     TrendingUp,
-    Loader2
+    Loader2,
+    RotateCw,
+    Settings2,
+    Radio
 } from 'lucide-react'
 
 // ═══════════════════════════════════════════════════════════════════
@@ -53,6 +58,7 @@ interface AgentStatus {
         risks_count: number
         critical_count: number
         actions_count: number
+        pending_actions?: ActionForValidation[]
     } | null
     thresholds: {
         dso_threshold: number
@@ -61,8 +67,20 @@ interface AgentStatus {
     }
 }
 
+export interface ActionForValidation {
+    id: string
+    priority: 'P1' | 'P2' | 'P3'
+    title: string
+    description?: string
+    deadline: string
+    impact_amount: number
+    justification?: string
+    validation_status: 'pending' | 'approved' | 'rejected' | 'postponed'
+}
+
 interface AutonomousAgentPanelProps {
     onStatusChange?: (status: AgentStatus) => void
+    onWaitingValidation?: (actions: ActionForValidation[]) => void
     className?: string
 }
 
@@ -75,6 +93,13 @@ const MODES: { key: AgentMode; label: string; icon: React.ReactNode; color: stri
     { key: 'monitoring', label: 'SURVEILLANCE', icon: <Eye className="w-4 h-4" />, color: 'bg-emerald-500' },
     { key: 'analyzing', label: 'ANALYSE', icon: <Search className="w-4 h-4" />, color: 'bg-blue-500' },
     { key: 'waiting_validation', label: 'ATTENTE DAF', icon: <Clock className="w-4 h-4" />, color: 'bg-amber-500' }
+]
+
+const AUTO_SCAN_INTERVALS = [
+    { value: 10, label: '10s' },
+    { value: 30, label: '30s' },
+    { value: 60, label: '1min' },
+    { value: 120, label: '2min' }
 ]
 
 const formatUptime = (seconds: number): string => {
@@ -91,12 +116,21 @@ const formatUptime = (seconds: number): string => {
 
 export default function AutonomousAgentPanel({ 
     onStatusChange,
+    onWaitingValidation,
     className = '' 
 }: AutonomousAgentPanelProps) {
     // State
     const [status, setStatus] = useState<AgentStatus | null>(null)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    
+    // Auto-Scan State
+    const [autoScanEnabled, setAutoScanEnabled] = useState(false)
+    const [autoScanInterval, setAutoScanInterval] = useState(30)
+    const [nextScanIn, setNextScanIn] = useState<number | null>(null)
+    const [showSettings, setShowSettings] = useState(false)
+    const autoScanTimerRef = useRef<NodeJS.Timeout | null>(null)
+    const countdownRef = useRef<NodeJS.Timeout | null>(null)
     
     // ═══════════════════════════════════════════════════════════════
     // API CALLS
@@ -110,11 +144,16 @@ export default function AutonomousAgentPanel({
             setStatus(data)
             setError(null)
             onStatusChange?.(data)
+            
+            // Check if waiting for validation and has pending actions
+            if (data.mode === 'waiting_validation' && data.current_analysis?.pending_actions) {
+                onWaitingValidation?.(data.current_analysis.pending_actions)
+            }
         } catch (err) {
             console.error('Status fetch error:', err)
             setError('Erreur de connexion')
         }
-    }, [onStatusChange])
+    }, [onStatusChange, onWaitingValidation])
     
     const startAgent = useCallback(async () => {
         setIsLoading(true)
@@ -134,6 +173,7 @@ export default function AutonomousAgentPanel({
     
     const stopAgent = useCallback(async () => {
         setIsLoading(true)
+        setAutoScanEnabled(false) // Stop auto-scan when stopping agent
         try {
             const response = await fetch('/api/tresoris/agent/stop', {
                 method: 'POST'
@@ -147,6 +187,61 @@ export default function AutonomousAgentPanel({
             setIsLoading(false)
         }
     }, [fetchStatus])
+    
+    // Trigger manual scan (simulates agent check)
+    const triggerScan = useCallback(async () => {
+        try {
+            const response = await fetch('/api/tresoris/agent/trigger-scan', {
+                method: 'POST'
+            })
+            if (!response.ok) throw new Error('Failed to trigger scan')
+            await fetchStatus()
+        } catch (err) {
+            console.error('Trigger scan error:', err)
+        }
+    }, [fetchStatus])
+    
+    // ═══════════════════════════════════════════════════════════════
+    // AUTO-SCAN LOGIC
+    // ═══════════════════════════════════════════════════════════════
+    
+    useEffect(() => {
+        // Clear existing timers
+        if (autoScanTimerRef.current) {
+            clearInterval(autoScanTimerRef.current)
+            autoScanTimerRef.current = null
+        }
+        if (countdownRef.current) {
+            clearInterval(countdownRef.current)
+            countdownRef.current = null
+        }
+        
+        if (autoScanEnabled && status?.running) {
+            // Set countdown
+            setNextScanIn(autoScanInterval)
+            
+            // Countdown timer
+            countdownRef.current = setInterval(() => {
+                setNextScanIn(prev => {
+                    if (prev === null || prev <= 1) return autoScanInterval
+                    return prev - 1
+                })
+            }, 1000)
+            
+            // Auto-scan timer
+            autoScanTimerRef.current = setInterval(() => {
+                triggerScan()
+                setNextScanIn(autoScanInterval)
+            }, autoScanInterval * 1000)
+        } else {
+            setNextScanIn(null)
+        }
+        
+        return () => {
+            if (autoScanTimerRef.current) clearInterval(autoScanTimerRef.current)
+            if (countdownRef.current) clearInterval(countdownRef.current)
+        }
+    }, [autoScanEnabled, autoScanInterval, status?.running, triggerScan])
     
     // ═══════════════════════════════════════════════════════════════
     // LIFECYCLE & POLLING
@@ -190,33 +285,101 @@ export default function AutonomousAgentPanel({
                         </div>
                     </div>
                     
-                    {/* START/STOP Button */}
-                    <button
-                        onClick={isRunning ? stopAgent : startAgent}
-                        disabled={isLoading}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold transition-all shadow-sm ${
-                            isLoading 
-                                ? 'bg-slate-200 text-slate-500 cursor-wait'
-                                : isRunning
-                                    ? 'bg-red-500 hover:bg-red-600 text-white'
-                                    : 'bg-emerald-500 hover:bg-emerald-600 text-white'
-                        }`}
-                    >
-                        {isLoading ? (
-                            <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : isRunning ? (
-                            <>
-                                <Square className="w-5 h-5" />
-                                <span>STOP</span>
-                            </>
-                        ) : (
-                            <>
-                                <Play className="w-5 h-5" />
-                                <span>START</span>
-                            </>
+                    <div className="flex items-center gap-3">
+                        {/* Auto-Scan Toggle */}
+                        {isRunning && (
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setShowSettings(!showSettings)}
+                                    className={`p-2 rounded-lg transition-colors ${
+                                        showSettings ? 'bg-slate-200 text-slate-700' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
+                                    }`}
+                                    title="Paramètres Auto-Scan"
+                                >
+                                    <Settings2 className="w-4 h-4" />
+                                </button>
+                                
+                                <button
+                                    onClick={() => setAutoScanEnabled(!autoScanEnabled)}
+                                    className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-sm transition-all ${
+                                        autoScanEnabled
+                                            ? 'bg-blue-500 text-white shadow-sm'
+                                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                    }`}
+                                >
+                                    <Radio className={`w-4 h-4 ${autoScanEnabled ? 'animate-pulse' : ''}`} />
+                                    <span>Auto-Scan</span>
+                                    {autoScanEnabled && nextScanIn !== null && (
+                                        <span className="bg-blue-600 px-1.5 py-0.5 rounded text-xs">
+                                            {nextScanIn}s
+                                        </span>
+                                    )}
+                                </button>
+                            </div>
                         )}
-                    </button>
+                        
+                        {/* START/STOP Button */}
+                        <button
+                            onClick={isRunning ? stopAgent : startAgent}
+                            disabled={isLoading}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold transition-all shadow-sm ${
+                                isLoading 
+                                    ? 'bg-slate-200 text-slate-500 cursor-wait'
+                                    : isRunning
+                                        ? 'bg-red-500 hover:bg-red-600 text-white'
+                                        : 'bg-emerald-500 hover:bg-emerald-600 text-white'
+                            }`}
+                        >
+                            {isLoading ? (
+                                <Loader2 className="w-5 h-5 animate-spin" />
+                            ) : isRunning ? (
+                                <>
+                                    <Square className="w-5 h-5" />
+                                    <span>STOP</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Play className="w-5 h-5" />
+                                    <span>START</span>
+                                </>
+                            )}
+                        </button>
+                    </div>
                 </div>
+                
+                {/* Auto-Scan Settings Panel */}
+                <AnimatePresence>
+                    {showSettings && isRunning && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="mt-4 pt-4 border-t border-slate-200"
+                        >
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h4 className="text-sm font-medium text-slate-700">Intervalle Auto-Scan</h4>
+                                    <p className="text-xs text-slate-500">L'agent scannera automatiquement le portefeuille</p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    {AUTO_SCAN_INTERVALS.map(interval => (
+                                        <button
+                                            key={interval.value}
+                                            onClick={() => setAutoScanInterval(interval.value)}
+                                            className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                                                autoScanInterval === interval.value
+                                                    ? 'bg-blue-500 text-white'
+                                                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                            }`}
+                                        >
+                                            {interval.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
             
             {/* State Machine Visualization */}

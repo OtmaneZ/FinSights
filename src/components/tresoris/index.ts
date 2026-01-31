@@ -3,8 +3,11 @@
  * 
  * Architecture:
  * - TresorisAgentUI: Dashboard principal complet
- * - AutonomousAgentPanel: Panneau contrôle agent (START/STOP, machine à états)
- * - AgentActivityLog: Log terminal temps réel
+ * - AutonomousAgentPanel: Panneau contrôle agent (START/STOP, machine à états, AUTO-SCAN)
+ * - AgentActivityLog: Log terminal temps réel enrichi
+ * - AgentAnalysisTimeline: Timeline visuelle Before/During/After
+ * - DAFValidationModal: Modal validation actions DAF
+ * - DemoModeBadge: Badge Live/Demo mode
  * - RiskSimulator: Simulateur interactif de facture (killer feature)
  * - CashRunwayGauge: Jauge visuelle du runway en semaines
  * - ClientRiskMatrix: Matrice scoring clients A/B/C/D
@@ -16,9 +19,12 @@
 // Main UI
 export { default as TresorisAgentUI } from './TresorisAgentUI'
 
-// Agent Control (NEW)
+// Agent Control (V2 Enhanced)
 export { default as AutonomousAgentPanel } from './AutonomousAgentPanel'
 export { default as AgentActivityLog } from './AgentActivityLog'
+export { default as AgentAnalysisTimeline } from './AgentAnalysisTimeline'
+export { default as DAFValidationModal } from './DAFValidationModal'
+export { default as DemoModeBadge, DemoModeInlineBadge } from './DemoModeBadge'
 
 // Killer Feature
 export { default as RiskSimulator } from './RiskSimulator'

@@ -328,27 +328,30 @@ export default function RiskSimulator({ onSimulationComplete, className = '' }: 
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             transition={{ delay: 0.2 }}
-                                            className="text-sm text-secondary"
+                                            className="text-sm text-secondary flex items-center justify-center gap-2"
                                         >
-                                            ✓ Analyse du pattern client...
+                                            <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                                            Analyse du pattern client...
                                         </motion.p>
                                         <motion.p
                                             key="step2"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             transition={{ delay: 0.6 }}
-                                            className="text-sm text-secondary"
+                                            className="text-sm text-secondary flex items-center justify-center gap-2"
                                         >
-                                            ✓ Calcul du scoring risque...
+                                            <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                                            Calcul du scoring risque...
                                         </motion.p>
                                         <motion.p
                                             key="step3"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             transition={{ delay: 1.0 }}
-                                            className="text-sm text-secondary"
+                                            className="text-sm text-secondary flex items-center justify-center gap-2"
                                         >
-                                            ✓ Détection early warnings...
+                                            <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                                            Détection early warnings...
                                         </motion.p>
                                     </div>
                                 </motion.div>
@@ -490,8 +493,14 @@ export default function RiskSimulator({ onSimulationComplete, className = '' }: 
                                                             <span className="font-medium text-primary text-sm">{action.title}</span>
                                                         </div>
                                                         <div className="flex items-center gap-4 mt-2 text-xs text-tertiary">
-                                                            <span>📅 {action.deadline}</span>
-                                                            <span>💰 {(action.impact_amount / 1000).toFixed(0)}K€</span>
+                                                            <span className="flex items-center gap-1">
+                                                                <Calendar className="w-3 h-3" />
+                                                                {action.deadline}
+                                                            </span>
+                                                            <span className="flex items-center gap-1">
+                                                                <Euro className="w-3 h-3" />
+                                                                {(action.impact_amount / 1000).toFixed(0)}K€
+                                                            </span>
                                                         </div>
                                                     </motion.div>
                                                 ))}

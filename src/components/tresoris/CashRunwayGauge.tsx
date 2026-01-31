@@ -119,11 +119,11 @@ export default function CashRunwayGauge({
             {/* Context */}
             <div className="mt-4 p-3 bg-secondary/50 rounded-lg text-sm text-secondary">
                 {runwayWeeks >= 10 ? (
-                    <p>✅ Situation confortable. Vous avez plus de 2 mois de visibilité.</p>
+                    <p>Situation confortable. Vous avez plus de 2 mois de visibilité.</p>
                 ) : runwayWeeks >= 6 ? (
-                    <p>⚠️ Surveillance recommandée. Anticipez les encaissements à risque.</p>
+                    <p>Surveillance recommandée. Anticipez les encaissements à risque.</p>
                 ) : (
-                    <p>🔴 Situation tendue. Actions de recouvrement prioritaires.</p>
+                    <p>Situation tendue. Actions de recouvrement prioritaires.</p>
                 )}
             </div>
         </div>

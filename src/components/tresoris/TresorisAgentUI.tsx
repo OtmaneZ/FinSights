@@ -3,21 +3,23 @@
 /**
  * TresorisAgentUI - Dashboard principal TRESORIS avec Agent Autonome
  * 
- * Version 2.0 - Architecture Agent Autonome Rigoureux
+ * Version 3.0 - Architecture Agent Autonome Complet
  * 
- * Features:
- * - AutonomousAgentPanel: Contrôle START/STOP + machine à états visible
- * - AgentActivityLog: Log terminal temps réel des décisions
- * - RiskSimulator: Démo interactive (trigger auto si agent actif)
- * - Dashboard KPIs dynamiques
- * - Validation actions DAF
+ * NEW Features V3:
+ * - AUTO-SCAN: Scan automatique configurable (10s/30s/1min/2min)
+ * - Timeline Visuelle: Before/During/After avec diff
+ * - Modal Validation DAF: Actions P1/P2/P3 avec Approuver/Rejeter/Reporter
+ * - Badge Demo Mode: Live vs Demo detection
+ * - Activity Log Enrichi: 6 engines visibles, timestamps précis
  * 
  * Flux démo prouvant l'autonomie:
  * 1. Clic START → Agent passe en MONITORING
- * 2. Simulation facture → Agent détecte risque
- * 3. Si risque critique → TRIGGER automatique
- * 4. Agent passe en ANALYZING → génère actions
- * 5. Agent passe en WAITING → attend validation DAF
+ * 2. AUTO-SCAN activé → Agent scanne toutes les X secondes
+ * 3. Simulation facture → Agent détecte risque
+ * 4. Si risque critique → TRIGGER automatique
+ * 5. Agent passe en ANALYZING → Timeline shows engines
+ * 6. Agent passe en WAITING → Modal DAF s'ouvre
+ * 7. Validation DAF → Retour en MONITORING
  */
 
 import { useState, useEffect, useCallback } from 'react'
@@ -27,12 +29,17 @@ import {
     Loader2,
     TrendingUp,
     AlertTriangle,
-    Zap
+    Zap,
+    Eye,
+    BarChart3
 } from 'lucide-react'
 
 // Components
-import AutonomousAgentPanel from './AutonomousAgentPanel'
+import AutonomousAgentPanel, { ActionForValidation } from './AutonomousAgentPanel'
 import AgentActivityLog from './AgentActivityLog'
+import AgentAnalysisTimeline from './AgentAnalysisTimeline'
+import DAFValidationModal from './DAFValidationModal'
+import DemoModeBadge from './DemoModeBadge'
 import RiskSimulator from './RiskSimulator'
 import ClientRiskMatrix from './ClientRiskMatrix'
 import EarlyWarningPanel from './EarlyWarningPanel'
@@ -50,6 +57,8 @@ interface TresorisAgentUIProps {
     className?: string
 }
 
+type TimelinePhase = 'before' | 'analyzing' | 'after'
+
 export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps) {
     // ═══════════════════════════════════════════════════════════════════
     // STATE
@@ -60,6 +69,12 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
     const [dashboard, setDashboard] = useState<DashboardData | null>(null)
     const [lastSimulation, setLastSimulation] = useState<SimulationResult | null>(null)
     const [agentTriggered, setAgentTriggered] = useState(false)
+    
+    // New V3 State
+    const [timelinePhase, setTimelinePhase] = useState<TimelinePhase>('before')
+    const [showValidationModal, setShowValidationModal] = useState(false)
+    const [pendingActions, setPendingActions] = useState<ActionForValidation[]>([])
+    const [agentMode, setAgentMode] = useState<string>('idle')
     
     // ═══════════════════════════════════════════════════════════════════
     // API CALLS
@@ -78,7 +93,7 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
         }
     }, [])
     
-    const validateAction = useCallback(async (actionId: string, decision: 'approved' | 'rejected') => {
+    const validateAction = useCallback(async (actionId: string, decision: 'approved' | 'rejected' | 'postponed', comment?: string) => {
         try {
             const response = await fetch(TRESORIS_ENDPOINTS.validate, {
                 method: 'POST',
@@ -86,6 +101,7 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                 body: JSON.stringify({
                     action_id: actionId,
                     decision,
+                    comment,
                     validated_by: 'DAF Demo'
                 })
             })
@@ -97,6 +113,35 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
             console.error('Validate action error:', err)
         }
     }, [fetchDashboard])
+    
+    const validateAllActions = useCallback(async (decision: 'approved' | 'rejected') => {
+        for (const action of pendingActions) {
+            await validateAction(action.id, decision)
+        }
+        setShowValidationModal(false)
+    }, [pendingActions, validateAction])
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // AGENT STATUS HANDLERS
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const handleAgentStatusChange = useCallback((status: { mode: string }) => {
+        setAgentMode(status.mode)
+        
+        // Update timeline phase based on agent mode
+        if (status.mode === 'monitoring') {
+            setTimelinePhase('before')
+        } else if (status.mode === 'analyzing') {
+            setTimelinePhase('analyzing')
+        } else if (status.mode === 'waiting_validation') {
+            setTimelinePhase('after')
+        }
+    }, [])
+    
+    const handleWaitingValidation = useCallback((actions: ActionForValidation[]) => {
+        setPendingActions(actions)
+        setShowValidationModal(true)
+    }, [])
     
     // ═══════════════════════════════════════════════════════════════════
     // LIFECYCLE
@@ -115,6 +160,12 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
     const handleSimulationComplete = useCallback((result: SimulationResult & { agent_triggered?: boolean }) => {
         setLastSimulation(result)
         setAgentTriggered(result.agent_triggered || false)
+        
+        // Trigger timeline animation
+        if (result.agent_triggered) {
+            setTimelinePhase('analyzing')
+            setTimeout(() => setTimelinePhase('after'), 5000)
+        }
         
         // Update dashboard with simulation impact
         if (dashboard) {
@@ -158,6 +209,8 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                                     <span className="px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full capitalize">
                                         {DEMO_COMPANY.type}
                                     </span>
+                                    {/* Demo Mode Badge */}
+                                    <DemoModeBadge size="sm" showDetails />
                                 </div>
                                 <p className="text-sm text-slate-500">{DEMO_COMPANY.sector}</p>
                             </div>
@@ -217,7 +270,7 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                             className="space-y-8"
                         >
                             {/* ═══════════════════════════════════════════════════════════
-                                SECTION 1: Agent Autonome (HERO)
+                                SECTION 1: Agent Autonome (HERO) + Auto-Scan
                             ═══════════════════════════════════════════════════════════ */}
                             <section>
                                 <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
@@ -225,20 +278,43 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                                         <Zap className="w-5 h-5 text-white" />
                                     </div>
                                     Agent Autonome TRESORIS
+                                    <span className="text-sm font-normal text-slate-500 ml-2">
+                                        v3.0 — Auto-Scan
+                                    </span>
                                 </h2>
                                 
-                                {/* Agent Control Panel */}
-                                <AutonomousAgentPanel className="mb-6" />
+                                {/* Agent Control Panel with Auto-Scan */}
+                                <AutonomousAgentPanel 
+                                    className="mb-6" 
+                                    onStatusChange={handleAgentStatusChange}
+                                    onWaitingValidation={handleWaitingValidation}
+                                />
                                 
-                                {/* Agent Activity Log */}
-                                <AgentActivityLog maxLogs={12} />
+                                {/* Agent Activity Log - Enriched */}
+                                <AgentActivityLog maxLogs={15} />
                             </section>
                             
                             {/* ═══════════════════════════════════════════════════════════
-                                SECTION 2: Simulateur (Trigger Demo)
+                                SECTION 2: Timeline Visuelle (Before/During/After)
                             ═══════════════════════════════════════════════════════════ */}
                             <section>
-                                <h2 className="text-lg font-semibold text-slate-900 mb-4">
+                                <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center">
+                                        <BarChart3 className="w-5 h-5 text-white" />
+                                    </div>
+                                    Cycle d'Analyse Agent
+                                </h2>
+                                <AgentAnalysisTimeline phase={timelinePhase} />
+                            </section>
+                            
+                            {/* ═══════════════════════════════════════════════════════════
+                                SECTION 3: Simulateur (Trigger Demo)
+                            ═══════════════════════════════════════════════════════════ */}
+                            <section>
+                                <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded-lg bg-purple-500 flex items-center justify-center">
+                                        <Eye className="w-5 h-5 text-white" />
+                                    </div>
                                     Simuler une Facture
                                     <span className="ml-2 text-sm font-normal text-slate-500">
                                         (déclenche l'agent si actif)
@@ -271,7 +347,7 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                             </section>
                             
                             {/* ═══════════════════════════════════════════════════════════
-                                SECTION 3: KPIs
+                                SECTION 4: KPIs
                             ═══════════════════════════════════════════════════════════ */}
                             {dashboard && (
                                 <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -323,7 +399,7 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                             )}
                             
                             {/* ═══════════════════════════════════════════════════════════
-                                SECTION 4: Clients & Warnings
+                                SECTION 5: Clients & Warnings
                             ═══════════════════════════════════════════════════════════ */}
                             {dashboard && (
                                 <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -333,7 +409,7 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                             )}
                             
                             {/* ═══════════════════════════════════════════════════════════
-                                SECTION 5: Actions
+                                SECTION 6: Actions
                             ═══════════════════════════════════════════════════════════ */}
                             {dashboard && dashboard.pending_actions.length > 0 && (
                                 <section>
@@ -347,6 +423,23 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                     )}
                 </AnimatePresence>
             </div>
+            
+            {/* ═══════════════════════════════════════════════════════════════════
+                DAF VALIDATION MODAL
+            ═══════════════════════════════════════════════════════════════════ */}
+            <DAFValidationModal
+                isOpen={showValidationModal}
+                onClose={() => setShowValidationModal(false)}
+                actions={pendingActions.map(a => ({
+                    ...a,
+                    description: a.description || '',
+                    client: undefined,
+                    roi_estimate: Math.round(Math.random() * 30 + 10),
+                    confidence: ['high', 'medium', 'low'][Math.floor(Math.random() * 3)] as 'high' | 'medium' | 'low'
+                }))}
+                onValidate={validateAction}
+                onValidateAll={validateAllActions}
+            />
         </div>
     )
 }

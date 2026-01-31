@@ -19,7 +19,10 @@ import {
     ChevronUp,
     Loader2,
     ThumbsUp,
-    ThumbsDown
+    ThumbsDown,
+    AlertCircle,
+    Circle,
+    Lock
 } from 'lucide-react'
 import { Action } from './types'
 
@@ -36,7 +39,7 @@ const PRIORITY_CONFIG = {
         border: 'border-red-500/30',
         text: 'text-red-500',
         badge: 'bg-red-500',
-        icon: '🔴',
+        icon: AlertCircle,
         label: 'Immédiat',
         desc: 'Action requise dans les 24h'
     },
@@ -45,7 +48,7 @@ const PRIORITY_CONFIG = {
         border: 'border-amber-500/30',
         text: 'text-amber-500',
         badge: 'bg-amber-500',
-        icon: '🟡',
+        icon: Circle,
         label: 'Cette semaine',
         desc: 'Action importante à planifier'
     },
@@ -54,7 +57,7 @@ const PRIORITY_CONFIG = {
         border: 'border-blue-500/30',
         text: 'text-blue-500',
         badge: 'bg-blue-500',
-        icon: '🔵',
+        icon: Circle,
         label: 'Sous 2 semaines',
         desc: 'Action recommandée'
     }
@@ -251,7 +254,7 @@ export default function ActionRecommendations({
             {/* Governance Footer */}
             <div className="p-4 bg-secondary/30 border-t border-border-subtle">
                 <div className="flex items-center justify-center gap-2 text-xs text-tertiary">
-                    <span>🔒</span>
+                    <Lock className="w-3 h-3" />
                     <span>Validation DAF requise • 0 exécution automatique</span>
                 </div>
             </div>
