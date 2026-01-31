@@ -131,12 +131,34 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
         loadData()
     }, [fetchDashboard])
     
-    // Handle simulation complete
+    // Handle simulation complete - Update dashboard with simulation impact
     const handleSimulationComplete = useCallback((result: SimulationResult) => {
         setLastSimulation(result)
-        // Refresh dashboard after simulation
-        fetchDashboard()
-    }, [fetchDashboard])
+        
+        // Update dashboard metrics based on simulation
+        if (dashboard) {
+            setDashboard({
+                ...dashboard,
+                // Update runway
+                runway_weeks: result.runway_after_weeks,
+                // Add simulation warnings to active warnings
+                active_warnings: [
+                    ...result.warnings_triggered,
+                    ...dashboard.active_warnings
+                ].slice(0, 5), // Keep max 5 warnings
+                // Add simulation actions to pending actions
+                pending_actions: [
+                    ...result.actions_generated,
+                    ...dashboard.pending_actions
+                ].slice(0, 8), // Keep max 8 actions
+                // Update risk counts
+                risks_by_status: {
+                    ...dashboard.risks_by_status,
+                    [result.risk_status]: (dashboard.risks_by_status[result.risk_status] || 0) + 1
+                }
+            })
+        }
+    }, [dashboard])
     
     // ═══════════════════════════════════════════════════════════════════
     // RENDER
