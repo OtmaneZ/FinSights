@@ -1,40 +1,42 @@
 'use client'
 
 /**
- * TresorisAgentUI - Dashboard principal TRESORIS
+ * TresorisAgentUI - Dashboard principal TRESORIS avec Agent Autonome
  * 
- * Assemble tous les composants modulaires pour créer
- * l'interface de surveillance trésorerie complète.
+ * Version 2.0 - Architecture Agent Autonome Rigoureux
  * 
  * Features:
- * - API routes Next.js (pas de serveur externe)
- * - RiskSimulator pour démo interactive
- * - Dashboard avec métriques live
+ * - AutonomousAgentPanel: Contrôle START/STOP + machine à états visible
+ * - AgentActivityLog: Log terminal temps réel des décisions
+ * - RiskSimulator: Démo interactive (trigger auto si agent actif)
+ * - Dashboard KPIs dynamiques
  * - Validation actions DAF
+ * 
+ * Flux démo prouvant l'autonomie:
+ * 1. Clic START → Agent passe en MONITORING
+ * 2. Simulation facture → Agent détecte risque
+ * 3. Si risque critique → TRIGGER automatique
+ * 4. Agent passe en ANALYZING → génère actions
+ * 5. Agent passe en WAITING → attend validation DAF
  */
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-    Wifi,
-    WifiOff,
     RefreshCw,
-    Play,
-    Square,
     Loader2,
-    Building2,
     TrendingUp,
     AlertTriangle,
-    CheckCircle2
+    Zap
 } from 'lucide-react'
 
 // Components
+import AutonomousAgentPanel from './AutonomousAgentPanel'
+import AgentActivityLog from './AgentActivityLog'
 import RiskSimulator from './RiskSimulator'
-import CashRunwayGauge from './CashRunwayGauge'
 import ClientRiskMatrix from './ClientRiskMatrix'
 import EarlyWarningPanel from './EarlyWarningPanel'
 import ActionRecommendations from './ActionRecommendations'
-import AgentReactionTimeline, { DEFAULT_ANALYSIS_STEPS, TimelineStep } from './AgentReactionTimeline'
 
 // Types
 import {
@@ -53,50 +55,29 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
     // STATE
     // ═══════════════════════════════════════════════════════════════════
     
-    // Connection
-    const [isConnected, setIsConnected] = useState(true) // Toujours connecté avec API Next.js
-    const [isAgentRunning, setIsAgentRunning] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-    
-    // Data
     const [dashboard, setDashboard] = useState<DashboardData | null>(null)
     const [lastSimulation, setLastSimulation] = useState<SimulationResult | null>(null)
-    
-    // Timeline
-    const [analysisSteps, setAnalysisSteps] = useState<TimelineStep[]>(DEFAULT_ANALYSIS_STEPS)
-    const [currentStep, setCurrentStep] = useState<string | null>(null)
+    const [agentTriggered, setAgentTriggered] = useState(false)
     
     // ═══════════════════════════════════════════════════════════════════
     // API CALLS
     // ═══════════════════════════════════════════════════════════════════
     
-    // Fetch dashboard data
     const fetchDashboard = useCallback(async () => {
         try {
             const response = await fetch(TRESORIS_ENDPOINTS.dashboard)
             if (!response.ok) throw new Error('Failed to fetch dashboard')
             const data: DashboardData = await response.json()
             setDashboard(data)
-            setIsAgentRunning(data.agent_running)
             setError(null)
-            setIsConnected(true)
         } catch (err) {
             console.error('Dashboard fetch error:', err)
             setError('Erreur de chargement des données')
         }
     }, [])
     
-    // Start/Stop agent (mode démo - juste toggle UI)
-    const startAgent = useCallback(() => {
-        setIsAgentRunning(true)
-    }, [])
-    
-    const stopAgent = useCallback(() => {
-        setIsAgentRunning(false)
-    }, [])
-    
-    // Validate action
     const validateAction = useCallback(async (actionId: string, decision: 'approved' | 'rejected') => {
         try {
             const response = await fetch(TRESORIS_ENDPOINTS.validate, {
@@ -122,7 +103,6 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
     // ═══════════════════════════════════════════════════════════════════
     
     useEffect(() => {
-        // Initial load - pas de WebSocket, juste fetch HTTP
         const loadData = async () => {
             setIsLoading(true)
             await fetchDashboard()
@@ -131,27 +111,24 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
         loadData()
     }, [fetchDashboard])
     
-    // Handle simulation complete - Update dashboard with simulation impact
-    const handleSimulationComplete = useCallback((result: SimulationResult) => {
+    // Handle simulation complete
+    const handleSimulationComplete = useCallback((result: SimulationResult & { agent_triggered?: boolean }) => {
         setLastSimulation(result)
+        setAgentTriggered(result.agent_triggered || false)
         
-        // Update dashboard metrics based on simulation
+        // Update dashboard with simulation impact
         if (dashboard) {
             setDashboard({
                 ...dashboard,
-                // Update runway
                 runway_weeks: result.runway_after_weeks,
-                // Add simulation warnings to active warnings
                 active_warnings: [
                     ...result.warnings_triggered,
                     ...dashboard.active_warnings
-                ].slice(0, 5), // Keep max 5 warnings
-                // Add simulation actions to pending actions
+                ].slice(0, 5),
                 pending_actions: [
                     ...result.actions_generated,
                     ...dashboard.pending_actions
-                ].slice(0, 8), // Keep max 8 actions
-                // Update risk counts
+                ].slice(0, 8),
                 risks_by_status: {
                     ...dashboard.risks_by_status,
                     [result.risk_status]: (dashboard.risks_by_status[result.risk_status] || 0) + 1
@@ -165,77 +142,35 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
     // ═══════════════════════════════════════════════════════════════════
     
     return (
-        <div className={`min-h-screen bg-primary ${className}`}>
+        <div className={`min-h-screen bg-slate-50 ${className}`}>
             {/* Header Bar */}
-            <div className="bg-surface-elevated border-b border-border-subtle sticky top-0 z-40">
+            <div className="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex items-center justify-between">
                         {/* Company Info */}
                         <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
                                 {DEMO_COMPANY.name.charAt(0)}
                             </div>
                             <div>
                                 <div className="flex items-center gap-2">
-                                    <h1 className="font-semibold text-primary">{DEMO_COMPANY.name}</h1>
-                                    <span className="px-2 py-0.5 text-xs font-medium bg-purple-500/10 text-purple-500 rounded-full capitalize">
+                                    <h1 className="font-semibold text-slate-900">{DEMO_COMPANY.name}</h1>
+                                    <span className="px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full capitalize">
                                         {DEMO_COMPANY.type}
                                     </span>
                                 </div>
-                                <p className="text-sm text-tertiary">{DEMO_COMPANY.sector}</p>
+                                <p className="text-sm text-slate-500">{DEMO_COMPANY.sector}</p>
                             </div>
                         </div>
                         
-                        {/* Status & Controls */}
-                        <div className="flex items-center gap-4">
-                            {/* Connection Status */}
-                            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${
-                                isConnected
-                                    ? 'bg-emerald-500/10 text-emerald-500'
-                                    : 'bg-red-500/10 text-red-500'
-                            }`}>
-                                {isConnected ? (
-                                    <Wifi className="w-4 h-4" />
-                                ) : (
-                                    <WifiOff className="w-4 h-4" />
-                                )}
-                                <span className="text-sm font-medium">
-                                    {isConnected ? 'Connecté' : 'Déconnecté'}
-                                </span>
-                            </div>
-                            
-                            {/* Agent Control */}
-                            <div className="flex items-center gap-2">
-                                <button
-                                    onClick={isAgentRunning ? stopAgent : startAgent}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                                        isAgentRunning
-                                            ? 'bg-amber-500/10 text-amber-500 hover:bg-amber-500/20'
-                                            : 'bg-emerald-500 text-white hover:bg-emerald-600'
-                                    }`}
-                                >
-                                    {isAgentRunning ? (
-                                        <>
-                                            <Square className="w-4 h-4" />
-                                            Arrêter
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Play className="w-4 h-4" />
-                                            Démarrer
-                                        </>
-                                    )}
-                                </button>
-                                
-                                <button
-                                    onClick={fetchDashboard}
-                                    className="p-2 text-tertiary hover:text-primary hover:bg-surface-hover rounded-lg transition-all"
-                                    title="Rafraîchir"
-                                >
-                                    <RefreshCw className="w-5 h-5" />
-                                </button>
-                            </div>
-                        </div>
+                        {/* Refresh */}
+                        <button
+                            onClick={fetchDashboard}
+                            className="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-all"
+                            title="Rafraîchir"
+                        >
+                            <RefreshCw className="w-5 h-5" />
+                        </button>
                     </div>
                 </div>
             </div>
@@ -244,7 +179,6 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
             <div className="max-w-7xl mx-auto px-6 py-8">
                 <AnimatePresence mode="wait">
                     {isLoading ? (
-                        // Loading State
                         <motion.div
                             key="loading"
                             initial={{ opacity: 0 }}
@@ -252,11 +186,10 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                             exit={{ opacity: 0 }}
                             className="flex flex-col items-center justify-center py-20"
                         >
-                            <Loader2 className="w-12 h-12 text-accent-primary animate-spin mb-4" />
-                            <p className="text-secondary">Connexion à TRESORIS...</p>
+                            <Loader2 className="w-12 h-12 text-emerald-500 animate-spin mb-4" />
+                            <p className="text-slate-600">Connexion à TRESORIS...</p>
                         </motion.div>
                     ) : error ? (
-                        // Error State
                         <motion.div
                             key="error"
                             initial={{ opacity: 0 }}
@@ -265,20 +198,17 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                             className="flex flex-col items-center justify-center py-20"
                         >
                             <AlertTriangle className="w-16 h-16 text-amber-500 mb-4" />
-                            <h2 className="text-xl font-semibold text-primary mb-2">Erreur de chargement</h2>
-                            <p className="text-secondary text-center max-w-md mb-6">{error}</p>
-                            <div className="flex gap-3">
-                                <button
-                                    onClick={fetchDashboard}
-                                    className="flex items-center gap-2 px-6 py-3 bg-accent-primary text-white rounded-lg hover:bg-accent-primary/90 transition-all"
-                                >
-                                    <RefreshCw className="w-5 h-5" />
-                                    Réessayer
-                                </button>
-                            </div>
+                            <h2 className="text-xl font-semibold text-slate-900 mb-2">Erreur de chargement</h2>
+                            <p className="text-slate-600 text-center max-w-md mb-6">{error}</p>
+                            <button
+                                onClick={fetchDashboard}
+                                className="flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-all"
+                            >
+                                <RefreshCw className="w-5 h-5" />
+                                Réessayer
+                            </button>
                         </motion.div>
                     ) : (
-                        // Dashboard
                         <motion.div
                             key="dashboard"
                             initial={{ opacity: 0, y: 20 }}
@@ -286,54 +216,97 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                             exit={{ opacity: 0 }}
                             className="space-y-8"
                         >
-                            {/* Section 1: Risk Simulator (Hero Feature) */}
+                            {/* ═══════════════════════════════════════════════════════════
+                                SECTION 1: Agent Autonome (HERO)
+                            ═══════════════════════════════════════════════════════════ */}
                             <section>
-                                <h2 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
-                                    <TrendingUp className="w-5 h-5 text-accent-primary" />
-                                    Simulateur de Risque
+                                <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
+                                        <Zap className="w-5 h-5 text-white" />
+                                    </div>
+                                    Agent Autonome TRESORIS
                                 </h2>
-                                <RiskSimulator onSimulationComplete={handleSimulationComplete} />
+                                
+                                {/* Agent Control Panel */}
+                                <AutonomousAgentPanel className="mb-6" />
+                                
+                                {/* Agent Activity Log */}
+                                <AgentActivityLog maxLogs={12} />
                             </section>
                             
-                            {/* Section 2: KPIs Row */}
+                            {/* ═══════════════════════════════════════════════════════════
+                                SECTION 2: Simulateur (Trigger Demo)
+                            ═══════════════════════════════════════════════════════════ */}
+                            <section>
+                                <h2 className="text-lg font-semibold text-slate-900 mb-4">
+                                    Simuler une Facture
+                                    <span className="ml-2 text-sm font-normal text-slate-500">
+                                        (déclenche l'agent si actif)
+                                    </span>
+                                </h2>
+                                <RiskSimulator onSimulationComplete={handleSimulationComplete} />
+                                
+                                {/* Trigger Feedback */}
+                                <AnimatePresence>
+                                    {agentTriggered && lastSimulation && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0 }}
+                                            className="mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-lg"
+                                        >
+                                            <div className="flex items-center gap-2 text-emerald-700 font-medium">
+                                                <span className="relative flex h-3 w-3">
+                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                                                </span>
+                                                Agent déclenché automatiquement
+                                            </div>
+                                            <p className="mt-1 text-sm text-emerald-600">
+                                                Risque {lastSimulation.risk_status} détecté → Analyse en cours
+                                            </p>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </section>
+                            
+                            {/* ═══════════════════════════════════════════════════════════
+                                SECTION 3: KPIs
+                            ═══════════════════════════════════════════════════════════ */}
                             {dashboard && (
                                 <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                    {/* Total Pending */}
-                                    <div className="p-4 bg-surface-elevated rounded-xl border border-border-subtle">
-                                        <div className="text-sm text-secondary mb-1">Encours total</div>
-                                        <div className="text-2xl font-bold text-primary">
+                                    <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                                        <div className="text-sm text-slate-500 mb-1">Encours total</div>
+                                        <div className="text-2xl font-bold text-slate-900">
                                             {(dashboard.total_pending / 1000).toFixed(0)}K€
                                         </div>
-                                        <div className="text-xs text-tertiary mt-1">
+                                        <div className="text-xs text-slate-400 mt-1">
                                             {dashboard.nb_factures_pending} factures
                                         </div>
                                     </div>
                                     
-                                    {/* Overdue */}
-                                    <div className="p-4 bg-surface-elevated rounded-xl border border-border-subtle">
-                                        <div className="text-sm text-secondary mb-1">En retard</div>
+                                    <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                                        <div className="text-sm text-slate-500 mb-1">En retard</div>
                                         <div className="text-2xl font-bold text-red-500">
                                             {(dashboard.total_overdue / 1000).toFixed(0)}K€
                                         </div>
-                                        <div className="text-xs text-tertiary mt-1">
+                                        <div className="text-xs text-slate-400 mt-1">
                                             DSO: {dashboard.dso_moyen.toFixed(0)}j
                                         </div>
                                     </div>
                                     
-                                    {/* Runway */}
-                                    <div className="p-4 bg-surface-elevated rounded-xl border border-border-subtle">
-                                        <div className="text-sm text-secondary mb-1">Runway</div>
-                                        <div className="text-2xl font-bold text-primary">
+                                    <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                                        <div className="text-sm text-slate-500 mb-1">Runway</div>
+                                        <div className="text-2xl font-bold text-slate-900">
                                             {dashboard.runway_weeks.toFixed(1)} sem
                                         </div>
-                                        <div className="text-xs text-tertiary mt-1">
+                                        <div className="text-xs text-slate-400 mt-1">
                                             Horizon trésorerie
                                         </div>
                                     </div>
                                     
-                                    {/* Risks */}
-                                    <div className="p-4 bg-surface-elevated rounded-xl border border-border-subtle">
-                                        <div className="text-sm text-secondary mb-1">Risques détectés</div>
+                                    <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                                        <div className="text-sm text-slate-500 mb-1">Risques détectés</div>
                                         <div className="flex items-baseline gap-2">
                                             <span className="text-2xl font-bold text-red-500">
                                                 {dashboard.risks_by_status.CRITICAL || 0}
@@ -342,46 +315,31 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                                                 +{dashboard.risks_by_status.UNCERTAIN || 0}
                                             </span>
                                         </div>
-                                        <div className="text-xs text-tertiary mt-1">
+                                        <div className="text-xs text-slate-400 mt-1">
                                             Critique / Incertain
                                         </div>
                                     </div>
                                 </section>
                             )}
                             
-                            {/* Section 3: Main Grid */}
-                            <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                {/* Client Matrix */}
-                                {dashboard && (
-                                    <ClientRiskMatrix
-                                        clients={dashboard.top_risky_clients}
-                                    />
-                                )}
-                                
-                                {/* Warnings */}
-                                {dashboard && (
-                                    <EarlyWarningPanel
-                                        warnings={dashboard.active_warnings}
-                                    />
-                                )}
-                            </section>
+                            {/* ═══════════════════════════════════════════════════════════
+                                SECTION 4: Clients & Warnings
+                            ═══════════════════════════════════════════════════════════ */}
+                            {dashboard && (
+                                <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    <ClientRiskMatrix clients={dashboard.top_risky_clients} />
+                                    <EarlyWarningPanel warnings={dashboard.active_warnings} />
+                                </section>
+                            )}
                             
-                            {/* Section 4: Actions */}
+                            {/* ═══════════════════════════════════════════════════════════
+                                SECTION 5: Actions
+                            ═══════════════════════════════════════════════════════════ */}
                             {dashboard && dashboard.pending_actions.length > 0 && (
                                 <section>
                                     <ActionRecommendations
                                         actions={dashboard.pending_actions}
                                         onValidate={validateAction}
-                                    />
-                                </section>
-                            )}
-                            
-                            {/* Section 5: Agent Timeline (if analysis in progress) */}
-                            {currentStep && (
-                                <section>
-                                    <AgentReactionTimeline
-                                        steps={analysisSteps}
-                                        currentStep={currentStep}
                                     />
                                 </section>
                             )}

@@ -3,17 +3,22 @@
  * 
  * Architecture:
  * - TresorisAgentUI: Dashboard principal complet
+ * - AutonomousAgentPanel: Panneau contrôle agent (START/STOP, machine à états)
+ * - AgentActivityLog: Log terminal temps réel
  * - RiskSimulator: Simulateur interactif de facture (killer feature)
  * - CashRunwayGauge: Jauge visuelle du runway en semaines
  * - ClientRiskMatrix: Matrice scoring clients A/B/C/D
  * - EarlyWarningPanel: Panneau alertes avec severity
  * - ActionRecommendations: Actions P1/P2/P3 avec validation
  * - AgentReactionTimeline: Timeline temps réel réaction agent
- * - ForecastTimeline: Prévisions encaissements S1-S4
  */
 
 // Main UI
 export { default as TresorisAgentUI } from './TresorisAgentUI'
+
+// Agent Control (NEW)
+export { default as AutonomousAgentPanel } from './AutonomousAgentPanel'
+export { default as AgentActivityLog } from './AgentActivityLog'
 
 // Killer Feature
 export { default as RiskSimulator } from './RiskSimulator'
