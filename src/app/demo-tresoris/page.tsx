@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { TresorisAgentUI } from '@/components/tresoris';
+import { TresorisAgentUI, DemoOrchestrator } from '@/components/tresoris';
 import {
   Shield,
   Play,
@@ -20,7 +20,8 @@ import {
   Users,
   BarChart3,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Rocket
 } from 'lucide-react';
 
 // =============================================================================
@@ -45,6 +46,39 @@ export default function DemoTresorisPage() {
       demoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
   };
+
+  // Handlers pour DemoOrchestrator
+  const handleStartDemo = useCallback(async () => {
+    try {
+      await fetch('/api/tresoris/agent/start', { method: 'POST' });
+    } catch (err) {
+      console.error('Failed to start agent:', err);
+    }
+  }, []);
+
+  const handleStopDemo = useCallback(async () => {
+    try {
+      await fetch('/api/tresoris/agent/stop', { method: 'POST' });
+    } catch (err) {
+      console.error('Failed to stop agent:', err);
+    }
+  }, []);
+
+  const handleSimulateRisk = useCallback(async (clientName: string, amount: number, daysOverdue: number) => {
+    try {
+      await fetch('/api/tresoris/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_name: clientName,
+          amount,
+          days_overdue: daysOverdue
+        })
+      });
+    } catch (err) {
+      console.error('Failed to simulate:', err);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-950">
@@ -241,7 +275,7 @@ export default function DemoTresorisPage() {
                 <div>
                   <span className="font-bold text-lg">Démo Interactive</span>
                   <span className="hidden sm:inline text-emerald-100 ml-3">
-                    Testez l&apos;agent sur des données réalistes
+                    Regardez l&apos;agent travailler de manière autonome
                   </span>
                 </div>
               </div>
@@ -249,39 +283,52 @@ export default function DemoTresorisPage() {
               <div className="flex items-center gap-3">
                 <span className="hidden md:flex items-center text-sm text-emerald-100 bg-white/10 px-3 py-1.5 rounded-full">
                   <span className="w-2 h-2 bg-green-300 rounded-full mr-2 animate-pulse" />
-                  TechNova Solutions — Scale-up SaaS
+                  NovaTech Solutions — Scale-up SaaS
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Instructions Simplifiées */}
-        <div className="bg-white border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-              <h3 className="font-bold text-slate-900 text-lg whitespace-nowrap">
-                Comment tester :
-              </h3>
-              <div className="flex flex-wrap gap-4">
-                {[
-                  { step: '1', text: 'Démarrez l\'agent (bouton START)', icon: Play },
-                  { step: '2', text: 'Simulez une facture en retard', icon: AlertTriangle },
-                  { step: '3', text: 'Observez la réaction en temps réel', icon: Sparkles }
-                ].map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl">
-                    <span className="w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                      {item.step}
-                    </span>
-                    <span className="text-sm text-slate-700">{item.text}</span>
-                  </div>
-                ))}
+        {/* Mode Watch Me Work - Orchestre la démo */}
+        <div className="bg-gradient-to-b from-white to-slate-50 border-b border-slate-200">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium mb-4">
+                <Rocket className="w-4 h-4" />
+                Mode &quot;Watch Me Work&quot;
               </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                Regardez l&apos;agent détecter un risque en temps réel
+              </h3>
+              <p className="text-slate-600 max-w-xl mx-auto">
+                Aucune action requise de votre part. L&apos;agent scanne, détecte et recommande automatiquement.
+              </p>
+            </div>
+            
+            <DemoOrchestrator 
+              onStartDemo={handleStartDemo}
+              onStopDemo={handleStopDemo}
+              onSimulateRisk={handleSimulateRisk}
+            />
+          </div>
+        </div>
+
+        {/* Séparateur visuel */}
+        <div className="bg-slate-100 border-y border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center justify-center gap-4 text-sm text-slate-500">
+              <span className="h-px bg-slate-300 flex-1" />
+              <span className="flex items-center gap-2 px-4">
+                <Eye className="w-4 h-4" />
+                Ou explorez le dashboard complet ci-dessous
+              </span>
+              <span className="h-px bg-slate-300 flex-1" />
             </div>
           </div>
         </div>
 
-        {/* Agent UI */}
+        {/* Agent UI - Dashboard complet */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <AnimatePresence>
             {(showDemo || isLoaded) && (

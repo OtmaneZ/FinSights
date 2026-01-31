@@ -21,7 +21,7 @@ export type AgentMode = 'idle' | 'monitoring' | 'analyzing' | 'waiting_validatio
 export interface AgentLog {
     id: string
     timestamp: string
-    type: 'info' | 'trigger' | 'analysis' | 'decision' | 'warning' | 'error'
+    type: 'info' | 'trigger' | 'analysis' | 'decision' | 'warning' | 'error' | 'scan'
     message: string
     details?: Record<string, unknown>
 }
@@ -181,8 +181,8 @@ export const startAgent = (): { success: boolean; message: string } => {
     agentState.started_at = new Date().toISOString()
     agentState.uptime_seconds = 0
     
-    addLog('info', '🚀 Agent TRESORIS démarré', { mode: 'monitoring' })
-    addLog('info', '👀 Mode surveillance active - Analyse des patterns clients', {
+    addLog('info', 'Agent TRESORIS démarré', { mode: 'monitoring' })
+    addLog('info', 'Mode surveillance active - Analyse des patterns clients', {
         thresholds: agentState.thresholds
     })
     
@@ -199,7 +199,7 @@ export const stopAgent = (): { success: boolean; message: string } => {
     agentState.running = false
     agentState.mode = 'idle'
     
-    addLog('info', '🛑 Agent TRESORIS arrêté', {
+    addLog('info', 'Agent TRESORIS arrêté', {
         uptime_seconds: uptime,
         decisions_count: agentState.decisions_count,
         triggers_count: agentState.triggers_count
@@ -238,9 +238,9 @@ export const recordDecision = (
     
     if (should_trigger) {
         agentState.triggers_count++
-        addLog('trigger', `🔔 Trigger: ${reason}`, { source })
+        addLog('trigger', `Trigger: ${reason}`, { source })
     } else {
-        addLog('decision', `✓ Check: ${reason}`, { source })
+        addLog('decision', `Check: ${reason}`, { source })
     }
 }
 
@@ -318,7 +318,7 @@ export const startAnalysis = (trigger_reason: string): string => {
         duration_ms: 0
     }
     
-    addLog('analysis', '🔍 Analyse en cours...', { 
+    addLog('analysis', 'Analyse en cours...', { 
         analysis_id: analysisId,
         trigger_reason 
     })
@@ -352,14 +352,14 @@ export const completeAnalysis = (results: {
     // Transition to waiting
     agentState.mode = 'waiting_validation'
     
-    addLog('analysis', '✅ Analyse terminée', {
+    addLog('analysis', 'Analyse terminée', {
         duration_ms,
         risks: results.risks_count,
         critical: results.critical_count,
         actions: results.actions_count
     })
     
-    addLog('info', '⏸️ En attente de validation DAF', {
+    addLog('info', 'En attente de validation DAF', {
         actions_pending: results.actions_count
     })
 }
@@ -367,7 +367,7 @@ export const completeAnalysis = (results: {
 export const resumeMonitoring = (): void => {
     if (agentState.running) {
         agentState.mode = 'monitoring'
-        addLog('info', '👀 Retour en mode surveillance', {})
+        addLog('info', 'Retour en mode surveillance', {})
     }
 }
 

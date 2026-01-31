@@ -132,6 +132,15 @@ export default function AutonomousAgentPanel({
     const autoScanTimerRef = useRef<NodeJS.Timeout | null>(null)
     const countdownRef = useRef<NodeJS.Timeout | null>(null)
     
+    // Refs pour callbacks stables
+    const onStatusChangeRef = useRef(onStatusChange)
+    const onWaitingValidationRef = useRef(onWaitingValidation)
+    
+    useEffect(() => {
+        onStatusChangeRef.current = onStatusChange
+        onWaitingValidationRef.current = onWaitingValidation
+    }, [onStatusChange, onWaitingValidation])
+    
     // ═══════════════════════════════════════════════════════════════
     // API CALLS
     // ═══════════════════════════════════════════════════════════════
@@ -143,17 +152,17 @@ export default function AutonomousAgentPanel({
             const data = await response.json()
             setStatus(data)
             setError(null)
-            onStatusChange?.(data)
+            onStatusChangeRef.current?.(data)
             
             // Check if waiting for validation and has pending actions
             if (data.mode === 'waiting_validation' && data.current_analysis?.pending_actions) {
-                onWaitingValidation?.(data.current_analysis.pending_actions)
+                onWaitingValidationRef.current?.(data.current_analysis.pending_actions)
             }
         } catch (err) {
             console.error('Status fetch error:', err)
             setError('Erreur de connexion')
         }
-    }, [onStatusChange, onWaitingValidation])
+    }, [])
     
     const startAgent = useCallback(async () => {
         setIsLoading(true)
@@ -257,15 +266,13 @@ export default function AutonomousAgentPanel({
         // Initial fetch
         fetchStatus()
         
-        // Poll every 3 seconds when running
+        // Poll every 3 seconds
         const interval = setInterval(() => {
-            if (status?.running) {
-                fetchStatus()
-            }
+            fetchStatus()
         }, 3000)
         
         return () => clearInterval(interval)
-    }, [fetchStatus, status?.running])
+    }, [fetchStatus])
     
     // ═══════════════════════════════════════════════════════════════
     // RENDER
@@ -442,7 +449,7 @@ export default function AutonomousAgentPanel({
                     </div>
                 </div>
                 <div className="px-4 py-3 text-center">
-                    <div className="text-xs text-tertiary mb-1">Décisions</div>
+                    <div className="text-xs text-tertiary mb-1">Decisions</div>
                     <div className="text-lg font-semibold text-primary">
                         {status?.decisions_count || 0}
                     </div>
@@ -460,81 +467,6 @@ export default function AutonomousAgentPanel({
                     </div>
                 </div>
             </div>
-            
-            {/* Last Decision */}
-            <AnimatePresence>
-                {status?.last_decision && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="border-t border-border-subtle"
-                    >
-                        <div className="px-5 py-3 bg-slate-50">
-                            <div className="flex items-start gap-3">
-                                <div className={`mt-0.5 p-1.5 rounded-full ${
-                                    status.last_decision.should_trigger 
-                                        ? 'bg-emerald-100 text-emerald-600' 
-                                        : 'bg-slate-200 text-slate-500'
-                                }`}>
-                                    {status.last_decision.should_trigger ? (
-                                        <Zap className="w-4 h-4" />
-                                    ) : (
-                                        <CheckCircle className="w-4 h-4" />
-                                    )}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                                            status.last_decision.should_trigger 
-                                                ? 'bg-emerald-100 text-emerald-700' 
-                                                : 'bg-slate-200 text-slate-600'
-                                        }`}>
-                                            {status.last_decision.should_trigger ? 'TRIGGER' : 'CHECK OK'}
-                                        </span>
-                                        <span className="text-xs text-tertiary">
-                                            {new Date(status.last_decision.timestamp).toLocaleTimeString('fr-FR')}
-                                        </span>
-                                    </div>
-                                    <p className="text-sm text-secondary truncate">
-                                        {status.last_decision.reason}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-            
-            {/* Current Analysis */}
-            <AnimatePresence>
-                {status?.current_analysis && status.mode === 'waiting_validation' && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="border-t border-border-subtle"
-                    >
-                        <div className="px-5 py-3 bg-amber-50">
-                            <div className="flex items-center gap-3 mb-2">
-                                <Clock className="w-5 h-5 text-amber-600" />
-                                <span className="font-medium text-amber-800">Analyse en attente de validation</span>
-                            </div>
-                            <div className="flex items-center gap-4 text-sm text-amber-700">
-                                <span>
-                                    <strong>{status.current_analysis.risks_count}</strong> risques
-                                </span>
-                                <span>
-                                    <strong className="text-red-600">{status.current_analysis.critical_count}</strong> critiques
-                                </span>
-                                <span>
-                                    <strong>{status.current_analysis.actions_count}</strong> actions proposées
-                                </span>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
             
             {/* Error */}
             {error && (

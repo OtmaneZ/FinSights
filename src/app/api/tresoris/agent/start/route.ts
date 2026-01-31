@@ -18,7 +18,7 @@ export async function POST() {
         const currentStatus = getAgentStatus()
         if (currentStatus.running) {
             resetAgentState()
-            addLog('info', '🔄 Agent réinitialisé (session précédente détectée)', {})
+            addLog('info', 'Agent réinitialisé (session précédente détectée)', {})
         }
         
         const result = startAgent()

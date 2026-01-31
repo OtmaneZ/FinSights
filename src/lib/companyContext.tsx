@@ -19,6 +19,8 @@ export function CompanyProvider({ children }: { children: ReactNode }) {
 
     // Load from localStorage on mount
     useEffect(() => {
+        if (typeof window === 'undefined') return
+        
         const saved = localStorage.getItem('activeCompanyId');
         if (saved) {
             setActiveCompanyIdState(saved);
@@ -28,7 +30,9 @@ export function CompanyProvider({ children }: { children: ReactNode }) {
     // Save to localStorage when changed
     const setActiveCompanyId = (id: string) => {
         setActiveCompanyIdState(id);
-        localStorage.setItem('activeCompanyId', id);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('activeCompanyId', id);
+        }
     };
 
     return (

@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
         
         // Fallback si pas de clé API
         if (!client) {
-            console.warn('⚠️ OpenAI API key missing - using rule-based fallback')
+            console.warn('[TRESORIS] OpenAI API key missing - using rule-based fallback')
             return NextResponse.json(generateRuleBasedAnalysis(body))
         }
 
@@ -160,7 +160,7 @@ Retourne JSON avec structure :
 
         const aiResult: AIAnalysisResult = JSON.parse(rawJson)
         
-        console.log('✅ [TRESORIS] AI analysis complete:', {
+        console.log('[TRESORIS] AI analysis complete:', {
             rating: aiResult.risk_assessment.rating,
             warnings: aiResult.warnings.length,
             actions: aiResult.actions.length

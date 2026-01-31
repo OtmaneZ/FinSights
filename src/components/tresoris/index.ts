@@ -18,6 +18,7 @@
 
 // Main UI
 export { default as TresorisAgentUI } from './TresorisAgentUI'
+export { default as DemoOrchestrator } from './DemoOrchestrator'
 
 // Agent Control (V2 Enhanced)
 export { default as AutonomousAgentPanel } from './AutonomousAgentPanel'

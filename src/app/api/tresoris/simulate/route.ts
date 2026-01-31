@@ -36,14 +36,14 @@ export async function POST(request: NextRequest) {
         const isAgentActive = agentStatus.running && agentStatus.mode === 'monitoring'
         
         if (isAgentActive) {
-            addLog('info', `📥 Nouvelle simulation: ${client_name} - ${(amount/1000).toFixed(0)}K€`, {
+            addLog('info', `Nouvelle simulation: ${client_name} - ${(amount/1000).toFixed(0)}K€`, {
                 client: client_name,
                 amount,
                 days_overdue
             })
         }
 
-        console.log('🎯 [TRESORIS Simulate] Starting AI analysis...', { client_name, amount, days_overdue })
+        console.log('[TRESORIS Simulate] Starting AI analysis...', { client_name, amount, days_overdue })
 
         // Appel à l'API d'analyse IA
         const analyzeResponse = await fetch(new URL('/api/tresoris/analyze', request.url).toString(), {
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
 
         const { analysis, powered_by } = await analyzeResponse.json()
         
-        console.log(`✅ [TRESORIS Simulate] Analysis complete (powered by: ${powered_by})`)
+        console.log(`[TRESORIS Simulate] Analysis complete (powered by: ${powered_by})`)
 
         // Calcul de l'impact runway
         const runwayBefore = 18

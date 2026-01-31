@@ -164,6 +164,11 @@ export default function AgentActivityLog({
     const [isLoading, setIsLoading] = useState(false)
     const scrollRef = useRef<HTMLDivElement>(null)
     const lastLogCountRef = useRef(0)
+    const onNewLogRef = useRef(onNewLog)
+    
+    useEffect(() => {
+        onNewLogRef.current = onNewLog
+    }, [onNewLog])
 
     // Fetch logs from API
     const fetchLogs = useCallback(async () => {
@@ -178,9 +183,9 @@ export default function AgentActivityLog({
             setLogs(newLogs.slice(-maxLogs))
             
             // Notify on new logs
-            if (newLogs.length > lastLogCountRef.current && onNewLog) {
+            if (newLogs.length > lastLogCountRef.current && onNewLogRef.current) {
                 const latestLog = newLogs[newLogs.length - 1]
-                if (latestLog) onNewLog(latestLog)
+                if (latestLog) onNewLogRef.current(latestLog)
             }
             lastLogCountRef.current = newLogs.length
         } catch (err) {
@@ -188,7 +193,7 @@ export default function AgentActivityLog({
         } finally {
             setIsLoading(false)
         }
-    }, [maxLogs, onNewLog])
+    }, [maxLogs])
 
     // Auto-refresh
     useEffect(() => {
@@ -207,71 +212,17 @@ export default function AgentActivityLog({
         }
     }, [logs])
 
-    // Demo logs if empty
-    useEffect(() => {
-        if (logs.length === 0) {
-            const demoLogs: AgentLog[] = [
-                {
-                    id: '1',
-                    timestamp: new Date(Date.now() - 300000).toISOString(),
-                    type: 'start',
-                    message: 'Agent TRESORIS activé'
-                },
-                {
-                    id: '2',
-                    timestamp: new Date(Date.now() - 240000).toISOString(),
-                    type: 'scan',
-                    message: 'Scan du portfolio - 23 clients actifs'
-                },
-                {
-                    id: '3',
-                    timestamp: new Date(Date.now() - 180000).toISOString(),
-                    type: 'engine',
-                    message: 'Analyse des patterns de paiement',
-                    engine: 'payment_patterns'
-                },
-                {
-                    id: '4',
-                    timestamp: new Date(Date.now() - 120000).toISOString(),
-                    type: 'scoring',
-                    message: 'Scoring réalisé pour InnovCorp',
-                    engine: 'client_scoring'
-                },
-                {
-                    id: '5',
-                    timestamp: new Date(Date.now() - 90000).toISOString(),
-                    type: 'warning',
-                    message: 'Retard progressif détecté sur InnovCorp'
-                },
-                {
-                    id: '6',
-                    timestamp: new Date(Date.now() - 60000).toISOString(),
-                    type: 'forecast',
-                    message: 'Prévision runway impactée par retard',
-                    engine: 'smart_forecast'
-                },
-                {
-                    id: '7',
-                    timestamp: new Date(Date.now() - 30000).toISOString(),
-                    type: 'trigger',
-                    message: '2 risques critiques identifiés'
-                },
-                {
-                    id: '8',
-                    timestamp: new Date(Date.now() - 10000).toISOString(),
-                    type: 'action',
-                    message: 'Action générée: Relance urgente InnovCorp'
-                },
-                {
-                    id: '9',
-                    timestamp: new Date(Date.now() - 5000).toISOString(),
-                    type: 'decision',
-                    message: 'Analyse terminée - En attente validation DAF'
-                }
-            ]
-            setLogs(demoLogs)
+    // Demo logs for display when agent not started
+    const demoLogs: AgentLog[] = logs.length > 0 ? [] : [
+        {
+            id: '1',
+            timestamp: new Date(Date.now() - 300000).toISOString(),
+            type: 'info',
+            message: 'En attente - Cliquez START pour demarrer l\'agent'
         }
-    }, [logs.length])
+    ]
+
+    const displayLogs = logs.length > 0 ? logs : demoLogs
 
     return (
         <div className={`bg-card border border-border rounded-lg overflow-hidden ${className}`}>
@@ -283,23 +234,14 @@ export default function AgentActivityLog({
                             <Activity className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
                         <div>
-                            <h3 className="font-semibold text-primary">Activité Agent</h3>
+                            <h3 className="font-semibold text-primary">Activite Agent</h3>
                             <p className="text-xs text-tertiary mt-0.5">
-                                {logs.length} événement{logs.length > 1 ? 's' : ''}
+                                {logs.length} evenement{logs.length > 1 ? 's' : ''}
                             </p>
                         </div>
                     </div>
                     
                     <div className="flex items-center gap-2">
-                        {/* Refresh button */}
-                        <button
-                            onClick={fetchLogs}
-                            disabled={isLoading}
-                            className="p-1.5 hover:bg-surface-hover rounded-md transition-colors"
-                        >
-                            <RefreshCw className={`w-4 h-4 text-secondary ${isLoading ? 'animate-spin' : ''}`} />
-                        </button>
-                        
                         {/* Expand/Collapse */}
                         <button
                             onClick={() => setIsExpanded(!isExpanded)}

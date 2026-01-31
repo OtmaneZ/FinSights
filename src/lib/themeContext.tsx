@@ -18,6 +18,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     // Charger le thème depuis localStorage au montage
     useEffect(() => {
+        if (typeof window === 'undefined') return
+        
         const savedTheme = localStorage.getItem('finsight-theme') as Theme;
         if (savedTheme) {
             setTheme(savedTheme);
@@ -31,6 +33,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     // Appliquer le thème au document
     useEffect(() => {
+        if (typeof window === 'undefined') return
+        
         if (mounted) {
             document.documentElement.classList.remove('light', 'dark');
             document.documentElement.classList.add(theme);

@@ -22,6 +22,9 @@ export function FinancialDataProvider({ children }: { children: ReactNode }) {
 
     // 💾 Persistance des données (SessionStorage)
     useEffect(() => {
+        // Vérifier que nous sommes côté client
+        if (typeof window === 'undefined') return
+        
         // Charger les données au démarrage
         const savedRawData = sessionStorage.getItem('finsight_rawData')
         const savedFinSightData = sessionStorage.getItem('finsight_data')
@@ -45,6 +48,9 @@ export function FinancialDataProvider({ children }: { children: ReactNode }) {
     }, [])
 
     useEffect(() => {
+        // Vérifier que nous sommes côté client
+        if (typeof window === 'undefined') return
+        
         // Sauvegarder les changements
         if (rawData) {
             sessionStorage.setItem('finsight_rawData', JSON.stringify(rawData))
