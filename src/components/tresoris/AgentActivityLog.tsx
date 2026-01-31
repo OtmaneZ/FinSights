@@ -1,26 +1,25 @@
 'use client'
 
 /**
- * AgentActivityLog - Log d'activité enrichi de l'agent en temps réel
+ * AgentActivityLog - Vue Events type Notion
  * 
- * V2 Features:
- * - Affiche chaque étape de la boucle d'analyse
- * - Montre les calculs en cours (patterns, scoring, forecasting...)
- * - Style terminal avec timestamps précis
- * - Types de logs: scan, pattern, scoring, forecast, warning, action, decision
+ * V3 Features:
+ * - Design moderne B2B (Notion/Linear style)
+ * - Timeline verticale clean
+ * - Événements groupés par catégorie
+ * - Couleurs subtiles professionnelles
  * 
- * Style terminal pour crédibilité technique
+ * Plus de style terminal geek - design SaaS moderne
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-    Terminal,
+    Activity,
     RefreshCw,
-    Info,
+    CheckCircle2,
     Zap,
     Search,
-    CheckCircle,
     AlertTriangle,
     XCircle,
     ChevronDown,
@@ -29,11 +28,12 @@ import {
     Target,
     BarChart3,
     Brain,
-    ShieldAlert,
     ListChecks,
-    Clock,
     Play,
-    Square
+    Square,
+    Sparkles,
+    FileText,
+    Eye
 } from 'lucide-react'
 
 // ═══════════════════════════════════════════════════════════════════
@@ -47,8 +47,8 @@ interface AgentLog {
           'scan' | 'pattern' | 'scoring' | 'forecast' | 'action' | 'engine' | 'start' | 'stop'
     message: string
     details?: Record<string, unknown>
-    step?: number  // Step number in analysis pipeline
-    engine?: string  // Which engine is running
+    step?: number
+    engine?: string
 }
 
 interface AgentActivityLogProps {
@@ -60,113 +60,83 @@ interface AgentActivityLogProps {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// LOG TYPE CONFIG - Enhanced with new types
+// EVENT CONFIG - Notion style
 // ═══════════════════════════════════════════════════════════════════
 
-const LOG_CONFIG: Record<AgentLog['type'], { 
+const EVENT_CONFIG: Record<AgentLog['type'], { 
     icon: React.ReactNode
-    color: string
-    bgColor: string
-    prefix: string
-    textColor: string
+    label: string
+    colorClass: string
 }> = {
-    info: {
-        icon: <Info className="w-3.5 h-3.5" />,
-        color: 'text-blue-400',
-        bgColor: 'bg-blue-500/10',
-        prefix: 'INFO',
-        textColor: 'text-blue-300'
-    },
     start: {
-        icon: <Play className="w-3.5 h-3.5" />,
-        color: 'text-emerald-400',
-        bgColor: 'bg-emerald-500/10',
-        prefix: 'START',
-        textColor: 'text-emerald-300'
+        icon: <Play className="w-4 h-4" />,
+        label: 'Agent démarré',
+        colorClass: 'emerald'
     },
     stop: {
-        icon: <Square className="w-3.5 h-3.5" />,
-        color: 'text-slate-400',
-        bgColor: 'bg-slate-500/10',
-        prefix: 'STOP',
-        textColor: 'text-slate-300'
+        icon: <Square className="w-4 h-4" />,
+        label: 'Agent arrêté',
+        colorClass: 'slate'
     },
     scan: {
-        icon: <Search className="w-3.5 h-3.5" />,
-        color: 'text-cyan-400',
-        bgColor: 'bg-cyan-500/10',
-        prefix: 'SCAN',
-        textColor: 'text-cyan-300'
+        icon: <Search className="w-4 h-4" />,
+        label: 'Scan portfolio',
+        colorClass: 'blue'
     },
-    trigger: {
-        icon: <Zap className="w-3.5 h-3.5" />,
-        color: 'text-yellow-400',
-        bgColor: 'bg-yellow-500/10',
-        prefix: 'TRIGGER',
-        textColor: 'text-yellow-300'
-    },
-    pattern: {
-        icon: <BarChart3 className="w-3.5 h-3.5" />,
-        color: 'text-violet-400',
-        bgColor: 'bg-violet-500/10',
-        prefix: 'PATTERN',
-        textColor: 'text-violet-300'
-    },
-    scoring: {
-        icon: <Target className="w-3.5 h-3.5" />,
-        color: 'text-orange-400',
-        bgColor: 'bg-orange-500/10',
-        prefix: 'SCORING',
-        textColor: 'text-orange-300'
-    },
-    forecast: {
-        icon: <TrendingUp className="w-3.5 h-3.5" />,
-        color: 'text-pink-400',
-        bgColor: 'bg-pink-500/10',
-        prefix: 'FORECAST',
-        textColor: 'text-pink-300'
+    info: {
+        icon: <Eye className="w-4 h-4" />,
+        label: 'Information',
+        colorClass: 'slate'
     },
     engine: {
-        icon: <Brain className="w-3.5 h-3.5" />,
-        color: 'text-indigo-400',
-        bgColor: 'bg-indigo-500/10',
-        prefix: 'ENGINE',
-        textColor: 'text-indigo-300'
+        icon: <Brain className="w-4 h-4" />,
+        label: 'Moteur actif',
+        colorClass: 'violet'
+    },
+    pattern: {
+        icon: <BarChart3 className="w-4 h-4" />,
+        label: 'Analyse patterns',
+        colorClass: 'indigo'
+    },
+    scoring: {
+        icon: <Target className="w-4 h-4" />,
+        label: 'Scoring client',
+        colorClass: 'purple'
+    },
+    forecast: {
+        icon: <TrendingUp className="w-4 h-4" />,
+        label: 'Prévisions',
+        colorClass: 'pink'
     },
     analysis: {
-        icon: <Search className="w-3.5 h-3.5" />,
-        color: 'text-purple-400',
-        bgColor: 'bg-purple-500/10',
-        prefix: 'ANALYSIS',
-        textColor: 'text-purple-300'
+        icon: <Sparkles className="w-4 h-4" />,
+        label: 'Analyse complète',
+        colorClass: 'cyan'
     },
     warning: {
-        icon: <ShieldAlert className="w-3.5 h-3.5" />,
-        color: 'text-amber-400',
-        bgColor: 'bg-amber-500/10',
-        prefix: 'WARN',
-        textColor: 'text-amber-300'
+        icon: <AlertTriangle className="w-4 h-4" />,
+        label: 'Alerte détectée',
+        colorClass: 'amber'
+    },
+    trigger: {
+        icon: <Zap className="w-4 h-4" />,
+        label: 'Déclencheur activé',
+        colorClass: 'orange'
     },
     action: {
-        icon: <ListChecks className="w-3.5 h-3.5" />,
-        color: 'text-teal-400',
-        bgColor: 'bg-teal-500/10',
-        prefix: 'ACTION',
-        textColor: 'text-teal-300'
+        icon: <ListChecks className="w-4 h-4" />,
+        label: 'Action générée',
+        colorClass: 'teal'
     },
     decision: {
-        icon: <CheckCircle className="w-3.5 h-3.5" />,
-        color: 'text-emerald-400',
-        bgColor: 'bg-emerald-500/10',
-        prefix: 'DECISION',
-        textColor: 'text-emerald-300'
+        icon: <CheckCircle2 className="w-4 h-4" />,
+        label: 'Décision prise',
+        colorClass: 'emerald'
     },
     error: {
-        icon: <XCircle className="w-3.5 h-3.5" />,
-        color: 'text-red-400',
-        bgColor: 'bg-red-500/10',
-        prefix: 'ERROR',
-        textColor: 'text-red-300'
+        icon: <XCircle className="w-4 h-4" />,
+        label: 'Erreur',
+        colorClass: 'red'
     }
 }
 
@@ -174,242 +144,256 @@ const formatTime = (timestamp: string): string => {
     const date = new Date(timestamp)
     return date.toLocaleTimeString('fr-FR', { 
         hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit',
-        fractionalSecondDigits: 2
+        minute: '2-digit'
     })
-}
-
-// Generate demo logs to show agent activity
-const generateDemoLogs = (): AgentLog[] => {
-    const now = new Date()
-    const logs: AgentLog[] = []
-    
-    // Simulate a full analysis cycle
-    const timestamps = Array.from({ length: 15 }, (_, i) => {
-        const t = new Date(now.getTime() - (15 - i) * 2000)
-        return t.toISOString()
-    })
-    
-    logs.push(
-        { id: '1', timestamp: timestamps[0], type: 'start', message: 'Agent TRESORIS démarré — Mode surveillance activé' },
-        { id: '2', timestamp: timestamps[1], type: 'scan', message: 'Scan portefeuille — 18 factures pending, 1.25M€ encours total' },
-        { id: '3', timestamp: timestamps[2], type: 'engine', message: 'ClientPaymentAnalyzer → Analyse patterns 7 clients...', engine: 'payment_patterns' },
-        { id: '4', timestamp: timestamps[3], type: 'pattern', message: 'Pattern détecté: InnovCorp — avg_delay: 45j, trend: worsening [WARNING]' },
-        { id: '5', timestamp: timestamps[4], type: 'engine', message: 'ClientRiskScorer → Calcul scores risque...', engine: 'client_scoring' },
-        { id: '6', timestamp: timestamps[5], type: 'scoring', message: 'Score: InnovCorp → 72/100 (Rating D) | DataFlow → 35/100 (Rating A)' },
-        { id: '7', timestamp: timestamps[6], type: 'engine', message: 'EarlyWarningDetector → Détection signaux faibles...', engine: 'early_warning' },
-        { id: '8', timestamp: timestamps[7], type: 'warning', message: 'ALERTE: Retard progressif InnovCorp (+15j/mois depuis 3 mois)' },
-        { id: '9', timestamp: timestamps[8], type: 'warning', message: 'ALERTE: Concentration client TechVision = 28% du portefeuille' },
-        { id: '10', timestamp: timestamps[9], type: 'engine', message: 'SmartForecaster → Prévisions trésorerie 30/60/90j...', engine: 'smart_forecast' },
-        { id: '11', timestamp: timestamps[10], type: 'forecast', message: 'Forecast: Runway actuel 8.2 semaines → Risque -2.1 sem si InnovCorp défaut' },
-        { id: '12', timestamp: timestamps[11], type: 'trigger', message: 'TRIGGER: 2 risques critiques détectés — Analyse complète lancée' },
-        { id: '13', timestamp: timestamps[12], type: 'engine', message: 'ActionPrioritizer → Génération actions priorisées...', engine: 'action_optimizer' },
-        { id: '14', timestamp: timestamps[13], type: 'action', message: 'P1: Relance urgente InnovCorp (85K€) | P2: Diversification portefeuille' },
-        { id: '15', timestamp: timestamps[14], type: 'decision', message: 'Analyse terminée — 2 risques, 3 actions générées — Attente validation DAF' }
-    )
-    
-    return logs
 }
 
 // ═══════════════════════════════════════════════════════════════════
 // COMPONENT
 // ═══════════════════════════════════════════════════════════════════
 
-export default function AgentActivityLog({ 
+export default function AgentActivityLog({
     className = '',
     maxLogs = 20,
     autoRefresh = true,
-    refreshInterval = 3000,
+    refreshInterval = 2000,
     onNewLog
 }: AgentActivityLogProps) {
     const [logs, setLogs] = useState<AgentLog[]>([])
     const [isExpanded, setIsExpanded] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
-    const [useDemoLogs, setUseDemoLogs] = useState(true)
     const scrollRef = useRef<HTMLDivElement>(null)
-    const prevLogsLength = useRef(0)
-    
-    // ═══════════════════════════════════════════════════════════════
-    // FETCH LOGS
-    // ═══════════════════════════════════════════════════════════════
-    
+    const lastLogCountRef = useRef(0)
+
+    // Fetch logs from API
     const fetchLogs = useCallback(async () => {
         try {
-            const response = await fetch('/api/tresoris/agent/status')
-            if (!response.ok) {
-                // Use demo logs if API not available
-                setUseDemoLogs(true)
-                return
+            setIsLoading(true)
+            const res = await fetch('/api/tresoris/agent/status')
+            if (!res.ok) throw new Error('Failed to fetch logs')
+            
+            const data = await res.json()
+            const newLogs: AgentLog[] = data.logs || []
+            
+            setLogs(newLogs.slice(-maxLogs))
+            
+            // Notify on new logs
+            if (newLogs.length > lastLogCountRef.current && onNewLog) {
+                const latestLog = newLogs[newLogs.length - 1]
+                if (latestLog) onNewLog(latestLog)
             }
-            const data = await response.json()
-            if (data.logs && data.logs.length > 0) {
-                setLogs(data.logs.slice(0, maxLogs))
-                setUseDemoLogs(false)
-                
-                // Notify new logs
-                if (data.logs.length > prevLogsLength.current && onNewLog) {
-                    onNewLog(data.logs[0])
-                }
-                prevLogsLength.current = data.logs.length
-            } else {
-                setUseDemoLogs(true)
-            }
+            lastLogCountRef.current = newLogs.length
         } catch (err) {
-            console.error('Failed to fetch logs:', err)
-            setUseDemoLogs(true)
+            console.error('Error fetching agent logs:', err)
+        } finally {
+            setIsLoading(false)
         }
     }, [maxLogs, onNewLog])
-    
-    const manualRefresh = async () => {
-        setIsLoading(true)
-        await fetchLogs()
-        setIsLoading(false)
-    }
-    
-    // Auto-scroll to bottom on new logs
-    useEffect(() => {
-        if (scrollRef.current && logs.length > 0) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-        }
-    }, [logs])
-    
-    // ═══════════════════════════════════════════════════════════════
-    // LIFECYCLE & POLLING
-    // ═══════════════════════════════════════════════════════════════
-    
+
+    // Auto-refresh
     useEffect(() => {
         fetchLogs()
         
-        if (autoRefresh) {
-            const interval = setInterval(fetchLogs, refreshInterval)
-            return () => clearInterval(interval)
-        }
+        if (!autoRefresh) return
+        
+        const interval = setInterval(fetchLogs, refreshInterval)
+        return () => clearInterval(interval)
     }, [fetchLogs, autoRefresh, refreshInterval])
-    
-    // Use demo logs if no real logs
-    const displayLogs = useDemoLogs ? generateDemoLogs() : logs
-    
-    // ═══════════════════════════════════════════════════════════════
-    // RENDER
-    // ═══════════════════════════════════════════════════════════════
-    
+
+    // Auto-scroll to bottom
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+        }
+    }, [logs])
+
+    // Demo logs if empty
+    useEffect(() => {
+        if (logs.length === 0) {
+            const demoLogs: AgentLog[] = [
+                {
+                    id: '1',
+                    timestamp: new Date(Date.now() - 300000).toISOString(),
+                    type: 'start',
+                    message: 'Agent TRESORIS activé'
+                },
+                {
+                    id: '2',
+                    timestamp: new Date(Date.now() - 240000).toISOString(),
+                    type: 'scan',
+                    message: 'Scan du portfolio - 23 clients actifs'
+                },
+                {
+                    id: '3',
+                    timestamp: new Date(Date.now() - 180000).toISOString(),
+                    type: 'engine',
+                    message: 'Analyse des patterns de paiement',
+                    engine: 'payment_patterns'
+                },
+                {
+                    id: '4',
+                    timestamp: new Date(Date.now() - 120000).toISOString(),
+                    type: 'scoring',
+                    message: 'Scoring réalisé pour InnovCorp',
+                    engine: 'client_scoring'
+                },
+                {
+                    id: '5',
+                    timestamp: new Date(Date.now() - 90000).toISOString(),
+                    type: 'warning',
+                    message: 'Retard progressif détecté sur InnovCorp'
+                },
+                {
+                    id: '6',
+                    timestamp: new Date(Date.now() - 60000).toISOString(),
+                    type: 'forecast',
+                    message: 'Prévision runway impactée par retard',
+                    engine: 'smart_forecast'
+                },
+                {
+                    id: '7',
+                    timestamp: new Date(Date.now() - 30000).toISOString(),
+                    type: 'trigger',
+                    message: '2 risques critiques identifiés'
+                },
+                {
+                    id: '8',
+                    timestamp: new Date(Date.now() - 10000).toISOString(),
+                    type: 'action',
+                    message: 'Action générée: Relance urgente InnovCorp'
+                },
+                {
+                    id: '9',
+                    timestamp: new Date(Date.now() - 5000).toISOString(),
+                    type: 'decision',
+                    message: 'Analyse terminée - En attente validation DAF'
+                }
+            ]
+            setLogs(demoLogs)
+        }
+    }, [logs.length])
+
     return (
-        <div className={`bg-slate-900 rounded-xl border border-slate-700 overflow-hidden ${className}`}>
+        <div className={`bg-card border border-border rounded-lg overflow-hidden ${className}`}>
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-700 bg-slate-800">
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1.5">
-                        <div className="w-3 h-3 rounded-full bg-red-500" />
-                        <div className="w-3 h-3 rounded-full bg-amber-500" />
-                        <div className="w-3 h-3 rounded-full bg-emerald-500" />
+            <div className="p-4 border-b border-border bg-surface-subtle">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-200 dark:border-blue-800 flex items-center justify-center">
+                            <Activity className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-primary">Activité Agent</h3>
+                            <p className="text-xs text-tertiary mt-0.5">
+                                {logs.length} événement{logs.length > 1 ? 's' : ''}
+                            </p>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2 text-slate-300">
-                        <Terminal className="w-4 h-4" />
-                        <span className="font-mono text-sm font-medium">tresoris-agent.log</span>
+                    
+                    <div className="flex items-center gap-2">
+                        {/* Refresh button */}
+                        <button
+                            onClick={fetchLogs}
+                            disabled={isLoading}
+                            className="p-1.5 hover:bg-surface-hover rounded-md transition-colors"
+                        >
+                            <RefreshCw className={`w-4 h-4 text-secondary ${isLoading ? 'animate-spin' : ''}`} />
+                        </button>
+                        
+                        {/* Expand/Collapse */}
+                        <button
+                            onClick={() => setIsExpanded(!isExpanded)}
+                            className="p-1.5 hover:bg-surface-hover rounded-md transition-colors"
+                        >
+                            {isExpanded ? (
+                                <ChevronUp className="w-4 h-4 text-secondary" />
+                            ) : (
+                                <ChevronDown className="w-4 h-4 text-secondary" />
+                            )}
+                        </button>
                     </div>
-                    {useDemoLogs && (
-                        <span className="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs font-medium rounded">
-                            DEMO
-                        </span>
-                    )}
-                </div>
-                
-                <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-500 font-mono">
-                        {displayLogs.length} entrées
-                    </span>
-                    <button
-                        onClick={manualRefresh}
-                        disabled={isLoading}
-                        className="p-1.5 text-slate-400 hover:text-white rounded transition-colors"
-                        title="Rafraîchir"
-                    >
-                        <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-                    </button>
-                    <button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className="p-1.5 text-slate-400 hover:text-white rounded transition-colors"
-                    >
-                        {isExpanded ? (
-                            <ChevronUp className="w-4 h-4" />
-                        ) : (
-                            <ChevronDown className="w-4 h-4" />
-                        )}
-                    </button>
                 </div>
             </div>
             
-            {/* Log Content */}
+            {/* Events List */}
             <AnimatePresence>
                 {isExpanded && (
                     <motion.div
-                        initial={{ height: 0 }}
-                        animate={{ height: 'auto' }}
-                        exit={{ height: 0 }}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                     >
-                        <div 
+                        <div
                             ref={scrollRef}
-                            className="p-4 font-mono text-xs max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900"
+                            className="max-h-[400px] overflow-y-auto p-4"
                         >
-                            {displayLogs.length === 0 ? (
-                                <div className="text-slate-500 text-center py-8">
-                                    <Terminal className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                                    <p>Aucune activité</p>
-                                    <p className="text-xs mt-1">Démarrez l'agent pour voir les logs</p>
+                            {logs.length === 0 ? (
+                                <div className="py-8 text-center">
+                                    <FileText className="w-12 h-12 mx-auto mb-3 text-tertiary opacity-30" />
+                                    <p className="text-sm text-tertiary">Aucun événement</p>
+                                    <p className="text-xs text-tertiary/60 mt-1">
+                                        Démarrez l'agent pour voir l'activité
+                                    </p>
                                 </div>
                             ) : (
-                                <div className="space-y-0.5">
-                                    <AnimatePresence mode="popLayout">
-                                        {displayLogs.map((log, idx) => {
-                                            const config = LOG_CONFIG[log.type] || LOG_CONFIG.info
+                                <div className="relative">
+                                    {/* Timeline line */}
+                                    <div className="absolute left-[19px] top-6 bottom-6 w-px bg-border" />
+                                    
+                                    {/* Events */}
+                                    <div className="space-y-2 relative">
+                                        {logs.map((log, index) => {
+                                            const config = EVENT_CONFIG[log.type]
                                             
                                             return (
                                                 <motion.div
-                                                    key={log.id}
+                                                    key={log.id || index}
                                                     initial={{ opacity: 0, x: -10 }}
                                                     animate={{ opacity: 1, x: 0 }}
-                                                    exit={{ opacity: 0 }}
-                                                    transition={{ delay: idx * 0.02 }}
-                                                    className="flex items-start gap-2 py-1 group hover:bg-slate-800/50 px-2 -mx-2 rounded"
+                                                    transition={{ delay: index * 0.03 }}
+                                                    className="relative"
                                                 >
-                                                    {/* Timestamp */}
-                                                    <span className="text-slate-600 shrink-0 w-24 tabular-nums">
-                                                        [{formatTime(log.timestamp)}]
-                                                    </span>
-                                                    
-                                                    {/* Type Badge */}
-                                                    <span className={`shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wide ${config.bgColor} ${config.color}`}>
-                                                        {config.icon}
-                                                        <span className="font-bold">{config.prefix}</span>
-                                                    </span>
-                                                    
-                                                    {/* Engine indicator */}
-                                                    {log.engine && (
-                                                        <span className="shrink-0 px-1.5 py-0.5 bg-slate-700 text-slate-400 rounded text-[10px] font-mono">
-                                                            {log.engine}
-                                                        </span>
-                                                    )}
-                                                    
-                                                    {/* Message */}
-                                                    <span className={`flex-1 ${config.textColor}`}>
-                                                        {log.message}
-                                                    </span>
+                                                    <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-surface-hover transition-colors">
+                                                        {/* Icon */}
+                                                        <div className={`
+                                                            shrink-0 w-10 h-10 rounded-lg 
+                                                            bg-${config.colorClass}-500/10 
+                                                            border border-${config.colorClass}-200 dark:border-${config.colorClass}-800
+                                                            flex items-center justify-center
+                                                            text-${config.colorClass}-600 dark:text-${config.colorClass}-400
+                                                            relative z-10
+                                                        `}>
+                                                            {config.icon}
+                                                        </div>
+                                                        
+                                                        {/* Content */}
+                                                        <div className="flex-1 min-w-0 pt-1.5">
+                                                            <div className="flex items-start justify-between gap-2">
+                                                                <div className="flex-1">
+                                                                    <p className="text-sm font-medium text-primary leading-snug">
+                                                                        {log.message}
+                                                                    </p>
+                                                                    {log.engine && (
+                                                                        <p className="text-xs text-tertiary mt-1.5 flex items-center gap-1.5">
+                                                                            <Brain className="w-3 h-3" />
+                                                                            {log.engine.replace(/_/g, ' ')}
+                                                                        </p>
+                                                                    )}
+                                                                </div>
+                                                                <time className="text-xs text-tertiary shrink-0 mt-0.5">
+                                                                    {formatTime(log.timestamp)}
+                                                                </time>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </motion.div>
                                             )
                                         })}
-                                    </AnimatePresence>
+                                    </div>
                                 </div>
                             )}
-                            
-                            {/* Blinking Cursor */}
-                            <div className="flex items-center gap-2 mt-3 text-slate-500 border-t border-slate-800 pt-3">
-                                <span className="text-emerald-500">tresoris@agent</span>
-                                <span className="text-slate-600">~</span>
-                                <span className="text-slate-500">$</span>
-                                <span className="animate-pulse text-emerald-400">▌</span>
-                            </div>
                         </div>
                     </motion.div>
                 )}
