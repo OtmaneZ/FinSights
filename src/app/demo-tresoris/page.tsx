@@ -1,244 +1,417 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { TresorisAgentUI } from '@/components/tresoris';
+import {
+  Shield,
+  Play,
+  Zap,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle2,
+  ArrowDown,
+  Eye,
+  Target,
+  Clock,
+  Users,
+  BarChart3,
+  ArrowRight,
+  Sparkles
+} from 'lucide-react';
 
 // =============================================================================
-// DEMO TRÉSORIS - Agent Intelligent de Gestion du Risque Client
+// DEMO TRÉSORIS - Page Premium Interactive
 // =============================================================================
-// Page de démonstration interactive du module TRÉSORIS
-// Showcases: Risk Simulation, Early Warning, Cash Runway, Action Recommendations
+// Objectif : Montrer la puissance de l'agent IA en action, pas expliquer
+// Principe : "Testez maintenant" > "Découvrez comment ça marche"
 // =============================================================================
 
 export default function DemoTresorisPage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showDemo, setShowDemo] = useState(false);
+  const demoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
+  const scrollToDemo = () => {
+    setShowDemo(true);
+    setTimeout(() => {
+      demoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-950">
       <Header />
       
-      {/* Context Bar - Same style as demo-dashis */}
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
+      {/* ═══════════════════════════════════════════════════════════════════
+          HERO - Premium, Focus Action
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-emerald-950/30 to-slate-950" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent" />
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'linear-gradient(rgba(16,185,129,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.1) 1px, transparent 1px)',
+            backgroundSize: '60px 60px'
+          }} />
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 30 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 mb-8">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="text-sm text-emerald-400 font-medium">Agent IA Autonome</span>
+            </div>
+
+            {/* Logo */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-2xl shadow-emerald-500/30">
+                <Shield className="w-8 h-8 text-white" />
               </div>
-              <div>
-                <span className="font-semibold">TRÉSORIS</span>
-                <span className="hidden sm:inline text-emerald-100 ml-2">
-                  — Agent de Gestion du Risque Client & Cash Flow
-                </span>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight">
+                TRÉSORIS
+              </h1>
+            </div>
+
+            {/* Headline Premium */}
+            <p className="text-xl sm:text-2xl text-slate-300 mb-4 max-w-2xl mx-auto">
+              L&apos;agent qui surveille votre trésorerie
+            </p>
+            <p className="text-3xl sm:text-4xl font-bold text-white mb-8">
+              <span className="text-emerald-400">pendant que vous dormez</span>
+            </p>
+
+            {/* Value Props - 3 colonnes */}
+            <div className="grid grid-cols-3 gap-4 max-w-xl mx-auto mb-12">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white mb-1">26</div>
+                <div className="text-xs text-slate-400">situations surveillées</div>
+              </div>
+              <div className="text-center border-x border-slate-700">
+                <div className="text-2xl font-bold text-white mb-1">24/7</div>
+                <div className="text-xs text-slate-400">surveillance active</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white mb-1">&lt;30s</div>
+                <div className="text-xs text-slate-400">temps de réaction</div>
               </div>
             </div>
-            
-            <div className="flex items-center space-x-4">
-              <span className="hidden md:flex items-center text-sm text-emerald-100">
-                <span className="w-2 h-2 bg-green-300 rounded-full mr-2 animate-pulse" />
-                Démo Interactive
-              </span>
-              <a 
-                href="/agents/tresoris"
-                className="text-sm bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition-colors backdrop-blur-sm"
-              >
-                Documentation technique →
-              </a>
+
+            {/* CTA Principal */}
+            <motion.button
+              onClick={scrollToDemo}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg rounded-2xl shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300"
+            >
+              <Play className="w-6 h-6" />
+              Tester l&apos;agent maintenant
+              <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
+            </motion.button>
+
+            <p className="mt-4 text-sm text-slate-500">
+              Aucune inscription • Données démo incluses • 100% interactif
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <ArrowDown className="w-6 h-6 text-slate-500" />
+        </motion.div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          QUICK VALUE - Ce que fait l'agent (pas comment)
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 bg-slate-900 border-t border-slate-800">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Ce que TRÉSORIS fait pour vous
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto">
+              Un vrai agent autonome, pas un simple dashboard
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Surveille */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0 }}
+              className="group p-6 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all"
+            >
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Eye className="w-6 h-6 text-emerald-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Surveille</h3>
+              <p className="text-sm text-slate-400">26 situations de risque en continu</p>
+            </motion.div>
+
+            {/* Détecte */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="group p-6 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all"
+            >
+              <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <AlertTriangle className="w-6 h-6 text-amber-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Détecte</h3>
+              <p className="text-sm text-slate-400">Les signaux faibles avant le risque</p>
+            </motion.div>
+
+            {/* Priorise */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="group p-6 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all"
+            >
+              <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Target className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Priorise</h3>
+              <p className="text-sm text-slate-400">Actions P1/P2/P3 avec ROI estimé</p>
+            </motion.div>
+
+            {/* Attend */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="group p-6 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-slate-600 transition-all"
+            >
+              <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Clock className="w-6 h-6 text-purple-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Attend</h3>
+              <p className="text-sm text-slate-400">Votre validation avant d'agir</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          DEMO INTERACTIVE - Le coeur de la page
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section ref={demoRef} className="py-12 bg-slate-50" id="demo">
+        {/* Intro Bar */}
+        <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                  <Zap className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="font-bold text-lg">Démo Interactive</span>
+                  <span className="hidden sm:inline text-emerald-100 ml-3">
+                    Testez l&apos;agent sur des données réalistes
+                  </span>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <span className="hidden md:flex items-center text-sm text-emerald-100 bg-white/10 px-3 py-1.5 rounded-full">
+                  <span className="w-2 h-2 bg-green-300 rounded-full mr-2 animate-pulse" />
+                  TechNova Solutions — Scale-up SaaS
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <main className="pb-20">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-b from-white to-slate-50 border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-3xl mx-auto"
-            >
-              <div className="inline-flex items-center space-x-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span>Agent IA en action</span>
-              </div>
-              
-              <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Anticipez les risques clients
-                <span className="block text-emerald-600 mt-1">avant qu'ils n'impactent votre trésorerie</span>
-              </h1>
-              
-              <p className="text-lg text-slate-600 mb-8">
-                TRÉSORIS analyse en temps réel les comportements de paiement, détecte les signaux 
-                d'alerte précoces et recommande des actions concrètes pour protéger votre cash flow.
-              </p>
-
-              {/* Key Capabilities */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+        {/* Instructions Simplifiées */}
+        <div className="bg-white border-b border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+              <h3 className="font-bold text-slate-900 text-lg whitespace-nowrap">
+                Comment tester :
+              </h3>
+              <div className="flex flex-wrap gap-4">
                 {[
-                  { label: '6 Moteurs V2', sublabel: 'Analyse multi-dimensionnelle' },
-                  { label: 'IA Gemini', sublabel: 'Analyse contextuelle' },
-                  { label: 'Prédictif', sublabel: 'Scoring intelligent' },
-                  { label: 'Actionnable', sublabel: 'Recommandations P1/P2/P3' }
-                ].map((cap, idx) => (
-                  <div key={idx} className="bg-white border border-slate-200 rounded-lg p-3 shadow-sm">
-                    <div className="font-semibold text-slate-900 text-sm">{cap.label}</div>
-                    <div className="text-xs text-slate-500">{cap.sublabel}</div>
+                  { step: '1', text: 'Démarrez l\'agent (bouton START)', icon: Play },
+                  { step: '2', text: 'Simulez une facture en retard', icon: AlertTriangle },
+                  { step: '3', text: 'Observez la réaction en temps réel', icon: Sparkles }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl">
+                    <span className="w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                      {item.step}
+                    </span>
+                    <span className="text-sm text-slate-700">{item.text}</span>
                   </div>
                 ))}
               </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Demo Instructions */}
-        <section className="bg-amber-50 border-b border-amber-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
-                <svg className="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-amber-800 mb-1">Comment tester cette démo</h3>
-                <p className="text-sm text-amber-700">
-                  <strong>1.</strong> Explorez le tableau de bord avec les données de <em>TechNova Solutions</em> (Scale-up SaaS fictive).{' '}
-                  <strong>2.</strong> Cliquez sur <strong>"Simuler un Incident"</strong> pour tester l'agent.{' '}
-                  <strong>3.</strong> Entrez un nom de client, un montant et un délai de retard — observez la réaction en temps réel de l'agent.
-                </p>
-              </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Agent Dashboard */}
-        <section className="py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 30 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <TresorisAgentUI />
-            </motion.div>
-          </div>
-        </section>
+        {/* Agent UI */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <AnimatePresence>
+            {(showDemo || isLoaded) && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <TresorisAgentUI />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </section>
 
-        {/* Technical Proof Section */}
-        <section className="bg-slate-900 text-white py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl font-bold mb-4">Architecture Technique</h2>
-              <p className="text-slate-400 max-w-2xl mx-auto">
-                TRÉSORIS s'appuie sur 6 moteurs d'analyse V2, chacun spécialisé 
-                dans une dimension du risque client et du cash flow.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                {
-                  engine: 'ClientPaymentAnalyzer',
-                  module: 'payment_patterns.py',
-                  description: 'Analyse les historiques de paiement pour identifier les comportements récurrents et les dérives.'
-                },
-                {
-                  engine: 'ClientRiskScorer',
-                  module: 'client_scoring.py',
-                  description: 'Calcule un score de risque A/B/C/D basé sur 12 indicateurs pondérés.'
-                },
-                {
-                  engine: 'SmartForecaster',
-                  module: 'smart_forecast.py',
-                  description: 'Prévisions de trésorerie sur 30/60/90 jours avec intervalles de confiance.'
-                },
-                {
-                  engine: 'EarlyWarningDetector',
-                  module: 'early_warning.py',
-                  description: 'Détection précoce des signaux faibles avant matérialisation du risque.'
-                },
-                {
-                  engine: 'ActionPrioritizer',
-                  module: 'action_optimizer.py',
-                  description: 'Génère des recommandations priorisées P1/P2/P3 avec ROI estimé.'
-                },
-                {
-                  engine: 'SeasonalityAdjuster',
-                  module: 'seasonality.py',
-                  description: 'Corrige les prévisions selon les patterns saisonniers du secteur.'
-                }
-              ].map((engine, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                  transition={{ duration: 0.4, delay: 0.3 + idx * 0.1 }}
-                  className="bg-slate-800/50 border border-slate-700 rounded-xl p-5"
-                >
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-white">{engine.engine}</h3>
-                      <code className="text-xs text-emerald-400">{engine.module}</code>
-                    </div>
-                  </div>
-                  <p className="text-sm text-slate-400">{engine.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="bg-gradient-to-r from-emerald-600 to-teal-600 py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-              Prêt à sécuriser votre trésorerie ?
+      {/* ═══════════════════════════════════════════════════════════════════
+          PUISSANCE - Bénéfices, pas technique
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 bg-slate-900">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold text-white mb-4">
+              La puissance sous le capot
             </h2>
-            <p className="text-emerald-100 mb-8 max-w-2xl mx-auto">
-              Déployez TRÉSORIS sur vos données réelles et obtenez une vision complète 
-              de votre risque client en moins de 24 heures.
+            <p className="text-slate-400 max-w-xl mx-auto">
+              6 moteurs d&apos;analyse travaillent en parallèle pour vous protéger
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                icon: BarChart3,
+                title: 'Analyse des Patterns',
+                benefit: 'Détecte les dérives de paiement avant qu\'elles ne deviennent critiques',
+                example: 'TechCorp paie de plus en plus tard : +2j/mois depuis 4 mois'
+              },
+              {
+                icon: Target,
+                title: 'Scoring Client A/B/C/D',
+                benefit: '12 indicateurs pondérés pour classifier le risque de chaque client',
+                example: 'Rating dégradé : B → C (fiabilité en baisse de 15%)'
+              },
+              {
+                icon: TrendingUp,
+                title: 'Prévisions Cash-flow',
+                benefit: 'Anticipe votre trésorerie sur 30/60/90 jours avec confiance',
+                example: 'Semaine 8 : 142K€ ± 18K€ (confiance 85%)'
+              },
+              {
+                icon: AlertTriangle,
+                title: 'Signaux Faibles',
+                benefit: 'Détection précoce avant matérialisation du risque',
+                example: 'Alerte : concentration client > 25% du CA'
+              },
+              {
+                icon: CheckCircle2,
+                title: 'Actions Prioritaires',
+                benefit: 'Recommandations P1/P2/P3 avec ROI estimé',
+                example: 'Relance TechCorp → impact +68K€ en 15min'
+              },
+              {
+                icon: Users,
+                title: 'Ajustement Saisonnier',
+                benefit: 'Corrige les prévisions selon votre secteur',
+                example: 'Août : +30% de délais moyens (vacances)'
+              }
+            ].map((engine, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="group p-6 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-emerald-500/50 transition-all"
+              >
+                <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-4">
+                  <engine.icon className="w-6 h-6 text-emerald-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">{engine.title}</h3>
+                <p className="text-sm text-slate-400 mb-4">{engine.benefit}</p>
+                <div className="text-xs text-emerald-400/80 bg-emerald-500/10 px-3 py-2 rounded-lg">
+                  💡 {engine.example}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          CTA FINAL
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 bg-gradient-to-r from-emerald-600 to-teal-600">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Convaincu par la démo ?
+            </h2>
+            <p className="text-emerald-100 mb-8 max-w-2xl mx-auto text-lg">
+              Déployez TRÉSORIS sur vos données réelles en moins de 24 heures.
+              Vos équipes seront formées et opérationnelles en 2 jours.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="/contact"
-                className="w-full sm:w-auto bg-white text-emerald-700 px-8 py-3 rounded-lg font-semibold hover:bg-emerald-50 transition-colors shadow-lg"
+              <Link
+                href="https://calendly.com/zineinsight"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-emerald-700 px-8 py-4 rounded-xl font-bold text-lg hover:bg-emerald-50 transition-colors shadow-xl"
               >
-                Demander une démo personnalisée
-              </a>
-              <a
-                href="/agents/tresoris"
-                className="w-full sm:w-auto border border-white/30 text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
+                Réserver ma démo privée
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                href="/agents"
+                className="w-full sm:w-auto border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/10 transition-colors"
               >
-                Voir la documentation technique
-              </a>
+                Voir tous les agents
+              </Link>
             </div>
-          </div>
-        </section>
-      </main>
+          </motion.div>
+        </div>
+      </section>
 
       <Footer />
     </div>
