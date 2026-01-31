@@ -2,32 +2,61 @@
 Agent DAF - API FastAPI V2 - Architecture Hyper-Spécialisée
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Endpoints pour TRESORIS Risk Agent V2
-Agent hyper-spécialisé : Requalification risques trésorerie
+TRESORIS Risk Agent V2 - API complète pour surveillance trésorerie
 
-API Endpoints :
-- POST /agent/start → Démarre surveillance autonome
-- POST /agent/stop → Arrête l'agent
-- GET /agent/status → Statut actuel
-- GET /agent/analysis/latest → Dernière analyse
-- POST /agent/validate → Validation DAF d'une action
-- GET /agent/audit → Rapport d'audit
-- WS /ws → WebSocket temps réel
+═══════════════════════════════════════════════════════════════════
+ENDPOINTS AGENT (Contrôle)
+═══════════════════════════════════════════════════════════════════
+- POST /agent/start         → Démarre surveillance autonome
+- POST /agent/stop          → Arrête l'agent
+- GET  /agent/status        → Statut actuel
+- GET  /agent/analysis/latest → Dernière analyse
+- POST /agent/validate      → Validation DAF d'une action
+- GET  /agent/audit         → Rapport d'audit
+
+═══════════════════════════════════════════════════════════════════
+ENDPOINTS DATA (Nouveaux - pour Frontend)
+═══════════════════════════════════════════════════════════════════
+- POST /upload              → Upload CSV/Excel factures clients
+- POST /demo/init           → Charger données démo + lancer analyse
+- GET  /client/{id}         → Détails complet d'un client
+- GET  /dashboard           → Données agrégées pour dashboard
+
+═══════════════════════════════════════════════════════════════════
+ENDPOINT SIMULATION (Killer Feature)
+═══════════════════════════════════════════════════════════════════
+- POST /agent/simulate      → Simule ajout facture → retourne impact
+                              (runway, rating, warnings, actions)
+                              PARFAIT pour démonstrations interactives
+
+═══════════════════════════════════════════════════════════════════
+WEBSOCKET
+═══════════════════════════════════════════════════════════════════
+- WS /ws                    → Updates temps réel
 """
 
 import asyncio
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 from pathlib import Path
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import pandas as pd
+import shutil
+import io
 
 # V2 - Nouvelle architecture
 from agent import RiskRequalificationAgent, TresorisMemory, get_version_info
+
+# V2 Engines pour API enrichie
+from engine.payment_patterns import ClientPaymentAnalyzer
+from engine.client_scoring import ClientRiskScorer
+from engine.early_warning import EarlyWarningDetector
+from engine.smart_forecast import SmartForecaster
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -53,6 +82,73 @@ class StatusResponse(BaseModel):
     version: str
     last_decision: Optional[Dict]
     current_analysis_summary: Optional[Dict]
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# NOUVEAUX MODÈLES - API Enrichie pour Frontend
+# ═══════════════════════════════════════════════════════════════════════════════
+
+class SimulateInvoiceRequest(BaseModel):
+    """Requête pour simuler l'ajout d'une facture"""
+    client_name: str                    # Nom client (existant ou nouveau)
+    amount: float                       # Montant en €
+    days_overdue: int = 0               # Jours de retard (0 = pas en retard)
+    due_date: Optional[str] = None      # Date échéance (optionnel, calculée si absent)
+
+
+class SimulationResult(BaseModel):
+    """Résultat de simulation d'impact"""
+    # Impact global
+    runway_before_weeks: float
+    runway_after_weeks: float
+    runway_delta_weeks: float
+    
+    # Impact client
+    client_rating_before: Optional[str]
+    client_rating_after: str
+    client_score_before: Optional[float]
+    client_score_after: float
+    rating_changed: bool
+    
+    # Risques déclenchés
+    risk_status: str                    # "CERTAIN" | "UNCERTAIN" | "CRITICAL"
+    risk_score: int                     # 0-100
+    
+    # Alertes générées
+    warnings_triggered: List[Dict]
+    
+    # Actions recommandées
+    actions_generated: List[Dict]
+    
+    # Contexte
+    simulation_summary: str
+    is_demo: bool = True
+
+
+class DashboardData(BaseModel):
+    """Données agrégées pour le dashboard"""
+    # Position cash
+    total_pending: float
+    total_overdue: float
+    runway_weeks: float
+    
+    # Répartition risques
+    risks_by_status: Dict[str, int]
+    amount_by_status: Dict[str, float]
+    
+    # Top clients à risque
+    top_risky_clients: List[Dict]
+    
+    # Alertes actives
+    active_warnings: List[Dict]
+    
+    # Actions pending
+    pending_actions: List[Dict]
+    
+    # Stats
+    dso_moyen: float
+    nb_clients: int
+    nb_factures_pending: int
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -196,10 +292,615 @@ async def root():
         "status": "operational",
         "endpoints": {
             "agent": "/agent/*",
+            "data": "/upload, /demo/init, /client/{id}",
+            "simulate": "/agent/simulate",
+            "dashboard": "/dashboard",
             "websocket": "/ws",
             "docs": "/docs"
         }
     }
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ROUTES - DATA MANAGEMENT (Nouveaux endpoints pour frontend)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+@app.post("/upload")
+async def upload_invoices(file: UploadFile = File(...)):
+    """
+    Upload CSV/Excel factures clients.
+    
+    Colonnes attendues:
+    - invoice_id, client_id, client_name, invoice_date, due_date, amount, status
+    - Optionnel: payment_date, days_overdue, risk_level
+    """
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="Fichier requis")
+    
+    # Vérifier extension
+    if not file.filename.endswith(('.csv', '.xlsx', '.xls')):
+        raise HTTPException(status_code=400, detail="Format CSV ou Excel requis")
+    
+    try:
+        # Lire le fichier
+        contents = await file.read()
+        
+        if file.filename.endswith('.csv'):
+            df = pd.read_csv(io.BytesIO(contents))
+        else:
+            df = pd.read_excel(io.BytesIO(contents))
+        
+        # Vérifier colonnes minimales
+        required = ['client_name', 'amount', 'due_date']
+        missing = [c for c in required if c not in df.columns]
+        if missing:
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Colonnes manquantes: {', '.join(missing)}"
+            )
+        
+        # Générer IDs si absents
+        if 'invoice_id' not in df.columns:
+            df['invoice_id'] = [f"INV-{i+1:04d}" for i in range(len(df))]
+        if 'client_id' not in df.columns:
+            df['client_id'] = df['client_name'].apply(lambda x: f"CLI-{hash(x) % 10000:04d}")
+        if 'status' not in df.columns:
+            df['status'] = 'pending'
+        
+        # Calculer days_overdue si pas présent
+        if 'days_overdue' not in df.columns:
+            df['due_date'] = pd.to_datetime(df['due_date'], errors='coerce')
+            df['days_overdue'] = (datetime.now() - df['due_date']).dt.days
+            df['days_overdue'] = df['days_overdue'].clip(lower=0).fillna(0).astype(int)
+        
+        # Sauvegarder
+        data_path = Path(__file__).parent / "data" / "customer_invoices.csv"
+        df.to_csv(data_path, index=False)
+        
+        # Stats
+        pending = df[df['status'] != 'paid']
+        
+        return {
+            "status": "success",
+            "message": f"✅ {len(df)} factures importées",
+            "stats": {
+                "total_invoices": len(df),
+                "pending_invoices": len(pending),
+                "total_amount": float(df['amount'].sum()),
+                "pending_amount": float(pending['amount'].sum()) if not pending.empty else 0,
+                "clients": int(df['client_name'].nunique()),
+                "overdue_count": int((df['days_overdue'] > 0).sum())
+            },
+            "preview": df.head(5).to_dict(orient='records')
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur traitement: {str(e)}")
+
+
+@app.post("/demo/init")
+async def init_demo_data():
+    """
+    Charge le dataset démo et lance une analyse initiale.
+    Idéal pour démonstrations et tests.
+    """
+    if not state.agent:
+        raise HTTPException(status_code=500, detail="Agent non initialisé")
+    
+    try:
+        data_path = Path(__file__).parent / "data" / "customer_invoices.csv"
+        
+        if not data_path.exists():
+            raise HTTPException(status_code=404, detail="Fichier demo introuvable")
+        
+        # Charger données
+        df = pd.read_csv(data_path)
+        
+        # Recalculer days_overdue (dates peuvent être obsolètes)
+        if 'due_date' in df.columns:
+            df['due_date'] = pd.to_datetime(df['due_date'], errors='coerce')
+            df['days_overdue'] = (datetime.now() - df['due_date']).dt.days
+            df['days_overdue'] = df['days_overdue'].clip(lower=0).fillna(0).astype(int)
+            df.to_csv(data_path, index=False)
+        
+        # Lancer analyse si agent pas déjà en cours
+        if not state.agent.running:
+            await state.agent.start()
+        
+        # Forcer une analyse
+        result = await state.agent.run_analysis("Initialisation demo")
+        
+        # Stats
+        pending = df[df['status'] != 'paid']
+        overdue = df[df['days_overdue'] > 0]
+        
+        return {
+            "status": "success",
+            "message": "✅ Demo initialisée avec analyse complète",
+            "data_stats": {
+                "total_invoices": len(df),
+                "pending_invoices": len(pending),
+                "overdue_invoices": len(overdue),
+                "total_amount": float(df['amount'].sum()),
+                "pending_amount": float(pending['amount'].sum()) if not pending.empty else 0,
+                "clients": int(df['client_name'].nunique())
+            },
+            "analysis_summary": result.summary if result else None,
+            "analysis_id": result.id if result else None
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur init demo: {str(e)}")
+
+
+@app.get("/client/{client_id}")
+async def get_client_details(client_id: str):
+    """
+    Détails complets d'un client:
+    - Pattern de paiement
+    - Score risque (A/B/C/D)
+    - Factures pending
+    - Early warnings
+    - Historique
+    """
+    data_path = Path(__file__).parent / "data" / "customer_invoices.csv"
+    
+    if not data_path.exists():
+        raise HTTPException(status_code=404, detail="Aucune donnée chargée")
+    
+    try:
+        df = pd.read_csv(data_path)
+        
+        # Chercher par client_id ou client_name
+        client_col = 'client_name'
+        client_data = df[df[client_col] == client_id]
+        
+        if client_data.empty:
+            # Essayer avec client_id
+            if 'client_id' in df.columns:
+                client_data = df[df['client_id'] == client_id]
+        
+        if client_data.empty:
+            raise HTTPException(status_code=404, detail=f"Client '{client_id}' non trouvé")
+        
+        client_name = client_data[client_col].iloc[0]
+        
+        # Analyser pattern
+        analyzer = ClientPaymentAnalyzer(df)
+        try:
+            pattern = analyzer.analyze_client(client_name)
+        except:
+            pattern = None
+        
+        # Scorer client
+        pending = df[df['status'] != 'paid']
+        total_pending = pending['amount'].sum()
+        client_pending = client_data[client_data['status'] != 'paid']['amount'].sum()
+        
+        scorer = ClientRiskScorer()
+        if pattern:
+            score = scorer.calculate_risk_score(
+                pattern=pattern,
+                pending_amount=float(client_pending),
+                total_portfolio=float(total_pending) if total_pending > 0 else 1
+            )
+        else:
+            score = None
+        
+        # Early warnings
+        warnings = []
+        if state.agent and state.agent.current_analysis:
+            for risk in state.agent.current_analysis.risks:
+                if risk.client == client_name:
+                    warnings.append({
+                        "type": risk.type,
+                        "status": risk.status.value,
+                        "amount": risk.amount,
+                        "days_overdue": risk.days_overdue,
+                        "score": risk.score,
+                        "justification": risk.justification
+                    })
+        
+        return {
+            "client_id": client_id,
+            "client_name": client_name,
+            "pattern": {
+                "avg_delay_days": pattern.avg_delay_days if pattern else None,
+                "on_time_rate": pattern.on_time_rate if pattern else None,
+                "trend": pattern.trend if pattern else None,
+                "reliability_score": pattern.reliability_score if pattern else None,
+                "risk_level": pattern.risk_level if pattern else None
+            } if pattern else None,
+            "scoring": {
+                "rating": score.rating if score else None,
+                "risk_score": score.risk_score if score else None,
+                "explanation": score.explanation if score else None,
+                "risk_factors": score.risk_factors if score else [],
+                "positive_factors": score.positive_factors if score else [],
+                "confidence": score.confidence if score else None
+            } if score else None,
+            "invoices": {
+                "total": len(client_data),
+                "pending": len(client_data[client_data['status'] != 'paid']),
+                "paid": len(client_data[client_data['status'] == 'paid']),
+                "total_amount": float(client_data['amount'].sum()),
+                "pending_amount": float(client_pending),
+                "overdue_amount": float(client_data[client_data['days_overdue'] > 0]['amount'].sum())
+            },
+            "warnings": warnings,
+            "pending_invoices": client_data[client_data['status'] != 'paid'].to_dict(orient='records')
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+
+@app.post("/agent/simulate", response_model=SimulationResult)
+async def simulate_invoice_impact(request: SimulateInvoiceRequest):
+    """
+    🎯 KILLER FEATURE: Simule l'ajout d'une facture et retourne l'impact TRESORIS.
+    
+    NE PERSISTE PAS la facture (simulation pure).
+    Montre la réaction agentique selon:
+    - Montant
+    - Retard
+    - Historique client
+    
+    Parfait pour démonstrations interactives.
+    """
+    data_path = Path(__file__).parent / "data" / "customer_invoices.csv"
+    
+    if not data_path.exists():
+        raise HTTPException(status_code=404, detail="Aucune donnée chargée. Utilisez /demo/init ou /upload d'abord.")
+    
+    try:
+        # Charger données actuelles
+        df = pd.read_csv(data_path)
+        
+        # ─── ÉTAT AVANT ───
+        pending_before = df[df['status'] != 'paid']
+        total_pending_before = pending_before['amount'].sum()
+        
+        # Runway avant (approximation: pending / moyenne mensuelle)
+        avg_monthly = total_pending_before / 3  # Hypothèse 3 mois de data
+        runway_before = (total_pending_before / avg_monthly * 4) if avg_monthly > 0 else 12  # en semaines
+        
+        # Score client avant (si existe)
+        client_exists = request.client_name in df['client_name'].values
+        client_rating_before = None
+        client_score_before = None
+        
+        if client_exists:
+            analyzer = ClientPaymentAnalyzer(df)
+            try:
+                pattern_before = analyzer.analyze_client(request.client_name)
+                scorer = ClientRiskScorer()
+                client_pending = pending_before[pending_before['client_name'] == request.client_name]['amount'].sum()
+                score_before = scorer.calculate_risk_score(
+                    pattern=pattern_before,
+                    pending_amount=float(client_pending),
+                    total_portfolio=float(total_pending_before) if total_pending_before > 0 else 1
+                )
+                client_rating_before = score_before.rating
+                client_score_before = score_before.risk_score
+            except:
+                pass
+        
+        # ─── AJOUTER FACTURE SIMULÉE ───
+        due_date = request.due_date or (datetime.now() - timedelta(days=request.days_overdue)).strftime('%Y-%m-%d')
+        
+        simulated_invoice = {
+            'invoice_id': f'SIM-{datetime.now().strftime("%H%M%S")}',
+            'client_id': f'CLI-{hash(request.client_name) % 10000:04d}',
+            'client_name': request.client_name,
+            'invoice_date': (datetime.now() - timedelta(days=request.days_overdue + 30)).strftime('%Y-%m-%d'),
+            'due_date': due_date,
+            'amount': request.amount,
+            'status': 'overdue' if request.days_overdue > 0 else 'pending',
+            'payment_date': None,
+            'days_overdue': request.days_overdue,
+            'risk_level': 'critical' if request.days_overdue > 60 else 'high' if request.days_overdue > 30 else 'medium' if request.days_overdue > 0 else 'low'
+        }
+        
+        df_with_sim = pd.concat([df, pd.DataFrame([simulated_invoice])], ignore_index=True)
+        
+        # ─── ÉTAT APRÈS ───
+        pending_after = df_with_sim[df_with_sim['status'] != 'paid']
+        total_pending_after = pending_after['amount'].sum()
+        
+        # Runway après
+        runway_after = (total_pending_after / avg_monthly * 4) if avg_monthly > 0 else 12
+        
+        # Score client après
+        analyzer_after = ClientPaymentAnalyzer(df_with_sim)
+        try:
+            pattern_after = analyzer_after.analyze_client(request.client_name)
+            scorer = ClientRiskScorer()
+            client_pending_after = pending_after[pending_after['client_name'] == request.client_name]['amount'].sum()
+            score_after = scorer.calculate_risk_score(
+                pattern=pattern_after,
+                pending_amount=float(client_pending_after),
+                total_portfolio=float(total_pending_after) if total_pending_after > 0 else 1
+            )
+            client_rating_after = score_after.rating
+            client_score_after = score_after.risk_score
+        except:
+            # Nouveau client sans historique = rating C par défaut
+            client_rating_after = "C" if request.days_overdue < 30 else "D"
+            client_score_after = 55 if request.days_overdue < 30 else 75
+        
+        # ─── DÉTECTER WARNINGS ───
+        warnings_triggered = []
+        
+        # Warning: Retard critique
+        if request.days_overdue > 60:
+            warnings_triggered.append({
+                "type": "critical_delay",
+                "severity": "critical",
+                "message": f"Retard > 60 jours ({request.days_overdue}j) - Action immédiate requise",
+                "amount_at_risk": request.amount
+            })
+        elif request.days_overdue > 30:
+            warnings_triggered.append({
+                "type": "significant_delay",
+                "severity": "high",
+                "message": f"Retard significatif ({request.days_overdue}j) - Surveillance renforcée",
+                "amount_at_risk": request.amount
+            })
+        
+        # Warning: Montant élevé
+        if request.amount > 200000:
+            warnings_triggered.append({
+                "type": "high_amount",
+                "severity": "high" if request.amount > 400000 else "medium",
+                "message": f"Montant élevé ({request.amount/1000:.0f}K€) - Impact runway significatif",
+                "amount_at_risk": request.amount
+            })
+        
+        # Warning: Concentration
+        client_total = pending_after[pending_after['client_name'] == request.client_name]['amount'].sum()
+        concentration = (client_total / total_pending_after * 100) if total_pending_after > 0 else 0
+        if concentration > 30:
+            warnings_triggered.append({
+                "type": "concentration_risk",
+                "severity": "critical" if concentration > 40 else "high",
+                "message": f"Concentration client: {concentration:.0f}% du portefeuille",
+                "amount_at_risk": client_total
+            })
+        
+        # Warning: Dégradation rating
+        if client_rating_before and client_rating_after:
+            rating_order = {'A': 1, 'B': 2, 'C': 3, 'D': 4}
+            if rating_order.get(client_rating_after, 0) > rating_order.get(client_rating_before, 0):
+                warnings_triggered.append({
+                    "type": "rating_degradation",
+                    "severity": "high",
+                    "message": f"Dégradation rating: {client_rating_before} → {client_rating_after}",
+                    "amount_at_risk": client_total
+                })
+        
+        # ─── DÉTERMINER RISK STATUS ───
+        risk_status = "CERTAIN"
+        risk_score = 25
+        
+        if request.days_overdue > 60 or concentration > 40:
+            risk_status = "CRITICAL"
+            risk_score = 85
+        elif request.days_overdue > 30 or concentration > 30 or request.amount > 300000:
+            risk_status = "UNCERTAIN"
+            risk_score = 60
+        elif request.days_overdue > 0 or request.amount > 100000:
+            risk_status = "UNCERTAIN"
+            risk_score = 45
+        
+        # ─── GÉNÉRER ACTIONS ───
+        actions_generated = []
+        
+        if risk_status == "CRITICAL":
+            actions_generated.append({
+                "priority": "P1",
+                "title": f"Relancer immédiatement {request.client_name}",
+                "description": f"Facture {request.amount/1000:.0f}K€ en retard de {request.days_overdue}j",
+                "deadline": "Immédiat",
+                "impact_amount": request.amount
+            })
+        
+        if risk_status in ["CRITICAL", "UNCERTAIN"]:
+            actions_generated.append({
+                "priority": "P2",
+                "title": f"Requalifier forecast {request.client_name}",
+                "description": "Mettre à jour les prévisions de trésorerie",
+                "deadline": "Cette semaine",
+                "impact_amount": request.amount
+            })
+        
+        if concentration > 25:
+            actions_generated.append({
+                "priority": "P2" if concentration > 35 else "P3",
+                "title": f"Analyser exposition {request.client_name}",
+                "description": f"Concentration à {concentration:.0f}% - diversifier si possible",
+                "deadline": "2 semaines",
+                "impact_amount": client_total
+            })
+        
+        # ─── CONSTRUIRE SUMMARY ───
+        summary_parts = []
+        
+        if risk_status == "CRITICAL":
+            summary_parts.append(f"🔴 ALERTE CRITIQUE: Cette facture déclenche un risque majeur")
+        elif risk_status == "UNCERTAIN":
+            summary_parts.append(f"🟡 ATTENTION: Cette facture nécessite une surveillance renforcée")
+        else:
+            summary_parts.append(f"🟢 OK: Cette facture ne déclenche pas d'alerte particulière")
+        
+        summary_parts.append(f"Impact runway: {runway_before:.1f} → {runway_after:.1f} semaines ({runway_after - runway_before:+.1f})")
+        
+        if client_rating_before and client_rating_before != client_rating_after:
+            summary_parts.append(f"Rating client: {client_rating_before} → {client_rating_after}")
+        elif not client_rating_before:
+            summary_parts.append(f"Nouveau client détecté avec rating initial: {client_rating_after}")
+        
+        if warnings_triggered:
+            summary_parts.append(f"{len(warnings_triggered)} alerte(s) déclenchée(s)")
+        
+        simulation_summary = " | ".join(summary_parts)
+        
+        return SimulationResult(
+            runway_before_weeks=round(runway_before, 1),
+            runway_after_weeks=round(runway_after, 1),
+            runway_delta_weeks=round(runway_after - runway_before, 1),
+            client_rating_before=client_rating_before,
+            client_rating_after=client_rating_after,
+            client_score_before=client_score_before,
+            client_score_after=client_score_after,
+            rating_changed=client_rating_before != client_rating_after if client_rating_before else True,
+            risk_status=risk_status,
+            risk_score=risk_score,
+            warnings_triggered=warnings_triggered,
+            actions_generated=actions_generated,
+            simulation_summary=simulation_summary,
+            is_demo=True
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur simulation: {str(e)}")
+
+
+@app.get("/dashboard")
+async def get_dashboard_data():
+    """
+    Données agrégées pour le dashboard frontend.
+    Tout ce dont le frontend a besoin en un seul appel.
+    """
+    data_path = Path(__file__).parent / "data" / "customer_invoices.csv"
+    
+    if not data_path.exists():
+        raise HTTPException(status_code=404, detail="Aucune donnée chargée")
+    
+    try:
+        df = pd.read_csv(data_path)
+        
+        # Calculer days_overdue si pas présent
+        if 'days_overdue' not in df.columns and 'due_date' in df.columns:
+            df['due_date'] = pd.to_datetime(df['due_date'], errors='coerce')
+            df['days_overdue'] = (datetime.now() - df['due_date']).dt.days
+            df['days_overdue'] = df['days_overdue'].clip(lower=0).fillna(0).astype(int)
+        
+        pending = df[df['status'] != 'paid']
+        overdue = pending[pending['days_overdue'] > 0]
+        
+        # Position cash
+        total_pending = float(pending['amount'].sum()) if not pending.empty else 0
+        total_overdue = float(overdue['amount'].sum()) if not overdue.empty else 0
+        
+        # Runway (approximation)
+        avg_monthly = total_pending / 3 if total_pending > 0 else 1
+        runway_weeks = round(total_pending / avg_monthly * 4, 1) if avg_monthly > 0 else 12
+        
+        # Répartition par status (depuis analyse)
+        risks_by_status = {"CERTAIN": 0, "UNCERTAIN": 0, "CRITICAL": 0}
+        amount_by_status = {"CERTAIN": 0.0, "UNCERTAIN": 0.0, "CRITICAL": 0.0}
+        
+        if state.agent and state.agent.current_analysis:
+            for risk in state.agent.current_analysis.risks:
+                status = risk.status.value.upper()
+                risks_by_status[status] = risks_by_status.get(status, 0) + 1
+                amount_by_status[status] = amount_by_status.get(status, 0) + risk.amount
+        
+        # Top clients à risque
+        top_risky_clients = []
+        if state.agent and state.agent.current_analysis:
+            # Grouper risques par client
+            client_risks = {}
+            for risk in state.agent.current_analysis.risks:
+                if risk.client not in client_risks:
+                    client_risks[risk.client] = {
+                        "client_name": risk.client,
+                        "total_amount": 0,
+                        "max_days_overdue": 0,
+                        "risk_count": 0,
+                        "max_score": 0,
+                        "status": "CERTAIN"
+                    }
+                client_risks[risk.client]["total_amount"] += risk.amount
+                client_risks[risk.client]["max_days_overdue"] = max(
+                    client_risks[risk.client]["max_days_overdue"], 
+                    risk.days_overdue
+                )
+                client_risks[risk.client]["risk_count"] += 1
+                client_risks[risk.client]["max_score"] = max(
+                    client_risks[risk.client]["max_score"],
+                    risk.score
+                )
+                if risk.status.value.upper() in ["CRITICAL", "UNCERTAIN"]:
+                    client_risks[risk.client]["status"] = risk.status.value.upper()
+            
+            # Trier par score max
+            top_risky_clients = sorted(
+                client_risks.values(),
+                key=lambda x: x["max_score"],
+                reverse=True
+            )[:5]
+        
+        # Alertes actives
+        active_warnings = []
+        if state.agent and state.agent.current_analysis:
+            for risk in state.agent.current_analysis.risks:
+                if risk.status.value.upper() in ["CRITICAL", "UNCERTAIN"]:
+                    active_warnings.append({
+                        "id": risk.id,
+                        "client": risk.client,
+                        "type": risk.type,
+                        "severity": "critical" if risk.status.value == "critical" else "high",
+                        "amount": risk.amount,
+                        "days_overdue": risk.days_overdue,
+                        "message": risk.justification
+                    })
+        
+        # Actions pending
+        pending_actions = []
+        if state.agent and state.agent.current_analysis:
+            for action in state.agent.current_analysis.actions:
+                if action.validation_status == "pending":
+                    pending_actions.append({
+                        "id": action.id,
+                        "priority": action.priority.name,
+                        "title": action.title,
+                        "deadline": action.deadline,
+                        "impact_amount": action.impact_amount
+                    })
+        
+        # DSO moyen
+        dso_moyen = float(pending['days_overdue'].mean()) if not pending.empty else 0
+        
+        return {
+            "total_pending": total_pending,
+            "total_overdue": total_overdue,
+            "runway_weeks": runway_weeks,
+            "risks_by_status": risks_by_status,
+            "amount_by_status": amount_by_status,
+            "top_risky_clients": top_risky_clients,
+            "active_warnings": active_warnings[:10],  # Max 10
+            "pending_actions": pending_actions,
+            "dso_moyen": round(dso_moyen, 1),
+            "nb_clients": int(df['client_name'].nunique()),
+            "nb_factures_pending": len(pending),
+            "last_analysis": state.agent.current_analysis.id if state.agent and state.agent.current_analysis else None,
+            "agent_running": state.agent.running if state.agent else False
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur dashboard: {str(e)}")
 
 
 @app.post("/agent/start", response_model=StartResponse)

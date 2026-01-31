@@ -197,12 +197,13 @@ export default function AgentsPage() {
                 et propose des actions prioritaires.
               </p>
               <div className="flex flex-col gap-2">
-                <span
-                  className="inline-flex items-center text-slate-400 font-semibold cursor-not-allowed"
+                <Link
+                  href="/demo-tresoris"
+                  className="inline-flex items-center text-emerald-600 font-semibold hover:text-emerald-700 transition-colors"
                 >
                   Tester TRESORIS
-                  <span className="ml-2 text-xs bg-slate-200 px-2 py-0.5 rounded">Bientôt</span>
-                </span>
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
                 <Link
                   href="/agents/tresoris"
                   className="inline-flex items-center text-slate-900 font-semibold hover:text-accent-primary transition-colors"
@@ -535,6 +536,23 @@ export default function AgentsPage() {
               </div>
             </motion.div>
           </div>
+
+          {/* CTA TRESORIS */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-12 text-center"
+          >
+            <Link
+              href="/demo-tresoris"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
+            >
+              Tester TRESORIS gratuitement
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 

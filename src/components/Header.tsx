@@ -115,21 +115,23 @@ export default function Header() {
                                     </div>
                                 </Link>
 
-                                {/* TRESORIS - Bientôt */}
-                                <div
-                                    className="flex items-center gap-3 px-4 py-3 opacity-60 cursor-not-allowed"
+                                {/* TRESORIS - Disponible */}
+                                <Link
+                                    href="/demo-tresoris"
+                                    className="flex items-center gap-3 px-4 py-3 hover:bg-surface-hover transition-all duration-200"
+                                    onClick={() => setIsTestAgentsOpen(false)}
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
-                                        <Shield className="w-4 h-4 text-slate-500" />
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                                        <Shield className="w-4 h-4 text-emerald-600" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2">
                                             <span className="text-sm font-semibold text-primary">TRESORIS</span>
-                                            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-700 rounded">BIENTÔT</span>
+                                            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-emerald-500/10 text-emerald-600 rounded">NOUVEAU</span>
                                         </div>
                                         <span className="text-xs text-tertiary">Expert Trésorerie</span>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         )}
                     </div>
