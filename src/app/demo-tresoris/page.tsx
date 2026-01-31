@@ -92,8 +92,8 @@ export default function DemoTresorisPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
                 {[
                   { label: '6 Moteurs V2', sublabel: 'Analyse multi-dimensionnelle' },
-                  { label: 'Temps réel', sublabel: 'WebSocket streaming' },
-                  { label: 'Prédictif', sublabel: 'ML Pattern Recognition' },
+                  { label: 'IA Gemini', sublabel: 'Analyse contextuelle' },
+                  { label: 'Prédictif', sublabel: 'Scoring intelligent' },
                   { label: 'Actionnable', sublabel: 'Recommandations P1/P2/P3' }
                 ].map((cap, idx) => (
                   <div key={idx} className="bg-white border border-slate-200 rounded-lg p-3 shadow-sm">

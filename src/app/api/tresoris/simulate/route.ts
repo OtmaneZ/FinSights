@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import type { SimulationRequest, SimulationResult } from '@/components/tresoris/types'
+import type { SimulationRequest, SimulationResult, Warning, Action } from '@/components/tresoris/types'
 
 /**
  * POST /api/tresoris/simulate
  * 
  * Simule l'impact d'une facture impayée sur la trésorerie.
- * L'agent analyse le client, calcule l'impact runway, génère warnings et actions.
+ * Utilise l'IA (Gemini via OpenRouter) pour analyse intelligente.
  */
 export async function POST(request: NextRequest) {
     try {
@@ -20,149 +20,73 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        // Calcul de l'impact
-        const runwayBefore = 18 // semaines
-        const weeklyBurn = 45000 // dépenses hebdomadaires moyennes
-        const impactWeeks = Math.round(amount / weeklyBurn)
-        const runwayAfter = Math.max(0, runwayBefore - impactWeeks)
+        console.log('🎯 [TRESORIS Simulate] Starting AI analysis...', { client_name, amount, days_overdue })
 
-        // Scoring du risque basé sur montant et retard
-        let riskScore = 0
-        let riskStatus: 'CERTAIN' | 'UNCERTAIN' | 'CRITICAL' = 'CERTAIN'
-        let clientRatingAfter: 'A' | 'B' | 'C' | 'D' = 'A'
+        // Appel à l'API d'analyse IA
+        const analyzeResponse = await fetch(new URL('/api/tresoris/analyze', request.url).toString(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                client_name,
+                amount,
+                days_overdue,
+                context: {
+                    current_runway_weeks: 18,
+                    existing_warnings: 3,
+                    company_sector: 'SaaS B2B'
+                }
+            })
+        })
 
-        if (days_overdue === 0) {
-            riskScore = Math.min(30, (amount / 10000) * 5)
-            riskStatus = 'CERTAIN'
-            clientRatingAfter = 'A'
-        } else if (days_overdue <= 30) {
-            riskScore = Math.min(50, 30 + days_overdue + (amount / 10000) * 3)
-            riskStatus = 'CERTAIN'
-            clientRatingAfter = 'B'
-        } else if (days_overdue <= 60) {
-            riskScore = Math.min(75, 50 + (days_overdue - 30) + (amount / 10000) * 5)
-            riskStatus = 'UNCERTAIN'
-            clientRatingAfter = 'C'
-        } else {
-            riskScore = Math.min(95, 70 + (days_overdue - 60) * 0.5 + (amount / 10000) * 8)
-            riskStatus = 'CRITICAL'
-            clientRatingAfter = 'D'
+        if (!analyzeResponse.ok) {
+            throw new Error('AI analysis failed')
         }
 
-        // Génération des warnings
-        const warnings = []
+        const { analysis, powered_by } = await analyzeResponse.json()
         
-        if (days_overdue > 0) {
-            warnings.push({
-                type: 'CLIENT_PAYMENT_DELAY',
-                severity: days_overdue > 60 ? 'critical' : days_overdue > 30 ? 'high' : 'medium',
-                message: `${client_name} : retard de ${days_overdue} jours sur facture de ${(amount / 1000).toFixed(0)}K€`,
-                amount_at_risk: amount,
-                client: client_name,
-                days_overdue
-            } as const)
-        }
+        console.log(`✅ [TRESORIS Simulate] Analysis complete (powered by: ${powered_by})`)
 
-        if (runwayAfter < 12) {
-            warnings.push({
-                type: 'CASH_RUNWAY_CRITICAL',
-                severity: 'critical',
-                message: `Runway critique : ${runwayAfter} semaines de trésorerie disponible`,
-                amount_at_risk: amount
-            } as const)
-        } else if (runwayAfter < 18) {
-            warnings.push({
-                type: 'CASH_RUNWAY_LOW',
-                severity: 'high',
-                message: `Runway en baisse : ${runwayAfter} semaines (vs ${runwayBefore} avant incident)`,
-                amount_at_risk: amount
-            } as const)
-        }
+        // Calcul de l'impact runway
+        const runwayBefore = 18
+        const runwayAfter = Math.max(0, runwayBefore - analysis.cash_impact.runway_impact_weeks)
 
-        if (amount > 50000 && days_overdue > 45) {
-            warnings.push({
-                type: 'MAJOR_CLIENT_RISK',
-                severity: 'critical',
-                message: `Risque majeur : gros montant (${(amount / 1000).toFixed(0)}K€) + retard significatif`,
-                amount_at_risk: amount,
-                client: client_name
-            } as const)
-        }
-
-        // Génération des actions
-        const actions = []
-
-        if (days_overdue > 45) {
-            actions.push({
-                priority: 'P1',
-                title: `Relance urgente ${client_name}`,
-                description: 'Appel téléphonique immédiat + email formel avec échéancier de paiement',
-                deadline: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                impact_amount: amount,
-                validation_status: 'pending'
-            } as const)
-        } else if (days_overdue > 30) {
-            actions.push({
-                priority: 'P2',
-                title: `Relance formelle ${client_name}`,
-                description: 'Email de relance avec copie comptabilité client',
-                deadline: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                impact_amount: amount,
-                validation_status: 'pending'
-            } as const)
-        }
-
-        if (runwayAfter < 12) {
-            actions.push({
-                priority: 'P1',
-                title: 'Mesures urgentes trésorerie',
-                description: 'Négocier report charges sociales + activer ligne crédit court terme',
-                deadline: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                impact_amount: Math.round(amount * 0.4),
-                validation_status: 'pending'
-            } as const)
-        }
-
-        if (amount > 30000) {
-            actions.push({
-                priority: days_overdue > 60 ? 'P1' : 'P2',
-                title: `Revoir conditions paiement ${client_name}`,
-                description: 'Proposition passage en prépaiement ou acompte 50% pour futures commandes',
-                deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                impact_amount: amount,
-                validation_status: 'pending'
-            } as const)
-        }
-
-        if (actions.length === 0) {
-            actions.push({
-                priority: 'P3',
-                title: `Surveillance ${client_name}`,
-                description: 'Monitoring du comportement de paiement sur les 2 prochains mois',
-                deadline: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-                impact_amount: amount,
-                validation_status: 'pending'
-            } as const)
-        }
-
+        // Conversion du format IA vers SimulationResult
         const result: SimulationResult = {
             runway_before_weeks: runwayBefore,
             runway_after_weeks: runwayAfter,
-            runway_delta_weeks: runwayBefore - runwayAfter,
+            runway_delta_weeks: analysis.cash_impact.runway_impact_weeks,
             
             client_rating_before: null,
-            client_rating_after: clientRatingAfter,
+            client_rating_after: analysis.risk_assessment.rating,
             client_score_before: null,
-            client_score_after: riskScore,
+            client_score_after: analysis.risk_assessment.score,
             rating_changed: true,
             
-            risk_status: riskStatus,
-            risk_score: riskScore,
+            risk_status: analysis.cash_impact.urgency_level === 'immediate' ? 'CRITICAL' 
+                        : analysis.cash_impact.urgency_level === 'high' ? 'UNCERTAIN' 
+                        : 'CERTAIN',
+            risk_score: analysis.risk_assessment.score,
             
-            warnings_triggered: warnings,
-            actions_generated: actions,
+            warnings_triggered: analysis.warnings.map((w: any) => ({
+                type: w.type,
+                severity: w.severity,
+                message: w.message,
+                amount_at_risk: amount,
+                client: client_name,
+                days_overdue
+            } as Warning)),
             
-            simulation_summary: `Impact de ${client_name} : ${(amount / 1000).toFixed(0)}K€ à ${days_overdue}j de retard → Runway ${runwayBefore}s → ${runwayAfter}s (-${impactWeeks}s) | Rating: ${clientRatingAfter} | ${warnings.length} alertes | ${actions.length} actions`,
+            actions_generated: analysis.actions.map((a: any) => ({
+                priority: a.priority,
+                title: a.title,
+                description: a.description,
+                deadline: new Date(Date.now() + a.deadline_days * 24 * 60 * 60 * 1000)
+                    .toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
+                impact_amount: amount,
+                validation_status: 'pending' as const
+            } as Action)),
+            
+            simulation_summary: `${client_name} : ${(amount / 1000).toFixed(0)}K€ à ${days_overdue}j → ${analysis.risk_assessment.reasoning}`,
             is_demo: true
         }
 
