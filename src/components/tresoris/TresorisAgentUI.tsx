@@ -7,13 +7,13 @@
  * l'interface de surveillance trésorerie complète.
  * 
  * Features:
- * - Connexion WebSocket temps réel
+ * - API routes Next.js (pas de serveur externe)
  * - RiskSimulator pour démo interactive
  * - Dashboard avec métriques live
  * - Validation actions DAF
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
     Wifi,
@@ -25,8 +25,7 @@ import {
     Building2,
     TrendingUp,
     AlertTriangle,
-    CheckCircle2,
-    Upload
+    CheckCircle2
 } from 'lucide-react'
 
 // Components
@@ -55,7 +54,7 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
     // ═══════════════════════════════════════════════════════════════════
     
     // Connection
-    const [isConnected, setIsConnected] = useState(false)
+    const [isConnected, setIsConnected] = useState(true) // Toujours connecté avec API Next.js
     const [isAgentRunning, setIsAgentRunning] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -67,9 +66,6 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
     // Timeline
     const [analysisSteps, setAnalysisSteps] = useState<TimelineStep[]>(DEFAULT_ANALYSIS_STEPS)
     const [currentStep, setCurrentStep] = useState<string | null>(null)
-    
-    // WebSocket
-    const wsRef = useRef<WebSocket | null>(null)
     
     // ═══════════════════════════════════════════════════════════════════
     // API CALLS
@@ -84,63 +80,20 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
             setDashboard(data)
             setIsAgentRunning(data.agent_running)
             setError(null)
+            setIsConnected(true)
         } catch (err) {
             console.error('Dashboard fetch error:', err)
-            // Don't set error - might be first load before init
+            setError('Erreur de chargement des données')
         }
     }, [])
     
-    // Initialize demo
-    const initDemo = useCallback(async () => {
-        setIsLoading(true)
-        setError(null)
-        
-        try {
-            const response = await fetch(TRESORIS_ENDPOINTS.demoInit, {
-                method: 'POST'
-            })
-            
-            if (!response.ok) {
-                throw new Error('Failed to initialize demo')
-            }
-            
-            await fetchDashboard()
-            setIsAgentRunning(true)
-        } catch (err) {
-            console.error('Init demo error:', err)
-            setError('Impossible de se connecter au backend TRESORIS. Vérifiez que le serveur est démarré sur le port 8000.')
-        } finally {
-            setIsLoading(false)
-        }
-    }, [fetchDashboard])
+    // Start/Stop agent (mode démo - juste toggle UI)
+    const startAgent = useCallback(() => {
+        setIsAgentRunning(true)
+    }, [])
     
-    // Start agent
-    const startAgent = useCallback(async () => {
-        try {
-            const response = await fetch(TRESORIS_ENDPOINTS.agentStart, {
-                method: 'POST'
-            })
-            if (response.ok) {
-                setIsAgentRunning(true)
-                await fetchDashboard()
-            }
-        } catch (err) {
-            console.error('Start agent error:', err)
-        }
-    }, [fetchDashboard])
-    
-    // Stop agent
-    const stopAgent = useCallback(async () => {
-        try {
-            const response = await fetch(TRESORIS_ENDPOINTS.agentStop, {
-                method: 'POST'
-            })
-            if (response.ok) {
-                setIsAgentRunning(false)
-            }
-        } catch (err) {
-            console.error('Stop agent error:', err)
-        }
+    const stopAgent = useCallback(() => {
+        setIsAgentRunning(false)
     }, [])
     
     // Validate action
@@ -165,90 +118,18 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
     }, [fetchDashboard])
     
     // ═══════════════════════════════════════════════════════════════════
-    // WEBSOCKET
+    // LIFECYCLE
     // ═══════════════════════════════════════════════════════════════════
     
     useEffect(() => {
-        // Try to connect WebSocket
-        const connectWs = () => {
-            try {
-                const ws = new WebSocket(TRESORIS_ENDPOINTS.websocket)
-                
-                ws.onopen = () => {
-                    console.log('✅ WebSocket connected')
-                    setIsConnected(true)
-                }
-                
-                ws.onmessage = (event) => {
-                    try {
-                        const data = JSON.parse(event.data)
-                        
-                        // Handle different event types
-                        switch (data.type) {
-                            case 'analysis_started':
-                                // Reset timeline
-                                setAnalysisSteps(DEFAULT_ANALYSIS_STEPS.map(s => ({ ...s, status: 'pending' as const })))
-                                break
-                            
-                            case 'step_started':
-                                setCurrentStep(data.data.step)
-                                setAnalysisSteps(prev => prev.map(s =>
-                                    s.id === data.data.step
-                                        ? { ...s, status: 'processing' as const }
-                                        : s
-                                ))
-                                break
-                            
-                            case 'step_completed':
-                                setAnalysisSteps(prev => prev.map(s =>
-                                    s.id === data.data.step
-                                        ? { ...s, status: 'completed' as const }
-                                        : s
-                                ))
-                                break
-                            
-                            case 'analysis_completed':
-                                fetchDashboard()
-                                break
-                            
-                            case 'heartbeat':
-                                // Keep alive
-                                break
-                        }
-                    } catch (e) {
-                        console.error('WebSocket parse error:', e)
-                    }
-                }
-                
-                ws.onclose = () => {
-                    console.log('❌ WebSocket disconnected')
-                    setIsConnected(false)
-                    // Retry after 5s
-                    setTimeout(connectWs, 5000)
-                }
-                
-                ws.onerror = () => {
-                    setIsConnected(false)
-                }
-                
-                wsRef.current = ws
-            } catch (err) {
-                console.error('WebSocket connection error:', err)
-                setIsConnected(false)
-            }
+        // Initial load - pas de WebSocket, juste fetch HTTP
+        const loadData = async () => {
+            setIsLoading(true)
+            await fetchDashboard()
+            setIsLoading(false)
         }
-        
-        // Initial load
-        initDemo()
-        connectWs()
-        
-        // Cleanup
-        return () => {
-            if (wsRef.current) {
-                wsRef.current.close()
-            }
-        }
-    }, [initDemo, fetchDashboard])
+        loadData()
+    }, [fetchDashboard])
     
     // Handle simulation complete
     const handleSimulationComplete = useCallback((result: SimulationResult) => {
@@ -362,23 +243,16 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                             className="flex flex-col items-center justify-center py-20"
                         >
                             <AlertTriangle className="w-16 h-16 text-amber-500 mb-4" />
-                            <h2 className="text-xl font-semibold text-primary mb-2">Connexion impossible</h2>
+                            <h2 className="text-xl font-semibold text-primary mb-2">Erreur de chargement</h2>
                             <p className="text-secondary text-center max-w-md mb-6">{error}</p>
                             <div className="flex gap-3">
                                 <button
-                                    onClick={initDemo}
+                                    onClick={fetchDashboard}
                                     className="flex items-center gap-2 px-6 py-3 bg-accent-primary text-white rounded-lg hover:bg-accent-primary/90 transition-all"
                                 >
                                     <RefreshCw className="w-5 h-5" />
                                     Réessayer
                                 </button>
-                            </div>
-                            <div className="mt-8 p-4 bg-secondary/50 rounded-lg text-sm text-tertiary max-w-md">
-                                <p className="font-medium text-secondary mb-2">💡 Pour démarrer le backend :</p>
-                                <code className="block p-2 bg-primary rounded text-xs font-mono">
-                                    cd agent-DAF/agents/tresoris/backend<br />
-                                    python main.py
-                                </code>
                             </div>
                         </motion.div>
                     ) : (

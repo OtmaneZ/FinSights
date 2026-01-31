@@ -192,18 +192,16 @@ export const DEMO_COMPANY: DemoCompany = {
 // API CONFIG
 // ═══════════════════════════════════════════════════════════════════
 
-export const TRESORIS_API_BASE = process.env.NEXT_PUBLIC_TRESORIS_API_URL || 'http://localhost:8000'
-
+// Utilise les API routes Next.js au lieu du serveur Python externe
 export const TRESORIS_ENDPOINTS = {
-    dashboard: `${TRESORIS_API_BASE}/dashboard`,
-    simulate: `${TRESORIS_API_BASE}/agent/simulate`,
-    demoInit: `${TRESORIS_API_BASE}/demo/init`,
-    client: (id: string) => `${TRESORIS_API_BASE}/client/${id}`,
-    agentStart: `${TRESORIS_API_BASE}/agent/start`,
-    agentStop: `${TRESORIS_API_BASE}/agent/stop`,
-    agentStatus: `${TRESORIS_API_BASE}/agent/status`,
-    latestAnalysis: `${TRESORIS_API_BASE}/agent/analysis/latest`,
-    validate: `${TRESORIS_API_BASE}/agent/validate`,
-    upload: `${TRESORIS_API_BASE}/upload`,
-    websocket: `${TRESORIS_API_BASE.replace('http', 'ws')}/ws`
+    dashboard: '/api/tresoris/dashboard',
+    simulate: '/api/tresoris/simulate',
+    demoInit: '/api/tresoris/demo-init',
+    client: (id: string) => `/api/tresoris/client/${id}`,
+    agentStart: '/api/tresoris/agent/start',
+    agentStop: '/api/tresoris/agent/stop',
+    agentStatus: '/api/tresoris/agent/status',
+    latestAnalysis: '/api/tresoris/agent/analysis',
+    validate: '/api/tresoris/agent/validate',
+    upload: '/api/tresoris/upload'
 }
