@@ -19,6 +19,9 @@ export default function AnalyticsDebugger() {
 
   useEffect(() => {
     const checkAnalytics = () => {
+      // Only run on client-side
+      if (typeof window === 'undefined') return
+      
       const consent = localStorage.getItem('cookie-consent')
       const consentData = consent ? JSON.parse(consent) : null
       
@@ -41,6 +44,10 @@ export default function AnalyticsDebugger() {
   }, [])
 
   // Only show in development or if explicitly enabled
+  if (typeof window === 'undefined') {
+    return null
+  }
+  
   if (process.env.NODE_ENV === 'production' && !localStorage.getItem('debug-analytics')) {
     return null
   }
