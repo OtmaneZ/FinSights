@@ -157,15 +157,21 @@ export default function AutonomousAgentPanel({
     
     const startAgent = useCallback(async () => {
         setIsLoading(true)
+        setError(null)
         try {
             const response = await fetch('/api/tresoris/agent/start', {
                 method: 'POST'
             })
-            if (!response.ok) throw new Error('Failed to start agent')
+            const data = await response.json()
+            
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to start agent')
+            }
+            
             await fetchStatus()
         } catch (err) {
             console.error('Start agent error:', err)
-            setError('Erreur au démarrage')
+            setError(err instanceof Error ? err.message : 'Erreur au démarrage')
         } finally {
             setIsLoading(false)
         }
