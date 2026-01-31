@@ -15,7 +15,7 @@ function DashboardLoading() {
     )
 }
 
-export default function DemoNewPage() {
+export default function DemoDashisPage() {
     return (
         <main className="min-h-screen bg-primary text-primary">
             {/* Header - Aligned with /demo */}
@@ -31,15 +31,12 @@ export default function DemoNewPage() {
                         />
                         <div>
                             <span className="text-xl font-semibold">FinSight</span>
-                            <span className="text-xs text-accent-primary ml-2">🚀 DASHIS Agent (NEW)</span>
+                            <span className="ml-2 px-2 py-0.5 text-xs font-semibold bg-accent-primary/10 text-accent-primary rounded">DASHIS</span>
                         </div>
                     </Link>
                     <nav className="hidden md:flex items-center gap-8">
-                        <Link href="/demo" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                            ← Démo Classique
-                        </Link>
-                        <Link href="/" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
-                            Accueil
+                        <Link href="/agents" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                            ← Tous les agents
                         </Link>
                         <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                             Nos Offres
@@ -55,29 +52,6 @@ export default function DemoNewPage() {
                     </nav>
                 </div>
             </header>
-
-            {/* Banner NEW */}
-            <div className="bg-gradient-to-r from-accent-primary/10 via-accent-secondary/10 to-accent-primary/10 border-b border-border-subtle">
-                <div className="max-w-7xl mx-auto px-6 py-3">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <p className="text-sm">
-                                <span className="font-semibold text-accent-primary">NOUVEAU:</span>
-                                <span className="text-secondary ml-2">
-                                    Propulsé par DASHIS Agent - Architecture autonome & fusionnable 🧬
-                                </span>
-                            </p>
-                        </div>
-                        <Link
-                            href="/demo"
-                            className="text-xs text-tertiary hover:text-secondary transition-colors"
-                        >
-                            Comparer avec démo classique →
-                        </Link>
-                    </div>
-                </div>
-            </div>
 
             {/* Dashboard */}
             <Suspense fallback={<DashboardLoading />}>

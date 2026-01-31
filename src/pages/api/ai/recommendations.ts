@@ -150,17 +150,20 @@ function prepareFinancialContext(
 ): string {
     const lines: string[] = [];
 
-    lines.push(`💰 Cash Flow Net: ${factors.cashFlowNet.toLocaleString('fr-FR')}€`);
-    lines.push(`📅 Runway: ${factors.runway.toFixed(1)} mois ${factors.runway < 6 ? '⚠️ CRITIQUE' : ''}`);
+    lines.push(`💰 Cash Flow Net: ${(factors.cashFlowNet || 0).toLocaleString('fr-FR')}€`);
+    
+    if (factors.runway !== null && factors.runway !== undefined) {
+        lines.push(`📅 Runway: ${factors.runway.toFixed(1)} mois ${factors.runway < 6 ? '⚠️ CRITIQUE' : ''}`);
+    }
 
-    if (factors.dso !== null && factors.dso > 0) {
+    if (factors.dso !== null && factors.dso !== undefined && factors.dso > 0) {
         lines.push(`📅 DSO: ${factors.dso} jours ${factors.dso > 60 ? '⚠️ ÉLEVÉ' : ''}`);
     }
 
-    lines.push(`📊 Marge Nette: ${factors.marginPercentage.toFixed(1)}%`);
-    lines.push(`📈 Croissance CA: ${factors.revenueGrowth > 0 ? '+' : ''}${factors.revenueGrowth.toFixed(1)}%`);
-    lines.push(`🏢 Charges Fixes: ${factors.fixedCostsRatio}% du CA`);
-    lines.push(`👥 Dépendance Top Client: ${factors.topClientDependency}%`);
+    lines.push(`📊 Marge Nette: ${(factors.marginPercentage || 0).toFixed(1)}%`);
+    lines.push(`📈 Croissance CA: ${(factors.revenueGrowth || 0) > 0 ? '+' : ''}${(factors.revenueGrowth || 0).toFixed(1)}%`);
+    lines.push(`🏢 Charges Fixes: ${factors.fixedCostsRatio || 0}% du CA`);
+    lines.push(`👥 Dépendance Top Client: ${factors.topClientDependency || 0}%`);
 
     return lines.join('\n');
 }

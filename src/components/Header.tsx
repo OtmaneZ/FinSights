@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook, ChevronDown, FolderOpen } from 'lucide-react'
+import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook, ChevronDown, FolderOpen, Sparkles, Shield, Clock } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { useState, useRef, useEffect } from 'react'
 import { CompanySwitcher } from './CompanySwitcher'
@@ -12,8 +12,10 @@ export default function Header() {
     const { data: session, status } = useSession()
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const [isResourcesOpen, setIsResourcesOpen] = useState(false)
+    const [isTestAgentsOpen, setIsTestAgentsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
     const resourcesRef = useRef<HTMLDivElement>(null)
+    const testAgentsRef = useRef<HTMLDivElement>(null)
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -23,6 +25,9 @@ export default function Header() {
             }
             if (resourcesRef.current && !resourcesRef.current.contains(event.target as Node)) {
                 setIsResourcesOpen(false)
+            }
+            if (testAgentsRef.current && !testAgentsRef.current.contains(event.target as Node)) {
+                setIsTestAgentsOpen(false)
             }
         }
         document.addEventListener('mousedown', handleClickOutside)
@@ -79,10 +84,55 @@ export default function Header() {
                        Nos Agents IA
                     </Link>
 
-                    {/* Financial Dashboard IA */}
-                    <Link href="/demo" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Financial Dashboard IA
-                    </Link>
+                    {/* Testez nos Agents Dropdown */}
+                    <div className="relative" ref={testAgentsRef}>
+                        <button
+                            onClick={() => setIsTestAgentsOpen(!isTestAgentsOpen)}
+                            className="flex items-center gap-1 text-secondary hover:text-primary transition-colors text-base font-semibold"
+                        >
+                            Testez nos Agents
+                            <ChevronDown className={`w-4 h-4 transition-transform ${isTestAgentsOpen ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {/* Test Agents Dropdown Menu */}
+                        {isTestAgentsOpen && (
+                            <div className="absolute left-0 mt-2 w-64 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50 animate-slide-up">
+                                {/* DASHIS - Disponible */}
+                                <Link
+                                    href="/demo-dashis"
+                                    className="flex items-center gap-3 px-4 py-3 hover:bg-surface-hover transition-all duration-200 border-b border-border-subtle"
+                                    onClick={() => setIsTestAgentsOpen(false)}
+                                >
+                                    <div className="w-8 h-8 rounded-lg bg-accent-primary/10 flex items-center justify-center">
+                                        <Sparkles className="w-4 h-4 text-accent-primary" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-sm font-semibold text-primary">DASHIS</span>
+                                            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-accent-primary/10 text-accent-primary rounded">NOUVEAU</span>
+                                        </div>
+                                        <span className="text-xs text-tertiary">Dashboard IA 360°</span>
+                                    </div>
+                                </Link>
+
+                                {/* TRESORIS - Bientôt */}
+                                <div
+                                    className="flex items-center gap-3 px-4 py-3 opacity-60 cursor-not-allowed"
+                                >
+                                    <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                                        <Shield className="w-4 h-4 text-slate-500" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-sm font-semibold text-primary">TRESORIS</span>
+                                            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-700 rounded">BIENTÔT</span>
+                                        </div>
+                                        <span className="text-xs text-tertiary">Expert Trésorerie</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
 
                     {/* Ressources Dropdown */}
                     <div className="relative" ref={resourcesRef}>

@@ -81,6 +81,11 @@ export class AnalysisOrchestrator {
     ): Promise<AnalysisResult> {
         const startTime = Date.now();
 
+        // Validation: vérifier que rawRecords existe
+        if (!rawRecords || !Array.isArray(rawRecords)) {
+            throw new Error('[AnalysisOrchestrator] rawRecords is undefined or not an array. Ensure data.records is passed correctly.');
+        }
+
         logger.debug('[AnalysisOrchestrator] 🚀 Starting analysis sequence...', {
             recordCount: rawRecords.length,
             enabledModules: {

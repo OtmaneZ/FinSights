@@ -29,7 +29,8 @@ import {
     Percent,
     Wallet,
     FolderOpen,
-    Database
+    Database,
+    RotateCcw
 } from 'lucide-react'
 
 // DASHIS Agent Backend (now in agent-DAF/agents)
@@ -61,10 +62,25 @@ import FinSightScoreCard from '@/components/FinSightScoreCard'
 import CashFlowPredictions from '@/components/CashFlowPredictions'
 import { AnomalyPanel } from '@/components/AnomalyPanel'
 import AICopilot from '@/components/AICopilot'
+import { AlertsPanel } from '@/components/AlertsPanel'
+import SaaSMetricsSection from '@/components/SaaSMetricsSection'
+import { calculateSaaSMetrics } from '@/lib/saasMetrics'
+import UploadSuccessBannerDashis from '@/components/UploadSuccessBannerDashis'
+import BenchmarkSection from '@/components/BenchmarkSection'
+import KPICardEnriched from '@/components/KPICardEnriched'
+import ConsultingBannerDashis from '@/components/ConsultingBannerDashis'
+import AdvancedPatternsInsights from '@/components/AdvancedPatternsInsights'
+import SkeletonLoader from '@/components/SkeletonLoader'
 
 // Import Hooks
 import { useTheme } from '@/lib/themeContext'
 import { logger } from '@/lib/logger'
+
+// Import PDF Exporter
+import { FinancialPDFExporter } from '@/lib/pdfExporter'
+
+// Import Premium CSS
+import '@/styles/premium-transitions.css'
 
 // Upload progress steps
 type UploadStep = 'validating' | 'ai-parsing' | 'processing' | 'analyzing' | 'done'
@@ -94,6 +110,13 @@ export default function DashisAgentUI() {
     const [isUploading, setIsUploading] = useState(false)
     const [uploadStep, setUploadStep] = useState<UploadStep>('validating')
     const [uploadProgress, setUploadProgress] = useState(0)
+    
+    // Export state
+    const [isExporting, setIsExporting] = useState(false)
+    
+    // Upload Success Banner state
+    const [showSuccessBanner, setShowSuccessBanner] = useState(false)
+    const [uploadStats, setUploadStats] = useState<{ transactionCount: number; processingTime: number } | null>(null)
 
     // Session & Context
     const { data: session } = useSession()
@@ -296,6 +319,71 @@ export default function DashisAgentUI() {
     }, [searchParams, processApiResponse])
 
     // ═══════════════════════════════════════════════════════════════════════════════
+    // RESET HANDLER
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    const handleReset = useCallback(() => {
+        if (confirm('Réinitialiser le dashboard et charger une nouvelle analyse ?')) {
+            setFinancialData(null);
+            setRawData([]);
+            setKpis([]);
+            setCharts(null);
+            setAnalysis(null);
+            setDashboardConfig(null);
+            setAgentState('idle');
+            setUploadStep('validating');
+            setUploadProgress(0);
+            logger.debug('[DashisAgentUI] Dashboard reset');
+        }
+    }, []);
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // EXPORT PDF
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    const exportToPDF = async () => {
+        if (kpis.length === 0 || !financialData) return;
+
+        setIsExporting(true);
+        try {
+            const exporter = new FinancialPDFExporter();
+
+            const pdfOptions = {
+                companyName: 'Entreprise (Démo)',
+                reportPeriod: {
+                    start: rawData && rawData.length > 0
+                        ? new Date(Math.min(...rawData.map((r: any) => new Date(r.date).getTime())))
+                        : new Date(),
+                    end: rawData && rawData.length > 0
+                        ? new Date(Math.max(...rawData.map((r: any) => new Date(r.date).getTime())))
+                        : new Date()
+                },
+                kpis: kpis.map(kpi => ({
+                    title: kpi.title,
+                    value: kpi.value,
+                    change: kpi.change,
+                    description: kpi.description
+                })),
+                includeCharts: true,
+                includeMethodology: true,
+                confidential: true,
+                userPlan: session?.user?.plan || 'FREE'
+            };
+
+            await exporter.generate(pdfOptions);
+
+            const filename = `rapport-financier-dashis-${new Date().toISOString().split('T')[0]}.pdf`;
+            exporter.download(filename);
+
+            logger.debug('[DashisAgentUI] PDF exported successfully');
+        } catch (error) {
+            logger.error('[DashisAgentUI] Erreur export PDF:', error);
+            alert('Erreur lors de l\'export PDF. Réessayez.');
+        }
+        setIsExporting(false);
+    };
+
+    // ═══════════════════════════════════════════════════════════════════════════════
     // LISTEN FOR FILE UPLOAD EVENT FROM EmptyDashboardStateV2
     // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -320,6 +408,8 @@ export default function DashisAgentUI() {
         if (!files || files.length === 0) return
 
         const file = files[0]
+        const startTime = Date.now(); // Track processing time
+        
         setIsUploading(true)
         setAgentState('loading')
         setUploadStep('validating')
@@ -369,6 +459,14 @@ export default function DashisAgentUI() {
 
                 setUploadProgress(100)
                 await new Promise(resolve => setTimeout(resolve, 300))
+                
+                // Calculate processing time and show success banner
+                const processingTime = Math.round((Date.now() - startTime) / 1000);
+                const transactionCount = result.data?.length || result.rawData?.length || 0;
+                
+                setUploadStats({ transactionCount, processingTime });
+                setShowSuccessBanner(true);
+                
             } catch (error) {
                 logger.error('[DashisAgentUI] Upload error:', error)
                 setAgentState('error')
@@ -429,6 +527,7 @@ export default function DashisAgentUI() {
         setIsUploading(true);
         setUploadStep('validating');
         setUploadProgress(10);
+        setAgentState('loading');
 
         try {
             // Fetch the demo CSV file
@@ -444,7 +543,7 @@ export default function DashisAgentUI() {
             
             // Call upload API (same as file upload)
             setUploadStep('ai-parsing');
-            setUploadProgress(40);
+            setUploadProgress(35);
 
             const uploadResponse = await fetch('/api/upload', {
                 method: 'POST',
@@ -466,11 +565,20 @@ export default function DashisAgentUI() {
 
             // Process API response (same as file upload)
             setUploadStep('processing');
-            setUploadProgress(70);
+            setUploadProgress(65);
 
             await processApiResponse(result);
 
+            setUploadStep('analyzing');
+            setUploadProgress(85);
+
+            // Run AI analysis (agent.state.data est déjà défini par processApiResponse)
+            await agent.analyze();
+            const analysisResult = agent.getAnalysis();
+            setAnalysis(analysisResult);
+
             setUploadProgress(100);
+            setAgentState('ready');
             
             logger.debug(`[DashisAgentUI] ✅ Demo loaded: ${config.name}`);
         } catch (error) {
@@ -480,7 +588,7 @@ export default function DashisAgentUI() {
         } finally {
             setIsUploading(false);
         }
-    }, [activeCompanyId, processApiResponse]);
+    }, [activeCompanyId, processApiResponse, agent]);
 
     // ═══════════════════════════════════════════════════════════════════════════════
     // EMPTY STATE
@@ -509,21 +617,115 @@ export default function DashisAgentUI() {
     // LOADING STATE
     // ═══════════════════════════════════════════════════════════════════════════════
 
-    if (agentState === 'loading' || agentState === 'analyzing') {
+    if (agentState === 'loading' || agentState === 'analyzing' || isUploading) {
+        const steps = [
+            { key: 'validating', label: 'Validation', description: 'Vérification de la structure et des colonnes', progress: 20 },
+            { key: 'ai-parsing', label: 'Analyse IA en cours', description: 'Parsing intelligent de vos données financières', progress: 40 },
+            { key: 'processing', label: 'Génération des KPIs', description: 'Calcul des métriques et du Score FinSight™', progress: 70 },
+            { key: 'analyzing', label: 'Analyse avancée', description: 'Détection des signaux faibles et tendances', progress: 90 },
+            { key: 'done', label: 'Finalisation', description: 'Préparation de votre dashboard', progress: 100 }
+        ];
+
+        const currentStepIndex = steps.findIndex(s => s.key === uploadStep);
+        const displayProgress = Math.max(uploadProgress, currentStepIndex >= 0 ? steps[currentStepIndex].progress : 0);
+        const currentStep = currentStepIndex >= 0 ? steps[currentStepIndex] : steps[0];
+
         return (
-            <div className="min-h-screen bg-primary flex items-center justify-center">
-                <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-accent-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-secondary text-lg mb-2">
-                        {agentState === 'loading' ? '📊 Traitement des données...' : '🤖 Analyse IA en cours...'}
+            <div className="min-h-screen bg-primary flex items-center justify-center p-6">
+                <div className="text-center max-w-md w-full">
+                    {/* Spinner animé */}
+                    <div className="relative w-20 h-20 mx-auto mb-8">
+                        <div className="absolute inset-0 border-4 border-accent-primary-border rounded-full"></div>
+                        <div className="absolute inset-0 border-4 border-accent-primary border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                    
+                    {/* Message principal */}
+                    <h3 className="text-2xl font-bold text-primary mb-2">
+                        {currentStep.label}
+                    </h3>
+                    <p className="text-sm text-secondary mb-6">
+                        {currentStep.description}
                     </p>
-                    <p className="text-tertiary text-sm">
-                        {uploadProgress}% - {uploadStep}
-                    </p>
+                    
+                    {/* Progress Bar Premium */}
+                    <div className="mb-8">
+                        <div className="w-full bg-surface-elevated rounded-full h-2 overflow-hidden">
+                            <div
+                                className="h-full bg-gradient-to-r from-accent-primary to-accent-primary-hover rounded-full transition-all duration-500 ease-out"
+                                style={{ width: `${displayProgress}%` }}
+                            />
+                        </div>
+                        <p className="text-tertiary text-sm mt-3 font-medium">{displayProgress}% complété</p>
+                    </div>
+
+                    {/* Steps avec affichage progressif */}
+                    <div className="space-y-3 mb-6">
+                        {steps.map((step, idx) => {
+                            const isCompleted = idx < currentStepIndex;
+                            const isCurrent = idx === currentStepIndex;
+                            const isPending = idx > currentStepIndex;
+
+                            return (
+                                <div
+                                    key={step.key}
+                                    className={`text-left py-3 px-4 rounded-lg transition-all duration-300 ${
+                                        isCompleted
+                                            ? 'bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800'
+                                            : isCurrent
+                                            ? 'bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 shadow-md'
+                                            : 'bg-surface-elevated border border-border-subtle opacity-40'
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        {/* Icône de statut */}
+                                        <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
+                                            isCompleted
+                                                ? 'bg-green-500'
+                                                : isCurrent
+                                                ? 'bg-blue-500 animate-pulse'
+                                                : 'bg-gray-300 dark:bg-gray-600'
+                                        }`}>
+                                            {isCompleted ? (
+                                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            ) : isCurrent ? (
+                                                <svg className="w-4 h-4 text-white animate-spin" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                            ) : (
+                                                <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-500"></div>
+                                            )}
+                                        </div>
+                                        
+                                        {/* Label */}
+                                        <span className={`text-sm font-medium ${
+                                            isCompleted
+                                                ? 'text-green-700 dark:text-green-400'
+                                                : isCurrent
+                                                ? 'text-blue-700 dark:text-blue-400'
+                                                : 'text-gray-500 dark:text-gray-400'
+                                        }`}>
+                                            {step.label}
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <p className="text-tertiary text-xs">Cela prend généralement 10-20 secondes...</p>
                 </div>
             </div>
         )
     }
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // RESET FUNCTION
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    // (handleReset is already defined above)
 
     // ═══════════════════════════════════════════════════════════════════════════════
     // DASHBOARD UI (Data Loaded)
@@ -531,8 +733,8 @@ export default function DashisAgentUI() {
 
     return (
         <div className="min-h-screen bg-primary text-primary p-6">
-            {/* Agent Status Badge */}
-            <div className="mb-4 flex items-center justify-between">
+            {/* Header Actions */}
+            <div className="mb-6 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${
                         agentState === 'ready' ? 'bg-green-500' :
@@ -540,51 +742,101 @@ export default function DashisAgentUI() {
                         agentState === 'error' ? 'bg-red-500' :
                         'bg-gray-400'
                     }`} />
-                    <span className="text-sm text-secondary">
+                    <span className="text-sm text-secondary font-medium">
                         DASHIS Agent: {agentState}
                     </span>
                 </div>
                 
-                <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-lg hover:bg-accent-primary/90 transition-colors"
-                >
-                    <Upload className="w-4 h-4" />
-                    <span className="text-sm font-medium">Nouveau fichier</span>
-                </button>
+                <div className="flex items-center gap-3">
+                    {/* Export PDF Button */}
+                    {kpis.length > 0 && (
+                        <button
+                            onClick={exportToPDF}
+                            disabled={isExporting}
+                            className="premium-button flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                            title="Exporter en PDF"
+                        >
+                            <Download className="premium-icon w-4 h-4" />
+                            <span className="text-sm">{isExporting ? 'Export...' : 'Export PDF'}</span>
+                        </button>
+                    )}
+                    
+                    {/* Reset Button */}
+                    <button
+                        onClick={handleReset}
+                        className="premium-button flex items-center gap-2 px-3 py-2.5 rounded-xl bg-secondary hover:bg-secondary/80 text-tertiary hover:text-primary text-sm font-medium"
+                        title="Réinitialiser le dashboard"
+                    >
+                        <RotateCcw className="premium-icon w-4 h-4" />
+                        <span className="hidden sm:inline">Réinitialiser</span>
+                    </button>
+                    
+                    {/* Upload Button */}
+                    <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="premium-button flex items-center gap-2 px-4 py-2.5 bg-accent-primary text-white rounded-xl hover:bg-accent-primary-hover shadow-lg shadow-accent-primary/25 font-semibold"
+                    >
+                        <Upload className="premium-icon w-4 h-4" />
+                        <span className="text-sm">Nouveau fichier</span>
+                    </button>
+                </div>
             </div>
 
-            {/* KPIs Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
-                {kpis.map((kpi) => (
-                    <div
-                        key={kpi.id}
-                        className="bg-secondary border border-border-subtle rounded-xl p-6 hover:shadow-lg transition-all cursor-pointer"
-                    >
-                        <div className="flex items-start justify-between mb-3">
-                            <div className="p-2 bg-accent-primary/10 rounded-lg text-accent-primary">
-                                {getKPIIcon(kpi.title)}
-                            </div>
+            {/* Upload Success Banner */}
+            {showSuccessBanner && uploadStats && (
+                <UploadSuccessBannerDashis
+                    transactionCount={uploadStats.transactionCount}
+                    processingTime={uploadStats.processingTime}
+                    onDismiss={() => setShowSuccessBanner(false)}
+                    onExport={exportToPDF}
+                />
+            )}
+
+            {/* KPIs Section */}
+            {kpis.length > 0 && (
+                <div className="mb-8">
+                    {/* Section Header */}
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="w-10 h-10 rounded-lg bg-accent-primary/10 flex items-center justify-center">
+                            <Sparkles className="w-6 h-6 text-accent-primary" />
                         </div>
-                        <h3 className="text-sm text-secondary font-medium mb-1">{kpi.title}</h3>
-                        <p className="text-2xl font-bold text-primary mb-1">{kpi.value}</p>
-                        {kpi.change && (
-                            <div className={`flex items-center gap-1 text-xs mt-2 ${
-                                kpi.changeType === 'positive' ? 'text-green-600' :
-                                kpi.changeType === 'negative' ? 'text-red-600' :
-                                'text-gray-600'
-                            }`}>
-                                {kpi.changeType === 'positive' ? (
-                                    <TrendingUp className="w-3 h-3" />
-                                ) : kpi.changeType === 'negative' ? (
-                                    <TrendingDown className="w-3 h-3" />
-                                ) : null}
-                                <span>{kpi.change}</span>
-                            </div>
-                        )}
+                        <div>
+                            <h3 className="text-xl font-bold text-primary">📊 Indicateurs Clés</h3>
+                            <p className="text-sm text-tertiary">Métriques financières essentielles</p>
+                        </div>
                     </div>
-                ))}
-            </div>
+
+                    {/* KPIs Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                        {kpis.map((kpi) => (
+                            <KPICardEnriched
+                                key={kpi.id}
+                                title={kpi.title}
+                                value={kpi.value}
+                                change={kpi.change}
+                                changeType={kpi.changeType}
+                                description={kpi.description}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Skeleton Loaders */}
+            {kpis.length === 0 && rawData && rawData.length > 0 && (
+                <div className="mb-8">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="w-10 h-10 rounded-lg bg-slate-200 animate-pulse"></div>
+                        <div className="space-y-2">
+                            <div className="h-5 bg-slate-200 rounded w-48 animate-pulse"></div>
+                            <div className="h-4 bg-slate-200 rounded w-32 animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                        <SkeletonLoader variant="kpi" count={5} />
+                    </div>
+                </div>
+            )}
 
             {/* FinSight Score */}
             {analysis?.finSightScore && (
@@ -593,12 +845,52 @@ export default function DashisAgentUI() {
                 </div>
             )}
 
+            {/* Benchmarks Sectoriels */}
+            {financialData && analysis?.finSightScore && (
+                <BenchmarkSection
+                    margeNette={financialData.netMargin || analysis.finSightScore.breakdown.margin || 0}
+                    dso={financialData.dso || 30}
+                    bfr={financialData.bfr ? (financialData.bfr / financialData.totalRevenue * 100) : 5}
+                    sector="saas"
+                />
+            )}
+
+            {/* SaaS Metrics Section */}
+            {financialData && rawData && rawData.length > 0 && (
+                <div className="mb-8">
+                    {(() => {
+                        // Calculate totals
+                        const totalRevenue = financialData.totalRevenue || 0;
+                        const totalExpenses = financialData.totalExpenses || 0;
+                        const cashFlow = totalRevenue - totalExpenses;
+                        
+                        const saasMetrics = calculateSaaSMetrics(rawData, totalRevenue, totalExpenses, cashFlow);
+                        return saasMetrics ? (
+                            <SaaSMetricsSection metrics={saasMetrics} />
+                        ) : null;
+                    })()}
+                </div>
+            )}
+
+            {/* Alerts Panel - Signaux Faibles & Recommandations */}
+            {analysis?.finSightScore && (
+                <div className="mb-8">
+                    <AlertsPanel 
+                        dso={financialData?.dso || 0}
+                        cashFlow={financialData?.cashFlowNet || 0}
+                        netMargin={analysis.finSightScore?.breakdown?.margin || 0}
+                        grossMargin={financialData?.grossMargin || 0}
+                        bfr={financialData?.bfr || 0}
+                    />
+                </div>
+            )}
+
             {/* Charts Grid */}
             {charts && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                     {/* Cash Flow Chart */}
                     {charts.monthlyData && charts.monthlyData.length > 0 && (
-                        <div className="bg-secondary border border-border-subtle rounded-xl p-6">
+                        <div className="premium-card bg-secondary border border-border-subtle rounded-xl p-6">
                             <h3 className="text-lg font-semibold mb-4">Évolution Cash Flow</h3>
                             <CashFlowEvolutionChart data={charts.monthlyData} />
                         </div>
@@ -606,7 +898,7 @@ export default function DashisAgentUI() {
 
                     {/* Expense Breakdown */}
                     {charts.categoryBreakdown && charts.categoryBreakdown.length > 0 && (
-                        <div className="bg-secondary border border-border-subtle rounded-xl p-6">
+                        <div className="premium-card bg-secondary border border-border-subtle rounded-xl p-6">
                             <h3 className="text-lg font-semibold mb-4">Répartition des Charges</h3>
                             <ExpenseBreakdownChart data={charts.categoryBreakdown} />
                         </div>
@@ -614,7 +906,7 @@ export default function DashisAgentUI() {
 
                     {/* Margin Evolution */}
                     {charts.marginData && charts.marginData.length > 0 && (
-                        <div className="bg-secondary border border-border-subtle rounded-xl p-6">
+                        <div className="premium-card bg-secondary border border-border-subtle rounded-xl p-6">
                             <h3 className="text-lg font-semibold mb-4">Évolution Marge</h3>
                             <MarginEvolutionChart data={adaptMarginDataForChart(charts.marginData)} />
                         </div>
@@ -622,7 +914,7 @@ export default function DashisAgentUI() {
 
                     {/* Top Clients */}
                     {charts.topClients && charts.topClients.length > 0 && (
-                        <div className="bg-secondary border border-border-subtle rounded-xl p-6">
+                        <div className="premium-card bg-secondary border border-border-subtle rounded-xl p-6">
                             <h3 className="text-lg font-semibold mb-4">Top Clients</h3>
                             <TopClientsVerticalChart data={adaptTopClientsForChart(charts.topClients)} />
                         </div>
@@ -641,6 +933,14 @@ export default function DashisAgentUI() {
                 </div>
             )}
 
+            {/* Advanced Patterns Insights - Tendances IA */}
+            {analysis && (
+                <AdvancedPatternsInsights
+                    seasonalityDetected={analysis.seasonalityDetected}
+                    patterns={analysis.patterns}
+                />
+            )}
+
             {/* Anomalies Panel */}
             {analysis?.anomalies && analysis.anomalies.length > 0 && (
                 <div className="mb-8">
@@ -652,6 +952,9 @@ export default function DashisAgentUI() {
             {financialData && (
                 <AICopilot />
             )}
+
+            {/* Consulting Banner - CTA final */}
+            <ConsultingBannerDashis />
 
             {/* Hidden file input */}
             <input
