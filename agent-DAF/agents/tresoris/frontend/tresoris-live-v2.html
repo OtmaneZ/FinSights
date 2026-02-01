@@ -99,6 +99,182 @@
             color: var(--accent);
         }
         
+        /* ═══════════════════════════════════════════════════════════════
+           ACTIONS DROPDOWN
+        ═══════════════════════════════════════════════════════════════ */
+        .actions-dropdown {
+            position: relative;
+        }
+        
+        .actions-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .actions-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+        
+        .actions-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 8px;
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .actions-dropdown:hover .actions-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            color: var(--text);
+            font-size: 13px;
+        }
+        
+        .action-item:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .action-item .icon {
+            font-size: 18px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+        
+        .action-item.docs .icon { background: rgba(66, 133, 244, 0.2); }
+        .action-item.gmail .icon { background: rgba(234, 67, 53, 0.2); }
+        .action-item.calendar .icon { background: rgba(52, 168, 83, 0.2); }
+        
+        .action-item .text {
+            flex: 1;
+        }
+        
+        .action-item .text span {
+            display: block;
+            font-weight: 600;
+        }
+        
+        .action-item .text small {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+        
+        .action-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 8px 0;
+        }
+        
+        /* Quick action button in cards */
+        .quick-action-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #a78bfa;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .quick-action-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+            transform: translateY(-1px);
+        }
+        
+        .quick-action-btn.success {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: var(--accent);
+        }
+        
+        .quick-action-btn.danger {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+        }
+        
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 80px;
+            right: 32px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .toast {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: toastIn 0.3s ease;
+            min-width: 300px;
+        }
+        
+        .toast.success { border-left: 4px solid var(--accent); }
+        .toast.error { border-left: 4px solid var(--danger); }
+        .toast.info { border-left: 4px solid var(--info); }
+        
+        .toast-icon { font-size: 20px; }
+        .toast-content { flex: 1; }
+        .toast-title { font-weight: 600; font-size: 13px; }
+        .toast-message { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+        
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
         .status-live {
             display: flex;
             align-items: center;
@@ -1076,6 +1252,46 @@
             <div class="engines-badge">
                 <span class="count">13</span> Engines actifs
             </div>
+            
+            <!-- Actions Dropdown -->
+            <div class="actions-dropdown">
+                <button class="actions-btn">
+                    ⚡ Actions
+                    <span style="font-size: 10px;">▼</span>
+                </button>
+                <div class="actions-menu">
+                    <button class="action-item docs" onclick="generateReport()">
+                        <div class="icon">📄</div>
+                        <div class="text">
+                            <span>Générer Rapport</span>
+                            <small>Export PDF via Google Docs</small>
+                        </div>
+                    </button>
+                    <button class="action-item gmail" onclick="sendAlertToDAF()">
+                        <div class="icon">📧</div>
+                        <div class="text">
+                            <span>Alerter le DAF</span>
+                            <small>Email via Gmail API</small>
+                        </div>
+                    </button>
+                    <button class="action-item calendar" onclick="syncCalendar()">
+                        <div class="icon">📅</div>
+                        <div class="text">
+                            <span>Sync Calendrier</span>
+                            <small>Échéances → Google Calendar</small>
+                        </div>
+                    </button>
+                    <div class="action-divider"></div>
+                    <button class="action-item" onclick="showAllActions()">
+                        <div class="icon" style="background: rgba(148, 163, 184, 0.2);">⚙️</div>
+                        <div class="text">
+                            <span>Toutes les intégrations</span>
+                            <small>Voir les 3 APIs configurées</small>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            
             <div class="status-live">
                 <div class="pulse-dot"></div>
                 <span id="connection-status">Connecté</span>
@@ -1118,7 +1334,12 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">Santé Financière</span>
-                    <span class="card-badge" style="background: var(--accent); color: white;" id="last-update">--</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="quick-action-btn success" onclick="generateReport()" title="Générer un rapport PDF">
+                            📄 Rapport
+                        </button>
+                        <span class="card-badge" style="background: var(--accent); color: white;" id="last-update">--</span>
+                    </div>
                 </div>
                 <div class="health-section">
                     <div class="health-circle" style="--score: 0" id="health-circle">
@@ -1178,7 +1399,12 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">Clients à Risque</span>
-                    <span class="card-badge" style="background: rgba(239, 68, 68, 0.2); color: var(--danger);">Action requise</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="quick-action-btn danger" onclick="alertClientsAtRisk()" title="Envoyer alerte au DAF">
+                            📧 Alerter
+                        </button>
+                        <span class="card-badge" style="background: rgba(239, 68, 68, 0.2); color: var(--danger);">Action requise</span>
+                    </div>
                 </div>
                 <div class="client-list" id="client-list">
                     <div class="client-row header">
@@ -1248,7 +1474,12 @@
             <div class="card" style="flex: 1;">
                 <div class="card-header">
                     <span class="card-title">Alertes Temps Réel</span>
-                    <span class="card-badge" style="background: var(--danger); color: white;" id="alert-count">0</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="quick-action-btn" onclick="syncCalendar()" title="Synchroniser avec Google Calendar">
+                            📅 Sync
+                        </button>
+                        <span class="card-badge" style="background: var(--danger); color: white;" id="alert-count">0</span>
+                    </div>
                 </div>
                 <div class="alerts-feed" id="alerts-feed">
                     <div class="empty-state">
@@ -2026,6 +2257,295 @@
         document.getElementById('chat-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendChat();
         });
+
+        // ═══════════════════════════════════════════════════════════════
+        // GOOGLE APIS INTEGRATION
+        // ═══════════════════════════════════════════════════════════════
+        
+        // Toast Container
+        function initToastContainer() {
+            if (!document.getElementById('toast-container')) {
+                const container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+        }
+        
+        function showToast(type, title, message) {
+            initToastContainer();
+            const container = document.getElementById('toast-container');
+            
+            const icons = {
+                success: '✅',
+                error: '❌',
+                info: 'ℹ️'
+            };
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type]}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Auto-remove after 5s
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // 📄 GOOGLE DOCS - Generate Report
+        // ═══════════════════════════════════════════════════════════════
+        async function generateReport() {
+            showToast('info', 'Génération en cours...', 'Création du rapport via Google Docs API');
+            setAgentStatus('Génération rapport PDF...');
+            
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/api/v1/reports/generate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        report_type: 'cash_flow',
+                        title: `Rapport Trésorerie - ${new Date().toLocaleDateString('fr-FR')}`,
+                        description: 'Rapport automatique généré par TRESORIS',
+                        include_charts: true,
+                        include_recommendations: true,
+                        language: 'fr'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.report_id) {
+                    showToast('success', 'Rapport généré !', `ID: ${data.report_id}`);
+                    addChatMessage(`📄 Rapport généré avec succès!\n\n📎 ID: ${data.report_id}\n📝 Titre: ${data.title}\n🔗 URL: ${data.url || 'Disponible dans Google Drive'}`, 'agent');
+                    
+                    // Proposer l'export PDF
+                    setTimeout(() => {
+                        addChatMessage('Voulez-vous que j\'exporte ce rapport en PDF ou que je le partage avec l\'équipe?', 'agent');
+                    }, 1500);
+                } else {
+                    showToast('error', 'Erreur', data.detail || 'Impossible de générer le rapport');
+                }
+                
+                setAgentStatus('Surveillance active', false);
+                
+            } catch (error) {
+                console.error('Report generation error:', error);
+                showToast('error', 'Erreur de connexion', 'Vérifiez que l\'API est accessible');
+                setAgentStatus('Erreur génération rapport', false);
+            }
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // 📧 GMAIL - Send Alert to DAF
+        // ═══════════════════════════════════════════════════════════════
+        async function sendAlertToDAF() {
+            // Récupérer les données actuelles pour l'alerte
+            const healthScore = document.getElementById('health-score').textContent;
+            const cashAtRisk = document.getElementById('cash-at-risk').textContent;
+            const kpiRetard = document.getElementById('kpi-retard').textContent;
+            
+            showToast('info', 'Envoi en cours...', 'Préparation de l\'alerte pour le DAF');
+            setAgentStatus('Envoi alerte Gmail...');
+            
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/api/v1/alerts/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipient_emails: ['daf@company.com'],
+                        alert_type: 'cash_low',
+                        level: parseInt(healthScore) < 50 ? 'CRITICAL' : 'WARNING',
+                        title: `TRESORIS Alert: Score ${healthScore}/100`,
+                        message: `Situation trésorerie à surveiller`,
+                        template_id: 'tpl_cash_low_fr',
+                        template_variables: {
+                            current_cash: cashAtRisk,
+                            runway_days: document.getElementById('kpi-runway').textContent
+                        },
+                        data: {
+                            health_score: healthScore,
+                            factures_retard: kpiRetard,
+                            cash_at_risk: cashAtRisk
+                        },
+                        language: 'fr'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.alert_id) {
+                    showToast('success', 'Alerte envoyée !', `Email envoyé au DAF`);
+                    addChatMessage(`📧 Alerte envoyée avec succès!\n\n🆔 ID: ${data.alert_id}\n📬 Destinataire: daf@company.com\n⚡ Niveau: ${parseInt(healthScore) < 50 ? 'CRITIQUE' : 'ATTENTION'}`, 'agent');
+                } else {
+                    showToast('error', 'Erreur', data.detail || 'Impossible d\'envoyer l\'alerte');
+                }
+                
+                setAgentStatus('Surveillance active', false);
+                
+            } catch (error) {
+                console.error('Alert send error:', error);
+                showToast('error', 'Erreur de connexion', 'Vérifiez que l\'API est accessible');
+                setAgentStatus('Erreur envoi alerte', false);
+            }
+        }
+        
+        // Alerte spécifique pour les clients à risque
+        async function alertClientsAtRisk() {
+            const clientRows = document.querySelectorAll('.client-row:not(.header)');
+            const clientCount = clientRows.length;
+            
+            if (clientCount === 0) {
+                showToast('info', 'Aucun client à risque', 'Pas de clients en retard actuellement');
+                return;
+            }
+            
+            showToast('info', 'Envoi en cours...', `Alerte pour ${clientCount} clients à risque`);
+            setAgentStatus('Envoi alerte clients...');
+            
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/api/v1/alerts/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipient_emails: ['daf@company.com', 'comptabilite@company.com'],
+                        alert_type: 'client_risk',
+                        level: 'WARNING',
+                        title: `${clientCount} clients à risque détectés`,
+                        message: `TRESORIS a identifié ${clientCount} clients nécessitant une action de recouvrement.`,
+                        template_id: 'tpl_client_risk_fr',
+                        template_variables: {
+                            client_name: `${clientCount} clients`,
+                            risk_score: '75',
+                            rating: 'C',
+                            overdue_amount: document.getElementById('kpi-retard-amount').textContent,
+                            days_overdue: 'Variable'
+                        },
+                        data: { client_count: clientCount },
+                        language: 'fr'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.alert_id) {
+                    showToast('success', 'Alerte envoyée !', `Email envoyé pour ${clientCount} clients`);
+                    addChatMessage(`📧 Alerte clients à risque envoyée!\n\n👥 ${clientCount} clients signalés\n📬 Destinataires: DAF + Comptabilité\n💰 Montant total: ${document.getElementById('kpi-retard-amount').textContent}`, 'agent');
+                } else {
+                    showToast('error', 'Erreur', data.detail || 'Impossible d\'envoyer l\'alerte');
+                }
+                
+                setAgentStatus('Surveillance active', false);
+                
+            } catch (error) {
+                console.error('Alert send error:', error);
+                showToast('error', 'Erreur de connexion', 'Vérifiez que l\'API est accessible');
+                setAgentStatus('Erreur envoi alerte', false);
+            }
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // 📅 GOOGLE CALENDAR - Sync Deadlines
+        // ═══════════════════════════════════════════════════════════════
+        async function syncCalendar() {
+            showToast('info', 'Synchronisation...', 'Envoi des échéances vers Google Calendar');
+            setAgentStatus('Sync Calendar...');
+            
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/api/v1/calendar/sync/invoices`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        spreadsheet_id: CONFIG.SPREADSHEET_ID,
+                        days_ahead: 90,
+                        min_amount: 500,
+                        auto_create_events: true,
+                        calendar_id: 'primary'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.events_created !== undefined) {
+                    showToast('success', 'Calendrier synchronisé !', `${data.events_created} événements créés`);
+                    addChatMessage(`📅 Calendrier synchronisé!\n\n✅ ${data.events_created} échéances ajoutées\n📆 Prochains 90 jours\n🔗 Voir dans Google Calendar`, 'agent');
+                    
+                    // Proposer de sync les alertes aussi
+                    if (data.events_created > 0) {
+                        setTimeout(() => {
+                            addChatMessage('Voulez-vous que je synchronise également les alertes critiques vers votre calendrier?', 'agent');
+                        }, 2000);
+                    }
+                } else {
+                    showToast('error', 'Erreur', data.detail || 'Impossible de synchroniser');
+                }
+                
+                setAgentStatus('Surveillance active', false);
+                
+            } catch (error) {
+                console.error('Calendar sync error:', error);
+                showToast('error', 'Erreur de connexion', 'Vérifiez que l\'API est accessible');
+                setAgentStatus('Erreur sync calendrier', false);
+            }
+        }
+        
+        // Sync alerts to calendar
+        async function syncAlertsToCalendar() {
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/api/v1/calendar/sync/alerts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        alert_types: ['cash_low', 'client_risk'],
+                        days_ahead: 30,
+                        auto_create_events: true,
+                        calendar_id: 'primary'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.events_created !== undefined) {
+                    showToast('success', 'Alertes synchronisées !', `${data.events_created} alertes ajoutées`);
+                }
+                
+            } catch (error) {
+                console.error('Alert sync error:', error);
+            }
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // Show all integrations modal
+        // ═══════════════════════════════════════════════════════════════
+        function showAllActions() {
+            addChatMessage(`🔌 **Intégrations Google APIs disponibles:**\n
+📄 **Google Docs API**
+   • Générer rapports financiers automatiques
+   • Export PDF/Word
+   • Partage avec l'équipe
+
+📧 **Gmail API**  
+   • Alertes trésorerie au DAF
+   • Notifications clients à risque
+   • Templates personnalisables
+
+📅 **Google Calendar API**
+   • Sync échéances factures
+   • Rappels automatiques
+   • Alertes dans le calendrier
+
+Cliquez sur "⚡ Actions" dans le header pour utiliser ces fonctionnalités!`, 'agent');
+        }
 
         // ═══════════════════════════════════════════════════════════════
         // INITIALIZATION
