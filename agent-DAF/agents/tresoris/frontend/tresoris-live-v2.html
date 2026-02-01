@@ -1237,6 +1237,247 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--text-muted);
         }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           EMAIL MODAL
+        ═══════════════════════════════════════════════════════════════ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.2s;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .email-modal {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: slideUp 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            color: var(--text);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 24px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 200px;
+            font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .ai-badge .pulse {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        
+        .preview-box {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .preview-box h4 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+        
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        
+        .attachment-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(239, 68, 68, 0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .modal-btn-secondary {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+        
+        .modal-btn-secondary:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+        }
+        
+        .modal-btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            color: white;
+        }
+        
+        .modal-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        
+        .modal-btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -2347,112 +2588,171 @@
         }
         
         // ═══════════════════════════════════════════════════════════════
-        // 📧 GMAIL - Send Alert to DAF
+        // 📧 GMAIL - Send Alert to DAF WITH LLM + MODAL
         // ═══════════════════════════════════════════════════════════════
+        let currentAlertData = null;
+        
         async function sendAlertToDAF() {
-            // Récupérer les données actuelles pour l'alerte
-            const healthScore = document.getElementById('health-score').textContent;
-            const cashAtRisk = document.getElementById('cash-at-risk').textContent;
-            const kpiRetard = document.getElementById('kpi-retard').textContent;
-            const runwayDays = document.getElementById('kpi-runway').textContent;
+            showToast('info', 'IA en action...', 'TRESORIS analyse la situation');
+            setAgentStatus('Génération message IA...');
             
-            // L'agent prépare le message
-            const level = parseInt(healthScore) < 50 ? 'CRITICAL' : 'WARNING';
-            const suggestedMessage = `🚨 Alerte Trésorerie TRESORIS
-
-Score de santé: ${healthScore}/100 ${level === 'CRITICAL' ? '⚠️ CRITIQUE' : '⚡ ATTENTION'}
-
-📊 Situation actuelle:
-• Trésorerie à risque: ${cashAtRisk}
-• Factures en retard: ${kpiRetard}
-• Runway estimé: ${runwayDays}
-
-💡 Actions recommandées:
-1. Relancer les clients en retard immédiatement
-2. Réviser les prévisions de trésorerie
-3. Analyser les postes de dépenses prioritaires
-
-📅 Généré par TRESORIS le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}`;
-
-            // Afficher dans le chat pour validation
-            addChatMessage(`📧 J'ai préparé une alerte pour le DAF. Voici le message que je propose d'envoyer:\n\n${suggestedMessage}\n\n---\n\nÀ qui voulez-vous l'envoyer? (ex: daf@entreprise.fr)`, 'agent');
+            // Récupérer TOUTES les données du dashboard
+            const dashboardData = {
+                healthScore: document.getElementById('health-score').textContent,
+                cashAtRisk: document.getElementById('cash-at-risk').textContent,
+                cashToReceive: document.querySelector('.amount').textContent,
+                factures: document.getElementById('kpi-retard').textContent,
+                retardAmount: document.getElementById('kpi-retard-amount').textContent,
+                dso: document.getElementById('kpi-dso').textContent,
+                runway: document.getElementById('kpi-runway').textContent,
+                concentration: document.querySelector('.card-title:contains("Risque concentration")') ? 
+                    document.querySelector('.card-title:contains("Risque concentration")').nextElementSibling.textContent : 'N/A',
+                clientsAtRisk: document.querySelectorAll('.client-row:not(.header)').length
+            };
             
-            // Créer un input temporaire dans le chat pour l'email
-            const chatContainer = document.getElementById('chat-messages');
-            const inputDiv = document.createElement('div');
-            inputDiv.className = 'message-container user';
-            inputDiv.innerHTML = `
-                <div class="email-input-form" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; margin: 8px 0;">
-                    <input type="email" id="daf-email-input" placeholder="daf@entreprise.fr" 
-                           style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px; font-size: 14px; background: var(--bg-base); color: var(--text-primary);">
-                    <textarea id="daf-message-input" rows="8" 
-                              style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px; font-family: monospace; font-size: 13px; background: var(--bg-base); color: var(--text-primary);">${suggestedMessage}</textarea>
-                    <div style="display: flex; gap: 8px;">
-                        <button onclick="confirmSendAlert('${level}')" style="flex: 1; padding: 12px; background: var(--status-success); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
-                            ✅ Envoyer
-                        </button>
-                        <button onclick="cancelSendAlert()" style="flex: 1; padding: 12px; background: var(--text-muted); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
-                            ❌ Annuler
-                        </button>
-                    </div>
-                </div>
-            `;
-            chatContainer.appendChild(inputDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            // Appeler le LLM backend pour générer le message
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/api/v1/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `Génère un email d'alerte professionnel pour le DAF avec ces données:
+                        
+Score santé: ${dashboardData.healthScore}/100
+Trésorerie à risque: ${dashboardData.cashAtRisk}
+Cash à recevoir: ${dashboardData.cashToReceive}
+Factures en retard: ${dashboardData.factures} (${dashboardData.retardAmount})
+DSO: ${dashboardData.dso}
+Runway: ${dashboardData.runway}
+Clients à risque: ${dashboardData.clientsAtRisk}
+
+Format: objet email court, précis, et actions concrètes. Ton sérieux et factuel.`,
+                        context: { type: 'alert_generation', data: dashboardData }
+                    })
+                });
+                
+                const llmResult = await response.json();
+                const generatedMessage = llmResult.response || generateFallbackMessage(dashboardData);
+                
+                // Extraire sujet et message (le LLM devrait les séparer)
+                const lines = generatedMessage.split('\n');
+                const subject = lines[0].replace('Objet:', '').replace('Subject:', '').trim();
+                const message = lines.slice(1).join('\n').trim();
+                
+                // Stocker les données pour envoi
+                currentAlertData = {
+                    level: parseInt(dashboardData.healthScore) < 50 ? 'CRITICAL' : 'WARNING',
+                    subject: subject || `🚨 Alerte Trésorerie - Score ${dashboardData.healthScore}/100`,
+                    message: message || generatedMessage,
+                    data: dashboardData
+                };
+                
+                // Ouvrir le modal avec le contenu généré
+                openEmailModal(currentAlertData);
+                
+                setAgentStatus('Surveillance active', false);
+                
+            } catch (error) {
+                console.error('LLM generation error:', error);
+                // Fallback: message simple
+                currentAlertData = {
+                    level: parseInt(dashboardData.healthScore) < 50 ? 'CRITICAL' : 'WARNING',
+                    subject: `🚨 Alerte Trésorerie - Score ${dashboardData.healthScore}/100`,
+                    message: generateFallbackMessage(dashboardData),
+                    data: dashboardData
+                };
+                
+                openEmailModal(currentAlertData);
+                setAgentStatus('Surveillance active', false);
+            }
         }
         
-        async function confirmSendAlert(level) {
-            const emailInput = document.getElementById('daf-email-input');
-            const messageInput = document.getElementById('daf-message-input');
+        function generateFallbackMessage(data) {
+            const level = parseInt(data.healthScore) < 50 ? '🚨 CRITIQUE' : '⚠️ ATTENTION';
+            return `${level} Alerte Trésorerie TRESORIS
+
+📊 Situation actuelle:
+• Score de santé: ${data.healthScore}/100
+• Trésorerie à risque: ${data.cashAtRisk}
+• Cash à recevoir: ${data.cashToReceive}
+• Factures en retard: ${data.factures} (${data.retardAmount})
+• DSO: ${data.dso}
+• Runway estimé: ${data.runway}
+• Clients à risque: ${data.clientsAtRisk}
+
+💡 Actions recommandées:
+1. Relancer immédiatement les ${data.factures} clients en retard (${data.retardAmount})
+2. Réviser les prévisions de trésorerie pour les ${data.runway}
+3. Analyser la concentration client (risque élevé détecté)
+4. Envisager des actions de recouvrement urgentes
+
+📅 Rapport généré automatiquement par TRESORIS
+${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}
+
+Besoin d'assistance? Consultez le dashboard complet.`;
+        }
+        
+        function openEmailModal(alertData) {
+            // Remplir le modal
+            document.getElementById('modal-email-subject').value = alertData.subject;
+            document.getElementById('modal-email-message').value = alertData.message;
             
-            if (!emailInput || !messageInput) {
-                showToast('error', 'Erreur formulaire', 'Formulaire introuvable');
-                return;
-            }
+            // Aperçu des données
+            document.getElementById('modal-data-preview').innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 12px;">
+                    <div><strong>Score:</strong> ${alertData.data.healthScore}/100</div>
+                    <div><strong>Runway:</strong> ${alertData.data.runway}</div>
+                    <div><strong>Retard:</strong> ${alertData.data.retardAmount}</div>
+                    <div><strong>DSO:</strong> ${alertData.data.dso}</div>
+                    <div><strong>Clients à risque:</strong> ${alertData.data.clientsAtRisk}</div>
+                    <div><strong>Niveau:</strong> <span style="color: ${alertData.level === 'CRITICAL' ? 'var(--danger)' : 'var(--warning)'}">${alertData.level}</span></div>
+                </div>
+            `;
             
-            const email = emailInput.value.trim();
-            const message = messageInput.value.trim();
+            // Afficher le modal
+            document.getElementById('email-modal-overlay').classList.add('active');
             
-            // Validation email simple mais efficace
+            // Focus sur l'email input
+            setTimeout(() => {
+                document.getElementById('modal-email-recipients').focus();
+            }, 300);
+        }
+        
+        function closeEmailModal() {
+            document.getElementById('email-modal-overlay').classList.remove('active');
+        }
+        
+        async function sendEmailFromModal() {
+            const recipients = document.getElementById('modal-email-recipients').value.trim();
+            const subject = document.getElementById('modal-email-subject').value.trim();
+            const message = document.getElementById('modal-email-message').value.trim();
+            
+            // Validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!email || !emailRegex.test(email)) {
+            const emails = recipients.split(',').map(e => e.trim()).filter(e => emailRegex.test(e));
+            
+            if (emails.length === 0) {
                 showToast('error', 'Email invalide', 'Format: nom@domaine.com');
                 return;
             }
             
-            // Supprimer le formulaire
-            const formElement = document.querySelector('.email-input-form');
-            if (formElement) {
-                formElement.closest('.message-container').remove();
-            }
-            
-            showToast('info', 'Envoi en cours...', `Envoi de l'alerte à ${email}`);
-            setAgentStatus('Envoi alerte Gmail...');
-            
-            const healthScore = document.getElementById('health-score').textContent;
-            const cashAtRisk = document.getElementById('cash-at-risk').textContent;
-            const kpiRetard = document.getElementById('kpi-retard').textContent;
+            // Désactiver le bouton
+            const sendBtn = document.getElementById('modal-send-btn');
+            sendBtn.disabled = true;
+            document.getElementById('modal-send-text').style.display = 'none';
+            document.getElementById('modal-send-loading').style.display = 'inline-flex';
             
             try {
                 const response = await fetch(`${CONFIG.API_URL}/api/v1/alerts/send`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        recipient_emails: [email],
+                        recipient_emails: emails,
                         alert_type: 'cash_low',
-                        level: level,
-                        title: `TRESORIS Alert: Score ${healthScore}/100`,
+                        level: currentAlertData.level,
+                        title: subject,
                         message: message,
-                        template_id: 'tpl_cash_low_fr',
-                        template_variables: {
-                            current_cash: cashAtRisk,
-                            runway_days: document.getElementById('kpi-runway').textContent
-                        },
-                        data: {
-                            health_score: healthScore,
-                            factures_retard: kpiRetard,
-                            cash_at_risk: cashAtRisk
-                        },
+                        data: currentAlertData.data,
                         language: 'fr'
                     })
                 });
@@ -2460,27 +2760,33 @@ Score de santé: ${healthScore}/100 ${level === 'CRITICAL' ? '⚠️ CRITIQUE' :
                 const data = await response.json();
                 
                 if (data.alert_id) {
-                    showToast('success', 'Alerte envoyée !', `Email envoyé à ${email}`);
-                    addChatMessage(`✅ Parfait! Alerte envoyée à ${email}\n\n🆔 ID: ${data.alert_id}\n⚡ Niveau: ${level === 'CRITICAL' ? 'CRITIQUE' : 'ATTENTION'}`, 'agent');
+                    showToast('success', 'Email envoyé !', `Envoyé à ${emails.length} destinataire(s)`);
+                    addChatMessage(`✅ Email envoyé avec succès!\n\n📬 Destinataires: ${emails.join(', ')}\n🆔 ID: ${data.alert_id}\n⚡ Niveau: ${currentAlertData.level}`, 'agent');
+                    closeEmailModal();
                 } else {
-                    showToast('error', 'Erreur', data.detail || 'Impossible d\'envoyer l\'alerte');
-                    addChatMessage(`❌ Désolé, une erreur est survenue: ${data.detail || 'Erreur inconnue'}`, 'agent');
+                    showToast('error', 'Erreur', data.detail || 'Impossible d\'envoyer');
                 }
                 
-                setAgentStatus('Surveillance active', false);
-                
             } catch (error) {
-                console.error('Alert send error:', error);
+                console.error('Send error:', error);
                 showToast('error', 'Erreur de connexion', 'Vérifiez que l\'API est accessible');
-                addChatMessage(`❌ Erreur de connexion à l'API. Vérifiez que le backend est actif.`, 'agent');
-                setAgentStatus('Erreur envoi alerte', false);
+            } finally {
+                // Réactiver le bouton
+                sendBtn.disabled = false;
+                document.getElementById('modal-send-text').style.display = 'inline';
+                document.getElementById('modal-send-loading').style.display = 'none';
             }
         }
         
-        function cancelSendAlert() {
-            document.querySelector('.email-input-form').closest('.message-container').remove();
-            addChatMessage(`D'accord, j'annule l'envoi. Dites-moi si vous changez d'avis!`, 'agent');
-        }
+        // Fermer modal si clic sur overlay
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'email-modal-overlay') {
+                closeEmailModal();
+            }
+        });
+                
+                const data = await response.json();
+                
         
         // Alerte spécifique pour les clients à risque
         async function alertClientsAtRisk() {
@@ -2728,5 +3034,83 @@ Cliquez sur "⚡ Actions" dans le header pour utiliser ces fonctionnalités!`, '
             setInterval(fetchData, CONFIG.REFRESH_INTERVAL);
         });
     </script>
+    
+    <!-- ═══════════════════════════════════════════════════════════════
+         EMAIL MODAL
+    ═══════════════════════════════════════════════════════════════ -->
+    <div id="email-modal-overlay" class="modal-overlay">
+        <div class="email-modal">
+            <div class="modal-header">
+                <h3>
+                    <span>📧</span>
+                    Envoyer une alerte
+                    <span class="ai-badge">
+                        <span class="pulse"></span>
+                        IA Généré
+                    </span>
+                </h3>
+                <button class="modal-close" onclick="closeEmailModal()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">📬 Destinataires</label>
+                    <input 
+                        type="text" 
+                        id="modal-email-recipients" 
+                        class="form-input" 
+                        placeholder="daf@entreprise.fr, compta@entreprise.fr"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📝 Objet</label>
+                    <input 
+                        type="text" 
+                        id="modal-email-subject" 
+                        class="form-input" 
+                        readonly
+                        style="background: var(--bg); opacity: 0.9;"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">✉️ Message (éditable)</label>
+                    <textarea 
+                        id="modal-email-message" 
+                        class="form-input form-textarea"
+                    ></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📎 Pièce jointe</label>
+                    <div class="attachment-item">
+                        <div class="attachment-icon">📄</div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 13px;">Rapport_Tresorerie.pdf</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Généré automatiquement • 245 KB</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="preview-box">
+                    <h4>📊 Aperçu des données</h4>
+                    <div id="modal-data-preview"></div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeEmailModal()">
+                    Annuler
+                </button>
+                <button class="modal-btn modal-btn-primary" id="modal-send-btn" onclick="sendEmailFromModal()">
+                    <span id="modal-send-text">✅ Envoyer</span>
+                    <span id="modal-send-loading" style="display: none;">
+                        <span class="loading-spinner"></span> Envoi...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
