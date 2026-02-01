@@ -2354,20 +2354,95 @@
             const healthScore = document.getElementById('health-score').textContent;
             const cashAtRisk = document.getElementById('cash-at-risk').textContent;
             const kpiRetard = document.getElementById('kpi-retard').textContent;
+            const runwayDays = document.getElementById('kpi-runway').textContent;
             
-            showToast('info', 'Envoi en cours...', 'Préparation de l\'alerte pour le DAF');
+            // L'agent prépare le message
+            const level = parseInt(healthScore) < 50 ? 'CRITICAL' : 'WARNING';
+            const suggestedMessage = `🚨 Alerte Trésorerie TRESORIS
+
+Score de santé: ${healthScore}/100 ${level === 'CRITICAL' ? '⚠️ CRITIQUE' : '⚡ ATTENTION'}
+
+📊 Situation actuelle:
+• Trésorerie à risque: ${cashAtRisk}
+• Factures en retard: ${kpiRetard}
+• Runway estimé: ${runwayDays}
+
+💡 Actions recommandées:
+1. Relancer les clients en retard immédiatement
+2. Réviser les prévisions de trésorerie
+3. Analyser les postes de dépenses prioritaires
+
+📅 Généré par TRESORIS le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}`;
+
+            // Afficher dans le chat pour validation
+            addChatMessage(`📧 J'ai préparé une alerte pour le DAF. Voici le message que je propose d'envoyer:\n\n${suggestedMessage}\n\n---\n\nÀ qui voulez-vous l'envoyer? (ex: daf@entreprise.fr)`, 'agent');
+            
+            // Créer un input temporaire dans le chat pour l'email
+            const chatContainer = document.getElementById('chat-messages');
+            const inputDiv = document.createElement('div');
+            inputDiv.className = 'message-container user';
+            inputDiv.innerHTML = `
+                <div class="email-input-form" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; margin: 8px 0;">
+                    <input type="email" id="daf-email-input" placeholder="daf@entreprise.fr" 
+                           style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px; font-size: 14px; background: var(--bg-base); color: var(--text-primary);">
+                    <textarea id="daf-message-input" rows="8" 
+                              style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px; font-family: monospace; font-size: 13px; background: var(--bg-base); color: var(--text-primary);">${suggestedMessage}</textarea>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="confirmSendAlert('${level}')" style="flex: 1; padding: 12px; background: var(--status-success); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                            ✅ Envoyer
+                        </button>
+                        <button onclick="cancelSendAlert()" style="flex: 1; padding: 12px; background: var(--text-muted); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                            ❌ Annuler
+                        </button>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(inputDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        async function confirmSendAlert(level) {
+            const emailInput = document.getElementById('daf-email-input');
+            const messageInput = document.getElementById('daf-message-input');
+            
+            if (!emailInput || !messageInput) {
+                showToast('error', 'Erreur formulaire', 'Formulaire introuvable');
+                return;
+            }
+            
+            const email = emailInput.value.trim();
+            const message = messageInput.value.trim();
+            
+            // Validation email simple mais efficace
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                showToast('error', 'Email invalide', 'Format: nom@domaine.com');
+                return;
+            }
+            
+            // Supprimer le formulaire
+            const formElement = document.querySelector('.email-input-form');
+            if (formElement) {
+                formElement.closest('.message-container').remove();
+            }
+            
+            showToast('info', 'Envoi en cours...', `Envoi de l'alerte à ${email}`);
             setAgentStatus('Envoi alerte Gmail...');
+            
+            const healthScore = document.getElementById('health-score').textContent;
+            const cashAtRisk = document.getElementById('cash-at-risk').textContent;
+            const kpiRetard = document.getElementById('kpi-retard').textContent;
             
             try {
                 const response = await fetch(`${CONFIG.API_URL}/api/v1/alerts/send`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        recipient_emails: ['daf@company.com'],
+                        recipient_emails: [email],
                         alert_type: 'cash_low',
-                        level: parseInt(healthScore) < 50 ? 'CRITICAL' : 'WARNING',
+                        level: level,
                         title: `TRESORIS Alert: Score ${healthScore}/100`,
-                        message: `Situation trésorerie à surveiller`,
+                        message: message,
                         template_id: 'tpl_cash_low_fr',
                         template_variables: {
                             current_cash: cashAtRisk,
@@ -2385,10 +2460,11 @@
                 const data = await response.json();
                 
                 if (data.alert_id) {
-                    showToast('success', 'Alerte envoyée !', `Email envoyé au DAF`);
-                    addChatMessage(`📧 Alerte envoyée avec succès!\n\n🆔 ID: ${data.alert_id}\n📬 Destinataire: daf@company.com\n⚡ Niveau: ${parseInt(healthScore) < 50 ? 'CRITIQUE' : 'ATTENTION'}`, 'agent');
+                    showToast('success', 'Alerte envoyée !', `Email envoyé à ${email}`);
+                    addChatMessage(`✅ Parfait! Alerte envoyée à ${email}\n\n🆔 ID: ${data.alert_id}\n⚡ Niveau: ${level === 'CRITICAL' ? 'CRITIQUE' : 'ATTENTION'}`, 'agent');
                 } else {
                     showToast('error', 'Erreur', data.detail || 'Impossible d\'envoyer l\'alerte');
+                    addChatMessage(`❌ Désolé, une erreur est survenue: ${data.detail || 'Erreur inconnue'}`, 'agent');
                 }
                 
                 setAgentStatus('Surveillance active', false);
@@ -2396,8 +2472,14 @@
             } catch (error) {
                 console.error('Alert send error:', error);
                 showToast('error', 'Erreur de connexion', 'Vérifiez que l\'API est accessible');
+                addChatMessage(`❌ Erreur de connexion à l'API. Vérifiez que le backend est actif.`, 'agent');
                 setAgentStatus('Erreur envoi alerte', false);
             }
+        }
+        
+        function cancelSendAlert() {
+            document.querySelector('.email-input-form').closest('.message-container').remove();
+            addChatMessage(`D'accord, j'annule l'envoi. Dites-moi si vous changez d'avis!`, 'agent');
         }
         
         // Alerte spécifique pour les clients à risque
@@ -2410,7 +2492,87 @@
                 return;
             }
             
-            showToast('info', 'Envoi en cours...', `Alerte pour ${clientCount} clients à risque`);
+            // L'agent prépare le message
+            const totalRetard = document.getElementById('kpi-retard-amount').textContent;
+            const suggestedMessage = `🚨 Alerte Clients à Risque - TRESORIS
+
+${clientCount} clients nécessitent une action urgente de recouvrement.
+
+📊 Situation:
+• Nombre de clients: ${clientCount}
+• Montant total en retard: ${totalRetard}
+• Niveau de risque: ⚠️ ÉLEVÉ
+
+👥 Actions recommandées:
+1. Relance téléphonique immédiate des clients
+2. Vérification des coordonnées de facturation
+3. Mise en place d'échéanciers si nécessaire
+4. Considérer blocage des nouvelles commandes
+
+📅 Rapport généré le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}
+
+Voir le détail dans TRESORIS Dashboard.`;
+
+            // Afficher dans le chat pour validation
+            addChatMessage(`📧 J'ai détecté ${clientCount} clients à risque. Voici l'alerte que je propose d'envoyer:\n\n${suggestedMessage}\n\n---\n\nÀ qui envoyer? (ex: daf@entreprise.fr, compta@entreprise.fr)`, 'agent');
+            
+            // Créer un input temporaire dans le chat pour l'email
+            const chatContainer = document.getElementById('chat-messages');
+            const inputDiv = document.createElement('div');
+            inputDiv.className = 'message-container user';
+            inputDiv.innerHTML = `
+                <div class="email-input-form-clients" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; margin: 8px 0;">
+                    <input type="text" id="clients-email-input" placeholder="daf@entreprise.fr, compta@entreprise.fr" 
+                           style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px; font-size: 14px; background: var(--bg-base); color: var(--text-primary);">
+                    <textarea id="clients-message-input" rows="8" 
+                              style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px; font-family: monospace; font-size: 13px; background: var(--bg-base); color: var(--text-primary);">${suggestedMessage}</textarea>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="confirmSendClientsAlert(${clientCount})" style="flex: 1; padding: 12px; background: var(--status-success); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                            ✅ Envoyer
+                        </button>
+                        <button onclick="cancelSendClientsAlert()" style="flex: 1; padding: 12px; background: var(--text-muted); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                            ❌ Annuler
+                        </button>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(inputDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        async function confirmSendClientsAlert(clientCount) {
+            const emailsInputElement = document.getElementById('clients-email-input');
+            const messageInputElement = document.getElementById('clients-message-input');
+            
+            if (!emailsInputElement || !messageInputElement) {
+                showToast('error', 'Erreur formulaire', 'Formulaire introuvable');
+                return;
+            }
+            
+            const emailsInput = emailsInputElement.value.trim();
+            const message = messageInputElement.value.trim();
+            
+            if (!emailsInput) {
+                showToast('error', 'Email requis', 'Veuillez entrer au moins un email');
+                return;
+            }
+            
+            // Parser les emails (séparés par virgule)
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emails = emailsInput.split(',').map(e => e.trim()).filter(e => emailRegex.test(e));
+            
+            if (emails.length === 0) {
+                showToast('error', 'Email invalide', 'Format: nom@domaine.com');
+                return;
+            }
+            
+            // Supprimer le formulaire
+            const formElement = document.querySelector('.email-input-form-clients');
+            if (formElement) {
+                formElement.closest('.message-container').remove();
+            }
+            
+            showToast('info', 'Envoi en cours...', `Envoi à ${emails.length} destinataire(s)`);
             setAgentStatus('Envoi alerte clients...');
             
             try {
@@ -2418,11 +2580,11 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        recipient_emails: ['daf@company.com', 'comptabilite@company.com'],
+                        recipient_emails: emails,
                         alert_type: 'client_risk',
                         level: 'WARNING',
                         title: `${clientCount} clients à risque détectés`,
-                        message: `TRESORIS a identifié ${clientCount} clients nécessitant une action de recouvrement.`,
+                        message: message,
                         template_id: 'tpl_client_risk_fr',
                         template_variables: {
                             client_name: `${clientCount} clients`,
@@ -2439,10 +2601,11 @@
                 const data = await response.json();
                 
                 if (data.alert_id) {
-                    showToast('success', 'Alerte envoyée !', `Email envoyé pour ${clientCount} clients`);
-                    addChatMessage(`📧 Alerte clients à risque envoyée!\n\n👥 ${clientCount} clients signalés\n📬 Destinataires: DAF + Comptabilité\n💰 Montant total: ${document.getElementById('kpi-retard-amount').textContent}`, 'agent');
+                    showToast('success', 'Alerte envoyée !', `Email envoyé à ${emails.length} destinataire(s)`);
+                    addChatMessage(`✅ Alerte clients envoyée!\n\n👥 ${clientCount} clients signalés\n📬 Destinataires: ${emails.join(', ')}\n🆔 ID: ${data.alert_id}`, 'agent');
                 } else {
                     showToast('error', 'Erreur', data.detail || 'Impossible d\'envoyer l\'alerte');
+                    addChatMessage(`❌ Erreur: ${data.detail || 'Erreur inconnue'}`, 'agent');
                 }
                 
                 setAgentStatus('Surveillance active', false);
@@ -2450,8 +2613,14 @@
             } catch (error) {
                 console.error('Alert send error:', error);
                 showToast('error', 'Erreur de connexion', 'Vérifiez que l\'API est accessible');
+                addChatMessage(`❌ Erreur de connexion.`, 'agent');
                 setAgentStatus('Erreur envoi alerte', false);
             }
+        }
+        
+        function cancelSendClientsAlert() {
+            document.querySelector('.email-input-form-clients').closest('.message-container').remove();
+            addChatMessage(`D'accord, j'annule. Prévenez-moi quand vous voudrez envoyer l'alerte.`, 'agent');
         }
         
         // ═══════════════════════════════════════════════════════════════

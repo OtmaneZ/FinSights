@@ -27,6 +27,8 @@ import os
 from fastapi import APIRouter, HTTPException, Header
 from pydantic import BaseModel
 from dotenv import load_dotenv
+from services.google_auth_service import get_google_auth
+from googleapiclient.errors import HttpError
 
 load_dotenv()
 
@@ -245,9 +247,14 @@ class GoogleCalendarService:
     """Service pour interagir avec Google Calendar API"""
     
     def __init__(self):
-        self.api_key = os.getenv("GOOGLE_CALENDAR_API_KEY")
-        self.service_account_file = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
-        self.base_url = "https://www.googleapis.com/calendar/v3"
+        self.auth = get_google_auth()
+        self.calendar_service = None
+    
+    def _get_calendar_service(self):
+        """Lazy load du service Calendar"""
+        if self.calendar_service is None:
+            self.calendar_service = self.auth.get_calendar_service()
+        return self.calendar_service
     
     async def create_event(
         self,
@@ -277,10 +284,48 @@ class GoogleCalendarService:
             Event ID Google Calendar
         """
         try:
-            # NOTE: En production, utiliser google-auth et credentials
-            # Pour démo, retourner ID fictif
-            event_id = f"gce_{datetime.now().timestamp()}_{title[:10].replace(' ', '_')}"
+            calendar = self._get_calendar_service()
+            
+            # Construire l'événement
+            event_body = {
+                'summary': title,
+                'start': {
+                    'dateTime': start_time,
+                    'timeZone': 'Europe/Paris',
+                },
+                'end': {
+                    'dateTime': end_time,
+                    'timeZone': 'Europe/Paris',
+                },
+                'reminders': {
+                    'useDefault': False,
+                    'overrides': [
+                        {'method': 'popup', 'minutes': reminder_minutes},
+                    ],
+                },
+            }
+            
+            if description:
+                event_body['description'] = description
+            
+            if location:
+                event_body['location'] = location
+            
+            if attendees:
+                event_body['attendees'] = [{'email': email} for email in attendees]
+            
+            # Créer l'événement via Calendar API
+            created_event = calendar.events().insert(
+                calendarId=calendar_id,
+                body=event_body
+            ).execute()
+            
+            event_id = created_event.get('id')
+            print(f"✅ Événement calendrier créé: {title} (ID: {event_id})")
+            
             return event_id
+        except HttpError as e:
+            raise HTTPException(status_code=500, detail=f"Error creating calendar event: {str(e)}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Error creating calendar event: {str(e)}")
     
@@ -292,8 +337,35 @@ class GoogleCalendarService:
     ) -> bool:
         """Met à jour un événement Google Calendar"""
         try:
-            # NOTE: Implémentation API Google Calendar
+            calendar = self._get_calendar_service()
+            
+            # Récupérer événement existant
+            event = calendar.events().get(
+                calendarId=calendar_id,
+                eventId=event_id
+            ).execute()
+            
+            # Mettre à jour les champs fournis
+            if 'title' in kwargs:
+                event['summary'] = kwargs['title']
+            if 'description' in kwargs:
+                event['description'] = kwargs['description']
+            if 'start_time' in kwargs:
+                event['start']['dateTime'] = kwargs['start_time']
+            if 'end_time' in kwargs:
+                event['end']['dateTime'] = kwargs['end_time']
+            
+            # Sauvegarder
+            calendar.events().update(
+                calendarId=calendar_id,
+                eventId=event_id,
+                body=event
+            ).execute()
+            
+            print(f"✅ Événement mis à jour: {event_id}")
             return True
+        except HttpError as e:
+            raise HTTPException(status_code=500, detail=f"Error updating event: {str(e)}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Error updating event: {str(e)}")
     
@@ -304,8 +376,17 @@ class GoogleCalendarService:
     ) -> bool:
         """Supprime un événement"""
         try:
-            # NOTE: Implémentation API Google Calendar
+            calendar = self._get_calendar_service()
+            
+            calendar.events().delete(
+                calendarId=calendar_id,
+                eventId=event_id
+            ).execute()
+            
+            print(f"✅ Événement supprimé: {event_id}")
             return True
+        except HttpError as e:
+            raise HTTPException(status_code=500, detail=f"Error deleting event: {str(e)}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Error deleting event: {str(e)}")
 

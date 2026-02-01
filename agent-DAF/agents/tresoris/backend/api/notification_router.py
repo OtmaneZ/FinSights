@@ -19,10 +19,15 @@ from dataclasses import dataclass, asdict
 from enum import Enum
 import os
 import json
+import base64
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 from fastapi import APIRouter, HTTPException, Header
 from pydantic import BaseModel, EmailStr
 from dotenv import load_dotenv
+from services.google_auth_service import get_google_auth
+from googleapiclient.errors import HttpError
 
 load_dotenv()
 
@@ -286,9 +291,15 @@ class GmailService:
     """Service pour envoyer emails via Gmail API"""
     
     def __init__(self):
-        self.api_key = os.getenv("GMAIL_API_KEY")
-        self.service_account_file = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
-        self.from_email = os.getenv("GMAIL_FROM_EMAIL", "noreply@tresoris.ai")
+        self.auth = get_google_auth()
+        self.gmail_service = None
+        self.from_email = os.getenv("GMAIL_FROM_EMAIL", "me")  # "me" = compte authentifié
+    
+    def _get_gmail_service(self):
+        """Lazy load du service Gmail"""
+        if self.gmail_service is None:
+            self.gmail_service = self.auth.get_gmail_service()
+        return self.gmail_service
     
     async def send_email(
         self,
@@ -310,11 +321,40 @@ class GmailService:
             (success, error_message)
         """
         try:
-            # NOTE: En production, utiliser google-auth pour credentials Gmail API
-            # Pour démo, simuler envoi
+            gmail = self._get_gmail_service()
+            
+            # Créer message MIME
+            message = MIMEMultipart('alternative')
+            message['To'] = ', '.join(to_emails)
+            message['Subject'] = subject
+            
+            # Ajouter contenu HTML
+            html_part = MIMEText(html_content, 'html')
+            message.attach(html_part)
+            
+            # TODO: Gérer attachments si nécessaire
+            
+            # Encoder message en base64
+            raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode('utf-8')
+            
+            # Envoyer via Gmail API
+            send_result = gmail.users().messages().send(
+                userId=self.from_email,
+                body={'raw': raw_message}
+            ).execute()
+            
+            message_id = send_result.get('id')
+            print(f"✅ Email envoyé via Gmail: {message_id} → {to_emails}")
+            
             return True, None
+        except HttpError as e:
+            error_msg = f"Gmail API error: {str(e)}"
+            print(f"❌ {error_msg}")
+            return False, error_msg
         except Exception as e:
-            return False, str(e)
+            error_msg = f"Error sending email: {str(e)}"
+            print(f"❌ {error_msg}")
+            return False, error_msg
 
 
 gmail_service = GmailService()

@@ -28,6 +28,8 @@ import httpx
 
 # Import credentials helper
 from dotenv import load_dotenv
+from services.google_auth_service import get_google_auth
+from googleapiclient.errors import HttpError
 
 load_dotenv()
 
@@ -160,10 +162,21 @@ class GoogleDocsService:
     """Service pour interagir avec Google Docs API"""
     
     def __init__(self):
-        self.api_key = os.getenv("GOOGLE_DOCS_API_KEY")
-        self.service_account_file = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
-        self.base_url = "https://docs.googleapis.com/v1"
-        self.drive_base_url = "https://www.googleapis.com/drive/v3"
+        self.auth = get_google_auth()
+        self.docs_service = None
+        self.drive_service = None
+    
+    def _get_docs_service(self):
+        """Lazy load du service Docs"""
+        if self.docs_service is None:
+            self.docs_service = self.auth.get_docs_service()
+        return self.docs_service
+    
+    def _get_drive_service(self):
+        """Lazy load du service Drive"""
+        if self.drive_service is None:
+            self.drive_service = self.auth.get_drive_service()
+        return self.drive_service
     
     async def create_document(self, title: str) -> str:
         """
@@ -176,10 +189,13 @@ class GoogleDocsService:
             Document ID
         """
         try:
-            # NOTE: En production, utiliser google-auth et credentials appropriées
-            # Pour démo, retourner un ID fictif
-            doc_id = f"doc_{datetime.now().timestamp()}_{title[:10].replace(' ', '_')}"
+            docs = self._get_docs_service()
+            document = docs.documents().create(body={'title': title}).execute()
+            doc_id = document.get('documentId')
+            print(f"✅ Document créé: {title} (ID: {doc_id})")
             return doc_id
+        except HttpError as e:
+            raise HTTPException(status_code=500, detail=f"Error creating document: {str(e)}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Error creating document: {str(e)}")
     
@@ -195,9 +211,51 @@ class GoogleDocsService:
             True si succès
         """
         try:
-            # NOTE: Implémentation complète nécessite credentials Google OAuth2
-            # Placeholder pour démonstration
+            docs = self._get_docs_service()
+            
+            # Construire les requêtes d'insertion
+            requests = []
+            
+            for item in content:
+                if item.get('type') == 'paragraph':
+                    requests.append({
+                        'insertText': {
+                            'location': {'index': 1},
+                            'text': item.get('text', '') + '\n'
+                        }
+                    })
+                elif item.get('type') == 'heading':
+                    requests.append({
+                        'insertText': {
+                            'location': {'index': 1},
+                            'text': item.get('text', '') + '\n'
+                        }
+                    })
+                    # Style comme heading
+                    requests.append({
+                        'updateParagraphStyle': {
+                            'range': {
+                                'startIndex': 1,
+                                'endIndex': len(item.get('text', '')) + 2
+                            },
+                            'paragraphStyle': {
+                                'namedStyleType': 'HEADING_1'
+                            },
+                            'fields': 'namedStyleType'
+                        }
+                    })
+            
+            # Exécuter toutes les requêtes
+            if requests:
+                docs.documents().batchUpdate(
+                    documentId=doc_id,
+                    body={'requests': requests}
+                ).execute()
+                print(f"✅ Contenu inséré dans document {doc_id}")
+            
             return True
+        except HttpError as e:
+            raise HTTPException(status_code=500, detail=f"Error inserting content: {str(e)}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Error inserting content: {str(e)}")
     
@@ -213,14 +271,21 @@ class GoogleDocsService:
             Contenu du fichier en bytes
         """
         try:
+            drive = self._get_drive_service()
+            
             mime_type = {
                 "pdf": "application/pdf",
                 "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             }.get(format, "application/pdf")
             
-            # NOTE: En prod, utiliser Drive API pour exporter
-            # Pour démo, retourner fichier placeholder
-            return b"PDF/DOCX placeholder - implementation required"
+            # Export via Drive API
+            request = drive.files().export_media(fileId=doc_id, mimeType=mime_type)
+            file_content = request.execute()
+            
+            print(f"✅ Document exporté: {doc_id} ({format})")
+            return file_content
+        except HttpError as e:
+            raise HTTPException(status_code=500, detail=f"Error exporting document: {str(e)}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Error exporting document: {str(e)}")
     
@@ -244,8 +309,35 @@ class GoogleDocsService:
             True si succès
         """
         try:
-            # NOTE: Implémentation Drive API pour partage
+            drive = self._get_drive_service()
+            
+            # Mapper les rôles
+            role_map = {
+                'viewer': 'reader',
+                'commenter': 'commenter',
+                'editor': 'writer'
+            }
+            google_role = role_map.get(role, 'reader')
+            
+            # Partager avec chaque email
+            for email in emails:
+                permission = {
+                    'type': 'user',
+                    'role': google_role,
+                    'emailAddress': email
+                }
+                
+                drive.permissions().create(
+                    fileId=doc_id,
+                    body=permission,
+                    sendNotificationEmail=send_notification
+                ).execute()
+                
+                print(f"✅ Document partagé avec {email} (role: {google_role})")
+            
             return True
+        except HttpError as e:
+            raise HTTPException(status_code=500, detail=f"Error sharing document: {str(e)}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Error sharing document: {str(e)}")
 
