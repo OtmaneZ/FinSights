@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRESORIS - Intelligence Artificielle pour la Trésorerie</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #1a1a2e;
+            line-height: 1.6;
+            background: #ffffff;
+            font-size: 11pt;
+        }
+        
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm 18mm;
+            margin: 0 auto;
+            background: #ffffff;
+            page-break-after: always;
+            position: relative;
+        }
+        
+        .page:last-child {
+            page-break-after: auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #0d1b3e;
+        }
+        
+        .header img {
+            max-width: 280px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        
+        .header h1 {
+            font-size: 28pt;
+            font-weight: 300;
+            color: #0d1b3e;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .header .tagline {
+            font-size: 13pt;
+            color: #4a5568;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        
+        .header .date {
+            font-size: 9pt;
+            color: #718096;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        /* Section Title */
+        .section-title {
+            font-size: 16pt;
+            font-weight: 600;
+            color: #0d1b3e;
+            margin: 30px 0 20px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title .icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 14pt;
+        }
+        
+        /* Intro Block */
+        .intro {
+            background: linear-gradient(135deg, #f8fafc, #edf2f7);
+            padding: 25px 30px;
+            border-radius: 8px;
+            border-left: 4px solid #1e3a5f;
+            margin: 25px 0;
+        }
+        
+        .intro p {
+            font-size: 11.5pt;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+        
+        .intro p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .intro strong {
+            color: #1e3a5f;
+        }
+        
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .stat-box {
+            flex: 1;
+            text-align: center;
+            padding: 18px 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        
+        .stat-box .number {
+            font-size: 22pt;
+            font-weight: 700;
+            color: #1e3a5f;
+            display: block;
+        }
+        
+        .stat-box .label {
+            font-size: 9pt;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+        
+        /* Engine Grid */
+        .engine-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .engine-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 18px;
+            transition: box-shadow 0.2s;
+        }
+        
+        .engine-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .engine-card .engine-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .engine-card .engine-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #1e3a5f, #3b6ea5);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 14pt;
+        }
+        
+        .engine-card .engine-name {
+            font-size: 10pt;
+            font-weight: 600;
+            color: #1e3a5f;
+        }
+        
+        .engine-card .engine-desc {
+            font-size: 9.5pt;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+        
+        .engine-card .engine-benefit {
+            font-size: 8.5pt;
+            color: #1e3a5f;
+            font-weight: 500;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        
+        /* Version badge */
+        .version-badge {
+            display: inline-block;
+            font-size: 7pt;
+            padding: 2px 6px;
+            background: #edf2f7;
+            color: #4a5568;
+            border-radius: 3px;
+            margin-left: 6px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .version-badge.v3 {
+            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
+            color: #ffffff;
+        }
+        
+        /* Identity Section */
+        .identity-block {
+            background: linear-gradient(135deg, #0d1b3e, #1e3a5f);
+            color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        
+        .identity-block h3 {
+            font-size: 14pt;
+            font-weight: 400;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .identity-block .statement {
+            font-size: 15pt;
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .identity-pillars {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .pillar {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .pillar-title {
+            font-size: 10pt;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pillar-text {
+            font-size: 9pt;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 9.5pt;
+        }
+        
+        .comparison-table th {
+            background: #0d1b3e;
+            color: #ffffff;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        .comparison-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        
+        .comparison-table .check {
+            color: #1e3a5f;
+            font-weight: bold;
+        }
+        
+        .comparison-table .cross {
+            color: #a0aec0;
+        }
+        
+        /* Footer */
+        .page-footer {
+            position: absolute;
+            bottom: 15mm;
+            left: 18mm;
+            right: 18mm;
+            display: flex;
+            justify-content: space-between;
+            font-size: 8pt;
+            color: #a0aec0;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+        }
+        
+        /* Use Cases */
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin: 20px 0;
+        }
+        
+        .use-case {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #1e3a5f;
+        }
+        
+        .use-case-title {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-bottom: 8px;
+        }
+        
+        .use-case-desc {
+            font-size: 9.5pt;
+            color: #4a5568;
+        }
+        
+        /* Guarantee Block */
+        .guarantee-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .guarantee-item {
+            text-align: center;
+            padding: 18px 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        
+        .guarantee-item .g-icon {
+            font-size: 20pt;
+            color: #1e3a5f;
+            margin-bottom: 8px;
+        }
+        
+        .guarantee-item .g-title {
+            font-size: 9pt;
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-bottom: 4px;
+        }
+        
+        .guarantee-item .g-desc {
+            font-size: 8pt;
+            color: #718096;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                background: #ffffff;
+            }
+            
+            .page {
+                margin: 0;
+                padding: 15mm;
+                box-shadow: none;
+            }
+            
+            .engine-card:hover {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1 : Couverture & Introduction -->
+    <div class="page">
+        <div class="header">
+            <img src="tresoris.png" alt="TRESORIS">
+            <h1>TRESORIS</h1>
+            <div class="tagline">L'Intelligence Artificielle au service de votre trésorerie</div>
+            <div class="date">Document de présentation &#x2014; Février 2026</div>
+        </div>
+        
+        <div class="intro">
+            <p><strong>TRESORIS</strong> est un agent d'intelligence artificielle spécialisé dans l'analyse et l'anticipation des risques de trésorerie pour les PME et ETI françaises.</p>
+            <p>Contrairement aux solutions classiques qui se contentent d'afficher des tableaux de bord, TRESORIS <strong>analyse, anticipe et recommande</strong>. Il vous explique pourquoi vos indicateurs évoluent et vous propose des actions concrètes, priorisées par impact financier.</p>
+            <p>C'est votre <strong>Directeur Administratif et Financier augmenté par l'IA</strong> : disponible 24h/24, il surveille votre trésorerie pendant que vous vous concentrez sur le développement de votre entreprise.</p>
+        </div>
+        
+        <div class="stats-row">
+            <div class="stat-box">
+                <span class="number">13</span>
+                <span class="label">Moteurs d'analyse</span>
+            </div>
+            <div class="stat-box">
+                <span class="number">10 000</span>
+                <span class="label">Scénarios simulés</span>
+            </div>
+            <div class="stat-box">
+                <span class="number">24/7</span>
+                <span class="label">Surveillance continue</span>
+            </div>
+            <div class="stat-box">
+                <span class="number">&#60;3</span>
+                <span class="label">Actions recommandées</span>
+            </div>
+        </div>
+        
+        <div class="section-title">
+            <div class="icon">&#x21;</div>
+            Le problème que nous résolvons
+        </div>
+        
+        <div class="use-case-grid">
+            <div class="use-case">
+                <div class="use-case-title">Manque de visibilité</div>
+                <div class="use-case-desc">Les DAF passent des heures à compiler des données dans Excel pour anticiper les tensions de trésorerie, souvent trop tard.</div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-title">Analyses réactives</div>
+                <div class="use-case-desc">Les outils actuels montrent ce qui s'est passé, mais n'expliquent pas pourquoi ni ce qu'il faut faire.</div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-title">Surcharge d'informations</div>
+                <div class="use-case-desc">Trop de dashboards, trop de chiffres, pas assez de synthèse actionnable pour prendre des décisions rapides.</div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-title">Risques non anticipés</div>
+                <div class="use-case-desc">Les signaux faibles (retards clients, dérive des coûts) sont détectés trop tard, quand l'impact est déjà visible.</div>
+            </div>
+        </div>
+        
+        <div class="page-footer">
+            <span>TRESORIS &#x2014; Document confidentiel</span>
+            <span>Page 1/4</span>
+        </div>
+    </div>
+
+    <!-- PAGE 2 : Moteurs d'analyse - Fondation -->
+    <div class="page">
+        <div class="section-title">
+            <div class="icon">&#x2699;</div>
+            Architecture analytique &#x2014; 13 moteurs spécialisés
+        </div>
+        
+        <p style="margin-bottom: 20px; color: #4a5568; font-size: 10pt;">
+            TRESORIS repose sur une architecture modulaire de 13 moteurs d'analyse complémentaires. Chaque moteur est spécialisé dans un domaine précis de l'analyse financière et contribue à une vision complète de votre situation de trésorerie.
+        </p>
+        
+        <div style="font-size: 11pt; font-weight: 600; color: #1e3a5f; margin: 25px 0 15px 0; padding-bottom: 6px; border-bottom: 1px dashed #e2e8f0;">
+            Couche Fondation
+        </div>
+        
+        <div class="engine-grid">
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon">&#x24;</div>
+                    <div class="engine-name">Calcul de Trésorerie <span class="version-badge">Base</span></div>
+                </div>
+                <div class="engine-desc">
+                    Calcule en temps réel votre position de trésorerie : solde actuel, prévision à court terme, identification des risques de tension.
+                </div>
+                <div class="engine-benefit">&#x2192; Vision instantanée de votre cash disponible</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon">&#x231A;</div>
+                    <div class="engine-name">Comportements de paiement <span class="version-badge">V2</span></div>
+                </div>
+                <div class="engine-desc">
+                    Analyse l'historique de paiement de chaque client pour identifier des patterns : retards récurrents, saisonnalité, évolution du comportement.
+                </div>
+                <div class="engine-benefit">&#x2192; Anticipez les retards avant qu'ils n'arrivent</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon">&#x1F4C8;</div>
+                    <div class="engine-name">Prévisions intelligentes <span class="version-badge">V2</span></div>
+                </div>
+                <div class="engine-desc">
+                    Génère des prévisions de trésorerie à 4, 8 et 12 semaines en intégrant les probabilités de paiement et les tendances historiques.
+                </div>
+                <div class="engine-benefit">&#x2192; Prévisions fiables avec intervalles de confiance</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon">&#x26A0;</div>
+                    <div class="engine-name">Détection précoce <span class="version-badge">V2</span></div>
+                </div>
+                <div class="engine-desc">
+                    Surveille en continu les indicateurs clés pour détecter les signaux faibles : dégradation du DSO, concentration client, anomalies.
+                </div>
+                <div class="engine-benefit">&#x2192; Alertes proactives avant les crises</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon">&#x2605;</div>
+                    <div class="engine-name">Scoring clients <span class="version-badge">V2</span></div>
+                </div>
+                <div class="engine-desc">
+                    Attribue un score de risque à chaque client basé sur son historique, son poids dans le CA, son secteur d'activité et son comportement.
+                </div>
+                <div class="engine-benefit">&#x2192; Priorisez vos actions de relance</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon">&#x2714;</div>
+                    <div class="engine-name">Optimisation des actions <span class="version-badge">V2</span></div>
+                </div>
+                <div class="engine-desc">
+                    Priorise automatiquement les actions à mener selon leur impact estimé et leur facilité de mise en œuvre. Maximum 3 actions à la fois.
+                </div>
+                <div class="engine-benefit">&#x2192; Focus sur ce qui compte vraiment</div>
+            </div>
+        </div>
+        
+        <div style="font-size: 11pt; font-weight: 600; color: #1e3a5f; margin: 25px 0 15px 0; padding-bottom: 6px; border-bottom: 1px dashed #e2e8f0;">
+            Ajustement saisonnier
+        </div>
+        
+        <div class="engine-grid" style="grid-template-columns: 1fr;">
+            <div class="engine-card" style="display: flex; align-items: center; gap: 20px;">
+                <div class="engine-icon" style="width: 48px; height: 48px; font-size: 18pt;">&#x2744;</div>
+                <div style="flex: 1;">
+                    <div class="engine-name" style="margin-bottom: 6px;">Ajustement saisonnier <span class="version-badge">V2</span></div>
+                    <div class="engine-desc">
+                        Intègre les variations saisonnières propres à votre activité pour affiner toutes les prévisions. Détecte automatiquement les patterns annuels (été, fêtes, fins de trimestre) et ajuste les probabilités de paiement en conséquence.
+                    </div>
+                </div>
+                <div style="text-align: right; min-width: 150px; border-left: 1px solid #e2e8f0; padding-left: 20px;">
+                    <div style="font-size: 9pt; color: #718096;">Impact</div>
+                    <div style="font-size: 11pt; font-weight: 600; color: #1e3a5f;">+15% précision</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-footer">
+            <span>TRESORIS &#x2014; Document confidentiel</span>
+            <span>Page 2/4</span>
+        </div>
+    </div>
+
+    <!-- PAGE 3 : Moteurs V3 - Powerhouse -->
+    <div class="page">
+        <div style="font-size: 11pt; font-weight: 600; color: #1e3a5f; margin: 0 0 15px 0; padding-bottom: 6px; border-bottom: 1px dashed #e2e8f0;">
+            Couche Analytique Avancée <span class="version-badge v3">V3 Powerhouse</span>
+        </div>
+        
+        <p style="margin-bottom: 20px; color: #4a5568; font-size: 10pt;">
+            La dernière génération de moteurs TRESORIS apporte des capacités d'analyse inédites : compréhension causale, simulation de scénarios, et aide à la décision quantifiée.
+        </p>
+        
+        <div class="engine-grid">
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon" style="background: linear-gradient(135deg, #1e4d7a, #3b82b6);">&#x25CE;</div>
+                    <div class="engine-name">Analyse des marges <span class="version-badge v3">V3</span></div>
+                </div>
+                <div class="engine-desc">
+                    Décompose vos marges par client, produit et période. Identifie les clients à marge négative, les anomalies de pricing et les opportunités d'optimisation.
+                </div>
+                <div class="engine-benefit">&#x2192; Identifiez où vous perdez de l'argent</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon" style="background: linear-gradient(135deg, #1e4d7a, #3b82b6);">&#x2191;</div>
+                    <div class="engine-name">Dérive des coûts <span class="version-badge v3">V3</span></div>
+                </div>
+                <div class="engine-desc">
+                    Surveille l'évolution de vos postes de coûts et détecte les dérives silencieuses. Identifie les "coûts fantômes" : abonnements oubliés, doublons, surfacturations.
+                </div>
+                <div class="engine-benefit">&#x2192; Maîtrisez vos charges fixes et variables</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon" style="background: linear-gradient(135deg, #1e4d7a, #3b82b6);">&#x3F;</div>
+                    <div class="engine-name">Analyse causale <span class="version-badge v3">V3</span></div>
+                </div>
+                <div class="engine-desc">
+                    Répond à la question "Pourquoi ?". Quand un indicateur varie, ce moteur décompose les causes et quantifie la contribution de chaque facteur.
+                </div>
+                <div class="engine-benefit">&#x2192; Comprenez les vraies causes, pas les symptômes</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon" style="background: linear-gradient(135deg, #1e4d7a, #3b82b6);">&#x394;</div>
+                    <div class="engine-name">Écarts budgétaires <span class="version-badge v3">V3</span></div>
+                </div>
+                <div class="engine-desc">
+                    Compare automatiquement le réalisé au budget et décompose les écarts : effet volume, effet prix, effet mix. Propose des actions correctives priorisées.
+                </div>
+                <div class="engine-benefit">&#x2192; Pilotez votre budget en temps réel</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon" style="background: linear-gradient(135deg, #1e4d7a, #3b82b6);">&#x21C4;</div>
+                    <div class="engine-name">Simulation de stress <span class="version-badge v3">V3</span></div>
+                </div>
+                <div class="engine-desc">
+                    Simule 10 000 scénarios aléatoires pour évaluer votre risque de trésorerie négative. Calcule le "runway" restant et identifie les points de rupture.
+                </div>
+                <div class="engine-benefit">&#x2192; Quantifiez votre exposition au risque</div>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-header">
+                    <div class="engine-icon" style="background: linear-gradient(135deg, #1e4d7a, #3b82b6);">&#x2696;</div>
+                    <div class="engine-name">Arbitrage décisionnel <span class="version-badge v3">V3</span></div>
+                </div>
+                <div class="engine-desc">
+                    Compare deux options de décision sur critères financiers : impact cash, risque, ROI. Recruter vs sous-traiter ? Acheter vs louer ? Location vs achat ?
+                </div>
+                <div class="engine-benefit">&#x2192; Décidez en connaissance de cause</div>
+            </div>
+        </div>
+        
+        <div class="identity-block">
+            <h3>L'identité TRESORIS</h3>
+            <div class="statement">
+                "Je ne suis pas une application de plus. Je ne suis pas un dashboard de plus.<br>
+                Je suis l'intelligence cash de votre entreprise.<br>
+                Je détecte. J'anticipe. Je recommande. Vous décidez."
+            </div>
+            <div class="identity-pillars">
+                <div class="pillar">
+                    <div class="pillar-title">&#x25B6; Précision</div>
+                    <div class="pillar-text">Chaque recommandation est chiffrée et justifiée. Pas d'approximation, uniquement des données.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-title">&#x25B6; Proactivité</div>
+                    <div class="pillar-text">Je n'attends pas qu'on me pose la question. Je détecte et j'alerte avant le problème.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-title">&#x25B6; Pédagogie</div>
+                    <div class="pillar-text">J'explique le pourquoi, pas juste le quoi. Vous comprenez pour mieux décider.</div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-title">&#x25B6; Pragmatisme</div>
+                    <div class="pillar-text">Maximum 3 actions recommandées. Priorisées. Avec l'impact estimé en euros.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-footer">
+            <span>TRESORIS &#x2014; Document confidentiel</span>
+            <span>Page 3/4</span>
+        </div>
+    </div>
+
+    <!-- PAGE 4 : Garanties & Positionnement -->
+    <div class="page">
+        <div class="section-title">
+            <div class="icon">&#x2713;</div>
+            Engagements et garanties
+        </div>
+        
+        <div class="guarantee-grid">
+            <div class="guarantee-item">
+                <div class="g-icon">&#x1F512;</div>
+                <div class="g-title">Zéro accès bancaire</div>
+                <div class="g-desc">Aucune connexion à vos comptes. Vos données bancaires restent privées.</div>
+            </div>
+            <div class="guarantee-item">
+                <div class="g-icon">&#x2718;</div>
+                <div class="g-title">Aucun virement auto</div>
+                <div class="g-desc">TRESORIS recommande. Vous validez. Toujours.</div>
+            </div>
+            <div class="guarantee-item">
+                <div class="g-icon">&#x1F1EB;&#x1F1F7;</div>
+                <div class="g-title">Données en France</div>
+                <div class="g-desc">Hébergement sur infrastructure française. RGPD natif.</div>
+            </div>
+            <div class="guarantee-item">
+                <div class="g-icon">&#x1F4AC;</div>
+                <div class="g-title">Transparence totale</div>
+                <div class="g-desc">Chaque analyse est expliquée. Pas de "boîte noire".</div>
+            </div>
+        </div>
+        
+        <div class="section-title">
+            <div class="icon">&#x2194;</div>
+            Positionnement
+        </div>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Critère</th>
+                    <th style="width: 15%;">TRESORIS</th>
+                    <th style="width: 15%;">Outils BI</th>
+                    <th style="width: 15%;">Excel</th>
+                    <th style="width: 15%;">Solutions bancaires</th>
+                    <th style="width: 15%;">Comptable</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Analyse en temps réel</td>
+                    <td class="check">&#x2714;</td>
+                    <td class="check">&#x2714;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="check">&#x2714;</td>
+                    <td class="cross">&#x2718;</td>
+                </tr>
+                <tr>
+                    <td>Explication causale</td>
+                    <td class="check">&#x2714;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="check">&#x2714;</td>
+                </tr>
+                <tr>
+                    <td>Recommandations actionnables</td>
+                    <td class="check">&#x2714;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="check">&#x2714;</td>
+                </tr>
+                <tr>
+                    <td>Simulation de scénarios</td>
+                    <td class="check">&#x2714;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="check">&#x2714;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="cross">&#x2718;</td>
+                </tr>
+                <tr>
+                    <td>Surveillance 24/7</td>
+                    <td class="check">&#x2714;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="cross">&#x2718;</td>
+                    <td class="check">&#x2714;</td>
+                    <td class="cross">&#x2718;</td>
+                </tr>
+                <tr>
+                    <td>Coût mensuel</td>
+                    <td style="color: #1e3a5f; font-weight: 500;">PME</td>
+                    <td style="color: #718096;">ETI+</td>
+                    <td style="color: #48bb78;">Gratuit</td>
+                    <td style="color: #718096;">Variable</td>
+                    <td style="color: #e53e3e;">Élevé</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="section-title">
+            <div class="icon">&#x2192;</div>
+            Cas d'usage typiques
+        </div>
+        
+        <div class="use-case-grid">
+            <div class="use-case">
+                <div class="use-case-title">Point trésorerie du matin</div>
+                <div class="use-case-desc">En 30 secondes, TRESORIS vous donne l'essentiel : position cash, alertes du jour, actions prioritaires. Comme un briefing de votre DAF adjoint.</div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-title">Préparation COMEX</div>
+                <div class="use-case-desc">Génération automatique d'une note de synthèse pour la Direction Générale. Chiffres clés, points de vigilance, prochaines étapes.</div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-title">Analyse d'écart budgétaire</div>
+                <div class="use-case-desc">"Pourquoi ma marge a baissé de 3 points ?" TRESORIS décompose les causes et quantifie chaque facteur explicatif.</div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-title">Arbitrage de décision</div>
+                <div class="use-case-desc">Recruter un CDI ou faire appel à un freelance ? TRESORIS compare les options sur 3 ans avec impact cash et ROI.</div>
+            </div>
+        </div>
+        
+        <div style="background: #f8fafc; padding: 25px; border-radius: 8px; margin-top: 25px; text-align: center;">
+            <div style="font-size: 12pt; font-weight: 600; color: #1e3a5f; margin-bottom: 8px;">
+                TRESORIS &#x2014; L'intelligence de votre trésorerie
+            </div>
+            <div style="font-size: 10pt; color: #4a5568;">
+                Conçu pour les DAF et RAF de PME/ETI qui veulent gagner du temps et anticiper les risques.
+            </div>
+            <div style="margin-top: 15px; font-size: 9pt; color: #718096;">
+                &#x2709; contact@finsights.io
+            </div>
+        </div>
+        
+        <div class="page-footer">
+            <span>TRESORIS &#x2014; Document confidentiel</span>
+            <span>Page 4/4</span>
+        </div>
+    </div>
+
+</body>
+</html>

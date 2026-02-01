@@ -58,6 +58,9 @@ from engine.client_scoring import ClientRiskScorer
 from engine.early_warning import EarlyWarningDetector
 from engine.smart_forecast import SmartForecaster
 
+# V3 - Google Sheets Integration
+from api.gsheet_router import router as gsheet_router
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # MODELS
@@ -231,9 +234,9 @@ async def lifespan(app: FastAPI):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 app = FastAPI(
-    title="TRESORIS API V2",
-    description="Agent hyper-spécialisé requalification risques trésorerie",
-    version="2.0.0",
+    title="TRESORIS API V3",
+    description="Agent hyper-spécialisé requalification risques trésorerie - Avec intégration Google Sheets",
+    version="3.0.0",
     lifespan=lifespan
 )
 
@@ -245,6 +248,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# V3 - Ajouter le router Google Sheets
+app.include_router(gsheet_router)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

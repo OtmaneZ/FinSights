@@ -3,3 +3,4 @@ je veux 3 choses qu'on va faire ensemble
 le meilleur google sheet qui ressemble le plus a agicap (tu vas fetch agicap pour voir leur méthode, je veux un truc qui mette en branle l'agent, qui le fasse agir)
 le meilleur agent tresoris, on va élargir son scop et ses capacités, il va pas seulement surveiller et requalifier, il va calculer ecart de tréso, d'autres choses que ferait un controleur de gestion ( a toi de me lister ce qu'il fait et ce qu'on va ajouter)
 la meilleur page qu'on va créer ad hoc, une page pure agent tresoris (pas finsight pour mon site web, non une page exprès a part, les gens je vais leur envoyer l'adresse et on va faire pwa) ou on verra l'agent qui ressemblera a un DAF senior, il aura un prompt et sera quasi humain dans sa façon d'agir
+
