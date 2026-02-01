@@ -27,17 +27,26 @@ import uuid
 import sys
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# IMPORTS ENGINES V2 - Sophistication avancée
+# IMPORTS ENGINES - V2 + V3
 # ═══════════════════════════════════════════════════════════════════════════════
 
 sys.path.append(str(Path(__file__).parent.parent))
 
+# V2 - Sophistication avancée
 from engine.payment_patterns import ClientPaymentAnalyzer, ClientPaymentPattern
 from engine.smart_forecast import SmartForecaster, SmartForecast
 from engine.early_warning import EarlyWarningDetector, EarlyWarning
 from engine.client_scoring import ClientRiskScorer, ClientRiskScore
 from engine.action_optimizer import ActionPrioritizer, OptimizedAction
 from engine.seasonality import SeasonalityAdjuster
+
+# V3 - Powerhouse (modules avancés)
+from engine.margin_analyzer import MarginAnalyzer, ClientMarginAnalysis
+from engine.cost_drift_analyzer import CostDriftAnalyzer, CostDrift
+from engine.causal_analyzer import CausalAnalyzer, CausalAnalysisResult
+from engine.variance_analyzer import VarianceAnalyzer, VarianceAnalysisResult
+from engine.stress_tester import StressTester, StressTestResult
+from engine.decision_arbiter import DecisionArbiter, ArbitrationResult
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -192,6 +201,26 @@ class RiskRequalificationAgent:
         print("   - ClientRiskScorer (scoring 0-100)")
         print("   - ActionPrioritizer (impact×0.7 + ease×0.3)")
         print("   - SeasonalityAdjuster (facteurs saisonniers)")
+        
+        # ═══════════════════════════════════════════════════════════════════════
+        # ENGINES V3 - Powerhouse (WTF moment demo)
+        # ═══════════════════════════════════════════════════════════════════════
+        
+        self.margin_analyzer = MarginAnalyzer()
+        self.cost_drift_analyzer = CostDriftAnalyzer()
+        self.causal_analyzer = CausalAnalyzer()
+        self.variance_analyzer = VarianceAnalyzer()
+        self.stress_tester = StressTester(random_seed=42)
+        self.decision_arbiter = DecisionArbiter(discount_rate=0.08)
+        
+        print("✅ Engines V3 Powerhouse initialisés:")
+        print("   - MarginAnalyzer (analyse marges client/produit)")
+        print("   - CostDriftAnalyzer (dérive coûts, coûts fantômes)")
+        print("   - CausalAnalyzer (analyse causale WHY)")
+        print("   - VarianceAnalyzer (écarts budget vs réel)")
+        print("   - StressTester (Monte Carlo 10K simulations)")
+        print("   - DecisionArbiter (arbitrage recruter vs sous-traiter)")
+
         
         # Callbacks pour WebSocket
         self.event_callbacks: List[Callable] = []

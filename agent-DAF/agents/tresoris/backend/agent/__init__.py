@@ -1,15 +1,37 @@
 """
-TRESORIS Agent Module - Architecture V2 Hyper-Spécialisée
+TRESORIS Agent Module - Architecture V3 avec Orchestrateur
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Agent hyper-spécialisé dans la requalification des risques de trésorerie.
 
-Composants V2 :
+Composants V3 :
 - RiskRequalificationAgent : Agent principal (3 étapes)
+- TresorisOrchestrator : Cerveau/coordinateur intelligent
 - TresorisMemory : Mémoire avec audit trail
+- Identity : Personnalité et prompts TRESORIS
 - AgentMonitor : Surveillance fichiers (gardé de V1)
 - TriggerEngine : Règles de déclenchement (gardé de V1)
 """
+
+# V3 - Orchestrator & Identity
+from .orchestrator import (
+    TresorisOrchestrator,
+    TresorisQuickMethods,
+    OrchestratorContext,
+    OrchestratedInsight,
+    AnalysisMode
+)
+
+from .identity import (
+    get_system_prompt,
+    get_identity,
+    get_personality,
+    SYSTEM_PROMPTS,
+    PERSONALITY,
+    PRIORITIZATION_RULES,
+    SIGNATURE_PHRASES,
+    TRESORIS_IDENTITY
+)
 
 # V2 - Nouvelle architecture hyper-spécialisée
 from .risk_agent import (
@@ -38,6 +60,19 @@ except ImportError:
 
 
 __all__ = [
+    # V3 - Orchestrator & Identity
+    "TresorisOrchestrator",
+    "TresorisQuickMethods",
+    "OrchestratorContext",
+    "OrchestratedInsight",
+    "AnalysisMode",
+    "get_system_prompt",
+    "get_identity",
+    "get_personality",
+    "SYSTEM_PROMPTS",
+    "PERSONALITY",
+    "TRESORIS_IDENTITY",
+    
     # V2 - Nouvelle architecture
     "RiskRequalificationAgent",
     "Risk",
