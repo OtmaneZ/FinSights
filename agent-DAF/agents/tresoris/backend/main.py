@@ -63,6 +63,12 @@ from engine.smart_forecast import SmartForecaster
 # V3 - Google Sheets Integration
 from api.gsheet_router import router as gsheet_router, storage as gsheet_storage, run_analysis, gsheet_to_dataframe
 from api.apikey_router import router as apikey_router
+
+# V3 - NEW API Integrations
+from api.doc_router import router as doc_router
+from api.notification_router import router as notification_router
+from api.calendar_router import router as calendar_router
+
 from sheets_poller import SheetsPoller
 
 
@@ -352,6 +358,11 @@ app.add_middleware(
 # V3 - Ajouter les routers
 app.include_router(gsheet_router)
 app.include_router(apikey_router)
+
+# V3 - NEW API Integrations (Google Docs, Gmail, Google Calendar)
+app.include_router(doc_router)
+app.include_router(notification_router)
+app.include_router(calendar_router)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
