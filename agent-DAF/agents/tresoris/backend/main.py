@@ -60,6 +60,7 @@ from engine.smart_forecast import SmartForecaster
 
 # V3 - Google Sheets Integration
 from api.gsheet_router import router as gsheet_router
+from api.apikey_router import router as apikey_router
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -249,8 +250,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# V3 - Ajouter le router Google Sheets
+# V3 - Ajouter les routers
 app.include_router(gsheet_router)
+app.include_router(apikey_router)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

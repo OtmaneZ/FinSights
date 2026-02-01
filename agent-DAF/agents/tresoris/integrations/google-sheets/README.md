@@ -38,18 +38,54 @@
    - Alertes TRESORIS
    - Dashboard
 
-## Étape 4 : Configurer l'API Key
+## Étape 4 : Obtenir une clé API
 
-### Option A : Via le menu
+### Générer une clé API TRESORIS
+
+1. Se connecter à l'interface d'administration TRESORIS
+2. Aller dans **Paramètres > Clés API**
+3. Cliquer sur **Créer une nouvelle clé**
+4. Remplir le formulaire :
+   - Nom : "Mon Google Sheet"
+   - Description : "Intégration Google Sheets pour [votre entreprise]"
+   - ID Google Sheet : Votre Sheet ID (optionnel)
+   - Validité : 365 jours (par défaut)
+5. **IMPORTANT** : Copier la clé affichée (elle ne sera plus visible après)
+
+Ou via API (curl) :
+```bash
+curl -X POST https://votre-api.finsights.io/api/v1/api-keys/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Mon Google Sheet",
+    "description": "Integration GSheets",
+    "expiry_days": 365
+  }'
+
+# Réponse:
+{
+  "key": "tre_xxxxxxxxxxxxx",
+  "key_id": "key_1",
+  "name": "Mon Google Sheet",
+  "created_at": "2026-02-01T...",
+  "expires_at": "2027-02-01T..."
+}
+```
+
+**Conservez votre clé API en sécurité.** Ne la partagez pas.
+
+## Étape 5 : Configurer la clé dans le Google Sheet
+
+### Option A : Via le menu (recommandé)
 1. Dans le Sheet, un nouveau menu "TRESORIS" apparaît
 2. Cliquer sur **TRESORIS > Configurer API Key**
-3. Entrer votre clé API
+3. Coller votre clé API (ex: `tre_xxxxxxxxxxxxx`)
 
 ### Option B : Via Apps Script
 1. Dans Apps Script, aller dans **Paramètres du projet > Propriétés du script**
 2. Ajouter une propriété : `TRESORIS_API_KEY` = votre clé
 
-## Étape 5 : Configurer l'URL de l'API
+## Étape 6 : Configurer l'URL de l'API
 
 Dans le fichier `Code.gs`, modifier la constante :
 ```javascript
@@ -59,7 +95,7 @@ const CONFIG = {
 };
 ```
 
-## Étape 6 : Importer vos données
+## Étape 7 : Importer vos données
 
 ### Structure de l'onglet "Factures" :
 
@@ -79,7 +115,7 @@ const CONFIG = {
 | Catégorie | Type de prestation | Texte |
 | Notes | Commentaires | Texte |
 
-## Étape 7 : Tester la connexion
+## Étape 8 : Tester la connexion
 
 1. Dans le Sheet, aller dans **TRESORIS > Lancer une analyse**
 2. Vérifier que les alertes apparaissent dans l'onglet "Alertes TRESORIS"
