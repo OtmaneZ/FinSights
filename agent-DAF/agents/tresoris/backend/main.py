@@ -398,6 +398,7 @@ async def chat_with_agent(request: Dict[str, Any]):
         spreadsheet_id = request.get("spreadsheet_id", "demo")
         
         print(f"[CHAT] Question: {question[:50]}... | Sheet: {spreadsheet_id}")
+        # Test Git refresh
         
         if not question:
             return {
