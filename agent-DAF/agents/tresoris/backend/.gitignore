@@ -53,3 +53,5 @@ Thumbs.db
 
 # TRESORIS specific
 client_secret_*.json
+token.json
+*.token
