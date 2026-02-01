@@ -44,20 +44,19 @@ from .seasonality import SeasonalityAdjuster
 # ═══════════════════════════════════════════════════════════════════════════════
 from .margin_analyzer import (
     MarginAnalyzer,
-    ClientMarginAnalysis,
-    MarginDrivers,
-    MarginAnomaly
+    ClientMarginProfile,
+    MarginAnalysisResult
 )
 from .cost_drift_analyzer import (
     CostDriftAnalyzer,
-    CostDrift,
-    GhostCost,
+    CostLine,
+    CostDriftAlert,
+    CostDriftAnalysisResult,
     CostCategory
 )
 from .causal_analyzer import (
     CausalAnalyzer,
     CausalLink,
-    CausalChain,
     CausalAnalysisResult
 )
 from .variance_analyzer import (
@@ -70,8 +69,6 @@ from .stress_tester import (
     StressTester,
     StressScenario,
     MonteCarloResult,
-    SensitivityResult,
-    ReverseStressResult,
     StressTestResult
 )
 from .decision_arbiter import (
@@ -113,20 +110,19 @@ __all__ = [
     # ═══════════════════════════════════════════════════════════════════════════
     # Margin Analysis
     "MarginAnalyzer",
-    "ClientMarginAnalysis",
-    "MarginDrivers",
-    "MarginAnomaly",
+    "ClientMarginProfile",
+    "MarginAnalysisResult",
     
     # Cost Drift
     "CostDriftAnalyzer",
-    "CostDrift",
-    "GhostCost",
+    "CostLine",
+    "CostDriftAlert",
+    "CostDriftAnalysisResult",
     "CostCategory",
     
     # Causal Analysis
     "CausalAnalyzer",
     "CausalLink",
-    "CausalChain",
     "CausalAnalysisResult",
     
     # Variance
@@ -139,8 +135,6 @@ __all__ = [
     "StressTester",
     "StressScenario",
     "MonteCarloResult",
-    "SensitivityResult",
-    "ReverseStressResult",
     "StressTestResult",
     
     # Decision Arbitration

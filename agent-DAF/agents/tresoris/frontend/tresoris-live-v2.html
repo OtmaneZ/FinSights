@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRESORIS - Agent IA Trésorerie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1e3a5f;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --card-bg-light: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255,255,255,0.1);
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           HEADER
+        ═══════════════════════════════════════════════════════════════ */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #0f172a 100%);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo h1 span {
+            color: var(--accent);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .engines-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            font-size: 13px;
+        }
+        
+        .engines-badge .count {
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .status-live {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+        
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           MAIN LAYOUT
+        ═══════════════════════════════════════════════════════════════ */
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 24px;
+            padding: 24px 32px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           CARDS
+        ═══════════════════════════════════════════════════════════════ */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        
+        .card-badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           KPI GRID
+        ═══════════════════════════════════════════════════════════════ */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        
+        .kpi-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .kpi-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .kpi-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .kpi-value.positive { color: var(--accent); }
+        .kpi-value.warning { color: var(--warning); }
+        .kpi-value.danger { color: var(--danger); }
+        
+        .kpi-subtext {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           HEALTH SCORE
+        ═══════════════════════════════════════════════════════════════ */
+        .health-section {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 24px;
+            align-items: center;
+        }
+        
+        .health-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--accent) calc(var(--score) * 3.6deg),
+                rgba(255,255,255,0.1) 0
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .health-circle::before {
+            content: '';
+            width: 90px;
+            height: 90px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .health-value {
+            position: relative;
+            z-index: 1;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .health-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .health-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+        
+        .health-item span:first-child {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        
+        .health-item span:last-child {
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           V3 POWERHOUSE - ANALYSES AVANCÉES
+        ═══════════════════════════════════════════════════════════════ */
+        .v3-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .v3-card {
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--card-bg-light) 100%);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .v3-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--info));
+        }
+        
+        .v3-card.stress::before {
+            background: linear-gradient(90deg, var(--warning), var(--danger));
+        }
+        
+        .v3-card.margin::before {
+            background: linear-gradient(90deg, var(--accent), #14b8a6);
+        }
+        
+        .v3-card.variance::before {
+            background: linear-gradient(90deg, var(--info), #8b5cf6);
+        }
+        
+        .v3-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+        
+        .v3-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .v3-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .v3-insight {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           TOP CLIENTS À RISQUE
+        ═══════════════════════════════════════════════════════════════ */
+        .client-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .client-row {
+            display: grid;
+            grid-template-columns: 1fr 100px 70px 90px;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .client-row:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .client-row.header {
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 16px;
+        }
+        
+        .client-name {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .client-amount {
+            text-align: right;
+            font-weight: 600;
+            color: var(--danger);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .client-days {
+            text-align: center;
+            color: var(--warning);
+            font-weight: 500;
+        }
+        
+        .priority-badge {
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .priority-badge.p1 {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        .priority-badge.p2 {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+        
+        .priority-badge.p3 {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           RECOMMANDATIONS TRESORIS
+        ═══════════════════════════════════════════════════════════════ */
+        .reco-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .reco-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(30, 41, 59, 1) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .reco-card:hover {
+            border-color: rgba(139, 92, 246, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+        }
+        
+        .reco-card.priority-high {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .reco-card.priority-medium {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .reco-card.priority-low {
+            border-left: 4px solid var(--accent);
+        }
+        
+        .reco-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .reco-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .reco-title .emoji {
+            font-size: 18px;
+        }
+        
+        .reco-impact {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+        }
+        
+        .reco-impact.negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        .reco-description {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        
+        .reco-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 14px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        
+        .reco-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .reco-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .reco-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .reco-btn.accept {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .reco-btn.accept:hover {
+            background: #059669;
+            transform: scale(1.02);
+        }
+        
+        .reco-btn.reject {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .reco-btn.reject:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+        
+        .reco-btn.discuss {
+            background: rgba(139, 92, 246, 0.15);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .reco-btn.discuss:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+        
+        .reco-btn.later {
+            background: rgba(148, 163, 184, 0.15);
+            color: var(--text-muted);
+        }
+        
+        .reco-btn.later:hover {
+            background: rgba(148, 163, 184, 0.25);
+        }
+        
+        .reco-card.accepted {
+            opacity: 0.6;
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        
+        .reco-card.accepted .reco-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .reco-card.rejected {
+            opacity: 0.4;
+            border-color: var(--danger);
+        }
+        
+        .reco-empty {
+            text-align: center;
+            padding: 32px 16px;
+            color: var(--text-muted);
+        }
+        
+        .reco-empty .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        
+        .reco-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 32px;
+            color: var(--text-muted);
+        }
+        
+        .reco-loading .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(139, 92, 246, 0.2);
+            border-top-color: #a78bfa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           AGENT PANEL (Right Column)
+        ═══════════════════════════════════════════════════════════════ */
+        .agent-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, var(--card-bg) 100%);
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .agent-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .agent-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .agent-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--accent);
+            padding: 8px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+        }
+        
+        .thinking-dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .thinking-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: thinking 1.4s infinite;
+        }
+        
+        .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes thinking {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           ALERTS FEED
+        ═══════════════════════════════════════════════════════════════ */
+        .alerts-feed {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .alert-item {
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            border-left: 4px solid var(--warning);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert-item.critical { border-left-color: var(--danger); }
+        .alert-item.warning { border-left-color: var(--warning); }
+        .alert-item.info { border-left-color: var(--info); }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .alert-type {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        
+        .alert-item.critical .alert-type { color: var(--danger); }
+        .alert-item.warning .alert-type { color: var(--warning); }
+        .alert-item.info .alert-type { color: var(--info); }
+        
+        .alert-time {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        
+        .alert-message {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text);
+        }
+        
+        .alert-client {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+        
+        .alert-action {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           EARLY WARNINGS
+        ═══════════════════════════════════════════════════════════════ */
+        .warnings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .warning-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: 8px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        
+        .warning-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .warning-content {
+            flex: 1;
+        }
+        
+        .warning-content strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        
+        .warning-content p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           CHAT
+        ═══════════════════════════════════════════════════════════════ */
+        .chat-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 1px solid var(--accent);
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .chat-header-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .chat-header h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .chat-header span {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+        
+        .chat-messages {
+            min-height: 120px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+        
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        
+        .chat-suggestion {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--accent);
+            padding: 6px 10px;
+            border-radius: 16px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .chat-suggestion:hover {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .chat-message {
+            padding: 10px 14px;
+            border-radius: 12px;
+            max-width: 85%;
+            word-wrap: break-word;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .chat-message.user {
+            align-self: flex-end;
+            background: var(--accent);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chat-message.agent {
+            align-self: flex-start;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-message.loading {
+            align-self: flex-start;
+            background: rgba(255,255,255,0.05);
+            font-style: italic;
+            color: var(--text-muted);
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .chat-input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .chat-send {
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .chat-send:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           FOOTER BAR
+        ═══════════════════════════════════════════════════════════════ */
+        .footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            padding: 10px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .footer-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .footer-info span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        
+        .status-indicator.disconnected {
+            background: var(--danger);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           EMPTY STATE
+        ═══════════════════════════════════════════════════════════════ */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .empty-state h3 {
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .empty-state p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════════════════════ */
+        @media (max-width: 1200px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .v3-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--card-bg-light);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════
+         HEADER
+    ═══════════════════════════════════════════════════════════════ -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">T</div>
+            <h1>TRESORIS<span>Live</span></h1>
+        </div>
+        <div class="header-right">
+            <div class="engines-badge">
+                <span class="count">13</span> Engines actifs
+            </div>
+            <div class="status-live">
+                <div class="pulse-dot"></div>
+                <span id="connection-status">Connecté</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════════════════════════════ -->
+    <main class="main">
+        <!-- LEFT COLUMN -->
+        <div class="left-column">
+            
+            <!-- KPIs -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Cash à Recevoir</div>
+                    <div class="kpi-value positive" id="kpi-cash">--</div>
+                    <div class="kpi-subtext">factures impayées</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">En retard</div>
+                    <div class="kpi-value danger" id="kpi-retard">--</div>
+                    <div class="kpi-subtext" id="kpi-retard-amount">-- €</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">DSO</div>
+                    <div class="kpi-value warning" id="kpi-dso">--</div>
+                    <div class="kpi-subtext">jours</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Runway</div>
+                    <div class="kpi-value positive" id="kpi-runway">--</div>
+                    <div class="kpi-subtext">jours</div>
+                </div>
+            </div>
+            
+            <!-- Health Score -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Santé Financière</span>
+                    <span class="card-badge" style="background: var(--accent); color: white;" id="last-update">--</span>
+                </div>
+                <div class="health-section">
+                    <div class="health-circle" style="--score: 0" id="health-circle">
+                        <span class="health-value" id="health-score">--</span>
+                    </div>
+                    <div class="health-details">
+                        <div class="health-item">
+                            <span>Risque concentration</span>
+                            <span id="concentration-risk">--%</span>
+                        </div>
+                        <div class="health-item">
+                            <span>Cash at risk</span>
+                            <span id="cash-at-risk">-- €</span>
+                        </div>
+                        <div class="health-item">
+                            <span>Signaux faibles</span>
+                            <span id="early-warnings-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- V3 POWERHOUSE - Analyses Avancées -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">⚡ Analyses V3 Powerhouse</span>
+                    <span class="card-badge" style="background: rgba(139, 92, 246, 0.2); color: #a78bfa;">Monte Carlo</span>
+                </div>
+                <div class="v3-grid">
+                    <!-- Stress Test -->
+                    <div class="v3-card stress">
+                        <div class="v3-icon">🎲</div>
+                        <div class="v3-title">Stress Test</div>
+                        <div class="v3-value" id="stress-probability">--%</div>
+                        <div class="v3-insight" id="stress-insight">Probabilité de cash négatif</div>
+                    </div>
+                    
+                    <!-- Margin Analysis -->
+                    <div class="v3-card margin">
+                        <div class="v3-icon">📊</div>
+                        <div class="v3-title">Marges Clients</div>
+                        <div class="v3-value" id="margin-clients">--</div>
+                        <div class="v3-insight" id="margin-insight">Clients analysés</div>
+                    </div>
+                    
+                    <!-- Variance -->
+                    <div class="v3-card variance">
+                        <div class="v3-icon">📈</div>
+                        <div class="v3-title">Variance M/M</div>
+                        <div class="v3-value" id="variance-pct">--%</div>
+                        <div class="v3-insight" id="variance-insight">vs mois précédent</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Top Clients à Risque -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Clients à Risque</span>
+                    <span class="card-badge" style="background: rgba(239, 68, 68, 0.2); color: var(--danger);">Action requise</span>
+                </div>
+                <div class="client-list" id="client-list">
+                    <div class="client-row header">
+                        <span>Client</span>
+                        <span style="text-align: right;">Montant</span>
+                        <span style="text-align: center;">Retard</span>
+                        <span style="text-align: center;">Priorité</span>
+                    </div>
+                    <!-- Clients injectés dynamiquement -->
+                </div>
+            </div>
+            
+            <!-- ═══════════════════════════════════════════════════════
+                 RECOMMANDATIONS TRESORIS - Section Interactive
+            ═══════════════════════════════════════════════════════ -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">💡 Recommandations TRESORIS</span>
+                    <span class="card-badge" style="background: rgba(139, 92, 246, 0.2); color: #a78bfa;" id="reco-count">0 actions</span>
+                </div>
+                <div class="reco-list" id="reco-list">
+                    <div class="reco-loading" id="reco-loading">
+                        <div class="spinner"></div>
+                        <span>Analyse en cours...</span>
+                    </div>
+                    <!-- Recommandations injectées dynamiquement -->
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- RIGHT COLUMN -->
+        <div class="right-column">
+            
+            <!-- Agent Card -->
+            <div class="agent-card">
+                <div class="agent-header">
+                    <div class="agent-avatar">T</div>
+                    <div class="agent-info">
+                        <h3>TRESORIS</h3>
+                        <p>Agent IA Trésorerie • V3 Powerhouse</p>
+                    </div>
+                </div>
+                <div class="agent-status" id="agent-status">
+                    <div class="thinking-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span id="agent-thinking-text">En attente de données...</span>
+                </div>
+            </div>
+            
+            <!-- Early Warnings -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🔮 Signaux Faibles</span>
+                </div>
+                <div class="warnings-list" id="warnings-list">
+                    <div class="empty-state">
+                        <div class="icon">👀</div>
+                        <h3>Surveillance active</h3>
+                        <p>Les signaux faibles apparaîtront ici</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alerts Feed -->
+            <div class="card" style="flex: 1;">
+                <div class="card-header">
+                    <span class="card-title">Alertes Temps Réel</span>
+                    <span class="card-badge" style="background: var(--danger); color: white;" id="alert-count">0</span>
+                </div>
+                <div class="alerts-feed" id="alerts-feed">
+                    <div class="empty-state">
+                        <div class="icon">📡</div>
+                        <h3>En attente d'analyse</h3>
+                        <p>Modifiez votre Google Sheet pour déclencher l'agent</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat avec l'Agent -->
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-header-icon">💬</div>
+                    <h4>Discuter avec TRESORIS</h4>
+                    <span>Gemini 2.5 Flash</span>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-message agent">
+                        👋 Bonjour! Je suis TRESORIS, votre assistant trésorerie. Posez-moi une question sur vos finances.
+                    </div>
+                </div>
+                <div class="chat-suggestions" id="chat-suggestions">
+                    <button class="chat-suggestion" onclick="askSuggestion('Quelle est ma situation financière ?')">📊 Situation</button>
+                    <button class="chat-suggestion" onclick="askSuggestion('Ai-je des factures en retard ?')">⏰ Retards</button>
+                    <button class="chat-suggestion" onclick="askSuggestion('Parle-moi de la concentration client')">👥 Clients</button>
+                    <button class="chat-suggestion" onclick="askSuggestion('Donne-moi 3 conseils')">💡 Conseils</button>
+                </div>
+                <div class="chat-input-wrapper">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Posez votre question...">
+                    <button class="chat-send" onclick="sendChat()">→</button>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FOOTER BAR
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="footer-bar">
+        <div class="footer-info">
+            <span>
+                <div class="status-indicator" id="api-indicator"></div>
+                API: <span id="api-status">Connecté</span>
+            </span>
+            <span>Sheet: <span id="sheet-name">--</span></span>
+            <span>Sync: <span id="last-sync">--</span></span>
+        </div>
+        <div>
+            TRESORIS V3.0.0 • 13 Engines • Monte Carlo 10K simulations
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         JAVASCRIPT
+    ═══════════════════════════════════════════════════════════════ -->
+    <script>
+        // ═══════════════════════════════════════════════════════════════
+        // CONFIGURATION
+        // ═══════════════════════════════════════════════════════════════
+        const CONFIG = {
+            API_URL: 'http://localhost:8000',
+            REFRESH_INTERVAL: 5000,
+            SPREADSHEET_ID: '1xJSlqKac_aRmlt_tx3LfLpkyFwnjJ6AYbeJ-KgTNma4'
+        };
+
+        // State
+        let alertsList = [];
+        let lastAnalysisTimestamp = null;
+
+        // ═══════════════════════════════════════════════════════════════
+        // FORMATTERS
+        // ═══════════════════════════════════════════════════════════════
+        function formatCurrency(value) {
+            if (value === undefined || value === null || isNaN(value)) return '-- €';
+            return new Intl.NumberFormat('fr-FR', { 
+                style: 'currency', 
+                currency: 'EUR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
+        }
+
+        function formatNumber(value) {
+            if (value === undefined || value === null || isNaN(value)) return '--';
+            return new Intl.NumberFormat('fr-FR').format(Math.round(value));
+        }
+
+        function formatPercent(value) {
+            if (value === undefined || value === null || isNaN(value)) return '--%';
+            return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+        }
+
+        function formatTime(date) {
+            return new Date(date).toLocaleTimeString('fr-FR', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // UPDATE FUNCTIONS
+        // ═══════════════════════════════════════════════════════════════
+        
+        function updateKPIs(data) {
+            const kpis = data.dashboard?.kpis || {};
+            const analysis = data.analysis || {};
+            
+            // Cash à Recevoir (factures impayées)
+            const cash = kpis.montant_total || analysis.position?.total_receivable || 0;
+            document.getElementById('kpi-cash').textContent = formatCurrency(cash);
+            
+            // En retard
+            const retardCount = kpis.factures_en_retard || 0;
+            const retardAmount = kpis.montant_en_retard || analysis.position?.total_overdue || 0;
+            document.getElementById('kpi-retard').textContent = retardCount;
+            document.getElementById('kpi-retard-amount').textContent = formatCurrency(retardAmount);
+            
+            // DSO
+            const dso = kpis.dso_jours || analysis.dso || 0;
+            document.getElementById('kpi-dso').textContent = Math.round(dso);
+            
+            // Runway
+            const runway = kpis.runway_jours || analysis.runway_days || 0;
+            document.getElementById('kpi-runway').textContent = runway > 365 ? '∞' : Math.round(runway);
+        }
+
+        function updateHealthScore(data) {
+            const analysis = data.analysis || {};
+            const dashboard = data.dashboard || {};
+            const score = Math.round(analysis.health_score || dashboard.health_score || 0);
+            
+            document.getElementById('health-score').textContent = score;
+            document.getElementById('health-circle').style.setProperty('--score', score);
+            
+            // Concentration
+            const concentration = analysis.concentration_risk?.top_client_pct || 0;
+            document.getElementById('concentration-risk').textContent = `${concentration.toFixed(0)}%`;
+            
+            // Cash at risk
+            const cashAtRisk = analysis.position?.cash_at_risk || 0;
+            document.getElementById('cash-at-risk').textContent = formatCurrency(cashAtRisk);
+            
+            // Early warnings count
+            const warningsCount = (analysis.early_warnings || []).length;
+            document.getElementById('early-warnings-count').textContent = warningsCount;
+        }
+
+        function updateV3Analyses(data) {
+            const analysis = data.analysis || {};
+            
+            // Stress Test
+            if (analysis.stress_test) {
+                const prob = (analysis.stress_test.probability_negative_cash || 0) * 100;
+                document.getElementById('stress-probability').textContent = `${prob.toFixed(0)}%`;
+                document.getElementById('stress-insight').textContent = 
+                    analysis.stress_test.recommendation || 'Probabilité de cash négatif';
+            }
+            
+            // Margin Analysis
+            if (analysis.margin_analysis) {
+                document.getElementById('margin-clients').textContent = 
+                    analysis.margin_analysis.total_clients || '--';
+                document.getElementById('margin-insight').textContent = 
+                    analysis.margin_analysis.key_insight?.substring(0, 60) || 'Clients analysés';
+            }
+            
+            // Variance
+            if (analysis.variance_analysis) {
+                const variance = analysis.variance_analysis.variance_pct || 0;
+                document.getElementById('variance-pct').textContent = formatPercent(variance);
+                document.getElementById('variance-insight').textContent = 
+                    analysis.variance_analysis.insight || 'vs mois précédent';
+            }
+        }
+
+        function updateTopClients(data) {
+            const container = document.getElementById('client-list');
+            const analysis = data.analysis || {};
+            const dashboard = data.dashboard || {};
+            const topClients = dashboard.top_clients_retard || {};
+            
+            // Détails enrichis avec jours de retard réels (chercher dans dashboard ET analysis)
+            const clientDetails = dashboard.top_clients_details || analysis.top_clients_details || {};
+            
+            // Garder le header
+            container.innerHTML = `
+                <div class="client-row header">
+                    <span>Client</span>
+                    <span style="text-align: right;">Montant</span>
+                    <span style="text-align: center;">Retard</span>
+                    <span style="text-align: center;">Priorité</span>
+                </div>
+            `;
+            
+            if (Object.keys(topClients).length === 0) {
+                container.innerHTML += `
+                    <div class="empty-state" style="padding: 30px;">
+                        <div class="icon">✅</div>
+                        <h3>Aucune facture en retard</h3>
+                    </div>
+                `;
+                return;
+            }
+            
+            Object.entries(topClients).slice(0, 5).forEach(([client, amount]) => {
+                // Utiliser les vrais jours de retard si disponibles
+                const details = clientDetails[client];
+                const days = details?.jours_retard || 0;
+                
+                const priority = amount > 20000 ? 'p1' : amount > 5000 ? 'p2' : 'p3';
+                const priorityLabel = priority === 'p1' ? 'URGENT' : priority === 'p2' ? 'MOYEN' : 'FAIBLE';
+                
+                container.innerHTML += `
+                    <div class="client-row">
+                        <span class="client-name">${client}</span>
+                        <span class="client-amount">${formatCurrency(amount)}</span>
+                        <span class="client-days">${days}j</span>
+                        <span class="priority-badge ${priority}">${priorityLabel}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function updateEarlyWarnings(data) {
+            const container = document.getElementById('warnings-list');
+            const analysis = data.analysis || {};
+            const warnings = analysis.early_warnings || [];
+            
+            if (warnings.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding: 20px;">
+                        <div class="icon">👀</div>
+                        <h3>Aucun signal faible</h3>
+                        <p>La situation est sous contrôle</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = warnings.slice(0, 4).map(w => `
+                <div class="warning-item">
+                    <div class="warning-icon">⚠️</div>
+                    <div class="warning-content">
+                        <strong>${w.client || 'Signal détecté'}</strong>
+                        <p>${w.message}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // RECOMMANDATIONS TRESORIS - Intelligence & Interactions
+        // ═══════════════════════════════════════════════════════════════
+        
+        // État des recommandations
+        let recoState = {
+            accepted: [],
+            rejected: [],
+            later: []
+        };
+        
+        function generateRecommendations(data) {
+            const recommendations = [];
+            const analysis = data.analysis || {};
+            const dashboard = data.dashboard || {};
+            const kpis = dashboard.kpis || {};
+            const topClients = dashboard.top_clients_retard || {};
+            const concentration = analysis.concentration_risk || {};
+            
+            // 1. Recommandation: Factures en retard prioritaires
+            if (kpis.factures_en_retard > 0) {
+                const topClient = Object.entries(topClients)[0];
+                if (topClient) {
+                    const [clientName, amount] = topClient;
+                    const avgDelay = data.analysis?.top_clients_details?.[clientName]?.jours_retard || 30;
+                    
+                    recommendations.push({
+                        id: `relance_${clientName.replace(/\s+/g, '_')}`,
+                        priority: 'high',
+                        emoji: '📞',
+                        title: `Relancer ${clientName} en priorité`,
+                        description: `${formatCurrency(amount)} en retard depuis ${avgDelay}j. Ce client représente une part importante de vos impayés. Une relance personnalisée augmente les chances de recouvrement de 60%.`,
+                        impact: `+${formatCurrency(amount)}`,
+                        impactType: 'positive',
+                        effort: '15 min',
+                        urgency: 'Cette semaine',
+                        client: clientName,
+                        actionType: 'relance'
+                    });
+                }
+            }
+            
+            // 2. Recommandation: Concentration client
+            if (concentration.top_client_pct > 50) {
+                recommendations.push({
+                    id: 'diversification',
+                    priority: 'medium',
+                    emoji: '🎯',
+                    title: 'Diversifier votre portefeuille clients',
+                    description: `${concentration.top_client} représente ${concentration.top_client_pct?.toFixed(0)}% de votre CA. C'est risqué. Si ce client part, votre trésorerie serait fortement impactée. Objectif: <40% max par client.`,
+                    impact: 'Réduction risque -43%',
+                    impactType: 'positive',
+                    effort: '2-3 mois',
+                    urgency: 'Ce trimestre',
+                    client: concentration.top_client,
+                    actionType: 'strategie'
+                });
+            }
+            
+            // 3. Recommandation: DSO élevé
+            if ((kpis.dso_jours || 0) > 45) {
+                recommendations.push({
+                    id: 'reduce_dso',
+                    priority: 'medium',
+                    emoji: '⏱️',
+                    title: 'Réduire votre DSO de 10 jours',
+                    description: `Votre DSO de ${kpis.dso_jours?.toFixed(0)}j est au-dessus de la moyenne sectorielle (35-40j). Envoyer les factures plus tôt et proposer un escompte de 2% pour paiement anticipé pourrait libérer du cash.`,
+                    impact: `+${formatCurrency((kpis.montant_total || 0) * 0.15)} cash`,
+                    impactType: 'positive',
+                    effort: '1 semaine',
+                    urgency: 'Ce mois',
+                    actionType: 'process'
+                });
+            }
+            
+            // 4. Recommandation: Multiples clients en retard (pattern)
+            const clientsEnRetard = Object.keys(topClients).length;
+            if (clientsEnRetard >= 3) {
+                recommendations.push({
+                    id: 'systematic_relance',
+                    priority: 'high',
+                    emoji: '📋',
+                    title: 'Mettre en place un process de relance automatique',
+                    description: `${clientsEnRetard} clients sont actuellement en retard. Un système de relance automatique (J+7, J+15, J+30) réduirait ce nombre de 40% selon les études.`,
+                    impact: 'Réduction retards -40%',
+                    impactType: 'positive',
+                    effort: '3 heures',
+                    urgency: 'Cette semaine',
+                    actionType: 'automation'
+                });
+            }
+            
+            // 5. Recommandation: Santé financière < 50
+            const healthScore = analysis.health_score || dashboard.health_score || 100;
+            if (healthScore < 50) {
+                recommendations.push({
+                    id: 'urgent_actions',
+                    priority: 'high',
+                    emoji: '🚨',
+                    title: 'Plan d\'urgence trésorerie',
+                    description: `Votre score de santé de ${healthScore}/100 indique une situation tendue. Je recommande: 1) Négocier des délais fournisseurs, 2) Accélérer les relances, 3) Reporter les dépenses non-essentielles.`,
+                    impact: 'Score +20 pts',
+                    impactType: 'positive',
+                    effort: '1 jour',
+                    urgency: 'Immédiat',
+                    actionType: 'urgence'
+                });
+            }
+            
+            // 6. Recommandation: Négociation spécifique
+            if (kpis.montant_en_retard > 100000) {
+                recommendations.push({
+                    id: 'negotiate_payment_plan',
+                    priority: 'medium',
+                    emoji: '🤝',
+                    title: 'Négocier un échéancier de paiement',
+                    description: `Avec ${formatCurrency(kpis.montant_en_retard)} en retard, proposez un échéancier à vos plus gros débiteurs. Mieux vaut 80% payé en 3 fois que 0% en litige.`,
+                    impact: 'Récupération +80%',
+                    impactType: 'positive',
+                    effort: '2 heures',
+                    urgency: 'Cette semaine',
+                    actionType: 'negociation'
+                });
+            }
+            
+            // Filtrer les recommandations déjà traitées
+            return recommendations.filter(r => 
+                !recoState.accepted.includes(r.id) && 
+                !recoState.rejected.includes(r.id)
+            );
+        }
+        
+        function updateRecommendations(data) {
+            const container = document.getElementById('reco-list');
+            const loading = document.getElementById('reco-loading');
+            const countBadge = document.getElementById('reco-count');
+            
+            // Générer les recommandations basées sur les données
+            const recommendations = generateRecommendations(data);
+            
+            // Masquer le loading
+            if (loading) loading.style.display = 'none';
+            
+            // Mettre à jour le badge
+            countBadge.textContent = `${recommendations.length} action${recommendations.length > 1 ? 's' : ''}`;
+            
+            if (recommendations.length === 0) {
+                container.innerHTML = `
+                    <div class="reco-empty">
+                        <div class="icon">✨</div>
+                        <h3>Tout est sous contrôle</h3>
+                        <p>Aucune action prioritaire à recommander pour le moment.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Trier par priorité (high > medium > low)
+            const priorityOrder = { high: 0, medium: 1, low: 2 };
+            recommendations.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+            
+            container.innerHTML = recommendations.map(reco => `
+                <div class="reco-card priority-${reco.priority}" id="reco-${reco.id}">
+                    <div class="reco-header">
+                        <div class="reco-title">
+                            <span class="emoji">${reco.emoji}</span>
+                            ${reco.title}
+                        </div>
+                        <span class="reco-impact ${reco.impactType === 'negative' ? 'negative' : ''}">${reco.impact}</span>
+                    </div>
+                    <div class="reco-description">${reco.description}</div>
+                    <div class="reco-meta">
+                        <div class="reco-meta-item">
+                            ⏱️ ${reco.effort}
+                        </div>
+                        <div class="reco-meta-item">
+                            📅 ${reco.urgency}
+                        </div>
+                        ${reco.client ? `<div class="reco-meta-item">👤 ${reco.client}</div>` : ''}
+                    </div>
+                    <div class="reco-actions">
+                        <button class="reco-btn accept" onclick="acceptReco('${reco.id}', '${reco.title.replace(/'/g, "\\'")}')">
+                            ✓ Je fais
+                        </button>
+                        <button class="reco-btn discuss" onclick="discussReco('${reco.id}', '${reco.title.replace(/'/g, "\\'")}')">
+                            💬 Discuter
+                        </button>
+                        <button class="reco-btn later" onclick="laterReco('${reco.id}')">
+                            ⏰ Plus tard
+                        </button>
+                        <button class="reco-btn reject" onclick="rejectReco('${reco.id}', '${reco.title.replace(/'/g, "\\'")}')">
+                            ✕ Ignorer
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function acceptReco(recoId, title) {
+            recoState.accepted.push(recoId);
+            
+            // Animation de confirmation
+            const card = document.getElementById(`reco-${recoId}`);
+            if (card) {
+                card.classList.add('accepted');
+                card.innerHTML = `
+                    <div class="reco-status">
+                        <span>✅</span> Action acceptée: ${title}
+                    </div>
+                `;
+                
+                // Supprimer après 2 secondes
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateX(100px)';
+                    setTimeout(() => card.remove(), 300);
+                    updateRecoCount();
+                }, 1500);
+            }
+            
+            // Message dans le chat
+            addChatMessage(`✅ Parfait! Je note que vous allez "${title}". Je suivrai les résultats.`, 'agent');
+        }
+        
+        function rejectReco(recoId, title) {
+            recoState.rejected.push(recoId);
+            
+            const card = document.getElementById(`reco-${recoId}`);
+            if (card) {
+                card.classList.add('rejected');
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(-100px)';
+                setTimeout(() => card.remove(), 300);
+                updateRecoCount();
+            }
+            
+            // Demander pourquoi dans le chat
+            addChatMessage(`💭 Vous avez ignoré "${title}". Voulez-vous me dire pourquoi? Cela m'aidera à mieux vous conseiller.`, 'agent');
+        }
+        
+        function laterReco(recoId) {
+            recoState.later.push(recoId);
+            
+            const card = document.getElementById(`reco-${recoId}`);
+            if (card) {
+                card.style.opacity = '0.5';
+                card.style.transform = 'scale(0.98)';
+                
+                // Indiquer "reporté"
+                const actions = card.querySelector('.reco-actions');
+                if (actions) {
+                    actions.innerHTML = `<span style="color: var(--text-muted); font-size: 12px;">⏰ Reporté - Je vous relancerai</span>`;
+                }
+            }
+        }
+        
+        function discussReco(recoId, title) {
+            // Pré-remplir le chat avec une question sur cette recommandation
+            const input = document.getElementById('chat-input');
+            input.value = `Explique-moi plus en détail: ${title}`;
+            input.focus();
+            
+            // Scroll vers le chat
+            document.querySelector('.chat-container').scrollIntoView({ behavior: 'smooth' });
+            
+            // Envoyer automatiquement
+            sendChat();
+        }
+        
+        function updateRecoCount() {
+            const remaining = document.querySelectorAll('.reco-card:not(.accepted):not(.rejected)').length;
+            document.getElementById('reco-count').textContent = `${remaining} action${remaining > 1 ? 's' : ''}`;
+        }
+
+        function updateAlerts(data) {
+            const container = document.getElementById('alerts-feed');
+            const alerts = data.alerts || [];
+            
+            if (alerts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📡</div>
+                        <h3>Analyse terminée</h3>
+                        <p>Aucune alerte à signaler</p>
+                    </div>
+                `;
+                document.getElementById('alert-count').textContent = '0';
+                return;
+            }
+            
+            // Ajouter les nouvelles alertes
+            alerts.forEach(alert => {
+                // Éviter les doublons
+                if (!alertsList.find(a => a.message === alert.message)) {
+                    alertsList.unshift(alert);
+                }
+            });
+            
+            // Limiter à 20 alertes
+            alertsList = alertsList.slice(0, 20);
+            
+            container.innerHTML = alertsList.map(alert => {
+                const levelClass = (alert.level || 'info').toLowerCase();
+                return `
+                    <div class="alert-item ${levelClass}">
+                        <div class="alert-header">
+                            <span class="alert-type">${alert.type || 'Alerte'}</span>
+                            <span class="alert-time">${formatTime(new Date())}</span>
+                        </div>
+                        <div class="alert-message">${alert.message}</div>
+                        ${alert.client ? `<div class="alert-client">Client: ${alert.client}</div>` : ''}
+                        ${alert.action ? `<div class="alert-action">→ ${alert.action}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('alert-count').textContent = alertsList.length;
+        }
+
+        function setAgentStatus(text, isActive = true) {
+            document.getElementById('agent-thinking-text').textContent = text;
+            const dots = document.querySelector('.thinking-dots');
+            dots.style.display = isActive ? 'flex' : 'none';
+        }
+
+        function setConnectionStatus(connected) {
+            const indicator = document.getElementById('api-indicator');
+            const status = document.getElementById('api-status');
+            const connStatus = document.getElementById('connection-status');
+            const sheetName = document.getElementById('sheet-name');
+            
+            if (connected) {
+                indicator.classList.remove('disconnected');
+                status.textContent = 'Connecté';
+                connStatus.textContent = 'Connecté';
+                // Afficher les 8 premiers caractères du Sheet ID
+                sheetName.textContent = CONFIG.SPREADSHEET_ID.substring(0, 8) + '...';
+                sheetName.style.color = 'var(--success)';
+            } else {
+                indicator.classList.add('disconnected');
+                status.textContent = 'Déconnecté';
+                connStatus.textContent = 'Déconnecté';
+                sheetName.textContent = '--';
+                sheetName.style.color = 'var(--text-muted)';
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // API CALLS
+        // ═══════════════════════════════════════════════════════════════
+        
+        async function fetchData() {
+            try {
+                setAgentStatus('Récupération des données...');
+                
+                const response = await fetch(
+                    `${CONFIG.API_URL}/api/v1/analysis/latest?spreadsheet_id=${CONFIG.SPREADSHEET_ID}`
+                );
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success && data.analysis) {
+                    // Vérifier si c'est une nouvelle analyse
+                    const newTimestamp = data.timestamp;
+                    
+                    if (newTimestamp !== lastAnalysisTimestamp) {
+                        lastAnalysisTimestamp = newTimestamp;
+                        
+                        // Mettre à jour tous les composants
+                        updateKPIs(data);
+                        updateHealthScore(data);
+                        updateV3Analyses(data);
+                        updateTopClients(data);
+                        updateEarlyWarnings(data);
+                        updateAlerts(data);
+                        updateRecommendations(data);  // ← Recommandations TRESORIS
+                        
+                        // Timestamp
+                        document.getElementById('last-update').textContent = formatTime(new Date());
+                        document.getElementById('last-sync').textContent = formatTime(new Date());
+                    }
+                    
+                    setAgentStatus('Surveillance active', false);
+                    setConnectionStatus(true);
+                    
+                } else if (data.success === false && data.error) {
+                    // Pas encore d'analyse - afficher état vide propre
+                    showEmptyState();
+                    setAgentStatus('En attente de données...', true);
+                    setConnectionStatus(true);
+                } else {
+                    setAgentStatus('En attente de données...', true);
+                    setConnectionStatus(true);
+                }
+                
+            } catch (error) {
+                console.error('Fetch error:', error);
+                setAgentStatus('Connexion perdue...', false);
+                setConnectionStatus(false);
+            }
+        }
+        
+        function showEmptyState() {
+            // Reset KPIs à 0
+            document.getElementById('kpi-cash').textContent = '0 €';
+            document.getElementById('kpi-retard').textContent = '0';
+            document.getElementById('kpi-retard-amount').textContent = '0 €';
+            document.getElementById('kpi-dso').textContent = '0';
+            document.getElementById('kpi-runway').textContent = '∞';
+            
+            // Health score à 100 (pas de problèmes)
+            document.getElementById('health-score').textContent = '100';
+            document.getElementById('health-circle').style.setProperty('--score', 100);
+            document.getElementById('concentration-risk').textContent = '0%';
+            document.getElementById('cash-at-risk').textContent = '0 €';
+            document.getElementById('early-warnings-count').textContent = '0';
+            
+            // V3 analyses à zéro
+            document.getElementById('stress-probability').textContent = '0%';
+            document.getElementById('stress-insight').textContent = 'Aucun risque détecté';
+            document.getElementById('margin-clients').textContent = '0';
+            document.getElementById('margin-insight').textContent = 'Ajoutez des factures pour analyser';
+            document.getElementById('variance-pct').textContent = '--%';
+            document.getElementById('variance-insight').textContent = 'Pas assez de données';
+            
+            // Clients vide
+            updateTopClients({ analysis: { top_clients_retard: {} } });
+            
+            // Warnings vide
+            updateEarlyWarnings({ analysis: { early_warnings: [] } });
+            
+            // Alertes vide avec message
+            document.getElementById('alerts-feed').innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">📊</div>
+                    <h3>En attente de factures</h3>
+                    <p>Ajoutez des factures dans votre Google Sheet pour voir les analyses TRESORIS</p>
+                </div>
+            `;
+            document.getElementById('alert-count').textContent = '0';
+        }
+
+        async function sendChat() {
+            const input = document.getElementById('chat-input');
+            const messagesContainer = document.getElementById('chat-messages');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            // Afficher la question de l'utilisateur
+            addChatMessage(question, 'user');
+            input.value = '';
+            
+            // Afficher l'indicateur de chargement
+            const loadingId = addChatMessage('TRESORIS réfléchit...', 'loading');
+            setAgentStatus('Réflexion en cours...');
+            
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/api/v1/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: question,
+                        spreadsheet_id: CONFIG.SPREADSHEET_ID
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // Supprimer le loading
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
+                
+                if (data.success && data.response) {
+                    // Afficher la réponse de l'agent
+                    addChatMessage(data.response, 'agent');
+                } else {
+                    addChatMessage('Erreur: ' + (data.error || 'Pas de réponse'), 'agent');
+                }
+                
+                setAgentStatus('Surveillance active', false);
+                
+            } catch (error) {
+                console.error('Chat error:', error);
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
+                addChatMessage('Erreur de communication avec l\'API', 'agent');
+                setAgentStatus('Erreur de communication', false);
+            }
+        }
+        
+        function addChatMessage(text, type) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageId = 'msg-' + Date.now();
+            const messageEl = document.createElement('div');
+            messageEl.id = messageId;
+            messageEl.className = `chat-message ${type}`;
+            messageEl.textContent = text;
+            messagesContainer.appendChild(messageEl);
+            
+            // Auto-scroll vers le bas
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Masquer les suggestions après le premier message utilisateur
+            if (type === 'user') {
+                const suggestions = document.getElementById('chat-suggestions');
+                if (suggestions) suggestions.style.display = 'none';
+            }
+            
+            return messageId;
+        }
+        
+        function askSuggestion(question) {
+            document.getElementById('chat-input').value = question;
+            sendChat();
+        }
+
+        // Enter key for chat
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChat();
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial fetch
+            fetchData();
+            
+            // Polling
+            setInterval(fetchData, CONFIG.REFRESH_INTERVAL);
+        });
+    </script>
+</body>
+</html>

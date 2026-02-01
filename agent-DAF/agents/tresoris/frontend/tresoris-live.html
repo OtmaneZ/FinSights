@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRESORIS Live - Agent IA Trésorerie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1e3a5f;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #0f172a 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        /* Main Grid */
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 24px;
+            padding: 24px 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+        
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .kpi-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .kpi-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .kpi-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .kpi-value.positive { color: var(--accent); }
+        .kpi-value.warning { color: var(--warning); }
+        .kpi-value.danger { color: var(--danger); }
+        
+        .kpi-change {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        /* Health Score */
+        .health-score {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .health-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent) calc(var(--score) * 1%), rgba(255,255,255,0.1) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .health-circle::before {
+            content: '';
+            width: 90px;
+            height: 90px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .health-value {
+            position: relative;
+            z-index: 1;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .health-details {
+            flex: 1;
+        }
+        
+        .health-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Top Clients */
+        .client-list {
+            margin-top: 12px;
+        }
+        
+        .client-row {
+            display: grid;
+            grid-template-columns: 1fr 100px 80px 100px;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            align-items: center;
+        }
+        
+        .client-row:last-child {
+            border-bottom: none;
+        }
+        
+        .client-name {
+            font-weight: 500;
+        }
+        
+        .client-amount {
+            text-align: right;
+            font-weight: 600;
+            color: var(--danger);
+        }
+        
+        .client-days {
+            text-align: center;
+            color: var(--warning);
+        }
+        
+        .priority-badge {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .priority-badge.p1 {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        .priority-badge.p2 {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+        
+        .priority-badge.p3 {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+        }
+        
+        /* Agent Activity Panel */
+        .agent-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .agent-status {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(30, 58, 95, 0.3) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--accent);
+        }
+        
+        .agent-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+        
+        .agent-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .agent-role {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        
+        .agent-thinking {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--accent);
+        }
+        
+        .thinking-dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .thinking-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: thinking 1.4s infinite;
+        }
+        
+        .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes thinking {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Alerts Feed */
+        .alerts-feed {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .alert-item {
+            padding: 16px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--warning);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert-item.critical { border-left-color: var(--danger); }
+        .alert-item.info { border-left-color: #3b82f6; }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .alert-type {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--warning);
+        }
+        
+        .alert-item.critical .alert-type { color: var(--danger); }
+        .alert-item.info .alert-type { color: #3b82f6; }
+        
+        .alert-time {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        
+        .alert-message {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .alert-action {
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        
+        /* Chat */
+        .chat-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-size: 14px;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .chat-input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .chat-send {
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .chat-send:hover {
+            background: #059669;
+        }
+        
+        /* Connection Status */
+        .connection-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            padding: 8px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .connection-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">T</div>
+            <h1>TRESORIS<span>Live</span></h1>
+        </div>
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            <span>Agent actif</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Left Column - Dashboard -->
+        <div class="dashboard">
+            <!-- KPI Grid -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Position Cash</div>
+                    <div class="kpi-value" id="kpi-cash">-</div>
+                    <div class="kpi-change">vs budget</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Factures en retard</div>
+                    <div class="kpi-value danger" id="kpi-retard">-</div>
+                    <div class="kpi-change" id="kpi-retard-amount">- €</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">DSO Moyen</div>
+                    <div class="kpi-value warning" id="kpi-dso">-</div>
+                    <div class="kpi-change">jours</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Runway</div>
+                    <div class="kpi-value positive" id="kpi-runway">-</div>
+                    <div class="kpi-change">jours</div>
+                </div>
+            </div>
+
+            <!-- Health Score & Details -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <span class="card-title">Santé financière</span>
+                    <span id="last-update" style="font-size: 12px; color: var(--text-muted);">-</span>
+                </div>
+                <div class="health-score">
+                    <div class="health-circle" style="--score: 72">
+                        <span class="health-value" id="health-score">72</span>
+                    </div>
+                    <div class="health-details">
+                        <div class="health-item">
+                            <span>Risque concentration</span>
+                            <span id="concentration-risk">-</span>
+                        </div>
+                        <div class="health-item">
+                            <span>Cash at risk</span>
+                            <span id="cash-at-risk">-</span>
+                        </div>
+                        <div class="health-item">
+                            <span>Signaux faibles détectés</span>
+                            <span id="early-warnings">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Clients en Retard -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Top clients en retard</span>
+                    <span style="font-size: 12px; color: var(--danger);">Action requise</span>
+                </div>
+                <div class="client-list" id="client-list">
+                    <div class="client-row" style="color: var(--text-muted); font-size: 12px; text-transform: uppercase;">
+                        <span>Client</span>
+                        <span style="text-align: right;">Montant</span>
+                        <span style="text-align: center;">Jours</span>
+                        <span style="text-align: center;">Priorité</span>
+                    </div>
+                    <!-- Clients will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Agent Panel -->
+        <div class="agent-panel">
+            <!-- Agent Status -->
+            <div class="agent-status">
+                <div class="agent-avatar">T</div>
+                <div class="agent-name">TRESORIS</div>
+                <div class="agent-role">Agent IA Trésorerie • V3 Powerhouse</div>
+                <div class="agent-thinking" id="agent-thinking">
+                    <div class="thinking-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span id="thinking-text">Analyse en cours...</span>
+                </div>
+            </div>
+
+            <!-- Alerts Feed -->
+            <div class="card" style="flex: 1;">
+                <div class="card-header">
+                    <span class="card-title">Alertes temps réel</span>
+                    <span id="alert-count" style="background: var(--danger); padding: 2px 8px; border-radius: 10px; font-size: 11px;">0</span>
+                </div>
+                <div class="alerts-feed" id="alerts-feed">
+                    <!-- Alerts will be injected here -->
+                </div>
+            </div>
+
+            <!-- Chat -->
+            <div class="chat-container">
+                <div class="chat-input-wrapper">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Demandez à TRESORIS...">
+                    <button class="chat-send" onclick="sendChat()">Envoyer</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Connection Bar -->
+    <div class="connection-bar">
+        <div class="connection-info">
+            <span>API: <span id="api-status" style="color: var(--accent);">Connecté</span></span>
+            <span>|</span>
+            <span>Sheet: <span id="sheet-name">Tresoris - Demo</span></span>
+            <span>|</span>
+            <span>Dernière sync: <span id="last-sync">-</span></span>
+        </div>
+        <div>
+            <span>TRESORIS V3.0.0 • 13 Engines actifs</span>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            API_URL: 'http://localhost:8000',
+            REFRESH_INTERVAL: 5000, // 5 secondes
+            SPREADSHEET_ID: '1b0ZrJRUMpjdEyNXqVRpUV8VWKepakd8hJhfGM9smtJs'
+        };
+
+        // State
+        let alerts = [];
+        let dashboardData = {};
+
+        // Format currency
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value);
+        }
+
+        // Format number
+        function formatNumber(value) {
+            return new Intl.NumberFormat('fr-FR').format(value);
+        }
+
+        // Update KPIs
+        function updateKPIs(data) {
+            if (data.kpis) {
+                document.getElementById('kpi-cash').textContent = formatCurrency(data.kpis.montant_total || 0);
+                document.getElementById('kpi-retard').textContent = data.kpis.factures_en_retard || 0;
+                document.getElementById('kpi-retard-amount').textContent = formatCurrency(data.kpis.montant_en_retard || 0);
+                document.getElementById('kpi-dso').textContent = Math.round(data.kpis.dso_jours || 0);
+                document.getElementById('kpi-runway').textContent = data.kpis.runway_jours || '∞';
+            }
+            
+            // Health Score
+            if (data.health_score) {
+                const score = Math.round(data.health_score);
+                document.getElementById('health-score').textContent = score;
+                document.querySelector('.health-circle').style.setProperty('--score', score);
+            }
+            
+            // Last update
+            document.getElementById('last-update').textContent = new Date().toLocaleTimeString('fr-FR');
+            document.getElementById('last-sync').textContent = new Date().toLocaleTimeString('fr-FR');
+        }
+
+        // Update Top Clients
+        function updateTopClients(topClients) {
+            const container = document.getElementById('client-list');
+            
+            // Keep header row
+            const headerRow = container.querySelector('.client-row');
+            container.innerHTML = '';
+            container.appendChild(headerRow);
+            
+            if (!topClients || Object.keys(topClients).length === 0) {
+                const emptyRow = document.createElement('div');
+                emptyRow.className = 'client-row';
+                emptyRow.innerHTML = '<span style="color: var(--accent);">Aucune facture en retard</span>';
+                container.appendChild(emptyRow);
+                return;
+            }
+            
+            Object.entries(topClients).slice(0, 5).forEach(([client, amount], index) => {
+                const row = document.createElement('div');
+                row.className = 'client-row';
+                
+                const priority = amount > 20000 ? 'p1' : amount > 5000 ? 'p2' : 'p3';
+                const priorityLabel = priority === 'p1' ? 'URGENT' : priority === 'p2' ? 'Cette sem.' : 'Sous 15j';
+                
+                row.innerHTML = `
+                    <span class="client-name">${client}</span>
+                    <span class="client-amount">${formatCurrency(amount)}</span>
+                    <span class="client-days">${Math.floor(Math.random() * 60) + 10}j</span>
+                    <span class="priority-badge ${priority}">${priorityLabel}</span>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // Add Alert
+        function addAlert(alert) {
+            const feed = document.getElementById('alerts-feed');
+            const alertEl = document.createElement('div');
+            alertEl.className = `alert-item ${alert.level.toLowerCase()}`;
+            
+            alertEl.innerHTML = `
+                <div class="alert-header">
+                    <span class="alert-type">${alert.type}</span>
+                    <span class="alert-time">${new Date().toLocaleTimeString('fr-FR')}</span>
+                </div>
+                <div class="alert-message">${alert.message}</div>
+                ${alert.action ? `<div class="alert-action">→ ${alert.action}</div>` : ''}
+            `;
+            
+            feed.insertBefore(alertEl, feed.firstChild);
+            
+            // Update count
+            alerts.push(alert);
+            document.getElementById('alert-count').textContent = alerts.length;
+        }
+
+        // Update thinking status
+        function setThinking(text) {
+            document.getElementById('thinking-text').textContent = text;
+        }
+
+        // Fetch data from API
+        async function fetchData() {
+            try {
+                setThinking('Récupération des données...');
+                
+                const response = await fetch(`${CONFIG.API_URL}/api/v1/analysis/latest?spreadsheet_id=${CONFIG.SPREADSHEET_ID}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.success && data.analysis) {
+                        // Les données sont dans analysis.dashboard
+                        const analysis = data.analysis.analysis || data.analysis;
+                        const dashboard = data.analysis.dashboard || analysis.dashboard || {};
+                        
+                        dashboardData = {
+                            ...analysis,
+                            kpis: dashboard.kpis || {},
+                            health_score: dashboard.health_score || analysis.health_score || 0,
+                            top_clients_retard: dashboard.top_clients_retard || analysis.top_clients_retard || {}
+                        };
+                        
+                        updateKPIs(dashboardData);
+                        updateTopClients(dashboardData.top_clients_retard);
+                        
+                        // Ajouter les alertes si présentes
+                        const alerts = data.analysis.alerts || [];
+                        alerts.slice(0, 5).forEach(alert => addAlert(alert));
+                        
+                        setThinking('Surveillance active');
+                        document.getElementById('api-status').textContent = 'Connecté';
+                        document.getElementById('api-status').style.color = 'var(--accent)';
+                    }
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                setThinking('Connexion perdue...');
+                document.getElementById('api-status').textContent = 'Déconnecté';
+                document.getElementById('api-status').style.color = 'var(--danger)';
+            }
+        }
+
+        // Send chat message
+        async function sendChat() {
+            const input = document.getElementById('chat-input');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            input.value = '';
+            setThinking('Réflexion en cours...');
+            
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/api/v1/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: question,
+                        spreadsheet_id: CONFIG.SPREADSHEET_ID
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.response) {
+                    addAlert({
+                        level: 'INFO',
+                        type: 'Réponse TRESORIS',
+                        message: data.response
+                    });
+                }
+                
+                setThinking('Surveillance active');
+            } catch (error) {
+                addAlert({
+                    level: 'CRITICAL',
+                    type: 'Erreur',
+                    message: 'Impossible de contacter l\'agent'
+                });
+            }
+        }
+
+        // Handle Enter key in chat
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChat();
+        });
+
+        // Show empty state
+        function showEmptyState() {
+            const container = document.getElementById('client-list');
+            const headerRow = container.querySelector('.client-row');
+            container.innerHTML = '';
+            container.appendChild(headerRow);
+            
+            const emptyRow = document.createElement('div');
+            emptyRow.style.padding = '40px';
+            emptyRow.style.textAlign = 'center';
+            emptyRow.style.color = 'var(--text-muted)';
+            emptyRow.innerHTML = `
+                <div style="font-size: 48px; margin-bottom: 16px;">📊</div>
+                <div style="font-size: 16px; margin-bottom: 8px;">En attente de données</div>
+                <div style="font-size: 13px;">Modifiez votre Google Sheet pour déclencher une analyse</div>
+            `;
+            container.appendChild(emptyRow);
+            
+            // Show waiting state in alerts
+            addAlert({
+                level: 'INFO',
+                type: 'Connexion',
+                message: 'TRESORIS est connecté et attend vos données Google Sheet',
+                action: 'Modifiez une facture pour lancer l\'analyse'
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show empty state by default
+            showEmptyState();
+            
+            // Try to connect to real API
+            fetchData();
+            
+            // Refresh periodically
+            setInterval(fetchData, CONFIG.REFRESH_INTERVAL);
+        });
+    </script>
+</body>
+</html>

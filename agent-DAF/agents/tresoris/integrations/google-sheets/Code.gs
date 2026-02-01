@@ -27,11 +27,12 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const CONFIG = {
-  // URL de l'API TRESORIS (à configurer)
-  TRESORIS_API_URL: "https://your-api.finsights.io/api/v1",
+  // URL de l'API TRESORIS (ngrok pour accès depuis Google Apps Script)
+  TRESORIS_API_URL: "https://generally-unsupervisory-felicitas.ngrok-free.dev/api/v1",
   
-  // Clé API (à configurer dans les propriétés du script)
-  // PropertiesService.getScriptProperties().setProperty('TRESORIS_API_KEY', 'your-key')
+  // Clé API (stockée dans les propriétés du script pour plus de sécurité)
+  // Vous pouvez aussi la définir ici directement pour les tests
+  DEFAULT_API_KEY: "tre_oqDVU4R-LDlfK7qqJjmVw9sUPO2xYuSOLPbaib02cxs",
   
   // Noms des onglets
   SHEETS: {
@@ -43,7 +44,7 @@ const CONFIG = {
   },
   
   // Délai minimum entre deux analyses (en minutes)
-  ANALYSIS_COOLDOWN: 5,
+  ANALYSIS_COOLDOWN: 0.5, // 30 secondes pour la démo
   
   // Mode debug
   DEBUG: true
@@ -193,11 +194,11 @@ function setupFacturesSheet(sheet) {
   sheet.getRange("G2:G1000").setNumberFormat("dd/mm/yyyy");
   sheet.getRange("I2:I1000").setNumberFormat("dd/mm/yyyy");
   
-  // Format monétaires
-  sheet.getRange("D2:D1000").setNumberFormat("#,##0.00 €");
-  sheet.getRange("E2:E1000").setNumberFormat("#,##0.00 €");
-  sheet.getRange("F2:F1000").setNumberFormat("#,##0.00 €");
-  sheet.getRange("J2:J1000").setNumberFormat("#,##0.00 €");
+  // Format monétaires (virgule décimale pour Google Sheets FR)
+  sheet.getRange("D2:D1000").setNumberFormat("#,##0,00 €");
+  sheet.getRange("E2:E1000").setNumberFormat("#,##0,00 €");
+  sheet.getRange("F2:F1000").setNumberFormat("#,##0,00 €");
+  sheet.getRange("J2:J1000").setNumberFormat("#,##0,00 €");
   
   // Figer la première ligne
   sheet.setFrozenRows(1);
@@ -222,7 +223,7 @@ function setupEncaissementsSheet(sheet) {
     .setFontWeight("bold");
   
   sheet.getRange("A2:A1000").setNumberFormat("dd/mm/yyyy");
-  sheet.getRange("D2:D1000").setNumberFormat("#,##0.00 €");
+  sheet.getRange("D2:D1000").setNumberFormat("#,##0,00 €");
   
   sheet.setFrozenRows(1);
 }
@@ -232,8 +233,8 @@ function setupParametresSheet(sheet) {
   const params = [
     ["CONFIGURATION TRESORIS", ""],
     ["", ""],
-    ["API Key", ""],
-    ["URL API", CONFIG.TRESORIS_API_URL],
+    ["API Key", "tre_oqDVU4R-LDlfK7qqJjmVw9sUPO2xYuSOLPbaib02cxs"],
+    ["URL API", "http://localhost:8000"],
     ["Email Alertes", ""],
     ["", ""],
     ["PARAMÈTRES ENTREPRISE", ""],
@@ -292,6 +293,7 @@ function setupAlertesSheet(sheet) {
 
 
 function setupDashboardSheet(sheet) {
+  // Titre
   sheet.getRange("A1").setValue("TRESORIS DASHBOARD")
     .setFontSize(18)
     .setFontWeight("bold")
@@ -299,26 +301,68 @@ function setupDashboardSheet(sheet) {
   
   sheet.getRange("A2").setValue("Dernière mise à jour: " + new Date().toLocaleString("fr-FR"));
   
-  // KPIs
+  // KPIs principaux
   const kpis = [
     ["", "", "", ""],
     ["INDICATEURS CLÉS", "", "", ""],
-    ["Position Cash", "=SOMME(Encaissements!D:D)-SOMME(Factures!F:F)+SOMME(Factures!J:J)", "", ""],
-    ["Factures en attente", "=NB.SI(Factures!H:H;\"En attente\")", "factures", ""],
-    ["Factures en retard", "=NB.SI(Factures!H:H;\"En retard\")", "factures", ""],
-    ["Montant en retard", "=SOMME.SI(Factures!H:H;\"En retard\";Factures!F:F)", "", ""],
-    ["DSO Moyen", "", "jours", ""],
+    ["Position Cash", "=SUM(Encaissements!D:D)-SUM(Factures!F:F)+SUM(Factures!J:J)", "€", ""],
+    ["Factures en attente", "=COUNTIF(Factures!H:H;\"En attente\")", "factures", ""],
+    ["Factures en retard", "=COUNTIF(Factures!H:H;\"En retard\")", "factures", ""],
+    ["Montant en retard", "=SUMIF(Factures!H:H;\"En retard\";Factures!F:F)", "€", ""],
+    ["DSO Moyen", "=IFERROR(AVERAGE(Factures!K2:K1000);0)", "jours", ""],
     ["", "", "", ""],
-    ["TOP 5 CLIENTS EN RETARD", "", "", ""],
   ];
   
   sheet.getRange(3, 1, kpis.length, 4).setValues(kpis);
   
-  sheet.getRange("A4").setBackground("#1e3a5f").setFontColor("#ffffff").setFontWeight("bold");
-  sheet.getRange("A11").setBackground("#1e3a5f").setFontColor("#ffffff").setFontWeight("bold");
+  // Section Top 5 Clients en Retard (lignes 11-17)
+  sheet.getRange("A11").setValue("TOP 5 CLIENTS EN RETARD")
+    .setBackground("#1e3a5f").setFontColor("#ffffff").setFontWeight("bold");
   
+  // Headers du tableau
+  sheet.getRange("A12:D12").setValues([["Client", "Montant dû", "Jours retard max", "Priorité"]]);
+  sheet.getRange("A12:D12").setBackground("#f3f4f6").setFontWeight("bold");
+  
+  // Formule QUERY pour Top 5 clients en retard
+  // Cette formule récupère les 5 plus gros clients en retard
+  const queryFormula = '=IFERROR(QUERY(Factures!A2:M1000;"SELECT C, SUM(F), MAX(K) WHERE H=\'En retard\' GROUP BY C ORDER BY SUM(F) DESC LIMIT 5 LABEL SUM(F) \'\', MAX(K) \'\'";"");"Aucune facture en retard")';
+  sheet.getRange("A13").setFormula(queryFormula);
+  
+  // Formules de priorité pour chaque ligne du top 5
+  for (let i = 13; i <= 17; i++) {
+    const priorityFormula = `=IF(B${i}>20000;"P1 - URGENT";IF(B${i}>5000;"P2 - Cette semaine";"P3 - Sous 15j"))`;
+    sheet.getRange(i, 4).setFormula(priorityFormula);
+  }
+  
+  // Section Health Score (lignes 19-22)
+  sheet.getRange("A19").setValue("SANTÉ FINANCIÈRE")
+    .setBackground("#1e3a5f").setFontColor("#ffffff").setFontWeight("bold");
+  
+  const healthMetrics = [
+    ["Health Score", "=IFERROR(ROUND(100-(B7*5)-(B9*0,5)-IF(B5<0;20;0);0);0)", "/100", ""],
+    ["Runway estimé", "=IF(B8>0;ROUND(B5/B8*30;0);\"∞\")", "jours", ""],
+    ["Risque concentration", "=IFERROR(ROUND(MAX(SUMIF(Factures!C:C;Factures!C:C;Factures!F:F))/SUM(Factures!F:F)*100;1);0)", "%", ""],
+  ];
+  
+  sheet.getRange(20, 1, healthMetrics.length, 4).setValues(healthMetrics);
+  
+  // Styling
+  sheet.getRange("A4").setBackground("#1e3a5f").setFontColor("#ffffff").setFontWeight("bold");
+  
+  // Format colonnes
   sheet.setColumnWidth(1, 200);
   sheet.setColumnWidth(2, 150);
+  sheet.setColumnWidth(3, 100);
+  sheet.setColumnWidth(4, 150);
+  
+  // Format numérique pour TOUS les KPIs (force les cellules à être des nombres)
+  sheet.getRange("B5:B9").setNumberFormat("#,##0");     // Position Cash, Factures attente/retard, DSO
+  sheet.getRange("B8").setNumberFormat("#,##0 €");      // Montant en retard
+  sheet.getRange("B13:B17").setNumberFormat("#,##0 €"); // Top 5 clients montants
+  sheet.getRange("C13:C17").setNumberFormat("0");       // Top 5 jours retard
+  sheet.getRange("B20").setNumberFormat("0");           // Health Score
+  sheet.getRange("B21").setNumberFormat("0");           // Runway
+  sheet.getRange("B22").setNumberFormat("0.0%");        // Concentration
 }
 
 
@@ -476,7 +520,12 @@ function collectSheetData() {
  * Appelle l'API TRESORIS
  */
 function callTresorisAPI(endpoint, data) {
-  const apiKey = PropertiesService.getScriptProperties().getProperty('TRESORIS_API_KEY');
+  // Récupérer l'API Key (d'abord depuis les propriétés, sinon utiliser celle par défaut)
+  let apiKey = PropertiesService.getScriptProperties().getProperty('TRESORIS_API_KEY');
+  
+  if (!apiKey) {
+    apiKey = CONFIG.DEFAULT_API_KEY;
+  }
   
   if (!apiKey) {
     return { success: false, error: "API Key non configurée" };

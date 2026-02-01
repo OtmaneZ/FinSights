@@ -41,8 +41,8 @@ from engine.action_optimizer import ActionPrioritizer, OptimizedAction
 from engine.seasonality import SeasonalityAdjuster
 
 # V3 - Powerhouse (modules avancés)
-from engine.margin_analyzer import MarginAnalyzer, ClientMarginAnalysis
-from engine.cost_drift_analyzer import CostDriftAnalyzer, CostDrift
+from engine.margin_analyzer import MarginAnalyzer, ClientMarginProfile, MarginAnalysisResult
+from engine.cost_drift_analyzer import CostDriftAnalyzer, CostDriftAnalysisResult
 from engine.causal_analyzer import CausalAnalyzer, CausalAnalysisResult
 from engine.variance_analyzer import VarianceAnalyzer, VarianceAnalysisResult
 from engine.stress_tester import StressTester, StressTestResult
@@ -184,17 +184,17 @@ class RiskRequalificationAgent:
         }
         
         # ═══════════════════════════════════════════════════════════════════════
-        # ENGINES V2 - Sophistication avancée
+        # ENGINES V2 - Sophistication avancée (initialisés plus tard avec données)
         # ═══════════════════════════════════════════════════════════════════════
         
-        self.payment_analyzer = ClientPaymentAnalyzer()
-        self.forecaster = SmartForecaster()
-        self.warning_detector = EarlyWarningDetector()
-        self.risk_scorer = ClientRiskScorer()
+        self.payment_analyzer: Optional[ClientPaymentAnalyzer] = None
+        self.forecaster: Optional[SmartForecaster] = None
+        self.warning_detector: Optional[EarlyWarningDetector] = None
+        self.risk_scorer: Optional[ClientRiskScorer] = None
         self.action_prioritizer = ActionPrioritizer(treasury_runway_days=60)
-        self.seasonality_adjuster = SeasonalityAdjuster()
+        self.seasonality_adjuster: Optional[SeasonalityAdjuster] = None
         
-        print("✅ Engines V2 initialisés:")
+        print("✅ Engines V2 configurés (seront initialisés avec les données):")
         print("   - ClientPaymentAnalyzer (patterns clients)")
         print("   - SmartForecaster (prévisions intelligentes)")
         print("   - EarlyWarningDetector (signaux faibles)")

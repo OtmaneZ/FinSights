@@ -1,16 +1,16 @@
 ID Facture,Date Facture,Client,Montant HT,TVA,Montant TTC,Date Échéance,Statut,Date Paiement,Montant Payé,Jours Retard,Catégorie,Notes
-FAC-2026-001,15/01/2026,Acme Corp,12500.00,2500.00,15000.00,15/02/2026,En attente,,0.00,0,Conseil,Projet transformation digitale
-FAC-2026-002,18/01/2026,TechnoPlus,8333.33,1666.67,10000.00,18/02/2026,En attente,,0.00,0,Développement,Application mobile v2
-FAC-2026-003,05/01/2026,Dupont Industries,25000.00,5000.00,30000.00,05/02/2026,En retard,,0.00,26,Audit,Audit financier annuel
-FAC-2026-004,10/01/2026,Martin & Associés,4166.67,833.33,5000.00,10/02/2026,En retard,,0.00,21,Conseil,Mission de conseil stratégique
-FAC-2026-005,20/12/2025,GlobalTech,41666.67,8333.33,50000.00,20/01/2026,En retard,,0.00,42,Développement,Plateforme e-commerce
-FAC-2026-006,12/01/2026,Petit Commerce,2083.33,416.67,2500.00,12/02/2026,Payée,08/02/2026,2500.00,0,Conseil,Formation équipe
-FAC-2026-007,08/01/2026,StartupXYZ,16666.67,3333.33,20000.00,08/02/2026,En retard,,0.00,23,Développement,MVP application
-FAC-2026-008,25/01/2026,Acme Corp,8333.33,1666.67,10000.00,25/02/2026,En attente,,0.00,0,Conseil,Phase 2 transformation
-FAC-2026-009,01/02/2026,Innovation Lab,6250.00,1250.00,7500.00,01/03/2026,En attente,,0.00,0,R&D,Étude de faisabilité
-FAC-2026-010,15/12/2025,Dupont Industries,12500.00,2500.00,15000.00,15/01/2026,En retard,,0.00,47,Audit,Complément audit
-FAC-2026-011,22/01/2026,NouveauClient,4166.67,833.33,5000.00,22/02/2026,En attente,,0.00,0,Conseil,Premier contrat
-FAC-2026-012,05/02/2026,TechnoPlus,20833.33,4166.67,25000.00,05/03/2026,En attente,,0.00,0,Développement,Extension application
-FAC-2026-013,10/11/2025,ClientProblème,33333.33,6666.67,40000.00,10/12/2025,En retard,,0.00,83,Développement,Projet abandonné côté client
-FAC-2026-014,01/01/2026,Martin & Associés,2916.67,583.33,3500.00,01/02/2026,Payée,28/01/2026,3500.00,0,Conseil,Consulting RH
-FAC-2026-015,28/01/2026,Acme Corp,5833.33,1166.67,7000.00,28/02/2026,En attente,,0.00,0,Formation,Formation management
+FAC-2026-001,15/01/2026,Acme Corp,12500,2500,15000,15/02/2026,En attente,,0,0,Conseil,Projet transformation digitale
+FAC-2026-002,18/01/2026,TechnoPlus,8333,1667,10000,18/02/2026,En attente,,0,0,Développement,Application mobile v2
+FAC-2026-003,05/01/2026,Dupont Industries,25000,5000,30000,05/02/2026,En retard,,0,26,Audit,Audit financier annuel
+FAC-2026-004,10/01/2026,Martin & Associés,4167,833,5000,10/02/2026,En retard,,0,21,Conseil,Mission de conseil stratégique
+FAC-2026-005,20/12/2025,GlobalTech,41667,8333,50000,20/01/2026,En retard,,0,42,Développement,Plateforme e-commerce
+FAC-2026-006,12/01/2026,Petit Commerce,2083,417,2500,12/02/2026,Payée,08/02/2026,2500,0,Conseil,Formation équipe
+FAC-2026-007,08/01/2026,StartupXYZ,16667,3333,20000,08/02/2026,En retard,,0,23,Développement,MVP application
+FAC-2026-008,25/01/2026,Acme Corp,8333,1667,10000,25/02/2026,En attente,,0,0,Conseil,Phase 2 transformation
+FAC-2026-009,01/02/2026,Innovation Lab,6250,1250,7500,01/03/2026,En attente,,0,0,R&D,Étude de faisabilité
+FAC-2026-010,15/12/2025,Dupont Industries,12500,2500,15000,15/01/2026,En retard,,0,47,Audit,Complément audit
+FAC-2026-011,22/01/2026,NouveauClient,4167,833,5000,22/02/2026,En attente,,0,0,Conseil,Premier contrat
+FAC-2026-012,05/02/2026,TechnoPlus,20833,4167,25000,05/03/2026,En attente,,0,0,Développement,Extension application
+FAC-2026-013,10/11/2025,ClientProblème,33333,6667,40000,10/12/2025,En retard,,0,83,Développement,Projet abandonné côté client
+FAC-2026-014,01/01/2026,Martin & Associés,2917,583,3500,01/02/2026,Payée,28/01/2026,3500,0,Conseil,Consulting RH
+FAC-2026-015,28/01/2026,Acme Corp,5833,1167,7000,28/02/2026,En attente,,0,0,Formation,Formation management

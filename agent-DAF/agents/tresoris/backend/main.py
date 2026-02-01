@@ -37,11 +37,13 @@ WEBSOCKET
 
 import asyncio
 import json
+import os
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from pathlib import Path
 from contextlib import asynccontextmanager
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -59,8 +61,9 @@ from engine.early_warning import EarlyWarningDetector
 from engine.smart_forecast import SmartForecaster
 
 # V3 - Google Sheets Integration
-from api.gsheet_router import router as gsheet_router
+from api.gsheet_router import router as gsheet_router, storage as gsheet_storage, run_analysis, gsheet_to_dataframe
 from api.apikey_router import router as apikey_router
+from sheets_poller import SheetsPoller
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -164,6 +167,7 @@ class AppState:
         self.agent: Optional[RiskRequalificationAgent] = None
         self.memory: Optional[TresorisMemory] = None
         self.websocket_clients: List[WebSocket] = []
+        self.sheets_poller: Optional[SheetsPoller] = None  # ← Nouveau
 
 
 state = AppState()
@@ -200,6 +204,12 @@ async def broadcast_event(event: Dict):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup et shutdown de l'application"""
+    
+    # ═══════════════════════════════════════════════════════════════════
+    # CHARGER CONFIGURATION .env
+    # ═══════════════════════════════════════════════════════════════════
+    load_dotenv()
+    
     # Startup
     version = get_version_info()
     print(f"🚀 Démarrage TRESORIS - {version['name']}")
@@ -222,10 +232,99 @@ async def lifespan(app: FastAPI):
     print("💡 API prête sur http://localhost:8000")
     print("📡 WebSocket sur ws://localhost:8000/ws")
     
+    # ═══════════════════════════════════════════════════════════════════
+    # GOOGLE SHEETS POLLING AUTOMATIQUE
+    # ═══════════════════════════════════════════════════════════════════
+    
+    async def on_sheet_change(data: Dict):
+        """Callback appelé quand le Google Sheet change"""
+        try:
+            factures_list = data.get('factures', [])
+            print(f"[SHEETS POLLER] 🔄 Changement détecté - {len(factures_list)} factures")
+            
+            # Créer un objet GSheetWebhookPayload pour gsheet_to_dataframe
+            from api.gsheet_router import GSheetWebhookPayload
+            payload = GSheetWebhookPayload(
+                timestamp=data.get("timestamp", datetime.now().isoformat()),
+                spreadsheet_id=data.get("spreadsheet_id", SPREADSHEET_ID),
+                spreadsheet_name=data.get("spreadsheet_name", ""),
+                factures=factures_list,
+                encaissements=data.get("encaissements", []),
+                parametres=data.get("parametres", {})
+            )
+            
+            # Convertir en DataFrame
+            df = gsheet_to_dataframe(payload)
+            
+            if df.empty:
+                print("[SHEETS POLLER] ⚠️ Aucune donnée, skip analyse")
+                return
+            
+            # Lancer l'analyse
+            analysis_result = await run_analysis(df, payload.parametres)
+            
+            # Créer dashboard
+            from api.gsheet_router import create_dashboard_data, create_alerts_from_analysis
+            dashboard = create_dashboard_data(df, analysis_result)
+            alerts = create_alerts_from_analysis(analysis_result)
+            
+            # Stocker
+            gsheet_storage.store_analysis(
+                payload.spreadsheet_id,
+                analysis_result,
+                alerts,
+                dashboard
+            )
+            
+            print(f"[SHEETS POLLER] ✅ Analyse stockée - {len(alerts)} alertes")
+            
+            # Broadcast via WebSocket
+            await broadcast_event({
+                "type": "analysis_complete",
+                "spreadsheet_id": payload.spreadsheet_id,
+                "timestamp": datetime.now().isoformat(),
+                "factures_count": len(factures_list),
+                "alerts_count": len(alerts)
+            })
+            
+        except Exception as e:
+            print(f"[SHEETS POLLER] ❌ Erreur analyse: {e}")
+    
+    # Configuration depuis .env
+    SPREADSHEET_ID = os.getenv("SPREADSHEET_ID", "1b0ZrJRUMpjdEyNXqVRpUV8VWKepakd8hJhfGM9smtJs")
+    POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", "30"))
+    AUTO_POLLING_ENABLED = os.getenv("AUTO_POLLING_ENABLED", "true").lower() == "true"
+    
+    print(f"📊 Configuration:")
+    print(f"   • Sheet ID: {SPREADSHEET_ID[:20]}...")
+    print(f"   • Polling: {POLL_INTERVAL}s")
+    print(f"   • Auto-polling: {'✅' if AUTO_POLLING_ENABLED else '❌'}")
+    
+    CREDENTIALS_PATH = Path(__file__).parent / "client_secret_39527606151-kji3n4t7ksquqb5pvie9ebr5t1hi1q5m.apps.googleusercontent.com.json"
+    
+    if AUTO_POLLING_ENABLED and CREDENTIALS_PATH.exists():
+        try:
+            state.sheets_poller = SheetsPoller(
+                spreadsheet_id=SPREADSHEET_ID,
+                credentials_path=str(CREDENTIALS_PATH),
+                on_change_callback=on_sheet_change,
+                poll_interval=POLL_INTERVAL
+            )
+            
+            # Lancer le polling en tâche de fond
+            asyncio.create_task(state.sheets_poller.start())
+            print(f"📊 Google Sheets Polling activé (30s)")
+        except Exception as e:
+            print(f"⚠️ Google Sheets Polling désactivé: {e}")
+    else:
+        print(f"⚠️ Credentials non trouvés: {CREDENTIALS_PATH}")
+    
     yield
     
     # Shutdown
     print("👋 Arrêt TRESORIS")
+    if state.sheets_poller:
+        state.sheets_poller.stop()
     if state.agent and state.agent.running:
         await state.agent.stop()
 
@@ -283,6 +382,147 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         state.websocket_clients.remove(websocket)
         print(f"🔌 Client WebSocket déconnecté (reste: {len(state.websocket_clients)})")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ROUTES - CHAT ENDPOINT
+# ═══════════════════════════════════════════════════════════════════════════════
+
+@app.post("/api/v1/chat")
+async def chat_with_agent(request: Dict[str, Any]):
+    """
+    Chat avec l'agent TRESORIS pour obtenir des réponses contextuelles.
+    """
+    try:
+        question = request.get("question", "")
+        spreadsheet_id = request.get("spreadsheet_id", "demo")
+        
+        print(f"[CHAT] Question: {question[:50]}... | Sheet: {spreadsheet_id}")
+        
+        if not question:
+            return {
+                "success": False,
+                "error": "Question vide"
+            }
+        
+        # Récupérer la dernière analyse
+        latest_analysis = gsheet_storage.get_latest_analysis(spreadsheet_id)
+        
+        # Debug: afficher les clés disponibles dans le storage
+        print(f"[CHAT] Storage keys: {list(gsheet_storage._analyses.keys()) if hasattr(gsheet_storage, '_analyses') else 'unknown'}")
+        print(f"[CHAT] Analysis found: {latest_analysis is not None}")
+        
+        if not latest_analysis:
+            # Fallback: essayer de récupérer les données du dernier fetch
+            # Construire un contexte minimal à partir de rien
+            return {
+                "success": True,
+                "response": "Je n'ai pas encore analysé vos données. Assurez-vous que le Google Sheet contient des factures et attendez quelques secondes pour que je les analyse. 🔄"
+            }
+        
+        # Contexte pour l'agent
+        context = {
+            "kpis": latest_analysis.get("dashboard", {}).get("kpis", {}),
+            "health_score": latest_analysis.get("analysis", {}).get("health_score", 0),
+            "concentration": latest_analysis.get("analysis", {}).get("concentration_risk", {}),
+            "alerts_count": len(latest_analysis.get("alerts", []))
+        }
+        
+        # Générer une réponse intelligente avec Gemini 2.5 Flash
+        response = await generate_chat_response(question, context)
+        
+        return {
+            "success": True,
+            "response": response,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        print(f"❌ Erreur chat: {e}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+async def generate_chat_response(question: str, context: Dict) -> str:
+    """
+    Génère une réponse intelligente via Gemini 2.5 Flash.
+    Utilise le contexte financier réel pour des réponses précises.
+    """
+    try:
+        # Préparer le contexte financier
+        kpis = context.get("kpis", {})
+        health_score = context.get("health_score", 0)
+        concentration = context.get("concentration", {})
+        alerts_count = context.get("alerts_count", 0)
+        
+        # Construire le prompt système
+        system_prompt = f"""Tu es TRESORIS, un agent IA expert en trésorerie d'entreprise.
+
+CONTEXTE FINANCIER ACTUEL:
+- Cash à recevoir: {kpis.get('montant_total', 0):,.0f}€
+- Factures en retard: {kpis.get('factures_en_retard', 0)} ({kpis.get('montant_en_retard', 0):,.0f}€)
+- DSO moyen: {kpis.get('dso_jours', 0):.0f} jours
+- Runway: {kpis.get('runway_jours', 0)} jours
+- Score de santé: {health_score:.0f}/100
+- Client principal: {concentration.get('top_client', 'N/A')} ({concentration.get('top_client_pct', 0):.0f}% du CA)
+- Alertes actives: {alerts_count}
+
+INSTRUCTIONS:
+- Réponds en français, de manière concise (2-3 phrases max)
+- Sois direct et actionnable
+- Utilise les chiffres exacts du contexte
+- Si demande conseil, donne 1-2 actions concrètes
+- Ton style: professionnel mais accessible (comme un CFO bienveillant)
+"""
+
+        # Appel à OpenRouter avec Gemini 2.5 Flash
+        import httpx
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            response = await client.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://tresoris.app",
+                    "X-Title": "TRESORIS Agent"
+                },
+                json={
+                    "model": os.getenv("LLM_MODEL", "google/gemini-2.5-flash"),
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": question}
+                    ],
+                    "max_tokens": 300,
+                    "temperature": 0.7
+                }
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                return data["choices"][0]["message"]["content"]
+            else:
+                print(f"❌ Erreur OpenRouter: {response.status_code}")
+                return fallback_response(question, context)
+                
+    except Exception as e:
+        print(f"❌ Erreur LLM: {e}")
+        return fallback_response(question, context)
+
+
+def fallback_response(question: str, context: Dict) -> str:
+    """Réponses de secours si le LLM échoue"""
+    question_lower = question.lower()
+    kpis = context.get("kpis", {})
+    
+    if "cash" in question_lower or "trésorerie" in question_lower:
+        return f"Vous avez {kpis.get('montant_total', 0):,.0f}€ à recevoir. Santé financière: {context.get('health_score', 0):.0f}/100."
+    elif "retard" in question_lower:
+        count = kpis.get("factures_en_retard", 0)
+        return "Aucune facture en retard. Excellent!" if count == 0 else f"{count} facture(s) en retard pour {kpis.get('montant_en_retard', 0):,.0f}€."
+    else:
+        return f"Je surveille {kpis.get('total_factures', 0)} factures. Score: {context.get('health_score', 0):.0f}/100. Posez-moi une question précise!"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
