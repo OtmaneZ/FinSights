@@ -58,20 +58,33 @@ export default function Home() {
                                 </span>
                             </div>
 
-                            {/* H1 - Messaging clair */}
+                            {/* H1 - Optimisé SEO : douleur + solution + mot-clé */}
                             <h1 className="text-4xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
-                                Pilotez votre cash,<br />
-                                vos marges et votre<br />
-                                <span className="text-accent-primary">
-                                    trésorerie
-                                </span>
+                                Problème de trésorerie PME ?<br />
+                                <span className="text-accent-primary">Calculateurs DSO & BFR gratuits</span><br />
+                                + Pilotage par DAF externalisé
                             </h1>
 
                             {/* Subheadline */}
                             <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
-                                J'aide les dirigeants de PME et ETI à avoir une vision claire et anticipée de leur finance.
-                                <span className="text-white font-semibold"> Avec la data et l'IA.</span>
+                                <strong className="text-white">Calculez votre DSO et BFR en 30 secondes</strong> (gratuit).
+                                Besoin d'aide ? J'accompagne les dirigeants PME (1-100M€) en finance stratégique et pilotage trésorerie.
                             </p>
+
+                            {/* Social Proof compact */}
+                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="flex -space-x-2">
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 border-2 border-white/20 flex items-center justify-center text-white text-xs font-bold">JD</div>
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-green-600 border-2 border-white/20 flex items-center justify-center text-white text-xs font-bold">MC</div>
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 border-2 border-white/20 flex items-center justify-center text-white text-xs font-bold">SB</div>
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-white text-sm font-semibold">50+ dirigeants accompagnés</p>
+                                        <p className="text-gray-400 text-xs">PME, Scale-ups, ETI (Services, SaaS, Industrie)</p>
+                                    </div>
+                                </div>
+                            </div>
 
                             {/* Value Props - Quick */}
                             <div className="flex flex-wrap gap-4 text-sm text-gray-400">
@@ -87,21 +100,19 @@ export default function Home() {
 
                             {/* CTAs - Clear Hierarchy */}
                             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                <a
-                                    href="https://calendly.com/zineinsight"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                <Link
+                                    href="/calculateurs/dso"
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
                                 >
-                                    <Calendar className="w-5 h-5" />
-                                    Réserver un diagnostic
-                                </a>
+                                    <Target className="w-5 h-5" />
+                                    Calculer mon DSO gratuitement
+                                </Link>
 
                                 <Link
                                     href="/consulting"
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-white text-lg font-semibold rounded-xl border border-white/20 transition-all duration-200"
                                 >
-                                    Voir les offres
+                                    Conseil DAF externalisé
                                     <ArrowRight className="w-5 h-5" />
                                 </Link>
                             </div>
@@ -113,9 +124,7 @@ export default function Home() {
                                     <span>Réponse sous 24h</span>
                                 </div>
                                 <span className="text-gray-600">•</span>
-                                <span>30 min gratuit</span>
-                                <span className="text-gray-600">•</span>
-                                <span>Accompagnement personnalisé</span>
+                                <span>Diagnostic gratuit 30 min</span>
                             </div>
                         </div>
 
@@ -166,6 +175,138 @@ export default function Home() {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Section Outils Gratuits - NOUVEAU (Lead Magnet SEO) */}
+            <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="text-center mb-12">
+                        <span className="inline-block px-4 py-2 bg-accent-primary/10 text-accent-primary font-semibold text-sm rounded-full mb-4">
+                            🎁 Gratuit et sans inscription
+                        </span>
+                        <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+                            Calculateurs Financiers <span className="text-accent-primary">100% Gratuits</span>
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Obtenez une analyse instantanée de votre santé financière. 
+                            Résultats en 30 secondes avec benchmarks sectoriels.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        {/* Calculateur DSO */}
+                        <Link
+                            href="/calculateurs/dso"
+                            className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-accent-primary"
+                        >
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                                    <TrendingUp className="w-7 h-7 text-white" />
+                                </div>
+                                <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
+                                    POPULAIRE
+                                </span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-accent-primary transition-colors">
+                                Calculateur DSO
+                            </h3>
+                            <p className="text-gray-600 mb-4 leading-relaxed">
+                                Calculez votre <strong>délai moyen de paiement clients</strong> (Days Sales Outstanding). 
+                                Identifiez combien de jours vos créances bloquent votre trésorerie.
+                            </p>
+                            <div className="space-y-2 mb-6">
+                                <div className="flex items-center gap-2 text-sm text-gray-700">
+                                    <div className="w-1.5 h-1.5 bg-accent-primary rounded-full"></div>
+                                    <span>Formule : (Créances / CA) × 365</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-700">
+                                    <div className="w-1.5 h-1.5 bg-accent-primary rounded-full"></div>
+                                    <span>Benchmark : Services, Commerce, Industrie, SaaS</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-700">
+                                    <div className="w-1.5 h-1.5 bg-accent-primary rounded-full"></div>
+                                    <span>Interprétation automatique + conseils</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-accent-primary font-bold text-lg">Calculer mon DSO →</span>
+                                <div className="w-10 h-10 bg-accent-primary/10 rounded-full flex items-center justify-center group-hover:bg-accent-primary transition-colors">
+                                    <ArrowRight className="w-5 h-5 text-accent-primary group-hover:text-white transition-colors" />
+                                </div>
+                            </div>
+                        </Link>
+
+                        {/* Calculateur BFR */}
+                        <Link
+                            href="/calculateurs/bfr"
+                            className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-accent-primary"
+                        >
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                    <DollarSign className="w-7 h-7 text-white" />
+                                </div>
+                                <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">
+                                    ESSENTIEL
+                                </span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-accent-primary transition-colors">
+                                Calculateur BFR
+                            </h3>
+                            <p className="text-gray-600 mb-4 leading-relaxed">
+                                Calculez votre <strong>Besoin en Fonds de Roulement</strong>. 
+                                Découvrez combien d'argent est immobilisé dans votre cycle d'exploitation.
+                            </p>
+                            <div className="space-y-2 mb-6">
+                                <div className="flex items-center gap-2 text-sm text-gray-700">
+                                    <div className="w-1.5 h-1.5 bg-accent-primary rounded-full"></div>
+                                    <span>Formule : Stocks + Créances - Dettes fournisseurs</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-700">
+                                    <div className="w-1.5 h-1.5 bg-accent-primary rounded-full"></div>
+                                    <span>BFR négatif = bon signe ?</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-sm text-gray-700">
+                                    <div className="w-1.5 h-1.5 bg-accent-primary rounded-full"></div>
+                                    <span>Leviers d'optimisation personnalisés</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-accent-primary font-bold text-lg">Calculer mon BFR →</span>
+                                <div className="w-10 h-10 bg-accent-primary/10 rounded-full flex items-center justify-center group-hover:bg-accent-primary transition-colors">
+                                    <ArrowRight className="w-5 h-5 text-accent-primary group-hover:text-white transition-colors" />
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+
+                    {/* CTA Consulting en dessous */}
+                    <div className="mt-12 text-center">
+                        <div className="inline-block bg-white rounded-2xl p-8 shadow-lg max-w-3xl">
+                            <p className="text-gray-700 text-lg mb-4">
+                                <strong>Besoin d'un accompagnement personnalisé ?</strong><br />
+                                <span className="text-gray-600">En tant que DAF externalisé, je vous aide à structurer votre pilotage financier</span>
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <Link
+                                    href="/consulting"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                                >
+                                    Voir mes offres DAF externalisé
+                                    <ArrowRight className="w-5 h-5" />
+                                </Link>
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-gray-200 hover:border-accent-primary text-gray-900 font-semibold rounded-xl transition-all duration-200"
+                                >
+                                    <Calendar className="w-5 h-5" />
+                                    Diagnostic gratuit 30 min
+                                </a>
                             </div>
                         </div>
                     </div>

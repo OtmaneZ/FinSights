@@ -98,6 +98,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  return [...staticPages, ...blogPages, ...calculators]
+  // Landing pages SEO
+  const landingPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/consulting`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/daf-externalise-pme`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.95,
+    },
+  ]
+
+  // Tools & Resources
+  const tools: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/ressources/templates`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/templates/previsionnel-tresorerie-90j`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.90,
+    },
+  ]
+
+  return [...staticPages, ...blogPages, ...calculators, ...landingPages, ...tools]
 }
 

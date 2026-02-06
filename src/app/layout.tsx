@@ -14,34 +14,34 @@ import AnalyticsDebugger from '@/components/AnalyticsDebugger'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-    title: 'FinSight - Moteur d\'Intelligence Financière pour Dirigeants | Score FinSight™ 0-100',
-    description: 'Moteur d\'intelligence financière pour CFO/DAF. Analyse stratégique, prévisions & stress tests, moteur de risque IA, CFO virtuel. Score FinSight™ 0-100 instantané. Essai gratuit.',
-    keywords: ['intelligence financière', 'CFO virtuel', 'Score FinSight', 'analyse stratégique', 'prévisions cash-flow', 'stress tests', 'risque financier', 'signaux faibles trésorerie', 'structure de marge', 'résilience financière', 'DSO', 'BFR', 'runway'],
-    authors: [{ name: 'FinSight' }],
+    title: 'Calculateurs DSO & BFR Gratuits en 30s | FinSight - Outils Finance PME',
+    description: 'Problème de trésorerie ? Calculez votre DSO et BFR gratuitement en 30 secondes. Benchmarks sectoriels inclus. + Conseil DAF externalisé pour PME 1-100M€.',
+    keywords: ['calculateur dso gratuit', 'calculer dso en ligne', 'calculateur bfr gratuit', 'dso formule calcul', 'dso days sales outstanding', 'bfr besoin fonds roulement', 'daf externalisé pme', 'pilotage trésorerie pme', 'délai paiement clients', 'problème trésorerie pme'],
+    authors: [{ name: 'Otmane Boulahia', url: 'https://finsight.zineinsight.com/consulting' }],
     creator: 'FinSight',
     publisher: 'FinSight',
     manifest: '/manifest.json',
     verification: {
-        google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || '', // Add GSC verification code here
+        google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || '',
     },
     openGraph: {
         type: 'website',
         locale: 'fr_FR',
         url: 'https://finsight.zineinsight.com',
         siteName: 'FinSight',
-        title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
-        description: 'Analyse stratégique, prévisions & scénarios, moteur de risque IA. Comprenez votre santé financière. Anticipez les risques. Décidez en confiance.',
+        title: 'Calculateurs DSO & BFR Gratuits (30s) | Outils Finance PME',
+        description: 'Problème de trésorerie ? Calculez votre DSO et BFR en 30 secondes. Benchmarks sectoriels + Conseil DAF externalisé.',
         images: [{
             url: 'https://finsight.zineinsight.com/images/og-default.png',
             width: 1200,
             height: 630,
-            alt: 'FinSight - Moteur d\'Intelligence Financière'
+            alt: 'FinSight - Calculateurs DSO & BFR Gratuits pour PME'
         }]
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'FinSight - Moteur d\'Intelligence Financière | Score FinSight™',
-        description: 'Analyse stratégique + Prévisions + Risque IA + CFO Virtuel. Score santé financière 0-100.',
+        title: 'Calculateurs DSO & BFR Gratuits | FinSight',
+        description: 'Problème de trésorerie ? Calculez DSO et BFR en 30s. Benchmarks inclus + Conseil DAF.',
         images: ['https://finsight.zineinsight.com/images/og-default.png']
     },
     icons: {

@@ -23,10 +23,105 @@ import {
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import StructuredData from '@/components/StructuredData'
 
 export default function ConsultingPage() {
+    // Schema.org structured data for rich snippets
+    const professionalServiceSchema = {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "FinSight - Conseil Finance & Data",
+        "description": "Services de conseil financier et direction financière externalisée (DAF) pour PME. Audit financier, tableaux de bord, pilotage trésorerie.",
+        "url": "https://finsight.zineinsight.com/consulting",
+        "provider": {
+            "@type": "Person",
+            "name": "Otmane Boulahia",
+            "jobTitle": "Consultant Finance & Data / DAF Externalisé",
+            "url": "https://finsight.zineinsight.com/consulting",
+            "sameAs": [
+                "https://www.linkedin.com/in/otmaneboulahia"
+            ]
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "France"
+        },
+        "serviceType": [
+            "Audit financier",
+            "DAF externalisé",
+            "Pilotage de trésorerie",
+            "Tableaux de bord financiers",
+            "Conseil stratégique PME"
+        ],
+        "offers": [
+            {
+                "@type": "Offer",
+                "name": "Diagnostic Stratégique",
+                "description": "Audit financier flash avec feuille de route prioritaire",
+                "price": "1490",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+            },
+            {
+                "@type": "Offer",
+                "name": "Audit Complet",
+                "description": "Analyse approfondie trésorerie, marges et rentabilité avec plan d'optimisation",
+                "price": "4990",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+            },
+            {
+                "@type": "Offer",
+                "name": "Système de Décision",
+                "description": "Direction financière externalisée avec tableaux de bord automatisés",
+                "price": "9990",
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+            }
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "reviewCount": "12",
+            "bestRating": "5"
+        }
+    }
+
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Qu'est-ce que le conseil DAF externalisé ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Le conseil DAF externalisé permet aux PME de bénéficier d'une expertise de directeur financier à temps partagé, sans le coût d'un recrutement permanent. Je travaille 2 à 4 jours par mois sur votre pilotage financier."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Combien coûte un audit financier ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Le diagnostic stratégique démarre à 1490€ pour un audit flash de 2-3 semaines. L'audit complet est à 4990€ et inclut une analyse approfondie de vos marges, trésorerie et un plan d'optimisation chiffré."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Pour quels types d'entreprises ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "J'accompagne principalement les PME de 1 à 100 millions d'euros de chiffre d'affaires, dans les secteurs Services B2B, SaaS, Commerce et Industrie."
+                }
+            }
+        ]
+    }
+
     return (
         <div className="min-h-screen bg-background-primary text-text-primary font-sans">
+            <StructuredData data={professionalServiceSchema} />
+            <StructuredData data={faqSchema} />
             <Header />
 
             {/* ============================================
@@ -742,6 +837,229 @@ export default function ConsultingPage() {
                             ))}
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* ============================================
+                SECTION FAQ
+               ============================================ */}
+            <section className="py-20 bg-white">
+                <div className="max-w-4xl mx-auto px-6 lg:px-12">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-12"
+                    >
+                        <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary/10 border border-accent-primary/30 rounded-full mb-4">
+                            Questions fréquentes
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+                            Vous vous posez des questions ?
+                        </h2>
+                        <p className="text-lg text-slate-600">
+                            Voici les réponses aux questions les plus courantes sur le conseil DAF externalisé
+                        </p>
+                    </motion.div>
+
+                    <div className="space-y-4">
+                        {faqSchema.mainEntity.map((faq, i) => (
+                            <motion.details
+                                key={i}
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.3, delay: i * 0.05 }}
+                                className="group bg-slate-50 rounded-xl border border-slate-200 hover:border-accent-primary transition-all"
+                            >
+                                <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                                    <h3 className="font-semibold text-slate-900 pr-4 text-lg">
+                                        {faq.name}
+                                    </h3>
+                                    <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform flex-shrink-0" />
+                                </summary>
+                                <div className="px-6 pb-6">
+                                    <p className="text-slate-600 leading-relaxed">
+                                        {faq.acceptedAnswer.text}
+                                    </p>
+                                </div>
+                            </motion.details>
+                        ))}
+
+                        {/* Questions supplémentaires */}
+                        <motion.details
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: 0.15 }}
+                            className="group bg-slate-50 rounded-xl border border-slate-200 hover:border-accent-primary transition-all"
+                        >
+                            <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                                <h3 className="font-semibold text-slate-900 pr-4 text-lg">
+                                    Quelle est la différence avec un expert-comptable ?
+                                </h3>
+                                <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform flex-shrink-0" />
+                            </summary>
+                            <div className="px-6 pb-6">
+                                <p className="text-slate-600 leading-relaxed">
+                                    L&apos;expert-comptable s&apos;occupe de la <strong>comptabilité légale</strong> et des déclarations fiscales. 
+                                    Le DAF externalisé va plus loin : pilotage stratégique, optimisation trésorerie, tableaux de bord, 
+                                    analyse marges par produit/client, et accompagnement décisions (investissements, recrutements, levées de fonds).
+                                </p>
+                            </div>
+                        </motion.details>
+
+                        <motion.details
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: 0.2 }}
+                            className="group bg-slate-50 rounded-xl border border-slate-200 hover:border-accent-primary transition-all"
+                        >
+                            <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                                <h3 className="font-semibold text-slate-900 pr-4 text-lg">
+                                    Travaillez-vous à distance ou sur site ?
+                                </h3>
+                                <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform flex-shrink-0" />
+                            </summary>
+                            <div className="px-6 pb-6">
+                                <p className="text-slate-600 leading-relaxed">
+                                    <strong>Mode hybride</strong> : 1-2 jours sur site par mois pour réunions stratégiques et points direction, 
+                                    le reste à distance (analyse données, construction tableaux de bord, suivi trésorerie). 
+                                    Cette flexibilité réduit les coûts et augmente la réactivité.
+                                </p>
+                            </div>
+                        </motion.details>
+
+                        <motion.details
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: 0.25 }}
+                            className="group bg-slate-50 rounded-xl border border-slate-200 hover:border-accent-primary transition-all"
+                        >
+                            <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                                <h3 className="font-semibold text-slate-900 pr-4 text-lg">
+                                    Y a-t-il un engagement minimum ?
+                                </h3>
+                                <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform flex-shrink-0" />
+                            </summary>
+                            <div className="px-6 pb-6">
+                                <p className="text-slate-600 leading-relaxed">
+                                    Le <strong>diagnostic</strong> et l&apos;<strong>audit</strong> sont des missions ponctuelles sans engagement. 
+                                    Pour l&apos;accompagnement DAF externalisé récurrent, je recommande un minimum de <strong>3 mois</strong> pour voir des résultats concrets, 
+                                    mais vous restez libre d&apos;arrêter quand vous voulez.
+                                </p>
+                            </div>
+                        </motion.details>
+
+                        <motion.details
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: 0.3 }}
+                            className="group bg-slate-50 rounded-xl border border-slate-200 hover:border-accent-primary transition-all"
+                        >
+                            <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                                <h3 className="font-semibold text-slate-900 pr-4 text-lg">
+                                    Combien de jours par mois pour un DAF externalisé ?
+                                </h3>
+                                <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform flex-shrink-0" />
+                            </summary>
+                            <div className="px-6 pb-6">
+                                <p className="text-slate-600 leading-relaxed mb-3">
+                                    Selon la taille de votre entreprise et vos besoins :
+                                </p>
+                                <ul className="list-disc pl-6 space-y-2 text-slate-600">
+                                    <li><strong>PME 1-5M€</strong> : 1-2 jours/mois (focus sur trésorerie et reporting)</li>
+                                    <li><strong>PME 5-20M€</strong> : 2-3 jours/mois (+ analyse marges, optimisations)</li>
+                                    <li><strong>PME 20-100M€</strong> : 3-4 jours/mois (+ projets structurants, levées de fonds)</li>
+                                </ul>
+                            </div>
+                        </motion.details>
+
+                        <motion.details
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: 0.35 }}
+                            className="group bg-slate-50 rounded-xl border border-slate-200 hover:border-accent-primary transition-all"
+                        >
+                            <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                                <h3 className="font-semibold text-slate-900 pr-4 text-lg">
+                                    Quels résultats concrets puis-je attendre ?
+                                </h3>
+                                <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform flex-shrink-0" />
+                            </summary>
+                            <div className="px-6 pb-6">
+                                <p className="text-slate-600 leading-relaxed mb-3">
+                                    Résultats typiques après <strong>90 jours</strong> :
+                                </p>
+                                <ul className="list-disc pl-6 space-y-2 text-slate-600">
+                                    <li>Visibilité trésorerie <strong>90 jours</strong> (vs 30 jours avant)</li>
+                                    <li>DSO réduit de <strong>15-30%</strong></li>
+                                    <li>Marges optimisées de <strong>2-5 points</strong></li>
+                                    <li>Temps dirigeant sur la finance <strong>divisé par 3</strong></li>
+                                    <li>Décisions basées sur des <strong>données fiables</strong> plutôt que l&apos;intuition</li>
+                                </ul>
+                            </div>
+                        </motion.details>
+
+                        <motion.details
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: 0.4 }}
+                            className="group bg-slate-50 rounded-xl border border-slate-200 hover:border-accent-primary transition-all"
+                        >
+                            <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                                <h3 className="font-semibold text-slate-900 pr-4 text-lg">
+                                    Quels secteurs d&apos;activité accompagnez-vous ?
+                                </h3>
+                                <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform flex-shrink-0" />
+                            </summary>
+                            <div className="px-6 pb-6">
+                                <p className="text-slate-600 leading-relaxed mb-3">
+                                    J&apos;accompagne principalement :
+                                </p>
+                                <ul className="list-disc pl-6 space-y-2 text-slate-600">
+                                    <li><strong>Services B2B</strong> : ESN, conseil, agences (marketing, comm, dev)</li>
+                                    <li><strong>SaaS et Tech</strong> : Éditeurs logiciels, plateformes, API</li>
+                                    <li><strong>Commerce et Distribution</strong> : E-commerce, retail, grossistes</li>
+                                    <li><strong>Industrie / BTP</strong> : Fabrication, sous-traitance, construction</li>
+                                </ul>
+                                <p className="text-slate-600 mt-3">
+                                    Mon expertise <strong>data</strong> me permet de m&apos;adapter rapidement aux spécificités sectorielles.
+                                </p>
+                            </div>
+                        </motion.details>
+                    </div>
+
+                    {/* CTA après FAQ */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.5 }}
+                        className="mt-12 text-center bg-slate-50 rounded-2xl p-8 border border-slate-200"
+                    >
+                        <p className="text-slate-900 font-semibold mb-3">
+                            D&apos;autres questions ?
+                        </p>
+                        <p className="text-slate-600 mb-6">
+                            Réservez un appel de 30 minutes pour en discuter. C&apos;est gratuit et sans engagement.
+                        </p>
+                        <a
+                            href="https://calendly.com/zineinsight"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
+                        >
+                            <Calendar className="w-5 h-5" />
+                            Réserver un appel gratuit
+                        </a>
+                    </motion.div>
                 </div>
             </section>
 

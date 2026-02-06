@@ -4,6 +4,11 @@ import WelcomeEmail from './templates/WelcomeEmail'
 import UpgradeSuccessEmail from './templates/UpgradeSuccessEmail'
 import PaymentFailedEmail from './templates/PaymentFailedEmail'
 import UsageAlertEmail from './templates/UsageAlertEmail'
+import TemplateWelcomeEmail from './templates/TemplateWelcomeEmail'
+import TutorialEmail from './templates/TutorialEmail'
+import CaseStudyEmail from './templates/CaseStudyEmail'
+import AlertSignalsEmail from './templates/AlertSignalsEmail'
+import DAFOfferEmail from './templates/DAFOfferEmail'
 import { logger } from '@/lib/logger';
 
 /**
@@ -184,4 +189,215 @@ export async function sendUsageAlertEmail(params: {
 // ============================================================================
 export function isEmailEnabled(): boolean {
     return !!process.env.RESEND_API_KEY
+}
+
+// ============================================================================
+// NURTURING SEQUENCE: TEMPLATE DOWNLOAD
+// ============================================================================
+
+/**
+ * J+0: Email de bienvenue après téléchargement template
+ */
+export async function sendTemplateWelcomeEmail(params: {
+    to: string
+    userName: string
+    userEmail: string
+    templateName: string
+    downloadUrl: string
+}) {
+    try {
+        const emailHtml = await render(
+            TemplateWelcomeEmail({
+                userName: params.userName,
+                userEmail: params.userEmail,
+                templateName: params.templateName,
+                downloadUrl: params.downloadUrl,
+            })
+        )
+
+        const { data, error } = await resend.emails.send({
+            from: FROM_EMAIL,
+            to: params.to,
+            replyTo: REPLY_TO_EMAIL,
+            subject: `🎉 Votre template ${params.templateName} est prêt + 3 bonus exclusifs`,
+            html: emailHtml,
+            tags: [
+                { name: 'email_type', value: 'nurturing_j0' },
+                { name: 'template', value: params.templateName },
+            ],
+        })
+
+        if (error) {
+            logger.error('[Email] Template welcome email failed:', error)
+            return { success: false, error }
+        }
+
+        logger.debug('[Email] Template welcome email sent:', data?.id)
+        return { success: true, id: data?.id }
+    } catch (error) {
+        logger.error('[Email] Template welcome email exception:', error)
+        return { success: false, error }
+    }
+}
+
+/**
+ * J+2: Email tutoriel d'utilisation
+ */
+export async function sendTutorialEmail(params: {
+    to: string
+    userName: string
+    templateName: string
+    videoUrl?: string
+}) {
+    try {
+        const emailHtml = await render(
+            TutorialEmail({
+                userName: params.userName,
+                templateName: params.templateName,
+                videoUrl: params.videoUrl,
+            })
+        )
+
+        const { data, error } = await resend.emails.send({
+            from: FROM_EMAIL,
+            to: params.to,
+            replyTo: REPLY_TO_EMAIL,
+            subject: `🎬 Tutoriel : Maîtrisez votre ${params.templateName} (3 min)`,
+            html: emailHtml,
+            tags: [
+                { name: 'email_type', value: 'nurturing_j2' },
+                { name: 'template', value: params.templateName },
+            ],
+        })
+
+        if (error) {
+            logger.error('[Email] Tutorial email failed:', error)
+            return { success: false, error }
+        }
+
+        logger.debug('[Email] Tutorial email sent:', data?.id)
+        return { success: true, id: data?.id }
+    } catch (error) {
+        logger.error('[Email] Tutorial email exception:', error)
+        return { success: false, error }
+    }
+}
+
+/**
+ * J+5: Email cas client / success story
+ */
+export async function sendCaseStudyEmail(params: {
+    to: string
+    userName: string
+    caseStudyUrl?: string
+}) {
+    try {
+        const emailHtml = await render(
+            CaseStudyEmail({
+                userName: params.userName,
+                caseStudyUrl: params.caseStudyUrl,
+            })
+        )
+
+        const { data, error } = await resend.emails.send({
+            from: FROM_EMAIL,
+            to: params.to,
+            replyTo: REPLY_TO_EMAIL,
+            subject: '💼 Cas client : PME Services 8M€ - De 30j de visibilité à 120j en 60 jours',
+            html: emailHtml,
+            tags: [
+                { name: 'email_type', value: 'nurturing_j5' },
+                { name: 'content_type', value: 'case_study' },
+            ],
+        })
+
+        if (error) {
+            logger.error('[Email] Case study email failed:', error)
+            return { success: false, error }
+        }
+
+        logger.debug('[Email] Case study email sent:', data?.id)
+        return { success: true, id: data?.id }
+    } catch (error) {
+        logger.error('[Email] Case study email exception:', error)
+        return { success: false, error }
+    }
+}
+
+/**
+ * J+10: Email signaux d'alerte trésorerie
+ */
+export async function sendAlertSignalsEmail(params: {
+    to: string
+    userName: string
+}) {
+    try {
+        const emailHtml = await render(
+            AlertSignalsEmail({
+                userName: params.userName,
+            })
+        )
+
+        const { data, error } = await resend.emails.send({
+            from: FROM_EMAIL,
+            to: params.to,
+            replyTo: REPLY_TO_EMAIL,
+            subject: '🚨 3 signaux d\'alerte trésorerie que vous devez surveiller maintenant',
+            html: emailHtml,
+            tags: [
+                { name: 'email_type', value: 'nurturing_j10' },
+                { name: 'content_type', value: 'alert_signals' },
+            ],
+        })
+
+        if (error) {
+            logger.error('[Email] Alert signals email failed:', error)
+            return { success: false, error }
+        }
+
+        logger.debug('[Email] Alert signals email sent:', data?.id)
+        return { success: true, id: data?.id }
+    } catch (error) {
+        logger.error('[Email] Alert signals email exception:', error)
+        return { success: false, error }
+    }
+}
+
+/**
+ * J+20: Email offre DAF externalisé (conversion)
+ */
+export async function sendDAFOfferEmail(params: {
+    to: string
+    userName: string
+}) {
+    try {
+        const emailHtml = await render(
+            DAFOfferEmail({
+                userName: params.userName,
+            })
+        )
+
+        const { data, error } = await resend.emails.send({
+            from: FROM_EMAIL,
+            to: params.to,
+            replyTo: REPLY_TO_EMAIL,
+            subject: '💼 DAF Externalisé : Les 3 formules adaptées aux PME/ETI (tarifs transparents)',
+            html: emailHtml,
+            tags: [
+                { name: 'email_type', value: 'nurturing_j20' },
+                { name: 'content_type', value: 'daf_offer' },
+            ],
+        })
+
+        if (error) {
+            logger.error('[Email] DAF offer email failed:', error)
+            return { success: false, error }
+        }
+
+        logger.debug('[Email] DAF offer email sent:', data?.id)
+        return { success: true, id: data?.id }
+    } catch (error) {
+        logger.error('[Email] DAF offer email exception:', error)
+        return { success: false, error }
+    }
 }

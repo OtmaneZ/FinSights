@@ -222,8 +222,239 @@ export default function CalculateurBFR() {
                     </div>
                 </section>
 
+                {/* ========== CONTENU SEO - 800 mots optimisés ========== */}
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-4xl mx-auto">
+                            <article className="prose prose-lg max-w-none">
+                                {/* H2 - Comment calculer */}
+                                <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                                    <Calculator className="w-8 h-8 text-accent-primary" />
+                                    Comment calculer le BFR (Besoin en Fonds de Roulement) ?
+                                </h2>
+                                
+                                <p className="text-lg text-slate-700 leading-relaxed mb-6">
+                                    Le <strong>BFR (Besoin en Fonds de Roulement)</strong> représente le <strong>montant d&apos;argent nécessaire pour financer votre cycle d&apos;exploitation</strong>. 
+                                    C&apos;est un indicateur clé de la santé financière de votre PME. Un BFR élevé signifie que vous devez mobiliser beaucoup de cash pour faire tourner l&apos;entreprise.
+                                </p>
+
+                                {/* Formule mise en avant */}
+                                <div className="not-prose bg-gradient-to-r from-accent-primary/10 to-blue-50 border-l-4 border-accent-primary p-6 rounded-r-xl mb-8">
+                                    <h3 className="text-xl font-bold text-slate-900 mb-3">📐 Formule du BFR</h3>
+                                    <div className="bg-white p-4 rounded-lg shadow-sm mb-3">
+                                        <code className="text-xl font-mono text-accent-primary">
+                                            BFR = Stocks + Créances clients − Dettes fournisseurs
+                                        </code>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        Un <strong>BFR négatif</strong> est excellent (vos fournisseurs financent votre activité). 
+                                        Un <strong>BFR positif</strong> doit être financé par vos fonds propres ou crédit bancaire.
+                                    </p>
+                                </div>
+
+                                {/* Exemple pratique */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <Target className="w-6 h-6 text-accent-primary" />
+                                    Exemple pratique de calcul BFR
+                                </h3>
+                                
+                                <div className="not-prose bg-slate-50 rounded-xl p-6 mb-8 border border-slate-200">
+                                    <p className="font-semibold text-slate-900 mb-4 text-lg">
+                                        🏢 PME Commerce - 3M€ de chiffre d&apos;affaires annuel
+                                    </p>
+                                    <div className="grid sm:grid-cols-3 gap-4 mb-4">
+                                        <div className="bg-white p-4 rounded-lg border border-slate-200">
+                                            <p className="text-sm text-slate-500">Stocks</p>
+                                            <p className="text-2xl font-bold text-blue-600">120 000 €</p>
+                                        </div>
+                                        <div className="bg-white p-4 rounded-lg border border-slate-200">
+                                            <p className="text-sm text-slate-500">Créances clients</p>
+                                            <p className="text-2xl font-bold text-green-600">250 000 €</p>
+                                        </div>
+                                        <div className="bg-white p-4 rounded-lg border border-slate-200">
+                                            <p className="text-sm text-slate-500">Dettes fournisseurs</p>
+                                            <p className="text-2xl font-bold text-red-600">180 000 €</p>
+                                        </div>
+                                    </div>
+                                    <div className="bg-accent-primary/10 p-4 rounded-lg">
+                                        <p className="text-sm text-slate-600 mb-1">Calcul :</p>
+                                        <p className="font-mono text-slate-900">120 000 + 250 000 − 180 000 = <strong className="text-accent-primary text-xl">190 000 €</strong></p>
+                                    </div>
+                                    <p className="mt-4 text-slate-700 flex items-center gap-2">
+                                        <AlertCircle className="w-5 h-5 text-orange-500" />
+                                        → Vous devez <strong>financer 190 000€</strong> pour faire tourner l&apos;entreprise (stocks + créances en attente − crédit fournisseurs).
+                                    </p>
+                                </div>
+
+                                {/* Interprétation BFR */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <BarChart3 className="w-6 h-6 text-accent-primary" />
+                                    Comment interpréter le BFR ?
+                                </h3>
+                                
+                                <div className="not-prose grid md:grid-cols-2 gap-4 mb-8">
+                                    <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <CheckCircle className="w-6 h-6 text-green-600" />
+                                            <h4 className="text-xl font-bold text-green-800">BFR Négatif = Excellent</h4>
+                                        </div>
+                                        <p className="text-green-700 mb-3">
+                                            Situation idéale : vous encaissez vos clients <strong>avant</strong> de payer vos fournisseurs.
+                                        </p>
+                                        <p className="text-sm text-green-600 font-semibold">
+                                            Exemples : Grande distribution, SaaS avec paiement annuel d&apos;avance
+                                        </p>
+                                    </div>
+                                    
+                                    <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-6">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <AlertCircle className="w-6 h-6 text-orange-600" />
+                                            <h4 className="text-xl font-bold text-orange-800">BFR Positif = À surveiller</h4>
+                                        </div>
+                                        <p className="text-orange-700 mb-3">
+                                            Vous devez <strong>avancer du cash</strong> pour financer votre activité (stocks + délais de paiement).
+                                        </p>
+                                        <p className="text-sm text-orange-600 font-semibold">
+                                            Exemples : Commerce, Industrie, Services B2B
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Tableau benchmarks */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4">
+                                    Benchmarks BFR par secteur (en jours de CA)
+                                </h3>
+                                
+                                <div className="not-prose overflow-x-auto mb-8">
+                                    <table className="w-full border-collapse bg-white rounded-xl overflow-hidden shadow-sm">
+                                        <thead>
+                                            <tr className="bg-slate-900 text-white">
+                                                <th className="p-4 text-left font-semibold">Secteur</th>
+                                                <th className="p-4 text-center font-semibold">BFR Optimal</th>
+                                                <th className="p-4 text-center font-semibold">BFR Moyen</th>
+                                                <th className="p-4 text-center font-semibold">BFR Critique</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr className="border-b border-slate-200">
+                                                <td className="p-4 font-semibold text-slate-900">Services B2B</td>
+                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 30 jours</td>
+                                                <td className="p-4 text-center text-amber-600">30-60 jours</td>
+                                                <td className="p-4 text-center text-red-600">&gt; 90 jours</td>
+                                            </tr>
+                                            <tr className="border-b border-slate-200 bg-slate-50">
+                                                <td className="p-4 font-semibold text-slate-900">Commerce / Distribution</td>
+                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 45 jours</td>
+                                                <td className="p-4 text-center text-amber-600">45-90 jours</td>
+                                                <td className="p-4 text-center text-red-600">&gt; 120 jours</td>
+                                            </tr>
+                                            <tr className="border-b border-slate-200">
+                                                <td className="p-4 font-semibold text-slate-900">Industrie / BTP</td>
+                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 60 jours</td>
+                                                <td className="p-4 text-center text-amber-600">60-120 jours</td>
+                                                <td className="p-4 text-center text-red-600">&gt; 150 jours</td>
+                                            </tr>
+                                            <tr className="bg-slate-50">
+                                                <td className="p-4 font-semibold text-slate-900">SaaS / Tech B2B</td>
+                                                <td className="p-4 text-center text-green-600 font-semibold">Négatif</td>
+                                                <td className="p-4 text-center text-amber-600">0-30 jours</td>
+                                                <td className="p-4 text-center text-red-600">&gt; 60 jours</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p className="text-xs text-slate-500 mt-2 text-right">
+                                        Source : Banque de France, moyennes sectorielles 2025
+                                    </p>
+                                </div>
+
+                                {/* Pourquoi c'est critique */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <AlertCircle className="w-6 h-6 text-accent-primary" />
+                                    Pourquoi le BFR est-il si important ?
+                                </h3>
+                                
+                                <p className="text-slate-700 mb-4">
+                                    Un BFR mal maîtrisé est la <strong>cause n°1 des défaillances d&apos;entreprises</strong>. 
+                                    Vous pouvez être rentable sur le papier mais tomber en cessation de paiement si votre BFR explose.
+                                </p>
+
+                                <ul className="not-prose grid sm:grid-cols-2 gap-3 mb-6">
+                                    {[
+                                        'Croissance rapide = BFR qui explose (vous devez financer plus de stocks + créances)',
+                                        'Délais de paiement longs = cash bloqué chez les clients',
+                                        'Stocks qui traînent = argent immobilisé inutilement',
+                                        'Fournisseurs mal négociés = vous payez trop vite'
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3 bg-slate-50 p-4 rounded-lg">
+                                            <AlertCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                            <span className="text-slate-700">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                {/* Impact chiffré */}
+                                <div className="not-prose bg-red-50 border-l-4 border-red-500 p-6 rounded-r-xl mb-8">
+                                    <p className="font-bold text-red-800 mb-2 flex items-center gap-2">
+                                        <AlertCircle className="w-5 h-5" />
+                                        Exemple d&apos;impact : Croissance 50% en 1 an
+                                    </p>
+                                    <p className="text-red-700">
+                                        PME 2M€ CA → 3M€ CA : Le BFR passe de 150k€ à 225k€ soit <strong>75k€ de cash supplémentaire</strong> à financer immédiatement.
+                                        Sans préparation, c&apos;est la rupture de trésorerie assurée.
+                                    </p>
+                                </div>
+
+                                {/* Comment réduire */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <TrendingUp className="w-6 h-6 text-accent-primary" />
+                                    6 leviers pour réduire votre BFR
+                                </h3>
+                                
+                                <div className="not-prose grid gap-4 mb-8">
+                                    {[
+                                        { num: '1', title: 'Réduire le DSO (délai paiement clients)', desc: 'Relances automatiques, escompte 2% si paiement J+10, affacturage ponctuel' },
+                                        { num: '2', title: 'Augmenter le DPO (délai paiement fournisseurs)', desc: 'Négocier 60 jours au lieu de 30, grouper les commandes pour obtenir crédit' },
+                                        { num: '3', title: 'Optimiser les stocks', desc: 'Just-in-time si possible, vendre les stocks dormants, suivre rotation des stocks' },
+                                        { num: '4', title: 'Demander des acomptes', desc: '30-50% à la commande pour les projets longs ou gros montants' },
+                                        { num: '5', title: 'Piloter en temps réel', desc: 'Dashboard BFR mis à jour chaque semaine, alertes automatiques si dérapage' },
+                                        { num: '6', title: 'Financement adapté', desc: 'Ligne de crédit BFR bancaire ou affacturage pour absorber les variations' }
+                                    ].map((action) => (
+                                        <div key={action.num} className="flex items-start gap-4 bg-white p-4 rounded-xl border border-slate-200 hover:border-accent-primary hover:shadow-md transition-all">
+                                            <div className="w-10 h-10 rounded-lg bg-accent-primary flex items-center justify-center flex-shrink-0">
+                                                <span className="text-white font-bold">{action.num}</span>
+                                            </div>
+                                            <div>
+                                                <strong className="text-slate-900">{action.title}</strong>
+                                                <p className="text-sm text-slate-600">{action.desc}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* CTA vers consulting */}
+                                <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
+                                    <p className="text-accent-primary font-semibold mb-2">💡 BFR qui explose avec votre croissance ?</p>
+                                    <p className="text-white text-lg mb-6">
+                                        En tant que <strong>DAF externalisé</strong>, je vous aide à structurer le pilotage de votre BFR 
+                                        avec prévisionnel 90 jours et alertes automatiques.
+                                    </p>
+                                    <Link 
+                                        href="/consulting" 
+                                        className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
+                                    >
+                                        Voir mes offres d&apos;accompagnement
+                                        <ArrowRight className="w-5 h-5" />
+                                    </Link>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ========== FIN CONTENU SEO ========== */}
+
                 {/* Calculateur Section */}
-                <section id="calculateur" className="py-16 bg-white">
+                <section id="calculateur" className="py-16 bg-slate-50">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-4xl mx-auto">
                             <motion.div

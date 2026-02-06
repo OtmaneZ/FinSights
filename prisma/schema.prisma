@@ -350,3 +350,39 @@ model AccountingIntegration {
   @@index([provider])
   @@map("accounting_integrations")
 }
+
+// ============================================
+// LEAD MODEL - Email Nurturing Automation
+// ============================================
+
+model Lead {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String
+  lastName  String?
+  company   String?
+  sector    String? // SaaS/Tech, Services B2B, Commerce/E-commerce, etc.
+
+  // Lead tracking
+  source       String   @default("template_download") // template_download, blog, calculator, consulting_page
+  templateName String // "Prévisionnel Trésorerie 90j", "Budget Prévisionnel Startup", etc.
+
+  // Email automation
+  lastEmailSent       String   @default("welcome") // welcome, tutorial, case_study, alert_signals, daf_offer
+  nextEmailScheduled  DateTime? // Date du prochain email automatique (null = séquence terminée)
+  unsubscribed        Boolean  @default(false)
+
+  // Engagement tracking
+  emailOpens       Int      @default(0)
+  emailClicks      Int      @default(0)
+  lastEngagement   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([nextEmailScheduled])
+  @@index([unsubscribed])
+  @@index([source])
+  @@map("leads")
+}

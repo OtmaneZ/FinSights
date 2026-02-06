@@ -199,6 +199,38 @@ export default function TemplatesPage() {
                     })}
                 </div>
 
+                {/* Prévisionnel Trésorerie 90j CTA */}
+                <div className="surface rounded-2xl p-8 border-2 border-green-200 bg-gradient-to-br from-green-50 to-primary mb-12">
+                    <div className="flex flex-col md:flex-row items-center gap-6">
+                        <div className="flex-shrink-0">
+                            <div className="w-16 h-16 rounded-xl bg-green-100 flex items-center justify-center">
+                                <TrendingUp className="w-8 h-8 text-green-600" />
+                            </div>
+                        </div>
+                        <div className="flex-1 text-center md:text-left">
+                            <h3 className="text-2xl font-bold mb-2">
+                                Nouveau : Prévisionnel Trésorerie 90 jours
+                            </h3>
+                            <p className="text-secondary mb-1">
+                                Anticipez vos besoins de trésorerie avec un fichier Excel complet : 
+                                encaissements, décaissements, graphiques automatiques et alertes conditionnelles.
+                            </p>
+                            <p className="text-sm text-green-700 font-semibold">
+                                ⚡ Le template le plus demandé par les dirigeants PME
+                            </p>
+                        </div>
+                        <div className="flex-shrink-0">
+                            <Link
+                                href="/templates/previsionnel-tresorerie-90j"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all shadow-lg whitespace-nowrap"
+                            >
+                                Télécharger gratuitement
+                                <ArrowRight className="w-5 h-5" />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
                 {/* CTA Section */}
                 <div className="surface rounded-2xl p-12 border-2 border-accent-primary-border bg-gradient-to-br from-accent-primary-subtle to-primary text-center">
                     <h2 className="text-3xl font-bold mb-4">

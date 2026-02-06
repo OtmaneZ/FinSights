@@ -47,6 +47,46 @@ export default function CalculateurDSO() {
         ]
     })
 
+    // FAQ Schema for rich snippets
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Comment calculer le DSO ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Le DSO (Days Sales Outstanding) se calcule avec la formule : DSO = (Créances clients / Chiffre d'affaires annuel) × 365. Ce ratio indique le délai moyen en jours que vos clients prennent pour vous payer."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Qu'est-ce qu'un bon DSO ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Un bon DSO dépend de votre secteur : Services (< 45 jours), Commerce (< 60 jours), Industrie (< 90 jours), SaaS (< 30 jours). Plus le DSO est faible, meilleure est votre trésorerie."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Pourquoi mon DSO est-il important ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Un DSO élevé signifie que votre argent est bloqué chez vos clients. Chaque jour de DSO supplémentaire représente du cash immobilisé qui pourrait servir à payer vos fournisseurs, investir ou assurer votre croissance."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Comment réduire mon DSO ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Pour réduire votre DSO : 1) Facturez rapidement après livraison, 2) Relancez systématiquement avant échéance, 3) Offrez des escomptes pour paiement anticipé, 4) Utilisez l'affacturage pour les gros montants, 5) Automatisez vos relances."
+                }
+            }
+        ]
+    }
+
     const calculer = () => {
         const creancesNum = parseFloat(creances)
         const caNum = parseFloat(ca)
@@ -124,6 +164,7 @@ export default function CalculateurDSO() {
     return (
         <div className="min-h-screen bg-white">
             <StructuredData data={structuredData} />
+            <StructuredData data={faqSchema} />
             <Header />
 
             <main>
@@ -196,8 +237,206 @@ export default function CalculateurDSO() {
                     </div>
                 </section>
 
+                {/* ========== CONTENU SEO - 800 mots optimisés ========== */}
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-4xl mx-auto">
+                            <article className="prose prose-lg max-w-none">
+                                {/* H2 - Comment calculer */}
+                                <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                                    <Calculator className="w-8 h-8 text-accent-primary" />
+                                    Comment calculer le DSO (Days Sales Outstanding) ?
+                                </h2>
+                                
+                                <p className="text-lg text-slate-700 leading-relaxed mb-6">
+                                    Le <strong>DSO (Days Sales Outstanding)</strong>, ou délai moyen de paiement clients, est un indicateur financier essentiel 
+                                    qui mesure le <strong>nombre de jours moyen que vos clients prennent pour régler leurs factures</strong>. 
+                                    C&apos;est l&apos;un des KPIs les plus surveillés par les CFO et DAF pour piloter la trésorerie d&apos;une PME.
+                                </p>
+
+                                {/* Formule mise en avant */}
+                                <div className="not-prose bg-gradient-to-r from-accent-primary/10 to-blue-50 border-l-4 border-accent-primary p-6 rounded-r-xl mb-8">
+                                    <h3 className="text-xl font-bold text-slate-900 mb-3">📐 Formule du DSO</h3>
+                                    <div className="bg-white p-4 rounded-lg shadow-sm mb-3">
+                                        <code className="text-xl font-mono text-accent-primary">
+                                            DSO = (Créances clients ÷ Chiffre d&apos;affaires annuel) × 365
+                                        </code>
+                                    </div>
+                                    <p className="text-sm text-slate-600">
+                                        Le résultat s&apos;exprime en <strong>jours</strong>. Plus le DSO est faible, plus vos clients paient rapidement.
+                                    </p>
+                                </div>
+
+                                {/* Exemple pratique */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <Target className="w-6 h-6 text-accent-primary" />
+                                    Exemple pratique de calcul DSO
+                                </h3>
+                                
+                                <div className="not-prose bg-slate-50 rounded-xl p-6 mb-8 border border-slate-200">
+                                    <p className="font-semibold text-slate-900 mb-4 text-lg">
+                                        🏢 PME Services - 2M€ de chiffre d&apos;affaires annuel
+                                    </p>
+                                    <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                                        <div className="bg-white p-4 rounded-lg border border-slate-200">
+                                            <p className="text-sm text-slate-500">Créances clients en attente</p>
+                                            <p className="text-2xl font-bold text-slate-900">250 000 €</p>
+                                        </div>
+                                        <div className="bg-white p-4 rounded-lg border border-slate-200">
+                                            <p className="text-sm text-slate-500">CA annuel</p>
+                                            <p className="text-2xl font-bold text-slate-900">2 000 000 €</p>
+                                        </div>
+                                    </div>
+                                    <div className="bg-accent-primary/10 p-4 rounded-lg">
+                                        <p className="text-sm text-slate-600 mb-1">Calcul :</p>
+                                        <p className="font-mono text-slate-900">(250 000 ÷ 2 000 000) × 365 = <strong className="text-accent-primary text-xl">45,6 jours</strong></p>
+                                    </div>
+                                    <p className="mt-4 text-slate-700 flex items-center gap-2">
+                                        <Clock className="w-5 h-5 text-accent-primary" />
+                                        → Vos clients paient en moyenne <strong>46 jours après facturation</strong>.
+                                    </p>
+                                </div>
+
+                                {/* Tableau benchmarks */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <BarChart3 className="w-6 h-6 text-accent-primary" />
+                                    Qu&apos;est-ce qu&apos;un bon DSO ? (Benchmarks 2026)
+                                </h3>
+                                
+                                <p className="text-slate-700 mb-4">
+                                    Un &quot;bon&quot; DSO dépend fortement de votre <strong>secteur d&apos;activité</strong>. Voici les références françaises actualisées :
+                                </p>
+
+                                <div className="not-prose overflow-x-auto mb-8">
+                                    <table className="w-full border-collapse bg-white rounded-xl overflow-hidden shadow-sm">
+                                        <thead>
+                                            <tr className="bg-slate-900 text-white">
+                                                <th className="p-4 text-left font-semibold">Secteur</th>
+                                                <th className="p-4 text-center font-semibold">✅ Excellent</th>
+                                                <th className="p-4 text-center font-semibold">⚠️ Moyen</th>
+                                                <th className="p-4 text-center font-semibold">🚨 Critique</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr className="border-b border-slate-200">
+                                                <td className="p-4 font-semibold text-slate-900">Services B2B</td>
+                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 30 jours</td>
+                                                <td className="p-4 text-center text-amber-600">30-60 jours</td>
+                                                <td className="p-4 text-center text-red-600">&gt; 60 jours</td>
+                                            </tr>
+                                            <tr className="border-b border-slate-200 bg-slate-50">
+                                                <td className="p-4 font-semibold text-slate-900">Commerce / Distribution</td>
+                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 45 jours</td>
+                                                <td className="p-4 text-center text-amber-600">45-75 jours</td>
+                                                <td className="p-4 text-center text-red-600">&gt; 75 jours</td>
+                                            </tr>
+                                            <tr className="border-b border-slate-200">
+                                                <td className="p-4 font-semibold text-slate-900">Industrie / BTP</td>
+                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 60 jours</td>
+                                                <td className="p-4 text-center text-amber-600">60-120 jours</td>
+                                                <td className="p-4 text-center text-red-600">&gt; 120 jours</td>
+                                            </tr>
+                                            <tr className="bg-slate-50">
+                                                <td className="p-4 font-semibold text-slate-900">SaaS / Tech B2B</td>
+                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 15 jours</td>
+                                                <td className="p-4 text-center text-amber-600">15-45 jours</td>
+                                                <td className="p-4 text-center text-red-600">&gt; 45 jours</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p className="text-xs text-slate-500 mt-2 text-right">
+                                        Source : Observatoire du BFR, DFCG France - Données 2025/2026
+                                    </p>
+                                </div>
+
+                                {/* Pourquoi suivre son DSO */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <AlertCircle className="w-6 h-6 text-accent-primary" />
+                                    Pourquoi suivre son DSO est crucial ?
+                                </h3>
+                                
+                                <p className="text-slate-700 mb-4">
+                                    Un DSO élevé signifie que votre argent est <strong>bloqué chez vos clients</strong>. 
+                                    Chaque jour de DSO supplémentaire représente du cash immobilisé qui pourrait servir à :
+                                </p>
+
+                                <ul className="not-prose grid sm:grid-cols-2 gap-3 mb-6">
+                                    {[
+                                        'Payer vos fournisseurs (et négocier de meilleures conditions)',
+                                        'Investir dans votre croissance (recrutement, marketing)',
+                                        'Constituer une trésorerie de sécurité',
+                                        'Éviter les financements court-terme coûteux'
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3 bg-slate-50 p-4 rounded-lg">
+                                            <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                                            <span className="text-slate-700">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                {/* Alerte impact chiffré */}
+                                <div className="not-prose bg-red-50 border-l-4 border-red-500 p-6 rounded-r-xl mb-8">
+                                    <p className="font-bold text-red-800 mb-2 flex items-center gap-2">
+                                        <AlertCircle className="w-5 h-5" />
+                                        Exemple d&apos;impact : PME 5M€ CA
+                                    </p>
+                                    <p className="text-red-700">
+                                        Passer d&apos;un DSO de <strong>60 jours à 45 jours</strong> libère instantanément 
+                                        <strong> 205 000€ de trésorerie</strong> (calcul : 15 jours × 5M€ ÷ 365).
+                                    </p>
+                                </div>
+
+                                {/* Comment réduire */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <TrendingUp className="w-6 h-6 text-accent-primary" />
+                                    Comment réduire son DSO rapidement ?
+                                </h3>
+                                
+                                <div className="not-prose grid gap-4 mb-8">
+                                    {[
+                                        { num: '1', title: 'Facturez immédiatement', desc: 'Envoyez vos factures dès livraison/prestation, pas une semaine après' },
+                                        { num: '2', title: 'Conditions claires', desc: 'Affichez "Paiement à 30 jours" sur devis ET factures' },
+                                        { num: '3', title: 'Relances automatiques', desc: 'Emails à J-7, J+7, J+15 avec outils comme Pennylane ou Axonaut' },
+                                        { num: '4', title: 'Escompte paiement anticipé', desc: '-2% si payé sous 10 jours (très efficace en B2B)' },
+                                        { num: '5', title: 'Prélèvement SEPA', desc: 'Idéal pour abonnements et contrats récurrents' },
+                                        { num: '6', title: 'Scoring clients', desc: 'Conditions différentes selon historique de paiement' }
+                                    ].map((action) => (
+                                        <div key={action.num} className="flex items-start gap-4 bg-white p-4 rounded-xl border border-slate-200 hover:border-accent-primary hover:shadow-md transition-all">
+                                            <div className="w-10 h-10 rounded-lg bg-accent-primary flex items-center justify-center flex-shrink-0">
+                                                <span className="text-white font-bold">{action.num}</span>
+                                            </div>
+                                            <div>
+                                                <strong className="text-slate-900">{action.title}</strong>
+                                                <p className="text-sm text-slate-600">{action.desc}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* CTA vers consulting */}
+                                <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
+                                    <p className="text-accent-primary font-semibold mb-2">💡 Besoin d&apos;aide pour piloter votre DSO ?</p>
+                                    <p className="text-white text-lg mb-6">
+                                        En tant que <strong>DAF externalisé</strong>, je vous aide à mettre en place un pilotage de trésorerie 
+                                        sur 90 jours avec suivi automatique du DSO et alertes.
+                                    </p>
+                                    <Link 
+                                        href="/consulting" 
+                                        className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
+                                    >
+                                        Voir mes offres d&apos;accompagnement
+                                        <ArrowRight className="w-5 h-5" />
+                                    </Link>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ========== FIN CONTENU SEO ========== */}
+
                 {/* Calculateur Section */}
-                <section id="calculateur" className="py-16 bg-white">
+                <section id="calculateur" className="py-16 bg-slate-50">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-4xl mx-auto">
                             <motion.div
@@ -205,10 +444,10 @@ export default function CalculateurDSO() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5 }}
-                                className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-xl"
+                                className="bg-white rounded-2xl p-8 border border-slate-200 shadow-xl"
                             >
                                 {/* Formule */}
-                                <div className="bg-white p-4 rounded-xl border border-slate-200 mb-8">
+                                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-8">
                                     <div className="flex items-center gap-3 mb-2">
                                         <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center">
                                             <Zap className="w-5 h-5 text-white" />
@@ -537,6 +776,87 @@ export default function CalculateurDSO() {
                                         </Link>
                                     </motion.div>
                                 ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Articles connexes - SEO Boost */}
+                <section className="py-16 bg-gray-50">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                                    📚 Aller plus loin sur le DSO
+                                </h2>
+                                <p className="text-lg text-gray-600">
+                                    Guides pratiques pour optimiser votre délai de paiement clients
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {/* Article 1 */}
+                                <Link
+                                    href="/blog/calcul-dso-formule-2025"
+                                    className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-accent-primary"
+                                >
+                                    <div className="flex items-center gap-2 text-sm text-accent-primary font-semibold mb-3">
+                                        <FileText className="w-4 h-4" />
+                                        Guide
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-accent-primary transition-colors">
+                                        Comment calculer son DSO (formule PCG 2025)
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Guide complet avec exemples pratiques et benchmarks sectoriels français
+                                    </p>
+                                    <div className="flex items-center gap-2 text-sm text-accent-primary font-semibold">
+                                        Lire l'article
+                                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* Article 2 */}
+                                <Link
+                                    href="/blog/reduire-dso-50-pourcent-90-jours"
+                                    className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-accent-primary"
+                                >
+                                    <div className="flex items-center gap-2 text-sm text-emerald-600 font-semibold mb-3">
+                                        <Target className="w-4 h-4" />
+                                        Méthode
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-accent-primary transition-colors">
+                                        Réduire son DSO de 50% en 90 jours
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        10 actions concrètes pour améliorer votre recouvrement + cas client PME
+                                    </p>
+                                    <div className="flex items-center gap-2 text-sm text-accent-primary font-semibold">
+                                        Voir la méthode
+                                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* Article 3 */}
+                                <Link
+                                    href="/blog/dso-vs-dpo-optimiser-tresorerie"
+                                    className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-accent-primary"
+                                >
+                                    <div className="flex items-center gap-2 text-sm text-blue-600 font-semibold mb-3">
+                                        <BarChart3 className="w-4 h-4" />
+                                        Analyse
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-accent-primary transition-colors">
+                                        DSO vs DPO : Optimiser l'équilibre
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Comprendre le Cash Conversion Cycle pour libérer de la trésorerie
+                                    </p>
+                                    <div className="flex items-center gap-2 text-sm text-accent-primary font-semibold">
+                                        Découvrir
+                                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>

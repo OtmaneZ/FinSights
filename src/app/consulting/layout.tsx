@@ -1,17 +1,19 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Consulting Finance | DAF Externalisé & Pilotage Financier - FinSight',
-    description: 'Expertise DAF externalisé pour TPE/PME : audit financier, pilotage de trésorerie, levée de fonds, construction de business model. Obtenez des recommandations stratégiques actionnables par un expert finance senior.',
+    title: 'DAF Externalisé PME (1-100M€) | Conseil Finance & Pilotage Trésorerie - Otmane Boulahia',
+    description: 'DAF externalisé pour dirigeants PME. Audit financier, pilotage trésorerie 90j, tableaux de bord IA. 10+ ans d\'expérience. Diagnostic gratuit 30 min. Tarif dès 1200€/mois.',
     keywords: [
         'daf externalisé',
+        'daf externalisé pme',
         'directeur financier externe',
         'consulting finance pme',
-        'audit financier',
-        'pilotage trésorerie',
-        'levée de fonds',
-        'fractional cfo',
-        'expert comptable stratégique'
+        'conseil finance pme',
+        'pilotage trésorerie pme',
+        'fractional cfo france',
+        'audit financier pme',
+        'consultant finance freelance',
+        'daf à temps partagé'
     ],
     openGraph: {
         title: 'Consulting Finance | DAF Externalisé pour TPE/PME',

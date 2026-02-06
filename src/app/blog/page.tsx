@@ -199,6 +199,59 @@ const blogPosts: BlogPost[] = [
         category: 'Trésorerie',
         tags: ['DSO', 'DPO', 'Cash Conversion Cycle', 'Trésorerie'],
         image: '/images/vue-NY.png'
+    },
+    // SEO Priority Articles (February 2026)
+    {
+        slug: 'daf-externalise-pme-prix-2026',
+        title: 'DAF Externalisé PME : Prix, Tarifs et ROI en 2026',
+        description: 'Combien coûte un DAF externalisé pour une PME ? Grille tarifaire 2026, comparaison DAF temps plein vs externalisé, et calcul du ROI réel.',
+        date: '6 février 2026',
+        readTime: '15 min',
+        category: 'Gestion',
+        tags: ['DAF Externalisé', 'Prix', 'Tarifs', 'ROI', 'PME', 'CFO'],
+        featured: true,
+        image: '/images/bureau.png'
+    },
+    {
+        slug: 'probleme-tresorerie-pme-10-signes',
+        title: 'Problème de Trésorerie PME : 10 Signes d\'Alerte (et Solutions)',
+        description: 'Comment détecter un problème de trésorerie avant qu\'il ne soit trop tard ? 10 signaux d\'alerte + plan d\'action en 30 jours.',
+        date: '6 février 2026',
+        readTime: '12 min',
+        category: 'Trésorerie',
+        tags: ['Problème Trésorerie', 'PME', 'Alerte', 'Cash', 'Solutions'],
+        featured: true,
+        image: '/images/bureau-nuit.png'
+    },
+    {
+        slug: 'calculer-bfr-excel-template-2026',
+        title: 'Calculer son BFR avec Excel : Template Gratuit 2026',
+        description: 'Tutoriel complet pour calculer et analyser votre BFR dans Excel. Template gratuit + formules automatiques + exemples par secteur.',
+        date: '6 février 2026',
+        readTime: '10 min',
+        category: 'Trésorerie',
+        tags: ['BFR', 'Excel', 'Template', 'Calcul', 'Formules'],
+        image: '/images/bfr.png'
+    },
+    {
+        slug: 'pilotage-tresorerie-90-jours-methode',
+        title: 'Pilotage Trésorerie 90 Jours : Méthode Complète PME',
+        description: 'Comment piloter sa trésorerie sur 90 jours ? Méthode éprouvée avec prévisionnel, suivi hebdomadaire et alertes automatiques.',
+        date: '6 février 2026',
+        readTime: '14 min',
+        category: 'Trésorerie',
+        tags: ['Pilotage Trésorerie', '90 Jours', 'Prévisionnel', 'Méthode', 'PME'],
+        image: '/images/cash-flow-prev.png'
+    },
+    {
+        slug: 'fractional-cfo-france-guide-2026',
+        title: 'Fractional CFO France : Guide Complet 2026',
+        description: 'Qu\'est-ce qu\'un Fractional CFO ? Différences avec DAF externalisé, cas d\'usage, tarifs et comment choisir le bon profil pour votre PME.',
+        date: '6 février 2026',
+        readTime: '13 min',
+        category: 'Gestion',
+        tags: ['Fractional CFO', 'CFO', 'DAF', 'France', 'Guide'],
+        image: '/images/moi-bureau.png'
     }
 ]
 
