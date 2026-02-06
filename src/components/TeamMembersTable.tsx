@@ -6,6 +6,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { UserCircleIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 interface Member {
@@ -104,9 +105,11 @@ export default function TeamMembersTable({
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center">
                                         {member.user.avatar ? (
-                                            <img
+                                            <Image
                                                 src={member.user.avatar}
                                                 alt={member.user.name || member.user.email}
+                                                width={40}
+                                                height={40}
                                                 className="h-10 w-10 rounded-full"
                                             />
                                         ) : (

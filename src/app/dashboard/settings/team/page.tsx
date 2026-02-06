@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { UserPlusIcon } from '@heroicons/react/24/outline';
@@ -24,6 +24,30 @@ export default function TeamPage() {
     const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const fetchMembers = useCallback(async () => {
+        if (!selectedCompanyId) return;
+        try {
+            const res = await fetch(`/api/companies/${selectedCompanyId}/members`);
+            const data = await res.json();
+            setMembers(data.members || []);
+        } catch (error) {
+            console.error('Error fetching members:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, [selectedCompanyId]);
+
+    const fetchInvitations = useCallback(async () => {
+        if (!selectedCompanyId) return;
+        try {
+            const res = await fetch(`/api/invitations?companyId=${selectedCompanyId}`);
+            const data = await res.json();
+            setInvitations(data.invitations || []);
+        } catch (error) {
+            console.error('Error fetching invitations:', error);
+        }
+    }, [selectedCompanyId]);
+
     useEffect(() => {
         if (session?.user) {
             fetchCompanies();
@@ -35,7 +59,7 @@ export default function TeamPage() {
             fetchMembers();
             fetchInvitations();
         }
-    }, [selectedCompanyId]);
+    }, [selectedCompanyId, fetchMembers, fetchInvitations]);
 
     const fetchCompanies = async () => {
         try {
@@ -47,28 +71,6 @@ export default function TeamPage() {
             }
         } catch (error) {
             console.error('Error fetching companies:', error);
-        }
-    };
-
-    const fetchMembers = async () => {
-        try {
-            const res = await fetch(`/api/companies/${selectedCompanyId}/members`);
-            const data = await res.json();
-            setMembers(data.members || []);
-        } catch (error) {
-            console.error('Error fetching members:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const fetchInvitations = async () => {
-        try {
-            const res = await fetch(`/api/invitations?companyId=${selectedCompanyId}`);
-            const data = await res.json();
-            setInvitations(data.invitations || []);
-        } catch (error) {
-            console.error('Error fetching invitations:', error);
         }
     };
 
