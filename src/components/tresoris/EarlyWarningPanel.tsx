@@ -19,6 +19,7 @@ import {
     CheckCircle2
 } from 'lucide-react'
 import { Warning } from './types'
+import { formatAmount } from '@/lib/tresoris/formatting'
 
 interface EarlyWarningPanelProps {
     warnings: Warning[]
@@ -180,7 +181,7 @@ export default function EarlyWarningPanel({
                                                 {warning.amount_at_risk && (
                                                     <span className="flex items-center gap-1">
                                                         <DollarSign className="w-3 h-3" />
-                                                        {(warning.amount_at_risk / 1000).toFixed(0)}K€ à risque
+                                                        {formatAmount(warning.amount_at_risk)} à risque
                                                     </span>
                                                 )}
                                                 {warning.days_overdue && warning.days_overdue > 0 && (

@@ -50,23 +50,42 @@ export default function DemoTresorisPage() {
   // Handlers pour DemoOrchestrator
   const handleStartDemo = useCallback(async () => {
     try {
-      await fetch('/api/tresoris/agent/start', { method: 'POST' });
+      console.log('🚀 Starting TRESORIS agent...')
+      const response = await fetch('/api/tresoris/agent/start', { method: 'POST' })
+      const data = await response.json()
+      
+      if (!response.ok) {
+        console.error('❌ Failed to start agent:', data)
+        throw new Error(data.error || 'Failed to start agent')
+      }
+      
+      console.log('✅ Agent started successfully:', data)
     } catch (err) {
-      console.error('Failed to start agent:', err);
+      console.error('❌ Error starting agent:', err)
+      // Ne pas bloquer la démo, continuer quand même
     }
-  }, []);
+  }, [])
 
   const handleStopDemo = useCallback(async () => {
     try {
-      await fetch('/api/tresoris/agent/stop', { method: 'POST' });
+      console.log('🛑 Stopping TRESORIS agent...')
+      const response = await fetch('/api/tresoris/agent/stop', { method: 'POST' })
+      const data = await response.json()
+      
+      if (!response.ok) {
+        console.error('❌ Failed to stop agent:', data)
+      }
+      
+      console.log('✅ Agent stopped successfully:', data)
     } catch (err) {
-      console.error('Failed to stop agent:', err);
+      console.error('❌ Error stopping agent:', err)
     }
-  }, []);
+  }, [])
 
   const handleSimulateRisk = useCallback(async (clientName: string, amount: number, daysOverdue: number) => {
     try {
-      await fetch('/api/tresoris/simulate', {
+      console.log('💥 Simulating risk:', { clientName, amount, daysOverdue })
+      const response = await fetch('/api/tresoris/simulate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -74,9 +93,19 @@ export default function DemoTresorisPage() {
           amount,
           days_overdue: daysOverdue
         })
-      });
+      })
+      
+      const data = await response.json()
+      
+      if (!response.ok) {
+        console.error('❌ Simulation failed:', data)
+        throw new Error(data.details || data.error || 'Simulation failed')
+      }
+      
+      console.log('✅ Simulation complete:', data)
     } catch (err) {
-      console.error('Failed to simulate:', err);
+      console.error('❌ Simulation error:', err)
+      // Ne pas bloquer la démo
     }
   }, []);
 

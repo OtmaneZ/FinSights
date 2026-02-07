@@ -62,16 +62,34 @@ export async function POST(request: NextRequest) {
         })
 
         if (!analyzeResponse.ok) {
-            throw new Error('AI analysis failed')
+            const errorText = await analyzeResponse.text()
+            console.error('[TRESORIS Simulate] AI analysis failed:', {
+                status: analyzeResponse.status,
+                statusText: analyzeResponse.statusText,
+                error: errorText
+            })
+            throw new Error(`AI analysis failed: ${analyzeResponse.status} ${errorText}`)
         }
 
-        const { analysis, powered_by } = await analyzeResponse.json()
+        const analyzeResult = await analyzeResponse.json()
+        const { analysis, powered_by } = analyzeResult
+        
+        if (!analysis) {
+            console.error('[TRESORIS Simulate] No analysis in response:', analyzeResult)
+            throw new Error('No analysis data received')
+        }
         
         console.log(`[TRESORIS Simulate] Analysis complete (powered by: ${powered_by})`)
 
-        // Calcul de l'impact runway
-        const runwayBefore = 18
-        const runwayAfter = Math.max(0, runwayBefore - analysis.cash_impact.runway_impact_weeks)
+        // Calcul de l'impact runway avec limites réalistes
+        const runwayBefore = 18 // semaines
+        const weeklyBurn = 45000 // 45K€/semaine burn moyen pour une scale-up
+        
+        // Calcul de l'impact : une facture impayée RÉDUIT le runway disponible
+        // Limiter l'impact à un maximum de 52 semaines (1 an) pour éviter absurdités
+        const rawImpactWeeks = Math.round(amount / weeklyBurn)
+        const runwayImpactWeeks = -Math.min(rawImpactWeeks, 52) // NÉGATIF car c'est une perte
+        const runwayAfter = Math.max(0, runwayBefore + runwayImpactWeeks) // + car impactWeeks est négatif
 
         // Déterminer le niveau de risque
         const riskStatus = analysis.cash_impact.urgency_level === 'immediate' ? 'CRITICAL' 
@@ -119,7 +137,7 @@ export async function POST(request: NextRequest) {
         const result: SimulationResult = {
             runway_before_weeks: runwayBefore,
             runway_after_weeks: runwayAfter,
-            runway_delta_weeks: analysis.cash_impact.runway_impact_weeks,
+            runway_delta_weeks: runwayImpactWeeks,
             
             client_rating_before: null,
             client_rating_after: analysis.risk_assessment.rating,
@@ -149,7 +167,12 @@ export async function POST(request: NextRequest) {
                 validation_status: 'pending' as const
             } as Action)),
             
-            simulation_summary: `${client_name} : ${(amount / 1000).toFixed(0)}K€ à ${days_overdue}j → ${analysis.risk_assessment.reasoning}`,
+            simulation_summary: (() => {
+                const formattedAmount = amount >= 1000000 
+                    ? `${(amount / 1000000).toFixed(amount % 1000000 === 0 ? 0 : 1)}M€`
+                    : `${(amount / 1000).toFixed(amount % 1000 === 0 ? 0 : 1)}K€`
+                return `${client_name} : ${formattedAmount} à ${days_overdue}j → ${analysis.risk_assessment.reasoning}`
+            })(),
             is_demo: true
         }
 
@@ -159,9 +182,19 @@ export async function POST(request: NextRequest) {
             agent_mode: isAgentActive ? 'monitoring' : 'inactive'
         })
     } catch (error) {
-        console.error('Error simulating TRESORIS impact:', error)
+        console.error('❌ [TRESORIS Simulate] Error:', error)
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+        console.error('[TRESORIS Simulate] Error details:', {
+            message: errorMessage,
+            stack: error instanceof Error ? error.stack : undefined
+        })
+        
         return NextResponse.json(
-            { error: 'Simulation failed', details: error instanceof Error ? error.message : 'Unknown error' },
+            { 
+                error: 'Simulation failed', 
+                details: errorMessage,
+                hint: 'Vérifiez que OPENAI_API_KEY est configuré dans les variables d\'environnement'
+            },
             { status: 500 }
         )
     }

@@ -36,6 +36,7 @@ import {
     Building2
 } from 'lucide-react'
 import { SimulationRequest, SimulationResult, TRESORIS_ENDPOINTS } from './types'
+import { formatAmount, formatRunway } from '@/lib/tresoris/formatting'
 
 interface RiskSimulatorProps {
     onSimulationComplete?: (result: SimulationResult) => void
@@ -394,13 +395,15 @@ export default function RiskSimulator({ onSimulationComplete, className = '' }: 
                                                 Impact Runway
                                             </div>
                                             <div className="flex items-baseline gap-2">
-                                                <span className="text-2xl font-bold text-primary">
+                                                <span className={`text-2xl font-bold ${
+                                                    result.runway_delta_weeks >= 0 ? 'text-emerald-500' : 'text-red-500'
+                                                }`}>
                                                     {result.runway_delta_weeks > 0 ? '+' : ''}{result.runway_delta_weeks}
                                                 </span>
-                                                <span className="text-sm text-secondary">semaines</span>
+                                                <span className="text-sm text-secondary">sem</span>
                                             </div>
                                             <div className="text-xs text-tertiary mt-1">
-                                                {result.runway_before_weeks} → {result.runway_after_weeks} sem
+                                                {formatRunway(result.runway_before_weeks)} → {formatRunway(result.runway_after_weeks)}
                                             </div>
                                         </div>
                                         
@@ -499,7 +502,7 @@ export default function RiskSimulator({ onSimulationComplete, className = '' }: 
                                                             </span>
                                                             <span className="flex items-center gap-1">
                                                                 <Euro className="w-3 h-3" />
-                                                                {(action.impact_amount / 1000).toFixed(0)}K€
+                                                                {formatAmount(action.impact_amount)}
                                                             </span>
                                                         </div>
                                                     </motion.div>
