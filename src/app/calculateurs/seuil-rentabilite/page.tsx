@@ -49,10 +49,10 @@ export default function CalculateurSeuilRentabilite() {
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "Comment calculer le seuil de rentabilité ?",
+                "name": "Comment calculer son seuil de rentabilité ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Le seuil de rentabilité se calcule avec la formule : Seuil = Charges Fixes / Taux de Marge sur Coûts Variables. Par exemple, avec 50 000€ de charges fixes et un taux de marge de 40%, le seuil est de 125 000€ de CA."
+                    "text": "Le seuil de rentabilité (ou point mort) se calcule avec la formule : Charges Fixes / Taux de Marge sur Coûts Variables. Il correspond au chiffre d'affaires minimum à réaliser pour couvrir l'ensemble de vos charges sans réaliser de perte."
                 }
             },
             {
@@ -60,23 +60,15 @@ export default function CalculateurSeuilRentabilite() {
                 "name": "Quelle est la différence entre seuil de rentabilité et point mort ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Ce sont deux termes pour le même concept. Le seuil de rentabilité (ou point mort, break-even point) représente le niveau de chiffre d'affaires à partir duquel l'entreprise ne perd plus d'argent et commence à générer du profit."
+                    "text": "Le seuil de rentabilité s'exprime en montant de chiffre d'affaires (euros), tandis que le point mort exprime la même donnée en nombre de jours. Le point mort indique à quel moment de l'année votre entreprise commence à générer des bénéfices."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Comment réduire son seuil de rentabilité ?",
+                "name": "Comment abaisser son seuil de rentabilité ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Deux leviers principaux : 1) Réduire les charges fixes (télétravail, négociation loyers, externalisation) ou 2) Augmenter le taux de marge (renégocier fournisseurs, augmenter prix, réduire coûts variables)."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Qu'est-ce qu'un bon taux de marge sur coûts variables ?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Un bon taux de marge dépend du secteur : Services (60-80%), Commerce (30-50%), Industrie (40-60%), SaaS (70-90%). Plus le taux est élevé, plus le seuil de rentabilité sera bas."
+                    "text": "Pour abaisser votre seuil de rentabilité, vous pouvez soit réduire vos charges fixes (loyers, abonnements), soit augmenter votre taux de marge brute en renégociant vos achats ou en augmentant vos prix de vente."
                 }
             }
         ]

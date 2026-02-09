@@ -51,34 +51,26 @@ export default function CalculateurROI() {
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "Comment calculer le ROI ?",
+                "name": "Quelle est la formule du ROI (Retour sur Investissement) ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Le ROI se calcule avec la formule : ROI = ((Gains - Investissement) / Investissement) × 100. Par exemple, si vous investissez 10 000€ et gagnez 15 000€, votre ROI est de 50%."
+                    "text": "La formule classique du ROI est : (Gain de l'investissement - Coût de l'investissement) / Coût de l'investissement. Le résultat s'exprime généralement en pourcentage pour mesurer la rentabilité d'une action par rapport à son coût initial."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Qu'est-ce qu'un bon ROI ?",
+                "name": "Qu'est-ce qu'un bon ROI pour une PME ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Un bon ROI dépend du secteur et du risque. En général : ROI > 20% = bon investissement, ROI > 50% = très bon, ROI > 100% = excellent. Pour les projets risqués, exigez un ROI plus élevé."
+                    "text": "Un 'bon' ROI dépend de l'industrie et du risque. En général, un ROI est considéré comme positif s'il est supérieur au coût du capital (WACC). Pour des actions marketing ou technologiques, on cherche souvent un ROI de 3:1 ou plus (3€ générés pour 1€ investi)."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Qu'est-ce que le payback period ?",
+                "name": "Pourquoi calculer le ROI de ses projets financiers ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Le payback period (délai de récupération) est le temps nécessaire pour récupérer votre investissement initial. Un payback de 12 mois signifie que vous récupérez votre mise en 1 an."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "ROI annuel ou ROI total ?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Le ROI total mesure la rentabilité sur toute la durée du projet. Le ROI annualisé divise ce résultat par le nombre d'années pour comparer des projets de durées différentes."
+                    "text": "Calculer le ROI permet d'arbitrer entre différents projets et de prioriser les investissements les plus rentables pour la trésorerie. C'est un outil d'aide à la décision indispensable pour sécuriser la croissance d'une PME."
                 }
             }
         ]
