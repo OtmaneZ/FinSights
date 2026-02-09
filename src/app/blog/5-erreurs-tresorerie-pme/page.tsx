@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowLeft, Calendar, Clock, AlertTriangle, TrendingDown, DollarSign, CheckCircle2, ArrowRight } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -44,6 +45,28 @@ export default function ArticlePage() {
                             <Clock className="w-4 h-4" />
                             7 min de lecture
                         </span>
+                    </div>
+
+                    {/* Author Signature */}
+                    <div className="flex items-center gap-4 mb-6 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <Image 
+                            src="/images/Photo_profil.jpeg" 
+                            alt="Otmane Boulahia - Consultant Finance & DAF Externalisé" 
+                            width={64} 
+                            height={64} 
+                            className="rounded-full object-cover"
+                        />
+                        <div>
+                            <p className="font-bold text-slate-900 text-lg">Par Otmane Boulahia</p>
+                            <p className="text-sm text-slate-600">Consultant Finance & Data | DAF Externalisé</p>
+                            <Link 
+                                href="https://www.linkedin.com/in/otmane-boulahia-553bb6363" 
+                                target="_blank"
+                                className="text-sm text-accent-primary hover:text-accent-primary-hover inline-flex items-center gap-1 mt-1"
+                            >
+                                Voir mon profil LinkedIn →
+                            </Link>
+                        </div>
                     </div>
 
                     <h1 className="text-5xl font-bold mb-6 leading-tight">
