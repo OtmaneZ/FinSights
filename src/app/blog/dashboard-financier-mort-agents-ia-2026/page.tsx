@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowLeft, Calendar, Clock, Zap, TrendingUp, AlertCircle, CheckCircle2, ArrowRight, Target, BarChart3, Shield } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -75,17 +74,6 @@ export default function ArticlePage() {
                             et proposent des actions correctives <em>avant</em> que le problème n&apos;arrive.
                         </p>
                     </div>
-                </div>
-
-                {/* Hero Image */}
-                <div className="relative w-full h-96 mb-16 rounded-xl overflow-hidden shadow-lg">
-                    <Image
-                        src="/images/ai-oversight-control.png"
-                        alt="Agents IA Finance - Gouvernance, Cash Flow, Decision Support, Clarity, Control, Trust"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
                 </div>
 
                 {/* Section 1 */}
