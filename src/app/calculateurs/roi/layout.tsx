@@ -2,11 +2,11 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Calculateur ROI : Retour sur Investissement & Délai de Rentabilité',
-    description: 'Calculez votre ROI (Return on Investment) en 30s. Mesurez la rentabilité de vos projets : taux de retour + délai de récupération (payback). Formule + interprétation DAF. Sans inscription.',
+    description: 'Quel est le vrai retour de vos investissements ? Calculez ROI + payback sans inscription. Inclus : benchmarks par type de projet + analyse DAF. Gratuit.',
     keywords: 'calculateur roi, return on investment calcul, retour sur investissement, roi formule, payback period, délai récupération investissement, rentabilité projet, analyse investissement',
     openGraph: {
         title: 'Calculateur ROI | Retour sur Investissement en 30s',
-        description: 'Calculez le ROI de vos projets instantanément. Taux de retour + payback period + recommandations DAF.',
+        description: 'Quel est le vrai retour de vos investissements ? Calculez ROI + payback + benchmarks par projet. Sans inscription.',
         url: 'https://finsight.zineinsight.com/calculateurs/roi',
         siteName: 'FinSight',
         locale: 'fr_FR',

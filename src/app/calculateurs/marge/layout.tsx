@@ -2,11 +2,11 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Calculateur Marge Commerciale : Taux de Marge & Taux de Marque',
-    description: 'Calculez votre marge commerciale en 30s. Taux de marge, taux de marque, coefficient multiplicateur. Formule + benchmarks par secteur + conseils DAF pour optimiser vos marges. Sans inscription.',
+    description: 'Vos prix reflètent-ils votre valeur ? Calculez vos marges sans inscription. Inclus : benchmarks sectoriels (Commerce, SaaS, Services) + leviers de relève tarifaire. Gratuit.',
     keywords: 'calculateur marge commerciale, taux de marge calcul, taux de marque formule, marge brute entreprise, coefficient multiplicateur, prix de vente calcul, rentabilité produit, marge bénéficiaire',
     openGraph: {
         title: 'Calculateur Marge Commerciale | Taux de Marge en 30s',
-        description: 'Calculez taux de marge et taux de marque instantanément. Formule + benchmarks sectoriels + conseils pour améliorer vos marges.',
+        description: 'Vos prix reflètent-ils votre valeur ? Calculez marges + benchmarks sectoriels + leviers tarifaire. Sans inscription.',
         url: 'https://finsight.zineinsight.com/calculateurs/marge',
         siteName: 'FinSight',
         locale: 'fr_FR',
