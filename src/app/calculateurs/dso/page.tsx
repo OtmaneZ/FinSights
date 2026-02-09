@@ -54,34 +54,26 @@ export default function CalculateurDSO() {
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "Comment calculer le DSO ?",
+                "name": "Comment calculer son DSO simplement ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Le DSO (Days Sales Outstanding) se calcule avec la formule : DSO = (Créances clients / Chiffre d'affaires annuel) × 365. Ce ratio indique le délai moyen en jours que vos clients prennent pour vous payer."
+                    "text": "Le DSO (Days Sales Outstanding) se calcule avec la formule suivante : (Créances clients / Chiffre d'affaires TTC) x nombre de jours sur la période. Un DSO élevé indique que vos clients mettent trop de temps à payer vos factures."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Qu'est-ce qu'un bon DSO ?",
+                "name": "Quel est un bon niveau de DSO en France ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Un bon DSO dépend de votre secteur : Services (< 45 jours), Commerce (< 60 jours), Industrie (< 90 jours), SaaS (< 30 jours). Plus le DSO est faible, meilleure est votre trésorerie."
+                    "text": "Le DSO moyen en France varie selon les secteurs : environ 40 jours dans les services et jusqu'à 60 jours dans l'industrie ou le BTP. Un bon DSO est généralement inférieur à 45 jours pour garantir une trésorerie saine."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Pourquoi mon DSO est-il important ?",
+                "name": "Comment réduire son DSO et libérer du cash ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Un DSO élevé signifie que votre argent est bloqué chez vos clients. Chaque jour de DSO supplémentaire représente du cash immobilisé qui pourrait servir à payer vos fournisseurs, investir ou assurer votre croissance."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Comment réduire mon DSO ?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Pour réduire votre DSO : 1) Facturez rapidement après livraison, 2) Relancez systématiquement avant échéance, 3) Offrez des escomptes pour paiement anticipé, 4) Utilisez l'affacturage pour les gros montants, 5) Automatisez vos relances."
+                    "text": "Pour réduire votre DSO, vous pouvez automatiser vos relances clients, exiger des acomptes à la commande, ou encore proposer l'escompte pour paiement anticipé. Réduire son DSO de 10 jours peut libérer plusieurs milliers d'euros de trésorerie immédiatement."
                 }
             }
         ]

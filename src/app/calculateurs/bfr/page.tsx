@@ -147,9 +147,42 @@ export default function CalculateurBFR() {
 
     const interpretation = bfr !== null ? getInterpretation(bfr, joursCA) : null
 
+    // FAQ Schema for rich snippets
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Comment calculer le Besoin en Fonds de Roulement (BFR) ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Le BFR se calcule avec la formule suivante : (Stocks + Créances Clients) - Dettes Fournisseurs. Il représente le montant des ressources financières qu'une entreprise doit mobiliser pour couvrir les décalages de flux de trésorerie entre ses dépenses et ses encaissements."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Pourquoi un BFR élevé est-il risqué pour une PME ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Un BFR élevé signifie qu'une part importante de votre trésorerie est immobilisée dans vos stocks ou vos factures non payées. Cela réduit votre cash disponible pour investir ou recruter, et augmente le risque de crise de liquidité si votre croissance s'accélère trop vite."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Qu'est-ce qu'un BFR négatif ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Un BFR négatif signifie que votre entreprise génère une ressource de trésorerie : vos fournisseurs vous financent car vous encaissez vos clients avant de payer vos dettes. C'est le modèle type de la grande distribution ou du SaaS (paiements annuels d'avance)."
+                }
+            }
+        ]
+    }
+
     return (
         <div className="min-h-screen bg-white">
             <StructuredData data={structuredData} />
+            <StructuredData data={faqSchema} />
             <Header />
 
             <main>
