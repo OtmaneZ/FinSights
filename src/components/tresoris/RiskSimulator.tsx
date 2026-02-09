@@ -188,27 +188,31 @@ export default function RiskSimulator({ onSimulationComplete, className = '' }: 
                                 <input
                                     type="number"
                                     value={amount}
-                                    onChange={(e) => setAmount(Number(e.target.value))}
+                                    onChange={(e) => setAmount(Math.min(Number(e.target.value), 5000000))}
                                     min={1000}
+                                    max={5000000}
                                     step={1000}
                                     className="w-full px-4 py-3 pr-12 bg-primary border border-border-subtle rounded-xl focus:ring-2 focus:ring-accent-primary/50 focus:border-accent-primary transition-all text-primary"
                                 />
                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary">€</span>
                             </div>
-                            <div className="flex gap-2 mt-2">
-                                {AMOUNT_PRESETS.map((preset) => (
-                                    <button
-                                        key={preset}
-                                        onClick={() => setAmount(preset)}
-                                        className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                                            amount === preset
-                                                ? 'bg-accent-primary text-white'
-                                                : 'bg-secondary text-secondary hover:bg-surface-hover'
-                                        }`}
-                                    >
-                                        {preset >= 1000 ? `${preset / 1000}K` : preset}€
-                                    </button>
-                                ))}
+                            <div className="flex items-center justify-between mt-2">
+                                <div className="flex gap-2">
+                                    {AMOUNT_PRESETS.map((preset) => (
+                                        <button
+                                            key={preset}
+                                            onClick={() => setAmount(preset)}
+                                            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                                                amount === preset
+                                                    ? 'bg-accent-primary text-white'
+                                                    : 'bg-secondary text-secondary hover:bg-surface-hover'
+                                            }`}
+                                        >
+                                            {preset >= 1000 ? `${preset / 1000}K` : preset}€
+                                        </button>
+                                    ))}
+                                </div>
+                                <span className="text-xs text-tertiary">Max: 5M€</span>
                             </div>
                         </div>
                         
@@ -389,10 +393,19 @@ export default function RiskSimulator({ onSimulationComplete, className = '' }: 
                                     {/* Metrics Grid */}
                                     <div className="grid grid-cols-2 gap-3">
                                         {/* Runway Impact */}
-                                        <div className="p-4 bg-primary rounded-xl border border-border-subtle">
+                                        <div className="p-4 bg-primary rounded-xl border border-border-subtle group relative">
                                             <div className="flex items-center gap-2 text-sm text-secondary mb-2">
                                                 <Clock className="w-4 h-4" />
                                                 Impact Runway
+                                                {/* Tooltip */}
+                                                <div className="hidden group-hover:block absolute left-0 top-full mt-2 z-10 w-64 p-3 bg-slate-900 text-white text-xs rounded-lg shadow-xl">
+                                                    <div className="font-semibold mb-1">💡 Impact prévisionnel</div>
+                                                    <div className="text-slate-300">
+                                                        Perte de runway si cette facture n&apos;est <strong>pas encaissée</strong>. 
+                                                        Cela n&apos;affecte pas votre runway global actuel.
+                                                    </div>
+                                                    <div className="absolute -top-1 left-4 w-2 h-2 bg-slate-900 transform rotate-45" />
+                                                </div>
                                             </div>
                                             <div className="flex items-baseline gap-2">
                                                 <span className={`text-2xl font-bold ${

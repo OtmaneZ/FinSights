@@ -25,6 +25,7 @@ import {
     Lock
 } from 'lucide-react'
 import { Action } from './types'
+import { formatAmount } from '@/lib/tresoris/formatting'
 
 interface ActionRecommendationsProps {
     actions: Action[]
@@ -181,7 +182,7 @@ export default function ActionRecommendations({
                                                     </span>
                                                     <span className="flex items-center gap-1">
                                                         <DollarSign className="w-3 h-3" />
-                                                        {(action.impact_amount / 1000).toFixed(0)}K€
+                                                        {formatAmount(action.impact_amount)}
                                                     </span>
                                                     <span className={`text-xs ${config.text}`}>
                                                         {config.label}

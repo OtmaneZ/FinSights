@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Simulateur BFR Gratuit 2026 : Calculez votre Besoin en Fonds de Roulement',
-    description: 'Calculez votre BFR en 30 secondes avec notre simulateur gratuit. Formule PCG, benchmarks sectoriels et conseils d\'optimisation. Utilisé par 500+ dirigeants de PME.',
-    keywords: 'simulateur calcul bfr, calculateur bfr gratuit, besoin fonds roulement pme, bfr formule, bfr négatif, optimiser bfr, trésorerie pme, working capital',
+    title: 'Simulateur BFR : Calculez votre Besoin en Fonds de Roulement',
+    description: 'Découvrez combien de cash est immobilisé dans votre exploitation. Formule BFR = Stocks + Créances - Dettes. Interprétation automatique des résultats et leviers d\'optimisation par un DAF expert. Sans inscription.',
+    keywords: 'simulateur calcul bfr, calculateur bfr gratuit, besoin fonds roulement pme, bfr formule, bfr négatif, optimiser bfr, trésorerie pme, working capital, cash immobilisé',
     openGraph: {
-        title: 'Simulateur BFR Gratuit 2026 | Calculez en 30 secondes',
-        description: 'Calculateur BFR avec interprétation automatique et benchmarks par secteur. Découvrez combien de trésorerie immobilise votre cycle d\'exploitation.',
+        title: 'Simulateur BFR | Calculez votre Besoin en Fonds de Roulement',
+        description: 'Découvrez combien de trésorerie est bloquée dans votre exploitation. Interprétation automatique + leviers d\'optimisation par un DAF expert.',
         url: 'https://finsight.zineinsight.com/calculateurs/bfr',
         siteName: 'FinSight',
         locale: 'fr_FR',
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Simulateur BFR Gratuit 2026 | FinSight',
-        description: 'Calculez votre Besoin en Fonds de Roulement en 30 secondes. Formule PCG + benchmarks sectoriels.',
+        title: 'Simulateur BFR | Besoin en Fonds de Roulement',
+        description: 'Calculez votre BFR + interprétation DAF expert + leviers d\'optimisation. Sans inscription.',
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/bfr',

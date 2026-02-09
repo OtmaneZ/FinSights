@@ -287,66 +287,153 @@ export default function DemoOrchestrator({
                 )}
             </div>
 
-            {/* Barre de progression */}
+            {/* Indicateur DEMO EN COURS */}
             {isRunning && (
                 <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mb-6"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="mb-6 relative"
                 >
-                    <div className="flex items-center justify-between text-sm text-slate-600 mb-2">
-                        <span>Démonstration en cours...</span>
-                        <span>{Math.round(progress)}%</span>
-                    </div>
-                    <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-                        <motion.div
-                            className="h-full bg-gradient-to-r from-emerald-500 to-teal-500"
-                            style={{ width: `${progress}%` }}
-                            transition={{ duration: 0.1 }}
-                        />
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-2xl blur-xl" />
+                    <div className="relative bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl p-6 shadow-2xl">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <motion.div
+                                    animate={{ 
+                                        scale: [1, 1.2, 1],
+                                        rotate: [0, 180, 360]
+                                    }}
+                                    transition={{ 
+                                        duration: 2, 
+                                        repeat: Infinity,
+                                        ease: "linear"
+                                    }}
+                                    className="p-2 bg-white/20 rounded-full backdrop-blur-sm"
+                                >
+                                    <Sparkles className="w-6 h-6 text-white" />
+                                </motion.div>
+                                <div>
+                                    <h3 className="text-white font-bold text-xl flex items-center gap-2">
+                                        Watch Me Work
+                                        <motion.span
+                                            animate={{ opacity: [1, 0.5, 1] }}
+                                            transition={{ duration: 1.5, repeat: Infinity }}
+                                            className="inline-block w-3 h-3 bg-white rounded-full"
+                                        />
+                                    </h3>
+                                    <p className="text-emerald-100 text-sm">Agent TRESORIS en démonstration autonome</p>
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <div className="text-white/90 text-sm mb-1">Progression</div>
+                                <div className="text-white font-bold text-2xl">{Math.round(progress)}%</div>
+                            </div>
+                        </div>
+                        <div className="mt-4 h-3 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm">
+                            <motion.div
+                                className="h-full bg-white rounded-full shadow-lg"
+                                style={{ width: `${progress}%` }}
+                                transition={{ duration: 0.3 }}
+                            />
+                        </div>
                     </div>
                 </motion.div>
             )}
 
-            {/* Narration en temps réel */}
+            {/* Narration en temps réel - VERSION ULTRA VISIBLE */}
             <AnimatePresence mode="wait">
                 {currentStep && (
                     <motion.div
                         key={currentStep.id}
-                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                        initial={{ opacity: 0, y: 30, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                        className={`p-6 rounded-2xl shadow-lg border-2 ${
-                            currentStep.type === 'detection' 
-                                ? 'bg-amber-50 border-amber-200' 
-                                : currentStep.type === 'recommendation'
-                                ? 'bg-emerald-50 border-emerald-200'
-                                : 'bg-white border-slate-200'
-                        }`}
+                        exit={{ opacity: 0, y: -30, scale: 0.9 }}
+                        transition={{ type: 'spring', damping: 25, stiffness: 400 }}
+                        className="relative mb-6"
                     >
-                        <div className="flex items-start gap-4">
-                            <div className={`p-3 rounded-xl ${getStepColor(currentStep.type)}`}>
-                                {getStepIcon(currentStep.type)}
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="font-bold text-lg text-slate-900 mb-1">
-                                    {currentStep.title}
-                                </h3>
-                                <p className="text-slate-600">
-                                    {currentStep.description}
-                                </p>
-                            </div>
-                            {currentStep.type === 'detection' && (
-                                <motion.div
-                                    animate={{ scale: [1, 1.1, 1] }}
-                                    transition={{ duration: 0.5, repeat: Infinity }}
-                                    className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium"
+                        {/* Glow effect behind */}
+                        <div className={`absolute inset-0 rounded-3xl blur-2xl opacity-30 ${
+                            currentStep.type === 'detection' 
+                                ? 'bg-amber-400' 
+                                : currentStep.type === 'recommendation'
+                                ? 'bg-emerald-400'
+                                : currentStep.type === 'analysis'
+                                ? 'bg-blue-400'
+                                : 'bg-purple-400'
+                        }`} />
+                        
+                        {/* Main card */}
+                        <motion.div
+                            animate={{ 
+                                boxShadow: currentStep.type === 'detection' 
+                                    ? ['0 10px 40px rgba(245, 158, 11, 0.3)', '0 10px 60px rgba(245, 158, 11, 0.5)', '0 10px 40px rgba(245, 158, 11, 0.3)']
+                                    : '0 10px 40px rgba(0, 0, 0, 0.1)'
+                            }}
+                            transition={{ duration: 1.5, repeat: currentStep.type === 'detection' ? Infinity : 0 }}
+                            className={`relative p-8 rounded-3xl border-3 ${
+                                currentStep.type === 'detection' 
+                                    ? 'bg-gradient-to-br from-amber-50 to-orange-50 border-amber-300' 
+                                    : currentStep.type === 'recommendation'
+                                    ? 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-300'
+                                    : currentStep.type === 'analysis'
+                                    ? 'bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-300'
+                                    : 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-300'
+                            }`}
+                        >
+                            <div className="flex items-start gap-5">
+                                {/* Icon with animation */}
+                                <motion.div 
+                                    animate={{ 
+                                        scale: [1, 1.1, 1],
+                                        rotate: currentStep.type === 'action' ? [0, 5, -5, 0] : 0
+                                    }}
+                                    transition={{ duration: 0.6, repeat: Infinity }}
+                                    className={`p-4 rounded-2xl shadow-lg ${getStepColor(currentStep.type)}`}
                                 >
-                                    LIVE
+                                    {getStepIcon(currentStep.type)}
                                 </motion.div>
-                            )}
-                        </div>
+                                
+                                {/* Content */}
+                                <div className="flex-1">
+                                    <h3 className="font-black text-2xl text-slate-900 mb-2 flex items-center gap-3">
+                                        {currentStep.title}
+                                        <ArrowRight className="w-5 h-5 text-slate-400" />
+                                    </h3>
+                                    <p className="text-slate-700 text-lg leading-relaxed">
+                                        {currentStep.description}
+                                    </p>
+                                </div>
+                                
+                                {/* Status badge */}
+                                {currentStep.type === 'detection' && (
+                                    <motion.div
+                                        animate={{ scale: [1, 1.15, 1] }}
+                                        transition={{ duration: 0.8, repeat: Infinity }}
+                                        className="px-4 py-2 bg-red-500 text-white rounded-xl text-base font-black shadow-lg"
+                                    >
+                                        🔴 LIVE
+                                    </motion.div>
+                                )}
+                                {currentStep.type === 'analysis' && (
+                                    <motion.div
+                                        animate={{ rotate: [0, 360] }}
+                                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                        className="px-4 py-2 bg-blue-500 text-white rounded-xl text-base font-bold shadow-lg"
+                                    >
+                                        <Brain className="w-6 h-6" />
+                                    </motion.div>
+                                )}
+                                {currentStep.type === 'recommendation' && (
+                                    <motion.div
+                                        animate={{ scale: [1, 1.1, 1] }}
+                                        transition={{ duration: 0.6, repeat: Infinity }}
+                                        className="px-4 py-2 bg-emerald-500 text-white rounded-xl text-base font-bold shadow-lg"
+                                    >
+                                        ✅ ACTION
+                                    </motion.div>
+                                )}
+                            </div>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>

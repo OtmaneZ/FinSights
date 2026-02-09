@@ -443,10 +443,22 @@ export default function AutonomousAgentPanel({
             {/* Metrics */}
             <div className="grid grid-cols-4 divide-x divide-border-subtle">
                 <div className="px-4 py-3 text-center">
-                    <div className="text-xs text-tertiary mb-1">Uptime</div>
-                    <div className="text-lg font-semibold text-primary">
-                        {status?.running ? formatUptime(status.uptime_seconds) : '—'}
+                    <div className="text-xs text-tertiary mb-1">
+                        {!status?.running && (status?.uptime_seconds || 0) > 0 ? 'Dernière session' : 'Uptime'}
                     </div>
+                    <div className="text-lg font-semibold text-primary">
+                        {status?.running 
+                            ? formatUptime(status.uptime_seconds) 
+                            : (status?.uptime_seconds || 0) > 0 
+                                ? formatUptime(status?.uptime_seconds || 0)
+                                : '—'
+                        }
+                    </div>
+                    {!status?.running && (status?.uptime_seconds || 0) > 0 && (
+                        <div className="text-xs text-tertiary mt-0.5">
+                            (arrêté)
+                        </div>
+                    )}
                 </div>
                 <div className="px-4 py-3 text-center">
                     <div className="text-xs text-tertiary mb-1">Decisions</div>

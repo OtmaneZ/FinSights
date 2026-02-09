@@ -31,7 +31,8 @@ import {
     AlertTriangle,
     Zap,
     Eye,
-    BarChart3
+    BarChart3,
+    RotateCcw
 } from 'lucide-react'
 
 // Components
@@ -120,6 +121,28 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
         }
         setShowValidationModal(false)
     }, [pendingActions, validateAction])
+    
+    // Reset demo - clear all simulations
+    const resetDemo = useCallback(async () => {
+        try {
+            // Stop agent if running
+            await fetch('/api/tresoris/agent/stop', { method: 'POST' })
+            
+            // Reload dashboard to get fresh data
+            await fetchDashboard()
+            
+            // Reset local state
+            setLastSimulation(null)
+            setAgentTriggered(false)
+            setTimelinePhase('before')
+            setPendingActions([])
+            setShowValidationModal(false)
+            
+            console.log('✅ Démo réinitialisée')
+        } catch (err) {
+            console.error('❌ Reset demo error:', err)
+        }
+    }, [fetchDashboard])
     
     // ═══════════════════════════════════════════════════════════════════
     // AGENT STATUS HANDLERS
@@ -216,14 +239,24 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                             </div>
                         </div>
                         
-                        {/* Refresh */}
-                        <button
-                            onClick={fetchDashboard}
-                            className="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-all"
-                            title="Rafraîchir"
-                        >
-                            <RefreshCw className="w-5 h-5" />
-                        </button>
+                        {/* Refresh & Reset */}
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={resetDemo}
+                                className="flex items-center gap-2 px-3 py-2 text-sm text-amber-600 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg transition-all"
+                                title="Réinitialiser la démo"
+                            >
+                                <RotateCcw className="w-4 h-4" />
+                                <span className="hidden sm:inline">Réinitialiser</span>
+                            </button>
+                            <button
+                                onClick={fetchDashboard}
+                                className="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-all"
+                                title="Rafraîchir"
+                            >
+                                <RefreshCw className="w-5 h-5" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

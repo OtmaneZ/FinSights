@@ -14,9 +14,9 @@ import AnalyticsDebugger from '@/components/AnalyticsDebugger'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-    title: 'Calculateurs DSO & BFR Gratuits en 30s | FinSight - Outils Finance PME',
-    description: 'Problème de trésorerie ? Calculez votre DSO et BFR gratuitement en 30 secondes. Benchmarks sectoriels inclus. + Conseil DAF externalisé pour PME 1-100M€.',
-    keywords: ['calculateur dso gratuit', 'calculer dso en ligne', 'calculateur bfr gratuit', 'dso formule calcul', 'dso days sales outstanding', 'bfr besoin fonds roulement', 'daf externalisé pme', 'pilotage trésorerie pme', 'délai paiement clients', 'problème trésorerie pme'],
+    title: 'FinSight | DAF Externalisé : Pilotage Financier & Stratégie Data pour PME',
+    description: 'Transformez vos données en décisions. Obtenez votre Score FinSight™ (0-100) en 2min : audit stratégique, surveillance trésorerie et Agents IA pour PME 1-100M€. Diagnostic gratuit 30 min.',
+    keywords: ['daf externalisé pme', 'pilotage financier pme', 'score finsight', 'audit financier stratégique', 'agents ia finance', 'surveillance trésorerie', 'calculateur dso gratuit', 'calculateur bfr gratuit', 'diagnostic financier pme', 'stratégie data finance'],
     authors: [{ name: 'Otmane Boulahia', url: 'https://finsight.zineinsight.com/consulting' }],
     creator: 'FinSight',
     publisher: 'FinSight',
@@ -29,19 +29,19 @@ export const metadata = {
         locale: 'fr_FR',
         url: 'https://finsight.zineinsight.com',
         siteName: 'FinSight',
-        title: 'Calculateurs DSO & BFR Gratuits (30s) | Outils Finance PME',
-        description: 'Problème de trésorerie ? Calculez votre DSO et BFR en 30 secondes. Benchmarks sectoriels + Conseil DAF externalisé.',
+        title: 'FinSight | DAF Externalisé & Pilotage Financier pour PME',
+        description: 'Score FinSight™ gratuit en 2min : audit stratégique, surveillance trésorerie et Agents IA. Diagnostic gratuit 30 min.',
         images: [{
             url: 'https://finsight.zineinsight.com/images/og-default.png',
             width: 1200,
             height: 630,
-            alt: 'FinSight - Calculateurs DSO & BFR Gratuits pour PME'
+            alt: 'FinSight - DAF Externalisé pour PME 1-100M€'
         }]
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Calculateurs DSO & BFR Gratuits | FinSight',
-        description: 'Problème de trésorerie ? Calculez DSO et BFR en 30s. Benchmarks inclus + Conseil DAF.',
+        title: 'FinSight | DAF Externalisé & Pilotage Financier PME',
+        description: 'Score FinSight™ en 2min : audit stratégique + surveillance trésorerie + Agents IA. Diagnostic gratuit.',
         images: ['https://finsight.zineinsight.com/images/og-default.png']
     },
     icons: {
