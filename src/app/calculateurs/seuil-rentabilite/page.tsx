@@ -478,6 +478,29 @@ export default function CalculateurSeuilRentabilite() {
                     </div>
                 </section>
 
+                {/* CTA Audit Stratégique */}
+                <section className="py-8 bg-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-3xl mx-auto">
+                            <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
+                                <p className="text-accent-primary font-semibold mb-2">💡 Prêt à optimiser votre rentabilité ?</p>
+                                <p className="text-white text-lg mb-6">
+                                    Mon <strong>Audit Stratégique (1 490€)</strong> analyse en détail votre structure de coûts, 
+                                    identifie les leviers de réduction et propose un plan d&apos;action chiffré. 
+                                    Je vous aide ensuite à abaisser votre seuil et à maximiser votre profitabilité.
+                                </p>
+                                <Link 
+                                    href="/consulting" 
+                                    className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
+                                >
+                                    Découvrir l&apos;Audit Stratégique
+                                    <ArrowRight className="w-5 h-5" />
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* FAQ Section */}
                 <section className="py-16 bg-white">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">

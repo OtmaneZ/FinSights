@@ -409,14 +409,15 @@ export default function CalculateurDSO() {
                                 <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
                                     <p className="text-accent-primary font-semibold mb-2">💡 Besoin d&apos;aide pour piloter votre DSO ?</p>
                                     <p className="text-white text-lg mb-6">
-                                        En tant que <strong>DAF externalisé</strong>, je vous aide à mettre en place un pilotage de trésorerie 
-                                        sur 90 jours avec suivi automatique du DSO et alertes.
+                                        Avec mon <strong>Audit Stratégique (1 490€)</strong>, j&apos;analyse votre DSO en détail et vous propose 
+                                        un plan d&apos;action personnalisé pour libérer du cash. Je vous aide ensuite à optimiser ces ratios en réel 
+                                        avec un pilotage de trésorerie sur 90 jours.
                                     </p>
                                     <Link 
                                         href="/consulting" 
                                         className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
                                     >
-                                        Voir mes offres d&apos;accompagnement
+                                        Découvrir l&apos;Audit Stratégique
                                         <ArrowRight className="w-5 h-5" />
                                     </Link>
                                 </div>

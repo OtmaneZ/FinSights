@@ -468,14 +468,15 @@ export default function CalculateurBFR() {
                                 <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
                                     <p className="text-accent-primary font-semibold mb-2">💡 BFR qui explose avec votre croissance ?</p>
                                     <p className="text-white text-lg mb-6">
-                                        En tant que <strong>DAF externalisé</strong>, je vous aide à structurer le pilotage de votre BFR 
-                                        avec prévisionnel 90 jours et alertes automatiques.
+                                        Mon <strong>Audit Stratégique (1 490€)</strong> diagnostique vos fuites de trésorerie liées au BFR 
+                                        et propose des leviers d&apos;optimisation immédiate. Je vous aide ensuite à piloter votre BFR 
+                                        en temps réel avec prévisionnel 90 jours et alertes.
                                     </p>
                                     <Link 
                                         href="/consulting" 
                                         className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
                                     >
-                                        Voir mes offres d&apos;accompagnement
+                                        Découvrir l&apos;Audit Stratégique
                                         <ArrowRight className="w-5 h-5" />
                                     </Link>
                                 </div>
