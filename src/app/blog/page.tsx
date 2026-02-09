@@ -36,6 +36,17 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
     {
+        slug: 'dashboard-financier-mort-agents-ia-2026',
+        title: 'Pourquoi votre Dashboard Financier est mort (et ce qui le remplace en 2026)',
+        description: 'Le Dashboard affiche le passé. Les Agents IA prédisent l\'avenir. Découvrez DASHIS, TRESORIS, MARGIS et SCENARIS : la révolution du pilotage automatique 24/7',
+        date: '9 février 2026',
+        readTime: '8 min',
+        category: 'Intelligence Artificielle',
+        tags: ['Agents IA', 'Automation', 'Trésorerie', 'Pilotage', 'Dashboard'],
+        featured: true,
+        image: '/images/ai-oversight-control.png'
+    },
+    {
         slug: 'lire-bilan-compte-resultat-guide-pratique',
         title: 'Lire un bilan et un compte de résultat : guide pratique',
         description: 'Apprenez à décrypter vos états financiers en 15 minutes : bilan, compte de résultat, signaux d\'alerte et questions à poser à votre comptable',
@@ -43,7 +54,7 @@ const blogPosts: BlogPost[] = [
         readTime: '12 min',
         category: 'Gestion',
         tags: ['Bilan', 'Compte de résultat', 'États financiers', 'Comptabilité'],
-        featured: true,
+        featured: false,
         image: '/images/bureau-nuit.png'
     },
     {
