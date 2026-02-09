@@ -5,13 +5,18 @@ import Footer from '@/components/Footer'
 import { CalculatorHub } from '@/components/CalculatorHub'
 
 export const metadata: Metadata = {
-    title: 'Calculateurs Financiers Gratuits | DSO, BFR, ROI, Marge | FinSight',
-    description: 'Collection de 6 calculateurs financiers gratuits pour CFO/DAF : DSO, BFR, ROI, Seuil de rentabilité, Marge commerciale, EBITDA. Résultats instantanés avec interprétation.',
+    title: 'Outils Financiers Gratuits PME | 9 Calculateurs CFO/DAF',
+    description: '9 calculateurs financiers gratuits pour piloter votre PME : DSO, BFR, ROI, Seuil de rentabilité, Marge commerciale, EBITDA, Burn Rate, Valorisation. Résultats instantanés + interprétation DAF. Sans inscription.',
+    keywords: 'outils financiers gratuits, calculateurs finance pme, calculateur dso bfr, kpi finance, tableau bord daf, outils cfo gratuits, analyse financière pme',
     openGraph: {
-        title: 'Calculateurs Financiers Gratuits pour CFO/DAF | FinSight',
-        description: '6 calculateurs gratuits pour piloter vos finances : DSO, BFR, ROI, Marges...',
-        type: 'website'
-    }
+        title: 'Outils Financiers Gratuits | 9 Calculateurs pour CFO/DAF',
+        description: '9 calculateurs gratuits pour piloter vos KPIs : DSO, BFR, ROI, Marges... Résultats instantanés avec interprétation.',
+        type: 'website',
+        url: 'https://finsight.zineinsight.com/calculateurs',
+    },
+    alternates: {
+        canonical: 'https://finsight.zineinsight.com/calculateurs',
+    },
 }
 
 export default function CalculateursPage() {
@@ -28,13 +33,13 @@ export default function CalculateursPage() {
                     </div>
 
                     <h1 className="text-5xl font-bold mb-6 leading-tight">
-                        Calculateurs Financiers<br />
-                        <span className="text-accent-primary">pour CFO/DAF</span>
+                        Outils Financiers Gratuits<br />
+                        <span className="text-accent-primary">9 Calculateurs CFO/DAF</span>
                     </h1>
 
                     <p className="text-xl text-secondary max-w-3xl mx-auto mb-4">
-                        6 outils gratuits pour calculer vos KPIs en temps réel.<br />
-                        Résultats instantanés avec interprétation et recommandations.
+                        9 outils gratuits pour calculer vos KPIs financiers en temps réel.<br />
+                        Résultats instantanés avec interprétation et recommandations d&apos;expert.
                     </p>
 
                     <p className="text-sm text-tertiary">

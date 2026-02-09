@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Calculator, TrendingUp, DollarSign, Target, PieChart, BarChart3, X, CheckCircle, AlertCircle } from 'lucide-react'
 import { BenchmarkBar } from '@/components/BenchmarkBar'
 import { trackCalculatorUse } from '@/lib/analytics'
@@ -11,6 +12,7 @@ interface CalculatorConfig {
     description: string
     icon: any
     color: string
+    dedicatedPage?: string // URL de la page dédiée si elle existe
     inputs: InputConfig[]
     calculate: (inputs: Record<string, number>) => CalculatorResult
 }
@@ -47,6 +49,7 @@ const calculators: CalculatorConfig[] = [
         description: 'Days Sales Outstanding - Délai moyen de paiement clients',
         icon: TrendingUp,
         color: 'from-blue-500 to-accent-primary',
+        dedicatedPage: '/calculateurs/dso',
         inputs: [
             { key: 'creances', label: 'Créances clients', placeholder: '150000', unit: '€', tooltip: 'Factures non encore encaissées' },
             { key: 'ca', label: 'Chiffre d\'affaires annuel', placeholder: '1200000', unit: '€' }
@@ -112,6 +115,7 @@ const calculators: CalculatorConfig[] = [
         description: 'Besoin en Fonds de Roulement - Trésorerie immobilisée',
         icon: DollarSign,
         color: 'from-green-500 to-green-600',
+        dedicatedPage: '/calculateurs/bfr',
         inputs: [
             { key: 'stocks', label: 'Stocks', placeholder: '50000', unit: '€' },
             { key: 'creances', label: 'Créances clients', placeholder: '150000', unit: '€' },
@@ -181,6 +185,7 @@ const calculators: CalculatorConfig[] = [
         description: 'Return on Investment - Rentabilité d\'un investissement',
         icon: Target,
         color: 'from-purple-500 to-purple-600',
+        dedicatedPage: '/calculateurs/roi',
         inputs: [
             { key: 'investissement', label: 'Investissement initial', placeholder: '50000', unit: '€' },
             { key: 'gains', label: 'Gains annuels générés', placeholder: '15000', unit: '€' }
@@ -245,6 +250,7 @@ const calculators: CalculatorConfig[] = [
         description: 'Marge commerciale - Taux de marge et taux de marque',
         icon: PieChart,
         color: 'from-orange-500 to-orange-600',
+        dedicatedPage: '/calculateurs/marge',
         inputs: [
             { key: 'prixAchat', label: 'Prix d\'achat HT', placeholder: '100', unit: '€' },
             { key: 'prixVente', label: 'Prix de vente HT', placeholder: '150', unit: '€' }
@@ -316,6 +322,7 @@ const calculators: CalculatorConfig[] = [
         description: 'Point mort - CA minimum pour être rentable',
         icon: BarChart3,
         color: 'from-red-500 to-red-600',
+        dedicatedPage: '/calculateurs/seuil-rentabilite',
         inputs: [
             { key: 'chargesFixes', label: 'Charges fixes mensuelles', placeholder: '50000', unit: '€', tooltip: 'Loyers, salaires, abonnements...' },
             { key: 'tauxMarge', label: 'Taux de marge variable', placeholder: '40', unit: '%', tooltip: '(Prix vente - Coût variable) / Prix vente' }
@@ -724,6 +731,35 @@ export function CalculatorHub() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {calculators.map((calc) => {
                     const Icon = calc.icon
+                    
+                    // Si page dédiée existe, on redirige au lieu d'ouvrir modal
+                    if (calc.dedicatedPage) {
+                        return (
+                            <Link
+                                key={calc.id}
+                                href={calc.dedicatedPage}
+                                className="surface rounded-2xl p-8 border-2 border-border-default hover:border-accent-primary transition-all text-left group surface-hover block"
+                            >
+                                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-r ${calc.color} mb-4`}>
+                                    <Icon className="w-8 h-8 text-white" />
+                                </div>
+                                <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
+                                    {calc.title}
+                                </h3>
+                                <p className="text-sm text-secondary mb-4">
+                                    {calc.description}
+                                </p>
+                                <div className="flex items-center gap-2 text-accent-primary font-semibold">
+                                    Calculer maintenant
+                                    <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </Link>
+                        )
+                    }
+                    
+                    // Sinon, on ouvre le modal (calculateurs sans page dédiée)
                     return (
                         <button
                             key={calc.id}
