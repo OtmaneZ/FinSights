@@ -805,8 +805,8 @@ export default function CalculateurBFR() {
 
                                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                             <Link
-                                                href="/dashboard"
-                                                onClick={() => trackCTAClick('calculateur-bfr', '/dashboard', 'essayer-gratuitement')}
+                                                href="/consulting"
+                                                onClick={() => trackCTAClick('calculateur-bfr', '/consulting', 'essayer-gratuitement')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                             >
                                                 Essayer gratuitement
@@ -937,7 +937,7 @@ export default function CalculateurBFR() {
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <Link
-                                    href="/dashboard"
+                                    href="/consulting"
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                 >
                                     Essayer gratuitement

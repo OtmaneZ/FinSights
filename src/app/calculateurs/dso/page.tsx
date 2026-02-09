@@ -671,8 +671,8 @@ export default function CalculateurDSO() {
 
                                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                             <Link
-                                                href="/dashboard"
-                                                onClick={() => trackCTAClick('calculateur-dso', '/dashboard', 'essayer-gratuitement')}
+                                                href="/consulting"
+                                                onClick={() => trackCTAClick('calculateur-dso', '/consulting', 'essayer-gratuitement')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                             >
                                                 Essayer gratuitement
@@ -884,7 +884,7 @@ export default function CalculateurDSO() {
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <Link
-                                    href="/dashboard"
+                                    href="/consulting"
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                 >
                                     Essayer gratuitement
