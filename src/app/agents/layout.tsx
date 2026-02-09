@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Agents IA Finance | Automatisez votre Pilotage Financier - FinSight',
-    description: 'Découvrez nos 4 agents IA spécialisés en finance : Trésoris (trésorerie), Margo (marges), Résilius (résilience) et Vigilo (risques). Automatisez l\'analyse de vos données comptables et obtenez des insights actionnables en temps réel.',
+    description: 'Automatisez votre DAF avec 4 agents IA spécialisés : DASHIS, TRESORIS, MARGIS et SCENARIS. Surveillance cash 24/7, analyse de rentabilité et simulations stratégiques pour PME. Démo gratuite.',
     keywords: [
         'agent ia finance',
         'automatisation comptable',
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     ],
     openGraph: {
         title: 'Agents IA Finance | Automatisez votre Pilotage Financier',
-        description: '4 agents IA spécialisés pour piloter votre trésorerie, marges, résilience et risques. Gagnez 15h/mois sur votre reporting financier.',
+        description: 'DASHIS, TRESORIS, MARGIS, SCENARIS : 4 agents IA pour surveillance cash 24/7 + analyses stratégiques. Démo gratuite.',
         url: 'https://finsight.zineinsight.com/agents',
         siteName: 'FinSight',
         images: [

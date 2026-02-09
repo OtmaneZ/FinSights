@@ -28,11 +28,52 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StructuredData from "@/components/StructuredData";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Comment les agents IA FinSight accèdent-ils à mes données financières ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nos agents (DASHIS, TRESORIS...) se connectent de manière sécurisée à vos outils existants : logiciels comptables, CRM et comptes bancaires via API. L'intégration est conçue pour être non-intrusive et respecte les plus hauts standards de sécurité RGPD."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quelle est la différence entre un dashboard classique et l'agent DASHIS ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Un dashboard classique affiche le passé. DASHIS utilise l'IA (GPT-4 et Machine Learning) pour interpréter les chiffres en 30 secondes, détecter des anomalies de gestion et prédire votre cash-flow futur de manière autonome."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quel est le délai de déploiement pour le Pack 4 Agents ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le déploiement complet est une offre clé en main. Entre la configuration personnalisée sur vos données, l'intégration technique et la formation de votre équipe (DAF, CEO), vous êtes opérationnel en seulement 2 semaines."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Les agents IA remplacent-ils un DAF ou un expert-comptable ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non, ils les augmentent. Les agents automatisent les tâches d'analyse chronophages (24h/24) pour permettre au DAF de se concentrer sur la prise de décision stratégique et le pilotage de la performance."
+      }
+    }
+  ]
+}
 
 export default function AgentsPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      <StructuredData data={faqSchema} />
       <main>
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-32 pb-24">
