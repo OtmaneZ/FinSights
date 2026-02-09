@@ -22,9 +22,41 @@ import {
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Testimonials from '@/components/Testimonials'
+import StructuredData from '@/components/StructuredData'
 
 import AnimatedScoreDisplay from '@/components/landing/AnimatedScoreDisplay'
 import NewsletterPopup from '@/components/NewsletterPopup'
+
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Pourquoi faire appel à un DAF externalisé pour sa PME ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Un DAF externalisé apporte l'expertise stratégique d'un directeur financier senior sans le coût d'un recrutement fixe. Il aide les dirigeants de PME (1-100M€ CA) à sécuriser leur trésorerie, optimiser leurs marges et piloter leur croissance avec des données fiables."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Qu'est-ce que le Score FinSight™ ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Le Score FinSight™ est un indicateur exclusif de santé financière noté sur 100. Il analyse 4 piliers critiques de votre entreprise : Cash, Marges, Résilience et Risques, pour vous permettre de décider avec 3 mois d'avance."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Comment se déroule un diagnostic financier avec FinSight ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Le diagnostic débute par un échange gratuit de 30 minutes pour identifier vos enjeux. Nous réalisons ensuite un audit flash en 5 jours pour détecter vos fuites de cash et établir un plan d'action immédiat avec 3 recommandations chiffrées."
+            }
+        }
+    ]
+}
 
 export default function Home() {
     return (
@@ -713,6 +745,7 @@ export default function Home() {
                 </div>
             </section>
 
+            <StructuredData data={faqSchema} />
             <Footer />
         </div>
     )
