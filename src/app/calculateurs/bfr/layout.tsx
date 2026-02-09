@@ -2,11 +2,11 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Simulateur BFR : Calculez votre Besoin en Fonds de Roulement',
-    description: 'Découvrez combien de cash est immobilisé dans votre exploitation. Formule BFR = Stocks + Créances - Dettes. Interprétation automatique des résultats et leviers d\'optimisation par un DAF expert. Sans inscription.',
+    description: 'Combien de cash est bloqué dans vos stocks et créances ? Simulez votre BFR sans inscription. Inclus : benchmarks sectoriels + leviers de déblocage cash. Gratuit.',
     keywords: 'simulateur calcul bfr, calculateur bfr gratuit, besoin fonds roulement pme, bfr formule, bfr négatif, optimiser bfr, trésorerie pme, working capital, cash immobilisé',
     openGraph: {
         title: 'Simulateur BFR | Calculez votre Besoin en Fonds de Roulement',
-        description: 'Découvrez combien de trésorerie est bloquée dans votre exploitation. Interprétation automatique + leviers d\'optimisation par un DAF expert.',
+        description: 'Combien de cash bloqué dans vos stocks/créances ? Calculez BFR + benchmarks sectoriels + leviers déblocage. Sans inscription.',
         url: 'https://finsight.zineinsight.com/calculateurs/bfr',
         siteName: 'FinSight',
         locale: 'fr_FR',

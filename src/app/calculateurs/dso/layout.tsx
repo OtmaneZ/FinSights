@@ -2,11 +2,11 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Calculateur DSO Gratuit : Mesurez votre Délai de Paiement Client',
-    description: 'Calculez votre DSO en 30s. Inclus : Formule DSO = (Créances/CA) × 365, benchmarks sectoriels (Services, Commerce, Industrie, SaaS) et conseils de DAF pour réduire vos retards de paiement. Sans inscription.',
+    description: 'Combien de trésorerie dorment chez vos clients ? Calculez votre DSO sans inscription. Inclus : benchmarks 2026 (SaaS, Industrie, BTP) et conseils de DAF. Gratuit.',
     keywords: 'calculateur dso gratuit, dso calcul, calculer dso en ligne, formule dso, days sales outstanding, délai paiement clients, dso moyen secteur, créances clients pme, réduire dso',
     openGraph: {
         title: 'Calculateur DSO Gratuit | Mesurez votre Délai de Paiement Client',
-        description: 'Calculez votre Days Sales Outstanding en 30s. Formule + benchmarks sectoriels + conseils DAF pour optimiser vos encaissements. Sans inscription.',
+        description: 'Combien de trésorerie dorment chez vos clients ? Calculez DSO + benchmarks 2026 + conseils DAF. Sans inscription.',
         url: 'https://finsight.zineinsight.com/calculateurs/dso',
         siteName: 'FinSight',
         locale: 'fr_FR',
