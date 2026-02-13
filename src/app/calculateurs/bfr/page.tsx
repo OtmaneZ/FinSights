@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Calculator, TrendingUp, ArrowRight, AlertCircle, CheckCircle, CheckCircle2, Zap, Info, Target, BarChart3, Package, Users, CreditCard } from 'lucide-react'
+import { Calculator, TrendingUp, ArrowRight, AlertCircle, CheckCircle, CheckCircle2, Zap, Info, Target, BarChart3, Package, Users, CreditCard, AlertTriangle, FileText, Clock } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
@@ -666,6 +666,94 @@ export default function CalculateurBFR() {
                                     </div>
                                 </motion.div>
 
+                                {/* 🔥 NOUVEAU : Diagnostic Personnalisé - Bridge to Consulting */}
+                                {bfr > 0 && joursCA && joursCA > 30 && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5, delay: 0.15 }}
+                                        className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-8 shadow-xl"
+                                    >
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-14 h-14 rounded-xl bg-amber-500 flex items-center justify-center flex-shrink-0">
+                                                <AlertTriangle className="w-7 h-7 text-white" />
+                                            </div>
+                                            <div className="flex-1">
+                                                <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                                                    Votre BFR immobilise {bfr.toLocaleString('fr-FR')}€ de trésorerie
+                                                </h3>
+                                                <p className="text-gray-700 mb-4 text-lg leading-relaxed">
+                                                    Avec un BFR de <strong>{joursCA} jours de CA</strong>, vous devez financer{' '}
+                                                    <strong className="text-amber-700">{(joursCA / 30).toFixed(1)} mois d'exploitation</strong> en permanence.
+                                                    <br />
+                                                    En réduisant votre BFR à 15 jours, vous libérez{' '}
+                                                    <strong className="text-green-600">
+                                                        {ca ? Math.round((parseFloat(ca) / 365) * (joursCA - 15)).toLocaleString('fr-FR') : bfr * 0.5}€
+                                                    </strong>.
+                                                </p>
+                                                
+                                                {/* Impact chiffré */}
+                                                <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 mb-6 border border-amber-200">
+                                                    <div className="grid md:grid-cols-3 gap-4 text-center">
+                                                        <div>
+                                                            <p className="text-sm text-gray-600 mb-1">Cash immobilisé (BFR)</p>
+                                                            <p className="text-2xl font-bold text-red-600">
+                                                                {bfr.toLocaleString('fr-FR')}€
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm text-gray-600 mb-1">Cash libérable (BFR à 15j)</p>
+                                                            <p className="text-2xl font-bold text-green-600">
+                                                                +{ca ? Math.round((parseFloat(ca) / 365) * (joursCA - 15)).toLocaleString('fr-FR') : Math.round(bfr * 0.5).toLocaleString('fr-FR')}€
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm text-gray-600 mb-1">Gain financier annuel (3%)</p>
+                                                            <p className="text-2xl font-bold text-accent-primary">
+                                                                {ca ? Math.round(((parseFloat(ca) / 365) * (joursCA - 15)) * 0.03).toLocaleString('fr-FR') : Math.round(bfr * 0.015).toLocaleString('fr-FR')}€
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* CTAs */}
+                                                <div className="flex flex-col sm:flex-row gap-4">
+                                                    <a
+                                                        href="https://calendly.com/zineinsight"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={() => trackCTAClick('bfr-diagnostic', 'calendly', `audit-bfr-${bfr}-jours-${joursCA}`)}
+                                                        className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg hover:shadow-xl"
+                                                    >
+                                                        <Target className="w-5 h-5" />
+                                                        Audit gratuit 30 min : Comment réduire mon BFR ?
+                                                    </a>
+                                                    <Link
+                                                        href="/consulting"
+                                                        onClick={() => trackCTAClick('bfr-diagnostic', '/consulting', 'audit-strategique')}
+                                                        className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-amber-500 text-amber-700 font-semibold rounded-xl hover:bg-amber-50 transition-all"
+                                                    >
+                                                        <FileText className="w-5 h-5" />
+                                                        Voir l'offre Audit Stratégique
+                                                    </Link>
+                                                </div>
+
+                                                {/* Trust indicators */}
+                                                <div className="flex items-center gap-6 text-sm text-gray-600 mt-4 pt-4 border-t border-amber-200">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                                        <span>Réponse sous 24h</span>
+                                                    </div>
+                                                    <span className="text-gray-400">•</span>
+                                                    <span>Plan d'action trésorerie</span>
+                                                    <span className="text-gray-400">•</span>
+                                                    <span>Résultats en 60-90 jours</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+
                                 {/* Analyse détaillée */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
@@ -751,6 +839,97 @@ export default function CalculateurBFR() {
                                     </motion.div>
                                 )}
 
+                                {/* 🔥 NOUVEAU : Parcours Guidé - Next Steps */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.3 }}
+                                    className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-8"
+                                >
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center">
+                                            <Target className="w-6 h-6 text-white" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-gray-900">
+                                            🎯 Prochaines étapes recommandées
+                                        </h3>
+                                    </div>
+                                    
+                                    <p className="text-gray-700 mb-6">
+                                        Maintenant que vous connaissez votre BFR, voici comment l'optimiser :
+                                    </p>
+
+                                    <div className="space-y-4">
+                                        {/* Étape 1 : DSO */}
+                                        <Link 
+                                            href="/calculateurs/dso"
+                                            onClick={() => trackCTAClick('bfr-result', '/calculateurs/dso', `next-step-dso-bfr-${bfr}`)}
+                                            className="group flex items-center gap-4 p-5 bg-white rounded-xl hover:shadow-lg transition-all border-2 border-transparent hover:border-blue-300"
+                                        >
+                                            <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold flex-shrink-0 text-lg">
+                                                1
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-bold text-gray-900 text-lg group-hover:text-blue-600 transition-colors">
+                                                    Calculez votre DSO (Délai paiement clients)
+                                                </p>
+                                                <p className="text-sm text-gray-600 mt-1">
+                                                    Les créances clients représentent {creances && bfr ? Math.round((parseFloat(creances) / Math.abs(bfr)) * 100) : '~40'}% de votre BFR. Réduire votre DSO libère du cash immédiatement.
+                                                </p>
+                                            </div>
+                                            <ArrowRight className="w-6 h-6 text-blue-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                                        </Link>
+
+                                        {/* Étape 2 : Guide */}
+                                        <Link 
+                                            href="/blog/optimiser-bfr-pme"
+                                            onClick={() => trackCTAClick('bfr-result', '/blog/optimiser-bfr', `guide-bfr-${bfr}`)}
+                                            className="group flex items-center gap-4 p-5 bg-white rounded-xl hover:shadow-lg transition-all border-2 border-transparent hover:border-blue-300"
+                                        >
+                                            <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold flex-shrink-0 text-lg">
+                                                2
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-bold text-gray-900 text-lg group-hover:text-blue-600 transition-colors">
+                                                    Lisez le guide : 7 leviers pour optimiser votre BFR
+                                                </p>
+                                                <p className="text-sm text-gray-600 mt-1">
+                                                    Stocks, créances, dettes fournisseurs : les 3 piliers à actionner pour libérer du cash.
+                                                </p>
+                                            </div>
+                                            <ArrowRight className="w-6 h-6 text-blue-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                                        </Link>
+
+                                        {/* Étape 3 : Audit */}
+                                        <a
+                                            href="https://calendly.com/zineinsight"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={() => trackCTAClick('bfr-result', 'calendly', `audit-30min-bfr-${bfr}`)}
+                                            className="group flex items-center gap-4 p-5 bg-gradient-to-r from-accent-primary to-blue-600 text-white rounded-xl hover:shadow-xl transition-all"
+                                        >
+                                            <div className="w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center font-bold flex-shrink-0 text-lg">
+                                                3
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-bold text-lg">
+                                                    Parlons-en 30 minutes (gratuit et sans engagement)
+                                                </p>
+                                                <p className="text-sm text-white/90 mt-1">
+                                                    Je vous explique comment débloquer {ca && joursCA ? Math.round((parseFloat(ca) / 365) * (joursCA - 15)).toLocaleString('fr-FR') : Math.round(bfr * 0.5).toLocaleString('fr-FR')}€ en optimisant votre cycle d'exploitation.
+                                                </p>
+                                            </div>
+                                            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                                        </a>
+                                    </div>
+
+                                    {/* Metric */}
+                                    <div className="mt-6 pt-6 border-t border-blue-200 flex items-center justify-center gap-2 text-sm text-gray-600">
+                                        <CheckCircle2 className="w-4 h-4 text-green-500" />
+                                        <span>En moyenne, mes clients réduisent leur BFR de <strong className="text-gray-900">20-40%</strong> en 90 jours</span>
+                                    </div>
+                                </motion.div>
+
                                 {/* CTA FinSight - Style Agents */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
@@ -806,22 +985,25 @@ export default function CalculateurBFR() {
                                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                             <Link
                                                 href="/consulting"
-                                                onClick={() => trackCTAClick('calculateur-bfr', '/consulting', 'essayer-gratuitement')}
+                                                onClick={() => trackCTAClick('calculateur-bfr', '/consulting', 'audit-strategique')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                             >
-                                                Essayer gratuitement
-                                                <ArrowRight className="w-5 h-5" />
+                                                <Target className="w-5 h-5" />
+                                                Voir l'Audit Stratégique (1 490€)
                                             </Link>
-                                            <Link
+                                            <a
                                                 href="https://calendly.com/zineinsight"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={() => trackCTAClick('calculateur-bfr', 'calendly', '30min-diagnostic')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                             >
-                                                Demander une démo
-                                            </Link>
+                                                Diagnostic gratuit 30 min
+                                            </a>
                                         </div>
 
                                         <p className="text-sm text-slate-400 text-center mt-6">
-                                            ✅ Sans engagement • ✅ Dashboard complet • ✅ Export PDF/Excel
+                                            Sans engagement · Plan d'action trésorerie · Résultats sous 48h
                                         </p>
                                     </div>
                                 </motion.div>
@@ -908,6 +1090,84 @@ export default function CalculateurBFR() {
                     </div>
                 </section>
 
+                {/* 🔥 NOUVEAU : Section "Complétez votre diagnostic" - Maillage interne */}
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-5xl mx-auto">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                                    🔗 Complétez votre diagnostic financier
+                                </h2>
+                                <p className="text-lg text-gray-600">
+                                    Le BFR n'est qu'un indicateur. Analysez l'ensemble de votre santé financière.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {/* DSO */}
+                                <Link
+                                    href="/calculateurs/dso"
+                                    className="group bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border-2 border-blue-200 hover:border-blue-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <TrendingUp className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600">
+                                        Calculateur DSO
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Mesurez votre délai moyen de paiement clients. Les créances impactent directement votre BFR.
+                                    </p>
+                                    <div className="flex items-center text-blue-600 font-semibold text-sm">
+                                        Calculer mon DSO
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* ROI */}
+                                <Link
+                                    href="/calculateurs/roi"
+                                    className="group bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border-2 border-purple-200 hover:border-purple-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <Target className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600">
+                                        Calculateur ROI
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Évaluez la rentabilité de vos investissements (équipement, marketing, recrutement).
+                                    </p>
+                                    <div className="flex items-center text-purple-600 font-semibold text-sm">
+                                        Calculer mon ROI
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* Tous les calculateurs */}
+                                <Link
+                                    href="/calculateurs"
+                                    className="group bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl p-6 border-2 border-slate-300 hover:border-slate-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <Calculator className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                        9 calculateurs gratuits
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        DSO, BFR, ROI, Marge, Seuil de rentabilité, EBITDA, CAC/LTV, Burn Rate, Valorisation.
+                                    </p>
+                                    <div className="flex items-center text-slate-900 font-semibold text-sm">
+                                        Voir tous les calculateurs
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* Final CTA - Style Agents */}
                 <section className="relative py-20 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
                     <div className="absolute inset-0">
@@ -929,26 +1189,50 @@ export default function CalculateurBFR() {
                             className="max-w-3xl mx-auto text-center"
                         >
                             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                                Prêt à optimiser votre BFR ?
+                                Besoin d'aide pour réduire votre BFR et libérer du cash ?
                             </h2>
                             <p className="text-lg text-slate-300 mb-8">
-                                Découvrez comment FinSight peut automatiser le suivi de votre trésorerie 
-                                et vous aider à libérer du cash.
+                                En tant que DAF externalisé, je vous aide à optimiser votre cycle d'exploitation (stocks, créances, dettes).
+                                <br />
+                                <strong className="text-white">Résultats visibles sous 60-90 jours.</strong>
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={() => trackCTAClick('bfr-final-cta', 'calendly', 'diagnostic-30min')}
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
+                                >
+                                    <Clock className="w-5 h-5" />
+                                    Diagnostic gratuit 30 min
+                                </a>
                                 <Link
                                     href="/consulting"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
-                                >
-                                    Essayer gratuitement
-                                    <ArrowRight className="w-5 h-5" />
-                                </Link>
-                                <Link
-                                    href="https://calendly.com/zineinsight"
+                                    onClick={() => trackCTAClick('bfr-final-cta', '/consulting', 'voir-offres')}
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                 >
-                                    Réserver une démo
+                                    Voir mes offres DAF
+                                    <ArrowRight className="w-5 h-5" />
                                 </Link>
+                            </div>
+                            
+                            {/* Trust indicators */}
+                            <div className="flex items-center justify-center gap-6 text-sm text-slate-400 mt-8">
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 className="w-4 h-4 text-green-400" />
+                                    <span>Réponse sous 24h</span>
+                                </div>
+                                <span className="text-slate-600">•</span>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 className="w-4 h-4 text-green-400" />
+                                    <span>Plan d'action personnalisé</span>
+                                </div>
+                                <span className="text-slate-600">•</span>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 className="w-4 h-4 text-green-400" />
+                                    <span>Sans engagement</span>
+                                </div>
                             </div>
                         </motion.div>
                     </div>

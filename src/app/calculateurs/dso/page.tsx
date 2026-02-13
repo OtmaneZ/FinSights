@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Calculator, TrendingUp, ArrowRight, AlertCircle, CheckCircle, CheckCircle2, Zap, Clock, Target, BarChart3, FileText } from 'lucide-react'
+import { Calculator, TrendingUp, ArrowRight, AlertCircle, CheckCircle, CheckCircle2, Zap, Clock, Target, BarChart3, FileText, AlertTriangle } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { BenchmarkBar } from '@/components/BenchmarkBar'
@@ -431,14 +431,98 @@ export default function CalculateurDSO() {
                 {/* Calculateur Section */}
                 <section id="calculateur" className="py-16 bg-slate-50">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-4xl mx-auto">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5 }}
-                                className="bg-white rounded-2xl p-8 border border-slate-200 shadow-xl"
-                            >
+                        <div className="max-w-7xl mx-auto">
+                            <div className="grid lg:grid-cols-4 gap-8">
+                                {/* Sidebar - Calculateurs liés (desktop only) */}
+                                <div className="lg:col-span-1 hidden lg:block">
+                                    <div className="sticky top-24 space-y-6">
+                                        {/* Calculateurs liés */}
+                                        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-lg">
+                                            <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                                <Calculator className="w-5 h-5 text-accent-primary" />
+                                                Calculateurs liés
+                                            </h3>
+                                            <div className="space-y-3">
+                                                <Link 
+                                                    href="/calculateurs/bfr"
+                                                    className="group block p-4 bg-slate-50 rounded-lg hover:bg-accent-primary hover:shadow-md transition-all"
+                                                >
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <BarChart3 className="w-4 h-4 text-accent-primary group-hover:text-white" />
+                                                        <p className="font-semibold text-sm text-slate-900 group-hover:text-white">Calculateur BFR</p>
+                                                    </div>
+                                                    <p className="text-xs text-slate-600 group-hover:text-white/90">
+                                                        Impact du DSO sur votre trésorerie
+                                                    </p>
+                                                </Link>
+
+                                                <Link 
+                                                    href="/calculateurs/roi"
+                                                    className="group block p-4 bg-slate-50 rounded-lg hover:bg-accent-primary hover:shadow-md transition-all"
+                                                >
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <Target className="w-4 h-4 text-accent-primary group-hover:text-white" />
+                                                        <p className="font-semibold text-sm text-slate-900 group-hover:text-white">Calculateur ROI</p>
+                                                    </div>
+                                                    <p className="text-xs text-slate-600 group-hover:text-white/90">
+                                                        Rentabilité d'un investissement
+                                                    </p>
+                                                </Link>
+
+                                                <Link 
+                                                    href="/calculateurs/marge"
+                                                    className="group block p-4 bg-slate-50 rounded-lg hover:bg-accent-primary hover:shadow-md transition-all"
+                                                >
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <TrendingUp className="w-4 h-4 text-accent-primary group-hover:text-white" />
+                                                        <p className="font-semibold text-sm text-slate-900 group-hover:text-white">Calculateur Marge</p>
+                                                    </div>
+                                                    <p className="text-xs text-slate-600 group-hover:text-white/90">
+                                                        Taux de marge et de marque
+                                                    </p>
+                                                </Link>
+
+                                                <Link 
+                                                    href="/calculateurs"
+                                                    className="block p-3 text-center bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all text-sm font-semibold"
+                                                >
+                                                    Voir tous les calculateurs →
+                                                </Link>
+                                            </div>
+                                        </div>
+
+                                        {/* CTA Audit */}
+                                        <div className="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-6">
+                                            <div className="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center mb-4">
+                                                <Target className="w-5 h-5 text-white" />
+                                            </div>
+                                            <p className="font-bold text-gray-900 mb-2">
+                                                Besoin d'aide ?
+                                            </p>
+                                            <p className="text-sm text-gray-700 mb-4">
+                                                Échangeons 30 minutes sur votre DSO et je vous donne 3 actions prioritaires.
+                                            </p>
+                                            <a
+                                                href="https://calendly.com/zineinsight"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="block w-full px-4 py-3 bg-accent-primary text-white text-center font-semibold rounded-lg hover:bg-accent-primary-hover transition-all text-sm"
+                                            >
+                                                Réserver 30 min
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Main Content */}
+                                <div className="lg:col-span-3">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.5 }}
+                                        className="bg-white rounded-2xl p-8 border border-slate-200 shadow-xl"
+                                    >
                                 {/* Formule */}
                                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-8">
                                     <div className="flex items-center gap-3 mb-2">
@@ -529,6 +613,8 @@ export default function CalculateurDSO() {
                             </motion.div>
                         </div>
                     </div>
+                        </div>
+                    </div>
                 </section>
 
                 {/* Résultat Section */}
@@ -579,12 +665,100 @@ export default function CalculateurDSO() {
                                     </div>
                                 </motion.div>
 
+                                {/* 🔥 NOUVEAU : Diagnostic Personnalisé - Bridge to Consulting */}
+                                {dso > 45 && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5, delay: 0.2 }}
+                                        className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-8 shadow-xl"
+                                    >
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-14 h-14 rounded-xl bg-amber-500 flex items-center justify-center flex-shrink-0">
+                                                <AlertTriangle className="w-7 h-7 text-white" />
+                                            </div>
+                                            <div className="flex-1">
+                                                <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                                                    Votre DSO bloque {Math.round((parseFloat(creances) / parseFloat(ca)) * parseFloat(ca)).toLocaleString('fr-FR')}€ de trésorerie
+                                                </h3>
+                                                <p className="text-gray-700 mb-4 text-lg leading-relaxed">
+                                                    Avec un DSO de <strong>{dso} jours</strong>, vous perdez l'équivalent de{' '}
+                                                    <strong className="text-amber-700">{(dso / 30).toFixed(1)} mois de chiffre d'affaires</strong> immobilisé.
+                                                    <br />
+                                                    En le réduisant à 30 jours, vous libérez immédiatement{' '}
+                                                    <strong className="text-green-600">
+                                                        {Math.round((parseFloat(creances) * (dso - 30)) / dso).toLocaleString('fr-FR')}€
+                                                    </strong>.
+                                                </p>
+                                                
+                                                {/* Impact chiffré */}
+                                                <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 mb-6 border border-amber-200">
+                                                    <div className="grid md:grid-cols-3 gap-4 text-center">
+                                                        <div>
+                                                            <p className="text-sm text-gray-600 mb-1">Cash actuellement bloqué</p>
+                                                            <p className="text-2xl font-bold text-red-600">
+                                                                {parseFloat(creances).toLocaleString('fr-FR')}€
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm text-gray-600 mb-1">Cash libérable (DSO à 30j)</p>
+                                                            <p className="text-2xl font-bold text-green-600">
+                                                                +{Math.round((parseFloat(creances) * (dso - 30)) / dso).toLocaleString('fr-FR')}€
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm text-gray-600 mb-1">Gain mensuel potentiel</p>
+                                                            <p className="text-2xl font-bold text-accent-primary">
+                                                                {Math.round(((parseFloat(creances) * (dso - 30)) / dso) * 0.03).toLocaleString('fr-FR')}€/mois
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* CTAs */}
+                                                <div className="flex flex-col sm:flex-row gap-4">
+                                                    <a
+                                                        href="https://calendly.com/zineinsight"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        onClick={() => trackCTAClick('dso-diagnostic', 'calendly', `audit-dso-${dso}-${secteur}`)}
+                                                        className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg hover:shadow-xl"
+                                                    >
+                                                        <Target className="w-5 h-5" />
+                                                        Audit gratuit 30 min : Comment réduire mon DSO ?
+                                                    </a>
+                                                    <Link
+                                                        href="/consulting"
+                                                        onClick={() => trackCTAClick('dso-diagnostic', '/consulting', 'audit-strategique')}
+                                                        className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-amber-500 text-amber-700 font-semibold rounded-xl hover:bg-amber-50 transition-all"
+                                                    >
+                                                        <FileText className="w-5 h-5" />
+                                                        Voir l'offre Audit Stratégique
+                                                    </Link>
+                                                </div>
+
+                                                {/* Trust indicators */}
+                                                <div className="flex items-center gap-6 text-sm text-gray-600 mt-4 pt-4 border-t border-amber-200">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                                        <span>Réponse sous 24h</span>
+                                                    </div>
+                                                    <span className="text-gray-400">•</span>
+                                                    <span>Plan d'action personnalisé</span>
+                                                    <span className="text-gray-400">•</span>
+                                                    <span>Résultats en 60-90 jours</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+
                                 {/* Actions recommandées */}
                                 {interpretation.niveau !== 'excellent' && (
                                     <motion.div
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.5, delay: 0.2 }}
+                                        transition={{ duration: 0.5, delay: 0.3 }}
                                         className="bg-white rounded-2xl p-8 border border-slate-200 shadow-lg"
                                     >
                                         <div className="flex items-center gap-3 mb-6">
@@ -616,6 +790,97 @@ export default function CalculateurDSO() {
                                         </div>
                                     </motion.div>
                                 )}
+
+                                {/* 🔥 NOUVEAU : Parcours Guidé - Next Steps */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.4 }}
+                                    className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-8"
+                                >
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center">
+                                            <Target className="w-6 h-6 text-white" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-gray-900">
+                                            🎯 Prochaines étapes recommandées
+                                        </h3>
+                                    </div>
+                                    
+                                    <p className="text-gray-700 mb-6">
+                                        Maintenant que vous connaissez votre DSO, voici comment aller plus loin :
+                                    </p>
+
+                                    <div className="space-y-4">
+                                        {/* Étape 1 : BFR */}
+                                        <Link 
+                                            href="/calculateurs/bfr"
+                                            onClick={() => trackCTAClick('dso-result', '/calculateurs/bfr', `next-step-bfr-dso-${dso}`)}
+                                            className="group flex items-center gap-4 p-5 bg-white rounded-xl hover:shadow-lg transition-all border-2 border-transparent hover:border-blue-300"
+                                        >
+                                            <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold flex-shrink-0 text-lg">
+                                                1
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-bold text-gray-900 text-lg group-hover:text-blue-600 transition-colors">
+                                                    Calculez votre BFR (Besoin en Fonds de Roulement)
+                                                </p>
+                                                <p className="text-sm text-gray-600 mt-1">
+                                                    Le DSO impacte directement votre BFR. Découvrez combien de cash est immobilisé dans votre cycle d'exploitation.
+                                                </p>
+                                            </div>
+                                            <ArrowRight className="w-6 h-6 text-blue-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                                        </Link>
+
+                                        {/* Étape 2 : Guide */}
+                                        <Link 
+                                            href="/blog/reduire-dso-50-pourcent-90-jours"
+                                            onClick={() => trackCTAClick('dso-result', '/blog/reduire-dso', `guide-dso-${dso}`)}
+                                            className="group flex items-center gap-4 p-5 bg-white rounded-xl hover:shadow-lg transition-all border-2 border-transparent hover:border-blue-300"
+                                        >
+                                            <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold flex-shrink-0 text-lg">
+                                                2
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-bold text-gray-900 text-lg group-hover:text-blue-600 transition-colors">
+                                                    Lisez le guide : Réduire son DSO de 50% en 90 jours
+                                                </p>
+                                                <p className="text-sm text-gray-600 mt-1">
+                                                    10 actions concrètes à implémenter dès demain + cas client réel PME 7M€ CA.
+                                                </p>
+                                            </div>
+                                            <ArrowRight className="w-6 h-6 text-blue-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                                        </Link>
+
+                                        {/* Étape 3 : Audit */}
+                                        <a
+                                            href="https://calendly.com/zineinsight"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={() => trackCTAClick('dso-result', 'calendly', `audit-30min-dso-${dso}`)}
+                                            className="group flex items-center gap-4 p-5 bg-gradient-to-r from-accent-primary to-blue-600 text-white rounded-xl hover:shadow-xl transition-all"
+                                        >
+                                            <div className="w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center font-bold flex-shrink-0 text-lg">
+                                                3
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-bold text-lg">
+                                                    Parlons-en 30 minutes (gratuit et sans engagement)
+                                                </p>
+                                                <p className="text-sm text-white/90 mt-1">
+                                                    Je vous explique comment réduire votre DSO sans relances manuelles + plan d'action personnalisé en 48h.
+                                                </p>
+                                            </div>
+                                            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                                        </a>
+                                    </div>
+
+                                    {/* Metric */}
+                                    <div className="mt-6 pt-6 border-t border-blue-200 flex items-center justify-center gap-2 text-sm text-gray-600">
+                                        <CheckCircle2 className="w-4 h-4 text-green-500" />
+                                        <span>En moyenne, mes clients libèrent <strong className="text-gray-900">15-30% de cash</strong> en réduisant leur DSO de 20 jours</span>
+                                    </div>
+                                </motion.div>
 
                                 {/* CTA FinSight - Style Agents */}
                                 <motion.div
@@ -672,22 +937,25 @@ export default function CalculateurDSO() {
                                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                             <Link
                                                 href="/consulting"
-                                                onClick={() => trackCTAClick('calculateur-dso', '/consulting', 'essayer-gratuitement')}
+                                                onClick={() => trackCTAClick('calculateur-dso', '/consulting', 'audit-strategique')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                             >
-                                                Essayer gratuitement
-                                                <ArrowRight className="w-5 h-5" />
+                                                <Target className="w-5 h-5" />
+                                                Voir l'Audit Stratégique (1 490€)
                                             </Link>
-                                            <Link
+                                            <a
                                                 href="https://calendly.com/zineinsight"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={() => trackCTAClick('calculateur-dso', 'calendly', '30min-diagnostic')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                             >
-                                                Demander une démo
-                                            </Link>
+                                                Diagnostic gratuit 30 min
+                                            </a>
                                         </div>
 
                                         <p className="text-sm text-slate-400 text-center mt-6">
-                                            ✅ Sans engagement • ✅ 10 questions IA gratuites • ✅ Dashboard complet
+                                            Sans engagement · Plan d'action personnalisé · Résultats sous 48h
                                         </p>
                                     </div>
                                 </motion.div>
@@ -855,6 +1123,84 @@ export default function CalculateurDSO() {
                     </div>
                 </section>
 
+                {/* 🔥 NOUVEAU : Section "Complétez votre diagnostic" - Maillage interne */}
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-5xl mx-auto">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                                    🔗 Complétez votre diagnostic financier
+                                </h2>
+                                <p className="text-lg text-gray-600">
+                                    Le DSO n'est qu'un indicateur. Analysez l'ensemble de votre santé financière.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {/* BFR */}
+                                <Link
+                                    href="/calculateurs/bfr"
+                                    className="group bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border-2 border-blue-200 hover:border-blue-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <BarChart3 className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600">
+                                        Calculateur BFR
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Mesurez combien de cash est bloqué dans votre cycle d'exploitation (stocks + créances - dettes).
+                                    </p>
+                                    <div className="flex items-center text-blue-600 font-semibold text-sm">
+                                        Calculer mon BFR
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* ROI */}
+                                <Link
+                                    href="/calculateurs/roi"
+                                    className="group bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border-2 border-purple-200 hover:border-purple-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <Target className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600">
+                                        Calculateur ROI
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Évaluez la rentabilité de vos investissements (équipement, marketing, recrutement).
+                                    </p>
+                                    <div className="flex items-center text-purple-600 font-semibold text-sm">
+                                        Calculer mon ROI
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* Tous les calculateurs */}
+                                <Link
+                                    href="/calculateurs"
+                                    className="group bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl p-6 border-2 border-slate-300 hover:border-slate-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <Calculator className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                        9 calculateurs gratuits
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        DSO, BFR, ROI, Marge, Seuil de rentabilité, EBITDA, CAC/LTV, Burn Rate, Valorisation.
+                                    </p>
+                                    <div className="flex items-center text-slate-900 font-semibold text-sm">
+                                        Voir tous les calculateurs
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* Final CTA - Style Agents */}
                 <section className="relative py-20 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
                     <div className="absolute inset-0">
@@ -876,26 +1222,50 @@ export default function CalculateurDSO() {
                             className="max-w-3xl mx-auto text-center"
                         >
                             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                                Prêt à optimiser votre trésorerie ?
+                                Besoin d'aide pour réduire votre DSO et libérer du cash ?
                             </h2>
                             <p className="text-lg text-slate-300 mb-8">
-                                Découvrez comment FinSight peut automatiser le suivi de votre DSO 
-                                et vous aider à libérer de la trésorerie.
+                                En tant que DAF externalisé, je vous aide à structurer votre recouvrement et optimiser votre trésorerie.
+                                <br />
+                                <strong className="text-white">Résultats visibles sous 60-90 jours.</strong>
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a
+                                    href="https://calendly.com/zineinsight"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={() => trackCTAClick('dso-final-cta', 'calendly', 'diagnostic-30min')}
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
+                                >
+                                    <Clock className="w-5 h-5" />
+                                    Diagnostic gratuit 30 min
+                                </a>
                                 <Link
                                     href="/consulting"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
-                                >
-                                    Essayer gratuitement
-                                    <ArrowRight className="w-5 h-5" />
-                                </Link>
-                                <Link
-                                    href="https://calendly.com/zineinsight"
+                                    onClick={() => trackCTAClick('dso-final-cta', '/consulting', 'voir-offres')}
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                 >
-                                    Réserver une démo
+                                    Voir mes offres DAF
+                                    <ArrowRight className="w-5 h-5" />
                                 </Link>
+                            </div>
+                            
+                            {/* Trust indicators */}
+                            <div className="flex items-center justify-center gap-6 text-sm text-slate-400 mt-8">
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 className="w-4 h-4 text-green-400" />
+                                    <span>Réponse sous 24h</span>
+                                </div>
+                                <span className="text-slate-600">•</span>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 className="w-4 h-4 text-green-400" />
+                                    <span>Plan d'action personnalisé</span>
+                                </div>
+                                <span className="text-slate-600">•</span>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 className="w-4 h-4 text-green-400" />
+                                    <span>Sans engagement</span>
+                                </div>
                             </div>
                         </motion.div>
                     </div>

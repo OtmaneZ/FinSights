@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Calculator, PieChart, ArrowRight, AlertCircle, CheckCircle, Target, TrendingUp, DollarSign, BarChart3, Percent } from 'lucide-react'
+import { Calculator, PieChart, ArrowRight, AlertCircle, CheckCircle, Target, TrendingUp, DollarSign, BarChart3, Percent, AlertTriangle, FileText, Clock, CheckCircle2 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
@@ -479,6 +479,74 @@ export default function CalculateurMarge() {
                                                 </div>
                                             )}
 
+                                            {/* 🔥 NOUVEAU : Diagnostic personnalisé - Déclencheur conversion si marge faible */}
+                                            {tauxMarge !== null && tauxMarge < 50 && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border-2 border-amber-200"
+                                                >
+                                                    <div className="flex items-start gap-3 mb-4">
+                                                        <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
+                                                        <div>
+                                                            <h3 className="text-lg font-bold text-amber-900 mb-2">
+                                                                ⚡ Votre marge est sous la barre des 50%
+                                                            </h3>
+                                                            <p className="text-slate-700 text-sm mb-3">
+                                                                Avec un taux de marge de <strong>{tauxMarge}%</strong> (taux de marque: {tauxMarque}%), 
+                                                                vous risquez de sacrifier de la rentabilité. Une marge saine sécurise votre trésorerie 
+                                                                et finance votre croissance.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="bg-white rounded-lg p-4 border border-amber-200 mb-4">
+                                                        <p className="text-sm font-semibold text-slate-700 mb-2">
+                                                            💡 En optimisant votre mix produit/tarifs, vous pourriez :
+                                                        </p>
+                                                        <ul className="space-y-1 text-sm text-slate-600">
+                                                            <li className="flex items-start gap-2">
+                                                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span>Relever vos prix de 8-15% sans perdre vos clients (repositionnement, valeur perçue)</span>
+                                                            </li>
+                                                            <li className="flex items-start gap-2">
+                                                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span>Réduire vos coûts d'achat de 10-20% (renégociation fournisseurs, volumes)</span>
+                                                            </li>
+                                                            <li className="flex items-start gap-2">
+                                                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span>Identifier les produits/clients qui détruisent votre marge (analyse ABC)</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <p className="text-sm text-slate-600 mb-4">
+                                                        <strong className="text-slate-900">Mon rôle :</strong> analyser la structure de vos marges 
+                                                        (par produit, par client, par canal), identifier les pertes cachées et définir une politique 
+                                                        tarifaire optimale.
+                                                    </p>
+
+                                                    <div className="grid sm:grid-cols-2 gap-3">
+                                                        <a
+                                                            href="https://calendly.com/zineinsight"
+                                                            onClick={() => trackCTAClick('marge-diagnostic', 'calendly', `marge-${tauxMarge}`)}
+                                                            className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-amber-900 font-semibold rounded-lg hover:bg-amber-50 transition-all border-2 border-amber-300 hover:border-amber-400"
+                                                        >
+                                                            <Clock className="w-5 h-5" />
+                                                            Diagnostic gratuit 30 min
+                                                        </a>
+                                                        <Link
+                                                            href="/consulting"
+                                                            onClick={() => trackCTAClick('marge-diagnostic', '/consulting', `marge-${tauxMarge}`)}
+                                                            className="flex items-center justify-center gap-2 px-5 py-3 bg-amber-900 text-white font-semibold rounded-lg hover:bg-amber-800 transition-all"
+                                                        >
+                                                            <FileText className="w-5 h-5" />
+                                                            Voir l'Audit Stratégique
+                                                        </Link>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+
                                             {/* Recommandations */}
                                             {tauxMarge < 50 && (
                                                 <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
@@ -507,6 +575,95 @@ export default function CalculateurMarge() {
                                                 </div>
                                             )}
 
+                                            {/* 🔥 NOUVEAU : Parcours Guidé - Next Steps */}
+                                            <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-6 border-2 border-orange-200">
+                                                <h4 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                                    🚀 Parcours guidé pour optimiser vos marges
+                                                </h4>
+                                                <p className="text-sm text-slate-600 mb-5">
+                                                    Vos marges déterminent directement votre rentabilité et votre capacité d'investissement. 
+                                                    Voici comment les piloter efficacement :
+                                                </p>
+
+                                                <div className="space-y-4">
+                                                    {/* Step 1 */}
+                                                    <Link
+                                                        href="/calculateurs/seuil-rentabilite"
+                                                        onClick={() => trackCTAClick('marge-next-seuil', '/calculateurs/seuil-rentabilite', `marge-${tauxMarge}`)}
+                                                        className="block bg-white rounded-lg p-4 border-2 border-orange-200 hover:border-orange-400 hover:shadow-md transition-all group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold">
+                                                                1
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h5 className="font-bold text-slate-900 group-hover:text-orange-600 flex items-center gap-2">
+                                                                    Calculez votre seuil de rentabilité
+                                                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                                </h5>
+                                                                <p className="text-sm text-slate-600 mt-1">
+                                                                    Une marge faible augmente votre seuil de rentabilité et fragilise votre équilibre. 
+                                                                    Vérifiez combien de CA il vous faut pour couvrir vos charges fixes.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                    {/* Step 2 */}
+                                                    <Link
+                                                        href="/blog/optimiser-marges-pme-strategie-pricing"
+                                                        className="block bg-white rounded-lg p-4 border-2 border-orange-200 hover:border-orange-400 hover:shadow-md transition-all group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold">
+                                                                2
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h5 className="font-bold text-slate-900 group-hover:text-orange-600 flex items-center gap-2">
+                                                                    Lisez notre guide : "7 leviers pour améliorer vos marges"
+                                                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                                </h5>
+                                                                <p className="text-sm text-slate-600 mt-1">
+                                                                    Stratégie tarifaire, renégociation fournisseurs, mix produit, analyse ABC... 
+                                                                    Les tactiques qui fonctionnent en PME.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                    {/* Step 3 */}
+                                                    <a
+                                                        href="https://calendly.com/zineinsight"
+                                                        onClick={() => trackCTAClick('marge-parcours-final', 'calendly', `marge-${tauxMarge}-guided`)}
+                                                        className="block bg-gradient-to-r from-orange-500 to-amber-500 rounded-lg p-4 hover:from-orange-600 hover:to-amber-600 transition-all group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white text-orange-600 flex items-center justify-center font-bold">
+                                                                3
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h5 className="font-bold text-white flex items-center gap-2">
+                                                                    Appelez-moi pour auditer votre structure tarifaire
+                                                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                                </h5>
+                                                                <p className="text-sm text-orange-100 mt-1">
+                                                                    <strong>30 min gratuites</strong> pour analyser vos marges par produit/client, 
+                                                                    identifier les pertes cachées et définir une stratégie pricing claire.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+
+                                                <div className="mt-5 pt-5 border-t border-orange-200">
+                                                    <p className="text-xs text-slate-600 italic">
+                                                        💬 <strong>Retour d'expérience :</strong> "J'ai vu des PME perdre de l'argent sur 30% de leurs ventes 
+                                                        sans s'en rendre compte. Une analyse marge par produit et par client révèle souvent 
+                                                        des surprises... et libère 5-15% de rentabilité en quelques semaines."
+                                                    </p>
+                                                </div>
+                                            </div>
+
                                             <button
                                                 onClick={reset}
                                                 className="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-all"
@@ -514,22 +671,36 @@ export default function CalculateurMarge() {
                                                 Nouveau calcul
                                             </button>
 
-                                            {/* CTA */}
-                                            <div className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl p-6 text-center">
-                                                <p className="text-white font-semibold mb-2">
-                                                    🚀 Suivez vos marges automatiquement
+                                            {/* CTA - Reformulé pour conversion */}
+                                            <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-xl p-6 text-center">
+                                                <p className="text-accent-primary font-semibold mb-2">
+                                                    � Vos marges stagnent ou baissent ?
                                                 </p>
-                                                <p className="text-orange-100 text-sm mb-4">
-                                                    FinSight analyse votre comptabilité et calcule vos marges par produit, client ou activité.
+                                                <p className="text-white text-sm mb-4 leading-relaxed">
+                                                    Je vous aide à analyser la structure de vos marges (par produit, client, canal), 
+                                                    identifier les pertes cachées et définir une politique tarifaire optimale.
                                                 </p>
-                                                <Link
-                                                    href="/contact"
-                                                    onClick={() => trackCTAClick('marge', '/contact', 'cta_demo')}
-                                                    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-orange-600 rounded-lg font-semibold hover:bg-orange-50 transition-all"
-                                                >
-                                                    Demander une démo
-                                                    <ArrowRight className="w-4 h-4" />
-                                                </Link>
+                                                <div className="grid sm:grid-cols-2 gap-3">
+                                                    <Link
+                                                        href="/consulting"
+                                                        onClick={() => trackCTAClick('marge-result', '/consulting', 'audit-strategique')}
+                                                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-all"
+                                                    >
+                                                        <FileText className="w-4 h-4" />
+                                                        Voir l'Audit Stratégique (1 490€)
+                                                    </Link>
+                                                    <a
+                                                        href="https://calendly.com/zineinsight"
+                                                        onClick={() => trackCTAClick('marge-result', 'calendly', `diagnostic-marge-${tauxMarge}`)}
+                                                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:bg-accent-primary-hover transition-all"
+                                                    >
+                                                        <Clock className="w-4 h-4" />
+                                                        Diagnostic gratuit 30 min
+                                                    </a>
+                                                </div>
+                                                <p className="text-xs text-slate-400 mt-3">
+                                                    Réponse sous 24h · Plan d'action personnalisé · Sans engagement
+                                                </p>
                                             </div>
                                         </div>
                                     )}
@@ -539,7 +710,7 @@ export default function CalculateurMarge() {
                     </div>
                 </section>
 
-                {/* CTA Audit Stratégique */}
+                {/* CTA Audit Stratégique - Reformulé */}
                 <section className="py-8 bg-white">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-3xl mx-auto">
@@ -550,12 +721,104 @@ export default function CalculateurMarge() {
                                     identifie vos produits/clients non rentables et propose des leviers concrets pour relever vos marges. 
                                     Je vous aide ensuite à piloter cette optimisation mois après mois.
                                 </p>
-                                <Link 
-                                    href="/consulting" 
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
+                                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                                    <Link 
+                                        href="/consulting"
+                                        onClick={() => trackCTAClick('marge-middle', '/consulting', 'audit-strategique')}
+                                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-slate-100 transition-all"
+                                    >
+                                        <FileText className="w-5 h-5" />
+                                        Voir l&apos;Audit Stratégique (1 490€)
+                                    </Link>
+                                    <a
+                                        href="https://calendly.com/zineinsight"
+                                        onClick={() => trackCTAClick('marge-middle', 'calendly', 'diagnostic-30min')}
+                                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary-hover transition-all"
+                                    >
+                                        <Clock className="w-5 h-5" />
+                                        Diagnostic gratuit 30 min
+                                    </a>
+                                </div>
+                                <p className="text-xs text-slate-400 mt-4">
+                                    Réponse sous 24h · Plan d'action personnalisé · Sans engagement
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* 🔥 NOUVEAU : Section "Complétez votre diagnostic" - Maillage interne */}
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-5xl mx-auto">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                                    🔗 Complétez votre diagnostic financier
+                                </h2>
+                                <p className="text-lg text-gray-600">
+                                    La marge n'est qu'un indicateur. Analysez l'ensemble de votre santé financière.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {/* Seuil Rentabilité */}
+                                <Link
+                                    href="/calculateurs/seuil-rentabilite"
+                                    className="group bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-6 border-2 border-red-200 hover:border-red-400 hover:shadow-xl transition-all"
                                 >
-                                    Découvrir l&apos;Audit Stratégique
-                                    <ArrowRight className="w-5 h-5" />
+                                    <div className="w-12 h-12 rounded-xl bg-red-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <BarChart3 className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600">
+                                        Seuil de Rentabilité
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Une marge faible augmente votre seuil de rentabilité. Vérifiez si vous êtes à l'équilibre.
+                                    </p>
+                                    <div className="flex items-center text-red-600 font-semibold text-sm">
+                                        Calculer mon seuil
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* ROI */}
+                                <Link
+                                    href="/calculateurs/roi"
+                                    className="group bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border-2 border-purple-200 hover:border-purple-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <Target className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600">
+                                        Calculateur ROI
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Vos marges financent vos investissements. Mesurez le retour sur vos projets stratégiques.
+                                    </p>
+                                    <div className="flex items-center text-purple-600 font-semibold text-sm">
+                                        Calculer mon ROI
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* Tous les calculateurs */}
+                                <Link
+                                    href="/calculateurs"
+                                    className="group bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl p-6 border-2 border-slate-300 hover:border-slate-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <Calculator className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                        9 calculateurs gratuits
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        DSO, BFR, ROI, Marge, Seuil de rentabilité, EBITDA, CAC/LTV, Burn Rate, Valorisation.
+                                    </p>
+                                    <div className="flex items-center text-slate-900 font-semibold text-sm">
+                                        Voir tous les calculateurs
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
                                 </Link>
                             </div>
                         </div>

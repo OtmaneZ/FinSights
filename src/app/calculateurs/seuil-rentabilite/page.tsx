@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Calculator, BarChart3, ArrowRight, AlertCircle, CheckCircle, Target, TrendingUp, DollarSign, Percent } from 'lucide-react'
+import { Calculator, BarChart3, ArrowRight, AlertCircle, CheckCircle, Target, TrendingUp, DollarSign, Percent, AlertTriangle, FileText, Clock, CheckCircle2, PieChart } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
@@ -420,6 +420,79 @@ export default function CalculateurSeuilRentabilite() {
                                                 </div>
                                             )}
 
+                                            {/* 🔥 NOUVEAU : Diagnostic personnalisé - Déclencheur conversion si seuil élevé */}
+                                            {seuil !== null && parseFloat(chargesFixes) > 0 && parseFloat(tauxMarge) < 50 && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    className="bg-gradient-to-br from-amber-50 to-red-50 rounded-xl p-6 border-2 border-amber-200"
+                                                >
+                                                    <div className="flex items-start gap-3 mb-4">
+                                                        <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
+                                                        <div>
+                                                            <h3 className="text-lg font-bold text-amber-900 mb-2">
+                                                                ⚡ Votre seuil de rentabilité est exposé
+                                                            </h3>
+                                                            <p className="text-slate-700 text-sm mb-3">
+                                                                Avec <strong>{seuil?.toLocaleString('fr-FR')} € de CA mensuel nécessaire</strong> pour couvrir 
+                                                                vos charges fixes et un taux de marge de {tauxMarge}%, vous êtes fragile face à toute baisse d'activité. 
+                                                                Un imprévu peut rapidement vous mettre en difficulté.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="bg-white rounded-lg p-4 border border-amber-200 mb-4">
+                                                        <p className="text-sm font-semibold text-slate-700 mb-2">
+                                                            💡 En optimisant votre structure de coûts, vous pourriez :
+                                                        </p>
+                                                        <ul className="space-y-1 text-sm text-slate-600">
+                                                            <li className="flex items-start gap-2">
+                                                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span>Réduire vos charges fixes de 15-25% (télétravail, renégociation, externalisation)</span>
+                                                            </li>
+                                                            <li className="flex items-start gap-2">
+                                                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span>Augmenter votre taux de marge de 10-20 points (pricing, achats optimisés)</span>
+                                                            </li>
+                                                            <li className="flex items-start gap-2">
+                                                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span>Transformer des coûts fixes en variables (freelances, SaaS, partenariats)</span>
+                                                            </li>
+                                                        </ul>
+                                                        <div className="mt-3 pt-3 border-t border-amber-200">
+                                                            <p className="text-sm text-slate-700">
+                                                                <strong>Exemple impact :</strong> Réduire charges de 20% + marge +10 pts → 
+                                                                <span className="text-green-600 font-bold"> Seuil réduit de ~40%</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <p className="text-sm text-slate-600 mb-4">
+                                                        <strong className="text-slate-900">Mon rôle :</strong> auditer vos postes de charges fixes 
+                                                        et variables, identifier les leviers pour baisser votre point mort, et sécuriser votre rentabilité.
+                                                    </p>
+
+                                                    <div className="grid sm:grid-cols-2 gap-3">
+                                                        <a
+                                                            href="https://calendly.com/zineinsight"
+                                                            onClick={() => trackCTAClick('seuil-diagnostic', 'calendly', `seuil-${seuil}`)}
+                                                            className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-amber-900 font-semibold rounded-lg hover:bg-amber-50 transition-all border-2 border-amber-300 hover:border-amber-400"
+                                                        >
+                                                            <Clock className="w-5 h-5" />
+                                                            Diagnostic gratuit 30 min
+                                                        </a>
+                                                        <Link
+                                                            href="/consulting"
+                                                            onClick={() => trackCTAClick('seuil-diagnostic', '/consulting', `seuil-${seuil}`)}
+                                                            className="flex items-center justify-center gap-2 px-5 py-3 bg-amber-900 text-white font-semibold rounded-lg hover:bg-amber-800 transition-all"
+                                                        >
+                                                            <FileText className="w-5 h-5" />
+                                                            Voir l'Audit Stratégique
+                                                        </Link>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+
                                             {/* Recommandations */}
                                             <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
                                                 <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -446,6 +519,95 @@ export default function CalculateurSeuilRentabilite() {
                                                 </ul>
                                             </div>
 
+                                            {/* 🔥 NOUVEAU : Parcours Guidé - Next Steps */}
+                                            <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-xl p-6 border-2 border-red-200">
+                                                <h4 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                                    🚀 Parcours guidé pour sécuriser votre rentabilité
+                                                </h4>
+                                                <p className="text-sm text-slate-600 mb-5">
+                                                    Votre seuil de rentabilité détermine votre sécurité financière. Un seuil élevé vous rend vulnérable 
+                                                    aux crises. Voici comment l'optimiser :
+                                                </p>
+
+                                                <div className="space-y-4">
+                                                    {/* Step 1 */}
+                                                    <Link
+                                                        href="/calculateurs/marge"
+                                                        onClick={() => trackCTAClick('seuil-next-marge', '/calculateurs/marge', `seuil-${seuil}`)}
+                                                        className="block bg-white rounded-lg p-4 border-2 border-red-200 hover:border-red-400 hover:shadow-md transition-all group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-bold">
+                                                                1
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h5 className="font-bold text-slate-900 group-hover:text-red-600 flex items-center gap-2">
+                                                                    Calculez votre taux de marge précis
+                                                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                                </h5>
+                                                                <p className="text-sm text-slate-600 mt-1">
+                                                                    Votre taux de marge impacte directement votre seuil. +10 pts de marge = 
+                                                                    seuil réduit de 20-30%. Analysez produit par produit.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                    {/* Step 2 */}
+                                                    <Link
+                                                        href="/blog/reduire-seuil-rentabilite-pme"
+                                                        className="block bg-white rounded-lg p-4 border-2 border-red-200 hover:border-red-400 hover:shadow-md transition-all group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center font-bold">
+                                                                2
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h5 className="font-bold text-slate-900 group-hover:text-red-600 flex items-center gap-2">
+                                                                    Lisez : "10 leviers pour baisser votre point mort de 30%"
+                                                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                                </h5>
+                                                                <p className="text-sm text-slate-600 mt-1">
+                                                                    Télétravail, renégociation baux, externalisation, variabilisation des coûts... 
+                                                                    Les tactiques qui marchent en PME.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                    {/* Step 3 */}
+                                                    <a
+                                                        href="https://calendly.com/zineinsight"
+                                                        onClick={() => trackCTAClick('seuil-parcours-final', 'calendly', `seuil-${seuil}-guided`)}
+                                                        className="block bg-gradient-to-r from-red-500 to-orange-500 rounded-lg p-4 hover:from-red-600 hover:to-orange-600 transition-all group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white text-red-600 flex items-center justify-center font-bold">
+                                                                3
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h5 className="font-bold text-white flex items-center gap-2">
+                                                                    Appelez-moi pour auditer votre structure de coûts
+                                                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                                </h5>
+                                                                <p className="text-sm text-red-100 mt-1">
+                                                                    <strong>30 min gratuites</strong> pour passer en revue vos charges fixes, 
+                                                                    identifier les leviers d'optimisation et construire un plan d'action pour sécuriser votre rentabilité.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+
+                                                <div className="mt-5 pt-5 border-t border-red-200">
+                                                    <p className="text-xs text-slate-600 italic">
+                                                        💬 <strong>Retour d'expérience :</strong> "J'ai vu des PME avec un seuil à 80% de leur CA moyen. 
+                                                        Un mois difficile et c'est la catastrophe. En optimisant charges fixes et marges, 
+                                                        on peut souvent baisser ce seuil de 30-40% en 3-6 mois."
+                                                    </p>
+                                                </div>
+                                            </div>
+
                                             <button
                                                 onClick={reset}
                                                 className="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-all"
@@ -453,22 +615,36 @@ export default function CalculateurSeuilRentabilite() {
                                                 Nouveau calcul
                                             </button>
 
-                                            {/* CTA */}
-                                            <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-xl p-6 text-center">
-                                                <p className="text-white font-semibold mb-2">
-                                                    🚀 Automatisez le suivi de votre rentabilité
+                                            {/* CTA - Reformulé pour conversion */}
+                                            <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-xl p-6 text-center">
+                                                <p className="text-accent-primary font-semibold mb-2">
+                                                    � Votre seuil de rentabilité est trop élevé ?
                                                 </p>
-                                                <p className="text-red-100 text-sm mb-4">
-                                                    FinSight calcule automatiquement votre seuil de rentabilité et vous alerte si vous passez en dessous.
+                                                <p className="text-white text-sm mb-4 leading-relaxed">
+                                                    Je vous aide à auditer vos charges fixes et variables, identifier les leviers d'optimisation 
+                                                    et construire un plan d'action pour sécuriser votre rentabilité.
                                                 </p>
-                                                <Link
-                                                    href="/contact"
-                                                    onClick={() => trackCTAClick('seuil_rentabilite', '/contact', 'cta_demo')}
-                                                    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-red-600 rounded-lg font-semibold hover:bg-red-50 transition-all"
-                                                >
-                                                    Demander une démo
-                                                    <ArrowRight className="w-4 h-4" />
-                                                </Link>
+                                                <div className="grid sm:grid-cols-2 gap-3">
+                                                    <Link
+                                                        href="/consulting"
+                                                        onClick={() => trackCTAClick('seuil-result', '/consulting', 'audit-strategique')}
+                                                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-all"
+                                                    >
+                                                        <FileText className="w-4 h-4" />
+                                                        Voir l'Audit Stratégique (1 490€)
+                                                    </Link>
+                                                    <a
+                                                        href="https://calendly.com/zineinsight"
+                                                        onClick={() => trackCTAClick('seuil-result', 'calendly', `diagnostic-seuil-${seuil}`)}
+                                                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:bg-accent-primary-hover transition-all"
+                                                    >
+                                                        <Clock className="w-4 h-4" />
+                                                        Diagnostic gratuit 30 min
+                                                    </a>
+                                                </div>
+                                                <p className="text-xs text-slate-400 mt-3">
+                                                    Réponse sous 24h · Plan d'action personnalisé · Sans engagement
+                                                </p>
                                             </div>
                                         </div>
                                     )}
@@ -478,7 +654,7 @@ export default function CalculateurSeuilRentabilite() {
                     </div>
                 </section>
 
-                {/* CTA Audit Stratégique */}
+                {/* CTA Audit Stratégique - Reformulé */}
                 <section className="py-8 bg-white">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-3xl mx-auto">
@@ -489,12 +665,104 @@ export default function CalculateurSeuilRentabilite() {
                                     identifie les leviers de réduction et propose un plan d&apos;action chiffré. 
                                     Je vous aide ensuite à abaisser votre seuil et à maximiser votre profitabilité.
                                 </p>
-                                <Link 
-                                    href="/consulting" 
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
+                                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                                    <Link 
+                                        href="/consulting"
+                                        onClick={() => trackCTAClick('seuil-middle', '/consulting', 'audit-strategique')}
+                                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-slate-100 transition-all"
+                                    >
+                                        <FileText className="w-5 h-5" />
+                                        Voir l&apos;Audit Stratégique (1 490€)
+                                    </Link>
+                                    <a
+                                        href="https://calendly.com/zineinsight"
+                                        onClick={() => trackCTAClick('seuil-middle', 'calendly', 'diagnostic-30min')}
+                                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary-hover transition-all"
+                                    >
+                                        <Clock className="w-5 h-5" />
+                                        Diagnostic gratuit 30 min
+                                    </a>
+                                </div>
+                                <p className="text-xs text-slate-400 mt-4">
+                                    Réponse sous 24h · Plan d'action personnalisé · Sans engagement
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* 🔥 NOUVEAU : Section "Complétez votre diagnostic" - Maillage interne */}
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-5xl mx-auto">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                                    🔗 Complétez votre diagnostic financier
+                                </h2>
+                                <p className="text-lg text-gray-600">
+                                    Le seuil de rentabilité n'est qu'un indicateur. Analysez l'ensemble de votre santé financière.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {/* Marge */}
+                                <Link
+                                    href="/calculateurs/marge"
+                                    className="group bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-6 border-2 border-orange-200 hover:border-orange-400 hover:shadow-xl transition-all"
                                 >
-                                    Découvrir l&apos;Audit Stratégique
-                                    <ArrowRight className="w-5 h-5" />
+                                    <div className="w-12 h-12 rounded-xl bg-orange-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <PieChart className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600">
+                                        Calculateur Marge
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Votre taux de marge impacte directement votre seuil. +10 pts de marge = seuil réduit de 20-30%.
+                                    </p>
+                                    <div className="flex items-center text-orange-600 font-semibold text-sm">
+                                        Calculer ma marge
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* BFR */}
+                                <Link
+                                    href="/calculateurs/bfr"
+                                    className="group bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-200 hover:border-green-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-green-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <DollarSign className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600">
+                                        Calculateur BFR
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Un BFR élevé mobilise du cash qui pourrait absorber vos pertes si vous passez sous votre seuil.
+                                    </p>
+                                    <div className="flex items-center text-green-600 font-semibold text-sm">
+                                        Calculer mon BFR
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* Tous les calculateurs */}
+                                <Link
+                                    href="/calculateurs"
+                                    className="group bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl p-6 border-2 border-slate-300 hover:border-slate-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <Calculator className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                        9 calculateurs gratuits
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        DSO, BFR, ROI, Marge, Seuil de rentabilité, EBITDA, CAC/LTV, Burn Rate, Valorisation.
+                                    </p>
+                                    <div className="flex items-center text-slate-900 font-semibold text-sm">
+                                        Voir tous les calculateurs
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
                                 </Link>
                             </div>
                         </div>

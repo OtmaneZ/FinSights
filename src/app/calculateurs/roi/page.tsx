@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Calculator, Target, ArrowRight, AlertCircle, CheckCircle, TrendingUp, DollarSign, BarChart3, Clock, Zap } from 'lucide-react'
+import { Calculator, Target, ArrowRight, AlertCircle, CheckCircle, TrendingUp, DollarSign, BarChart3, Clock, Zap, AlertTriangle, FileText, CheckCircle2 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
@@ -490,6 +490,72 @@ export default function CalculateurROI() {
                                                 </div>
                                             )}
 
+                                            {/* 🔥 NOUVEAU : Diagnostic personnalisé - Déclencheur conversion si ROI faible */}
+                                            {roi !== null && payback !== null && roi < 50 && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border-2 border-amber-200"
+                                                >
+                                                    <div className="flex items-start gap-3 mb-4">
+                                                        <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
+                                                        <div>
+                                                            <h3 className="text-lg font-bold text-amber-900 mb-2">
+                                                                ⚡ Votre ROI est sous la barre des 50%
+                                                            </h3>
+                                                            <p className="text-slate-700 text-sm mb-3">
+                                                                Avec un ROI de <strong>{roi}%</strong> et un payback de <strong>{payback} mois</strong>, 
+                                                                ce projet pourrait mobiliser du cash sans retour optimal.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="bg-white rounded-lg p-4 border border-amber-200 mb-4">
+                                                        <p className="text-sm font-semibold text-slate-700 mb-2">
+                                                            💡 En optimisant ce projet, vous pourriez :
+                                                        </p>
+                                                        <ul className="space-y-1 text-sm text-slate-600">
+                                                            <li className="flex items-start gap-2">
+                                                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span>Réduire le coût initial de 20-30% (négociation, alternatives)</span>
+                                                            </li>
+                                                            <li className="flex items-start gap-2">
+                                                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span>Augmenter les gains de 15-40% (meilleure adoption, scope élargi)</span>
+                                                            </li>
+                                                            <li className="flex items-start gap-2">
+                                                                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span>Raccourcir le délai de gains de 25% (pilote, MVP, phasage)</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <p className="text-sm text-slate-600 mb-4">
+                                                        <strong className="text-slate-900">Mon rôle :</strong> analyser vos projets stratégiques, 
+                                                        arbitrer selon le ROI et le risque, puis vous aider à piloter leur déploiement.
+                                                    </p>
+
+                                                    <div className="grid sm:grid-cols-2 gap-3">
+                                                        <a
+                                                            href="https://calendly.com/zineinsight"
+                                                            onClick={() => trackCTAClick('roi-diagnostic', 'calendly', `roi-${roi}-payback-${payback}`)}
+                                                            className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-amber-900 font-semibold rounded-lg hover:bg-amber-50 transition-all border-2 border-amber-300 hover:border-amber-400"
+                                                        >
+                                                            <Clock className="w-5 h-5" />
+                                                            Diagnostic gratuit 30 min
+                                                        </a>
+                                                        <Link
+                                                            href="/consulting"
+                                                            onClick={() => trackCTAClick('roi-diagnostic', '/consulting', `roi-${roi}`)}
+                                                            className="flex items-center justify-center gap-2 px-5 py-3 bg-amber-900 text-white font-semibold rounded-lg hover:bg-amber-800 transition-all"
+                                                        >
+                                                            <FileText className="w-5 h-5" />
+                                                            Voir l'Audit Stratégique
+                                                        </Link>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+
                                             {/* Recommandations */}
                                             <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
                                                 <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -516,6 +582,94 @@ export default function CalculateurROI() {
                                                 </ul>
                                             </div>
 
+                                            {/* 🔥 NOUVEAU : Parcours Guidé - Next Steps */}
+                                            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 border-2 border-purple-200">
+                                                <h4 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                                    🚀 Parcours guidé pour optimiser votre ROI
+                                                </h4>
+                                                <p className="text-sm text-slate-600 mb-5">
+                                                    Le ROI ne se suffit pas à lui-même. Suivez ces 3 étapes pour prendre une décision éclairée :
+                                                </p>
+
+                                                <div className="space-y-4">
+                                                    {/* Step 1 */}
+                                                    <Link
+                                                        href="/calculateurs/bfr"
+                                                        onClick={() => trackCTAClick('roi-next-bfr', '/calculateurs/bfr', `roi-${roi}`)}
+                                                        className="block bg-white rounded-lg p-4 border-2 border-purple-200 hover:border-purple-400 hover:shadow-md transition-all group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold">
+                                                                1
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h5 className="font-bold text-slate-900 group-hover:text-purple-600 flex items-center gap-2">
+                                                                    Calculez votre BFR
+                                                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                                </h5>
+                                                                <p className="text-sm text-slate-600 mt-1">
+                                                                    Un investissement peut augmenter votre BFR (stocks, créances). 
+                                                                    Vérifiez l'impact sur votre trésorerie avant de valider.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                    {/* Step 2 */}
+                                                    <Link
+                                                        href="/blog/arbitrage-projets-roi-priorites"
+                                                        className="block bg-white rounded-lg p-4 border-2 border-purple-200 hover:border-purple-400 hover:shadow-md transition-all group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold">
+                                                                2
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h5 className="font-bold text-slate-900 group-hover:text-purple-600 flex items-center gap-2">
+                                                                    Lisez notre guide : "Comment arbitrer entre plusieurs projets ?"
+                                                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                                </h5>
+                                                                <p className="text-sm text-slate-600 mt-1">
+                                                                    Matrice de décision : ROI vs Risque vs Urgence stratégique. 
+                                                                    Comment prioriser quand tout semble urgent.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+
+                                                    {/* Step 3 */}
+                                                    <a
+                                                        href="https://calendly.com/zineinsight"
+                                                        onClick={() => trackCTAClick('roi-parcours-final', 'calendly', `roi-${roi}-guided`)}
+                                                        className="block bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg p-4 hover:from-purple-600 hover:to-indigo-600 transition-all group"
+                                                    >
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white text-purple-600 flex items-center justify-center font-bold">
+                                                                3
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h5 className="font-bold text-white flex items-center gap-2">
+                                                                    Appelez-moi pour valider votre stratégie d'investissement
+                                                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                                </h5>
+                                                                <p className="text-sm text-purple-100 mt-1">
+                                                                    <strong>30 min gratuites</strong> pour passer en revue vos projets, 
+                                                                    calculer leur ROI réel et définir un ordre de priorité clair.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+
+                                                <div className="mt-5 pt-5 border-t border-purple-200">
+                                                    <p className="text-xs text-slate-600 italic">
+                                                        💬 <strong>Retour d'expérience :</strong> "Mes clients prennent souvent des décisions d'investissement 
+                                                        sur la base du ROI seul. Mais il faut aussi regarder l'impact trésorerie (BFR), 
+                                                        le risque d'exécution et l'alignement stratégique. C'est ce que je vous aide à clarifier."
+                                                    </p>
+                                                </div>
+                                            </div>
+
                                             <button
                                                 onClick={reset}
                                                 className="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-all"
@@ -523,22 +677,36 @@ export default function CalculateurROI() {
                                                 Nouveau calcul
                                             </button>
 
-                                            {/* CTA */}
-                                            <div className="bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl p-6 text-center">
-                                                <p className="text-white font-semibold mb-2">
-                                                    🚀 Simulez tous vos projets avec FinSight
+                                            {/* CTA - Reformulé pour conversion */}
+                                            <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-xl p-6 text-center">
+                                                <p className="text-accent-primary font-semibold mb-2">
+                                                    � Besoin d'aide pour arbitrer entre vos projets ?
                                                 </p>
-                                                <p className="text-purple-100 text-sm mb-4">
-                                                    Comparez le ROI de plusieurs scénarios et prenez les meilleures décisions d&apos;investissement.
+                                                <p className="text-white text-sm mb-4 leading-relaxed">
+                                                    Je vous aide à évaluer le ROI réel de vos investissements (coûts cachés, gains sous-estimés) 
+                                                    et à prioriser selon le couple ROI/Risque/Urgence.
                                                 </p>
-                                                <Link
-                                                    href="/contact"
-                                                    onClick={() => trackCTAClick('roi', '/contact', 'cta_demo')}
-                                                    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-all"
-                                                >
-                                                    Demander une démo
-                                                    <ArrowRight className="w-4 h-4" />
-                                                </Link>
+                                                <div className="grid sm:grid-cols-2 gap-3">
+                                                    <Link
+                                                        href="/consulting"
+                                                        onClick={() => trackCTAClick('roi-result', '/consulting', 'audit-strategique')}
+                                                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-all"
+                                                    >
+                                                        <FileText className="w-4 h-4" />
+                                                        Voir l'Audit Stratégique (1 490€)
+                                                    </Link>
+                                                    <a
+                                                        href="https://calendly.com/zineinsight"
+                                                        onClick={() => trackCTAClick('roi-result', 'calendly', `diagnostic-roi-${roi}`)}
+                                                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:bg-accent-primary-hover transition-all"
+                                                    >
+                                                        <Clock className="w-4 h-4" />
+                                                        Diagnostic gratuit 30 min
+                                                    </a>
+                                                </div>
+                                                <p className="text-xs text-slate-400 mt-3">
+                                                    Réponse sous 24h · Plan d'action personnalisé · Sans engagement
+                                                </p>
                                             </div>
                                         </div>
                                     )}
@@ -548,7 +716,7 @@ export default function CalculateurROI() {
                     </div>
                 </section>
 
-                {/* CTA Audit Stratégique */}
+                {/* CTA Audit Stratégique - Reformulé */}
                 <section className="py-8 bg-white">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-3xl mx-auto">
@@ -559,13 +727,27 @@ export default function CalculateurROI() {
                                     identifie vos meilleurs leviers de croissance et vous propose une stratégie d&apos;allocation budgétaire optimale. 
                                     Je vous aide ensuite à piloter ces projets en temps réel.
                                 </p>
-                                <Link 
-                                    href="/consulting" 
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
-                                >
-                                    Découvrir l&apos;Audit Stratégique
-                                    <ArrowRight className="w-5 h-5" />
-                                </Link>
+                                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                                    <Link 
+                                        href="/consulting"
+                                        onClick={() => trackCTAClick('roi-middle', '/consulting', 'audit-strategique')}
+                                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-slate-100 transition-all"
+                                    >
+                                        <FileText className="w-5 h-5" />
+                                        Voir l&apos;Audit Stratégique (1 490€)
+                                    </Link>
+                                    <a
+                                        href="https://calendly.com/zineinsight"
+                                        onClick={() => trackCTAClick('roi-middle', 'calendly', 'diagnostic-30min')}
+                                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary-hover transition-all"
+                                    >
+                                        <Clock className="w-5 h-5" />
+                                        Diagnostic gratuit 30 min
+                                    </a>
+                                </div>
+                                <p className="text-xs text-slate-400 mt-4">
+                                    Réponse sous 24h · Plan d'action personnalisé · Sans engagement
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -603,6 +785,84 @@ export default function CalculateurROI() {
                                         <p className="text-slate-600">{faq.a}</p>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* 🔥 NOUVEAU : Section "Complétez votre diagnostic" - Maillage interne */}
+                <section className="py-16 bg-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-5xl mx-auto">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                                    🔗 Complétez votre diagnostic financier
+                                </h2>
+                                <p className="text-lg text-gray-600">
+                                    Le ROI n'est qu'un indicateur. Analysez l'ensemble de votre santé financière.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {/* BFR */}
+                                <Link
+                                    href="/calculateurs/bfr"
+                                    className="group bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-200 hover:border-green-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-green-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <DollarSign className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600">
+                                        Calculateur BFR
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Mesurez le cash immobilisé dans votre cycle d'exploitation. Un investissement peut augmenter votre BFR.
+                                    </p>
+                                    <div className="flex items-center text-green-600 font-semibold text-sm">
+                                        Calculer mon BFR
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* DSO */}
+                                <Link
+                                    href="/calculateurs/dso"
+                                    className="group bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border-2 border-blue-200 hover:border-blue-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <TrendingUp className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600">
+                                        Calculateur DSO
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Mesurez votre délai moyen de paiement clients. Un DSO élevé bloque du cash pour vos investissements.
+                                    </p>
+                                    <div className="flex items-center text-blue-600 font-semibold text-sm">
+                                        Calculer mon DSO
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
+
+                                {/* Tous les calculateurs */}
+                                <Link
+                                    href="/calculateurs"
+                                    className="group bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl p-6 border-2 border-slate-300 hover:border-slate-400 hover:shadow-xl transition-all"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <Calculator className="w-6 h-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                        9 calculateurs gratuits
+                                    </h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        DSO, BFR, ROI, Marge, Seuil de rentabilité, EBITDA, CAC/LTV, Burn Rate, Valorisation.
+                                    </p>
+                                    <div className="flex items-center text-slate-900 font-semibold text-sm">
+                                        Voir tous les calculateurs
+                                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
