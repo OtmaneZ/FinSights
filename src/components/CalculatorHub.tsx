@@ -750,7 +750,15 @@ export function CalculatorHub() {
                                     {calc.description}
                                 </p>
                                 <div className="flex items-center gap-2 text-accent-primary font-semibold">
-                                    Calculer maintenant
+                                    {calc.id === 'dso' && '🔍 Vérifier mon délai réel'}
+                                    {calc.id === 'bfr' && '💸 Mesurer mon cash immobilisé'}
+                                    {calc.id === 'roi' && '🎯 Tester la rentabilité'}
+                                    {calc.id === 'marge' && '📊 Diagnostiquer ma marge'}
+                                    {calc.id === 'seuil' && '⚠️ Suis-je vraiment rentable ?'}
+                                    {calc.id === 'ebitda' && '📈 Calculer mon EBITDA'}
+                                    {calc.id === 'cac-ltv' && '💰 Analyser ma rentabilité client'}
+                                    {calc.id === 'burn-rate' && '🔥 Mesurer ma consommation cash'}
+                                    {calc.id === 'valorisation' && '🚀 Estimer ma valorisation'}
                                     <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                     </svg>
@@ -776,7 +784,15 @@ export function CalculatorHub() {
                                 {calc.description}
                             </p>
                             <div className="flex items-center gap-2 text-accent-primary font-semibold">
-                                Calculer maintenant
+                                {calc.id === 'dso' && '🔍 Vérifier mon délai réel'}
+                                {calc.id === 'bfr' && '💸 Mesurer mon cash immobilisé'}
+                                {calc.id === 'roi' && '🎯 Tester la rentabilité'}
+                                {calc.id === 'marge' && '📊 Diagnostiquer ma marge'}
+                                {calc.id === 'seuil' && '⚠️ Suis-je vraiment rentable ?'}
+                                {calc.id === 'ebitda' && '📈 Calculer mon EBITDA'}
+                                {calc.id === 'cac-ltv' && '💰 Analyser ma rentabilité client'}
+                                {calc.id === 'burn-rate' && '🔥 Mesurer ma consommation cash'}
+                                {calc.id === 'valorisation' && '🚀 Estimer ma valorisation'}
                                 <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                 </svg>
