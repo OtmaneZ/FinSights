@@ -26,16 +26,16 @@ export default function CalculateursPage() {
             <div className="max-w-7xl mx-auto px-6 py-16">
                 {/* Hero Section */}
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 rounded-full px-4 py-2 mb-6">
-                        <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-300 rounded-full px-4 py-2 mb-6">
+                        <svg className="w-4 h-4 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                         </svg>
-                        <span className="text-sm font-semibold text-red-600">Diagnostic financier gratuit</span>
+                        <span className="text-sm font-semibold text-slate-700">Diagnostic financier gratuit</span>
                     </div>
 
                     <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-primary">
                         Votre trésorerie est-elle en danger<br />
-                        <span className="text-red-600">sans que vous le sachiez ?</span>
+                        <span className="text-slate-700">sans que vous le sachiez ?</span>
                     </h1>
 
                     <p className="text-xl text-secondary max-w-3xl mx-auto mb-8">
@@ -69,13 +69,13 @@ export default function CalculateursPage() {
                 <CalculatorHub />
 
                 {/* CTA Section */}
-                <div className="surface rounded-2xl p-12 border-2 border-red-200 bg-gradient-to-br from-red-50 to-orange-50 mt-16">
+                <div className="surface rounded-2xl p-12 border-2 border-slate-200 bg-gradient-to-br from-slate-50 to-gray-50 mt-16">
                     <div className="text-center mb-8">
-                        <div className="inline-flex items-center gap-2 bg-red-100 border border-red-300 rounded-full px-4 py-2 mb-4">
-                            <svg className="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                        <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-300 rounded-full px-4 py-2 mb-4">
+                            <svg className="w-5 h-5 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                             </svg>
-                            <span className="text-sm font-semibold text-red-700">Vous découvrez un problème ?</span>
+                            <span className="text-sm font-semibold text-slate-700">Vous découvrez un problème ?</span>
                         </div>
                         
                         <h2 className="text-3xl font-bold mb-4 text-gray-900">
@@ -90,10 +90,10 @@ export default function CalculateursPage() {
 
                     <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                         {/* Option 1 : Diagnostic gratuit */}
-                        <div className="bg-white rounded-xl p-6 border-2 border-blue-200 hover:border-blue-400 transition-all">
+                        <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-slate-400 transition-all">
                             <div className="flex items-start gap-3 mb-4">
-                                <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                    <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                                    <svg className="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                 </div>
@@ -128,7 +128,7 @@ export default function CalculateursPage() {
                                         href="https://calendly.com/zineinsight"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="block w-full text-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all"
+                                        className="block w-full text-center px-6 py-3 bg-slate-700 hover:bg-slate-800 text-white rounded-lg font-semibold transition-all"
                                     >
                                         Prendre RDV gratuit
                                     </a>
@@ -137,10 +137,10 @@ export default function CalculateursPage() {
                         </div>
 
                         {/* Option 2 : Consulting */}
-                        <div className="bg-white rounded-xl p-6 border-2 border-purple-200 hover:border-purple-400 transition-all">
+                        <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-slate-400 transition-all">
                             <div className="flex items-start gap-3 mb-4">
-                                <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
-                                    <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                                    <svg className="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                     </svg>
                                 </div>
@@ -173,7 +173,7 @@ export default function CalculateursPage() {
                                     </ul>
                                     <a
                                         href="/consulting"
-                                        className="block w-full text-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all"
+                                        className="block w-full text-center px-6 py-3 bg-slate-700 hover:bg-slate-800 text-white rounded-lg font-semibold transition-all"
                                     >
                                         Voir les offres consulting
                                     </a>
@@ -183,7 +183,7 @@ export default function CalculateursPage() {
                     </div>
 
                     <p className="text-center text-sm text-gray-600 mt-8">
-                        🔒 Confidentialité garantie · 📊 Aucune donnée transmise sans votre accord · ⚡ Réponse sous 24h
+                        Confidentialité garantie · Aucune donnée transmise sans votre accord · Réponse sous 24h
                     </p>
                 </div>
             </div>
