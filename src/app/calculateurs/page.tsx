@@ -1,16 +1,15 @@
 import { Metadata } from 'next'
-import { Calculator } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { CalculatorHub } from '@/components/CalculatorHub'
 
 export const metadata: Metadata = {
-    title: 'Outils Financiers Gratuits PME | 9 Calculateurs CFO/DAF',
-    description: '9 calculateurs financiers gratuits pour piloter votre PME : DSO, BFR, ROI, Seuil de rentabilité, Marge commerciale, EBITDA, Burn Rate, Valorisation. Résultats instantanés + interprétation DAF. Sans inscription.',
-    keywords: 'outils financiers gratuits, calculateurs finance pme, calculateur dso bfr, kpi finance, tableau bord daf, outils cfo gratuits, analyse financière pme',
+    title: 'Les 9 indicateurs qui décident de la trajectoire d\'une PME | FinSight',
+    description: '9 calculateurs financiers pour piloter votre PME : DSO, BFR, ROI, Seuil de rentabilité, Marge commerciale, EBITDA, Burn Rate, Valorisation. Résultats instantanés + interprétation DAF.',
+    keywords: 'indicateurs financiers pme, calculateurs finance daf, calculateur dso bfr, kpi finance, tableau bord daf, analyse financière pme, pilotage trésorerie',
     openGraph: {
-        title: 'Outils Financiers Gratuits | 9 Calculateurs pour CFO/DAF',
-        description: '9 calculateurs gratuits pour piloter vos KPIs : DSO, BFR, ROI, Marges... Résultats instantanés avec interprétation.',
+        title: 'Les 9 indicateurs qui décident de la trajectoire d\'une PME',
+        description: 'Utilisés en direction financière pour piloter cash, croissance et risque. Résultats instantanés avec interprétation.',
         type: 'website',
         url: 'https://finsight.zineinsight.com/calculateurs',
     },
@@ -27,23 +26,22 @@ export default function CalculateursPage() {
             <div className="max-w-7xl mx-auto px-6 py-16">
                 {/* Hero Section */}
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-6">
-                        <Calculator className="w-4 h-4 text-accent-primary" />
-                        <span className="text-accent-primary text-sm font-semibold">100% Gratuits</span>
-                    </div>
+                    <p className="text-sm uppercase tracking-widest text-secondary mb-6">
+                        Utilisés en direction financière pour piloter cash, croissance et risque.
+                    </p>
 
-                    <h1 className="text-5xl font-bold mb-6 leading-tight">
-                        Outils Financiers Gratuits<br />
-                        <span className="text-accent-primary">9 Calculateurs CFO/DAF</span>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-primary">
+                        Les 9 indicateurs qui décident<br />
+                        de la trajectoire d&apos;une PME
                     </h1>
 
                     <p className="text-xl text-secondary max-w-3xl mx-auto mb-4">
-                        9 outils gratuits pour calculer vos KPIs financiers en temps réel.<br />
+                        Calculez vos KPIs financiers en temps réel.<br />
                         Résultats instantanés avec interprétation et recommandations d&apos;expert.
                     </p>
 
                     <p className="text-sm text-tertiary">
-                        ⚡ Calcul instantané • 📊 Benchmarks sectoriels • ✅ Aucune inscription
+                        Calcul instantané · Benchmarks sectoriels · Aucune inscription requise
                     </p>
                 </div>
 
@@ -77,7 +75,7 @@ export default function CalculateursPage() {
                         </a>
                     </div>
                     <p className="text-sm text-tertiary mt-4">
-                        ✅ Sans engagement • ✅ Dashboard complet • ✅ 10 questions IA gratuites
+                        Sans engagement · Dashboard complet · 10 questions IA incluses
                     </p>
                 </div>
             </div>

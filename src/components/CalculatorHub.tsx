@@ -48,7 +48,7 @@ const calculators: CalculatorConfig[] = [
         title: 'Calculateur DSO',
         description: 'Days Sales Outstanding - Délai moyen de paiement clients',
         icon: TrendingUp,
-        color: 'from-blue-500 to-accent-primary',
+        color: 'from-slate-700 to-slate-900',
         dedicatedPage: '/calculateurs/dso',
         inputs: [
             { key: 'creances', label: 'Créances clients', placeholder: '150000', unit: '€', tooltip: 'Factures non encore encaissées' },
@@ -62,7 +62,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'excellent',
                     icone: CheckCircle,
-                    titre: '✅ Excellent',
+                    titre: 'Excellent',
                     couleur: 'text-green-600',
                     bgCouleur: 'bg-green-50 border-green-200',
                     message: 'Vos clients paient rapidement. Trésorerie optimale !'
@@ -71,7 +71,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'bon',
                     icone: CheckCircle,
-                    titre: '✅ Bon',
+                    titre: 'Bon',
                     couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'DSO dans la norme. Continuez ce rythme !'
@@ -80,7 +80,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'surveiller',
                     icone: AlertCircle,
-                    titre: '⚠️ À surveiller',
+                    titre: 'À surveiller',
                     couleur: 'text-amber-600',
                     bgCouleur: 'bg-amber-50 border-amber-200',
                     message: 'DSO élevé. Accélérez les relances clients.'
@@ -89,7 +89,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'critique',
                     icone: AlertCircle,
-                    titre: '🚨 Critique',
+                    titre: 'Critique',
                     couleur: 'text-red-600',
                     bgCouleur: 'bg-red-50 border-red-200',
                     message: 'DSO trop élevé ! Risque trésorerie important.'
@@ -114,7 +114,7 @@ const calculators: CalculatorConfig[] = [
         title: 'Calculateur BFR',
         description: 'Besoin en Fonds de Roulement - Trésorerie immobilisée',
         icon: DollarSign,
-        color: 'from-green-500 to-green-600',
+        color: 'from-slate-700 to-slate-900',
         dedicatedPage: '/calculateurs/bfr',
         inputs: [
             { key: 'stocks', label: 'Stocks', placeholder: '50000', unit: '€' },
@@ -131,7 +131,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'excellent',
                     icone: CheckCircle,
-                    titre: '✅ Excellent - BFR négatif',
+                    titre: 'Excellent - BFR négatif',
                     couleur: 'text-green-600',
                     bgCouleur: 'bg-green-50 border-green-200',
                     message: 'Situation idéale ! Vos fournisseurs financent votre activité.'
@@ -140,7 +140,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'bon',
                     icone: CheckCircle,
-                    titre: '✅ BFR maîtrisé',
+                    titre: 'BFR maîtrisé',
                     couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'BFR représente moins d\'un mois de CA. Bonne gestion !'
@@ -149,7 +149,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'surveiller',
                     icone: AlertCircle,
-                    titre: '⚠️ À surveiller',
+                    titre: 'À surveiller',
                     couleur: 'text-amber-600',
                     bgCouleur: 'bg-amber-50 border-amber-200',
                     message: `BFR = ${joursCA} jours de CA. Optimisez vos délais.`
@@ -158,7 +158,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'critique',
                     icone: AlertCircle,
-                    titre: '🚨 Critique',
+                    titre: 'Critique',
                     couleur: 'text-red-600',
                     bgCouleur: 'bg-red-50 border-red-200',
                     message: `BFR très élevé (${joursCA} jours). Action urgente requise !`
@@ -184,7 +184,7 @@ const calculators: CalculatorConfig[] = [
         title: 'Calculateur ROI',
         description: 'Return on Investment - Rentabilité d\'un investissement',
         icon: Target,
-        color: 'from-purple-500 to-purple-600',
+        color: 'from-slate-700 to-slate-900',
         dedicatedPage: '/calculateurs/roi',
         inputs: [
             { key: 'investissement', label: 'Investissement initial', placeholder: '50000', unit: '€' },
@@ -199,7 +199,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'excellent',
                     icone: CheckCircle,
-                    titre: '✅ ROI Excellent',
+                    titre: 'ROI Excellent',
                     couleur: 'text-green-600',
                     bgCouleur: 'bg-green-50 border-green-200',
                     message: 'Investissement très rentable ! ROI supérieur à 50%.'
@@ -208,7 +208,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'bon',
                     icone: CheckCircle,
-                    titre: '✅ ROI Positif',
+                    titre: 'ROI Positif',
                     couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'Bon retour sur investissement. Projet viable.'
@@ -217,7 +217,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'moyen',
                     icone: AlertCircle,
-                    titre: '⚠️ ROI Faible',
+                    titre: 'ROI Faible',
                     couleur: 'text-amber-600',
                     bgCouleur: 'bg-amber-50 border-amber-200',
                     message: 'ROI positif mais faible. Évaluez d\'autres options.'
@@ -226,7 +226,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'negatif',
                     icone: AlertCircle,
-                    titre: '🚨 ROI Négatif',
+                    titre: 'ROI Négatif',
                     couleur: 'text-red-600',
                     bgCouleur: 'bg-red-50 border-red-200',
                     message: 'Investissement non rentable. Reconsidérez le projet.'
@@ -249,7 +249,7 @@ const calculators: CalculatorConfig[] = [
         title: 'Calculateur Marge',
         description: 'Marge commerciale - Taux de marge et taux de marque',
         icon: PieChart,
-        color: 'from-orange-500 to-orange-600',
+        color: 'from-slate-600 to-slate-800',
         dedicatedPage: '/calculateurs/marge',
         inputs: [
             { key: 'prixAchat', label: 'Prix d\'achat HT', placeholder: '100', unit: '€' },
@@ -265,7 +265,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'excellent',
                     icone: CheckCircle,
-                    titre: '✅ Marge Excellente',
+                    titre: 'Marge Excellente',
                     couleur: 'text-green-600',
                     bgCouleur: 'bg-green-50 border-green-200',
                     message: 'Taux de marge supérieur à 100% ! Très rentable.'
@@ -274,7 +274,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'bon',
                     icone: CheckCircle,
-                    titre: '✅ Bonne Marge',
+                    titre: 'Bonne Marge',
                     couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'Marge saine entre 50-100%. Rentabilité correcte.'
@@ -283,7 +283,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'moyen',
                     icone: AlertCircle,
-                    titre: '⚠️ Marge Moyenne',
+                    titre: 'Marge Moyenne',
                     couleur: 'text-amber-600',
                     bgCouleur: 'bg-amber-50 border-amber-200',
                     message: 'Marge 20-50%. Attention aux charges fixes.'
@@ -292,7 +292,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'faible',
                     icone: AlertCircle,
-                    titre: '🚨 Marge Faible',
+                    titre: 'Marge Faible',
                     couleur: 'text-red-600',
                     bgCouleur: 'bg-red-50 border-red-200',
                     message: 'Marge < 20%. Risque de non-rentabilité.'
@@ -321,7 +321,7 @@ const calculators: CalculatorConfig[] = [
         title: 'Seuil de Rentabilité',
         description: 'Point mort - CA minimum pour être rentable',
         icon: BarChart3,
-        color: 'from-red-500 to-red-600',
+        color: 'from-slate-600 to-slate-800',
         dedicatedPage: '/calculateurs/seuil-rentabilite',
         inputs: [
             { key: 'chargesFixes', label: 'Charges fixes mensuelles', placeholder: '50000', unit: '€', tooltip: 'Loyers, salaires, abonnements...' },
@@ -336,7 +336,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'bon',
                     icone: CheckCircle,
-                    titre: '✅ Modèle Solide',
+                    titre: 'Modèle Solide',
                     couleur: 'text-green-600',
                     bgCouleur: 'bg-green-50 border-green-200',
                     message: 'Taux de marge >50%. Seuil de rentabilité atteignable.'
@@ -345,7 +345,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'moyen',
                     icone: CheckCircle,
-                    titre: '⚠️ Modèle Moyen',
+                    titre: 'Modèle Moyen',
                     couleur: 'text-amber-600',
                     bgCouleur: 'bg-amber-50 border-amber-200',
                     message: 'Marge 30-50%. Surveillez vos charges fixes.'
@@ -354,7 +354,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'risque',
                     icone: AlertCircle,
-                    titre: '🚨 Modèle Risqué',
+                    titre: 'Modèle Risqué',
                     couleur: 'text-red-600',
                     bgCouleur: 'bg-red-50 border-red-200',
                     message: 'Marge <30%. Seuil difficile à atteindre.'
@@ -383,7 +383,7 @@ const calculators: CalculatorConfig[] = [
         title: 'Calculateur EBITDA',
         description: 'Earnings Before Interest, Taxes, Depreciation & Amortization',
         icon: Calculator,
-        color: 'from-indigo-500 to-indigo-600',
+        color: 'from-slate-700 to-slate-900',
         inputs: [
             { key: 'resultatNet', label: 'Résultat net', placeholder: '100000', unit: '€' },
             { key: 'impots', label: 'Impôts sur bénéfices', placeholder: '30000', unit: '€' },
@@ -398,7 +398,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'excellent',
                     icone: CheckCircle,
-                    titre: '✅ EBITDA Solide',
+                    titre: 'EBITDA Solide',
                     couleur: 'text-green-600',
                     bgCouleur: 'bg-green-50 border-green-200',
                     message: 'Capacité bénéficiaire forte. Entreprise valorisable.'
@@ -407,7 +407,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'bon',
                     icone: CheckCircle,
-                    titre: '✅ EBITDA Positif',
+                    titre: 'EBITDA Positif',
                     couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'EBITDA positif. Activité rentable avant financement.'
@@ -416,7 +416,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'faible',
                     icone: AlertCircle,
-                    titre: '⚠️ EBITDA Faible',
+                    titre: 'EBITDA Faible',
                     couleur: 'text-amber-600',
                     bgCouleur: 'bg-amber-50 border-amber-200',
                     message: 'EBITDA faible. Marges opérationnelles à améliorer.'
@@ -425,7 +425,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'negatif',
                     icone: AlertCircle,
-                    titre: '🚨 EBITDA Négatif',
+                    titre: 'EBITDA Négatif',
                     couleur: 'text-red-600',
                     bgCouleur: 'bg-red-50 border-red-200',
                     message: 'Activité non rentable avant financement. Restructuration nécessaire.'
@@ -447,7 +447,7 @@ const calculators: CalculatorConfig[] = [
         title: 'CAC/LTV (SaaS)',
         description: 'Customer Acquisition Cost & Lifetime Value',
         icon: Target,
-        color: 'from-cyan-500 to-cyan-600',
+        color: 'from-slate-600 to-slate-800',
         inputs: [
             { key: 'cac', label: 'Coût d\'acquisition client (CAC)', placeholder: '500', unit: '€', tooltip: 'Marketing + Sales / Nb nouveaux clients' },
             { key: 'arpu', label: 'ARPU mensuel', placeholder: '99', unit: '€', tooltip: 'Average Revenue Per User' },
@@ -464,7 +464,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'excellent',
                     icone: CheckCircle,
-                    titre: '✅ Excellent Ratio LTV/CAC',
+                    titre: 'Excellent Ratio LTV/CAC',
                     couleur: 'text-green-600',
                     bgCouleur: 'bg-green-50 border-green-200',
                     message: `Ratio ${ratio}:1 = Excellent ! Modèle SaaS très rentable.`
@@ -473,7 +473,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'bon',
                     icone: CheckCircle,
-                    titre: '✅ Bon Ratio',
+                    titre: 'Bon Ratio',
                     couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: `Ratio ${ratio}:1 = Viable. Continuez à optimiser le CAC.`
@@ -482,7 +482,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'limite',
                     icone: AlertCircle,
-                    titre: '⚠️ Ratio Limite',
+                    titre: 'Ratio Limite',
                     couleur: 'text-amber-600',
                     bgCouleur: 'bg-amber-50 border-amber-200',
                     message: `Ratio ${ratio}:1 = Juste équilibré. Réduisez CAC ou augmentez LTV.`
@@ -491,7 +491,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'critique',
                     icone: AlertCircle,
-                    titre: '🚨 Ratio Critique',
+                    titre: 'Ratio Critique',
                     couleur: 'text-red-600',
                     bgCouleur: 'bg-red-50 border-red-200',
                     message: `Ratio ${ratio}:1 = Non rentable ! CAC trop élevé vs LTV.`
@@ -521,7 +521,7 @@ const calculators: CalculatorConfig[] = [
         title: 'Burn Rate & Runway',
         description: 'Trésorerie & mois avant rupture de cash',
         icon: TrendingUp,
-        color: 'from-pink-500 to-pink-600',
+        color: 'from-slate-700 to-slate-900',
         inputs: [
             { key: 'tresorerie', label: 'Trésorerie actuelle', placeholder: '500000', unit: '€' },
             { key: 'depenses', label: 'Dépenses mensuelles', placeholder: '80000', unit: '€' },
@@ -538,7 +538,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'excellent',
                     icone: CheckCircle,
-                    titre: '✅ Cashflow Positif',
+                    titre: 'Cashflow Positif',
                     couleur: 'text-green-600',
                     bgCouleur: 'bg-green-50 border-green-200',
                     message: 'Revenus > Dépenses. Pas de burn, croissance auto-financée !'
@@ -547,7 +547,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'confortable',
                     icone: CheckCircle,
-                    titre: '✅ Runway Confortable',
+                    titre: 'Runway Confortable',
                     couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: `${runway} mois de runway. Situation saine pour lever fonds.`
@@ -556,7 +556,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'surveiller',
                     icone: AlertCircle,
-                    titre: '⚠️ À Surveiller',
+                    titre: 'À Surveiller',
                     couleur: 'text-amber-600',
                     bgCouleur: 'bg-amber-50 border-amber-200',
                     message: `${runway} mois de runway. Commencez à lever ou réduire burn.`
@@ -565,7 +565,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'urgent',
                     icone: AlertCircle,
-                    titre: '🚨 Urgent',
+                    titre: 'Urgent',
                     couleur: 'text-orange-600',
                     bgCouleur: 'bg-orange-50 border-orange-200',
                     message: `${runway} mois de runway. Levée urgente ou pivot nécessaire !`
@@ -574,7 +574,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'critique',
                     icone: AlertCircle,
-                    titre: '🚨 Critique',
+                    titre: 'Critique',
                     couleur: 'text-red-600',
                     bgCouleur: 'bg-red-50 border-red-200',
                     message: `${runway} mois de runway. Action immédiate requise !`
@@ -604,7 +604,7 @@ const calculators: CalculatorConfig[] = [
         title: 'Valorisation Entreprise',
         description: 'Estimation par multiple EBITDA',
         icon: Calculator,
-        color: 'from-emerald-500 to-emerald-600',
+        color: 'from-slate-600 to-slate-800',
         inputs: [
             { key: 'ebitda', label: 'EBITDA annuel', placeholder: '500000', unit: '€' },
             { key: 'secteur', label: 'Secteur', placeholder: 'services', tooltip: 'Services, SaaS, Industrie, Commerce' }
@@ -631,7 +631,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'high-value',
                     icone: CheckCircle,
-                    titre: '✅ Entreprise Valorisable',
+                    titre: 'Entreprise Valorisable',
                     couleur: 'text-green-600',
                     bgCouleur: 'bg-green-50 border-green-200',
                     message: `EBITDA ${(inputs.ebitda / 1000000).toFixed(1)}M€. Attractive pour investisseurs.`
@@ -640,7 +640,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'mid-value',
                     icone: CheckCircle,
-                    titre: '✅ PME Rentable',
+                    titre: 'PME Rentable',
                     couleur: 'text-accent-primary',
                     bgCouleur: 'bg-blue-50 border-blue-200',
                     message: 'EBITDA solide. Valorisation intéressante pour acquéreur stratégique.'
@@ -649,7 +649,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'low-value',
                     icone: AlertCircle,
-                    titre: '⚠️ EBITDA Faible',
+                    titre: 'EBITDA Faible',
                     couleur: 'text-amber-600',
                     bgCouleur: 'bg-amber-50 border-amber-200',
                     message: 'EBITDA modeste. Valorisation limitée, focus sur croissance rentable.'
@@ -658,7 +658,7 @@ const calculators: CalculatorConfig[] = [
                 interpretation = {
                     niveau: 'negative',
                     icone: AlertCircle,
-                    titre: '🚨 EBITDA Négatif',
+                    titre: 'EBITDA Négatif',
                     couleur: 'text-red-600',
                     bgCouleur: 'bg-red-50 border-red-200',
                     message: 'Activité non rentable. Valorisation complexe (actifs, potentiel).'
@@ -932,7 +932,7 @@ export function CalculatorHub() {
                                         {/* CTA FinSight */}
                                         <div className="bg-accent-primary-subtle border-2 border-accent-primary-border rounded-xl p-6 text-center">
                                             <p className="font-semibold mb-2">
-                                                🚀 Automatisez ce calcul avec FinSight
+                                                Automatisez ce calcul avec FinSight
                                             </p>
                                             <p className="text-sm text-secondary mb-4">
                                                 Plus besoin de calculer manuellement. FinSight analyse vos données et calcule tous vos KPIs automatiquement.
@@ -941,7 +941,7 @@ export function CalculatorHub() {
                                                 href="/dashboard"
                                                 className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all"
                                             >
-                                                Essayer Gratuitement
+                                                Demander une démo
                                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                                 </svg>
