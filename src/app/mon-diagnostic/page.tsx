@@ -591,6 +591,11 @@ export default function MonDiagnosticPage() {
               Premiere analyse en moins de 2 minutes
             </p>
           </div>
+
+          {/* Methodology section (even on empty state) */}
+          <div className="mt-20 max-w-4xl mx-auto">
+            <MethodologySection />
+          </div>
         </div>
         <Footer />
       </div>
