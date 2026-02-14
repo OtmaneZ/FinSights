@@ -10,6 +10,7 @@ import SessionProvider from '@/components/SessionProvider'
 import Analytics from '@/components/Analytics'
 import CookieConsent from '@/components/CookieConsent'
 import AnalyticsDebugger from '@/components/AnalyticsDebugger'
+import FinSightAssistant from '@/components/FinSightAssistant'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -99,6 +100,7 @@ export default function RootLayout({
                         <ThemeProvider>
                             <FinancialDataProvider>
                                 {children}
+                                <FinSightAssistant />
                             </FinancialDataProvider>
                         </ThemeProvider>
                     </CompanyProvider>

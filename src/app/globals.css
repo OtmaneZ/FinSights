@@ -366,3 +366,43 @@ a:focus-visible {
 .perspective-1000 {
     perspective: 1000px;
 }
+
+/* ==========================================
+   FINSIGHT ASSISTANT — Chat Styles
+   ========================================== */
+
+.assistant-content strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.assistant-content a.assistant-link {
+    color: var(--accent-primary);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-primary-border);
+    transition: border-color 0.15s ease;
+    cursor: pointer;
+}
+
+.assistant-content a.assistant-link:hover {
+    border-bottom-color: var(--accent-primary);
+}
+
+.assistant-content .assistant-list-item {
+    display: block;
+    padding-left: 12px;
+    position: relative;
+    margin-top: 2px;
+}
+
+.assistant-content .assistant-list-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+}

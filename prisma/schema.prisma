@@ -386,3 +386,58 @@ model Lead {
   @@index([source])
   @@map("leads")
 }
+
+// ============================================
+// AI ASSISTANT - Conversations & Context
+// ============================================
+
+model AssistantConversation {
+  id        String   @id @default(cuid())
+  sessionId String   // localStorage ID ou user.id si logged in
+  userId    String?  // Si user authentifié
+  
+  // Context snapshot au moment de la conversation
+  currentPage       String?  // URL de la page
+  calculatorHistory Json?    // Snapshot des calculs localStorage
+  finSightScore     Int?     // Score au moment de la conversation
+  
+  // Conversation metadata
+  startedAt   DateTime @default(now())
+  lastMessage DateTime @default(now())
+  messageCount Int     @default(0)
+  
+  // Engagement tracking
+  clickedCTA  String?  // "consulting", "template", "calculator", etc.
+  converted   Boolean  @default(false)
+  
+  messages AssistantMessage[]
+  
+  @@index([sessionId])
+  @@index([userId])
+  @@index([startedAt])
+  @@map("assistant_conversations")
+}
+
+model AssistantMessage {
+  id             String   @id @default(cuid())
+  conversationId String
+  
+  role      String   // "user" | "assistant" | "system"
+  content   String   @db.Text
+  
+  // AI metadata
+  model         String?  // "gpt-4o-mini", "claude-3.5-sonnet"
+  tokensUsed    Int?
+  responseTime  Int?     // ms
+  
+  // Extracted CTAs from assistant response
+  suggestedCTAs Json?    // [{ label: "Calculer BFR", href: "/calculateurs/bfr" }]
+  
+  createdAt DateTime @default(now())
+  
+  conversation AssistantConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  @@index([conversationId])
+  @@index([createdAt])
+  @@map("assistant_messages")
+}
