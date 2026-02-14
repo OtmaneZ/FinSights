@@ -26,6 +26,11 @@ import {
   CheckCircle2,
   Info,
   Zap,
+  ChevronDown,
+  BookOpen,
+  Layers,
+  Database,
+  Lock,
 } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
@@ -908,15 +913,10 @@ export default function MonDiagnosticPage() {
           </div>
         )}
 
-        {/* ---- Methodologie ---- */}
-        <div className="text-center py-6">
-          <Link
-            href="/methodologie"
-            className="text-xs font-medium text-secondary hover:text-[var(--accent-primary)] transition-colors"
-          >
-            Comment est calcule le Score FinSight ?
-          </Link>
-        </div>
+        {/* ================================================================
+            SECTION : Methodologie & Transparence
+            ================================================================ */}
+        <MethodologySection />
       </div>
 
       <Footer />
@@ -979,6 +979,208 @@ function PillarCard({ pillar }: { pillar: PillarResult }) {
           <p className="text-[10px] text-tertiary">Donnees insuffisantes</p>
         </>
       )}
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Methodology Section — collapsible accordion, McKinsey-style
+// ---------------------------------------------------------------------------
+
+const METHODOLOGY_ITEMS = [
+  {
+    id: 'pillars',
+    icon: Layers,
+    title: 'Les 4 piliers du Score FinSight',
+    content: `Le Score FinSight (0-100) repose sur 4 piliers independants, chacun note sur 25 points :
+
+**CASH** — Tresorerie et Liquidite (25 pts)
+Evalue la capacite de l'entreprise a generer et preserver du cash. Indicateurs : DSO (delai clients), BFR (besoin en fonds de roulement), Burn Rate (consommation de tresorerie).
+
+**MARGIN** — Rentabilite et Croissance (25 pts)
+Mesure la performance operationnelle et la structure de couts. Indicateurs : Taux de marge, ROI, Seuil de rentabilite, EBITDA.
+
+**RESILIENCE** — Stabilite et Diversification (25 pts)
+Evalue la solidite du modele economique a moyen terme. Indicateurs : Ratio LTV/CAC, Valorisation d'entreprise.
+
+**RISK** — Anomalies et Volatilite (25 pts)
+Detecte les combinaisons de risques par analyse croisee des indicateurs. Un DSO eleve couple a une marge faible, par exemple, constitue un signal d'alerte specifique.`,
+  },
+  {
+    id: 'benchmarks',
+    icon: Database,
+    title: 'Benchmarks et referentiels sectoriels',
+    content: `Chaque indicateur est compare aux medianes sectorielles francaises pour une interpretation contextualisee.
+
+**Sources des referentiels**
+Les seuils utilises sont issus des publications de la Banque de France (etude statistique des entreprises), de l'INSEE (comptes d'entreprises) et des analyses Altares (comportement de paiement). Annee de reference : 2024-2025.
+
+**Positionnement**
+Chaque resultat est positionne sur une echelle a 4 niveaux — Excellent (top quartile), Bon (mediane superieure), Vigilance (mediane inferieure), Critique — specifique au secteur d'activite de l'entreprise.
+
+**Secteurs couverts**
+Services B2B, Commerce et Distribution, Industrie, SaaS et Tech, BTP et Construction, Restauration et CHR. En l'absence de secteur specifie, les medianes tous secteurs s'appliquent.`,
+  },
+  {
+    id: 'scoring',
+    icon: Target,
+    title: 'Logique de calcul du score',
+    content: `**Ponderation interne**
+Au sein de chaque pilier, les indicateurs sont ponderes selon leur impact sur la sante financiere globale. Le DSO pese davantage que le Burn Rate dans le pilier CASH, par exemple, car il affecte directement la liquidite quotidienne.
+
+**Gestion des donnees manquantes**
+Lorsqu'un pilier n'a pas suffisamment de donnees, il est marque comme "Donnees insuffisantes" et n'affecte pas le score global. Le score total est extrapole sur 100 a partir des piliers disponibles.
+
+**Indice de confiance**
+Le score affiche un badge de confiance : Haute (4/4 piliers), Moyenne (2-3 piliers), Faible (1 pilier). Plus la couverture diagnostique est elevee, plus le score est fiable et comparable aux benchmarks.
+
+**Pas de moyenne simple**
+Le pilier RISK utilise une logique deductive (on part de 25 et on soustrait les risques identifies), contrairement aux 3 autres piliers qui utilisent une logique additive normalisee.`,
+  },
+  {
+    id: 'privacy',
+    icon: Lock,
+    title: 'Confidentialite et stockage des donnees',
+    content: `**Aucun envoi de donnees**
+Toutes vos donnees financieres restent exclusivement dans votre navigateur (localStorage). Aucune information n'est transmise a un serveur, une base de donnees, ou un tiers.
+
+**Pas de compte requis**
+Le diagnostic fonctionne sans inscription. Vos calculs sont conserves localement et accessibles uniquement depuis votre navigateur.
+
+**Suppression**
+Vous pouvez supprimer l'ensemble de votre historique a tout moment. La suppression est definitive et irreversible.`,
+  },
+]
+
+function MethodologySection() {
+  const [openId, setOpenId] = useState<string | null>(null)
+
+  const toggle = (id: string) => {
+    setOpenId((prev) => (prev === id ? null : id))
+  }
+
+  return (
+    <div className="mb-10">
+      {/* Section header */}
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-9 h-9 rounded-lg bg-[var(--surface-primary)] border border-[var(--border-default)] flex items-center justify-center flex-shrink-0">
+          <BookOpen className="w-4 h-4 text-secondary" />
+        </div>
+        <div>
+          <h2 className="text-base font-bold text-primary">Methodologie et transparence</h2>
+          <p className="text-xs text-secondary">
+            Comment fonctionne le Score FinSight — sources, calcul et confidentialite
+          </p>
+        </div>
+      </div>
+
+      {/* Accordion */}
+      <div className="space-y-2">
+        {METHODOLOGY_ITEMS.map((item) => {
+          const isOpen = openId === item.id
+          const Icon = item.icon
+
+          return (
+            <div
+              key={item.id}
+              className={`surface rounded-xl border transition-all duration-200 ${
+                isOpen
+                  ? 'border-[var(--border-focus)] shadow-sm'
+                  : 'border-[var(--border-default)]'
+              }`}
+            >
+              {/* Toggle button */}
+              <button
+                onClick={() => toggle(item.id)}
+                className="w-full flex items-center gap-3 px-5 py-4 text-left group"
+              >
+                <div className={`w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 transition-colors ${
+                  isOpen
+                    ? 'bg-[var(--accent-primary-subtle)]'
+                    : 'bg-[var(--surface-primary)]'
+                }`}>
+                  <Icon className={`w-4 h-4 transition-colors ${
+                    isOpen ? 'text-[var(--accent-primary)]' : 'text-secondary'
+                  }`} />
+                </div>
+                <span className={`text-sm font-semibold flex-1 transition-colors ${
+                  isOpen ? 'text-[var(--accent-primary)]' : 'text-primary'
+                }`}>
+                  {item.title}
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 text-tertiary transition-transform duration-200 flex-shrink-0 ${
+                    isOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              {/* Expandable content */}
+              <div
+                className={`overflow-hidden transition-all duration-200 ${
+                  isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+                }`}
+              >
+                <div className="px-5 pb-5 pl-16">
+                  <div className="text-xs text-secondary leading-relaxed space-y-3">
+                    {item.content.split('\n\n').map((block, bIdx) => {
+                      // Heading lines (bold)
+                      if (block.startsWith('**') && block.includes('**\n')) {
+                        const [heading, ...rest] = block.split('\n')
+                        return (
+                          <div key={bIdx}>
+                            <p
+                              className="text-xs font-semibold text-primary mb-1"
+                              dangerouslySetInnerHTML={{
+                                __html: heading
+                                  .replace(/\*\*([^*]+)\*\*/g, '$1'),
+                              }}
+                            />
+                            <p className="text-xs text-secondary leading-relaxed">
+                              {rest.join(' ')}
+                            </p>
+                          </div>
+                        )
+                      }
+
+                      // Blocks that contain bold markers
+                      if (block.includes('**')) {
+                        return (
+                          <p
+                            key={bIdx}
+                            className="text-xs text-secondary leading-relaxed"
+                            dangerouslySetInnerHTML={{
+                              __html: block
+                                .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-primary font-semibold">$1</strong>')
+                                .replace(/\n/g, '<br />'),
+                            }}
+                          />
+                        )
+                      }
+
+                      return (
+                        <p key={bIdx} className="text-xs text-secondary leading-relaxed">
+                          {block}
+                        </p>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Subtle footer link */}
+      <div className="text-center mt-5">
+        <Link
+          href="/methodologie"
+          className="text-[11px] font-medium text-tertiary hover:text-[var(--accent-primary)] transition-colors"
+        >
+          Documentation complete de la methodologie
+        </Link>
+      </div>
     </div>
   )
 }
