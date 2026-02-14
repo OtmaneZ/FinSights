@@ -138,6 +138,11 @@ export default function Header() {
                         )}
                     </div>
 
+                    {/* Mon Diagnostic */}
+                    <Link href="/mon-diagnostic" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Mon Diagnostic
+                    </Link>
+
                     {/* Contact */}
                     <Link href="/contact" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                         Contact
