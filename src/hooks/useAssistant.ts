@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useRef } from 'react'
+import type { Calculation } from '@/hooks/useCalculatorHistory'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -15,9 +16,7 @@ export interface AssistantMessage {
 
 interface AssistantContext {
   currentPage: string
-  calculatorHistory?: string
-  finSightScore?: number
-  completedIndicators?: number
+  calculatorHistory?: Calculation[]
 }
 
 interface UseAssistantReturn {
@@ -130,8 +129,6 @@ export function useAssistant(): UseAssistantReturn {
             message: content.trim(),
             currentPage: context.currentPage,
             calculatorHistory: context.calculatorHistory,
-            finSightScore: context.finSightScore,
-            completedIndicators: context.completedIndicators,
             conversationHistory,
           }),
           signal: controller.signal,

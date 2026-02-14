@@ -34,7 +34,7 @@ function renderMarkdown(text: string): string {
 export default function FinSightAssistant() {
   const pathname = usePathname()
   const { messages, isStreaming, error, sendMessage, clearMessages } = useAssistant()
-  const { history, completedTypes } = useCalculatorHistory()
+  const { history } = useCalculatorHistory()
 
   const [isOpen, setIsOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
@@ -71,26 +71,13 @@ export default function FinSightAssistant() {
     }
   }, [])
 
-  // Build context for API calls
+  // Build context for API calls — sends full calculation data for server-side enrichment
   const buildContext = useCallback(() => {
-    const completed = completedTypes()
-    const historyStr =
-      history.length > 0
-        ? history
-            .map(
-              (c) =>
-                `${c.type}: ${c.value}${c.unit ? ' ' + c.unit : ''}`
-            )
-            .join(', ')
-        : undefined
-
     return {
       currentPage: pathname || '/',
-      calculatorHistory: historyStr,
-      completedIndicators: completed.length,
-      finSightScore: undefined as number | undefined,
+      calculatorHistory: history.length > 0 ? history : undefined,
     }
-  }, [pathname, history, completedTypes])
+  }, [pathname, history])
 
   // Handle send
   const handleSend = useCallback(async () => {

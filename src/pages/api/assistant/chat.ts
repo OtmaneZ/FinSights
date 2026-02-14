@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { buildSystemPrompt, OPENROUTER_CONFIG } from '@/lib/assistant/config'
+import { enrichContext } from '@/lib/assistant/scoring'
+import { matchArticles, formatArticlesForPrompt } from '@/lib/assistant/articles'
+import type { Calculation } from '@/hooks/useCalculatorHistory'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -8,9 +11,8 @@ import { buildSystemPrompt, OPENROUTER_CONFIG } from '@/lib/assistant/config'
 interface AssistantRequest {
   message: string
   currentPage: string
-  calculatorHistory?: string
-  finSightScore?: number
-  completedIndicators?: number
+  /** Full calculator history (raw Calculation[]) — enriched server-side */
+  calculatorHistory?: Calculation[]
   conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>
 }
 
@@ -77,8 +79,6 @@ export default async function handler(
       message,
       currentPage,
       calculatorHistory,
-      finSightScore,
-      completedIndicators,
       conversationHistory,
     }: AssistantRequest = req.body
 
@@ -90,13 +90,36 @@ export default async function handler(
       return res.status(400).json({ error: 'Message trop long (max 1000 caracteres).' })
     }
 
-    // Build system prompt with user context
+    // -----------------------------------------------------------------------
+    // ENRICHMENT PIPELINE (server-side, before GPT)
+    // -----------------------------------------------------------------------
+
+    const history: Calculation[] = Array.isArray(calculatorHistory) ? calculatorHistory : []
+    const hasData = history.length > 0
+
+    // 1. Run scoring + benchmark enrichment
+    let enrichedSummary: string | undefined
+    let alertSlugs: string[] = []
+
+    if (hasData) {
+      const enriched = enrichContext(history)
+      enrichedSummary = enriched.summary
+      // Collect article slugs from alerts for RAG-lite boost
+      alertSlugs = enriched.alerts
+        .flatMap((a) => a.articleSlugs || [])
+        .filter((s, i, arr) => arr.indexOf(s) === i)
+    }
+
+    // 2. RAG-lite: match articles based on user query + alert context
+    const matchedArticles = matchArticles(message, alertSlugs, 3)
+    const articlesPrompt = formatArticlesForPrompt(matchedArticles)
+
+    // 3. Build system prompt with enriched context
     const systemPrompt = buildSystemPrompt({
       currentPage: currentPage || '/',
-      calculatorHistory,
-      finSightScore,
-      completedIndicators,
-      totalIndicators: 9,
+      enrichedSummary,
+      articlesPrompt,
+      hasData,
     })
 
     // Build conversation messages
