@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { CalculatorHub } from '@/components/CalculatorHub'
+import CalculatorHistory from '@/components/CalculatorHistory'
+import RecommendedPath from '@/components/RecommendedPath'
 
 export const metadata: Metadata = {
     title: 'Diagnostic Financier Gratuit PME : Votre Trésorerie est-elle en Danger ? | FinSight',
@@ -64,6 +66,12 @@ export default function CalculateursPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Historique des calculs récents (localStorage) */}
+                <CalculatorHistory />
+
+                {/* Parcours recommandé après un calcul */}
+                <RecommendedPath />
 
                 {/* Calculators Grid with Modals */}
                 <CalculatorHub />

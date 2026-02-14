@@ -10,12 +10,14 @@ import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
+import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
 
 export default function CalculateurSeuilRentabilite() {
     const [chargesFixes, setChargesFixes] = useState<string>('')
     const [tauxMarge, setTauxMarge] = useState<string>('')
     const [seuil, setSeuil] = useState<number | null>(null)
     const [seuilJour, setSeuilJour] = useState<number | null>(null)
+    const { saveCalculation } = useCalculatorHistory()
 
     // Structured data for SEO
     const structuredData = generateHowToJsonLd({
@@ -88,6 +90,14 @@ export default function CalculateurSeuilRentabilite() {
             trackCalculatorUse('SeuilRentabilite', seuilCalcule, {
                 chargesFixes: chargesNum,
                 tauxMarge: tauxNum
+            })
+
+            // Sauvegarder dans l'historique local
+            saveCalculation({
+                type: 'seuil-rentabilite',
+                value: seuilCalcule,
+                inputs: { chargesFixes: chargesNum, tauxMarge: tauxNum },
+                unit: '€',
             })
         }
     }

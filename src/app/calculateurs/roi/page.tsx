@@ -10,6 +10,7 @@ import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
+import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
 
 export default function CalculateurROI() {
     const [investissement, setInvestissement] = useState<string>('')
@@ -18,6 +19,7 @@ export default function CalculateurROI() {
     const [roi, setRoi] = useState<number | null>(null)
     const [payback, setPayback] = useState<number | null>(null)
     const [gainNet, setGainNet] = useState<number | null>(null)
+    const { saveCalculation } = useCalculatorHistory()
 
     // Structured data for SEO
     const structuredData = generateHowToJsonLd({
@@ -95,6 +97,14 @@ export default function CalculateurROI() {
                 investissement: invest,
                 gainsAnnuels: gains,
                 dureeAns: duree
+            })
+
+            // Sauvegarder dans l'historique local
+            saveCalculation({
+                type: 'roi',
+                value: roiCalc,
+                inputs: { investissement: invest, gainsAnnuels: gains, dureeAns: duree },
+                unit: '%',
             })
         }
     }

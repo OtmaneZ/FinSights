@@ -10,6 +10,7 @@ import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
+import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
 
 export default function CalculateurBFR() {
     const [stocks, setStocks] = useState<string>('')
@@ -18,6 +19,7 @@ export default function CalculateurBFR() {
     const [ca, setCA] = useState<string>('')
     const [bfr, setBFR] = useState<number | null>(null)
     const [joursCA, setJoursCA] = useState<number | null>(null)
+    const { saveCalculation } = useCalculatorHistory()
 
     // Structured data for SEO
     const structuredData = generateHowToJsonLd({
@@ -71,6 +73,14 @@ export default function CalculateurBFR() {
             dettes: dettesNum,
             ca: caNum,
             joursCA: joursCA || 0
+        })
+
+        // Sauvegarder dans l'historique local
+        saveCalculation({
+            type: 'bfr',
+            value: bfrCalcule,
+            inputs: { stocks: stocksNum, creances: creancesNum, dettes: dettesNum, ca: caNum },
+            unit: '€',
         })
     }
 

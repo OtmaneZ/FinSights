@@ -10,6 +10,7 @@ import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
+import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
 
 export default function CalculateurMarge() {
     const [prixAchat, setPrixAchat] = useState<string>('')
@@ -18,6 +19,7 @@ export default function CalculateurMarge() {
     const [tauxMarque, setTauxMarque] = useState<number | null>(null)
     const [margeEuros, setMargeEuros] = useState<number | null>(null)
     const [coefficient, setCoefficient] = useState<number | null>(null)
+    const { saveCalculation } = useCalculatorHistory()
 
     // Structured data for SEO
     const structuredData = generateHowToJsonLd({
@@ -107,6 +109,14 @@ export default function CalculateurMarge() {
                 prixAchat: achat,
                 prixVente: vente,
                 margeEuros: marge
+            })
+
+            // Sauvegarder dans l'historique local
+            saveCalculation({
+                type: 'marge',
+                value: tMarge,
+                inputs: { prixAchat: achat, prixVente: vente },
+                unit: '%',
             })
         }
     }

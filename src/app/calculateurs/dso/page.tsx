@@ -8,6 +8,7 @@ import { Calculator, TrendingUp, ArrowRight, AlertCircle, CheckCircle, CheckCirc
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { BenchmarkBar } from '@/components/BenchmarkBar'
+import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
 import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
@@ -17,6 +18,7 @@ export default function CalculateurDSO() {
     const [ca, setCA] = useState<string>('')
     const [dso, setDSO] = useState<number | null>(null)
     const [secteur, setSecteur] = useState<'services' | 'commerce' | 'industrie' | 'saas'>('services')
+    const { saveCalculation } = useCalculatorHistory()
 
     // Structured data for SEO
     const structuredData = generateHowToJsonLd({
@@ -92,6 +94,15 @@ export default function CalculateurDSO() {
                 creances: creancesNum,
                 ca: caNum,
                 secteur
+            })
+
+            // Sauvegarder dans l'historique local
+            saveCalculation({
+                type: 'dso',
+                value: dsoCalcule,
+                inputs: { creances: creancesNum, ca: caNum },
+                secteur,
+                unit: 'jours',
             })
         }
     }
