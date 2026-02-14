@@ -93,17 +93,11 @@ export default function DashisPage() {
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href="/demo-dashis"
+                  href="https://calendly.com/zineinsight"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                 >
-                  Tester DASHIS gratuitement
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link
-                  href="https://calendly.com/zineinsight"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
-                >
                   Demander une démo personnalisée
+                  <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
             </motion.div>
@@ -691,25 +685,17 @@ export default function DashisPage() {
                 Prêt à avoir une vision 360° de vos finances ?
               </h2>
               <p className="text-lg text-slate-300 mb-8">
-                Testez DASHIS gratuitement avec vos propres données comptables.
-                Diagnostic complet en 30 secondes, sans engagement.
+                Demandez une démo personnalisée avec vos propres données comptables.
+                Diagnostic complet, sans engagement.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href="/demo-dashis"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
-                >
-                  <Sparkles className="w-5 h-5" />
-                  Tester DASHIS maintenant
-                </Link>
-                <Link
-                  href="https://calendly.com/zineinsight"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
-                >
-                  Demander une démo
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-              </div>
+              <Link
+                href="https://calendly.com/zineinsight"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
+              >
+                <Sparkles className="w-5 h-5" />
+                Demander une démo
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </motion.div>
           </div>
         </section>

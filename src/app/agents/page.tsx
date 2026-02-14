@@ -196,21 +196,13 @@ export default function AgentsPage() {
                 Analyse complète en 30s : 5 KPIs, ML anomalies, prédictions cash-flow GPT-4, 
                 et Score FinSight™ de 0 à 100.
               </p>
-              <div className="flex flex-col gap-2">
-                <Link
-                  href="/demo-dashis"
-                  className="inline-flex items-center text-accent-primary font-semibold hover:text-accent-primary-hover transition-colors"
-                >
-                  Tester DASHIS
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  href="/agents/dashis"
-                  className="inline-flex items-center text-slate-500 text-sm hover:text-slate-700 transition-colors"
-                >
-                  En savoir plus →
-                </Link>
-              </div>
+              <Link
+                href="/agents/dashis"
+                className="inline-flex items-center text-accent-primary font-semibold hover:text-accent-primary-hover transition-colors"
+              >
+                En savoir plus
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </motion.div>
 
             {/* TRESORIS Card */}
@@ -237,22 +229,13 @@ export default function AgentsPage() {
                 Surveille votre cash 24h/24, détecte les risques avant qu&apos;ils ne deviennent critiques, 
                 et propose des actions prioritaires.
               </p>
-              <div className="flex flex-col gap-2">
-                <Link
-                  href="/demo-tresoris"
-                  className="inline-flex items-center text-emerald-600 font-semibold hover:text-emerald-700 transition-colors"
-                >
-                  Tester TRESORIS
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  href="/agents/tresoris"
-                  className="inline-flex items-center text-slate-900 font-semibold hover:text-accent-primary transition-colors"
-                >
-                  En savoir plus
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
+              <Link
+                href="/agents/tresoris"
+                className="inline-flex items-center text-emerald-600 font-semibold hover:text-emerald-700 transition-colors"
+              >
+                En savoir plus
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </motion.div>
 
             {/* MARGIS Card */}
@@ -391,10 +374,10 @@ export default function AgentsPage() {
               </div>
 
               <Link
-                href="/demo-dashis"
+                href="/agents/dashis"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
               >
-                Tester DASHIS gratuitement
+                En savoir plus sur DASHIS
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
@@ -587,10 +570,10 @@ export default function AgentsPage() {
             className="mt-12 text-center"
           >
             <Link
-              href="/demo-tresoris"
+              href="/agents/tresoris"
               className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
             >
-              Tester TRESORIS gratuitement
+              En savoir plus sur TRESORIS
               <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
@@ -1092,22 +1075,13 @@ export default function AgentsPage() {
               Découvrez comment DASHIS, TRESORIS, MARGIS et SCENARIS peuvent transformer 
               la gestion financière de votre PME. Démo gratuite de 30 minutes.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/demo-dashis"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-600/25"
-              >
-                <LayoutDashboard className="w-5 h-5" />
-                Tester DASHIS
-              </Link>
-              <Link
-                href="https://calendly.com/zineinsight"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
-              >
-                Réserver ma démo
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
+            <Link
+              href="https://calendly.com/zineinsight"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
+            >
+              Réserver ma démo
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </motion.div>
         </div>
       </section>
