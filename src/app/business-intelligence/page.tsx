@@ -9,6 +9,34 @@ export default function BusinessIntelligencePage() {
     return (
         <div className="min-h-screen bg-white text-gray-900 font-sans">
             <Header />
+            
+            {/* Prevent CLS: Reserve space for content */}
+            <style jsx global>{`
+                /* Prevent layout shift for SVG containers */
+                .svg-container {
+                    min-height: 400px;
+                }
+                @media (min-width: 768px) {
+                    .svg-container {
+                        min-height: 350px;
+                    }
+                }
+                
+                /* Prevent grid layout shifts */
+                .grid-card {
+                    min-height: 180px;
+                }
+                
+                /* Reserve space for mission cards */
+                .mission-card {
+                    min-height: 320px;
+                }
+                
+                /* Prevent metric cards layout shift */
+                .metric-card {
+                    min-height: 140px;
+                }
+            `}</style>
 
             {/* ─── HERO ─── */}
             <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
@@ -90,7 +118,7 @@ export default function BusinessIntelligencePage() {
                                 desc: 'Les tableaux de bord sont lourds, détaillés, mais personne ne sait quoi faire des alertes. Manque de lien clair avec les leviers opérationnels.',
                             },
                         ].map((item, i) => (
-                            <div key={i} className="bg-white border border-red-200/60 rounded p-5 hover:border-red-400 transition-colors">
+                            <div key={i} className="grid-card bg-white border border-red-200/60 rounded p-5 hover:border-red-400 transition-colors">
                                 <h3 className="text-[0.95rem] font-semibold text-red-900 mb-2">{item.probleme}</h3>
                                 <p className="text-[0.8rem] text-gray-600 leading-relaxed">{item.desc}</p>
                             </div>
@@ -151,7 +179,7 @@ export default function BusinessIntelligencePage() {
                                 detail: 'Économie de temps CDG + fiabilisation décisionnelle = ROI constaté entre 2 et 4 trimestres selon complexité.',
                             },
                         ].map((item, i) => (
-                            <div key={i} className="bg-white border border-green-200/60 rounded p-5 hover:border-green-400 transition-colors">
+                            <div key={i} className="metric-card bg-white border border-green-200/60 rounded p-5 hover:border-green-400 transition-colors">
                                 <div className="text-3xl font-bold text-green-700 mb-1">{item.metrique}</div>
                                 <h3 className="text-[0.85rem] font-semibold text-gray-900 mb-2">{item.label}</h3>
                                 <p className="text-[0.75rem] text-gray-600 leading-snug">{item.detail}</p>
@@ -231,7 +259,7 @@ export default function BusinessIntelligencePage() {
 
                     <div className="grid md:grid-cols-2 gap-5">
                         {/* Mission 1 */}
-                        <div className="bg-white border border-gray-200 rounded p-6 hover:border-slate-400 transition-colors">
+                        <div className="mission-card bg-white border border-gray-200 rounded p-6 hover:border-slate-400 transition-colors">
                             <div className="flex justify-between items-baseline mb-3">
                                 <span className="text-[0.6rem] font-semibold tracking-[0.1em] uppercase text-slate-700">Diagnostic</span>
                                 <span className="text-[0.6rem] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-sm">5-10 jours</span>
@@ -256,7 +284,7 @@ export default function BusinessIntelligencePage() {
                         </div>
 
                         {/* Mission 2 */}
-                        <div className="bg-white border border-gray-200 rounded p-6 hover:border-slate-400 transition-colors">
+                        <div className="mission-card bg-white border border-gray-200 rounded p-6 hover:border-slate-400 transition-colors">
                             <div className="flex justify-between items-baseline mb-3">
                                 <span className="text-[0.6rem] font-semibold tracking-[0.1em] uppercase text-slate-700">Fiabilisation</span>
                                 <span className="text-[0.6rem] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-sm">15-30 jours</span>
@@ -281,7 +309,7 @@ export default function BusinessIntelligencePage() {
                         </div>
 
                         {/* Mission 3 */}
-                        <div className="bg-white border border-gray-200 rounded p-6 hover:border-slate-400 transition-colors">
+                        <div className="mission-card bg-white border border-gray-200 rounded p-6 hover:border-slate-400 transition-colors">
                             <div className="flex justify-between items-baseline mb-3">
                                 <span className="text-[0.6rem] font-semibold tracking-[0.1em] uppercase text-slate-700">Industrialisation</span>
                                 <span className="text-[0.6rem] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-sm">10-20 jours</span>
@@ -306,7 +334,7 @@ export default function BusinessIntelligencePage() {
                         </div>
 
                         {/* Mission 4 */}
-                        <div className="bg-white border border-gray-200 rounded p-6 hover:border-slate-400 transition-colors">
+                        <div className="mission-card bg-white border border-gray-200 rounded p-6 hover:border-slate-400 transition-colors">
                             <div className="flex justify-between items-baseline mb-3">
                                 <span className="text-[0.6rem] font-semibold tracking-[0.1em] uppercase text-slate-700">Autonomie</span>
                                 <span className="text-[0.6rem] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-sm">5-8 jours</span>
@@ -348,7 +376,7 @@ export default function BusinessIntelligencePage() {
                     <div className="space-y-6">
 
                         {/* ═══ 1. DASHBOARD OVERVIEW — Full width ═══ */}
-                        <div className="w-full bg-[#1b2a3d] rounded border border-gray-700 overflow-hidden">
+                        <div className="svg-container w-full bg-[#1b2a3d] rounded border border-gray-700 overflow-hidden">
                             {/* Title bar */}
                             <div className="flex items-center justify-between px-4 py-2 bg-[#14202e] border-b border-gray-700">
                                 <div className="flex items-center gap-2">
