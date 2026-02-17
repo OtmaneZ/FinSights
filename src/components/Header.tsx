@@ -74,6 +74,11 @@ export default function Header() {
                         Consulting Finance
                     </Link>
 
+                    {/* Business Intelligence */}
+                    <Link href="/business-intelligence" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Business Intelligence
+                    </Link>
+
                     {/* Agents IA */}
                     <Link href="/agents" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                        Nos Agents IA
