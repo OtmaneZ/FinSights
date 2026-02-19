@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offre Pilotage Financier BTP &mdash; ZineInsights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy: #0f2137;
+            --blue: #1a3a5c;
+            --blue-light: #2c5282;
+            --accent: #3182ce;
+            --bg-subtle: #f7f9fb;
+            --bg-warm: #fafafa;
+            --border: #e8e8e8;
+            --text: #1a1a1a;
+            --text-secondary: #444;
+            --text-muted: #666;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background-color: #ffffff;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .page-wrapper {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section { padding: 3rem 0; }
+        section + section { border-top: 1px solid var(--border); }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            color: #0d0d0d;
+            letter-spacing: -0.01em;
+        }
+
+        h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.2; }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.7rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 36px;
+            height: 2px;
+            background-color: var(--blue);
+        }
+
+        h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: var(--blue);
+        }
+
+        p {
+            margin-bottom: 0.85rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 3.5rem 0 2.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 1.25rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--blue);
+            border-radius: 2px;
+        }
+
+        .hero h1 { margin-bottom: 0.35rem; }
+
+        .hero .subtitle-client {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--blue);
+            letter-spacing: 0.02em;
+            margin-bottom: 0.2rem;
+        }
+
+        .hero .subtitle-tech {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .subtitle-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 640px;
+            font-weight: 300;
+        }
+
+        /* METRICS BAR */
+        .metrics-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1.75rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .metric:last-child { border-right: none; }
+
+        .metric-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* CONTEXT GRID */
+        .context-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem 2.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .context-block h3 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+        .context-block p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        .enjeux-closing {
+            font-style: italic;
+            color: #555;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* MODULES / BRIQUES */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .module-card {
+            background: var(--bg-warm);
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            padding: 1.35rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .module-card:hover { border-color: var(--blue); }
+
+        .module-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.75rem;
+        }
+
+        .module-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--blue);
+        }
+
+        .module-days {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: #f0f0f0;
+            padding: 0.15rem 0.45rem;
+            border-radius: 2px;
+        }
+
+        .module-card h3 { margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .module-card ul { list-style: none; padding: 0; }
+
+        .module-card li {
+            position: relative;
+            padding-left: 0.9rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .module-card li::before {
+            content: '\2014';
+            position: absolute;
+            left: 0;
+            color: #bbb;
+            font-size: 0.7rem;
+        }
+
+        .module-livrable {
+            margin-top: 0.75rem;
+            padding-top: 0.6rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: var(--blue);
+            font-weight: 500;
+        }
+
+        .module-valeur {
+            margin-top: 0.6rem;
+            font-size: 0.78rem;
+            color: #555;
+            font-style: italic;
+            line-height: 1.45;
+        }
+
+        /* CASH TABLE */
+        .cash-table-wrapper {
+            margin-top: 1.25rem;
+            overflow-x: auto;
+        }
+
+        .cash-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+        }
+
+        .cash-table th {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+            background: var(--bg-subtle);
+        }
+
+        .cash-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #f0f0f0;
+            color: var(--text-secondary);
+        }
+
+        .cash-table .row-header {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .cash-table .row-section {
+            font-weight: 600;
+            color: var(--blue);
+            background: var(--bg-subtle);
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .cash-table .row-total {
+            font-weight: 600;
+            color: var(--navy);
+            border-top: 2px solid var(--border);
+            background: var(--bg-subtle);
+        }
+
+        .cash-table .positive { color: #1a7f37; }
+        .cash-table .negative { color: #c53030; }
+
+        /* FINANCE GRID */
+        .finance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .finance-card {
+            padding: 1.25rem;
+            background: var(--bg-warm);
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+        }
+
+        .finance-card h3 { font-size: 0.9rem; margin-bottom: 0.6rem; }
+        .finance-card ul { list-style: none; padding: 0; }
+
+        .finance-card li {
+            position: relative;
+            padding-left: 0.9rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .finance-card li::before {
+            content: '\2014';
+            position: absolute;
+            left: 0;
+            color: #bbb;
+            font-size: 0.7rem;
+        }
+
+        .finance-callout {
+            padding: 1rem 1.25rem;
+            background: var(--bg-subtle);
+            border-left: 3px solid var(--blue);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--blue);
+            line-height: 1.5;
+        }
+
+        /* DEPLOYMENT */
+        .deploy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        .deploy-step {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: var(--bg-warm);
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .deploy-step::after {
+            content: '\2192';
+            position: absolute;
+            right: -0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ccc;
+            font-size: 1.2rem;
+        }
+
+        .deploy-step:last-child::after { display: none; }
+
+        .deploy-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--navy);
+            display: block;
+            margin-bottom: 0.35rem;
+        }
+
+        .deploy-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .deploy-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* EXIGENCE */
+        .exigence-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem 2rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .exigence-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .exigence-item p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+        .exigence-item strong { font-weight: 600; color: var(--text); }
+
+        .exigence-conclusion {
+            padding: 1rem 1.25rem;
+            background: var(--bg-subtle);
+            border-left: 3px solid var(--blue);
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--blue);
+        }
+
+        /* FAQ */
+        .faq-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .faq-item:last-child { border-bottom: none; }
+
+        .faq-question {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .faq-answer {
+            font-size: 0.83rem;
+            color: #555;
+            line-height: 1.55;
+            margin-bottom: 0;
+        }
+
+        /* POSITIONNEMENT */
+        .positionnement-block {
+            padding: 1.75rem 2rem;
+            background: var(--navy);
+            color: #ffffff;
+            border-radius: 4px;
+        }
+
+        .positionnement-block p {
+            color: #d0d8e0;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            margin-bottom: 0.85rem;
+        }
+
+        .positionnement-block p:last-child { margin-bottom: 0; }
+
+        .positionnement-block .highlight-text {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* CONTACT */
+        .contact-section {
+            padding: 2rem 0 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .contact-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .contact-info h3 {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            color: #0d0d0d;
+        }
+
+        .contact-cabinet {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--blue);
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-email { font-size: 0.8rem; color: var(--text-muted); }
+
+        .contact-email a {
+            color: var(--blue);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .contact-email a:hover { border-bottom-color: var(--blue); }
+
+        .contact-right { text-align: right; }
+
+        .contact-date {
+            font-size: 0.7rem;
+            color: #999;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-calendly { font-size: 0.75rem; }
+
+        .contact-calendly a {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .page-wrapper { padding: 0 1.25rem; }
+            .hero { padding: 2.5rem 0 2rem; }
+            h1 { font-size: 1.65rem; }
+            h2 { font-size: 1.25rem; }
+            section { padding: 2rem 0; }
+            .metrics-bar { grid-template-columns: repeat(2, 1fr); }
+            .metric { border-bottom: 1px solid var(--border); }
+            .modules-grid, .finance-grid, .exigence-grid, .context-grid { grid-template-columns: 1fr; }
+            .deploy-grid { grid-template-columns: 1fr; }
+            .deploy-step::after { display: none; }
+            .contact-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+            .contact-right { text-align: left; }
+            .positionnement-block { padding: 1.25rem; }
+            .cash-table { font-size: 0.7rem; }
+        }
+
+        /* PRINT */
+        @media print {
+            @page { size: A4 portrait; margin: 18mm 16mm 20mm 16mm; }
+            html { font-size: 9.5pt; }
+            body { background: white; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .page-wrapper { max-width: 100%; padding: 0; }
+            .hero { padding: 0 0 1rem; page-break-after: avoid; }
+            section { padding: 1.1rem 0; }
+            .section-contexte { page-break-after: auto; }
+            .section-modules { page-break-before: always; page-break-after: auto; }
+            .section-cash { page-break-before: always; page-break-after: auto; }
+            .section-finance { page-break-before: always; page-break-after: auto; }
+            .section-deploy { page-break-before: auto; }
+            .section-exigence { page-break-before: always; page-break-after: auto; }
+            .section-faq { page-break-after: auto; }
+            .section-positionnement { page-break-before: auto; }
+            .module-card, .finance-card, .faq-item, .exigence-item, .positionnement-block, .deploy-step {
+                page-break-inside: avoid; break-inside: avoid;
+            }
+            .modules-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+            .finance-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+            .context-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+            .deploy-grid { grid-template-columns: 1fr 1fr 1fr; }
+            .module-card { padding: 1rem; border: 1px solid #ccc; }
+            .finance-card { padding: 1rem; border: 1px solid #ccc; }
+            .positionnement-block { background: var(--navy) !important; color: #fff !important; }
+            .positionnement-block p { color: #d0d8e0 !important; }
+            .metrics-bar { border: 1px solid #ccc; }
+            .metric { border-right: 1px solid #ccc; }
+            .contact-section { page-break-before: avoid; padding-top: 1rem; }
+            .module-card:hover { border-color: #ccc; }
+            .contact-email a { color: var(--blue); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HERO -->
+    <header class="hero">
+        <span class="hero-label">Offre de services &mdash; Secteur BTP</span>
+        <h1>Pilotage Financier de Chantier<br>&amp; S&eacute;curisation du Cash</h1>
+        <p class="subtitle-client">Cabinets d&rsquo;expertise comptable &mdash; Clients PME &amp; ETI du BTP</p>
+        <p class="subtitle-tech">Marge &agrave; l&rsquo;avancement &mdash; Projection cash &mdash; Reporting hebdomadaire</p>
+        <p class="subtitle-description">
+            Offre modulaire de pilotage financier adapt&eacute;e au BTP :
+            recalcul de la marge chantier r&eacute;elle, projection de tr&eacute;sorerie
+            &agrave; 90 jours, reporting hebdomadaire standardis&eacute; et audit flash 72h.
+            D&eacute;ployable en 2 semaines par module.
+        </p>
+        <div class="metrics-bar">
+            <div class="metric">
+                <span class="metric-value">4</span>
+                <span class="metric-label">Modules disponibles</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">2 sem.</span>
+                <span class="metric-label">D&eacute;ploiement par module</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">90j</span>
+                <span class="metric-label">Horizon de projection cash</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">72h</span>
+                <span class="metric-label">Audit flash financier</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEXTE ET ENJEUX -->
+    <section class="section-contexte">
+        <h2>Contexte et enjeux du secteur</h2>
+        <p>
+            Les entreprises du BTP font face &agrave; un d&eacute;fi structurel :
+            elles savent qu&rsquo;il y a un probl&egrave;me de marge, mais ne savent
+            pas pr&eacute;cis&eacute;ment o&ugrave; elle fuit. Le pilotage financier reste
+            souvent artisanal &mdash; des tableaux Excel dispers&eacute;s, des situations
+            de chantier approximatives, une tr&eacute;sorerie pilot&eacute;e &agrave; vue.
+        </p>
+        <div class="context-grid">
+            <div class="context-block">
+                <h3>Marge chantier opaque</h3>
+                <p>
+                    La marge pr&eacute;visionnelle au devis ne refl&egrave;te jamais
+                    la r&eacute;alit&eacute; terrain. Les d&eacute;rives s&rsquo;accumulent
+                    sans alerte. Le dirigeant d&eacute;couvre le probl&egrave;me
+                    &agrave; la cl&ocirc;ture &mdash; trop tard pour agir.
+                </p>
+            </div>
+            <div class="context-block">
+                <h3>Cash impr&eacute;visible</h3>
+                <p>
+                    Retenues de garantie, d&eacute;calages de facturation,
+                    sous-traitants &agrave; payer imm&eacute;diatement :
+                    la tr&eacute;sorerie BTP est structurellement volatile.
+                    Sans projection, la rupture arrive sans pr&eacute;avis.
+                </p>
+            </div>
+            <div class="context-block">
+                <h3>Absence de reporting structur&eacute;</h3>
+                <p>
+                    Pas de vue consolid&eacute;e fiable. Les indicateurs cl&eacute;s
+                    (DSO, BFR, encours fournisseurs) sont calcul&eacute;s
+                    manuellement, irr&eacute;guli&egrave;rement, ou pas du tout.
+                    Impossible de piloter &agrave; la semaine.
+                </p>
+            </div>
+            <div class="context-block">
+                <h3>Expert-comptable sous-exploit&eacute;</h3>
+                <p>
+                    Le cabinet produit les comptes annuels mais n&rsquo;a pas
+                    d&rsquo;outil pour offrir un suivi financier continu
+                    &agrave; ses clients BTP. Opportunit&eacute; de mission
+                    r&eacute;currente &agrave; forte valeur ajout&eacute;e.
+                </p>
+            </div>
+        </div>
+        <p class="enjeux-closing">
+            L&rsquo;enjeu n&rsquo;est pas de produire plus de tableaux, mais
+            de donner au dirigeant BTP une vision fiable de sa marge,
+            de son cash et de ses risques &mdash; chaque semaine.
+        </p>
+    </section>
+
+    <!-- 4 MODULES -->
+    <section class="section-modules">
+        <h2>Offre modulaire &mdash; 4 briques</h2>
+        <p>
+            Chaque module est autonome, d&eacute;ployable ind&eacute;pendamment en 2 semaines,
+            et duplicable sur l&rsquo;ensemble du portefeuille clients du cabinet.
+            L&rsquo;approche privil&eacute;gie la simplicit&eacute; et l&rsquo;impact imm&eacute;diat.
+        </p>
+
+        <div class="modules-grid">
+
+            <!-- Module 1 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <span class="module-number">Module 1</span>
+                    <span class="module-days">~10 jours</span>
+                </div>
+                <h3>Marge Chantier R&eacute;elle</h3>
+                <ul>
+                    <li>Recalcul de la marge &agrave; l&rsquo;avancement par chantier</li>
+                    <li>Comparaison syst&eacute;matique pr&eacute;vu vs. r&eacute;alis&eacute;</li>
+                    <li>Alerte automatique sur d&eacute;rive sup&eacute;rieure au seuil d&eacute;fini</li>
+                    <li>Ventilation co&ucirc;ts directs / indirects / sous-traitance</li>
+                    <li>Vue synth&eacute;tique multi-chantiers</li>
+                </ul>
+                <p class="module-livrable">Livrable : mod&egrave;le structur&eacute; + template duplicable + m&eacute;thodologie d&rsquo;installation</p>
+                <p class="module-valeur">
+                    &laquo;&nbsp;Apr&egrave;s le diagnostic, on installe un syst&egrave;me de marge chantier.
+                    Le dirigeant voit o&ugrave; la marge fuit, chaque semaine.&nbsp;&raquo;
+                </p>
+            </div>
+
+            <!-- Module 2 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <span class="module-number">Module 2</span>
+                    <span class="module-days">~8 jours</span>
+                </div>
+                <h3>Projection Cash 90 Jours</h3>
+                <ul>
+                    <li>Mod&egrave;le de tr&eacute;sorerie pr&eacute;visionnelle &agrave; 13 semaines glissantes</li>
+                    <li>Int&eacute;gration encaissements chantier et d&eacute;blocages retenues</li>
+                    <li>D&eacute;caissements : salaires, URSSAF, fournisseurs, sous-traitants, TVA</li>
+                    <li>Variation nette hebdomadaire et solde de tr&eacute;sorerie cumul&eacute;</li>
+                    <li>Sc&eacute;narios de stress : retard encaissement, d&eacute;caissement anticip&eacute;</li>
+                </ul>
+                <p class="module-livrable">Livrable : tableau de projection 13 semaines + guide de mise &agrave; jour</p>
+                <p class="module-valeur">
+                    &laquo;&nbsp;Le dirigeant sait &agrave; quelle semaine il risque d&rsquo;&ecirc;tre en tension.
+                    Il anticipe au lieu de subir.&nbsp;&raquo;
+                </p>
+            </div>
+
+            <!-- Module 3 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <span class="module-number">Module 3</span>
+                    <span class="module-days">~5 jours</span>
+                </div>
+                <h3>Reporting Financier Hebdomadaire</h3>
+                <ul>
+                    <li>Tr&eacute;sorerie disponible actualis&eacute;e</li>
+                    <li>Marge par chantier &agrave; date</li>
+                    <li>DSO r&eacute;el (d&eacute;lai moyen d&rsquo;encaissement)</li>
+                    <li>Encours fournisseurs et sous-traitants</li>
+                    <li>Alertes sur seuils param&eacute;trables</li>
+                </ul>
+                <p class="module-livrable">Livrable : tableau de bord 1 page, actualis&eacute; chaque semaine</p>
+                <p class="module-valeur">
+                    &laquo;&nbsp;Une page. Cinq indicateurs. Chaque lundi.
+                    Le dirigeant sait exactement o&ugrave; il en est.&nbsp;&raquo;
+                </p>
+            </div>
+
+            <!-- Module 4 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <span class="module-number">Module 4</span>
+                    <span class="module-days">3 jours</span>
+                </div>
+                <h3>Audit Flash 72h</h3>
+                <ul>
+                    <li>Analyse de la marge r&eacute;elle sur chantiers en cours</li>
+                    <li>Diagnostic BFR et cycle d&rsquo;exploitation</li>
+                    <li>Calcul du DSO r&eacute;el et identification des retards</li>
+                    <li>Projection cash court terme</li>
+                    <li>3 actions prioritaires imm&eacute;diates</li>
+                </ul>
+                <p class="module-livrable">Livrable : rapport de diagnostic + plan d&rsquo;actions prioritaires</p>
+                <p class="module-valeur">
+                    &laquo;&nbsp;Un tarif clair, un processus court. L&rsquo;entr&eacute;e en mati&egrave;re id&eacute;ale
+                    avant d&rsquo;engager un accompagnement structur&eacute;.&nbsp;&raquo;
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PROJECTION CASH — STRUCTURE DÉTAILLÉE -->
+    <section class="section-cash">
+        <h2>Projection Cash &mdash; Structure du mod&egrave;le</h2>
+        <p>
+            Le tableau de projection cash couvre 13 semaines glissantes.
+            Chaque semaine, les flux pr&eacute;visionnels sont mis &agrave; jour
+            pour donner une visibilit&eacute; continue sur la position de tr&eacute;sorerie.
+        </p>
+
+        <div class="cash-table-wrapper">
+            <table class="cash-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Ligne</th>
+                        <th>S1</th>
+                        <th>S2</th>
+                        <th>S3</th>
+                        <th>S4</th>
+                        <th>...</th>
+                        <th>S13</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7" class="row-section">Situation initiale</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Tr&eacute;sorerie d&eacute;but de p&eacute;riode</td>
+                        <td class="positive">185&nbsp;K&euro;</td>
+                        <td>172&nbsp;K&euro;</td>
+                        <td>164&nbsp;K&euro;</td>
+                        <td>158&nbsp;K&euro;</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="row-section">Encaissements</td>
+                    </tr>
+                    <tr>
+                        <td>Encaissements chantier A</td>
+                        <td>45&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>45&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td>Encaissements chantier B</td>
+                        <td>0</td>
+                        <td>32&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>32&nbsp;K&euro;</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td>D&eacute;blocage retenues de garantie</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>12&nbsp;K&euro;</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td>Autres entr&eacute;es</td>
+                        <td>3&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>2&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="row-section">D&eacute;caissements</td>
+                    </tr>
+                    <tr>
+                        <td>Salaires</td>
+                        <td class="negative">-28&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td class="negative">-28&nbsp;K&euro;</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td>Charges sociales (URSSAF)</td>
+                        <td>0</td>
+                        <td class="negative">-14&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td>Fournisseurs mat&eacute;riaux</td>
+                        <td class="negative">-8&nbsp;K&euro;</td>
+                        <td class="negative">-12&nbsp;K&euro;</td>
+                        <td class="negative">-6&nbsp;K&euro;</td>
+                        <td class="negative">-9&nbsp;K&euro;</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td>Sous-traitants</td>
+                        <td class="negative">-15&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td class="negative">-18&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td>TVA</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td class="negative">-22&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td>Loyers / frais fixes</td>
+                        <td class="negative">-3&nbsp;K&euro;</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td class="negative">-3&nbsp;K&euro;</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="row-section">R&eacute;sultat</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Total encaissements</td>
+                        <td class="positive">+48&nbsp;K&euro;</td>
+                        <td class="positive">+32&nbsp;K&euro;</td>
+                        <td class="positive">+47&nbsp;K&euro;</td>
+                        <td class="positive">+44&nbsp;K&euro;</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Total d&eacute;caissements</td>
+                        <td class="negative">-54&nbsp;K&euro;</td>
+                        <td class="negative">-26&nbsp;K&euro;</td>
+                        <td class="negative">-46&nbsp;K&euro;</td>
+                        <td class="negative">-40&nbsp;K&euro;</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">Variation nette</td>
+                        <td class="negative">-6&nbsp;K&euro;</td>
+                        <td class="positive">+6&nbsp;K&euro;</td>
+                        <td class="positive">+1&nbsp;K&euro;</td>
+                        <td class="positive">+4&nbsp;K&euro;</td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                    <tr class="row-total">
+                        <td><strong>Tr&eacute;sorerie fin de semaine</strong></td>
+                        <td><strong>179&nbsp;K&euro;</strong></td>
+                        <td><strong>185&nbsp;K&euro;</strong></td>
+                        <td><strong>186&nbsp;K&euro;</strong></td>
+                        <td><strong>190&nbsp;K&euro;</strong></td>
+                        <td>&hellip;</td>
+                        <td>&mdash;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="finance-callout" style="margin-top: 1.25rem;">
+            Le mod&egrave;le est con&ccedil;u pour &ecirc;tre mis &agrave; jour en 20 minutes par semaine.
+            Chaque cellule est trac&eacute;e et chaque hypoth&egrave;se est document&eacute;e.
+        </div>
+    </section>
+
+    <!-- FOCUS FINANCE -->
+    <section class="section-finance">
+        <h2>Focus Finance &amp; Indicateurs BTP</h2>
+        <p>
+            Chaque module int&egrave;gre une dimension financi&egrave;re adapt&eacute;e
+            aux sp&eacute;cificit&eacute;s du BTP : marge &agrave; l&rsquo;avancement, retenues
+            de garantie, saisonnalit&eacute; de l&rsquo;activit&eacute; et gestion
+            de la sous-traitance.
+        </p>
+        <div class="finance-grid">
+            <div class="finance-card">
+                <h3>Marge &agrave; l&rsquo;avancement</h3>
+                <ul>
+                    <li>Recalcul &agrave; date sur chaque chantier actif</li>
+                    <li>Comparaison marge pr&eacute;visionnelle vs. r&eacute;alis&eacute;e</li>
+                    <li>Identification des postes de d&eacute;rive (main-d&rsquo;&oelig;uvre, mat&eacute;riaux, sous-traitance)</li>
+                    <li>Alerte automatique au-del&agrave; du seuil d&eacute;fini</li>
+                </ul>
+            </div>
+            <div class="finance-card">
+                <h3>Tr&eacute;sorerie &amp; BFR</h3>
+                <ul>
+                    <li>Projection cash 13 semaines glissantes</li>
+                    <li>Suivi du BFR d&rsquo;exploitation par chantier</li>
+                    <li>Impact des retenues de garantie sur le cash</li>
+                    <li>Sc&eacute;narios de tension (retard client, avance fournisseur)</li>
+                </ul>
+            </div>
+            <div class="finance-card">
+                <h3>DSO &amp; encours</h3>
+                <ul>
+                    <li>D&eacute;lai moyen d&rsquo;encaissement r&eacute;el par client</li>
+                    <li>Encours fournisseurs et sous-traitants &agrave; date</li>
+                    <li>Balance &acirc;g&eacute;e simplifi&eacute;e</li>
+                    <li>Relance automatis&eacute;e sur seuils</li>
+                </ul>
+            </div>
+            <div class="finance-card">
+                <h3>Reporting de synth&egrave;se</h3>
+                <ul>
+                    <li>Vue consolid&eacute;e 1 page, 5 indicateurs cl&eacute;s</li>
+                    <li>Historique hebdomadaire sur 13 semaines</li>
+                    <li>Comparaison inter-chantiers</li>
+                    <li>Format adapt&eacute; au dirigeant non financier</li>
+                </ul>
+            </div>
+        </div>
+        <div class="finance-callout">
+            Chaque indicateur est con&ccedil;u pour &ecirc;tre compris en 10 secondes
+            par un dirigeant BTP qui n&rsquo;est pas financier. Simplicit&eacute; et action.
+        </div>
+    </section>
+
+    <!-- DÉPLOIEMENT -->
+    <section class="section-deploy">
+        <h2>D&eacute;ploiement type</h2>
+        <p>
+            Processus standardis&eacute; pour chaque module, permettant un d&eacute;ploiement
+            rapide et reproductible sur l&rsquo;ensemble du portefeuille clients.
+        </p>
+        <div class="deploy-grid">
+            <div class="deploy-step">
+                <span class="deploy-number">1</span>
+                <span class="deploy-label">Audit Flash</span>
+                <p class="deploy-desc">
+                    Diagnostic 72h &mdash; marge, BFR, DSO, cash.
+                    Identification des 3 actions prioritaires.
+                </p>
+            </div>
+            <div class="deploy-step">
+                <span class="deploy-number">2</span>
+                <span class="deploy-label">Installation</span>
+                <p class="deploy-desc">
+                    D&eacute;ploiement du ou des modules choisis
+                    en 2 semaines. Template param&eacute;tr&eacute; et op&eacute;rationnel.
+                </p>
+            </div>
+            <div class="deploy-step">
+                <span class="deploy-number">3</span>
+                <span class="deploy-label">Autonomie</span>
+                <p class="deploy-desc">
+                    Transfert au cabinet : formation, documentation,
+                    guide de mise &agrave; jour. Autonomie compl&egrave;te.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NIVEAU D'EXIGENCE -->
+    <section class="section-exigence">
+        <h2>Niveau d&rsquo;exigence de l&rsquo;offre</h2>
+        <div class="exigence-grid">
+            <div class="exigence-item">
+                <p><strong>Compr&eacute;hension financi&egrave;re BTP</strong><br>
+                Marge &agrave; l&rsquo;avancement, retenues de garantie, BFR de chantier,
+                saisonnalit&eacute; du cash &mdash; une lecture sectorielle &agrave; chaque &eacute;tape.</p>
+            </div>
+            <div class="exigence-item">
+                <p><strong>Simplicit&eacute; d&rsquo;usage</strong><br>
+                Chaque outil est con&ccedil;u pour un dirigeant BTP, pas pour un financier.
+                20 minutes par semaine maximum pour la mise &agrave; jour.</p>
+            </div>
+            <div class="exigence-item">
+                <p><strong>Duplicabilit&eacute;</strong><br>
+                Templates standardis&eacute;s, param&eacute;trables par client.
+                Le cabinet peut d&eacute;ployer sur tout son portefeuille BTP.</p>
+            </div>
+            <div class="exigence-item">
+                <p><strong>Posture conseil</strong><br>
+                L&rsquo;outil seul ne suffit pas. Chaque module inclut la m&eacute;thodologie
+                d&rsquo;interpr&eacute;tation et les scripts de pr&eacute;sentation au client.</p>
+            </div>
+        </div>
+        <div class="exigence-conclusion">
+            L&rsquo;objectif est de donner au cabinet un outil de mission r&eacute;currente
+            &agrave; forte valeur ajout&eacute;e, et au dirigeant BTP une visibilit&eacute;
+            financi&egrave;re qu&rsquo;il n&rsquo;a jamais eue.
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-faq">
+        <h2>Questions fr&eacute;quentes</h2>
+        <div class="faq-item">
+            <span class="faq-question">Faut-il d&eacute;ployer les 4 modules ?</span>
+            <p class="faq-answer">
+                Non. Chaque module est autonome. L&rsquo;approche recommand&eacute;e est de commencer
+                par l&rsquo;Audit Flash (Module 4), qui permet d&rsquo;identifier les priorit&eacute;s,
+                puis de d&eacute;ployer les modules pertinents en fonction du diagnostic.
+            </p>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Quel est le format des livrables ?</span>
+            <p class="faq-answer">
+                Excel structur&eacute; ou Power BI selon le besoin et la maturit&eacute; du client.
+                Chaque template est document&eacute;, param&eacute;trable et dupicable par le cabinet
+                sur d&rsquo;autres clients sans intervention suppl&eacute;mentaire.
+            </p>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Comment le cabinet facture-t-il cette prestation ?</span>
+            <p class="faq-answer">
+                Le cabinet int&egrave;gre les modules dans son offre de mission de conseil.
+                L&rsquo;Audit Flash devient une porte d&rsquo;entr&eacute;e commerciale naturelle,
+                les modules suivants constituent des missions r&eacute;currentes &agrave; marge &eacute;lev&eacute;e.
+            </p>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Le client BTP doit-il avoir un DAF ?</span>
+            <p class="faq-answer">
+                Non. Les outils sont con&ccedil;us pour des PME du BTP sans direction financi&egrave;re
+                structur&eacute;e. Le dirigeant ou le conducteur de travaux peut lire et mettre
+                &agrave; jour les tableaux en autonomie apr&egrave;s la formation.
+            </p>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Quel est le retour sur investissement pour le client ?</span>
+            <p class="faq-answer">
+                L&rsquo;identification pr&eacute;coce d&rsquo;une d&eacute;rive de marge sur un seul chantier
+                peut repr&eacute;senter plusieurs dizaines de milliers d&rsquo;euros &eacute;conomis&eacute;s.
+                La projection cash &eacute;vite les ruptures de tr&eacute;sorerie et les co&ucirc;ts
+                de financement d&rsquo;urgence. Le ROI est g&eacute;n&eacute;ralement constat&eacute;
+                d&egrave;s le premier trimestre.
+            </p>
+        </div>
+    </section>
+
+    <!-- POSITIONNEMENT -->
+    <section class="section-positionnement">
+        <h2>Positionnement</h2>
+        <div class="positionnement-block">
+            <p>
+                Cette offre n&rsquo;est pas un logiciel de gestion de chantier.
+                C&rsquo;est un <span class="highlight-text">syst&egrave;me de pilotage financier</span>
+                con&ccedil;u sp&eacute;cifiquement pour les r&eacute;alit&eacute;s du BTP :
+                marge &agrave; l&rsquo;avancement, cash volatile, retenues de garantie,
+                sous-traitance lourde.
+            </p>
+            <p>
+                La double comp&eacute;tence Finance (DAF externalis&eacute;, contr&ocirc;le de gestion)
+                et Data (mod&eacute;lisation, automatisation) permet de produire des outils
+                <span class="highlight-text">imm&eacute;diatement exploitables</span> par des dirigeants
+                qui n&rsquo;ont ni le temps, ni la formation pour piloter avec des outils complexes.
+            </p>
+            <p>
+                Pour le cabinet d&rsquo;expertise comptable, c&rsquo;est une offre de
+                <span class="highlight-text">mission r&eacute;currente &agrave; forte valeur ajout&eacute;e</span>,
+                standardis&eacute;e, duplicable, qui transforme une relation de conformit&eacute;
+                en une relation de conseil strat&eacute;gique.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <footer class="contact-section">
+        <div class="contact-inner">
+            <div class="contact-info">
+                <h3>Otmane Boulahia</h3>
+                <p class="contact-cabinet">ZineInsights</p>
+                <p class="contact-email"><a href="mailto:otmane@zineinsight.com">otmane@zineinsight.com</a></p>
+            </div>
+            <div class="contact-right">
+                <span class="contact-date">F&eacute;vrier 2026</span>
+                <p class="contact-calendly"><a href="https://calendly.com/zineinsight">calendly.com/zineinsight</a></p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>

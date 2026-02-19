@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposition de Mission &mdash; Fov&eacute;a Associ&eacute;s &mdash; ZineInsights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy: #0f2137;
+            --blue: #1a3a5c;
+            --blue-light: #2c5282;
+            --accent: #3182ce;
+            --bg-subtle: #f7f9fb;
+            --bg-warm: #fafafa;
+            --border: #e8e8e8;
+            --text: #1a1a1a;
+            --text-secondary: #444;
+            --text-muted: #666;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background-color: #ffffff;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .page-wrapper {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section { padding: 3rem 0; }
+        section + section { border-top: 1px solid var(--border); }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            color: #0d0d0d;
+            letter-spacing: -0.01em;
+        }
+
+        h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.2; }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.7rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 36px;
+            height: 2px;
+            background-color: var(--blue);
+        }
+
+        h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: var(--blue);
+        }
+
+        p {
+            margin-bottom: 0.85rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 3.5rem 0 2.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 1.25rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--blue);
+            border-radius: 2px;
+        }
+
+        .hero h1 { margin-bottom: 0.35rem; }
+
+        .hero .subtitle-client {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--blue);
+            letter-spacing: 0.02em;
+            margin-bottom: 0.2rem;
+        }
+
+        .hero .subtitle-tech {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .subtitle-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 640px;
+            font-weight: 300;
+        }
+
+        /* METRICS BAR */
+        .metrics-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1.75rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .metric:last-child { border-right: none; }
+
+        .metric-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* CONTEXT GRID */
+        .context-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem 2.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .context-block h3 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+        .context-block p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        .enjeux-closing {
+            font-style: italic;
+            color: #555;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ROADMAP */
+        .roadmap-intro { margin-bottom: 1.25rem; font-size: 0.88rem; }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .phase-card {
+            background: var(--bg-warm);
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            padding: 1.35rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .phase-card:hover { border-color: var(--blue); }
+
+        .phase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.75rem;
+        }
+
+        .phase-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--blue);
+        }
+
+        .phase-days {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: #f0f0f0;
+            padding: 0.15rem 0.45rem;
+            border-radius: 2px;
+        }
+
+        .phase-card h3 { margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .phase-card ul { list-style: none; padding: 0; }
+
+        .phase-card li {
+            position: relative;
+            padding-left: 0.9rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .phase-card li::before {
+            content: '\2014';
+            position: absolute;
+            left: 0;
+            color: #bbb;
+            font-size: 0.7rem;
+        }
+
+        .phase-livrable {
+            margin-top: 0.75rem;
+            padding-top: 0.6rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: var(--blue);
+            font-weight: 500;
+        }
+
+        .roadmap-total {
+            margin-top: 1.25rem;
+            padding: 0.85rem 1.25rem;
+            background: var(--bg-subtle);
+            border-left: 3px solid var(--blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .roadmap-total span {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--blue);
+        }
+
+        /* FINANCE */
+        .finance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .finance-card {
+            padding: 1.25rem;
+            background: var(--bg-warm);
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+        }
+
+        .finance-card h3 { font-size: 0.9rem; margin-bottom: 0.6rem; }
+        .finance-card ul { list-style: none; padding: 0; }
+
+        .finance-card li {
+            position: relative;
+            padding-left: 0.9rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .finance-card li::before {
+            content: '\2014';
+            position: absolute;
+            left: 0;
+            color: #bbb;
+            font-size: 0.7rem;
+        }
+
+        .finance-callout {
+            padding: 1rem 1.25rem;
+            background: var(--bg-subtle);
+            border-left: 3px solid var(--blue);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--blue);
+            line-height: 1.5;
+        }
+
+        /* ARCHITECTURE IT */
+        .archi-intro { margin-bottom: 1.25rem; }
+
+        .archi-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .archi-option {
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .archi-option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.9rem 1.25rem;
+            background: var(--bg-warm);
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .archi-option-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--blue);
+        }
+
+        .archi-option-header h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            flex: 1;
+            margin-left: 0.75rem;
+        }
+
+        .archi-badge {
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-quick { background: #e6f4ea; color: #1a7f37; }
+        .badge-balanced { background: #dbeafe; color: #1a3a5c; }
+        .badge-advanced { background: #f3e8ff; color: #6b21a8; }
+
+        .archi-option-body {
+            padding: 1rem 1.25rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .archi-col h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .archi-col p, .archi-col li {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+
+        .archi-col ul { list-style: none; padding: 0; }
+
+        .archi-col li {
+            position: relative;
+            padding-left: 0.75rem;
+        }
+
+        .archi-col li::before {
+            content: '\2022';
+            position: absolute;
+            left: 0;
+            color: #bbb;
+        }
+
+        .archi-recommendation {
+            padding: 1rem 1.25rem;
+            background: var(--navy);
+            border-radius: 4px;
+            color: #d0d8e0;
+            font-size: 0.85rem;
+            line-height: 1.55;
+        }
+
+        .archi-recommendation strong { color: #fff; font-weight: 600; }
+
+        /* EXIGENCE */
+        .exigence-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem 2rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .exigence-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .exigence-item p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+        .exigence-item strong { font-weight: 600; color: var(--text); }
+
+        .exigence-conclusion {
+            padding: 1rem 1.25rem;
+            background: var(--bg-subtle);
+            border-left: 3px solid var(--blue);
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--blue);
+        }
+
+        /* FAQ */
+        .faq-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .faq-item:last-child { border-bottom: none; }
+
+        .faq-question {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .faq-answer {
+            font-size: 0.83rem;
+            color: #555;
+            line-height: 1.55;
+            margin-bottom: 0;
+        }
+
+        /* POSITIONNEMENT */
+        .positionnement-block {
+            padding: 1.75rem 2rem;
+            background: var(--navy);
+            color: #ffffff;
+            border-radius: 4px;
+        }
+
+        .positionnement-block p {
+            color: #d0d8e0;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            margin-bottom: 0.85rem;
+        }
+
+        .positionnement-block p:last-child { margin-bottom: 0; }
+
+        .positionnement-block .highlight-text {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* CONTACT */
+        .contact-section {
+            padding: 2rem 0 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .contact-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .contact-info h3 {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            color: #0d0d0d;
+        }
+
+        .contact-cabinet {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--blue);
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-email { font-size: 0.8rem; color: var(--text-muted); }
+
+        .contact-email a {
+            color: var(--blue);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .contact-email a:hover { border-bottom-color: var(--blue); }
+
+        .contact-right { text-align: right; }
+
+        .contact-date {
+            font-size: 0.7rem;
+            color: #999;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-calendly { font-size: 0.75rem; }
+
+        .contact-calendly a {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .page-wrapper { padding: 0 1.25rem; }
+            .hero { padding: 2.5rem 0 2rem; }
+            h1 { font-size: 1.65rem; }
+            h2 { font-size: 1.25rem; }
+            section { padding: 2rem 0; }
+            .metrics-bar { grid-template-columns: repeat(2, 1fr); }
+            .metric { border-bottom: 1px solid var(--border); }
+            .roadmap-grid, .finance-grid, .exigence-grid, .context-grid { grid-template-columns: 1fr; }
+            .archi-option-body { grid-template-columns: 1fr; }
+            .contact-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+            .contact-right { text-align: left; }
+            .positionnement-block { padding: 1.25rem; }
+        }
+
+        /* PRINT */
+        @media print {
+            @page { size: A4 portrait; margin: 18mm 16mm 20mm 16mm; }
+            html { font-size: 9.5pt; }
+            body { background: white; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .page-wrapper { max-width: 100%; padding: 0; }
+            .hero { padding: 0 0 1rem; page-break-after: avoid; }
+            section { padding: 1.1rem 0; }
+            .section-contexte { page-break-after: auto; }
+            .section-roadmap { page-break-before: always; page-break-after: auto; }
+            .section-finance { page-break-before: always; page-break-after: auto; }
+            .section-archi { page-break-before: always; page-break-after: auto; }
+            .section-exigence { page-break-before: always; page-break-after: auto; }
+            .section-faq { page-break-after: auto; }
+            .section-positionnement { page-break-before: auto; }
+            .phase-card, .finance-card, .archi-option, .faq-item, .exigence-item, .positionnement-block {
+                page-break-inside: avoid; break-inside: avoid;
+            }
+            .roadmap-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+            .finance-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+            .context-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+            .archi-option-body { grid-template-columns: 1fr 1fr 1fr; }
+            .phase-card { padding: 1rem; border: 1px solid #ccc; }
+            .finance-card { padding: 1rem; border: 1px solid #ccc; }
+            .positionnement-block { background: var(--navy) !important; color: #fff !important; }
+            .positionnement-block p { color: #d0d8e0 !important; }
+            .archi-recommendation { background: var(--navy) !important; color: #d0d8e0 !important; }
+            .archi-recommendation strong { color: #fff !important; }
+            .metrics-bar { border: 1px solid #ccc; }
+            .metric { border-right: 1px solid #ccc; }
+            .contact-section { page-break-before: avoid; padding-top: 1rem; }
+            .phase-card:hover { border-color: #ccc; }
+            .contact-email a { color: var(--blue); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HERO -->
+    <header class="hero">
+        <span class="hero-label">Proposition de mission</span>
+        <h1>Structuration et Fiabilisation<br>du Reporting Groupe</h1>
+        <p class="subtitle-client">Fov&eacute;a Associ&eacute;s &mdash; R&eacute;seau national de cliniques v&eacute;t&eacute;rinaires</p>
+        <p class="subtitle-tech">Power BI &mdash; Finance, Op&eacute;rations &amp; Architecture IT</p>
+        <p class="subtitle-description">
+            Industrialiser le pilotage d&rsquo;un groupe en croissance : fiabiliser les KPI,
+            consolider les sources m&eacute;tier et construire une architecture de donn&eacute;es
+            capable de soutenir 50+ cliniques et 30 entit&eacute;s juridiques.
+        </p>
+        <div class="metrics-bar">
+            <div class="metric">
+                <span class="metric-value">~58</span>
+                <span class="metric-label">Jours estim&eacute;s</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">4</span>
+                <span class="metric-label">Phases structur&eacute;es</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">5+</span>
+                <span class="metric-label">Sources &agrave; consolider</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">30</span>
+                <span class="metric-label">Entit&eacute;s juridiques</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEXTE ET ENJEUX -->
+    <section class="section-contexte">
+        <h2>Contexte et enjeux de la mission</h2>
+        <p>
+            Fov&eacute;a Associ&eacute;s a engag&eacute; depuis 2022 une structuration de son pilotage
+            avec un socle Power BI aliment&eacute; par plusieurs outils m&eacute;tier. Le groupe
+            a doubl&eacute; de taille depuis la mise en place initiale. Le reporting doit maintenant
+            &eacute;voluer pour r&eacute;pondre &agrave; de nouveaux utilisateurs (Direction des Op&eacute;rations,
+            DRH, directeurs de cliniques associ&eacute;s) et de nouveaux indicateurs
+            demand&eacute;s par le Contr&ocirc;le de Gestion.
+        </p>
+        <div class="context-grid">
+            <div class="context-block">
+                <h3>Enjeux Finance &amp; CDG</h3>
+                <p>
+                    Fiabilit&eacute; des KPI dans le temps, consolidation groupe,
+                    r&eacute;conciliation avec la comptabilit&eacute;, marge contributive
+                    par clinique, suivi du BFR, coh&eacute;rence analytique entre
+                    les 30 entit&eacute;s.
+                </p>
+            </div>
+            <div class="context-block">
+                <h3>Enjeux Op&eacute;rations &amp; RH</h3>
+                <p>
+                    Indicateurs accessibles pour des profils non financiers,
+                    pilotage op&eacute;rationnel des cliniques, suivi RH
+                    (effectifs, masse salariale, turnover), lecture
+                    orient&eacute;e action pour les directeurs associ&eacute;s.
+                </p>
+            </div>
+            <div class="context-block">
+                <h3>Enjeux techniques</h3>
+                <p>
+                    Consolidation de sources multiples (GMVet, Parkio, outils Finance),
+                    passage d&rsquo;une extraction mensuelle manuelle &agrave;
+                    une collecte hebdomadaire automatis&eacute;e, absence de DSI interne.
+                </p>
+            </div>
+            <div class="context-block">
+                <h3>Enjeux de gouvernance</h3>
+                <p>
+                    Documentation des r&egrave;gles m&eacute;tier, d&eacute;finitions KPI
+                    valid&eacute;es collectivement, transfert de comp&eacute;tences
+                    vers les &eacute;quipes internes pour garantir la p&eacute;rennit&eacute;.
+                </p>
+            </div>
+        </div>
+        <p class="enjeux-closing">
+            L&rsquo;enjeu n&rsquo;est pas d&rsquo;ajouter des dashboards, mais de construire
+            un socle de v&eacute;rit&eacute; analytique unique, r&eacute;conciliable avec
+            la comptabilit&eacute; et exploitable par l&rsquo;ensemble des directions.
+        </p>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="section-roadmap">
+        <h2>Roadmap propos&eacute;e</h2>
+        <p class="roadmap-intro">
+            D&eacute;coupage en 4 phases s&eacute;quentielles avec livrables identifi&eacute;s,
+            permettant des validations progressives par la Finance et les Op&eacute;rations.
+        </p>
+        <div class="roadmap-grid">
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-number">Phase 1</span>
+                    <span class="phase-days">~10 jours</span>
+                </div>
+                <h3>Audit &amp; Cartographie</h3>
+                <ul>
+                    <li>Inventaire complet des sources (GMVet, Parkio, Finance, achats)</li>
+                    <li>Audit du mod&egrave;le Power BI existant et de la notice technique</li>
+                    <li>Cartographie des flux de donn&eacute;es et des extractions manuelles</li>
+                    <li>Identification des KPI critiques et des divergences</li>
+                    <li>Analyse des risques (jointures, non-historisation, r&egrave;gles implicites)</li>
+                    <li>&Eacute;valuation des API disponibles pour l&rsquo;automatisation</li>
+                </ul>
+                <p class="phase-livrable">Livrable : document d&rsquo;audit + cartographie des flux</p>
+            </div>
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-number">Phase 2</span>
+                    <span class="phase-days">~28 jours</span>
+                </div>
+                <h3>Refonte du Mod&egrave;le &amp; Harmonisation</h3>
+                <ul>
+                    <li>Restructuration en mod&egrave;le en &eacute;toile (clinique, p&eacute;riode, compte)</li>
+                    <li>Nettoyage et optimisation des mesures DAX</li>
+                    <li>Harmonisation des r&eacute;f&eacute;rentiels et identifiants inter-sources</li>
+                    <li>Centralisation des d&eacute;finitions KPI valid&eacute;es par la Finance</li>
+                    <li>Int&eacute;gration des nouveaux indicateurs CDG et Op&eacute;rations</li>
+                    <li>Mise en place de l&rsquo;architecture IT cible (automatisation)</li>
+                </ul>
+                <p class="phase-livrable">Livrable : mod&egrave;le Power BI refondu + flux automatis&eacute;s</p>
+            </div>
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-number">Phase 3</span>
+                    <span class="phase-days">~12 jours</span>
+                </div>
+                <h3>Stabilisation &amp; Documentation</h3>
+                <ul>
+                    <li>Formalisation des r&egrave;gles m&eacute;tier (calculs, p&eacute;rim&egrave;tres)</li>
+                    <li>Documentation technique compl&egrave;te du mod&egrave;le</li>
+                    <li>S&eacute;curisation des flux et gestion de l&rsquo;historisation</li>
+                    <li>Tests de robustesse et coh&eacute;rence analytique</li>
+                    <li>R&eacute;conciliation comptable sur p&eacute;riode de r&eacute;f&eacute;rence</li>
+                </ul>
+                <p class="phase-livrable">Livrable : documentation m&eacute;tier + technique + tests</p>
+            </div>
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-number">Phase 4</span>
+                    <span class="phase-days">~8 jours</span>
+                </div>
+                <h3>Transfert &amp; P&eacute;rennisation</h3>
+                <ul>
+                    <li>Formation CDG : lecture, alimentation, maintenance</li>
+                    <li>Formation Op&eacute;rations &amp; DRH : navigation, interpr&eacute;tation</li>
+                    <li>Formation directeurs de cliniques : tableaux de bord d&eacute;di&eacute;s</li>
+                    <li>Structuration de la gouvernance KPI</li>
+                    <li>Passage de relais technique complet</li>
+                </ul>
+                <p class="phase-livrable">Livrable : supports de formation + guide de maintenance</p>
+            </div>
+        </div>
+        <div class="roadmap-total">
+            <span>Total estim&eacute; : 58 jours &mdash; dans l&rsquo;enveloppe de 70 jours</span>
+        </div>
+    </section>
+
+    <!-- FOCUS FINANCE & CDG -->
+    <section class="section-finance">
+        <h2>Focus Finance &amp; Contr&ocirc;le de Gestion</h2>
+        <p>
+            La mission int&egrave;gre une dimension financi&egrave;re structurante &agrave; chaque &eacute;tape.
+            L&rsquo;objectif est de produire des KPI r&eacute;conciliables avec la comptabilit&eacute;
+            et exploit&eacute;s avec confiance par le DAF et le CDG.
+        </p>
+        <div class="finance-grid">
+            <div class="finance-card">
+                <h3>Consolidation groupe</h3>
+                <ul>
+                    <li>Analytique par clinique (bilan individuel + consolid&eacute;)</li>
+                    <li>Gestion des achats centralis&eacute;s vs. locaux</li>
+                    <li>Traitement des op&eacute;rations inter-cliniques</li>
+                    <li>Vue consolid&eacute;e multi-entit&eacute;s (30 structures)</li>
+                </ul>
+            </div>
+            <div class="finance-card">
+                <h3>KPI financiers</h3>
+                <ul>
+                    <li>Marge contributive par clinique et par activit&eacute;</li>
+                    <li>Suivi du BFR et de la tr&eacute;sorerie</li>
+                    <li>Analyse des &eacute;carts budget vs. r&eacute;alis&eacute;</li>
+                    <li>R&eacute;conciliation automatique avec la comptabilit&eacute;</li>
+                </ul>
+            </div>
+            <div class="finance-card">
+                <h3>Nouveaux indicateurs CDG</h3>
+                <ul>
+                    <li>Int&eacute;gration des KPI demand&eacute;s par le CDG</li>
+                    <li>Temporalit&eacute;s multiples (hebdo, mensuel, YTD)</li>
+                    <li>Alertes sur seuils et variances significatives</li>
+                    <li>Drill-down : groupe &rarr; r&eacute;gion &rarr; clinique</li>
+                </ul>
+            </div>
+            <div class="finance-card">
+                <h3>Gouvernance des d&eacute;finitions</h3>
+                <ul>
+                    <li>R&eacute;f&eacute;rentiel unique valid&eacute; par la Finance</li>
+                    <li>R&egrave;gles de calcul document&eacute;es et versionn&eacute;es</li>
+                    <li>Processus de validation des nouveaux KPI</li>
+                    <li>Dictionnaire de donn&eacute;es m&eacute;tier</li>
+                </ul>
+            </div>
+        </div>
+        <div class="finance-callout">
+            Chaque indicateur publi&eacute; dans Power BI doit &ecirc;tre r&eacute;conciliable
+            avec les &eacute;tats financiers. C&rsquo;est le socle de confiance de l&rsquo;outil.
+        </div>
+    </section>
+
+    <!-- ARCHITECTURE IT — 3 SCENARIOS -->
+    <section class="section-archi">
+        <h2>Architecture IT &mdash; Trois sc&eacute;narios</h2>
+        <p class="archi-intro">
+            Le passage d&rsquo;extractions manuelles mensuelles &agrave; une collecte
+            hebdomadaire automatis&eacute;e est un enjeu central de la mission.
+            Trois architectures sont envisageables, selon le niveau
+            d&rsquo;investissement et d&rsquo;autonomie souhait&eacute;.
+        </p>
+        <div class="archi-grid">
+            <!-- Option A -->
+            <div class="archi-option">
+                <div class="archi-option-header">
+                    <span class="archi-option-label">Option A</span>
+                    <h3>Automatisation l&eacute;g&egrave;re &mdash; SharePoint + Power Automate</h3>
+                    <span class="archi-badge badge-quick">Rapide</span>
+                </div>
+                <div class="archi-option-body">
+                    <div class="archi-col">
+                        <h4>Principe</h4>
+                        <p>Conserver la structure actuelle (fichiers Excel/CSV)
+                        mais automatiser le d&eacute;p&ocirc;t et le refresh via
+                        l&rsquo;&eacute;cosyst&egrave;me Microsoft d&eacute;j&agrave; en place.</p>
+                    </div>
+                    <div class="archi-col">
+                        <h4>Stack technique</h4>
+                        <ul>
+                            <li>SharePoint / OneDrive (stockage centralis&eacute;)</li>
+                            <li>Power Automate (orchestration des flux)</li>
+                            <li>Scheduled Refresh Power BI Service</li>
+                        </ul>
+                    </div>
+                    <div class="archi-col">
+                        <h4>Pour / Contre</h4>
+                        <ul>
+                            <li>Mise en place rapide (~5 jours)</li>
+                            <li>Pas de comp&eacute;tence technique requise</li>
+                            <li>Limit&eacute; si les outils n&rsquo;exportent pas automatiquement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Option B -->
+            <div class="archi-option">
+                <div class="archi-option-header">
+                    <span class="archi-option-label">Option B</span>
+                    <h3>Collecte API &mdash; Scripts automatis&eacute;s + base centralis&eacute;e</h3>
+                    <span class="archi-badge badge-balanced">&Eacute;quilibr&eacute;</span>
+                </div>
+                <div class="archi-option-body">
+                    <div class="archi-col">
+                        <h4>Principe</h4>
+                        <p>Connecter directement les outils m&eacute;tier (GMVet, Parkio,
+                        outil Finance) via leurs API, centraliser dans une base
+                        interm&eacute;diaire, alimenter Power BI automatiquement.</p>
+                    </div>
+                    <div class="archi-col">
+                        <h4>Stack technique</h4>
+                        <ul>
+                            <li>Scripts Python planifi&eacute;s (collecte API)</li>
+                            <li>Base PostgreSQL ou Azure SQL (entrep&ocirc;t)</li>
+                            <li>Orchestrateur (cron / Azure Functions)</li>
+                            <li>Power BI connect&eacute; &agrave; la base</li>
+                        </ul>
+                    </div>
+                    <div class="archi-col">
+                        <h4>Pour / Contre</h4>
+                        <ul>
+                            <li>Fr&eacute;quence hebdo ou quotidienne</li>
+                            <li>Donn&eacute;es centralis&eacute;es et historis&eacute;es</li>
+                            <li>N&eacute;cessite un audit des API disponibles</li>
+                            <li>Mise en place : ~10&ndash;15 jours</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Option C -->
+            <div class="archi-option">
+                <div class="archi-option-header">
+                    <span class="archi-option-label">Option C</span>
+                    <h3>Plateforme int&eacute;gr&eacute;e &mdash; Datawarehouse cloud</h3>
+                    <span class="archi-badge badge-advanced">Avanc&eacute;</span>
+                </div>
+                <div class="archi-option-body">
+                    <div class="archi-col">
+                        <h4>Principe</h4>
+                        <p>B&acirc;tir un v&eacute;ritable entrep&ocirc;t de donn&eacute;es cloud
+                        avec transformation ETL, mod&egrave;le dimensionnel
+                        et couche s&eacute;mantique. Solution p&eacute;renne pour
+                        la croissance du groupe.</p>
+                    </div>
+                    <div class="archi-col">
+                        <h4>Stack technique</h4>
+                        <ul>
+                            <li>Azure Data Factory ou Fivetran (ELT)</li>
+                            <li>Azure SQL / Snowflake (datawarehouse)</li>
+                            <li>dbt (transformation et documentation)</li>
+                            <li>Power BI connect&eacute; en DirectQuery/Import</li>
+                        </ul>
+                    </div>
+                    <div class="archi-col">
+                        <h4>Pour / Contre</h4>
+                        <ul>
+                            <li>Scalable pour 100+ cliniques</li>
+                            <li>Historisation native et tra&ccedil;abilit&eacute;</li>
+                            <li>Investissement initial plus &eacute;lev&eacute;</li>
+                            <li>Mise en place : ~15&ndash;20 jours</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="archi-recommendation">
+            <strong>Recommandation :</strong> D&eacute;marrer avec l&rsquo;Option A pour s&eacute;curiser
+            les flux imm&eacute;diatement, puis migrer vers l&rsquo;Option B d&egrave;s que l&rsquo;audit
+            des API m&eacute;tier sera r&eacute;alis&eacute; (Phase 1). Le choix d&eacute;finitif sera
+            formalis&eacute; dans le livrable d&rsquo;audit, avec une analyse co&ucirc;t/b&eacute;n&eacute;fice
+            adapt&eacute;e &agrave; la trajectoire de croissance du groupe.
+        </div>
+    </section>
+
+    <!-- NIVEAU D'EXIGENCE -->
+    <section class="section-exigence">
+        <h2>Niveau d&rsquo;exigence de la mission</h2>
+        <div class="exigence-grid">
+            <div class="exigence-item">
+                <p><strong>Compr&eacute;hension financi&egrave;re</strong><br>
+                Marge contributive, consolidation groupe, analytique par clinique
+                &mdash; une lecture financi&egrave;re structurante &agrave; chaque &eacute;tape.</p>
+            </div>
+            <div class="exigence-item">
+                <p><strong>Ma&icirc;trise technique Power BI</strong><br>
+                Mod&eacute;lisation en &eacute;toile, DAX avanc&eacute;, optimisation des performances,
+                Scheduled Refresh, Row-Level Security.</p>
+            </div>
+            <div class="exigence-item">
+                <p><strong>Architecture IT &amp; API</strong><br>
+                Capacit&eacute; &agrave; auditer les API m&eacute;tier, concevoir
+                l&rsquo;architecture de collecte et automatiser les flux de donn&eacute;es.</p>
+            </div>
+            <div class="exigence-item">
+                <p><strong>Posture de consultant</strong><br>
+                Alignement Finance / Op&eacute;rations / DRH, arbitrage des d&eacute;finitions,
+                communication claire aupr&egrave;s de profils non techniques.</p>
+            </div>
+        </div>
+        <div class="exigence-conclusion">
+            L&rsquo;objectif est de produire une v&eacute;rit&eacute; analytique unique,
+            r&eacute;conciliable avec la comptabilit&eacute; et durable dans le temps.
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-faq">
+        <h2>Questions fr&eacute;quentes</h2>
+        <div class="faq-item">
+            <span class="faq-question">Pourquoi la mission peut-elle n&eacute;cessiter 58 &agrave; 70 jours ?</span>
+            <p class="faq-answer">
+                Il s&rsquo;agit d&rsquo;un travail d&rsquo;architecture complet : audit des sources,
+                refonte du mod&egrave;le, mise en place de l&rsquo;automatisation, harmonisation des KPI,
+                documentation et transfert de comp&eacute;tences. L&rsquo;estimation de 58 jours couvre
+                l&rsquo;ensemble du p&eacute;rim&egrave;tre, avec une marge au sein de l&rsquo;enveloppe de 70 jours
+                pour absorber les al&eacute;as de validation interne.
+            </p>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Quel est le rythme d&rsquo;intervention propos&eacute; ?</span>
+            <p class="faq-answer">
+                2 &agrave; 3 jours par semaine en full remote, avec des rituels de synchronisation
+                vid&eacute;o r&eacute;guliers. Un rythme qui favorise &agrave; la fois l&rsquo;efficacit&eacute;
+                du travail technique et les validations n&eacute;cessaires par la Finance et les Op&eacute;rations.
+            </p>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Comment la fiabilit&eacute; des KPI est-elle garantie ?</span>
+            <p class="faq-answer">
+                Par un processus en trois temps : centralisation des d&eacute;finitions dans un r&eacute;f&eacute;rentiel unique,
+                validation formelle par la Finance, puis impl&eacute;mentation d&rsquo;une logique de calcul unique
+                dans le mod&egrave;le &mdash; avec r&eacute;conciliation comptable syst&eacute;matique.
+            </p>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Comment les nouveaux indicateurs sont-ils int&eacute;gr&eacute;s ?</span>
+            <p class="faq-answer">
+                Chaque nouvel indicateur suit un processus structur&eacute; : d&eacute;finition m&eacute;tier valid&eacute;e
+                par le CDG, identification de la source de donn&eacute;es, impl&eacute;mentation technique,
+                test de coh&eacute;rence, puis documentation. Aucun KPI n&rsquo;est publi&eacute; sans validation.
+            </p>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Quelle est la valeur ajout&eacute;e sp&eacute;cifique de cette approche ?</span>
+            <p class="faq-answer">
+                Une double comp&eacute;tence Finance et Data combin&eacute;e &agrave; une capacit&eacute;
+                d&rsquo;architecture IT. La mission ne se limite pas &agrave; Power BI : elle couvre
+                la cha&icirc;ne compl&egrave;te, de la collecte automatis&eacute;e des donn&eacute;es
+                jusqu&rsquo;au tableau de bord exploit&eacute; par les directeurs de cliniques.
+            </p>
+        </div>
+    </section>
+
+    <!-- POSITIONNEMENT -->
+    <section class="section-positionnement">
+        <h2>Positionnement professionnel</h2>
+        <div class="positionnement-block">
+            <p>
+                Cette mission n&rsquo;est pas abord&eacute;e comme un simple d&eacute;veloppement Power BI,
+                mais comme un travail d&rsquo;<span class="highlight-text">architecture du pilotage
+                financier par la donn&eacute;e</span>.
+            </p>
+            <p>
+                La double comp&eacute;tence Finance (DAF externalis&eacute;, contr&ocirc;le de gestion)
+                et Technique (Power BI, Python, architecture API) permet d&rsquo;aligner
+                la logique m&eacute;tier avec l&rsquo;infrastructure technique &mdash; sans d&eacute;pendance
+                &agrave; une DSI externe.
+            </p>
+            <p>
+                L&rsquo;objectif est de transformer le reporting existant en un
+                <span class="highlight-text">outil strat&eacute;gique fiable</span>,
+                r&eacute;conciliable avec la comptabilit&eacute;, automatis&eacute; dans son alimentation,
+                et exploit&eacute; avec confiance par l&rsquo;ensemble des directions du groupe.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <footer class="contact-section">
+        <div class="contact-inner">
+            <div class="contact-info">
+                <h3>Otmane Boulahia</h3>
+                <p class="contact-cabinet">ZineInsights</p>
+                <p class="contact-email"><a href="mailto:otmane@zineinsight.com">otmane@zineinsight.com</a></p>
+            </div>
+            <div class="contact-right">
+                <span class="contact-date">F&eacute;vrier 2026</span>
+                <p class="contact-calendly"><a href="https://calendly.com/zineinsight">calendly.com/zineinsight</a></p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>
