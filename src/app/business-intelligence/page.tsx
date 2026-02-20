@@ -61,7 +61,7 @@ export default function BusinessIntelligencePage() {
                     <div className="mt-10 space-y-3">
                         <div className="grid grid-cols-2 lg:grid-cols-4 border border-white/10 rounded overflow-hidden">
                             {[
-                                { value: '10+', label: 'Groupes accompagnés' },
+                                { value: 'Déjà 3', label: 'Groupes accompagnés' },
                                 { value: 'Jusqu\'à -70%', label: 'Temps reporting' },
                                 { value: '100%', label: 'Réconciliation validée' },
                                 { value: '0', label: 'Extraction manuelle' },
