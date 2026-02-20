@@ -386,15 +386,16 @@ export default function BusinessIntelligencePage() {
                                 <div className="flex items-center gap-3 text-[0.6rem] text-gray-500">
                                     <span>Période : Jan — Déc 2025</span>
                                     <span className="px-1.5 py-0.5 bg-green-900/40 text-green-400 rounded text-[0.55rem] font-semibold">LIVE</span>
+                                    <span className="px-1.5 py-0.5 bg-blue-900/30 text-blue-400 rounded text-[0.55rem] italic">Extrait anonymisé</span>
                                 </div>
                             </div>
                             {/* KPI Row */}
                             <div className="grid grid-cols-4 gap-px bg-gray-700/50 mx-4 mt-4 rounded overflow-hidden">
                                 {[
-                                    { label: 'CA Consolidé', value: '24.8M€', delta: '+12.3%', up: true },
-                                    { label: 'Marge Brute', value: '68.4%', delta: '+2.1 pts', up: true },
-                                    { label: 'Trésorerie', value: '3.2M€', delta: '-140K€', up: false },
-                                    { label: 'DSO Moyen', value: '42j', delta: '-3j', up: true },
+                                    { label: 'CA Consolidé', value: '18.4M€', delta: '+6.8%', up: true },
+                                    { label: 'Marge Brute Moy.', value: '61.2%', delta: '-3.4 pts', up: false },
+                                    { label: 'Trésorerie Nette', value: '1.1M€', delta: '-380K€', up: false },
+                                    { label: 'DSO Moyen', value: '57j', delta: '+8j', up: false },
                                 ].map((kpi, i) => (
                                     <div key={i} className="bg-[#1e2f42] p-3 text-center">
                                         <span className="block text-[0.55rem] text-gray-500 uppercase tracking-wider mb-1">{kpi.label}</span>
@@ -448,7 +449,7 @@ export default function BusinessIntelligencePage() {
                             </div>
                             {/* Bottom bar */}
                             <div className="flex items-center justify-between px-4 py-2 border-t border-gray-700/50 text-[0.55rem] text-gray-600">
-                                <span>12 entités consolidées | Dernière actualisation : 17/02/2026 08:15</span>
+                                <span>8 entités consolidées | Dernière actualisation : 17/02/2026 08:15</span>
                                 <span>Power BI Service — Scheduled Refresh</span>
                             </div>
                         </div>
@@ -464,10 +465,10 @@ export default function BusinessIntelligencePage() {
                                 </div>
                                 <div className="p-3 space-y-2.5">
                                     {[
-                                        { label: 'Marge contributive', value: '34.2%', spark: [30, 28, 32, 29, 33, 31, 34], color: '#3b82f6', bg: 'bg-blue-500/10' },
-                                        { label: 'Cash disponible', value: '1.8M€', spark: [40, 45, 42, 38, 44, 48, 52], color: '#22c55e', bg: 'bg-green-500/10' },
-                                        { label: 'BFR / CA', value: '18.7%', spark: [22, 21, 20, 19, 19, 18, 18], color: '#a855f7', bg: 'bg-purple-500/10' },
-                                        { label: 'Ratio Endettement', value: '0.42', spark: [55, 52, 50, 48, 45, 44, 42], color: '#f59e0b', bg: 'bg-yellow-500/10' },
+                                        { label: 'Marge contributive', value: '58.7%', spark: [64, 61, 57, 62, 55, 59, 58], color: '#3b82f6', bg: 'bg-blue-500/10' },
+                                        { label: 'Cash disponible', value: '1.1M€', spark: [48, 52, 44, 38, 31, 28, 35], color: '#22c55e', bg: 'bg-green-500/10' },
+                                        { label: 'BFR / CA', value: '27.4%', spark: [21, 23, 25, 24, 27, 26, 27], color: '#f59e0b', bg: 'bg-yellow-500/10' },
+                                        { label: 'Ratio Endettement', value: '0.78', spark: [60, 62, 68, 71, 74, 77, 78], color: '#ef4444', bg: 'bg-red-500/10' },
                                     ].map((kpi, i) => (
                                         <div key={i} className={`flex items-center justify-between p-2.5 rounded ${kpi.bg}`}>
                                             <div className="flex-1 min-w-0">
@@ -652,14 +653,14 @@ export default function BusinessIntelligencePage() {
                                     </div>
                                     {/* Table rows */}
                                     {[
-                                        { site: 'Paris — Bastille', ca: '312K€', marge: '72.1%', perf: 108, color: '#22c55e' },
-                                        { site: 'Lyon — Part-Dieu', ca: '287K€', marge: '68.4%', perf: 102, color: '#22c55e' },
-                                        { site: 'Marseille — Prado', ca: '245K€', marge: '65.8%', perf: 97, color: '#eab308' },
-                                        { site: 'Bordeaux — Centre', ca: '198K€', marge: '71.2%', perf: 95, color: '#eab308' },
-                                        { site: 'Toulouse — Capitole', ca: '176K€', marge: '63.4%', perf: 88, color: '#ef4444' },
-                                        { site: 'Nantes — Commerce', ca: '165K€', marge: '69.7%', perf: 94, color: '#eab308' },
-                                        { site: 'Lille — Grand Place', ca: '152K€', marge: '66.9%', perf: 91, color: '#eab308' },
-                                        { site: 'Strasbourg — Kléber', ca: '141K€', marge: '70.3%', perf: 85, color: '#ef4444' },
+                                        { site: 'Paris — Bastille',     ca: '312K€', marge: '74.3%', perf: 112, color: '#22c55e' },
+                                        { site: 'Lyon — Part-Dieu',     ca: '287K€', marge: '68.1%', perf: 103, color: '#22c55e' },
+                                        { site: 'Marseille — Prado',    ca: '245K€', marge: '57.9%', perf: 91,  color: '#eab308' },
+                                        { site: 'Bordeaux — Centre',    ca: '198K€', marge: '41.2%', perf: 74,  color: '#f97316' },
+                                        { site: 'Toulouse — Capitole',  ca: '176K€', marge: '63.4%', perf: 88,  color: '#eab308' },
+                                        { site: 'Nantes — Commerce',    ca: '112K€', marge: '12.8%', perf: 38,  color: '#ef4444' },
+                                        { site: 'Lille — Grand Place',  ca: '98K€',  marge: '−4.1%', perf: 18,  color: '#dc2626' },
+                                        { site: 'Strasbourg — Kléber',  ca: '141K€', marge: '69.7%', perf: 96,  color: '#eab308' },
                                     ].map((row, i) => (
                                         <div key={i} className={`grid grid-cols-[1.2fr_0.8fr_0.8fr_1fr] gap-1 items-center px-2 py-1.5 rounded ${i % 2 === 0 ? 'bg-white/[0.02]' : ''}`}>
                                             <span className="text-[0.7rem] text-gray-300 font-medium truncate">{row.site}</span>
