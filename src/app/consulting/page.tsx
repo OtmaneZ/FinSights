@@ -58,7 +58,7 @@ export default function ConsultingPage() {
                 "@type": "Offer",
                 "name": "Diagnostic Stratégique",
                 "description": "Audit financier flash avec feuille de route prioritaire",
-                "price": "1490",
+                "price": "1990",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock"
             },
@@ -104,7 +104,7 @@ export default function ConsultingPage() {
                 "name": "Combien coûte un audit financier ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Le diagnostic stratégique démarre à 1490€ pour un audit flash de 2-3 semaines. L'audit complet est à 4990€ et inclut une analyse approfondie de vos marges, trésorerie et un plan d'optimisation chiffré."
+                    "text": "Le diagnostic stratégique démarre à 1990€ pour un audit flash de 2-3 semaines. L'audit complet est à 4990€ et inclut une analyse approfondie de vos marges, trésorerie et un plan d'optimisation chiffré."
                 }
             },
             {
@@ -739,7 +739,7 @@ export default function ConsultingPage() {
                             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Niveau 1</p>
                             <h3 className="text-2xl font-bold text-text-primary mb-2">Diagnostic Stratégique</h3>
                             <div className="flex items-baseline gap-1 mb-4">
-                                <span className="text-4xl font-bold text-text-primary">1 490</span>
+                                <span className="text-4xl font-bold text-text-primary">1 990</span>
                                 <span className="text-text-secondary">€</span>
                             </div>
                             <p className="text-text-secondary mb-6">Analyse complète de votre santé financière en 5 jours ouvrés.</p>

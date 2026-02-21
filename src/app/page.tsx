@@ -237,7 +237,7 @@ export default function Home() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-gray-900">
-                        50+ dirigeants
+                        10+ dirigeants
                       </p>
                       <p className="text-[10px] text-gray-500">accompagnés</p>
                     </div>
@@ -647,7 +647,7 @@ export default function Home() {
 
               <div className="pt-6 border-t border-gray-200">
                 <p className="text-sm text-gray-500 mb-2">À partir de</p>
-                <p className="text-3xl font-bold text-gray-900 mb-4">1 490€</p>
+                <p className="text-3xl font-bold text-gray-900 mb-4">1 990€</p>
                 <Link
                   href="/consulting"
                   className="block w-full px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-xl font-semibold text-center transition-all shadow-lg"
