@@ -105,7 +105,7 @@ export default function Header() {
                                     className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
                                     onClick={() => setIsResourcesOpen(false)}
                                 >
-                                    Pré-diagnostic financier
+                                    Calculateurs financiers
                                 </Link>
                                 <Link
                                     href="/ressources/templates"
