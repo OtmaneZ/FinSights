@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Analyse DSO — Évaluez votre Délai de Paiement Client | FinSight',
-    description: 'Combien de trésorerie immobilisée chez vos clients ? Évaluez votre DSO, comparez aux benchmarks sectoriels 2026 et identifiez vos leviers d\'optimisation.',
-    keywords: 'analyse dso, dso calcul, calculer dso en ligne, formule dso, days sales outstanding, délai paiement clients, dso moyen secteur, créances clients pme, réduire dso, pré-diagnostic financier',
+    title: 'Calculateur DSO 2026 – Délai de Paiement Client en 30s | PME & Dirigeants',
+    description: 'Calculez votre DSO en 30 secondes et découvrez combien de trésorerie est immobilisée chez vos clients. Benchmarks sectoriels 2026, interprétation DAF, leviers d\'optimisation. Outil pour dirigeants PME.',
+    keywords: 'calculateur dso 2026, dso calcul, calculer dso en ligne, formule dso, days sales outstanding, délai paiement clients, dso moyen secteur, créances clients pme, réduire dso, pré-diagnostic financier, dso pme',
     openGraph: {
-        title: 'Analyse DSO — Délai de Paiement Client | FinSight',
-        description: 'Évaluez votre DSO + benchmarks sectoriels 2026 + leviers d\'optimisation. Premier niveau de diagnostic financier.',
+        title: 'Calculateur DSO 2026 – Délai de Paiement Client en 30s | PME',
+        description: 'Calculez votre DSO en 30 secondes. Benchmarks sectoriels 2026, cash immobilisé, leviers d\'optimisation. Outil de diagnostic DAF pour PME.',
         url: 'https://finsight.zineinsight.com/calculateurs/dso',
         siteName: 'FinSight',
         locale: 'fr_FR',
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Analyse DSO — Délai de Paiement Client | FinSight',
-        description: 'Évaluez votre DSO + benchmarks sectoriels + recommandations d\'expert.',
+        title: 'Calculateur DSO 2026 – Délai de Paiement en 30s | PME',
+        description: 'DSO en 30 secondes + benchmarks sectoriels + leviers d\'optimisation cash.',
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/dso',

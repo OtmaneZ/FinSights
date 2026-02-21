@@ -69,10 +69,10 @@ export default function CalculateurROI() {
             },
             {
                 "@type": "Question",
-                "name": "Pourquoi calculer le ROI de ses projets financiers ?",
+                "name": "ROI et délai de récupération (payback) : quelle différence ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Calculer le ROI permet d'arbitrer entre différents projets et de prioriser les investissements les plus rentables pour la trésorerie. C'est un outil d'aide à la décision indispensable pour sécuriser la croissance d'une PME."
+                    "text": "Le ROI mesure la rentabilité totale en pourcentage : combien vous gagnez par rapport à votre investissement. Le payback (délai de récupération) mesure la vitesse de retour : en combien de mois récupérez-vous votre mise. Pour une PME, les deux sont complémentaires : un bon ROI à 5 ans peut créer une tension de trésorerie à 18 mois si le payback est trop long."
                 }
             }
         ]
@@ -199,34 +199,34 @@ export default function CalculateurROI() {
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
                                 <Calculator className="w-4 h-4 text-purple-400" />
                                 <span className="text-sm text-white/90 font-medium">
-                                    Calculateur Gratuit
+                                    Outil de décision financière · PME 1–20M€
                                 </span>
                             </div>
 
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
                                 Calculateur ROI
                                 <span className="block text-purple-400 mt-2">
-                                    Return on Investment
+                                    Décidez en 30 secondes
                                 </span>
                             </h1>
 
                             <p className="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                                Mesurez la rentabilité de vos projets : taux de retour 
-                                et délai de récupération de votre investissement.
+                                ROI, payback period et interprétation par type de projet.
+                                Structurez vos décisions d&apos;investissement avec une logique DAF.
                             </p>
 
                             <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto mb-10">
                                 <div className="text-center">
                                     <div className="text-3xl sm:text-4xl font-bold text-white mb-1">30s</div>
-                                    <div className="text-sm text-slate-400">Calcul instantané</div>
+                                    <div className="text-sm text-slate-400">Résultat immédiat</div>
                                 </div>
                                 <div className="text-center">
                                     <div className="text-3xl sm:text-4xl font-bold text-white mb-1">ROI</div>
                                     <div className="text-sm text-slate-400">+ Payback period</div>
                                 </div>
                                 <div className="text-center">
-                                    <div className="text-3xl sm:text-4xl font-bold text-white mb-1">100%</div>
-                                    <div className="text-sm text-slate-400">Gratuit</div>
+                                    <div className="text-3xl sm:text-4xl font-bold text-white mb-1">PME</div>
+                                    <div className="text-sm text-slate-400">Benchmarks sectoriels</div>
                                 </div>
                             </div>
 
@@ -367,6 +367,68 @@ export default function CalculateurROI() {
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
+
+                                {/* ─── Section interprétation experte ─── */}
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                    <Target className="w-6 h-6 text-purple-500" />
+                                    Comment interpréter votre ROI ?
+                                </h3>
+
+                                <div className="not-prose space-y-4 mb-8">
+                                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                                        <h4 className="font-bold text-slate-900 mb-2 text-lg">
+                                            Comment interpréter un ROI de 12% ?
+                                        </h4>
+                                        <p className="text-slate-700 leading-relaxed">
+                                            Un ROI de 12% sur un projet à 3 ans signifie que pour 100€ investis, vous récupérez 112€.
+                                            C&apos;est <strong>acceptable pour un équipement industriel</strong> (dont le benchmark est 15-30%),
+                                            mais <strong>insuffisant pour un projet IT ou marketing</strong>. L&apos;interprétation dépend toujours
+                                            du type d&apos;investissement, du risque et du coût de votre capital.
+                                            Règle pratique : un ROI doit être supérieur au taux de votre emprunt + une prime de risque de 5-10%.
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                                        <h4 className="font-bold text-slate-900 mb-2 text-lg">
+                                            À partir de quel ROI un projet est-il viable ?
+                                        </h4>
+                                        <p className="text-slate-700 leading-relaxed">
+                                            Il n&apos;existe pas de seuil universel, mais deux règles pratiques pour les PME :
+                                        </p>
+                                        <ul className="mt-3 space-y-2 text-slate-700">
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-purple-500 font-bold mt-0.5">1.</span>
+                                                <span><strong>Règle du coût du capital :</strong> votre ROI doit dépasser le coût moyen de votre dette (taux crédit bancaire). Si vous empruntez à 4%, un ROI à 6% laisse une marge réelle de 2%.</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-purple-500 font-bold mt-0.5">2.</span>
+                                                <span><strong>Règle de l&apos;opportunité :</strong> comparez toujours vos projets entre eux. Si projet A offre 30% et projet B offre 15%, B n&apos;est viable que si A est impossible à financer.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                                        <h4 className="font-bold text-slate-900 mb-2 text-lg">
+                                            ROI vs délai de récupération (payback) : quelle différence ?
+                                        </h4>
+                                        <p className="text-slate-700 leading-relaxed mb-3">
+                                            Ces deux indicateurs mesurent des choses différentes et sont complémentaires :
+                                        </p>
+                                        <div className="grid sm:grid-cols-2 gap-4">
+                                            <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                                                <p className="font-semibold text-purple-800 mb-1">ROI (%)</p>
+                                                <p className="text-sm text-slate-700">Mesure la <strong>rentabilité totale</strong>. Répond à : &laquo; est-ce que ce projet crée de la valeur ? &raquo; Un ROI de 50% signifie que vous gagnez 1,5€ pour 1€ investi.</p>
+                                            </div>
+                                            <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-200">
+                                                <p className="font-semibold text-indigo-800 mb-1">Payback (mois)</p>
+                                                <p className="text-sm text-slate-700">Mesure la <strong>vitesse de retour</strong>. Répond à : &laquo; quand récupère-t-on la mise ? &raquo; Crucial pour les PME à trésorerie tendue — un bon ROI à 5 ans peut créer une tension cash à 18 mois.</p>
+                                            </div>
+                                        </div>
+                                        <p className="text-sm text-slate-600 mt-3 italic">
+                                            Règle DAF : priorisez les projets à fort ROI <strong>et</strong> payback court. Quand les deux s&apos;opposent, l&apos;état de votre trésorerie fait l&apos;arbitrage.
+                                        </p>
+                                    </div>
                                 </div>
                             </article>
                         </div>
@@ -552,7 +614,7 @@ export default function CalculateurROI() {
                                                             className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-amber-900 font-semibold rounded-lg hover:bg-amber-50 transition-all border-2 border-amber-300 hover:border-amber-400"
                                                         >
                                                             <Clock className="w-5 h-5" />
-                                                            Réserver un échange stratégique
+                                                            Identifier mes leviers financiers
                                                         </a>
                                                     </div>
                                                 </motion.div>
@@ -651,12 +713,12 @@ export default function CalculateurROI() {
                                                             </div>
                                                             <div className="flex-1">
                                                                 <h5 className="font-bold text-white flex items-center gap-2">
-                                                                    Appelez-moi pour valider votre stratégie d'investissement
+                                                                    Discutons de votre stratégie d'investissement
                                                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                                                 </h5>
                                                                 <p className="text-sm text-purple-100 mt-1">
-                                                                    <strong>30 minutes</strong> pour passer en revue vos projets, 
-                                                                    calculer leur ROI réel et définir un ordre de priorité clair.
+                                                                    Passez en revue vos projets, 
+                                                                    calculez leur ROI réel et définissez un ordre de priorité clair.
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -703,7 +765,7 @@ export default function CalculateurROI() {
                                                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:bg-accent-primary-hover transition-all"
                                                     >
                                                         <Clock className="w-4 h-4" />
-                                                        Réserver un échange stratégique
+                                                        Identifier mes leviers financiers
                                                     </a>
                                                 </div>
                                                 <p className="text-xs text-slate-400 mt-3">
@@ -744,7 +806,7 @@ export default function CalculateurROI() {
                                         className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary-hover transition-all"
                                     >
                                         <Clock className="w-5 h-5" />
-                                        Réserver un échange stratégique
+                                        Identifier mes leviers financiers
                                     </a>
                                 </div>
                                 <p className="text-xs text-slate-400 mt-4">
@@ -767,19 +829,19 @@ export default function CalculateurROI() {
                                 {[
                                     {
                                         q: "Comment calculer le ROI ?",
-                                        a: "ROI = ((Gains - Investissement) / Investissement) × 100. Par exemple, si vous investissez 10 000€ et gagnez 15 000€, votre ROI est de 50%."
+                                        a: "La formule du ROI est : ((Gains totaux – Investissement) ÷ Investissement) × 100. Exemple : vous investissez 20 000€ et générez 30 000€ de gains sur 2 ans → ROI = ((30 000 – 20 000) ÷ 20 000) × 100 = 50%. Un ROI positif signifie que le projet crée de la valeur. Un ROI négatif signifie que vous perdez de l'argent."
                                     },
                                     {
-                                        q: "Qu'est-ce que le payback period ?",
-                                        a: "Le payback period (délai de récupération) est le temps nécessaire pour récupérer votre investissement initial. Un payback de 12 mois signifie que vous récupérez votre mise en 1 an."
+                                        q: "Quel est un bon ROI pour une PME ?",
+                                        a: "Il n'existe pas de ROI universel 'bon' ou 'mauvais' — tout dépend du type de projet et du risque. Pour un projet IT ou SaaS, visez 30 à 100% avec un payback sous 18 mois. Pour un équipement industriel, 15 à 30% avec un payback de 24 à 60 mois est standard. Pour du marketing, un ratio 3:1 minimum (100% de ROI) est la règle. En pratique, votre ROI doit toujours dépasser le coût de votre dette plus une prime de risque."
                                     },
                                     {
-                                        q: "ROI annuel ou ROI total : lequel utiliser ?",
-                                        a: "Le ROI total mesure la rentabilité sur toute la durée du projet. Le ROI annualisé (ROI total / nombre d'années) permet de comparer des projets de durées différentes."
+                                        q: "ROI et délai de récupération : quelle différence ?",
+                                        a: "Le ROI mesure la rentabilité totale d'un projet (en %). Le délai de récupération (payback period) mesure le temps nécessaire pour récupérer l'investissement initial (en mois). Ces deux indicateurs sont complémentaires : un projet peut avoir un excellent ROI sur 5 ans mais un payback de 36 mois qui crée une tension de trésorerie. Pour les PME à cash limité, le payback est souvent le premier critère d'arbitrage."
                                     },
                                     {
                                         q: "Comment prendre en compte le risque dans le ROI ?",
-                                        a: "Plus le projet est risqué, plus le ROI exigé doit être élevé. Un projet sûr peut se contenter de 10-15% de ROI, un projet risqué devrait viser 50%+ pour compenser l'incertitude."
+                                        a: "Le risque doit se traduire en prime de ROI exigé. Un projet sûr (remplacement d'équipement, économies certifiées) peut se contenter de 10-15% de ROI. Un projet incertain (nouveau marché, développement produit) devrait viser 50%+ pour compenser l'incertitude. En DAF, on parle de 'ROI pondéré par le risque' : un ROI de 80% avec 50% de chances de succès vaut effectivement 40%."
                                     }
                                 ].map((faq, idx) => (
                                     <div key={idx} className="bg-slate-50 rounded-xl p-6 border border-slate-200">

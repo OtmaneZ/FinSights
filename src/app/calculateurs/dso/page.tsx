@@ -511,7 +511,7 @@ export default function CalculateurDSO() {
                                                 Besoin d'aide ?
                                             </p>
                                             <p className="text-sm text-gray-700 mb-4">
-                                                Échangeons 30 minutes sur votre DSO et je vous donne 3 actions prioritaires.
+                                                Besoin d'aide pour réduire votre DSO rapidement ?
                                             </p>
                                             <a
                                                 href="https://calendly.com/zineinsight"
@@ -519,7 +519,7 @@ export default function CalculateurDSO() {
                                                 rel="noopener noreferrer"
                                                 className="block w-full px-4 py-3 bg-accent-primary text-white text-center font-semibold rounded-lg hover:bg-accent-primary-hover transition-all text-sm"
                                             >
-                                                Réserver 30 min
+                                                Identifier mes leviers
                                             </a>
                                         </div>
                                     </div>
@@ -985,7 +985,7 @@ export default function CalculateurDSO() {
                                                 onClick={() => trackCTAClick('calculateur-dso', 'calendly', '30min-diagnostic')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                             >
-                                                Réserver un échange stratégique
+                                                Identifier mes leviers financiers
                                             </a>
                                         </div>
 
@@ -1273,7 +1273,7 @@ export default function CalculateurDSO() {
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                 >
                                     <Clock className="w-5 h-5" />
-                                    Réserver un échange stratégique
+                                    Identifier mes leviers financiers
                                 </a>
                                 <Link
                                     href="/consulting"

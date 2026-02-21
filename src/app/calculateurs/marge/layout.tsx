@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Analyse Marge Commerciale — Taux de Marge & Taux de Marque | FinSight',
-    description: 'Vos prix reflètent-ils votre valeur ? Analysez vos marges, comparez aux benchmarks sectoriels (Commerce, SaaS, Services) et identifiez vos leviers tarifaires.',
-    keywords: 'analyse marge commerciale, taux de marge calcul, taux de marque formule, marge brute entreprise, coefficient multiplicateur, prix de vente calcul, rentabilité produit, marge bénéficiaire, diagnostic marge',
+    title: 'Calculateur Marge Commerciale 2026 – Taux de Marge en 30s | PME & Dirigeants',
+    description: 'Calculez votre taux de marge et taux de marque en 30 secondes. Benchmarks sectoriels 2026 (Commerce, SaaS, Services), interprétation DAF, leviers tarifaires. Outil pour dirigeants PME.',
+    keywords: 'calculateur marge commerciale 2026, taux de marge calcul, taux de marque formule, marge brute pme, coefficient multiplicateur, prix de vente calcul, rentabilité produit, marge bénéficiaire, diagnostic marge pme',
     openGraph: {
-        title: 'Analyse Marge Commerciale | Taux de Marge & Marque | FinSight',
-        description: 'Analysez vos marges + benchmarks sectoriels + leviers tarifaires. Premier niveau de diagnostic financier.',
+        title: 'Calculateur Marge Commerciale 2026 – Taux de Marge en 30s | PME',
+        description: 'Taux de marge en 30 secondes. Benchmarks sectoriels 2026, taux de marque, leviers tarifaires. Outil de diagnostic DAF pour dirigeants PME.',
         url: 'https://finsight.zineinsight.com/calculateurs/marge',
         siteName: 'FinSight',
         locale: 'fr_FR',
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Analyse Marge Commerciale | FinSight',
-        description: 'Taux de marge + taux de marque + benchmarks sectoriels + recommandations d\'expert.',
+        title: 'Calculateur Marge Commerciale 2026 – Taux de Marge en 30s | PME',
+        description: 'Taux de marge + taux de marque en 30 secondes + benchmarks sectoriels 2026 + leviers tarifaires.',
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/marge',

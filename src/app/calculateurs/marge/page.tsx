@@ -543,7 +543,7 @@ export default function CalculateurMarge() {
                                                             className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-amber-900 font-semibold rounded-lg hover:bg-amber-50 transition-all border-2 border-amber-300 hover:border-amber-400"
                                                         >
                                                             <Clock className="w-5 h-5" />
-                                                            Réserver un échange stratégique
+                                                            Identifier mes leviers financiers
                                                         </a>
                                                     </div>
                                                 </motion.div>
@@ -645,12 +645,12 @@ export default function CalculateurMarge() {
                                                             </div>
                                                             <div className="flex-1">
                                                                 <h5 className="font-bold text-white flex items-center gap-2">
-                                                                    Appelez-moi pour auditer votre structure tarifaire
+                                                                    Discutons de votre structure tarifaire
                                                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                                                 </h5>
                                                                 <p className="text-sm text-orange-100 mt-1">
-                                                                    <strong>30 minutes</strong> pour analyser vos marges par produit/client, 
-                                                                    identifier les pertes cachées et définir une stratégie pricing claire.
+                                                                    Analysez vos marges par produit/client, 
+                                                                    identifiez les pertes cachées et définissez une stratégie pricing claire.
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -697,7 +697,7 @@ export default function CalculateurMarge() {
                                                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:bg-accent-primary-hover transition-all"
                                                     >
                                                         <Clock className="w-4 h-4" />
-                                                        Réserver un échange stratégique
+                                                        Identifier mes leviers financiers
                                                     </a>
                                                 </div>
                                                 <p className="text-xs text-slate-400 mt-3">
@@ -738,7 +738,7 @@ export default function CalculateurMarge() {
                                         className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary-hover transition-all"
                                     >
                                         <Clock className="w-5 h-5" />
-                                        Réserver un échange stratégique
+                                        Identifier mes leviers financiers
                                     </a>
                                 </div>
                                 <p className="text-xs text-slate-400 mt-4">

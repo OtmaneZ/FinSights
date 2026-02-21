@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Analyse BFR — Évaluez votre Besoin en Fonds de Roulement | FinSight',
-    description: 'Combien de cash immobilisé dans vos stocks et créances ? Évaluez votre BFR, comparez aux benchmarks sectoriels et identifiez vos leviers de déblocage cash.',
-    keywords: 'analyse bfr, calculateur bfr, besoin fonds roulement pme, bfr formule, bfr négatif, optimiser bfr, trésorerie pme, working capital, cash immobilisé, pré-diagnostic financier',
+    title: 'Calculateur BFR 2026 – Besoin en Fonds de Roulement en 30s | PME & Dirigeants',
+    description: 'Calculez votre BFR en 30 secondes et découvrez combien de cash est immobilisé dans vos stocks et créances. Benchmarks sectoriels 2026, interprétation DAF, leviers de libération cash. Outil pour dirigeants PME.',
+    keywords: 'calculateur bfr 2026, analyse bfr, besoin fonds roulement pme, bfr formule, bfr négatif, optimiser bfr, trésorerie pme, working capital, cash immobilisé, pré-diagnostic financier, bfr pme',
     openGraph: {
-        title: 'Analyse BFR — Besoin en Fonds de Roulement | FinSight',
-        description: 'Évaluez votre BFR + benchmarks sectoriels + leviers de déblocage cash. Premier niveau de diagnostic financier.',
+        title: 'Calculateur BFR 2026 – Besoin en Fonds de Roulement en 30s | PME',
+        description: 'Calculez votre BFR en 30 secondes. Cash immobilisé, benchmarks sectoriels 2026, leviers de libération. Outil de diagnostic DAF pour PME.',
         url: 'https://finsight.zineinsight.com/calculateurs/bfr',
         siteName: 'FinSight',
         locale: 'fr_FR',
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Analyse BFR — Besoin en Fonds de Roulement | FinSight',
-        description: 'Évaluez votre BFR + interprétation DAF expert + leviers d\'optimisation.',
+        title: 'Calculateur BFR 2026 – Fonds de Roulement en 30s | PME',
+        description: 'BFR en 30 secondes + cash immobilisé + benchmarks sectoriels + leviers d\'optimisation.',
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/bfr',

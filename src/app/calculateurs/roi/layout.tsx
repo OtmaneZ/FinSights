@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Analyse ROI — Retour sur Investissement & Délai de Rentabilité | FinSight',
-    description: 'Quel est le vrai retour de vos investissements ? Évaluez ROI + payback, comparez aux benchmarks par type de projet et identifiez la rentabilité réelle.',
-    keywords: 'analyse roi, return on investment calcul, retour sur investissement, roi formule, payback period, délai récupération investissement, rentabilité projet, analyse investissement, diagnostic roi',
+    title: 'Calculateur ROI 2026 – Retour sur Investissement en 30s | PME & Dirigeants',
+    description: 'Calculez le ROI et le délai de récupération de vos projets en 30 secondes. Benchmarks par type de projet, interprétation experte, décision d\'investissement structurée. Outil DAF pour PME.',
+    keywords: 'calculateur roi, retour sur investissement, calcul roi, roi formule, payback period, délai récupération investissement, rentabilité projet, roi pme, analyse investissement, roi professionnel 2026',
     openGraph: {
-        title: 'Analyse ROI — Retour sur Investissement | FinSight',
-        description: 'Évaluez votre ROI + payback + benchmarks par type de projet. Premier niveau de diagnostic financier.',
+        title: 'Calculateur ROI 2026 – Retour Investissement en 30s | PME',
+        description: 'ROI + Payback + Benchmarks par projet + Interprétation experte. Outil de décision financière pour dirigeants PME.',
         url: 'https://finsight.zineinsight.com/calculateurs/roi',
         siteName: 'FinSight',
         locale: 'fr_FR',
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Analyse ROI — Retour sur Investissement | FinSight',
-        description: 'ROI + Payback period + benchmarks par projet + recommandations d\'expert.',
+        title: 'Calculateur ROI 2026 – Retour Investissement en 30s | PME',
+        description: 'ROI + Payback + Benchmarks par projet + Interprétation experte. Décision d\'investissement structurée pour dirigeants.',
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/roi',

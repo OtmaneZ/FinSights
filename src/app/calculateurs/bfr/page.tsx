@@ -923,7 +923,7 @@ export default function CalculateurBFR() {
                                             </div>
                                             <div className="flex-1">
                                                 <p className="font-bold text-lg">
-                                                    Parlons-en 30 minutes (gratuit et sans engagement)
+                                                    Discutons de votre stratégie de trésorerie
                                                 </p>
                                                 <p className="text-sm text-white/90 mt-1">
                                                     Je vous explique comment débloquer {ca && joursCA ? Math.round((parseFloat(ca) / 365) * (joursCA - 15)).toLocaleString('fr-FR') : Math.round(bfr * 0.5).toLocaleString('fr-FR')}€ en optimisant votre cycle d'exploitation.
@@ -1008,7 +1008,7 @@ export default function CalculateurBFR() {
                                                 onClick={() => trackCTAClick('calculateur-bfr', 'calendly', '30min-diagnostic')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                             >
-                                                Réserver un échange stratégique
+                                                Identifier mes leviers financiers
                                             </a>
                                         </div>
 
@@ -1238,7 +1238,7 @@ export default function CalculateurBFR() {
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                 >
                                     <Clock className="w-5 h-5" />
-                                    Réserver un échange stratégique
+                                    Identifier mes leviers financiers
                                 </a>
                                 <Link
                                     href="/consulting"

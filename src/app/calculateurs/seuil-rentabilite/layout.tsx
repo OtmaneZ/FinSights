@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Analyse Seuil de Rentabilité — Point Mort & Break-Even | FinSight',
-    description: 'À partir de combien de ventes êtes-vous rentable ? Évaluez votre point mort, comparez aux benchmarks sectoriels et identifiez vos leviers de réduction de charges.',
-    keywords: 'analyse seuil rentabilité, point mort entreprise, break even point, calculateur seuil rentabilité, charges fixes variables, ca minimum rentable, point mort formule, équilibre financier pme, diagnostic rentabilité',
+    title: 'Calculateur Seuil de Rentabilité 2026 – Point Mort en 30s | PME & Dirigeants',
+    description: 'Calculez votre point mort en 30 secondes : à partir de quel CA êtes-vous rentable ? Benchmarks sectoriels 2026, marge sur coûts variables, leviers de réduction charges. Outil DAF pour PME.',
+    keywords: 'calculateur seuil rentabilité 2026, point mort entreprise, break even point, seuil rentabilité formule, charges fixes variables, ca minimum rentable, point mort calcul, équilibre financier pme, diagnostic rentabilité pme',
     openGraph: {
-        title: 'Analyse Seuil de Rentabilité — Point Mort | FinSight',
-        description: 'Évaluez votre point mort + benchmarks sectoriels + leviers de réduction. Premier niveau de diagnostic financier.',
+        title: 'Calculateur Seuil de Rentabilité 2026 – Point Mort en 30s | PME',
+        description: 'Point mort en 30 secondes. CA minimum pour être rentable, benchmarks sectoriels 2026, leviers de réduction charges. Outil DAF pour dirigeants PME.',
         url: 'https://finsight.zineinsight.com/calculateurs/seuil-rentabilite',
         siteName: 'FinSight',
         locale: 'fr_FR',
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Analyse Seuil de Rentabilité — Point Mort | FinSight',
-        description: 'CA minimum pour être rentable + benchmarks + recommandations d\'expert.',
+        title: 'Calculateur Point Mort 2026 – Seuil de Rentabilité en 30s | PME',
+        description: 'Point mort en 30 secondes + CA minimum rentable + benchmarks + recommandations DAF.',
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/seuil-rentabilite',

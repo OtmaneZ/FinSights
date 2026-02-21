@@ -10,6 +10,43 @@ const SITE_NAME = 'FinSight'
 const SITE_DESCRIPTION = 'Dashboard financier intelligent pour CFO et DAF. Analyse automatique de vos données comptables avec IA.'
 
 // ============================================
+// DATE HELPERS
+// ============================================
+
+const MONTHS_FR: Record<string, string> = {
+    'janvier': '01', 'février': '02', 'mars': '03', 'avril': '04',
+    'mai': '05', 'juin': '06', 'juillet': '07', 'août': '08',
+    'septembre': '09', 'octobre': '10', 'novembre': '11', 'décembre': '12'
+}
+
+/**
+ * Converts a French date string like "21 février 2026" or an ISO string "2026-02-21"
+ * to a valid ISO 8601 string. Falls back to current date if parsing fails.
+ */
+function parseDateToISO(dateStr: string): string {
+    if (!dateStr) return new Date().toISOString()
+    // Already ISO format
+    if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
+        const d = new Date(dateStr)
+        return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString()
+    }
+    // French format: "21 février 2026"
+    const match = dateStr.match(/^(\d{1,2})\s+([^\s]+)\s+(\d{4})$/)
+    if (match) {
+        const day = match[1].padStart(2, '0')
+        const month = MONTHS_FR[match[2].toLowerCase()]
+        const year = match[3]
+        if (month) {
+            const d = new Date(`${year}-${month}-${day}T00:00:00Z`)
+            if (!isNaN(d.getTime())) return d.toISOString()
+        }
+    }
+    // Fallback: try native parse
+    const fallback = new Date(dateStr)
+    return isNaN(fallback.getTime()) ? new Date().toISOString() : fallback.toISOString()
+}
+
+// ============================================
 // METADATA GENERATORS
 // ============================================
 
@@ -121,8 +158,8 @@ export function generateBlogMetadata({
             'pme',
             category.toLowerCase()
         ],
-        publishedTime: new Date(publishedDate).toISOString(),
-        modifiedTime: new Date(publishedDate).toISOString(),
+        publishedTime: parseDateToISO(publishedDate),
+        modifiedTime: parseDateToISO(publishedDate),
         type: 'article'
     })
 }
@@ -187,10 +224,10 @@ export function generateArticleJsonLd({
         headline: title,
         description,
         image: `${SITE_URL}/images/og-default.png`,
-        datePublished: new Date(publishedDate).toISOString(),
+        datePublished: parseDateToISO(publishedDate),
         dateModified: modifiedDate
-            ? new Date(modifiedDate).toISOString()
-            : new Date(publishedDate).toISOString(),
+            ? parseDateToISO(modifiedDate)
+            : parseDateToISO(publishedDate),
         author: {
             '@type': 'Organization',
             name: author,

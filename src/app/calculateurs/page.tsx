@@ -144,7 +144,7 @@ export default function CalculateursPage() {
                                         rel="noopener noreferrer"
                                         className="block w-full text-center px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all shadow-lg"
                                     >
-                                        Réserver un échange stratégique
+                                        Identifier mes leviers financiers
                                     </a>
                                 </div>
                             </div>

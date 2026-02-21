@@ -489,7 +489,7 @@ export default function CalculateurSeuilRentabilite() {
                                                             className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-amber-900 font-semibold rounded-lg hover:bg-amber-50 transition-all border-2 border-amber-300 hover:border-amber-400"
                                                         >
                                                             <Clock className="w-5 h-5" />
-                                                            Réserver un échange stratégique
+                                                            Identifier mes leviers financiers
                                                         </a>
                                                     </div>
                                                 </motion.div>
@@ -589,12 +589,12 @@ export default function CalculateurSeuilRentabilite() {
                                                             </div>
                                                             <div className="flex-1">
                                                                 <h5 className="font-bold text-white flex items-center gap-2">
-                                                                    Appelez-moi pour auditer votre structure de coûts
+                                                                    Discutons de votre structure de coûts
                                                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                                                 </h5>
                                                                 <p className="text-sm text-red-100 mt-1">
-                                                                    <strong>30 minutes</strong> pour passer en revue vos charges fixes, 
-                                                                    identifier les leviers d'optimisation et construire un plan d'action pour sécuriser votre rentabilité.
+                                                                    Passez en revue vos charges fixes, 
+                                                                    identifiez les leviers d'optimisation et construisez un plan d'action pour sécuriser votre rentabilité.
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -641,7 +641,7 @@ export default function CalculateurSeuilRentabilite() {
                                                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:bg-accent-primary-hover transition-all"
                                                     >
                                                         <Clock className="w-4 h-4" />
-                                                        Réserver un échange stratégique
+                                                        Identifier mes leviers financiers
                                                     </a>
                                                 </div>
                                                 <p className="text-xs text-slate-400 mt-3">
@@ -682,7 +682,7 @@ export default function CalculateurSeuilRentabilite() {
                                         className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary-hover transition-all"
                                     >
                                         <Clock className="w-5 h-5" />
-                                        Réserver un échange stratégique
+                                        Identifier mes leviers financiers
                                     </a>
                                 </div>
                                 <p className="text-xs text-slate-400 mt-4">
