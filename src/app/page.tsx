@@ -183,14 +183,14 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <FadeIn className="text-center mb-16">
             <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">
-              Pré-diagnostic stratégique
+              Premier niveau de lecture stratégique
             </span>
             <h2 className="font-serif text-4xl lg:text-5xl font-medium text-gray-900 mt-4 mb-5">
               Mesurez votre performance{" "}
               <span className="text-accent-primary">avant de décider</span>
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
-              Les mêmes outils que nous utilisons en mission DAF. Obtenez un
+              Les mêmes méthodes que nous utilisons en mission DAF. Obtenez un
               premier niveau de lecture de votre situation financière.
             </p>
             <p className="text-base text-gray-400 max-w-xl mx-auto mt-4 italic">
@@ -412,9 +412,8 @@ export default function Home() {
                     Pilotage Augmenté
                   </h3>
                   <p className="text-gray-400 leading-relaxed text-sm">
-                    Prolongez votre audit avec un monitoring continu. 3 agents IA
-                    spécialisés surveillent votre trésorerie, vos marges et vos
-                    scénarios — en temps réel.
+                    Monitoring continu de vos indicateurs critiques — automatisé et sécurisé.
+                    Trésorerie, marges et scénarios surveillés en permanence.
                   </p>
                 </div>
 

@@ -33,7 +33,7 @@ export default function Footer() {
                     {/* Navigation principale */}
                     <nav className="flex flex-wrap items-center gap-8">
                         <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                            Tarifs
+                            Accompagnement
                         </Link>
                         <Link href="/blog" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
                             Blog
