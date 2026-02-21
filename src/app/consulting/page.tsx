@@ -30,7 +30,7 @@ export default function ConsultingPage() {
     const professionalServiceSchema = {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
-        "name": "FinSight - Conseil Finance & Data",
+        "name": "FinSight - Architecture Financière & Systèmes Décisionnels",
         "description": "Services de conseil financier et direction financière externalisée (DAF) pour PME. Audit financier, tableaux de bord, pilotage trésorerie.",
         "url": "https://finsight.zineinsight.com/consulting",
         "provider": {
@@ -159,7 +159,7 @@ export default function ConsultingPage() {
                             <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary/10 border border-accent-primary/30 rounded-full">
                                 <Sparkles className="w-4 h-4 text-accent-primary" />
                                 <span className="text-accent-primary text-sm font-semibold">
-                                    Conseil Finance &amp; Data
+                                    Architecture Financière &amp; Systèmes Décisionnels
                                 </span>
                             </div>
 
@@ -250,7 +250,7 @@ export default function ConsultingPage() {
                                             <div className="w-3 h-3 rounded-full bg-yellow-500" />
                                             <div className="w-3 h-3 rounded-full bg-green-500" />
                                         </div>
-                                        <span className="text-xs text-gray-500">Dashboard CFO</span>
+                                        <span className="text-xs text-gray-500">Cockpit décisionnel dirigeant</span>
                                     </div>
 
                                     {/* KPIs Grid */}
@@ -683,7 +683,7 @@ export default function ConsultingPage() {
                             { icon: Shield, title: 'Stabiliser', desc: 'Anticipation trésorerie 90 jours, identification des fuites de cash, sécurisation des marges.', color: 'red' },
                             { icon: TrendingUp, title: 'Accélérer', desc: 'Identification des leviers de croissance, optimisation des marges, analyse de rentabilité.', color: 'blue' },
                             { icon: Target, title: 'Structurer', desc: 'Préparation levée de fonds, due diligence, modèles financiers fiables et documentés.', color: 'purple' },
-                            { icon: BarChart3, title: 'Automatiser', desc: 'Dashboards temps réel, alertes intelligentes, élimination des traitements manuels.', color: 'green' }
+                            { icon: BarChart3, title: 'Automatiser', desc: 'Mise en place d\'un système décisionnel autonome : indicateurs consolidés, alertes ciblées, suppression des retraitements manuels.', color: 'green' }
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
@@ -788,7 +788,7 @@ export default function ConsultingPage() {
                                     'Tout le Diagnostic FinSight™ 90J',
                                     'Analyse de rentabilité réelle par activité',
                                     'Vision trésorerie fiabilisée sur 24 mois',
-                                    'Tableau de bord dirigeant clé en main',
+                                    'Cockpit décisionnel sur mesure',
                                     'Modèle de rentabilité analytique',
                                     'Plan d\'action chiffré sur 6 mois',
                                     'Formation 2h + 1 mois de support'
