@@ -736,7 +736,7 @@ export default function CalculateurDSO() {
                                                         className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg hover:shadow-xl"
                                                     >
                                                         <Target className="w-5 h-5" />
-                                                        Audit gratuit 30 min : Comment réduire mon DSO ?
+                                                        Échangeons 30 min : Comment réduire mon DSO ?
                                                     </a>
                                                     <Link
                                                         href="/consulting"
@@ -876,7 +876,7 @@ export default function CalculateurDSO() {
                                             </div>
                                             <div className="flex-1">
                                                 <p className="font-bold text-lg">
-                                                    Parlons-en 30 minutes (gratuit et sans engagement)
+                                                    Échangeons 30 minutes sur vos enjeux
                                                 </p>
                                                 <p className="text-sm text-white/90 mt-1">
                                                     Je vous explique comment réduire votre DSO sans relances manuelles + plan d'action personnalisé en 48h.
@@ -891,6 +891,30 @@ export default function CalculateurDSO() {
                                         <CheckCircle2 className="w-4 h-4 text-green-500" />
                                         <span>En moyenne, mes clients libèrent <strong className="text-gray-900">15-30% de cash</strong> en réduisant leur DSO de 20 jours</span>
                                     </div>
+                                </motion.div>
+
+                                {/* CTA Score FinSight — Boucle retour */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.25 }}
+                                    className="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 text-center"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-[var(--accent-primary-subtle)] flex items-center justify-center mx-auto mb-4">
+                                        <Target className="w-6 h-6 text-[var(--accent-primary)]" />
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900 mb-2">Votre DSO est enregistré</h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Ce résultat alimente le pilier <strong>Cash</strong> de votre Score FinSight™. 
+                                        Continuez avec 1 ou 2 indicateurs de plus pour obtenir un diagnostic exploitable.
+                                    </p>
+                                    <Link
+                                        href="/mon-diagnostic"
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent-primary)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--accent-primary-hover)] transition-colors shadow-md"
+                                    >
+                                        Voir mon Score FinSight™
+                                        <ArrowRight className="w-4 h-4" />
+                                    </Link>
                                 </motion.div>
 
                                 {/* CTA FinSight - Style Agents */}
@@ -961,7 +985,7 @@ export default function CalculateurDSO() {
                                                 onClick={() => trackCTAClick('calculateur-dso', 'calendly', '30min-diagnostic')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                             >
-                                                Diagnostic gratuit 30 min
+                                                Réserver un échange stratégique
                                             </a>
                                         </div>
 
@@ -1249,7 +1273,7 @@ export default function CalculateurDSO() {
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                 >
                                     <Clock className="w-5 h-5" />
-                                    Diagnostic gratuit 30 min
+                                    Réserver un échange stratégique
                                 </a>
                                 <Link
                                     href="/consulting"

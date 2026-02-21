@@ -554,12 +554,11 @@ export default function MonDiagnosticPage() {
               Diagnostic financier
             </p>
             <h1 className="text-3xl font-bold text-primary mb-4 tracking-tight">
-              Evaluez la sante financiere de votre entreprise
+              Votre Score FinSight™ — en 4 piliers
             </h1>
             <p className="text-base text-secondary mb-6 max-w-lg mx-auto leading-relaxed">
-              Le Score FinSight mesure 4 piliers fondamentaux : tresorerie,
-              rentabilite, resilience et risques. Chaque pilier est note sur
-              25 points pour un score global de 0 a 100.
+              Trésorerie, rentabilité, résilience, risques — chaque pilier noté
+              sur 25. Un score global sur 100 pour décider sur des bases fiables.
             </p>
 
             {/* 4 piliers preview */}
@@ -580,15 +579,38 @@ export default function MonDiagnosticPage() {
               })}
             </div>
 
+            {/* Parcours en 3 étapes */}
+            <div className="max-w-xl mx-auto mb-10">
+              <p className="text-xs font-semibold uppercase tracking-widest text-tertiary mb-4">Comment ça fonctionne</p>
+              <div className="flex flex-col gap-3">
+                {[
+                  { step: '1', text: 'Renseignez 2-3 chiffres clés (créances, CA, charges…)', time: '2 min' },
+                  { step: '2', text: 'Chaque indicateur calculé alimente un pilier de votre Score', time: 'Instantané' },
+                  { step: '3', text: 'Revenez ici pour voir votre Score FinSight™ se construire', time: 'Cumulatif' },
+                ].map((item) => (
+                  <div key={item.step} className="flex items-center gap-4 p-3 surface rounded-lg">
+                    <div className="w-8 h-8 rounded-full bg-[var(--accent-primary)] text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                      {item.step}
+                    </div>
+                    <p className="text-sm text-primary flex-1">{item.text}</p>
+                    <span className="text-[10px] text-tertiary font-medium flex-shrink-0">{item.time}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-tertiary mt-3 italic">
+                Vos données restent dans votre navigateur — rien n'est envoyé à un serveur.
+              </p>
+            </div>
+
             <Link
               href="/calculateurs/dso"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent-primary)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--accent-primary-hover)] transition-colors shadow-md"
             >
-              Commencer par le DSO
+              Obtenir mon Score FinSight™
               <ArrowRight className="w-4 h-4" />
             </Link>
             <p className="text-xs text-tertiary mt-3">
-              Premiere analyse en moins de 2 minutes
+              Premier indicateur en moins de 2 minutes
             </p>
           </div>
 

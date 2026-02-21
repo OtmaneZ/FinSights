@@ -489,15 +489,8 @@ export default function CalculateurSeuilRentabilite() {
                                                             className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-amber-900 font-semibold rounded-lg hover:bg-amber-50 transition-all border-2 border-amber-300 hover:border-amber-400"
                                                         >
                                                             <Clock className="w-5 h-5" />
-                                                            Diagnostic gratuit 30 min
+                                                            Réserver un échange stratégique
                                                         </a>
-                                                        <Link
-                                                            href="/consulting"
-                                                            onClick={() => trackCTAClick('seuil-diagnostic', '/consulting', `seuil-${seuil}`)}
-                                                            className="flex items-center justify-center gap-2 px-5 py-3 bg-amber-900 text-white font-semibold rounded-lg hover:bg-amber-800 transition-all"
-                                                        >
-                                                            <FileText className="w-5 h-5" />
-                                                            Voir l'Audit Stratégique
                                                         </Link>
                                                     </div>
                                                 </motion.div>
@@ -601,7 +594,7 @@ export default function CalculateurSeuilRentabilite() {
                                                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                                                 </h5>
                                                                 <p className="text-sm text-red-100 mt-1">
-                                                                    <strong>30 min gratuites</strong> pour passer en revue vos charges fixes, 
+                                                                    <strong>30 minutes</strong> pour passer en revue vos charges fixes, 
                                                                     identifier les leviers d'optimisation et construire un plan d'action pour sécuriser votre rentabilité.
                                                                 </p>
                                                             </div>
@@ -649,7 +642,7 @@ export default function CalculateurSeuilRentabilite() {
                                                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:bg-accent-primary-hover transition-all"
                                                     >
                                                         <Clock className="w-4 h-4" />
-                                                        Diagnostic gratuit 30 min
+                                                        Réserver un échange stratégique
                                                     </a>
                                                 </div>
                                                 <p className="text-xs text-slate-400 mt-3">
@@ -690,12 +683,34 @@ export default function CalculateurSeuilRentabilite() {
                                         className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary-hover transition-all"
                                     >
                                         <Clock className="w-5 h-5" />
-                                        Diagnostic gratuit 30 min
+                                        Réserver un échange stratégique
                                     </a>
                                 </div>
                                 <p className="text-xs text-slate-400 mt-4">
                                     Réponse sous 24h · Plan d'action personnalisé · Sans engagement
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* CTA retour Score FinSight™ */}
+                <section className="py-8 bg-slate-50">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-3xl mx-auto">
+                            <div className="bg-white border-2 border-accent-primary/20 rounded-2xl p-6 text-center">
+                                <p className="text-accent-primary font-semibold text-sm mb-1">✅ Votre seuil de rentabilité est enregistré</p>
+                                <p className="text-slate-600 text-sm mb-4">
+                                    Ce résultat alimente le pilier <strong>Résilience</strong> de votre Score FinSight™.
+                                    Complétez les autres calculateurs pour obtenir votre score global sur 100.
+                                </p>
+                                <Link
+                                    href="/mon-diagnostic"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary-hover transition-all"
+                                >
+                                    <BarChart3 className="w-5 h-5" />
+                                    Voir mon Score FinSight™
+                                </Link>
                             </div>
                         </div>
                     </div>

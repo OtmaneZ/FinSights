@@ -736,7 +736,7 @@ export default function CalculateurBFR() {
                                                         className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg hover:shadow-xl"
                                                     >
                                                         <Target className="w-5 h-5" />
-                                                        Audit gratuit 30 min : Comment réduire mon BFR ?
+                                                        Échangeons 30 min : Comment réduire mon BFR ?
                                                     </a>
                                                     <Link
                                                         href="/consulting"
@@ -1008,7 +1008,7 @@ export default function CalculateurBFR() {
                                                 onClick={() => trackCTAClick('calculateur-bfr', 'calendly', '30min-diagnostic')}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                             >
-                                                Diagnostic gratuit 30 min
+                                                Réserver un échange stratégique
                                             </a>
                                         </div>
 
@@ -1096,6 +1096,29 @@ export default function CalculateurBFR() {
                                     </motion.div>
                                 ))}
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* CTA Score FinSight — Boucle retour */}
+                <section className="py-12 bg-slate-50">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-xl mx-auto text-center">
+                            <div className="w-12 h-12 rounded-xl bg-[var(--accent-primary-subtle)] flex items-center justify-center mx-auto mb-4">
+                                <Target className="w-6 h-6 text-[var(--accent-primary)]" />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900 mb-2">Votre BFR est enregistré</h3>
+                            <p className="text-sm text-gray-600 mb-4">
+                                Ce résultat alimente le pilier <strong>Cash</strong> de votre Score FinSight™. 
+                                Continuez avec 1 ou 2 indicateurs de plus pour obtenir un diagnostic exploitable.
+                            </p>
+                            <Link
+                                href="/mon-diagnostic"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent-primary)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--accent-primary-hover)] transition-colors shadow-md"
+                            >
+                                Voir mon Score FinSight™
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
                         </div>
                     </div>
                 </section>
@@ -1215,7 +1238,7 @@ export default function CalculateurBFR() {
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-bold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                 >
                                     <Clock className="w-5 h-5" />
-                                    Diagnostic gratuit 30 min
+                                    Réserver un échange stratégique
                                 </a>
                                 <Link
                                     href="/consulting"

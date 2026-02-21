@@ -552,16 +552,8 @@ export default function CalculateurROI() {
                                                             className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-amber-900 font-semibold rounded-lg hover:bg-amber-50 transition-all border-2 border-amber-300 hover:border-amber-400"
                                                         >
                                                             <Clock className="w-5 h-5" />
-                                                            Diagnostic gratuit 30 min
+                                                            Réserver un échange stratégique
                                                         </a>
-                                                        <Link
-                                                            href="/consulting"
-                                                            onClick={() => trackCTAClick('roi-diagnostic', '/consulting', `roi-${roi}`)}
-                                                            className="flex items-center justify-center gap-2 px-5 py-3 bg-amber-900 text-white font-semibold rounded-lg hover:bg-amber-800 transition-all"
-                                                        >
-                                                            <FileText className="w-5 h-5" />
-                                                            Voir l'Audit Stratégique
-                                                        </Link>
                                                     </div>
                                                 </motion.div>
                                             )}
@@ -663,7 +655,7 @@ export default function CalculateurROI() {
                                                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                                                 </h5>
                                                                 <p className="text-sm text-purple-100 mt-1">
-                                                                    <strong>30 min gratuites</strong> pour passer en revue vos projets, 
+                                                                    <strong>30 minutes</strong> pour passer en revue vos projets, 
                                                                     calculer leur ROI réel et définir un ordre de priorité clair.
                                                                 </p>
                                                             </div>
@@ -711,7 +703,7 @@ export default function CalculateurROI() {
                                                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:bg-accent-primary-hover transition-all"
                                                     >
                                                         <Clock className="w-4 h-4" />
-                                                        Diagnostic gratuit 30 min
+                                                        Réserver un échange stratégique
                                                     </a>
                                                 </div>
                                                 <p className="text-xs text-slate-400 mt-3">
@@ -752,7 +744,7 @@ export default function CalculateurROI() {
                                         className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary-hover transition-all"
                                     >
                                         <Clock className="w-5 h-5" />
-                                        Diagnostic gratuit 30 min
+                                        Réserver un échange stratégique
                                     </a>
                                 </div>
                                 <p className="text-xs text-slate-400 mt-4">
@@ -796,6 +788,29 @@ export default function CalculateurROI() {
                                     </div>
                                 ))}
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* CTA Score FinSight — Boucle retour */}
+                <section className="py-12 bg-slate-50">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-xl mx-auto text-center">
+                            <div className="w-12 h-12 rounded-xl bg-[var(--accent-primary-subtle)] flex items-center justify-center mx-auto mb-4">
+                                <Target className="w-6 h-6 text-[var(--accent-primary)]" />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900 mb-2">Votre ROI est enregistré</h3>
+                            <p className="text-sm text-gray-600 mb-4">
+                                Ce résultat alimente le pilier <strong>Rentabilité</strong> de votre Score FinSight™. 
+                                Continuez avec 1 ou 2 indicateurs de plus pour obtenir un diagnostic exploitable.
+                            </p>
+                            <Link
+                                href="/mon-diagnostic"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent-primary)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--accent-primary-hover)] transition-colors shadow-md"
+                            >
+                                Voir mon Score FinSight™
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
                         </div>
                     </div>
                 </section>
