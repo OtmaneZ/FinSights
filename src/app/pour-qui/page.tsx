@@ -22,108 +22,108 @@ import Footer from '@/components/Footer'
 export default function PourQuiPage() {
     const personas = [
         {
-            id: 'cfo-scaleup',
-            icon: TrendingUp,
-            title: 'CFO de Scale-up SaaS',
-            tagline: 'Hypercroissance & Levées de fonds',
-            iconColor: 'text-purple-600',
-            iconBg: 'bg-purple-100',
-            borderColor: 'border-purple-200',
+            id: 'dirigeant-pme-tension',
+            icon: AlertTriangle,
+            title: 'Dirigeant PME sous tension',
+            tagline: 'Trésorerie imprévisible · Marges floues · Décisions à l\'aveugle',
+            iconColor: 'text-red-600',
+            iconBg: 'bg-red-100',
+            borderColor: 'border-red-200',
             problems: [
-                'Burn rate élevé, investors demandent du forecast fiable',
-                'Excel n\'est plus adapté pour piloter la croissance',
-                'Besoin de dashboard MRR/ARR pour le board',
-                'Préparation levée : pitch deck avec métriques solides'
+                'Pas de visibilité trésorerie au-delà de 30 jours',
+                'Marges réelles par activité inconnues',
+                'Décisions prises sur des données en retard',
+                'Reporting manuel, chronophage, peu fiable'
             ],
             solutions: [
-                'Dashboard MRR/ARR/Churn temps réel',
-                'Runway monitoring avec alertes automatiques',
-                'Forecasts 12-18 mois par scénarios',
-                'Board report mensuel automatique (PDF)'
+                'Diagnostic FinSight™ : Score 0-100 + 3 leviers chiffrés',
+                'Visibilité cash fiabilisée à 90 jours',
+                'Identification des fuites de marge cachées',
+                'Plan d\'action immédiat en 5 jours ouvrés'
             ],
             metrics: [
-                { label: 'MRR', value: 'Suivi temps réel' },
-                { label: 'Burn Rate', value: 'Alertes -6 mois' },
-                { label: 'LTV/CAC', value: 'Unit economics' }
+                { label: 'Résultat', value: '5 jours' },
+                { label: 'Leviers', value: '3 chiffrés' },
+                { label: 'Score', value: '0–100' }
             ],
             cta: {
-                primary: 'Audit SaaS - 2 900€',
-                secondary: 'Dashboard IA - 6 900€',
+                primary: 'Diagnostic FinSight™ — 1 990€',
+                secondary: 'Réserver un échange stratégique',
                 link: '/consulting'
             },
             testimonial: {
-                quote: 'Dashboard intégré dans notre pitch deck Série A. Levée de 2M€ réussie.',
-                author: 'Scale-up EdTech, 1.2M€ ARR'
+                quote: 'Nous avons enfin une vision exploitable de nos chantiers, du cash et des marges.',
+                author: 'Dirigeant PME BTP / Services, 7M€'
             }
         },
         {
-            id: 'daf-pme',
-            icon: Building2,
-            title: 'DAF de PME (2-10M€ CA)',
-            tagline: 'Pilotage & Contrôle budgétaire',
+            id: 'dirigeant-pme-croissance',
+            icon: TrendingUp,
+            title: 'Dirigeant PME en croissance',
+            tagline: 'Activité qui fonctionne · Pilotage à structurer · Décisions à accélérer',
             iconColor: 'text-blue-600',
             iconBg: 'bg-blue-100',
             borderColor: 'border-blue-200',
             problems: [
-                'Excel bordélique, budget dépassé chaque mois',
-                'Pas de visibilité trésorerie à J+90',
-                'Reporting manuel chronophage (2-3 jours/mois)',
-                'Direction demande du prévisionnel fiable'
+                'Croissance rapide, mais rentabilité réelle opaque',
+                'Pas de modèle fiable pour arbitrer les investissements',
+                'Tableau de bord inexistant ou sous-utilisé',
+                'Besoin de structurer avant la prochaine étape'
             ],
             solutions: [
-                'Dashboard Budget vs Réalisé automatique',
-                'Alertes hebdo sur dépassements',
-                'Prévisions trésorerie 3-6 mois',
-                'Export PDF clean pour CODIR'
+                'Audit Complet : rentabilité analytique par activité',
+                'Tableau de bord dirigeant clé en main',
+                'Scénarios de croissance simulés avant décision',
+                'Plan d\'action chiffré sur 6 mois'
             ],
             metrics: [
-                { label: 'Budget', value: 'vs Réalisé auto' },
-                { label: 'Cash Flow', value: 'Forecast 90j' },
-                { label: 'Alertes', value: 'Dépassements' }
+                { label: 'Durée', value: '3–6 sem.' },
+                { label: 'Horizon', value: '6 mois' },
+                { label: 'Dashboard', value: 'Clé en main' }
             ],
             cta: {
-                primary: 'Audit Express - 2 900€',
-                secondary: 'Dashboard sur-mesure - 6 900€',
+                primary: 'Audit Complet — 4 990€',
+                secondary: 'Réserver un échange stratégique',
                 link: '/consulting'
             },
             testimonial: {
-                quote: '-18% charges en 4 mois. Visibilité totale sur la trésorerie.',
-                author: 'PME Services, 800k€ CA'
+                quote: 'Nous disposons désormais d\'un cadre de pilotage fiable et homogène, utilisable au quotidien.',
+                author: 'Directrice Administrative, Groupe Formation 500M€'
             }
         },
         {
-            id: 'cabinet-comptable',
-            icon: Users,
-            title: 'Cabinet d\'Expertise Comptable',
-            tagline: 'Upgrade des livrables clients',
-            iconColor: 'text-green-600',
-            iconBg: 'bg-green-100',
-            borderColor: 'border-green-200',
+            id: 'dirigeant-systeme',
+            icon: BarChart3,
+            title: 'Dirigeant qui veut un système',
+            tagline: 'Pilotage automatisé · Décisions en continu · Vision long terme',
+            iconColor: 'text-slate-700',
+            iconBg: 'bg-slate-100',
+            borderColor: 'border-slate-200',
             problems: [
-                'Clients veulent du conseil, pas que de la compta',
-                'Livrables basiques = pas de différenciation',
-                'Impossible de monter en gamme (prix)',
-                'Perte de clients vers cabinets "digitaux"'
+                'Dirigeant qui revient chaque mois aux mêmes questions',
+                'Équipe qui passe du temps à reconstituer des chiffres',
+                'Pas d\'alertes fiables sur les signaux faibles',
+                'Aucune simulation avant décision stratégique'
             ],
             solutions: [
-                'Template dashboard FP&A white-label',
-                'Livrables premium pour vos clients PME',
-                'Formation équipe (1 jour)',
-                'Maintenance et support inclus'
+                'Decision System : cockpit décisionnel temps réel',
+                'Alertes automatiques sur anomalies cash et marges',
+                'Scénarios simulés en continu (what-if)',
+                'Formation équipe + 3 mois d\'accompagnement'
             ],
             metrics: [
-                { label: 'Facturation', value: '+35%/client' },
-                { label: 'Rétention', value: 'Churn -40%' },
-                { label: 'Différenciation', value: 'Positionnement premium' }
+                { label: 'Autonomie', value: 'Totale' },
+                { label: 'Alertes', value: 'Automatiques' },
+                { label: 'Support', value: '3 mois' }
             ],
             cta: {
-                primary: 'Partenariat Cabinet',
-                secondary: 'Démo personnalisée',
+                primary: 'Decision System — 9 990€',
+                secondary: 'Réserver un échange stratégique',
                 link: '/consulting'
             },
             testimonial: {
-                quote: '+35% facturation moyenne/client. Outil différenciant face à la concurrence.',
-                author: 'Cabinet 35 clients PME'
+                quote: 'Le travail réalisé a permis de structurer un cadre de pilotage robuste, utilisable en comité de direction.',
+                author: 'CFO, PME Services / Conseil'
             }
         }
     ]
@@ -275,7 +275,7 @@ export default function PourQuiPage() {
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-base transition-all hover:shadow-lg"
                         >
                             <Zap className="w-5 h-5" />
-                            Discutons 30 min gratuitement
+                            Réserver un échange stratégique
                         </a>
                         <Link
                             href="/consulting"

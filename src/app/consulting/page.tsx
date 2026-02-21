@@ -748,8 +748,7 @@ export default function ConsultingPage() {
                                 {[
                                     'Score FinSight™ 0–100 détaillé',
                                     'Décomposition 4 piliers Cash · Marges · Résilience · Risques',
-                                    '5 anomalies majeures détectées et expliquées',
-                                    '3 leviers prioritaires chiffrés et actionnables',
+                                    '3 leviers prioritaires chiffrés (anomalies incluses)',
                                     'Simulation d\'impact à 90 jours',
                                     'Restitution stratégique 60 min avec plan d\'action'
                                 ].map((item, i) => (

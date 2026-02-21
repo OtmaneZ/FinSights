@@ -45,7 +45,7 @@ const faqSchema = {
       name: "Comment se déroule un diagnostic financier avec FinSight ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Le diagnostic débute par un échange gratuit de 30 minutes pour identifier vos enjeux. Nous réalisons ensuite un audit flash en 5 jours pour détecter vos fuites de cash et établir un plan d'action immédiat avec 3 recommandations chiffrées.",
+        text: "Le diagnostic débute par un échange stratégique de 30 minutes pour identifier vos enjeux. Nous réalisons ensuite un audit flash en 5 jours pour détecter vos fuites de cash et établir un plan d'action immédiat avec 3 recommandations chiffrées.",
       },
     },
   ],
@@ -365,11 +365,11 @@ export default function Home() {
 
                 <div className="mt-2 mb-8">
                   <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                    Audit &amp; Pilotage
+                    Diagnostic FinSight™ 90J
                   </h3>
                   <p className="text-gray-500 leading-relaxed text-sm">
-                    Une lecture claire et fiable de votre situation financière.
-                    Score FinSight™, plan d&apos;action chiffré et cadre de pilotage durable.
+                    Score FinSight™, 3 leviers prioritaires chiffrés et plan d&apos;action immédiat.
+                    Clarté stratégique en 5 jours ouvrés.
                   </p>
                 </div>
 
@@ -380,15 +380,15 @@ export default function Home() {
                   </li>
                   <li className="flex items-start gap-3 text-sm text-gray-700">
                     <svg className="w-4 h-4 text-accent-primary mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                    Analyse cash, marges, risques cachés
+                    3 leviers prioritaires chiffrés (incl. anomalies identifiées)
                   </li>
                   <li className="flex items-start gap-3 text-sm text-gray-700">
                     <svg className="w-4 h-4 text-accent-primary mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                    Plan d&apos;action chiffré en 5 jours
+                    Simulation d&apos;impact à 90 jours
                   </li>
                   <li className="flex items-start gap-3 text-sm text-gray-700">
                     <svg className="w-4 h-4 text-accent-primary mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                    Tableau de bord personnalisé
+                    Restitution dirigeant 60 min
                   </li>
                 </ul>
 
