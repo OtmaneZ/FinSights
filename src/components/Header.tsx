@@ -118,6 +118,13 @@ export default function Header() {
                                     <p className="text-xs font-semibold text-tertiary uppercase tracking-wider">Contenu</p>
                                 </div>
                                 <Link
+                                    href="/pilotage-financier-pme"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Guide pilotage financier PME
+                                </Link>
+                                <Link
                                     href="/fondamentaux"
                                     className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
                                     onClick={() => setIsResourcesOpen(false)}

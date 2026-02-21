@@ -1,200 +1,203 @@
-# 🎯 Recommandations Stratégiques — Blog & Guides FinSight
+On va construire une page pilier dominante.
+Mix SEO pur + conversion + autorité expert.
 
-Objectif :  
-Faire évoluer FinSight de “site expert finance & outils” vers  
-🏛 **cabinet DAF externalisé crédible et structuré**.
+Ce sera :
+	•	🧠 Structurée comme un guide académique
+	•	🔍 Optimisée pour ranker
+	•	💼 Orientée décision dirigeant
+	•	💰 Avec tunnel naturel vers ton offre
 
----
+⸻
 
-# I. BLOG — Passage de Pédagogie à Autorité
+📍 URL
 
-## 1️⃣ Conserver (socle SEO)
+👉 /pilotage-financier-pme
 
-Garder :
-- Articles calculatoires (DSO, BFR, ROI…)
-- Templates
-- Guides pratiques
-- Longue traîne
+Courte. Head keyword. Forte.
 
-Ils :
-- Génèrent du trafic
-- Positionnent sur des requêtes outils
-- Alimentent le tunnel SEO
+⸻
 
----
+🎯 Objectif SEO
 
-## 2️⃣ Ajouter une nouvelle catégorie :  
-### 🔹 “Notes Stratégiques”
-ou  
-### 🔹 “Analyse Dirigeant”
+Ranker sur :
+	•	pilotage financier pme
+	•	indicateurs financiers pme
+	•	dashboard financier pme
+	•	pilotage trésorerie pme
+	•	daf externalisé pme
+	•	direction financière externalisée pme
 
-But : capter les requêtes décisionnelles et renforcer l’autorité.
+⸻
 
----
+🧱 Structure complète (version dominante)
 
-## 3️⃣ Produire 8 articles à haute autorité (priorité 90 jours)
+⸻
 
-### A. Articles d’analyse structurelle
-- **DSO supérieur à la médiane sectorielle : que révèle vraiment votre modèle ?**
-- **BFR structurellement élevé : problème commercial ou problème organisationnel ?**
-- **Pourquoi 70 % des PME sous-estiment leur fragilité cash**
-- **Marge correcte, cash fragile : le piège classique des PME en croissance**
+H1
 
----
+Guide complet du pilotage financier PME (2026)
 
-### B. Articles de positionnement DAF
-- **DAF externalisé vs expert-comptable : rôles et confusion dangereuse**
-- **À partir de quel chiffre d’affaires faut-il un DAF ?**
-- **Les 4 priorités d’un DAF sur 90 jours**
-- **Ce qu’un vrai pilotage financier change dans une PME 5–20M€**
+⸻
 
----
+🔎 Introduction (SEO + Autorité)
 
-## 4️⃣ Modifier le ton des nouveaux articles
+100–150 mots optimisés avec :
+	•	pilotage financier pme
+	•	indicateurs financiers
+	•	trésorerie
+	•	rentabilité
+	•	tableau de bord financier
 
-Passer de :
+Objectif : capter Google immédiatement.
 
-> “Comment calculer…”
+⸻
 
-à :
+H2 — Qu’est-ce que le pilotage financier d’une PME ?
+	•	Définition claire
+	•	Différence comptabilité / contrôle de gestion / pilotage
+	•	Pourquoi la majorité des PME pilotent “à vue”
 
-> “Ce que ce ratio révèle réellement.”
-> “Ce que les dirigeants ignorent.”
-> “Pourquoi ce modèle est fragile.”
+👉 Positionnement expert.
 
-Autorité = capacité à interpréter et trancher.
+⸻
 
----
+H2 — Pourquoi le pilotage financier est critique pour la croissance ?
+	•	Croissance = explosion du BFR
+	•	DSO mal maîtrisé
+	•	Marges qui se dégradent sans visibilité
 
-## 5️⃣ Ajouter en fin d’article une transition DAF
+👉 Mini études de cas chiffrées.
 
-Structure recommandée :
+⸻
 
-Ce que révèle ce diagnostic :
-	1.	Priorité immédiate
-	2.	Risque structurel
-	3.	Arbitrage à court terme
+H2 — Les 4 piliers du pilotage financier PME
 
-→ Pour transformer ce diagnostic en plan d’action priorisé,
-réserver un échange stratégique.
+H3 — 1. Trésorerie (Cash)
+	•	DSO
+	•	BFR
+	•	Cash flow
+	•	Prévisionnel 90 jours
 
----
+→ lien vers :
+	•	/calculateurs/dso
+	•	/calculateurs/bfr
 
-# II. GUIDES — Passage de “Lead Magnet” à “Méthodologie Cabinet”
+⸻
 
-## 1️⃣ Conserver les guides actuels (base opérationnelle)
+H3 — 2. Rentabilité
+	•	Marge brute
+	•	Marge nette
+	•	EBITDA
+	•	Seuil de rentabilité
 
-Ils sont bons pour :
-- Générer des leads
-- Démontrer ta maîtrise technique
+→ liens vers calculateurs
 
-Mais ils sont encore perçus comme :
-> Outils gratuits
+⸻
 
----
+H3 — 3. Résilience
+	•	Structure coûts fixes / variables
+	•	Dépendance client
+	•	Concentration CA
 
-## 2️⃣ Créer un Guide Signature (élément clé)
+⸻
 
-### 📘 “Méthodologie FinSight™ – Structurer une Direction Financière Externalisée”
+H3 — 4. Risques & gouvernance
+	•	Reporting fiable
+	•	Réconciliation comptabilité / KPI
+	•	Délai de clôture
 
-Contenu recommandé :
-- Architecture 4 piliers
-- Logique de priorisation
-- Lecture cash 90 jours
-- Arbitrage croissance vs liquidité
-- Exemple PME (cas fictif mais structuré)
-- Plan d’action type 6 mois
+⸻
 
-Objectif :
-> Montrer comment tu penses en DAF, pas en formateur.
+H2 — Les indicateurs financiers essentiels à suivre
 
----
+Tableau clair :
 
-## 3️⃣ Repositionner lexicalement la page Guides
 
-Remplacer :
-- “Télécharger le guide”
-- “Guide gratuit”
+Indicateur
+Seuil PME saine
+Seuil critique
+DSO
+<45 jours
+>70 jours
+BFR
+<60 jours CA
+>120 jours
+Marge nette
+>8%
+<3%
 
-Par :
-- “Accéder à la note méthodologique”
-- “Recevoir la méthodologie complète”
-- “Consulter la grille d’analyse”
 
-Subtil mais puissant.
+Google adore les tableaux structurés.
 
----
+⸻
 
-## 4️⃣ Ajouter une section “À qui s’adressent ces guides”
+H2 — Comment construire un tableau de bord financier efficace ?
+	•	Excel vs BI
+	•	Reporting mensuel
+	•	Mise à jour hebdomadaire
+	•	Vision 90 jours
 
-Exemple :
+⸻
 
-Ces ressources s’adressent aux dirigeants de PME
-entre 1M€ et 20M€ souhaitant structurer
-leur pilotage financier avec une logique DAF.
+H2 — Quand faire appel à un DAF externalisé ?
 
+SEO + conversion :
+	•	À partir de quel CA ?
+	•	Quels signaux d’alerte ?
+	•	Différence DAF vs expert-comptable
 
-Ça filtre l’audience.
+👉 CTA naturel vers ton offre.
 
----
+⸻
 
-## 5️⃣ Ajouter une hiérarchie stratégique visible
+H2 — Méthode FinSight™
 
-Sur la page :
+Là tu introduis :
+	•	Score FinSight™
+	•	Pilotage 90 jours
+	•	Agents IA
 
-- Niveau 1 — Outils opérationnels
-- Niveau 2 — Lecture stratégique
-- Niveau 3 — Accompagnement DAF
+Mais subtil.
+Pas landing page.
 
-Ça montre une progression.
+⸻
 
----
+📐 Longueur cible
 
-# III. Ce que cela produira
+3000–4000 mots.
 
-## SEO
-- Élargissement sémantique vers “pilotage PME”
-- Meilleure qualification du trafic
+Dense.
+Structuré.
+Autorité.
 
-## Perception
-Passage de :
-> Expert finance & data
+⸻
 
-à :
-> Architecte de direction financière.
+🔥 Maillage interne stratégique
 
-## Conversion
-- Plus crédible en rendez-vous
-- Moins perçu comme freelance
-- Plus perçu comme structure
+Cette page doit pointer vers :
+	•	Tous les calculateurs
+	•	Articles BFR
+	•	Articles DSO
+	•	Fractional CFO
+	•	Trésorerie 90 jours
 
----
+Et inversement :
 
-# IV. Ordre de Priorité Recommandé
+Tous ces articles doivent pointer vers cette page.
 
-1️⃣ Écrire 3 articles stratégiques forts  
-2️⃣ Créer le Guide Signature  
-3️⃣ Ajuster le vocabulaire des pages Guides  
-4️⃣ Ajouter transitions vers mission DAF  
+⸻
 
----
+🧠 Pourquoi ce mix fonctionne
 
-# V. Règle d’Or
+SEO pur → Head keywords
+Autorité académique → crédibilité
+Conversion → business
+Maillage → topical authority
 
-Chaque contenu doit répondre à une question implicite :
+C’est la page qui fait passer ton site :
 
-> “Est-ce qu’il pense comme un DAF ?”
+de
+“site avec calculateurs”
 
-Si la réponse est oui, tu avances.
-Si la réponse est “il explique bien”, ce n’est pas encore suffisant.
-
----
-
-FinSight doit devenir :
-
-🔹 Outils  
-🔹 Méthode  
-🔹 Analyse  
-🔹 Doctrine  
-
-Pas seulement contenu.
+à
+“référence structurée sur le pilotage financier PME”.
