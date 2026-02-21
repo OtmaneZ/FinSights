@@ -36,7 +36,7 @@ export default function ConsultingPage() {
         "provider": {
             "@type": "Person",
             "name": "Otmane Boulahia",
-            "jobTitle": "Consultant Finance & Data / DAF Externalisé",
+            "jobTitle": "Architecte de Systèmes Décisionnels Financiers",
             "url": "https://finsight.zineinsight.com/consulting",
             "sameAs": [
                 "https://www.linkedin.com/in/otmaneboulahia"
@@ -171,7 +171,7 @@ export default function ConsultingPage() {
 
                             {/* Subheadline */}
                             <p className="text-xl text-gray-300 leading-relaxed max-w-xl">
-                                Audit financier, tableaux de bord intelligents et pilotage de trésorerie.
+                                Audit stratégique, architecture décisionnelle et pilotage financier.
                                 <span className="text-white font-semibold"> Anticipez avec 90 jours d&apos;avance.</span>
                             </p>
 
@@ -456,7 +456,7 @@ export default function ConsultingPage() {
                             <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl">
                                 <Image
                                     src="/images/Photo_profil.jpeg"
-                                    alt="Otmane Boulahia - Consultant Finance et Data"
+                                    alt="Otmane Boulahia - Architecte de Systèmes Décisionnels Financiers"
                                     width={500}
                                     height={600}
                                     className="object-cover w-full"
@@ -469,7 +469,7 @@ export default function ConsultingPage() {
                                         </div>
                                         <div>
                                             <p className="text-white font-bold">Otmane Boulahia</p>
-                                            <p className="text-gray-300 text-sm">Financial Strategy Consultant</p>
+                                            <p className="text-gray-300 text-sm">Architecte de Systèmes Décisionnels Financiers</p>
                                         </div>
                                     </div>
                                 </div>
