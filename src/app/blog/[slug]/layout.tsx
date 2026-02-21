@@ -1,5 +1,9 @@
 import { Metadata } from 'next'
-import { getArticleBySlug } from '@/lib/seo'
+import { getArticleBySlug, BLOG_ARTICLES } from '@/lib/seo'
+
+export function generateStaticParams() {
+    return BLOG_ARTICLES.map((article) => ({ slug: article.slug }))
+}
 
 interface SlugLayoutProps {
     children: React.ReactNode

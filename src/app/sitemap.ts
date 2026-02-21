@@ -153,6 +153,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
+      url: `${baseUrl}/ressources/guides`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    },
+    {
       url: `${baseUrl}/templates/previsionnel-tresorerie-90j`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -160,6 +166,99 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  return [...staticPages, ...blogPages, ...calculators, ...landingPages, ...tools]
+  // Fondamentaux finance — guides pédagogiques
+  const fondamentauxPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/fondamentaux`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    },
+    {
+      url: `${baseUrl}/fondamentaux/lire-bilan`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/fondamentaux/lire-compte-resultat`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/fondamentaux/comprendre-cash-flow`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/fondamentaux/ratios-essentiels`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    },
+    {
+      url: `${baseUrl}/fondamentaux/questions-comptable`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+  ]
+
+  // Agents IA — pages individuelles
+  const agentPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/agents/dashis`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/agents/tresoris`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+  ]
+
+  // Intégrations
+  const integrationsPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/integrations`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/integrations/make`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/integrations/n8n`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/integrations/zapier`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+  ]
+
+  return [
+    ...staticPages,
+    ...blogPages,
+    ...calculators,
+    ...landingPages,
+    ...tools,
+    ...fondamentauxPages,
+    ...agentPages,
+    ...integrationsPages,
+  ]
 }
 

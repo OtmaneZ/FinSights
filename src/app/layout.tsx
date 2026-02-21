@@ -66,8 +66,8 @@ export const metadata = {
 export const viewport = {
     width: 'device-width',
     initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
+    maximumScale: 5,
+    userScalable: true,
     themeColor: '#0F3D7A'
 }
 
@@ -153,13 +153,6 @@ export default function RootLayout({
                             sameAs: [
                                 'https://www.linkedin.com/in/otmane-boulahia-553bb6363'
                             ],
-                            aggregateRating: {
-                                '@type': 'AggregateRating',
-                                ratingValue: '4.8',
-                                ratingCount: '12',
-                                bestRating: '5',
-                                worstRating: '1'
-                            },
                             offers: {
                                 '@type': 'AggregateOffer',
                                 priceCurrency: 'EUR',

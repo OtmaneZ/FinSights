@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 
 const SITE_URL = 'https://finsight.zineinsight.com'
 const SITE_NAME = 'FinSight'
-const SITE_DESCRIPTION = 'Dashboard financier intelligent pour CFO et DAF. Analyse automatique de vos données comptables avec IA.'
+const SITE_DESCRIPTION = 'DAF externalisé & analyse financière pour PME. Pilotage de trésorerie, tableau de bord et agents IA pour dirigeants et directeurs financiers.'
 
 // ============================================
 // DATE HELPERS
@@ -358,11 +358,6 @@ export function generateWebApplicationJsonLd() {
             '@type': 'Offer',
             price: '0',
             priceCurrency: 'EUR'
-        },
-        aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.8',
-            ratingCount: '127'
         }
     }
 }
