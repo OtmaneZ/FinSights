@@ -679,6 +679,179 @@ const LEVEL_CONFIG: Record<
 }
 
 // ---------------------------------------------------------------------------
+// Insights Engine — forces, vulnérabilités, priorité, impact €
+// ---------------------------------------------------------------------------
+
+interface Insight {
+  forces: string[]
+  vulnerabilites: string[]
+  priorite: string
+  cashImpactLabel: string | null   // ex: "≈ 82 000 € immobilisés"
+  cashImpactDetail: string | null  // ex: "DSO 60j vs médiane 45j · CA 2 M€"
+}
+
+function computeInsights(
+  diagnostic: DiagnosticScore,
+  history: Calculation[],
+  sector: SectorKey,
+): Insight {
+  const bench = SECTOR_BENCHMARKS[sector]
+  const get = (t: CalculatorType) => history.find((c) => c.type === t)
+
+  const dso = get('dso')
+  const bfr = get('bfr')
+  const marge = get('marge')
+  const ebitda = get('ebitda')
+  const burnRate = get('burn-rate')
+  const seuil = get('seuil-rentabilite')
+  const cacLtv = get('cac-ltv')
+
+  const caAnnuel: number | null =
+    bfr?.inputs?.ca
+      ? bfr.inputs.ca
+      : seuil?.inputs?.chargesFixes && seuil?.inputs?.tauxMarge
+      ? Math.round(seuil.inputs.chargesFixes / (seuil.inputs.tauxMarge / 100))
+      : null
+
+  const forces: string[] = []
+  const vulnerabilites: string[] = []
+
+  // ── Forces ──────────────────────────────────────────────────────────────
+
+  // DSO excellent
+  if (dso && dso.value <= bench.dsoGood)
+    forces.push(`DSO de ${dso.value}j — encaissements rapides vs médiane sectorielle de ${bench.dsoMedian}j`)
+
+  // BFR négatif ou très bon
+  if (bfr && bfr.value < 0)
+    forces.push('BFR négatif — votre activité génère de la trésorerie avant de payer vos fournisseurs')
+  else if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
+    const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
+    if (joursCA <= bench.bfrJoursBon)
+      forces.push(`BFR de ${joursCA}j de CA — maîtrisé vs médiane ${bench.bfrJoursMedian}j dans votre secteur`)
+  }
+
+  // Marge au-dessus du benchmark
+  if (marge && marge.value >= bench.margeBon)
+    forces.push(`Taux de marge de ${marge.value}% — au-dessus de la médiane sectorielle (${bench.margeMedian}%)`)
+
+  // EBITDA positif et au-dessus médiane
+  if (ebitda && caAnnuel && caAnnuel > 0) {
+    const ebitdaPct = Math.round((ebitda.value / caAnnuel) * 100)
+    if (ebitdaPct >= bench.ebitdaMedian)
+      forces.push(`EBITDA à ${ebitdaPct}% du CA — coussin de rentabilité solide vs ${bench.ebitdaMedian}% médian`)
+  }
+
+  // CAC/LTV sain
+  if (cacLtv && cacLtv.value >= 3)
+    forces.push(`Ratio LTV/CAC de ${cacLtv.value.toFixed(1)}x — acquisition client très rentable`)
+
+  // Burn Rate maîtrisé
+  if (burnRate && caAnnuel) {
+    const caMensuel = caAnnuel / 12
+    const burnPct = Math.round((burnRate.value / caMensuel) * 100)
+    if (burnPct < 30)
+      forces.push(`Burn Rate à ${burnPct}% du CA mensuel — consommation de cash très maîtrisée`)
+  }
+
+  // Score CASH élevé
+  if (diagnostic.pillars.cash.score !== null && diagnostic.pillars.cash.score >= 20)
+    forces.push('Pilier CASH solide — trésorerie saine sur l\'ensemble des indicateurs')
+
+  // Score MARGIN élevé
+  if (diagnostic.pillars.margin.score !== null && diagnostic.pillars.margin.score >= 20)
+    forces.push('Rentabilité opérationnelle forte — structure de coûts efficiente')
+
+  // ── Vulnérabilités ───────────────────────────────────────────────────────
+
+  // DSO problématique
+  if (dso && dso.value > bench.dsoBad)
+    vulnerabilites.push(`DSO de ${dso.value}j — dépasse le seuil critique sectoriel (${bench.dsoBad}j) : risque de tension cash`)
+  else if (dso && dso.value > bench.dsoMedian)
+    vulnerabilites.push(`DSO de ${dso.value}j — au-dessus de la médiane (${bench.dsoMedian}j) : créances qui s'allongent`)
+
+  // BFR élevé
+  if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
+    const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
+    if (joursCA > bench.bfrJoursBad)
+      vulnerabilites.push(`BFR de ${joursCA}j de CA — nettement au-dessus du seuil sectoriel (${bench.bfrJoursBad}j) : exposition aux aléas`)
+    else if (joursCA > bench.bfrJoursMedian)
+      vulnerabilites.push(`BFR de ${joursCA}j de CA — dépasse la médiane sectorielle (${bench.bfrJoursMedian}j)`)
+  }
+
+  // Marge faible
+  if (marge && marge.value < bench.margeFaible)
+    vulnerabilites.push(`Taux de marge de ${marge.value}% — sous le seuil critique (${bench.margeFaible}%) : structure de coûts à revoir`)
+  else if (marge && marge.value < bench.margeMedian)
+    vulnerabilites.push(`Taux de marge de ${marge.value}% — sous la médiane sectorielle (${bench.margeMedian}%)`)
+
+  // Burn Rate tendu
+  if (burnRate && caAnnuel) {
+    const caMensuel = caAnnuel / 12
+    const burnPct = Math.round((burnRate.value / caMensuel) * 100)
+    if (burnPct > 90)
+      vulnerabilites.push(`Burn Rate à ${burnPct}% du CA mensuel — structure déficitaire : runway limité`)
+    else if (burnPct > 70)
+      vulnerabilites.push(`Burn Rate à ${burnPct}% du CA mensuel — peu de marge de manœuvre`)
+  }
+
+  // Croisement DSO + marge faible
+  if (dso && dso.value > bench.dsoMedian && marge && marge.value < bench.margeMedian)
+    vulnerabilites.push('Double pression cash : délais clients longs + marge sous la médiane — risque structurel')
+
+  // Score RISK faible
+  if (diagnostic.pillars.risk.score !== null && diagnostic.pillars.risk.score < 12)
+    vulnerabilites.push('Plusieurs signaux de risque croisés détectés — combinaison défavorable d\'indicateurs')
+
+  // ── Priorité ─────────────────────────────────────────────────────────────
+  let priorite = ''
+
+  // Logique de priorité : le problème le plus coûteux à résoudre en premier
+  const cashScore = diagnostic.pillars.cash.score
+  const marginScore = diagnostic.pillars.margin.score
+  const riskScore = diagnostic.pillars.risk.score
+
+  if (dso && dso.value > bench.dsoBad && caAnnuel) {
+    const gapJours = dso.value - bench.dsoMedian
+    const impact = Math.round((gapJours / 365) * caAnnuel)
+    priorite = `Réduire le DSO de ${gapJours}j pour libérer ${impact.toLocaleString('fr-FR')} € de trésorerie — c'est votre levier cash #1`
+  } else if (marge && marge.value < bench.margeFaible) {
+    priorite = `Améliorer la structure de coûts : votre marge de ${marge.value}% est sous le seuil critique (${bench.margeFaible}%) — revoir les achats ou la tarification`
+  } else if (burnRate && caAnnuel && (burnRate.value / (caAnnuel / 12)) > 0.7) {
+    priorite = `Réduire le Burn Rate : votre consommation mensuelle représente ${Math.round((burnRate.value / (caAnnuel / 12)) * 100)}% du CA — identifier les charges compressibles en priorité`
+  } else if (cashScore !== null && cashScore < 12) {
+    priorite = 'Renforcer la trésorerie en priorité : le pilier CASH est votre point de fragilité majeur — agir sur DSO et BFR'
+  } else if (marginScore !== null && marginScore < 12) {
+    priorite = 'Améliorer la rentabilité : le pilier MARGIN est sous les standards du secteur — revoir la structure de coûts et la tarification'
+  } else if (riskScore !== null && riskScore < 15) {
+    priorite = 'Adresser les signaux de risque croisés : plusieurs indicateurs combinés indiquent une fragilité structurelle à corriger avant qu\'elle s\'aggrave'
+  } else if (forces.length > vulnerabilites.length) {
+    priorite = 'Votre diagnostic est globalement solide — capitaliser sur les forces identifiées et surveiller les indicateurs à la marge'
+  } else {
+    priorite = 'Compléter le diagnostic avec les indicateurs manquants pour identifier la priorité avec précision'
+  }
+
+  // ── Impact cash immobilisé (DSO gap × CA) ───────────────────────────────
+  let cashImpactLabel: string | null = null
+  let cashImpactDetail: string | null = null
+
+  if (dso && dso.value > bench.dsoMedian && caAnnuel && caAnnuel > 0) {
+    const gapJours = dso.value - bench.dsoMedian
+    const impact = Math.round((gapJours / 365) * caAnnuel)
+    cashImpactLabel = `≈ ${impact.toLocaleString('fr-FR')} €`
+    cashImpactDetail = `${gapJours}j de DSO au-dessus de la médiane · CA ${(caAnnuel / 1_000_000).toFixed(2).replace('.', ',')} M€ · à libérer par optimisation des encaissements`
+  }
+
+  return {
+    forces: forces.slice(0, 3),
+    vulnerabilites: vulnerabilites.slice(0, 3),
+    priorite,
+    cashImpactLabel,
+    cashImpactDetail,
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Page Component
 // ---------------------------------------------------------------------------
 
@@ -710,6 +883,7 @@ export default function MonDiagnosticPage() {
 
   const completed = completedTypes()
   const diagnostic = computeDiagnosticScore(history, sector)
+  const insights = computeInsights(diagnostic, history, sector)
   const coveragePct = Math.round((completed.length / TOTAL_CALCULATORS) * 100)
   const levelCfg = LEVEL_CONFIG[diagnostic.level]
   const nextCalc = getNextRecommended(completed)
@@ -946,7 +1120,7 @@ export default function MonDiagnosticPage() {
               <div className={`rounded-2xl border ${levelCfg.border} ${levelCfg.bg} p-8 min-w-[240px]`}>
                 <div className="flex items-center gap-2 mb-2">
                   <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">
-                    Score global
+                    {diagnostic.confidence === 'faible' ? 'Score provisoire' : 'Score global'}
                   </p>
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
                     diagnostic.confidence === 'haute'
@@ -958,18 +1132,58 @@ export default function MonDiagnosticPage() {
                     Confiance {diagnostic.confidence}
                   </span>
                 </div>
-                <div className="flex items-baseline gap-2">
-                  <span className={`font-serif text-5xl font-medium ${levelCfg.color}`}>
-                    {diagnostic.total !== null ? diagnostic.total : '—'}
-                  </span>
-                  <span className="text-lg text-gray-400 font-medium">/ 100</span>
-                </div>
+                {diagnostic.total !== null ? (
+                  diagnostic.confidence === 'faible' ? (
+                    // 1 pilier — fourchette large ±12
+                    <div>
+                      <div className="flex items-baseline gap-1">
+                        <span className={`font-serif text-4xl font-medium ${levelCfg.color}`}>
+                          {Math.max(0, diagnostic.total - 12)}
+                        </span>
+                        <span className="text-lg text-gray-400 font-medium mx-1">–</span>
+                        <span className={`font-serif text-4xl font-medium ${levelCfg.color}`}>
+                          {Math.min(100, diagnostic.total + 12)}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-gray-400 mt-1">Fourchette estimée · Basé sur 1/4 piliers</p>
+                    </div>
+                  ) : diagnostic.confidence === 'moyenne' ? (
+                    // 2–3 piliers — fourchette ±7
+                    <div>
+                      <div className="flex items-baseline gap-1">
+                        <span className={`font-serif text-4xl font-medium ${levelCfg.color}`}>
+                          {Math.max(0, diagnostic.total - 7)}
+                        </span>
+                        <span className="text-lg text-gray-400 font-medium mx-1">–</span>
+                        <span className={`font-serif text-4xl font-medium ${levelCfg.color}`}>
+                          {Math.min(100, diagnostic.total + 7)}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-gray-400 mt-1">Fourchette estimée · {diagnostic.completedPillars}/4 piliers</p>
+                    </div>
+                  ) : (
+                    // 4 piliers — score exact
+                    <div className="flex items-baseline gap-2">
+                      <span className={`font-serif text-5xl font-medium ${levelCfg.color}`}>
+                        {diagnostic.total}
+                      </span>
+                      <span className="text-lg text-gray-400 font-medium">/ 100</span>
+                    </div>
+                  )
+                ) : (
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-serif text-5xl font-medium text-gray-300">—</span>
+                    <span className="text-lg text-gray-400 font-medium">/ 100</span>
+                  </div>
+                )}
                 <p className={`text-sm font-semibold mt-2 ${levelCfg.color}`}>
                   {levelCfg.label}
                 </p>
                 {diagnostic.completedPillars < 4 && (
                   <p className="text-[11px] text-gray-400 mt-2 leading-relaxed">
-                    Basé sur {diagnostic.completedPillars}/4 piliers — score extrapolé.
+                    {diagnostic.confidence === 'faible'
+                      ? 'Ajoutez 1–2 analyses pour affiner la fourchette.'
+                      : `Basé sur ${diagnostic.completedPillars}/4 piliers — score extrapolé.`}
                   </p>
                 )}
               </div>
@@ -1009,6 +1223,94 @@ export default function MonDiagnosticPage() {
           )}
         </div>
       </section>
+
+      {/* ── Ce que cela signifie pour vous ── */}
+      {(insights.forces.length > 0 || insights.vulnerabilites.length > 0) && (
+        <section className="py-12 bg-white">
+          <div className="max-w-5xl mx-auto px-6">
+            <FadeIn>
+              <div className="grid lg:grid-cols-3 gap-6">
+
+                {/* Forces */}
+                {insights.forces.length > 0 && (
+                  <div className="bg-emerald-50 rounded-2xl p-6 border border-emerald-100">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center flex-shrink-0">
+                        <TrendingUp className="w-4 h-4 text-white" />
+                      </div>
+                      <p className="text-sm font-bold text-emerald-800 uppercase tracking-wide">Forces</p>
+                    </div>
+                    <ul className="space-y-2.5">
+                      {insights.forces.map((f, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-emerald-800 leading-snug">
+                          <span className="text-emerald-500 font-bold mt-0.5 flex-shrink-0">✓</span>
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Vulnérabilités */}
+                {insights.vulnerabilites.length > 0 && (
+                  <div className="bg-amber-50 rounded-2xl p-6 border border-amber-100">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center flex-shrink-0">
+                        <AlertTriangle className="w-4 h-4 text-white" />
+                      </div>
+                      <p className="text-sm font-bold text-amber-800 uppercase tracking-wide">Vulnérabilités</p>
+                    </div>
+                    <ul className="space-y-2.5">
+                      {insights.vulnerabilites.map((v, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-amber-800 leading-snug">
+                          <span className="text-amber-500 font-bold mt-0.5 flex-shrink-0">!</span>
+                          <span>{v}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Priorité + Impact € */}
+                <div className="bg-slate-950 rounded-2xl p-6 border border-slate-800">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-8 h-8 rounded-lg bg-accent-primary flex items-center justify-center flex-shrink-0">
+                      <Zap className="w-4 h-4 text-white" />
+                    </div>
+                    <p className="text-sm font-bold text-white uppercase tracking-wide">Priorité #1</p>
+                  </div>
+                  <p className="text-sm text-gray-300 leading-relaxed">{insights.priorite}</p>
+
+                  {insights.cashImpactLabel && (
+                    <div className="mt-5 pt-5 border-t border-slate-800">
+                      <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-widest mb-1">
+                        Impact cash immobilisé
+                      </p>
+                      <p className="font-serif text-2xl font-medium text-accent-primary">
+                        {insights.cashImpactLabel}
+                      </p>
+                      <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
+                        {insights.cashImpactDetail}
+                      </p>
+                    </div>
+                  )}
+
+                  <a
+                    href="https://calendly.com/zineinsight"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group mt-5 inline-flex items-center gap-2 text-xs font-semibold text-accent-primary hover:text-blue-400 transition-colors"
+                  >
+                    En discuter avec un expert
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </a>
+                </div>
+
+              </div>
+            </FadeIn>
+          </div>
+        </section>
+      )}
 
       {/* ── Couverture diagnostique + Piliers ── */}
       <section className="py-20 bg-gray-50">
