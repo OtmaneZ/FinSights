@@ -17,7 +17,6 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StructuredData from "@/components/StructuredData";
-import NewsletterPopup from "@/components/NewsletterPopup";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 
 const faqSchema = {
@@ -55,7 +54,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
       <Header />
-      <NewsletterPopup />
 
       {/* HERO */}
       <section className="relative bg-slate-950 overflow-hidden">
