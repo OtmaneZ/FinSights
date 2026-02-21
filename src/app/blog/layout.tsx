@@ -22,6 +22,10 @@ export const metadata = {
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/blog'
+    },
+    robots: {
+        index: true,
+        follow: true,
     }
 }
 
