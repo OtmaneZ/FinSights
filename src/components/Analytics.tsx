@@ -7,6 +7,9 @@ export default function Analytics() {
   const [hasConsent, setHasConsent] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   
+  // Bloquer tout tracking en développement
+  const isProduction = process.env.NODE_ENV === 'production'
+
   // IDs Google Analytics (fallback à des IDs de démo si pas d'env vars)
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-58BZSL7W'
   const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || 'ud37rbzjnx'
@@ -45,7 +48,8 @@ export default function Analytics() {
   // Ne charger les scripts que si:
   // 1) Monté en client
   // 2) Utilisateur a consenti
-  if (!isMounted || !hasConsent) {
+  // 3) Environnement de production (exclut localhost)
+  if (!isMounted || !hasConsent || !isProduction) {
     return null
   }
 
@@ -106,23 +110,6 @@ export default function Analytics() {
                 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
             })(window, document, "clarity", "script", '${CLARITY_ID}');
             console.log('✅ Microsoft Clarity initialized with ID: ${CLARITY_ID}');
-          `
-        }}
-      />
-
-      {/* GA4 Enhanced Ecommerce - Track page views */}
-      <Script
-        id="ga-page-view"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            if (window.gtag) {
-              gtag('event', 'page_view', {
-                page_path: window.location.pathname,
-                page_title: document.title,
-                page_location: window.location.href
-              });
-            }
           `
         }}
       />

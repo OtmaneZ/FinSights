@@ -52,8 +52,9 @@ export default function BusinessIntelligencePage() {
                         Consolidation groupe &mdash; Réconciliation comptable &mdash; Industrialisation du reporting
                     </p>
                     <p className="text-base text-gray-300 max-w-[640px] leading-relaxed font-light mt-6">
-                        Sécuriser le pilotage financier groupe avant qu&rsquo;il ne devienne un risque 
-                        stratégique : réconciliation comptable systématique, consolidation certifiable, 
+                        Quand votre reporting n&rsquo;est pas réconcilié, ce n&rsquo;est pas un problème BI.<br />
+                        <span className="font-medium text-white">C&rsquo;est un risque financier.</span><br /><br />
+                        Réconciliation comptable systématique, consolidation certifiable,
                         automatisation des flux, traçabilité audit et CAC.
                     </p>
 
@@ -61,7 +62,7 @@ export default function BusinessIntelligencePage() {
                     <div className="mt-10 space-y-3">
                         <div className="grid grid-cols-2 lg:grid-cols-4 border border-white/10 rounded overflow-hidden">
                             {[
-                                { value: 'Déjà 3', label: 'Groupes accompagnés' },
+                                { value: '3 groupes', label: 'Multi-entités accompagnés' },
                                 { value: 'Jusqu\'à -70%', label: 'Temps reporting' },
                                 { value: '100%', label: 'Réconciliation validée' },
                                 { value: '0', label: 'Extraction manuelle' },
@@ -75,6 +76,94 @@ export default function BusinessIntelligencePage() {
                         <p className="text-[0.7rem] text-gray-400 text-center italic">
                             Métriques constatées sur missions récentes (2024-2026)
                         </p>
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── CAS CLIENT ANONYMISÉ ─── */}
+            <section className="py-16 border-b border-gray-200 bg-slate-50">
+                <div className="max-w-[840px] mx-auto px-6">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-1.5 pb-3 relative">
+                        Cas client — Groupe multi-sites (anonymisé)
+                        <span className="absolute bottom-0 left-0 w-9 h-0.5 bg-slate-800" />
+                    </h2>
+
+                    <p className="text-[0.9rem] text-gray-500 mb-10 max-w-[640px]">
+                        Groupe français de services spécialisés, 12 entités juridiques,
+                        activité multi-sites, reporting mensuel consolidé présenté en Codir.
+                    </p>
+
+                    <div className="bg-white border border-gray-200 rounded p-6 space-y-6">
+                        {/* Contexte */}
+                        <div>
+                            <h3 className="text-[0.8rem] font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                                Contexte initial
+                            </h3>
+                            <ul className="space-y-1.5">
+                                {[
+                                    '12 entités juridiques consolidées mensuellement',
+                                    '14 jours nécessaires pour produire le reporting groupe',
+                                    '27 KPI calculés différemment selon les directions',
+                                    'Retraitements Excel manuels avant chaque clôture',
+                                ].map((item, i) => (
+                                    <li
+                                        key={i}
+                                        className="text-[0.85rem] text-gray-600 leading-snug pl-3.5 relative before:content-['—'] before:absolute before:left-0 before:text-gray-300"
+                                    >
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Intervention */}
+                        <div>
+                            <h3 className="text-[0.8rem] font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                                Intervention
+                            </h3>
+                            <ul className="space-y-1.5">
+                                {[
+                                    'Mise en place d’un référentiel unique de définitions KPI validé par la Finance',
+                                    'Réconciliation systématique reporting / comptabilité',
+                                    'Centralisation des flux ERP / CRM dans une base intermédiaire',
+                                    'Automatisation complète de la production mensuelle',
+                                ].map((item, i) => (
+                                    <li
+                                        key={i}
+                                        className="text-[0.85rem] text-gray-600 leading-snug pl-3.5 relative before:content-['—'] before:absolute before:left-0 before:text-gray-300"
+                                    >
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Résultats */}
+                        <div className="bg-slate-900 text-white rounded p-5">
+                            <h3 className="text-[0.8rem] font-semibold uppercase tracking-wider text-gray-400 mb-3">
+                                Résultats obtenus
+                            </h3>
+                            <div className="grid md:grid-cols-3 gap-6 text-center">
+                                <div>
+                                    <div className="text-2xl font-bold">14 → 4 jours</div>
+                                    <div className="text-[0.7rem] text-gray-400 uppercase tracking-wider">
+                                        Production reporting
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="text-2xl font-bold">100 %</div>
+                                    <div className="text-[0.7rem] text-gray-400 uppercase tracking-wider">
+                                        KPI réconciliés
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="text-2xl font-bold">0</div>
+                                    <div className="text-[0.7rem] text-gray-400 uppercase tracking-wider">
+                                        Fichier Excel consolidé
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

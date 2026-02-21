@@ -1,23 +1,23 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'DAF Externalisé PME (1-100M€) | Conseil Finance & Pilotage Trésorerie - Otmane Boulahia',
-    description: 'DAF externalisé pour dirigeants PME. Audit financier, pilotage trésorerie 90j, tableaux de bord IA. 10+ ans d\'expérience. Diagnostic gratuit 30 min. Tarif dès 1200€/mois.',
+    title: 'Direction Financière Externalisée PME (1-100M€) | Audit & Pilotage Stratégique - FinSight',
+    description: 'Direction financière externalisée pour dirigeants PME ambitieux. Score FinSight™, audit stratégique, pilotage trésorerie 90j, agents IA. Échange stratégique 30 min offert.',
     keywords: [
-        'daf externalisé',
+        'direction financière externalisée',
         'daf externalisé pme',
-        'directeur financier externe',
+        'pilotage financier stratégique',
         'consulting finance pme',
-        'conseil finance pme',
+        'audit financier pme',
         'pilotage trésorerie pme',
         'fractional cfo france',
-        'audit financier pme',
-        'consultant finance freelance',
+        'score finsight',
+        'consultant finance dirigeant',
         'daf à temps partagé'
     ],
     openGraph: {
-        title: 'Consulting Finance | DAF Externalisé pour TPE/PME',
-        description: 'Expertise DAF externalisé : audit, pilotage, levée de fonds. Bénéficiez de l\'expérience d\'un CFO senior sans le coût d\'un temps plein.',
+        title: 'Direction Financière Externalisée | Audit & Pilotage PME | FinSight',
+        description: 'Structurez votre pilotage financier. Score FinSight™, audit stratégique, agents IA. Pour dirigeants PME de 1M€ à 100M€.',
         url: 'https://finsight.zineinsight.com/consulting',
         siteName: 'FinSight',
         images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
                 url: 'https://finsight.zineinsight.com/og-consulting.png',
                 width: 1200,
                 height: 630,
-                alt: 'FinSight Consulting - DAF Externalisé'
+                alt: 'FinSight - Direction Financière Externalisée'
             }
         ],
         locale: 'fr_FR',
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Consulting Finance | DAF Externalisé pour TPE/PME',
-        description: 'Expertise DAF externalisé : audit, pilotage, levée de fonds. Sans le coût d\'un temps plein.',
+        title: 'Direction Financière Externalisée | FinSight',
+        description: 'Score FinSight™ + audit stratégique + pilotage augmenté. Pour dirigeants PME ambitieux.',
         images: ['https://finsight.zineinsight.com/og-consulting.png']
     },
     alternates: {

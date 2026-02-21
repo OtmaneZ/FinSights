@@ -6,12 +6,12 @@ import CalculatorHistory from '@/components/CalculatorHistory'
 import RecommendedPath from '@/components/RecommendedPath'
 
 export const metadata: Metadata = {
-    title: 'Diagnostic Financier Gratuit PME : Votre Trésorerie est-elle en Danger ? | FinSight',
-    description: 'Testez en 30 secondes les 9 indicateurs qui révèlent les risques invisibles de votre PME : DSO, BFR, ROI, Marge. Résultat instantané + benchmark sectoriel. Zéro inscription.',
-    keywords: 'diagnostic financier pme, risque trésorerie, tension cash, dso élevé, bfr trop haut, audit financier gratuit, analyse finance pme, problème trésorerie',
+    title: 'Pré-Diagnostic Financier PME : DSO, BFR, Marge, ROI | FinSight',
+    description: 'Évaluez vos indicateurs clés en quelques clics. Les mêmes outils que nous utilisons en mission DAF — DSO, BFR, Marge, ROI — avec benchmarks sectoriels et recommandations.',
+    keywords: 'diagnostic financier pme, analyse dso, analyse bfr, analyse marge, analyse roi, pré-diagnostic financier, indicateurs financiers pme, audit financier, pilotage financier',
     openGraph: {
-        title: 'Votre trésorerie est-elle en danger sans que vous le sachiez ?',
-        description: 'Diagnostic financier gratuit : testez les 9 indicateurs qui révèlent les risques invisibles de votre PME en 30 secondes.',
+        title: 'Pré-Diagnostic Financier PME — DSO, BFR, Marge, ROI | FinSight',
+        description: 'Évaluez vos indicateurs clés : DSO, BFR, Marge, ROI. Benchmarks sectoriels et recommandations d\'expert inclus.',
         type: 'website',
         url: 'https://finsight.zineinsight.com/calculateurs',
     },
@@ -28,21 +28,21 @@ export default function CalculateursPage() {
             <div className="max-w-7xl mx-auto px-6 py-16">
                 {/* Hero Section */}
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-300 rounded-full px-4 py-2 mb-6">
-                        <svg className="w-4 h-4 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    <div className="inline-flex items-center gap-2 bg-accent-primary/10 border border-accent-primary/30 rounded-full px-4 py-2 mb-6">
+                        <svg className="w-4 h-4 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
-                        <span className="text-sm font-semibold text-slate-700">Diagnostic financier gratuit</span>
+                        <span className="text-sm font-semibold text-accent-primary">Pré-diagnostic stratégique</span>
                     </div>
 
                     <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-primary">
-                        Votre trésorerie est-elle en danger<br />
-                        <span className="text-slate-700">sans que vous le sachiez ?</span>
+                        Mesurez votre performance<br />
+                        <span className="text-accent-primary">avant de décider</span>
                     </h1>
 
                     <p className="text-xl text-secondary max-w-3xl mx-auto mb-8">
-                        Testez en <strong>30 secondes</strong> les indicateurs qui révèlent<br />
-                        les <strong>risques invisibles</strong> de votre PME.
+                        Les mêmes outils que nous utilisons en mission DAF.<br />
+                        Obtenez un <strong>premier niveau de lecture</strong> de votre situation financière.
                     </p>
 
                     <div className="flex items-center justify-center gap-6 text-sm text-tertiary">
@@ -56,13 +56,13 @@ export default function CalculateursPage() {
                             <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
-                            <span>Benchmark sectoriel</span>
+                            <span>Benchmarks sectoriels</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
-                            <span>Zéro inscription</span>
+                            <span>Recommandations d'expert</span>
                         </div>
                     </div>
                 </div>
@@ -79,38 +79,38 @@ export default function CalculateursPage() {
                 {/* CTA Section */}
                 <div className="surface rounded-2xl p-12 border-2 border-slate-200 bg-gradient-to-br from-slate-50 to-gray-50 mt-16">
                     <div className="text-center mb-8">
-                        <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-300 rounded-full px-4 py-2 mb-4">
-                            <svg className="w-5 h-5 text-slate-700" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        <div className="inline-flex items-center gap-2 bg-accent-primary/10 border border-accent-primary/30 rounded-full px-4 py-2 mb-4">
+                            <svg className="w-5 h-5 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                             </svg>
-                            <span className="text-sm font-semibold text-slate-700">Vous découvrez un problème ?</span>
+                            <span className="text-sm font-semibold text-accent-primary">Aller plus loin</span>
                         </div>
                         
                         <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            DSO &gt; 45 jours ? BFR trop élevé ? Marge sous pression ?
+                            Ces indicateurs ne sont qu'un premier niveau de lecture
                         </h2>
                         
                         <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
-                            Ne restez pas seul face aux tensions financières.<br />
-                            <strong>Audit express en 72h</strong> : Plan d'action chiffré, priorisé, actionnable.
+                            Un échange stratégique de 30 minutes permet d'aller à l'essentiel :<br />
+                            <strong>cash, marges, risques cachés — et vos leviers d'action concrets.</strong>
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                        {/* Option 1 : Diagnostic gratuit */}
-                        <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-slate-400 transition-all">
+                        {/* Option 1 : Échange stratégique */}
+                        <div className="bg-white rounded-xl p-6 border-2 border-accent-primary hover:shadow-lg transition-all">
                             <div className="flex items-start gap-3 mb-4">
-                                <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
-                                    <svg className="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div className="w-12 h-12 rounded-lg bg-accent-primary/10 flex items-center justify-center flex-shrink-0">
+                                    <svg className="w-6 h-6 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                 </div>
                                 <div className="flex-1">
                                     <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                        Diagnostic gratuit 30 min
+                                        Échange stratégique 30 min
                                     </h3>
                                     <p className="text-sm text-gray-600 mb-4">
-                                        Avec notre expert CFO · Visio · Aucun engagement
+                                        Avec Otmane Boulahia · Visio · Confidentiel
                                     </p>
                                     <ul className="space-y-2 text-sm text-gray-700 mb-6">
                                         <li className="flex items-start gap-2">
@@ -129,23 +129,29 @@ export default function CalculateursPage() {
                                             <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                             </svg>
-                                            <span>Méthode pour libérer 50-100k€ rapidement</span>
+                                            <span>Identification de vos leviers prioritaires</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                            </svg>
+                                            <span>Premières recommandations concrètes</span>
                                         </li>
                                     </ul>
                                     <a
                                         href="https://calendly.com/zineinsight"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="block w-full text-center px-6 py-3 bg-slate-700 hover:bg-slate-800 text-white rounded-lg font-semibold transition-all"
+                                        className="block w-full text-center px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all shadow-lg"
                                     >
-                                        Prendre RDV gratuit
+                                        Réserver un échange stratégique
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Option 2 : Consulting */}
-                        <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-slate-400 transition-all">
+                        {/* Option 2 : Accompagnement */}
+                        <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-accent-primary transition-all">
                             <div className="flex items-start gap-3 mb-4">
                                 <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
                                     <svg className="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -154,10 +160,10 @@ export default function CalculateursPage() {
                                 </div>
                                 <div className="flex-1">
                                     <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                        Audit approfondi 72h
+                                        Audit & Pilotage complet
                                     </h3>
                                     <p className="text-sm text-gray-600 mb-4">
-                                        Rapport complet + 3 actions prioritaires · 1 490€
+                                        Score FinSight™ + plan d'action chiffré · À partir de 1 490€
                                     </p>
                                     <ul className="space-y-2 text-sm text-gray-700 mb-6">
                                         <li className="flex items-start gap-2">
@@ -183,7 +189,7 @@ export default function CalculateursPage() {
                                         href="/consulting"
                                         className="block w-full text-center px-6 py-3 bg-slate-700 hover:bg-slate-800 text-white rounded-lg font-semibold transition-all"
                                     >
-                                        Voir les offres consulting
+                                        Découvrir l'accompagnement
                                     </a>
                                 </div>
                             </div>

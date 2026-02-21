@@ -15,9 +15,9 @@ import FinSightAssistant from '@/components/FinSightAssistant'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-    title: 'FinSight | DAF Externalisé : Pilotage Financier & Stratégie Data pour PME',
-    description: 'Transformez vos données en décisions. Obtenez votre Score FinSight™ (0-100) en 2min : audit stratégique, surveillance trésorerie et Agents IA pour PME 1-100M€. Diagnostic gratuit 30 min.',
-    keywords: ['daf externalisé pme', 'pilotage financier pme', 'score finsight', 'audit financier stratégique', 'agents ia finance', 'surveillance trésorerie', 'calculateur dso gratuit', 'calculateur bfr gratuit', 'diagnostic financier pme', 'stratégie data finance'],
+    title: 'FinSight | Direction Financière Externalisée pour Dirigeants PME (1-100M€)',
+    description: 'Pilotez votre PME avec 3 mois d\'avance. Score FinSight™ (0-100), audit stratégique, tableaux de bord et agents IA finance. Échange stratégique 30 min offert.',
+    keywords: ['direction financière externalisée pme', 'daf externalisé', 'pilotage financier stratégique', 'score finsight', 'audit financier pme', 'agents ia finance', 'tableau de bord financier pme', 'anticipation trésorerie', 'consulting finance pme', 'structuration financière'],
     authors: [{ name: 'Otmane Boulahia', url: 'https://finsight.zineinsight.com/consulting' }],
     creator: 'FinSight',
     publisher: 'FinSight',
@@ -30,8 +30,8 @@ export const metadata = {
         locale: 'fr_FR',
         url: 'https://finsight.zineinsight.com',
         siteName: 'FinSight',
-        title: 'FinSight | DAF Externalisé & Pilotage Financier pour PME',
-        description: 'Score FinSight™ gratuit en 2min : audit stratégique, surveillance trésorerie et Agents IA. Diagnostic gratuit 30 min.',
+        title: 'FinSight | Direction Financière Externalisée pour PME',
+        description: 'Décidez avec 3 mois d\'avance. Score FinSight™, audit stratégique et agents IA finance pour dirigeants PME ambitieux.',
         images: [{
             url: 'https://finsight.zineinsight.com/images/og-default.png',
             width: 1200,
@@ -41,8 +41,8 @@ export const metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'FinSight | DAF Externalisé & Pilotage Financier PME',
-        description: 'Score FinSight™ en 2min : audit stratégique + surveillance trésorerie + Agents IA. Diagnostic gratuit.',
+        title: 'FinSight | Direction Financière Externalisée PME',
+        description: 'Score FinSight™ + audit stratégique + agents IA. Pilotage financier pour dirigeants PME ambitieux.',
         images: ['https://finsight.zineinsight.com/images/og-default.png']
     },
     icons: {
@@ -169,22 +169,6 @@ export default function RootLayout({
                         })
                     }}
                 />
-
-                {/* Microsoft Clarity */}
-                {process.env.NEXT_PUBLIC_CLARITY_ID && (
-                    <script
-                        type="text/javascript"
-                        dangerouslySetInnerHTML={{
-                            __html: `
-                                (function(c,l,a,r,i,t,y){
-                                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                                })(window, document, "clarity", "script", "${process.env.NEXT_PUBLIC_CLARITY_ID}");
-                            `
-                        }}
-                    />
-                )}
             </body>
         </html>
     )

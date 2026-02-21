@@ -1,12 +1,12 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur DSO Gratuit : Mesurez votre Délai de Paiement Client',
-    description: 'Combien de trésorerie dorment chez vos clients ? Calculez votre DSO sans inscription. Inclus : benchmarks 2026 (SaaS, Industrie, BTP) et conseils de DAF. Gratuit.',
-    keywords: 'calculateur dso gratuit, dso calcul, calculer dso en ligne, formule dso, days sales outstanding, délai paiement clients, dso moyen secteur, créances clients pme, réduire dso',
+    title: 'Analyse DSO — Évaluez votre Délai de Paiement Client | FinSight',
+    description: 'Combien de trésorerie immobilisée chez vos clients ? Évaluez votre DSO, comparez aux benchmarks sectoriels 2026 et identifiez vos leviers d\'optimisation.',
+    keywords: 'analyse dso, dso calcul, calculer dso en ligne, formule dso, days sales outstanding, délai paiement clients, dso moyen secteur, créances clients pme, réduire dso, pré-diagnostic financier',
     openGraph: {
-        title: 'Calculateur DSO Gratuit | Mesurez votre Délai de Paiement Client',
-        description: 'Combien de trésorerie dorment chez vos clients ? Calculez DSO + benchmarks 2026 + conseils DAF. Sans inscription.',
+        title: 'Analyse DSO — Délai de Paiement Client | FinSight',
+        description: 'Évaluez votre DSO + benchmarks sectoriels 2026 + leviers d\'optimisation. Premier niveau de diagnostic financier.',
         url: 'https://finsight.zineinsight.com/calculateurs/dso',
         siteName: 'FinSight',
         locale: 'fr_FR',
@@ -16,14 +16,14 @@ export const metadata: Metadata = {
                 url: 'https://finsight.zineinsight.com/images/og-calculateur-dso.png',
                 width: 1200,
                 height: 630,
-                alt: 'Calculateur DSO gratuit FinSight - Formule et benchmarks sectoriels',
+                alt: 'Analyse DSO FinSight - Formule et benchmarks sectoriels',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Calculateur DSO Gratuit | Délai de Paiement Client',
-        description: 'Formule DSO + benchmarks sectoriels + conseils DAF. Sans inscription.',
+        title: 'Analyse DSO — Délai de Paiement Client | FinSight',
+        description: 'Évaluez votre DSO + benchmarks sectoriels + recommandations d\'expert.',
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/dso',

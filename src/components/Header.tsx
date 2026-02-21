@@ -69,22 +69,22 @@ export default function Header() {
                     <span className="text-2xl font-bold">FinSight</span>
                 </Link>
                 <nav className="hidden md:flex items-center gap-8">
-                    {/* Consulting */}
+                    {/* Diagnostic — Priorité conversion */}
+                    <Link href="/mon-diagnostic" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Diagnostic
+                    </Link>
+
+                    {/* Consulting — Priorité conversion */}
                     <Link href="/consulting" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Consulting Finance
+                        Accompagnement
                     </Link>
 
-                    {/* Business Intelligence */}
-                    <Link href="/business-intelligence" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Business Intelligence
+                    {/* Méthodologie */}
+                    <Link href="/methodologie" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Méthodologie
                     </Link>
 
-                    {/* Agents IA */}
-                    <Link href="/agents" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                       Nos Agents IA
-                    </Link>
-
-                    {/* Ressources Dropdown */}
+                    {/* Ressources & Outils Dropdown */}
                     <div className="relative" ref={resourcesRef}>
                         <button
                             onClick={() => setIsResourcesOpen(!isResourcesOpen)}
@@ -96,7 +96,27 @@ export default function Header() {
 
                         {/* Resources Dropdown Menu */}
                         {isResourcesOpen && (
-                            <div className="absolute left-0 mt-2 w-48 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50 animate-slide-up">
+                            <div className="absolute left-0 mt-2 w-56 bg-surface-elevated border border-border-default rounded-lg shadow-xl overflow-hidden z-50 animate-slide-up">
+                                <div className="px-3 py-2 border-b border-border-default">
+                                    <p className="text-xs font-semibold text-tertiary uppercase tracking-wider">Outils</p>
+                                </div>
+                                <Link
+                                    href="/calculateurs"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Pré-diagnostic financier
+                                </Link>
+                                <Link
+                                    href="/ressources/templates"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Templates financiers
+                                </Link>
+                                <div className="px-3 py-2 border-b border-t border-border-default">
+                                    <p className="text-xs font-semibold text-tertiary uppercase tracking-wider">Contenu</p>
+                                </div>
                                 <Link
                                     href="/fondamentaux"
                                     className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
@@ -105,25 +125,11 @@ export default function Header() {
                                     Fondamentaux
                                 </Link>
                                 <Link
-                                    href="/ressources/templates"
-                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
-                                    onClick={() => setIsResourcesOpen(false)}
-                                >
-                                    Templates
-                                </Link>
-                                <Link
-                                    href="/calculateurs"
-                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
-                                    onClick={() => setIsResourcesOpen(false)}
-                                >
-                                    Calculateurs
-                                </Link>
-                                <Link
                                     href="/ressources/guides"
                                     className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
                                     onClick={() => setIsResourcesOpen(false)}
                                 >
-                                    Guides
+                                    Guides pratiques
                                 </Link>
                                 <Link
                                     href="/blog"
@@ -132,21 +138,26 @@ export default function Header() {
                                 >
                                     Blog
                                 </Link>
+                                <div className="px-3 py-2 border-b border-t border-border-default">
+                                    <p className="text-xs font-semibold text-tertiary uppercase tracking-wider">Technologie</p>
+                                </div>
                                 <Link
-                                    href="/methodologie"
+                                    href="/agents"
                                     className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
                                     onClick={() => setIsResourcesOpen(false)}
                                 >
-                                    Méthodologie Score FinSight™
+                                    Agents IA Finance
+                                </Link>
+                                <Link
+                                    href="/business-intelligence"
+                                    className="block px-4 py-2.5 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-all duration-200"
+                                    onClick={() => setIsResourcesOpen(false)}
+                                >
+                                    Business Intelligence
                                 </Link>
                             </div>
                         )}
                     </div>
-
-                    {/* Mon Diagnostic */}
-                    <Link href="/mon-diagnostic" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
-                        Mon Diagnostic
-                    </Link>
 
                     {/* Contact */}
                     <Link href="/contact" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
