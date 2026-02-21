@@ -2,7 +2,7 @@ import './globals.css'
 // import '../styles/finsight-revolutionary.css' // ❌ Désactivé - Utiliser design-system.css à la place
 // import '../styles/design-system.css' // ❌ DARK THEME - Désactivé pour corporate theme
 import '../styles/driver-custom.css'
-import { Inter } from 'next/font/google'
+import { Inter, Playfair_Display } from 'next/font/google'
 import { FinancialDataProvider } from '@/lib/financialContext'
 import { CompanyProvider } from '@/lib/companyContext'
 import { ThemeProvider } from '@/lib/themeContext'
@@ -12,7 +12,8 @@ import CookieConsent from '@/components/CookieConsent'
 import AnalyticsDebugger from '@/components/AnalyticsDebugger'
 import FinSightAssistant from '@/components/FinSightAssistant'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', weight: ['400', '500', '600', '700'] })
 
 export const metadata = {
     title: 'FinSight | Direction Financière Externalisée pour Dirigeants PME (1-100M€)',
@@ -81,7 +82,7 @@ export default function RootLayout({
                 {/* PWA meta tags - nouvelle norme */}
                 <meta name="mobile-web-app-capable" content="yes" />
             </head>
-            <body className={inter.className}>
+            <body className={`${inter.variable} ${playfair.variable} font-sans`}>
                 {/* Google Tag Manager (noscript) */}
                 <noscript>
                     <iframe

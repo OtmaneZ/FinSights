@@ -414,4 +414,88 @@ Les calculateurs sont des *démonstrateurs de capacité* (pré-diagnostic) qui a
 4. Enrichissement contenu calculateurs (1200+ mots pour SEO)
 5. Audit GTM container (vérifier pas de double GA4 tag côté GTM)
 
-histoire de push a nouveau
+
+⚠️ 2️⃣ Là où on peut encore monter d’un cran
+
+Je vais être fin ici.
+
+⸻
+
+🎯 A. Ton hero est bon… mais manque de tension business
+
+“Décidez avec 3 mois d’avance” est fort.
+
+Mais un dirigeant pense :
+	•	Avance sur quoi ?
+	•	Sur quoi exactement ?
+	•	En quoi ça me change concrètement ?
+
+Tu parles vision.
+Il veut savoir ce que ça change opérationnellement.
+
+Je rajouterais une phrase ultra concrète :
+
+Vision cash à 90 jours, marges réelles par activité, scénarios de croissance simulés avant décision.
+
+Ça ancre l’abstraction dans le réel.
+
+⸻
+
+🎯 B. Tu es encore un peu trop centré sur toi
+
+Il y a beaucoup de :
+	•	10+ ans
+	•	Master
+	•	Le Wagon
+	•	Enseignement
+	•	Double expertise
+
+C’est bien.
+
+Mais un dirigeant veut surtout :
+	•	Impact
+	•	Résultat
+	•	Cas concret
+	•	Transformation mesurable
+
+Tu pourrais renforcer :
+	•	“DSO réduit de X jours”
+	•	“+X% marge”
+	•	“+X€ cash libéré”
+
+Même si c’est anonymisé.
+
+⸻
+
+🎯 C. L’offre à 1 490€ est crédible… mais fragile
+
+Un dirigeant 10M€ CA va se dire :
+
+1 490€ ? C’est presque trop bas.
+
+Attention au paradoxe.
+
+Un prix bas rassure,
+mais peut diminuer la perception premium.
+
+Tu pourrais tester :
+	•	1 490€ → mention “mission cadrage stratégique”
+	•	ou 1 990€ si le positionnement monte
+
+Ce n’est pas urgent.
+Mais c’est stratégique à terme.
+
+⸻
+
+🎯 D. Le “Pré-diagnostic stratégique” est bon… mais froid
+
+Il est très rationnel.
+
+Il manque une petite tension psychologique.
+
+Par exemple :
+
+Beaucoup de dirigeants pensent piloter correctement leur cash…
+jusqu’à ce qu’on mette les chiffres en face.
+
+Ça crée une légère dissonance utile.
