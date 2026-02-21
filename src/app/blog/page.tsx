@@ -18,7 +18,8 @@ import {
     BarChart3,
     Zap,
     Shield,
-    Briefcase
+    Briefcase,
+    TrendingDown
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -128,6 +129,42 @@ const blogPosts: BlogPost[] = [
         category: 'Note Stratégique',
         tags: ['Pilotage financier', 'PME', 'Transformation', 'DAF', 'Direction financière'],
         image: '/images/bureau-nuit.png',
+        type: 'strategique'
+    },
+    // ═══════════════════════════════════════════════
+    // ÉTUDES DE CAS — Conversion par la preuve
+    // ═══════════════════════════════════════════════
+    {
+        slug: 'pme-b2b-6m-240k-cash-libere-4-mois',
+        title: 'Comment une PME B2B à 6M€ a libéré 240k€ de cash en 4 mois',
+        description: 'DSO de 72 jours, BFR en dérive, trésorerie sous tension. Diagnostic structuré, plan d\'action en 3 phases, résultat chiffré : +240k€ de cash disponible.',
+        date: '21 février 2026',
+        readTime: '11 min',
+        category: 'Étude de cas',
+        tags: ['Cash', 'DSO', 'BFR', 'PME B2B', 'Résultats'],
+        image: '/images/bureau.png',
+        type: 'strategique'
+    },
+    {
+        slug: 'reduire-dso-62-41-jours-relation-client',
+        title: 'Comment réduire un DSO de 62 à 41 jours sans détériorer la relation client',
+        description: 'PME de services à 4,5M€ de CA. DSO chroniquement élevé. 3 leviers activés en 90 jours : segmentation client, process facturation, relance structurée.',
+        date: '21 février 2026',
+        readTime: '10 min',
+        category: 'Étude de cas',
+        tags: ['DSO', 'Recouvrement', 'Relation client', 'PME Services'],
+        image: '/images/vue-NY.png',
+        type: 'strategique'
+    },
+    {
+        slug: 'pme-8m-risque-dependance-sous-estime',
+        title: 'Pourquoi cette PME à 8M€ de CA sous-estimait son risque de dépendance',
+        description: 'Un client représente 38% du CA. Marge confortable, dirigeant serein. Analyse structurelle : le risque était systémique et invisible dans les tableaux de bord.',
+        date: '21 février 2026',
+        readTime: '12 min',
+        category: 'Étude de cas',
+        tags: ['Concentration client', 'Risque', 'PME', 'Diversification'],
+        image: '/images/marge.png',
         type: 'strategique'
     },
     // ═══════════════════════════════════════════════
@@ -370,6 +407,11 @@ const categoryConfig: Record<string, { icon: React.ReactNode; color: string; bg:
         icon: <Shield className="w-4 h-4" />,
         color: 'text-slate-800',
         bg: 'bg-slate-200'
+    },
+    'Étude de cas': {
+        icon: <TrendingDown className="w-4 h-4" />,
+        color: 'text-emerald-800',
+        bg: 'bg-emerald-100'
     },
     'Trésorerie': { 
         icon: <DollarSign className="w-4 h-4" />, 
@@ -678,7 +720,12 @@ export default function BlogPage() {
                                                 
                                                 {/* Category Badge */}
                                                 <div className="absolute top-4 left-4">
-                                                    {isStrategique ? (
+                                                    {post.category === 'Étude de cas' ? (
+                                                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 backdrop-blur-sm border border-emerald-400/30">
+                                                            <TrendingDown className="w-3.5 h-3.5" />
+                                                            Étude de cas
+                                                        </span>
+                                                    ) : isStrategique ? (
                                                         <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-white backdrop-blur-sm border border-white/20">
                                                             <Shield className="w-3.5 h-3.5" />
                                                             Note Stratégique
@@ -734,7 +781,7 @@ export default function BlogPage() {
                                                 <div className={`flex items-center gap-2 font-medium text-sm group-hover:gap-3 transition-all ${
                                                     isStrategique ? 'text-slate-400 group-hover:text-white' : 'text-accent-primary'
                                                 }`}>
-                                                    {isStrategique ? 'Lire l\u2019analyse' : 'Lire l\u2019article'}
+                                                    {post.category === 'Étude de cas' ? 'Voir les résultats' : isStrategique ? 'Lire l\u2019analyse' : 'Lire l\u2019article'}
                                                     <ChevronRight className="w-4 h-4" />
                                                 </div>
                                             </div>
@@ -796,32 +843,34 @@ export default function BlogPage() {
                         </div>
 
                         <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-                            Pilotage financier et agents IA au service de vos décisions
+                            Votre structure financière est-elle réellement optimisée ?
                         </h2>
 
                         <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                            Que vous ayez besoin de structurer votre pilotage financier ou de vous appuyer sur des agents IA décisionnels, FinSight vous accompagne pour anticiper, arbitrer et décider au bon moment.
+                            DSO au-dessus de la médiane, BFR qui dérive, marges qui s&apos;érodent sans que personne ne le voie — un diagnostic structuré identifie les fuites de cash avant qu&apos;elles ne deviennent critiques.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <Link
-                                href="/agents"
-                                className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all"
+                                href="/diagnostic/guide"
+                                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 text-lg font-bold rounded-xl shadow-xl hover:bg-slate-100 transition-all"
                             >
                                 <Zap className="w-5 h-5" />
-                                Pilotage & Conseil
+                                Lancer mon diagnostic
                             </Link>
-                            <Link
-                                href="/consulting"
+                            <a
+                                href="https://calendly.com/zineinsight/15min"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 transition-all"
                             >
-                                Découvrir les agents IA
+                                Échanger sur ma situation
                                 <ArrowRight className="w-5 h-5" />
-                            </Link>
+                            </a>
                         </div>
 
                         <p className="text-slate-400 text-sm mt-8">
-                            ✓ 30 min gratuit • ✓ Sans engagement • ✓ Réponse sous 24h
+                            ✓ Confidentiel • ✓ Sans engagement • ✓ Réponse sous 24h
                         </p>
                     </motion.div>
                 </div>

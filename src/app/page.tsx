@@ -105,12 +105,12 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 text-base font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300"
                   >
-                    Réserver un échange stratégique
+                    Identifier mes leviers financiers
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </a>
                   <div className="flex items-center gap-3 text-sm text-gray-500">
                     <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                    <span>30 min · Confidentiel · Sans engagement</span>
+                    <span>Confidentiel · Sans engagement</span>
                   </div>
                 </div>
               </FadeIn>
@@ -551,8 +551,8 @@ export default function Home() {
 
           <FadeIn delay={0.2}>
             <p className="text-lg text-gray-400 mb-12 max-w-xl mx-auto leading-relaxed">
-              Un échange stratégique de 30 minutes pour identifier vos leviers
-              immédiats : cash, marges, risques cachés.
+              DSO, BFR, marges réelles, concentration client — un échange confidentiel 
+              pour identifier ce que vos tableaux de bord ne montrent pas.
             </p>
           </FadeIn>
 
@@ -564,7 +564,7 @@ export default function Home() {
               className="group inline-flex items-center gap-3 px-10 py-5 bg-white text-gray-900 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300"
             >
               <Calendar className="w-5 h-5" />
-              Réserver un échange stratégique
+              Identifier mes leviers financiers
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </FadeIn>
@@ -575,7 +575,7 @@ export default function Home() {
               <span className="text-gray-700">·</span>
               <span>100% confidentiel</span>
               <span className="text-gray-700">·</span>
-              <span>PME de 1M€ à 100M€</span>
+              <span>PME de 1M€ à 20M€</span>
             </div>
           </FadeIn>
         </div>

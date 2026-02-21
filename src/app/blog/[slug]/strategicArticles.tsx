@@ -49,16 +49,24 @@ function TransitionDAF({ priorite, risque, arbitrage }: {
                 </div>
                 <div className="mt-8 pt-6 border-t border-slate-200">
                     <p className="text-slate-600 text-sm mb-4">
-                        Pour transformer ce diagnostic en plan d&apos;action priorisé :
+                        Vous vous reconnaissez dans cette situation ?
                     </p>
-                    <a
-                        href="https://calendly.com/zineinsight/15min"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-lg font-semibold transition-all text-sm"
-                    >
-                        Réserver un échange stratégique
-                    </a>
+                    <div className="flex flex-wrap gap-3">
+                        <a
+                            href="https://calendly.com/zineinsight/15min"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-lg font-semibold transition-all text-sm"
+                        >
+                            Identifier mes leviers financiers
+                        </a>
+                        <Link
+                            href="/diagnostic/guide"
+                            className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 hover:border-slate-400 text-slate-700 rounded-lg font-semibold transition-all text-sm"
+                        >
+                            Lancer mon diagnostic
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

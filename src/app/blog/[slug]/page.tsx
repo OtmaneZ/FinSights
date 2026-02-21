@@ -17,6 +17,7 @@ import { moreArticles } from './moreArticles'
 import { finalArticles } from './finalArticles'
 import { seoArticles } from './seoArticles'
 import { strategicArticles } from './strategicArticles'
+import { caseStudyArticles } from './caseStudyArticles'
 
 interface BlogArticle {
     slug: string
@@ -32,6 +33,7 @@ interface BlogArticle {
 // Configuration des catégories avec icônes et couleurs
 const categoryConfig: Record<string, { icon: React.ElementType; color: string; bgColor: string }> = {
     'Note Stratégique': { icon: Shield, color: 'text-slate-300', bgColor: 'bg-slate-700/50' },
+    'Étude de cas': { icon: TrendingUp, color: 'text-emerald-400', bgColor: 'bg-emerald-500/20' },
     'KPIs': { icon: TrendingUp, color: 'text-blue-400', bgColor: 'bg-blue-500/20' },
     'Trésorerie': { icon: Wallet, color: 'text-emerald-400', bgColor: 'bg-emerald-500/20' },
     'Analyse': { icon: BarChart3, color: 'text-purple-400', bgColor: 'bg-purple-500/20' },
@@ -42,6 +44,7 @@ const categoryConfig: Record<string, { icon: React.ElementType; color: string; b
 // Images hero par catégorie
 const categoryImages: Record<string, string> = {
     'Note Stratégique': '/images/bureau-nuit.png',
+    'Étude de cas': '/images/bureau.png',
     'KPIs': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop',
     'Trésorerie': 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=600&fit=crop',
     'Analyse': 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=600&fit=crop',
@@ -2755,7 +2758,8 @@ const articles: Record<string, BlogArticle> = {
     ...moreArticles,
     ...finalArticles,
     ...seoArticles,
-    ...strategicArticles
+    ...strategicArticles,
+    ...caseStudyArticles
 }
 
 // Composant Table des Matières
@@ -3150,7 +3154,7 @@ export default function BlogArticlePage() {
                         </div>
 
                         {/* CTA en fin d'article — adapté selon catégorie */}
-                        {article.category === 'Note Stratégique' ? (
+                        {(article.category === 'Note Stratégique' || article.category === 'Étude de cas') ? (
                             <div className="mt-16 p-8 rounded-xl bg-slate-800/50 border border-slate-700">
                                 <div className="flex items-start gap-4 mb-6">
                                     <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
@@ -3158,10 +3162,10 @@ export default function BlogArticlePage() {
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold text-white font-serif">
-                                            De l&apos;analyse au plan d&apos;action
+                                            Vous vous reconnaissez dans cette situation ?
                                         </h3>
                                         <p className="text-sm text-slate-400 mt-1">
-                                            Cette note pose le diagnostic. L&apos;accompagnement le transforme en décisions.
+                                            Cette note pose le diagnostic. Passons aux décisions.
                                         </p>
                                     </div>
                                 </div>
@@ -3172,14 +3176,14 @@ export default function BlogArticlePage() {
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg transition-all hover:bg-slate-100"
                                     >
-                                        Réserver un échange stratégique
+                                        Identifier mes leviers financiers
                                         <ArrowRight className="w-4 h-4" />
                                     </a>
                                     <Link
                                         href="/diagnostic/guide"
                                         className="inline-flex items-center gap-2 px-6 py-3 border border-slate-600 text-white hover:bg-slate-800 rounded-lg transition-all"
                                     >
-                                        Lancer le diagnostic
+                                        Lancer mon diagnostic
                                     </Link>
                                     <Link
                                         href="/blog"
@@ -3192,19 +3196,19 @@ export default function BlogArticlePage() {
                             </div>
                         ) : (
                             <div className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-accent-primary/20 via-accent-primary/10 to-transparent border border-accent-primary/30">
-                                <h3 className="text-2xl font-bold text-white mb-4">
-                                    Prêt à structurer votre pilotage financier ?
+                                <h3 className="text-2xl font-bold text-white mb-4 font-serif">
+                                    Perdez-vous de l&apos;argent sans le voir ?
                                 </h3>
                                 <p className="text-slate-300 mb-6">
-                                    FinSight analyse vos données comptables et fournit des diagnostics structurés
-                                    pour piloter votre entreprise avec une logique DAF.
+                                    DSO au-dessus de la médiane, BFR qui dérive, marges qui s&apos;érodent —
+                                    le diagnostic FinSight identifie vos fuites de cash en 5 minutes.
                                 </p>
                                 <div className="flex flex-wrap gap-4">
                                     <Link
                                         href="/diagnostic/guide"
-                                        className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-slate-900 font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/30"
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-900 font-semibold rounded-xl transition-all duration-300 hover:bg-slate-100"
                                     >
-                                        Lancer le diagnostic
+                                        Lancer mon diagnostic
                                         <ArrowRight className="w-4 h-4" />
                                     </Link>
                                     <a
@@ -3213,7 +3217,7 @@ export default function BlogArticlePage() {
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 px-6 py-3 border border-slate-600 text-white hover:bg-slate-800/50 rounded-xl transition-all"
                                     >
-                                        Échange stratégique
+                                        Échanger sur ma situation
                                     </a>
                                     <Link
                                         href="/blog"

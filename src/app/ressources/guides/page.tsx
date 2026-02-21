@@ -391,11 +391,11 @@ export default function GuidesPage() {
                     <div className="surface rounded-xl p-12 border border-border-default">
                         <div className="max-w-3xl mx-auto text-center">
                             <h3 className="text-2xl font-bold mb-4 text-primary font-serif">
-                                De la méthodologie au plan d&apos;action
+                                Votre structure financière est-elle réellement optimisée ?
                             </h3>
                             <p className="text-lg text-secondary mb-8 leading-relaxed">
-                                Ces notes posent les fondations. L&apos;accompagnement les transforme en décisions.
-                                <span className="text-primary font-medium"> Pilotage cash, arbitrage marge, structuration reporting.</span>
+                                Ces notes posent les fondations. L&apos;échange les transforme en arbitrages concrets.
+                                <span className="text-primary font-medium"> Fuites de cash, marges réelles, risques cachés.</span>
                             </p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <a
@@ -404,14 +404,14 @@ export default function GuidesPage() {
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-lg font-semibold transition-all hover:shadow-lg"
                                 >
-                                    Réserver un échange stratégique
+                                    Identifier mes leviers financiers
                                     <ArrowRight className="w-5 h-5" />
                                 </a>
                                 <Link
-                                    href="/consulting"
+                                    href="/diagnostic/guide"
                                     className="inline-flex items-center gap-2 px-8 py-4 border border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold transition-all"
                                 >
-                                    Voir les réalisations
+                                    Lancer mon diagnostic
                                 </Link>
                             </div>
                         </div>

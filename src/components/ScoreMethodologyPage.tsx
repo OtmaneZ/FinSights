@@ -1077,16 +1077,16 @@ export default function ScoreMethodologyPage() {
                                 Conseil Finance & Pilotage
                             </Link>
                             <Link
-                                href="/agents"
+                                href="/diagnostic/guide"
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                             >
-                                Découvrir les agents IA
+                                Lancer mon diagnostic
                                 <ArrowRight className="w-5 h-5" />
                             </Link>
                         </div>
 
                         <p className="text-slate-400 text-sm mt-8">
-                            Diagnostic gratuit 30 min · Sans engagement · Réponse sous 24h
+                            Confidentiel · Sans engagement · Résultats immédiats
                         </p>
                     </motion.div>
                 </div>
