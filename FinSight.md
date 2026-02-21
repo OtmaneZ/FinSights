@@ -413,3 +413,5 @@ Les calculateurs sont des *démonstrateurs de capacité* (pré-diagnostic) qui a
 3. Score FinSight™ interactif dans la home (AnimatedScoreDisplay est déjà importé mais non utilisé)
 4. Enrichissement contenu calculateurs (1200+ mots pour SEO)
 5. Audit GTM container (vérifier pas de double GA4 tag côté GTM)
+
+histoire de push a nouveau
