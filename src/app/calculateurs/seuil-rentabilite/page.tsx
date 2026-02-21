@@ -491,7 +491,6 @@ export default function CalculateurSeuilRentabilite() {
                                                             <Clock className="w-5 h-5" />
                                                             Réserver un échange stratégique
                                                         </a>
-                                                        </Link>
                                                     </div>
                                                 </motion.div>
                                             )}
