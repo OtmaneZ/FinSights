@@ -22,10 +22,10 @@ export default function Footer() {
                             <span className="text-xl font-semibold text-white">FinSight</span>
                         </Link>
                         <p className="text-[15px] leading-relaxed max-w-md mb-8">
-                            Direction financi&egrave;re externalis&eacute;e pour PME de 1 &agrave; 100&nbsp;M&euro;.
+                            Direction financière externalisée pour PME de 1 à 100&nbsp;M€.
                             Nous structurons le pilotage financier des entreprises en
-                            croissance &mdash; tr&eacute;sorerie, marges, reporting &mdash; pour que chaque
-                            d&eacute;cision repose sur des donn&eacute;es fiables.
+                            croissance — trésorerie, marges, reporting — pour que chaque
+                            décision repose sur des données fiables.
                         </p>
                         <a
                             href="https://calendly.com/zineinsight"
@@ -33,7 +33,7 @@ export default function Footer() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-gray-900 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors"
                         >
-                            R&eacute;server un &eacute;change
+                            Réserver un échange
                         </a>
                     </div>
 
@@ -50,7 +50,7 @@ export default function Footer() {
                                 Diagnostic financier
                             </Link>
                             <Link href="/methodologie" className="block text-sm text-gray-400 hover:text-white transition-colors">
-                                M&eacute;thodologie
+                                Méthodologie
                             </Link>
                             <Link href="/agents" className="block text-sm text-gray-400 hover:text-white transition-colors">
                                 Agents IA Finance
@@ -80,7 +80,7 @@ export default function Footer() {
                                 Calculateur DSO
                             </Link>
                             <Link href="/daf-externalise-pme" className="block text-sm text-gray-400 hover:text-white transition-colors">
-                                DAF externalis&eacute; PME
+                                DAF externalisé PME
                             </Link>
                             <Link href="/calculateurs/bfr" className="block text-sm text-gray-400 hover:text-white transition-colors">
                                 Calculateur BFR
@@ -108,13 +108,13 @@ export default function Footer() {
                     {/* Legal */}
                     <div className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-xs text-gray-500">
                         <Link href="/politique-confidentialite" className="hover:text-gray-300 transition-colors">
-                            Politique de confidentialit&eacute;
+                            Politique de confidentialité
                         </Link>
                         <Link href="/cookies" className="hover:text-gray-300 transition-colors">
                             Cookies
                         </Link>
                         <Link href="/mentions-legales" className="hover:text-gray-300 transition-colors">
-                            Mentions l&eacute;gales
+                            Mentions légales
                         </Link>
                     </div>
 
@@ -130,7 +130,7 @@ export default function Footer() {
                             LinkedIn
                         </a>
                         <span>
-                            &copy; 2026{' '}
+                            © 2026{' '}
                             <a
                                 href="https://www.zineinsight.com"
                                 className="hover:text-gray-300 transition-colors"
