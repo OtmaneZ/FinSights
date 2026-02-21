@@ -1,196 +1,200 @@
-pour page /methodologie 
+# 🎯 Recommandations Stratégiques — Blog & Guides FinSight
 
--------------------------------------------
-Ce qui manque (pour convertir mieux)
+Objectif :  
+Faire évoluer FinSight de “site expert finance & outils” vers  
+🏛 **cabinet DAF externalisé crédible et structuré**.
 
-1) Un exemple concret “avant / après”
+---
 
-Aujourd’hui c’est théorique.
+# I. BLOG — Passage de Pédagogie à Autorité
 
-Il manque un bloc :
+## 1️⃣ Conserver (socle SEO)
 
-Exemple : PME services 7M€
-	•	Score : 58 (Fragile)
-	•	Cash : 12/25 (Runway 3 mois)
-	•	Margin : 15/25
-	•	Resilience : 18/25
-	•	Risk : 13/25
-Plan d’action (3 leviers) : DSO -10j, charges fixes -5 pts, sécurisation cash 90j.
+Garder :
+- Articles calculatoires (DSO, BFR, ROI…)
+- Templates
+- Guides pratiques
+- Longue traîne
 
-Ça transforme la méthode en réalité.
+Ils :
+- Génèrent du trafic
+- Positionnent sur des requêtes outils
+- Alimentent le tunnel SEO
 
-2) Une phrase qui clarifie “ce que ça n’est pas”
+---
 
-Tu as déjà “pas une note morale”.
+## 2️⃣ Ajouter une nouvelle catégorie :  
+### 🔹 “Notes Stratégiques”
+ou  
+### 🔹 “Analyse Dirigeant”
 
-Ajoute :
+But : capter les requêtes décisionnelles et renforcer l’autorité.
 
-Ce score ne remplace pas un audit légal. Il sert à piloter, anticiper, prioriser.
+---
 
-Ça évite toute confusion et crédibilise.
+## 3️⃣ Produire 8 articles à haute autorité (priorité 90 jours)
 
-3) Une cohérence “premium” sur le vocabulaire
+### A. Articles d’analyse structurelle
+- **DSO supérieur à la médiane sectorielle : que révèle vraiment votre modèle ?**
+- **BFR structurellement élevé : problème commercial ou problème organisationnel ?**
+- **Pourquoi 70 % des PME sous-estiment leur fragilité cash**
+- **Marge correcte, cash fragile : le piège classique des PME en croissance**
 
-Sur cette page, tu repars sur :
-	•	“Diagnostic gratuit”
-	•	“Sans engagement”
-	•	“30 min gratuit”
+---
 
-Alors que sur la home tu as déjà fait l’effort de dire “échange stratégique”.
+### B. Articles de positionnement DAF
+- **DAF externalisé vs expert-comptable : rôles et confusion dangereuse**
+- **À partir de quel chiffre d’affaires faut-il un DAF ?**
+- **Les 4 priorités d’un DAF sur 90 jours**
+- **Ce qu’un vrai pilotage financier change dans une PME 5–20M€**
 
-👉 Il faut unifier.
+---
 
-Je te recommande de garder :
-	•	“Échange stratégique (30 min)”
-	•	et de supprimer “gratuit” sur cette page aussi
+## 4️⃣ Modifier le ton des nouveaux articles
 
-“Offert” à la rigueur, mais pas “gratuit”.
+Passer de :
 
-4) Le “PCG et pratiques financières 2025”
+> “Comment calculer…”
 
-C’est bien mais ça peut paraître gratuit.
+à :
 
-Ajoute 1 ligne :
+> “Ce que ce ratio révèle réellement.”
+> “Ce que les dirigeants ignorent.”
+> “Pourquoi ce modèle est fragile.”
 
-Les indicateurs s’appuient sur les ratios usuels de contrôle de gestion et l’analyse financière standard (PCG + bonnes pratiques CFO).
+Autorité = capacité à interpréter et trancher.
 
-Sans trop vendre le PCG comme un label.
+---
 
+## 5️⃣ Ajouter en fin d’article une transition DAF
 
-CTA principal (haut de page)
+Structure recommandée :
 
-Au lieu de “Voir la méthodologie”, tu l’es déjà.
+Ce que révèle ce diagnostic :
+	1.	Priorité immédiate
+	2.	Risque structurel
+	3.	Arbitrage à court terme
 
-Je mettrais :
+→ Pour transformer ce diagnostic en plan d’action priorisé,
+réserver un échange stratégique.
 
-➡️ Calculer mon Score FinSight™
-➡️ Réserver un échange stratégique
+---
 
-Et plus bas :
+# II. GUIDES — Passage de “Lead Magnet” à “Méthodologie Cabinet”
 
-➡️ Télécharger un exemple de rapport (PDF) (je ferais un pdf ad hoc plus tard, pour l'instant lien pas clicable tu mets "à venir)
+## 1️⃣ Conserver les guides actuels (base opérationnelle)
 
+Ils sont bons pour :
+- Générer des leads
+- Démontrer ta maîtrise technique
 
--------------
+Mais ils sont encore perçus comme :
+> Outils gratuits
 
-pour page /consulting 
+---
 
-👉 La structure est bonne.
-👉 Mais elle n’est pas encore positionnée de façon stratégique optimale.
+## 2️⃣ Créer un Guide Signature (élément clé)
 
-⸻
+### 📘 “Méthodologie FinSight™ – Structurer une Direction Financière Externalisée”
 
-1️⃣ Niveau 1 — Diagnostic Stratégique (1 990 €)
+Contenu recommandé :
+- Architecture 4 piliers
+- Logique de priorisation
+- Lecture cash 90 jours
+- Arbitrage croissance vs liquidité
+- Exemple PME (cas fictif mais structuré)
+- Plan d’action type 6 mois
 
-Ça, c’est ton vrai produit.
+Objectif :
+> Montrer comment tu penses en DAF, pas en formateur.
 
-Mais aujourd’hui il est présenté comme une “analyse”.
+---
 
-Il doit être présenté comme :
+## 3️⃣ Repositionner lexicalement la page Guides
 
-Une décision éclairée en 5 jours.
+Remplacer :
+- “Télécharger le guide”
+- “Guide gratuit”
 
-Ce n’est pas un rapport PDF.
-C’est une clarification stratégique.
+Par :
+- “Accéder à la note méthodologique”
+- “Recevoir la méthodologie complète”
+- “Consulter la grille d’analyse”
 
-Je reformulerais ainsi :
+Subtil mais puissant.
 
-Diagnostic FinSight™ 90J
+---
 
-Clarté stratégique en 5 jours.
-	•	Score FinSight™ 0–100 détaillé
-	•	Décomposition 4 piliers
-	•	5 anomalies majeures détectées
-	•	3 leviers prioritaires chiffrés
-	•	Simulation d’impact à 90 jours
-	•	Restitution stratégique 60 min
+## 4️⃣ Ajouter une section “À qui s’adressent ces guides”
 
-Tu vois la différence ?
+Exemple :
 
-On vend un résultat, pas un livrable.
+Ces ressources s’adressent aux dirigeants de PME
+entre 1M€ et 20M€ souhaitant structurer
+leur pilotage financier avec une logique DAF.
 
-⸻
 
-2️⃣ Niveau 2 — Audit Complet (4 990 €)
+Ça filtre l’audience.
 
-Là c’est plus technique.
+---
 
-Mais attention :
+## 5️⃣ Ajouter une hiérarchie stratégique visible
 
-“Immersion processus financiers”
-“Structuration données 24 mois”
-“Dashboards Power BI”
+Sur la page :
 
-Ça parle à un CFO.
+- Niveau 1 — Outils opérationnels
+- Niveau 2 — Lecture stratégique
+- Niveau 3 — Accompagnement DAF
 
-Pas forcément à un dirigeant.
+Ça montre une progression.
 
-Un dirigeant veut :
-	•	visibilité claire
-	•	arbitrages rapides
-	•	décisions structurées
-	•	modèle de rentabilité fiable
+---
 
-Je reformulerais plus business, moins technique.
+# III. Ce que cela produira
 
-⸻
+## SEO
+- Élargissement sémantique vers “pilotage PME”
+- Meilleure qualification du trafic
 
-3️⃣ Niveau 3 — Decision System (9 990 €)
+## Perception
+Passage de :
+> Expert finance & data
 
-Là, c’est ambitieux.
+à :
+> Architecte de direction financière.
 
-Mais je vais être direct :
+## Conversion
+- Plus crédible en rendez-vous
+- Moins perçu comme freelance
+- Plus perçu comme structure
 
-À 9 990 €,
-tu entres dans le territoire où :
-	•	soit c’est extrêmement clair
-	•	soit c’est flou et risqué
+---
 
-Aujourd’hui ça ressemble à :
+# IV. Ordre de Priorité Recommandé
 
-“On vous met un cockpit data avec IA”.
+1️⃣ Écrire 3 articles stratégiques forts  
+2️⃣ Créer le Guide Signature  
+3️⃣ Ajuster le vocabulaire des pages Guides  
+4️⃣ Ajouter transitions vers mission DAF  
 
-Ça peut marcher.
+---
 
-Mais seulement si :
-	•	Le client a déjà validé ta valeur via niveau 1 ou 2.
-	•	Tu as déjà une relation de confiance.
+# V. Règle d’Or
 
-⸻
+Chaque contenu doit répondre à une question implicite :
 
-4️⃣ Ce que tu fais bien
+> “Est-ce qu’il pense comme un DAF ?”
 
-Tu as une progression logique :
+Si la réponse est oui, tu avances.
+Si la réponse est “il explique bien”, ce n’est pas encore suffisant.
 
-Clarté → Structuration → Système.
+---
 
-C’est intelligent.
+FinSight doit devenir :
 
-⸻
+🔹 Outils  
+🔹 Méthode  
+🔹 Analyse  
+🔹 Doctrine  
 
-5️⃣ Ce que je changerais stratégiquement
-
-🔥 A. Mettre le Niveau 1 comme produit phare
-
-Pas “niveau 1”.
-Mais :
-
-Offre Signature : Diagnostic FinSight™ 90J
-
-Les autres deviennent :
-	•	Structuration & Pilotage
-	•	Système décisionnel
-
-⸻
-
-🔥 B. Supprimer le vocabulaire trop technique en front
-
-ETL
-Infrastructure data
-Chatbot CFO
-
-Ça impressionne,
-mais ça peut aussi effrayer.
-
-Tu veux vendre de la maîtrise, pas de la tech.
-
+Pas seulement contenu.

@@ -1,11 +1,11 @@
 export const metadata = {
-    title: 'Blog FinSight - Guides Finance CFO & DAF | KPIs, DSO, BFR, Trésorerie',
-    description: '10+ guides gratuits pour CFO et DAF : calculer DSO, BFR, ratios financiers, budget prévisionnel, trésorerie. Benchmarks sectoriels France 2025.',
-    keywords: ['blog finance', 'guide CFO', 'KPI financier', 'DSO', 'BFR', 'trésorerie', 'budget prévisionnel', 'benchmark finance'],
+    title: 'Blog FinSight - Notes Stratégiques & Guides Finance | DAF Externalisé',
+    description: 'Notes stratégiques et guides opérationnels pour dirigeants de PME : DSO, BFR, pilotage cash, marge, direction financière externalisée. Benchmarks France 2026.',
+    keywords: ['blog finance', 'DAF externalisé', 'note stratégique', 'pilotage financier', 'DSO', 'BFR', 'trésorerie PME', 'direction financière'],
     openGraph: {
         type: 'website',
-        title: 'Blog FinSight - Guides Finance pour CFO & DAF',
-        description: '10+ guides pratiques : DSO, BFR, ratios, trésorerie, budget. Benchmarks France 2025.',
+        title: 'Blog FinSight - Notes Stratégiques & Guides Finance',
+        description: 'Notes stratégiques, analyses structurelles et guides opérationnels pour le pilotage financier des PME.',
         url: 'https://finsight.zineinsight.com/blog',
         images: [{
             url: 'https://finsight.zineinsight.com/images/og-blog.png',
@@ -16,8 +16,8 @@ export const metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Blog FinSight - Guides Finance CFO & DAF',
-        description: '10+ guides gratuits : DSO, BFR, ratios, trésorerie',
+        title: 'Blog FinSight - Notes Stratégiques & Guides Finance',
+        description: 'Analyses structurelles, pilotage financier et direction financière externalisée pour PME.',
         images: ['https://finsight.zineinsight.com/images/og-blog.png']
     },
     alternates: {

@@ -16,7 +16,9 @@ import {
     BookOpen,
     Target,
     BarChart3,
-    Zap
+    Zap,
+    Shield,
+    Briefcase
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -32,9 +34,105 @@ interface BlogPost {
     tags: string[]
     featured?: boolean
     image?: string
+    type?: 'operationnel' | 'strategique'
 }
 
 const blogPosts: BlogPost[] = [
+    // ═══════════════════════════════════════════════
+    // NOTES STRATÉGIQUES — Analyse & Positionnement DAF
+    // ═══════════════════════════════════════════════
+    {
+        slug: 'dso-superieur-mediane-sectorielle-modele',
+        title: 'DSO supérieur à la médiane sectorielle : que révèle vraiment votre modèle ?',
+        description: 'Un DSO élevé n\'est pas qu\'un problème de recouvrement. C\'est souvent le symptôme d\'un déséquilibre structurel entre modèle commercial et organisation financière.',
+        date: '21 février 2026',
+        readTime: '11 min',
+        category: 'Note Stratégique',
+        tags: ['DSO', 'Analyse structurelle', 'Modèle économique', 'DAF'],
+        featured: true,
+        image: '/images/bureau-nuit.png',
+        type: 'strategique'
+    },
+    {
+        slug: 'bfr-structurellement-eleve-commercial-organisationnel',
+        title: 'BFR structurellement élevé : problème commercial ou problème organisationnel ?',
+        description: 'Quand le BFR dépasse durablement les normes sectorielles, la cause est rarement unique. Lecture croisée des facteurs commerciaux, opérationnels et financiers.',
+        date: '21 février 2026',
+        readTime: '13 min',
+        category: 'Note Stratégique',
+        tags: ['BFR', 'Analyse structurelle', 'Organisation', 'DAF'],
+        image: '/images/bfr.png',
+        type: 'strategique'
+    },
+    {
+        slug: 'pme-sous-estiment-fragilite-cash',
+        title: 'Pourquoi 70 % des PME sous-estiment leur fragilité cash',
+        description: 'La rentabilité masque souvent une vulnérabilité de trésorerie. Analyse des mécanismes qui conduisent les PME rentables à une impasse de liquidité.',
+        date: '21 février 2026',
+        readTime: '10 min',
+        category: 'Note Stratégique',
+        tags: ['Cash', 'Fragilité', 'PME', 'Trésorerie', 'DAF'],
+        image: '/images/cash-flow-prev.png',
+        type: 'strategique'
+    },
+    {
+        slug: 'marge-correcte-cash-fragile-piege-croissance',
+        title: 'Marge correcte, cash fragile : le piège classique des PME en croissance',
+        description: 'Une marge brute confortable ne protège pas de la rupture de trésorerie. Pourquoi la croissance est le moment le plus dangereux pour le cash.',
+        date: '21 février 2026',
+        readTime: '12 min',
+        category: 'Note Stratégique',
+        tags: ['Marge', 'Cash', 'Croissance', 'PME', 'DAF'],
+        image: '/images/marge.png',
+        type: 'strategique'
+    },
+    {
+        slug: 'daf-externalise-vs-expert-comptable-confusion',
+        title: 'DAF externalisé vs expert-comptable : rôles et confusion dangereuse',
+        description: 'L\'expert-comptable produit les comptes. Le DAF les interprète et arbitre. Confondre les deux expose l\'entreprise à des décisions prises sans lecture financière.',
+        date: '21 février 2026',
+        readTime: '9 min',
+        category: 'Note Stratégique',
+        tags: ['DAF externalisé', 'Expert-comptable', 'Positionnement', 'Direction financière'],
+        image: '/images/bureau.png',
+        type: 'strategique'
+    },
+    {
+        slug: 'a-partir-quel-ca-faut-il-un-daf',
+        title: 'À partir de quel chiffre d\'affaires faut-il un DAF ?',
+        description: 'Le seuil de complexité financière ne dépend pas que du CA. Nombre de clients, saisonnalité, BFR structurel : les vrais critères de déclenchement.',
+        date: '21 février 2026',
+        readTime: '10 min',
+        category: 'Note Stratégique',
+        tags: ['DAF', 'Seuil CA', 'Direction financière', 'PME'],
+        image: '/images/moi-bureau.png',
+        type: 'strategique'
+    },
+    {
+        slug: '4-priorites-daf-90-jours',
+        title: 'Les 4 priorités d\'un DAF sur 90 jours',
+        description: 'Trésorerie, marge, structure, reporting : la séquence d\'intervention d\'un DAF qui prend un mandat. Ce qui se joue dans les 3 premiers mois.',
+        date: '21 février 2026',
+        readTime: '11 min',
+        category: 'Note Stratégique',
+        tags: ['DAF', 'Priorités', '90 jours', 'Méthodologie', 'PME'],
+        image: '/images/vue-NY.png',
+        type: 'strategique'
+    },
+    {
+        slug: 'pilotage-financier-change-pme-5-20m',
+        title: 'Ce qu\'un vrai pilotage financier change dans une PME 5–20M\u20ac',
+        description: 'Avant/après : les transformations concrètes quand une PME passe d\'une comptabilité subie à un pilotage financier structuré.',
+        date: '21 février 2026',
+        readTime: '14 min',
+        category: 'Note Stratégique',
+        tags: ['Pilotage financier', 'PME', 'Transformation', 'DAF', 'Direction financière'],
+        image: '/images/bureau-nuit.png',
+        type: 'strategique'
+    },
+    // ═══════════════════════════════════════════════
+    // ARTICLES OPÉRATIONNELS — Socle SEO
+    // ═══════════════════════════════════════════════
     {
         slug: 'dashboard-financier-mort-agents-ia-2026',
         title: 'Pourquoi votre Dashboard Financier est mort (et ce qui le remplace en 2026)',
@@ -268,6 +366,11 @@ const blogPosts: BlogPost[] = [
 
 // Catégorie icons
 const categoryConfig: Record<string, { icon: React.ReactNode; color: string; bg: string }> = {
+    'Note Stratégique': {
+        icon: <Shield className="w-4 h-4" />,
+        color: 'text-slate-800',
+        bg: 'bg-slate-200'
+    },
     'Trésorerie': { 
         icon: <DollarSign className="w-4 h-4" />, 
         color: 'text-emerald-600', 
@@ -529,7 +632,9 @@ export default function BlogPage() {
 
                         {/* Grid */}
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {regularPosts.map((post, index) => (
+                            {regularPosts.map((post, index) => {
+                                const isStrategique = post.type === 'strategique'
+                                return (
                                 <motion.div
                                     key={post.slug}
                                     initial={{ opacity: 0, y: 20 }}
@@ -541,15 +646,25 @@ export default function BlogPage() {
                                         href={`/blog/${post.slug}`}
                                         className="group block h-full"
                                     >
-                                        <article className="h-full bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl hover:border-accent-primary/50 transition-all duration-300">
+                                        <article className={`h-full rounded-2xl overflow-hidden transition-all duration-300 ${
+                                            isStrategique
+                                                ? 'bg-slate-950 border border-slate-800 hover:border-slate-600 hover:shadow-2xl hover:shadow-slate-900/50'
+                                                : 'bg-white border border-slate-200 hover:shadow-xl hover:border-accent-primary/50'
+                                        }`}>
                                             {/* Image */}
-                                            <div className="relative h-48 bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden">
+                                            <div className={`relative h-48 overflow-hidden ${
+                                                isStrategique
+                                                    ? 'bg-gradient-to-br from-slate-900 to-slate-800'
+                                                    : 'bg-gradient-to-br from-slate-100 to-slate-200'
+                                            }`}>
                                                 {post.image ? (
                                                     <Image
                                                         src={post.image}
                                                         alt={post.title}
                                                         fill
-                                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                                        className={`object-cover group-hover:scale-105 transition-transform duration-500 ${
+                                                            isStrategique ? 'opacity-30' : ''
+                                                        }`}
                                                     />
                                                 ) : (
                                                     <div className="absolute inset-0 flex items-center justify-center">
@@ -563,22 +678,36 @@ export default function BlogPage() {
                                                 
                                                 {/* Category Badge */}
                                                 <div className="absolute top-4 left-4">
-                                                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm ${categoryConfig[post.category]?.bg} ${categoryConfig[post.category]?.color}`}>
-                                                        {categoryConfig[post.category]?.icon}
-                                                        {post.category}
-                                                    </span>
+                                                    {isStrategique ? (
+                                                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-white backdrop-blur-sm border border-white/20">
+                                                            <Shield className="w-3.5 h-3.5" />
+                                                            Note Stratégique
+                                                        </span>
+                                                    ) : (
+                                                        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm ${categoryConfig[post.category]?.bg} ${categoryConfig[post.category]?.color}`}>
+                                                            {categoryConfig[post.category]?.icon}
+                                                            {post.category}
+                                                        </span>
+                                                    )}
                                                 </div>
+
+                                                {/* Filet vertical Note Stratégique */}
+                                                {isStrategique && (
+                                                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-500/50 to-transparent" />
+                                                )}
                                             </div>
 
                                             {/* Content */}
-                                            <div className="p-6">
+                                            <div className={`p-6 ${isStrategique ? 'border-l-2 border-slate-700 ml-0' : ''}`}>
                                                 {/* Meta */}
-                                                <div className="flex items-center gap-3 text-sm text-slate-500 mb-3">
+                                                <div className={`flex items-center gap-3 text-sm mb-3 ${
+                                                    isStrategique ? 'text-slate-500' : 'text-slate-500'
+                                                }`}>
                                                     <span className="flex items-center gap-1.5">
                                                         <Calendar className="w-4 h-4" />
                                                         {post.date}
                                                     </span>
-                                                    <span>•</span>
+                                                    <span>·</span>
                                                     <span className="flex items-center gap-1.5">
                                                         <Clock className="w-4 h-4" />
                                                         {post.readTime}
@@ -586,25 +715,34 @@ export default function BlogPage() {
                                                 </div>
 
                                                 {/* Title */}
-                                                <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-accent-primary transition-colors line-clamp-2 leading-snug">
+                                                <h3 className={`text-lg font-bold mb-3 line-clamp-2 leading-snug transition-colors ${
+                                                    isStrategique
+                                                        ? 'text-white font-serif group-hover:text-slate-300'
+                                                        : 'text-slate-900 group-hover:text-accent-primary'
+                                                }`}>
                                                     {post.title}
                                                 </h3>
 
                                                 {/* Description */}
-                                                <p className="text-sm text-slate-600 leading-relaxed line-clamp-2 mb-4">
+                                                <p className={`text-sm leading-relaxed line-clamp-2 mb-4 ${
+                                                    isStrategique ? 'text-slate-400' : 'text-slate-600'
+                                                }`}>
                                                     {post.description}
                                                 </p>
 
                                                 {/* Read More */}
-                                                <div className="flex items-center gap-2 text-accent-primary font-medium text-sm group-hover:gap-3 transition-all">
-                                                    Lire l&apos;article
+                                                <div className={`flex items-center gap-2 font-medium text-sm group-hover:gap-3 transition-all ${
+                                                    isStrategique ? 'text-slate-400 group-hover:text-white' : 'text-accent-primary'
+                                                }`}>
+                                                    {isStrategique ? 'Lire l\u2019analyse' : 'Lire l\u2019article'}
                                                     <ChevronRight className="w-4 h-4" />
                                                 </div>
                                             </div>
                                         </article>
                                     </Link>
                                 </motion.div>
-                            ))}
+                                )
+                            })}
                         </div>
                     </>
                 ) : (

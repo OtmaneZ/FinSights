@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Calendar, Clock, ArrowLeft, ArrowRight, BookOpen, ChevronRight, Share2, Bookmark, TrendingUp, BarChart3, Wallet, PiggyBank, FileText } from 'lucide-react'
+import { Calendar, Clock, ArrowLeft, ArrowRight, BookOpen, ChevronRight, Share2, Bookmark, TrendingUp, BarChart3, Wallet, PiggyBank, FileText, Shield } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
@@ -16,6 +16,7 @@ import { additionalArticles } from './additionalArticles'
 import { moreArticles } from './moreArticles'
 import { finalArticles } from './finalArticles'
 import { seoArticles } from './seoArticles'
+import { strategicArticles } from './strategicArticles'
 
 interface BlogArticle {
     slug: string
@@ -30,6 +31,7 @@ interface BlogArticle {
 
 // Configuration des catégories avec icônes et couleurs
 const categoryConfig: Record<string, { icon: React.ElementType; color: string; bgColor: string }> = {
+    'Note Stratégique': { icon: Shield, color: 'text-slate-300', bgColor: 'bg-slate-700/50' },
     'KPIs': { icon: TrendingUp, color: 'text-blue-400', bgColor: 'bg-blue-500/20' },
     'Trésorerie': { icon: Wallet, color: 'text-emerald-400', bgColor: 'bg-emerald-500/20' },
     'Analyse': { icon: BarChart3, color: 'text-purple-400', bgColor: 'bg-purple-500/20' },
@@ -39,6 +41,7 @@ const categoryConfig: Record<string, { icon: React.ElementType; color: string; b
 
 // Images hero par catégorie
 const categoryImages: Record<string, string> = {
+    'Note Stratégique': '/images/bureau-nuit.png',
     'KPIs': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop',
     'Trésorerie': 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=600&fit=crop',
     'Analyse': 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=600&fit=crop',
@@ -2751,7 +2754,8 @@ const articles: Record<string, BlogArticle> = {
     ...additionalArticles,
     ...moreArticles,
     ...finalArticles,
-    ...seoArticles
+    ...seoArticles,
+    ...strategicArticles
 }
 
 // Composant Table des Matières
@@ -3145,32 +3149,82 @@ export default function BlogArticlePage() {
                             {article.content}
                         </div>
 
-                        {/* CTA en fin d'article */}
-                        <div className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-accent-primary/20 via-accent-primary/10 to-transparent border border-accent-primary/30">
-                            <h3 className="text-2xl font-bold text-white mb-4">
-                                🎯 Prêt à optimiser vos finances ?
-                            </h3>
-                            <p className="text-slate-300 mb-6">
-                                FinSight analyse automatiquement vos données comptables et vous fournit des insights 
-                                actionnables pour piloter votre entreprise. Gratuit, sans inscription.
-                            </p>
-                            <div className="flex flex-wrap gap-4">
-                                <Link
-                                    href="/consulting"
-                                    className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-slate-900 font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/30"
-                                >
-                                    Analyser mes données
-                                    <ArrowRight className="w-4 h-4" />
-                                </Link>
-                                <Link
-                                    href="/blog"
-                                    className="inline-flex items-center gap-2 px-6 py-3 border border-slate-600 text-white hover:bg-slate-800/50 rounded-xl transition-all"
-                                >
-                                    <ArrowLeft className="w-4 h-4" />
-                                    Tous les articles
-                                </Link>
+                        {/* CTA en fin d'article — adapté selon catégorie */}
+                        {article.category === 'Note Stratégique' ? (
+                            <div className="mt-16 p-8 rounded-xl bg-slate-800/50 border border-slate-700">
+                                <div className="flex items-start gap-4 mb-6">
+                                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                                        <Shield className="w-5 h-5 text-white" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-bold text-white font-serif">
+                                            De l&apos;analyse au plan d&apos;action
+                                        </h3>
+                                        <p className="text-sm text-slate-400 mt-1">
+                                            Cette note pose le diagnostic. L&apos;accompagnement le transforme en décisions.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap gap-4">
+                                    <a
+                                        href="https://calendly.com/zineinsight/15min"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg transition-all hover:bg-slate-100"
+                                    >
+                                        Réserver un échange stratégique
+                                        <ArrowRight className="w-4 h-4" />
+                                    </a>
+                                    <Link
+                                        href="/diagnostic/guide"
+                                        className="inline-flex items-center gap-2 px-6 py-3 border border-slate-600 text-white hover:bg-slate-800 rounded-lg transition-all"
+                                    >
+                                        Lancer le diagnostic
+                                    </Link>
+                                    <Link
+                                        href="/blog"
+                                        className="inline-flex items-center gap-2 px-6 py-3 border border-slate-700 text-slate-400 hover:text-white rounded-lg transition-all"
+                                    >
+                                        <ArrowLeft className="w-4 h-4" />
+                                        Toutes les notes
+                                    </Link>
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <div className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-accent-primary/20 via-accent-primary/10 to-transparent border border-accent-primary/30">
+                                <h3 className="text-2xl font-bold text-white mb-4">
+                                    Prêt à structurer votre pilotage financier ?
+                                </h3>
+                                <p className="text-slate-300 mb-6">
+                                    FinSight analyse vos données comptables et fournit des diagnostics structurés
+                                    pour piloter votre entreprise avec une logique DAF.
+                                </p>
+                                <div className="flex flex-wrap gap-4">
+                                    <Link
+                                        href="/diagnostic/guide"
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-slate-900 font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent-primary/30"
+                                    >
+                                        Lancer le diagnostic
+                                        <ArrowRight className="w-4 h-4" />
+                                    </Link>
+                                    <a
+                                        href="https://calendly.com/zineinsight/15min"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 px-6 py-3 border border-slate-600 text-white hover:bg-slate-800/50 rounded-xl transition-all"
+                                    >
+                                        Échange stratégique
+                                    </a>
+                                    <Link
+                                        href="/blog"
+                                        className="inline-flex items-center gap-2 px-6 py-3 border border-slate-700 text-slate-400 hover:text-white rounded-xl transition-all"
+                                    >
+                                        <ArrowLeft className="w-4 h-4" />
+                                        Tous les articles
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Related Articles */}
                         <RelatedArticles currentSlug={article.slug} category={article.category} />
