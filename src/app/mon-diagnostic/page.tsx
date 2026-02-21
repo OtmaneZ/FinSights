@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import FadeIn, { StaggerContainer, StaggerItem } from '@/components/ui/FadeIn'
 import {
   useCalculatorHistory,
   type Calculation,
@@ -469,44 +470,44 @@ const LEVEL_CONFIG: Record<
   { label: string; sublabel: string; color: string; bg: string; border: string; bar: string }
 > = {
   excellent: {
-    label: 'Sante financiere solide',
-    sublabel: 'Vos indicateurs cles sont conformes aux standards du secteur.',
-    color: 'text-[var(--accent-success)]',
-    bg: 'bg-[var(--accent-success-subtle)]',
-    border: 'border-[var(--accent-success-border)]',
-    bar: 'bg-[var(--accent-success)]',
+    label: 'Santé financière solide',
+    sublabel: 'Vos indicateurs clés sont conformes aux standards du secteur.',
+    color: 'text-emerald-600',
+    bg: 'bg-emerald-50',
+    border: 'border-emerald-200',
+    bar: 'bg-emerald-500',
   },
   bon: {
     label: 'Dynamique favorable',
-    sublabel: 'La majorite de vos indicateurs sont positifs.',
-    color: 'text-[var(--accent-primary)]',
-    bg: 'bg-[var(--accent-primary-subtle)]',
-    border: 'border-[var(--accent-primary-border)]',
-    bar: 'bg-[var(--accent-primary)]',
+    sublabel: 'La majorité de vos indicateurs sont positifs.',
+    color: 'text-accent-primary',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
+    bar: 'bg-accent-primary',
   },
   vigilance: {
-    label: 'Points de vigilance identifies',
-    sublabel: 'Certains indicateurs meritent une attention particuliere.',
-    color: 'text-[var(--accent-warning)]',
-    bg: 'bg-[var(--accent-warning-subtle)]',
-    border: 'border-[var(--accent-warning-border)]',
-    bar: 'bg-[var(--accent-warning)]',
+    label: 'Points de vigilance identifiés',
+    sublabel: 'Certains indicateurs méritent une attention particulière.',
+    color: 'text-amber-600',
+    bg: 'bg-amber-50',
+    border: 'border-amber-200',
+    bar: 'bg-amber-500',
   },
   action: {
-    label: 'Actions correctives recommandees',
-    sublabel: 'Plusieurs indicateurs necessitent une intervention rapide.',
-    color: 'text-[var(--accent-danger)]',
-    bg: 'bg-[var(--accent-danger-subtle)]',
-    border: 'border-[var(--accent-danger-border)]',
-    bar: 'bg-[var(--accent-danger)]',
+    label: 'Actions correctives recommandées',
+    sublabel: 'Plusieurs indicateurs nécessitent une intervention rapide.',
+    color: 'text-red-600',
+    bg: 'bg-red-50',
+    border: 'border-red-200',
+    bar: 'bg-red-500',
   },
   incomplet: {
     label: 'Diagnostic en cours',
-    sublabel: 'Completez vos indicateurs pour obtenir votre Score FinSight.',
-    color: 'text-secondary',
-    bg: 'bg-[var(--surface-primary)]',
-    border: 'border-[var(--border-default)]',
-    bar: 'bg-[var(--border-default)]',
+    sublabel: 'Complétez davantage d\'indicateurs pour affiner votre score.',
+    color: 'text-gray-500',
+    bg: 'bg-gray-50',
+    border: 'border-gray-200',
+    bar: 'bg-gray-400',
   },
 }
 
@@ -524,7 +525,7 @@ export default function MonDiagnosticPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-primary text-primary font-sans">
+      <div className="min-h-screen bg-white text-gray-900 font-sans">
         <Header />
         <div className="max-w-5xl mx-auto px-6 py-20" />
         <Footer />
@@ -543,82 +544,163 @@ export default function MonDiagnosticPage() {
   // -----------------------------------------------------------------------
   if (history.length === 0) {
     return (
-      <div className="min-h-screen bg-primary text-primary font-sans">
+      <div className="min-h-screen bg-white text-gray-900 font-sans">
         <Header />
-        <div className="max-w-3xl mx-auto px-6 py-24">
-          <div className="text-center">
-            <div className="w-14 h-14 rounded-xl bg-[var(--accent-primary-subtle)] flex items-center justify-center mx-auto mb-6">
-              <Activity className="w-7 h-7 text-[var(--accent-primary)]" />
-            </div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-secondary mb-3">
-              Diagnostic financier
-            </p>
-            <h1 className="text-3xl font-bold text-primary mb-4 tracking-tight">
-              Votre Score FinSight™ — en 4 piliers
-            </h1>
-            <p className="text-base text-secondary mb-6 max-w-lg mx-auto leading-relaxed">
-              Trésorerie, rentabilité, résilience, risques — chaque pilier noté
-              sur 25. Un score global sur 100 pour décider sur des bases fiables.
-            </p>
 
-            {/* 4 piliers preview */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto mb-10">
+        {/* ── Hero dark ── */}
+        <section className="relative bg-slate-950 overflow-hidden">
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(0,120,212,0.08)_0%,_transparent_60%)]" />
+          </div>
+
+          <div className="relative max-w-5xl mx-auto px-6 pt-32 pb-20 lg:pt-40 lg:pb-28 text-center">
+            <FadeIn delay={0.1} direction="none">
+              <span className="inline-block text-accent-primary text-sm font-medium tracking-widest uppercase">
+                Diagnostic financier
+              </span>
+            </FadeIn>
+
+            <FadeIn delay={0.2}>
+              <h1 className="font-serif text-4xl lg:text-6xl font-medium leading-[1.1] tracking-tight text-white mt-6">
+                Votre Score FinSight™
+              </h1>
+            </FadeIn>
+
+            <FadeIn delay={0.3}>
+              <p className="text-lg text-gray-400 leading-relaxed max-w-2xl mx-auto mt-6">
+                Quatre piliers. Neuf indicateurs. Un score sur 100
+                pour piloter avec clarté.
+              </p>
+            </FadeIn>
+
+            <FadeIn delay={0.4}>
+              <p className="text-sm text-gray-500 max-w-lg mx-auto mt-4 border-l border-gray-700 pl-4 text-left">
+                Trésorerie · Rentabilité · Résilience · Risques — chaque pilier noté
+                sur 25, construit à partir de vos données réelles.
+              </p>
+            </FadeIn>
+          </div>
+
+          <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
+        </section>
+
+        {/* ── 4 piliers preview ── */}
+        <section className="py-20 bg-gray-50">
+          <div className="max-w-5xl mx-auto px-6">
+            <FadeIn className="text-center mb-12">
+              <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">
+                Architecture du score
+              </span>
+              <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mt-4">
+                4 piliers × 25 points
+              </h2>
+            </FadeIn>
+
+            <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-5 max-w-4xl mx-auto" staggerDelay={0.12}>
               {(['cash', 'margin', 'resilience', 'risk'] as PillarKey[]).map((key) => {
                 const p = computeDiagnosticScore([]).pillars[key]
                 const Icon = p.icon
                 return (
-                  <div key={key} className="surface rounded-xl p-4 text-center">
-                    <div className={`w-9 h-9 rounded-lg ${p.bgColor} flex items-center justify-center mx-auto mb-2`}>
-                      <Icon className={`w-4 h-4 ${p.color}`} />
+                  <StaggerItem key={key}>
+                    <div className="bg-white rounded-xl p-6 border border-gray-200 text-center hover:shadow-md hover:border-gray-300 transition-all duration-300">
+                      <div className={`w-12 h-12 rounded-xl ${p.bgColor} flex items-center justify-center mx-auto mb-4`}>
+                        <Icon className={`w-5 h-5 ${p.color}`} />
+                      </div>
+                      <p className="text-sm font-bold text-gray-900 tracking-wide">{p.label}</p>
+                      <p className="text-xs text-gray-500 mt-1">{p.sublabel}</p>
+                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        <span className="font-serif text-2xl font-medium text-gray-300">—</span>
+                        <span className="text-xs text-gray-400 ml-1">/ 25</span>
+                      </div>
                     </div>
-                    <p className="text-xs font-bold text-primary">{p.label}</p>
-                    <p className="text-[10px] text-tertiary mt-0.5">{p.sublabel}</p>
-                    <p className="text-lg font-bold text-tertiary mt-1 font-tabular">--/25</p>
-                  </div>
+                  </StaggerItem>
                 )
               })}
-            </div>
+            </StaggerContainer>
+          </div>
+        </section>
 
-            {/* Parcours en 3 étapes */}
-            <div className="max-w-xl mx-auto mb-10">
-              <p className="text-xs font-semibold uppercase tracking-widest text-tertiary mb-4">Comment ça fonctionne</p>
-              <div className="flex flex-col gap-3">
-                {[
-                  { step: '1', text: 'Renseignez 2-3 chiffres clés (créances, CA, charges…)', time: '2 min' },
-                  { step: '2', text: 'Chaque indicateur calculé alimente un pilier de votre Score', time: 'Instantané' },
-                  { step: '3', text: 'Revenez ici pour voir votre Score FinSight™ se construire', time: 'Cumulatif' },
-                ].map((item) => (
-                  <div key={item.step} className="flex items-center gap-4 p-3 surface rounded-lg">
-                    <div className="w-8 h-8 rounded-full bg-[var(--accent-primary)] text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+        {/* ── Comment ça fonctionne ── */}
+        <section className="py-20 bg-white">
+          <div className="max-w-3xl mx-auto px-6">
+            <FadeIn className="text-center mb-12">
+              <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">
+                Processus
+              </span>
+              <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mt-4">
+                Trois étapes, deux minutes
+              </h2>
+            </FadeIn>
+
+            <StaggerContainer className="space-y-4" staggerDelay={0.15}>
+              {[
+                { step: '01', title: 'Renseignez vos chiffres clés', desc: 'Créances, chiffre d\'affaires, charges — 2 à 3 données par indicateur.', time: '2 min' },
+                { step: '02', title: 'Chaque indicateur alimente un pilier', desc: 'Le calcul est instantané. Votre Score FinSight™ se construit progressivement.', time: 'Instantané' },
+                { step: '03', title: 'Votre score se précise à chaque analyse', desc: 'Revenez ici pour voir l\'évolution. Plus vous renseignez, plus le diagnostic est fiable.', time: 'Cumulatif' },
+              ].map((item) => (
+                <StaggerItem key={item.step}>
+                  <div className="flex items-start gap-6 p-6 bg-gray-50 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-300">
+                    <span className="font-serif text-3xl font-medium text-gray-200 flex-shrink-0 leading-none mt-1">
                       {item.step}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-base font-semibold text-gray-900">{item.title}</p>
+                      <p className="text-sm text-gray-500 mt-1 leading-relaxed">{item.desc}</p>
                     </div>
-                    <p className="text-sm text-primary flex-1">{item.text}</p>
-                    <span className="text-[10px] text-tertiary font-medium flex-shrink-0">{item.time}</span>
+                    <span className="text-xs text-gray-400 font-medium flex-shrink-0 mt-1 bg-white px-3 py-1 rounded-full border border-gray-200">
+                      {item.time}
+                    </span>
                   </div>
-                ))}
-              </div>
-              <p className="text-xs text-tertiary mt-3 italic">
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+
+            <FadeIn delay={0.4} className="mt-4 text-center">
+              <p className="text-xs text-gray-400 italic">
                 Vos données restent dans votre navigateur — rien n'est envoyé à un serveur.
               </p>
-            </div>
-
-            <Link
-              href="/calculateurs/dso"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent-primary)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--accent-primary-hover)] transition-colors shadow-md"
-            >
-              Obtenir mon Score FinSight™
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <p className="text-xs text-tertiary mt-3">
-              Premier indicateur en moins de 2 minutes
-            </p>
+            </FadeIn>
           </div>
+        </section>
 
-          {/* Methodology section (even on empty state) */}
-          <div className="mt-20 max-w-4xl mx-auto">
+        {/* ── CTA final ── */}
+        <section className="py-20 bg-gray-50">
+          <div className="max-w-3xl mx-auto px-6 text-center">
+            <FadeIn>
+              <div className="bg-white rounded-2xl p-10 lg:p-14 border border-gray-200 shadow-sm">
+                <div className="w-16 h-16 rounded-2xl bg-slate-950 flex items-center justify-center mx-auto mb-6">
+                  <Activity className="w-7 h-7 text-white" />
+                </div>
+                <h2 className="font-serif text-3xl font-medium text-gray-900 mb-3">
+                  Commencez par votre DSO
+                </h2>
+                <p className="text-gray-500 leading-relaxed max-w-lg mx-auto mb-8">
+                  Le délai moyen de paiement clients est le premier indicateur
+                  de santé de votre trésorerie. Résultat en moins de 2 minutes.
+                </p>
+                <Link
+                  href="/calculateurs/dso"
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-slate-950 text-white text-base font-semibold rounded-lg hover:bg-slate-800 transition-all duration-300"
+                >
+                  Obtenir mon Score FinSight™
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <div className="flex items-center justify-center gap-3 text-sm text-gray-400 mt-4">
+                  <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                  <span>Premier indicateur en moins de 2 minutes</span>
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+        </section>
+
+        {/* ── Methodology ── */}
+        <section className="py-20 bg-white">
+          <div className="max-w-4xl mx-auto px-6">
             <MethodologySection />
           </div>
-        </div>
+        </section>
+
         <Footer />
       </div>
     )
@@ -628,288 +710,302 @@ export default function MonDiagnosticPage() {
   // Main Page
   // -----------------------------------------------------------------------
   return (
-    <div className="min-h-screen bg-primary text-primary font-sans">
+    <div className="min-h-screen bg-white text-gray-900 font-sans">
       <Header />
 
-      <div className="max-w-5xl mx-auto px-6 py-12">
-        {/* ---- En-tete ---- */}
-        <div className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-secondary mb-2">
-            Diagnostic financier
-          </p>
-          <h1 className="text-3xl font-bold text-primary tracking-tight">
-            Tableau de bord
-          </h1>
-          <p className="text-sm text-secondary mt-1">
-            {completed.length} indicateur{completed.length > 1 ? 's' : ''} analyse
-            {completed.length > 1 ? 's' : ''} — Derniere mise a jour : {timeAgo(history[0].date)}
-          </p>
+      {/* ── Hero dark with score ── */}
+      <section className="relative bg-slate-950 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(0,120,212,0.08)_0%,_transparent_60%)]" />
         </div>
 
-        {/* ================================================================
-            SECTION 1 : Couverture diagnostique (gamification)
-            ================================================================ */}
-        <div className="surface rounded-xl p-6 mb-6">
-          <div className="flex items-start justify-between mb-4">
+        <div className="relative max-w-5xl mx-auto px-6 pt-32 pb-20 lg:pt-40 lg:pb-28">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Target className="w-4 h-4 text-[var(--accent-primary)]" />
-                <h2 className="text-sm font-bold text-primary uppercase tracking-wide">
-                  Couverture diagnostique
-                </h2>
-              </div>
-              <p className="text-xs text-secondary">
-                {completed.length}/{TOTAL_CALCULATORS} analyses realisees
-              </p>
+              <FadeIn delay={0.1} direction="none">
+                <span className="inline-block text-accent-primary text-sm font-medium tracking-widest uppercase">
+                  Score FinSight™
+                </span>
+              </FadeIn>
+              <FadeIn delay={0.2}>
+                <h1 className="font-serif text-4xl lg:text-6xl font-medium leading-[1.1] tracking-tight text-white mt-4">
+                  Votre diagnostic
+                </h1>
+              </FadeIn>
+              <FadeIn delay={0.3}>
+                <p className="text-gray-400 mt-4 text-lg">
+                  {completed.length} indicateur{completed.length > 1 ? 's' : ''} analysé{completed.length > 1 ? 's' : ''} · Dernière mise à jour : {timeAgo(history[0].date)}
+                </p>
+              </FadeIn>
             </div>
-            <span className="text-2xl font-bold text-primary font-tabular">
-              {coveragePct}%
-            </span>
-          </div>
 
-          {/* Barre de progression segmentee */}
-          <div className="flex gap-1 mb-4">
-            {Array.from({ length: TOTAL_CALCULATORS }).map((_, i) => (
-              <div
-                key={i}
-                className={`h-2 flex-1 rounded-full transition-all duration-500 ${
-                  i < completed.length
-                    ? 'bg-[var(--accent-primary)]'
-                    : 'bg-[var(--border-subtle)]'
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Prochaine analyse recommandee */}
-          {nextCalc && (
-            <div className="flex items-center justify-between p-4 rounded-lg bg-[var(--accent-primary-subtle)] border border-[var(--accent-primary-border)]">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
-                  <Zap className="w-4 h-4 text-[var(--accent-primary)]" />
+            <FadeIn delay={0.35} direction="none">
+              <div className={`rounded-2xl border ${levelCfg.border} ${levelCfg.bg} p-8 min-w-[240px]`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">
+                    Score global
+                  </p>
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                    diagnostic.confidence === 'haute'
+                      ? 'bg-emerald-50 text-emerald-600'
+                      : diagnostic.confidence === 'moyenne'
+                      ? 'bg-amber-50 text-amber-600'
+                      : 'bg-gray-100 text-gray-500'
+                  }`}>
+                    Confiance {diagnostic.confidence}
+                  </span>
                 </div>
+                <div className="flex items-baseline gap-2">
+                  <span className={`font-serif text-5xl font-medium ${levelCfg.color}`}>
+                    {diagnostic.total !== null ? diagnostic.total : '—'}
+                  </span>
+                  <span className="text-lg text-gray-400 font-medium">/ 100</span>
+                </div>
+                <p className={`text-sm font-semibold mt-2 ${levelCfg.color}`}>
+                  {levelCfg.label}
+                </p>
+                {diagnostic.completedPillars < 4 && (
+                  <p className="text-[11px] text-gray-400 mt-2 leading-relaxed">
+                    Basé sur {diagnostic.completedPillars}/4 piliers — score extrapolé.
+                  </p>
+                )}
+              </div>
+            </FadeIn>
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
+      </section>
+
+      {/* ── Couverture diagnostique + Piliers ── */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-6">
+          {/* Progress bar */}
+          <FadeIn className="mb-12">
+            <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm font-semibold text-primary">
-                    Prochaine analyse recommandee
-                  </p>
-                  <p className="text-xs text-secondary">
-                    {CALCULATOR_META[nextCalc].fullLabel} — {CALCULATOR_META[nextCalc].description}
-                  </p>
-                </div>
-              </div>
-              <Link
-                href={CALCULATOR_META[nextCalc].href}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[var(--accent-primary)] text-white text-xs font-semibold rounded-lg hover:bg-[var(--accent-primary-hover)] transition-colors flex-shrink-0"
-              >
-                Calculer
-                <ArrowRight className="w-3 h-3" />
-              </Link>
-            </div>
-          )}
-
-          {completed.length === TOTAL_CALCULATORS && (
-            <div className="flex items-center gap-3 p-4 rounded-lg bg-[var(--accent-success-subtle)] border border-[var(--accent-success-border)]">
-              <CheckCircle2 className="w-5 h-5 text-[var(--accent-success)] flex-shrink-0" />
-              <div>
-                <p className="text-sm font-semibold text-primary">Diagnostic complet</p>
-                <p className="text-xs text-secondary">
-                  Tous les indicateurs ont ete analyses. Votre Score FinSight est au maximum de precision.
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ================================================================
-            SECTION 2 : Score FinSight(tm) — 4 Piliers x 25 pts
-            ================================================================ */}
-        <div className={`rounded-xl border ${levelCfg.border} ${levelCfg.bg} p-6 mb-6`}>
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-            {/* Score principal */}
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <p className="text-xs font-semibold uppercase tracking-widest text-secondary">
-                  Score FinSight
-                </p>
-                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                  diagnostic.confidence === 'haute'
-                    ? 'bg-[var(--accent-success-subtle)] text-[var(--accent-success)]'
-                    : diagnostic.confidence === 'moyenne'
-                    ? 'bg-[var(--accent-warning-subtle)] text-[var(--accent-warning)]'
-                    : 'bg-[var(--surface-primary)] text-tertiary'
-                }`}>
-                  Confiance {diagnostic.confidence}
-                </span>
-              </div>
-              <div className="flex items-baseline gap-3">
-                <span className={`text-5xl font-bold ${levelCfg.color} font-tabular`}>
-                  {diagnostic.total !== null ? diagnostic.total : '--'}
-                </span>
-                <span className="text-lg text-secondary font-medium">/ 100</span>
-              </div>
-              <p className={`text-sm font-semibold mt-2 ${levelCfg.color}`}>
-                {levelCfg.label}
-              </p>
-              <p className="text-xs text-secondary mt-1 max-w-sm">
-                {levelCfg.sublabel}
-              </p>
-              {diagnostic.completedPillars < 4 && (
-                <div className="flex items-start gap-1.5 mt-3">
-                  <Info className="w-3 h-3 text-tertiary mt-0.5 flex-shrink-0" />
-                  <p className="text-[10px] text-tertiary leading-relaxed">
-                    Score base sur {diagnostic.completedPillars}/4 pilier{diagnostic.completedPillars > 1 ? 's' : ''}.
-                    {' '}Valeur extrapolee. Completez le diagnostic pour un score definitif.
+                  <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
+                    Couverture diagnostique
+                  </h2>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {completed.length}/{TOTAL_CALCULATORS} analyses réalisées
                   </p>
                 </div>
-              )}
-            </div>
+                <span className="font-serif text-3xl font-medium text-gray-900">
+                  {coveragePct}%
+                </span>
+              </div>
 
-            {/* Barre de score segmentee */}
-            <div className="flex-shrink-0 md:w-48 md:pt-6">
-              <div className="flex gap-1">
-                {Array.from({ length: 10 }).map((_, i) => (
+              <div className="flex gap-1.5 mb-5">
+                {Array.from({ length: TOTAL_CALCULATORS }).map((_, i) => (
                   <div
                     key={i}
                     className={`h-2 flex-1 rounded-full transition-all duration-500 ${
-                      diagnostic.total !== null && i < Math.ceil(diagnostic.total / 10)
-                        ? levelCfg.bar
-                        : 'bg-white/40'
+                      i < completed.length
+                        ? 'bg-accent-primary'
+                        : 'bg-gray-200'
                     }`}
                   />
                 ))}
               </div>
-              <div className="flex justify-between mt-1">
-                <span className="text-[10px] text-tertiary">0</span>
-                <span className="text-[10px] text-tertiary">100</span>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* ---- 4 Piliers detail ---- */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {(['cash', 'margin', 'resilience', 'risk'] as PillarKey[]).map((key) => {
-            const pillar = diagnostic.pillars[key]
-            return <PillarCard key={key} pillar={pillar} />
-          })}
-        </div>
-
-        {/* ---- CTA Section ---- */}
-        <div className="grid md:grid-cols-2 gap-4 mb-10">
-          <a
-            href="https://calendly.com/zineinsight"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group surface rounded-xl p-5 hover:shadow-md transition-all"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-lg bg-[var(--accent-primary-subtle)] flex items-center justify-center flex-shrink-0">
-                <Calendar className="w-5 h-5 text-[var(--accent-primary)]" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-primary">Diagnostic approfondi gratuit</p>
-                <p className="text-xs text-tertiary mt-0.5">
-                  30 min avec un expert — Analyse de votre score — Aucun engagement
-                </p>
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-tertiary group-hover:text-[var(--accent-primary)] transition-colors flex-shrink-0" />
-            </div>
-          </a>
-
-          <Link
-            href="/consulting"
-            className="group surface rounded-xl p-5 hover:shadow-md transition-all"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-lg bg-[var(--accent-primary-subtle)] flex items-center justify-center flex-shrink-0">
-                <FileText className="w-5 h-5 text-[var(--accent-primary)]" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-primary">Audit complet sous 72h</p>
-                <p className="text-xs text-tertiary mt-0.5">
-                  Rapport detaille + plan d'action priorise + recommandations chiffrees
-                </p>
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-tertiary group-hover:text-[var(--accent-primary)] transition-colors flex-shrink-0" />
-            </div>
-          </Link>
-        </div>
-
-        {/* ---- Historique des calculs ---- */}
-        <div className="surface rounded-xl overflow-hidden mb-10">
-          <div className="px-6 py-4 border-b border-[var(--border-subtle)] flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Clock className="w-5 h-5 text-[var(--accent-primary)]" />
-              <h2 className="text-base font-bold text-primary">Historique des analyses</h2>
-            </div>
-            <span className="text-xs text-tertiary font-tabular">
-              {history.length} calcul{history.length > 1 ? 's' : ''}
-            </span>
-          </div>
-
-          <div className="divide-y divide-[var(--border-subtle)]">
-            {history.map((calc, idx) => {
-              const meta = CALCULATOR_META[calc.type]
-              if (!meta) return null
-              const Icon = meta.icon
-              const pillar = diagnostic.pillars[meta.pillar]
-
-              return (
-                <div key={`${calc.type}-${idx}`} className="flex items-center gap-4 px-6 py-4 hover:bg-[var(--surface-hover)] transition-colors">
-                  <div className={`w-9 h-9 rounded-lg ${pillar.bgColor} flex items-center justify-center flex-shrink-0`}>
-                    <Icon className={`w-4 h-4 ${pillar.color}`} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-semibold text-primary">{meta.label}</p>
-                      <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${pillar.bgColor} ${pillar.color}`}>
-                        {pillar.label}
-                      </span>
-                      <span className="text-sm font-bold text-primary font-tabular ml-auto mr-4">
-                        {formatValue(calc.value, calc.unit || meta.unit)}
-                      </span>
+              {nextCalc && (
+                <div className="flex items-center justify-between p-4 rounded-xl bg-gray-50 border border-gray-200">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-white border border-gray-200 flex items-center justify-center flex-shrink-0">
+                      <Zap className="w-5 h-5 text-accent-primary" />
                     </div>
-                    <p className="text-xs text-tertiary">{formatDate(calc.date)}</p>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">
+                        Prochaine analyse recommandée
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {CALCULATOR_META[nextCalc].fullLabel} — {CALCULATOR_META[nextCalc].description}
+                      </p>
+                    </div>
                   </div>
                   <Link
-                    href={meta.href}
-                    className="text-xs font-semibold text-secondary hover:text-[var(--accent-primary)] transition-colors flex-shrink-0"
+                    href={CALCULATOR_META[nextCalc].href}
+                    className="group inline-flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors flex-shrink-0"
                   >
-                    Mettre a jour
+                    Calculer
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                   </Link>
                 </div>
+              )}
+
+              {completed.length === TOTAL_CALCULATORS && (
+                <div className="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">Diagnostic complet</p>
+                    <p className="text-xs text-gray-500">
+                      Tous les indicateurs ont été analysés. Votre Score FinSight™ est au maximum de précision.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </FadeIn>
+
+          {/* 4 Piliers */}
+          <FadeIn className="text-center mb-10">
+            <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">
+              Détail par pilier
+            </span>
+            <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mt-3">
+              Vos 4 piliers financiers
+            </h2>
+          </FadeIn>
+
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-5" staggerDelay={0.1}>
+            {(['cash', 'margin', 'resilience', 'risk'] as PillarKey[]).map((key) => {
+              const pillar = diagnostic.pillars[key]
+              return (
+                <StaggerItem key={key}>
+                  <PillarCard pillar={pillar} />
+                </StaggerItem>
               )
             })}
-          </div>
+          </StaggerContainer>
         </div>
+      </section>
 
-        {/* ---- Indicateurs manquants (par pilier) ---- */}
-        {completed.length < TOTAL_CALCULATORS && (
-          <div className="surface rounded-xl p-6 mb-10">
-            <div className="flex items-start justify-between mb-5">
-              <div>
-                <h2 className="text-base font-bold text-primary mb-1">
-                  Analyses manquantes
-                </h2>
-                <p className="text-sm text-secondary">
-                  {TOTAL_CALCULATORS - completed.length} indicateur{TOTAL_CALCULATORS - completed.length > 1 ? 's' : ''} restant{TOTAL_CALCULATORS - completed.length > 1 ? 's' : ''} pour
-                  une couverture analytique complete.
-                </p>
+      {/* ── CTA Section ── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-6">
+          <FadeIn>
+            <div className="grid md:grid-cols-2 gap-6">
+              <a
+                href="https://calendly.com/zineinsight"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-white rounded-xl p-6 border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-300"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-slate-950 flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-base font-semibold text-gray-900 group-hover:text-accent-primary transition-colors">
+                      Échange stratégique
+                    </p>
+                    <p className="text-sm text-gray-500 mt-1 leading-relaxed">
+                      30 min · Analyse de votre score · Confidentiel
+                    </p>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-accent-primary transition-colors flex-shrink-0 mt-1" />
+                </div>
+              </a>
+
+              <Link
+                href="/consulting"
+                className="group bg-white rounded-xl p-6 border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-300"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-slate-950 flex items-center justify-center flex-shrink-0">
+                    <FileText className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-base font-semibold text-gray-900 group-hover:text-accent-primary transition-colors">
+                      Audit complet sous 72h
+                    </p>
+                    <p className="text-sm text-gray-500 mt-1 leading-relaxed">
+                      Rapport détaillé + plan d'action priorisé + recommandations chiffrées
+                    </p>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-accent-primary transition-colors flex-shrink-0 mt-1" />
+                </div>
+              </Link>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── Historique des analyses ── */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-6">
+          <FadeIn>
+            <div className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+              <div className="px-8 py-5 border-b border-gray-200 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Clock className="w-5 h-5 text-accent-primary" />
+                  <h2 className="text-base font-bold text-gray-900">Historique des analyses</h2>
+                </div>
+                <span className="text-xs text-gray-400 font-medium">
+                  {history.length} calcul{history.length > 1 ? 's' : ''}
+                </span>
+              </div>
+
+              <div className="divide-y divide-gray-100">
+                {history.map((calc, idx) => {
+                  const meta = CALCULATOR_META[calc.type]
+                  if (!meta) return null
+                  const Icon = meta.icon
+                  const pillar = diagnostic.pillars[meta.pillar]
+
+                  return (
+                    <div key={`${calc.type}-${idx}`} className="flex items-center gap-4 px-8 py-4 hover:bg-gray-50 transition-colors">
+                      <div className={`w-10 h-10 rounded-lg ${pillar.bgColor} flex items-center justify-center flex-shrink-0`}>
+                        <Icon className={`w-4 h-4 ${pillar.color}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-semibold text-gray-900">{meta.label}</p>
+                          <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${pillar.bgColor} ${pillar.color}`}>
+                            {pillar.label}
+                          </span>
+                          <span className="text-sm font-bold text-gray-900 ml-auto mr-4">
+                            {formatValue(calc.value, calc.unit || meta.unit)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-400 mt-0.5">{formatDate(calc.date)}</p>
+                      </div>
+                      <Link
+                        href={meta.href}
+                        className="text-xs font-semibold text-gray-500 hover:text-accent-primary transition-colors flex-shrink-0"
+                      >
+                        Mettre à jour
+                      </Link>
+                    </div>
+                  )
+                })}
               </div>
             </div>
+          </FadeIn>
+        </div>
+      </section>
 
-            <div className="space-y-4">
+      {/* ── Indicateurs manquants ── */}
+      {completed.length < TOTAL_CALCULATORS && (
+        <section className="py-20 bg-white">
+          <div className="max-w-5xl mx-auto px-6">
+            <FadeIn className="mb-10">
+              <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">
+                Compléter le diagnostic
+              </span>
+              <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mt-3">
+                Analyses manquantes
+              </h2>
+              <p className="text-gray-500 mt-2">
+                {TOTAL_CALCULATORS - completed.length} indicateur{TOTAL_CALCULATORS - completed.length > 1 ? 's' : ''} restant{TOTAL_CALCULATORS - completed.length > 1 ? 's' : ''} pour
+                une couverture analytique complète.
+              </p>
+            </FadeIn>
+
+            <div className="space-y-8">
               {(['cash', 'margin', 'resilience', 'risk'] as PillarKey[]).map((key) => {
                 const pillar = diagnostic.pillars[key]
                 const missing = pillar.calculators.filter((c) => !c.done)
                 if (missing.length === 0) return null
 
                 return (
-                  <div key={key}>
-                    <p className={`text-xs font-bold uppercase tracking-wide mb-2 ${pillar.color}`}>
-                      {pillar.label}
+                  <FadeIn key={key}>
+                    <p className={`text-xs font-bold uppercase tracking-widest mb-3 ${pillar.color}`}>
+                      {pillar.label} — {pillar.sublabel}
                     </p>
-                    <div className="grid md:grid-cols-3 gap-2">
+                    <div className="grid md:grid-cols-3 gap-3">
                       {missing.map(({ type }) => {
                         const meta = CALCULATOR_META[type]
                         const Icon = meta.icon
@@ -917,34 +1013,36 @@ export default function MonDiagnosticPage() {
                           <Link
                             key={type}
                             href={meta.href}
-                            className="group flex items-center gap-3 p-3 rounded-lg border border-[var(--border-default)] hover:border-[var(--accent-primary-border)] hover:bg-[var(--accent-primary-subtle)] transition-all"
+                            className="group flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-300"
                           >
-                            <div className={`w-8 h-8 rounded-md ${pillar.bgColor} flex items-center justify-center flex-shrink-0`}>
+                            <div className={`w-10 h-10 rounded-lg ${pillar.bgColor} flex items-center justify-center flex-shrink-0`}>
                               <Icon className={`w-4 h-4 ${pillar.color}`} />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-primary group-hover:text-[var(--accent-primary)] transition-colors">
+                              <p className="text-sm font-semibold text-gray-900 group-hover:text-accent-primary transition-colors">
                                 {meta.label}
                               </p>
-                              <p className="text-[10px] text-tertiary">{meta.description}</p>
+                              <p className="text-xs text-gray-500 mt-0.5">{meta.description}</p>
                             </div>
-                            <ArrowRight className="w-3 h-3 text-tertiary group-hover:text-[var(--accent-primary)] opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" />
+                            <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-accent-primary opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" />
                           </Link>
                         )
                       })}
                     </div>
-                  </div>
+                  </FadeIn>
                 )
               })}
             </div>
           </div>
-        )}
+        </section>
+      )}
 
-        {/* ================================================================
-            SECTION : Methodologie & Transparence
-            ================================================================ */}
-        <MethodologySection />
-      </div>
+      {/* ── Méthodologie ── */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-6">
+          <MethodologySection />
+        </div>
+      </section>
 
       <Footer />
     </div>
@@ -963,38 +1061,38 @@ function PillarCard({ pillar }: { pillar: PillarResult }) {
   const pct = hasData ? Math.round((pillar.score! / 25) * 100) : 0
 
   return (
-    <div className={`surface rounded-xl p-5 border ${hasData ? pillar.borderColor : 'border-[var(--border-default)]'} transition-all`}>
+    <div className={`bg-white rounded-xl p-6 border ${hasData ? pillar.borderColor : 'border-gray-200'} hover:shadow-md transition-all duration-300`}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-3">
-        <div className={`w-9 h-9 rounded-lg ${pillar.bgColor} flex items-center justify-center`}>
-          <Icon className={`w-4 h-4 ${pillar.color}`} />
+      <div className="flex items-center justify-between mb-4">
+        <div className={`w-11 h-11 rounded-xl ${pillar.bgColor} flex items-center justify-center`}>
+          <Icon className={`w-5 h-5 ${pillar.color}`} />
         </div>
-        <span className="text-[10px] font-medium text-tertiary">
+        <span className="text-[11px] font-medium text-gray-400">
           {doneCount}/{totalCount} analyses
         </span>
       </div>
 
       {/* Label */}
-      <p className="text-xs font-bold text-primary uppercase tracking-wide">{pillar.label}</p>
-      <p className="text-[10px] text-tertiary mb-3">{pillar.sublabel}</p>
+      <p className="text-xs font-bold text-gray-900 uppercase tracking-widest">{pillar.label}</p>
+      <p className="text-xs text-gray-500 mt-0.5 mb-4">{pillar.sublabel}</p>
 
       {/* Score */}
       {hasData ? (
         <>
-          <div className="flex items-baseline gap-1.5 mb-2">
-            <span className={`text-2xl font-bold font-tabular ${pillar.color}`}>
+          <div className="flex items-baseline gap-1.5 mb-3">
+            <span className={`font-serif text-3xl font-medium ${pillar.color}`}>
               {pillar.score}
             </span>
-            <span className="text-xs text-secondary font-medium">/ 25</span>
+            <span className="text-sm text-gray-400 font-medium">/ 25</span>
           </div>
-          <div className="w-full h-1.5 bg-[var(--border-subtle)] rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-700 ${
                 pct >= 70
-                  ? 'bg-[var(--accent-success)]'
+                  ? 'bg-emerald-500'
                   : pct >= 40
-                  ? 'bg-[var(--accent-warning)]'
-                  : 'bg-[var(--accent-danger)]'
+                  ? 'bg-amber-500'
+                  : 'bg-red-500'
               }`}
               style={{ width: `${pct}%` }}
             />
@@ -1002,8 +1100,8 @@ function PillarCard({ pillar }: { pillar: PillarResult }) {
         </>
       ) : (
         <>
-          <p className="text-2xl font-bold font-tabular text-tertiary mb-2">--/25</p>
-          <p className="text-[10px] text-tertiary">Donnees insuffisantes</p>
+          <p className="font-serif text-3xl font-medium text-gray-300 mb-3">—/25</p>
+          <p className="text-xs text-gray-400">Données insuffisantes</p>
         </>
       )}
     </div>
@@ -1087,22 +1185,24 @@ function MethodologySection() {
   }
 
   return (
-    <div className="mb-10">
+    <div>
       {/* Section header */}
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-9 h-9 rounded-lg bg-[var(--surface-primary)] border border-[var(--border-default)] flex items-center justify-center flex-shrink-0">
-          <BookOpen className="w-4 h-4 text-secondary" />
+      <FadeIn className="mb-8">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-slate-950 flex items-center justify-center flex-shrink-0">
+            <BookOpen className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h2 className="font-serif text-2xl font-medium text-gray-900">Méthodologie et transparence</h2>
+            <p className="text-sm text-gray-500 mt-0.5">
+              Comment fonctionne le Score FinSight™ — sources, calcul et confidentialité
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-base font-bold text-primary">Methodologie et transparence</h2>
-          <p className="text-xs text-secondary">
-            Comment fonctionne le Score FinSight — sources, calcul et confidentialite
-          </p>
-        </div>
-      </div>
+      </FadeIn>
 
       {/* Accordion */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         {METHODOLOGY_ITEMS.map((item) => {
           const isOpen = openId === item.id
           const Icon = item.icon
@@ -1110,33 +1210,33 @@ function MethodologySection() {
           return (
             <div
               key={item.id}
-              className={`surface rounded-xl border transition-all duration-200 ${
+              className={`bg-white rounded-xl border transition-all duration-200 ${
                 isOpen
-                  ? 'border-[var(--border-focus)] shadow-sm'
-                  : 'border-[var(--border-default)]'
+                  ? 'border-gray-300 shadow-sm'
+                  : 'border-gray-200 hover:border-gray-300'
               }`}
             >
               {/* Toggle button */}
               <button
                 onClick={() => toggle(item.id)}
-                className="w-full flex items-center gap-3 px-5 py-4 text-left group"
+                className="w-full flex items-center gap-4 px-6 py-5 text-left group"
               >
-                <div className={`w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 transition-colors ${
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
                   isOpen
-                    ? 'bg-[var(--accent-primary-subtle)]'
-                    : 'bg-[var(--surface-primary)]'
+                    ? 'bg-slate-950'
+                    : 'bg-gray-100'
                 }`}>
                   <Icon className={`w-4 h-4 transition-colors ${
-                    isOpen ? 'text-[var(--accent-primary)]' : 'text-secondary'
+                    isOpen ? 'text-white' : 'text-gray-500'
                   }`} />
                 </div>
                 <span className={`text-sm font-semibold flex-1 transition-colors ${
-                  isOpen ? 'text-[var(--accent-primary)]' : 'text-primary'
+                  isOpen ? 'text-gray-900' : 'text-gray-700'
                 }`}>
                   {item.title}
                 </span>
                 <ChevronDown
-                  className={`w-4 h-4 text-tertiary transition-transform duration-200 flex-shrink-0 ${
+                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 flex-shrink-0 ${
                     isOpen ? 'rotate-180' : ''
                   }`}
                 />
@@ -1148,37 +1248,34 @@ function MethodologySection() {
                   isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
                 }`}
               >
-                <div className="px-5 pb-5 pl-16">
-                  <div className="text-xs text-secondary leading-relaxed space-y-3">
+                <div className="px-6 pb-6 pl-20">
+                  <div className="text-sm text-gray-500 leading-relaxed space-y-3">
                     {item.content.split('\n\n').map((block, bIdx) => {
-                      // Heading lines (bold)
                       if (block.startsWith('**') && block.includes('**\n')) {
                         const [heading, ...rest] = block.split('\n')
                         return (
                           <div key={bIdx}>
                             <p
-                              className="text-xs font-semibold text-primary mb-1"
+                              className="text-sm font-semibold text-gray-900 mb-1"
                               dangerouslySetInnerHTML={{
-                                __html: heading
-                                  .replace(/\*\*([^*]+)\*\*/g, '$1'),
+                                __html: heading.replace(/\*\*([^*]+)\*\*/g, '$1'),
                               }}
                             />
-                            <p className="text-xs text-secondary leading-relaxed">
+                            <p className="text-sm text-gray-500 leading-relaxed">
                               {rest.join(' ')}
                             </p>
                           </div>
                         )
                       }
 
-                      // Blocks that contain bold markers
                       if (block.includes('**')) {
                         return (
                           <p
                             key={bIdx}
-                            className="text-xs text-secondary leading-relaxed"
+                            className="text-sm text-gray-500 leading-relaxed"
                             dangerouslySetInnerHTML={{
                               __html: block
-                                .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-primary font-semibold">$1</strong>')
+                                .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-gray-900 font-semibold">$1</strong>')
                                 .replace(/\n/g, '<br />'),
                             }}
                           />
@@ -1186,7 +1283,7 @@ function MethodologySection() {
                       }
 
                       return (
-                        <p key={bIdx} className="text-xs text-secondary leading-relaxed">
+                        <p key={bIdx} className="text-sm text-gray-500 leading-relaxed">
                           {block}
                         </p>
                       )
@@ -1199,13 +1296,13 @@ function MethodologySection() {
         })}
       </div>
 
-      {/* Subtle footer link */}
-      <div className="text-center mt-5">
+      {/* Footer link */}
+      <div className="text-center mt-6">
         <Link
           href="/methodologie"
-          className="text-[11px] font-medium text-tertiary hover:text-[var(--accent-primary)] transition-colors"
+          className="text-sm font-medium text-gray-400 hover:text-accent-primary transition-colors"
         >
-          Documentation complete de la methodologie
+          Documentation complète de la méthodologie →
         </Link>
       </div>
     </div>
