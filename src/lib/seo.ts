@@ -550,6 +550,150 @@ export const BLOG_ARTICLES: BlogArticleData[] = [
         readTime: '13 min',
         category: 'Gestion',
         keywords: ['fractional cfo france', 'cfo temps partiel', 'daf externalisé', 'part-time cfo', 'cfo pme']
+    },
+    {
+        slug: 'dso-superieur-mediane-sectorielle-modele',
+        title: 'DSO supérieur à la médiane sectorielle : que révèle vraiment votre modèle ?',
+        description: 'Un DSO élevé n\'est pas qu\'un problème de recouvrement. C\'est souvent le symptôme d\'un déséquilibre structurel entre modèle commercial et organisation financière.',
+        date: '2026-02-21',
+        readTime: '11 min',
+        category: 'Note Stratégique',
+        keywords: ['dso', 'délai paiement clients', 'trésorerie', 'modèle commercial', 'cash management']
+    },
+    {
+        slug: 'bfr-structurellement-eleve-commercial-organisationnel',
+        title: 'BFR structurellement élevé : problème commercial ou problème organisationnel ?',
+        description: 'Quand le BFR dépasse durablement les normes sectorielles, la cause est rarement unique. Lecture croisée des facteurs commerciaux, opérationnels et financiers.',
+        date: '2026-02-21',
+        readTime: '13 min',
+        category: 'Note Stratégique',
+        keywords: ['bfr', 'besoin fonds roulement', 'trésorerie pme', 'cycle exploitation', 'cash']
+    },
+    {
+        slug: 'pme-sous-estiment-fragilite-cash',
+        title: 'Pourquoi 70 % des PME sous-estiment leur fragilité cash',
+        description: 'La rentabilité masque souvent une vulnérabilité de trésorerie. Analyse des mécanismes qui conduisent les PME rentables à une impasse de liquidité.',
+        date: '2026-02-21',
+        readTime: '10 min',
+        category: 'Note Stratégique',
+        keywords: ['trésorerie pme', 'fragilité cash', 'liquidité', 'pilotage financier']
+    },
+    {
+        slug: 'marge-correcte-cash-fragile-piege-croissance',
+        title: 'Marge correcte, cash fragile : le piège classique des PME en croissance',
+        description: 'Une marge brute confortable ne protège pas de la rupture de trésorerie. Pourquoi la croissance est le moment le plus dangereux pour le cash.',
+        date: '2026-02-21',
+        readTime: '12 min',
+        category: 'Note Stratégique',
+        keywords: ['marge brute', 'trésorerie', 'pme croissance', 'cash flow', 'bfr']
+    },
+    {
+        slug: 'daf-externalise-vs-expert-comptable-confusion',
+        title: 'DAF externalisé vs expert-comptable : rôles et confusion dangereuse',
+        description: 'L\'expert-comptable produit les comptes. Le DAF les interprète et arbitre. Confondre les deux expose l\'entreprise à des décisions prises sans lecture financière.',
+        date: '2026-02-21',
+        readTime: '9 min',
+        category: 'Note Stratégique',
+        keywords: ['daf externalisé', 'expert comptable', 'direction financière', 'pilotage pme']
+    },
+    {
+        slug: 'a-partir-quel-ca-faut-il-un-daf',
+        title: 'À partir de quel chiffre d\'affaires faut-il un DAF ?',
+        description: 'Le seuil de complexité financière ne dépend pas que du CA. Nombre de clients, saisonnalité, BFR structurel : les vrais critères de déclenchement.',
+        date: '2026-02-21',
+        readTime: '10 min',
+        category: 'Note Stratégique',
+        keywords: ['daf externalisé', 'daf pme', 'direction financière externalisée', 'quand recruter daf']
+    },
+    {
+        slug: '4-priorites-daf-90-jours',
+        title: 'Les 4 priorités d\'un DAF sur 90 jours',
+        description: 'Trésorerie, marge, structure, reporting : la séquence d\'intervention d\'un DAF qui prend un mandat. Ce qui se joue dans les 3 premiers mois.',
+        date: '2026-02-21',
+        readTime: '11 min',
+        category: 'Note Stratégique',
+        keywords: ['daf externalisé', 'direction financière', 'pilotage financier', '90 jours']
+    },
+    {
+        slug: 'pilotage-financier-change-pme-5-20m',
+        title: 'Ce qu\'un vrai pilotage financier change dans une PME 5–20M€',
+        description: 'Avant/après : les transformations concrètes quand une PME passe d\'une comptabilité subie à un pilotage financier structuré.',
+        date: '2026-02-21',
+        readTime: '14 min',
+        category: 'Note Stratégique',
+        keywords: ['pilotage financier', 'pme', 'tableaux de bord', 'daf', 'reporting financier']
+    },
+    {
+        slug: 'reduire-dso-50-pourcent-90-jours',
+        title: 'Réduire son DSO de 50% en 90 jours : Guide Pratique PME (2026)',
+        description: 'Méthode éprouvée pour améliorer votre DSO et libérer jusqu\'à 200k€ de trésorerie. 10 actions concrètes + cas client avant/après.',
+        date: '2026-01-28',
+        readTime: '12 min',
+        category: 'Trésorerie',
+        keywords: ['réduire dso', 'dso 2026', 'trésorerie pme', 'délai paiement', 'cash management']
+    },
+    {
+        slug: 'bfr-negatif-bon-ou-mauvais',
+        title: 'BFR Négatif : Est-ce Bon ou Mauvais pour Votre Entreprise ? (Guide 2026)',
+        description: 'Un BFR négatif est-il signe de bonne santé ou de danger ? Explication complète avec exemples par secteur (grande distribution, SaaS, e-commerce).',
+        date: '2026-01-28',
+        readTime: '10 min',
+        category: 'Analyse',
+        keywords: ['bfr négatif', 'besoin fonds roulement', 'cash flow', 'saas', 'grande distribution']
+    },
+    {
+        slug: 'dso-vs-dpo-optimiser-tresorerie',
+        title: 'DSO vs DPO : Comment Optimiser l\'Équilibre Clients-Fournisseurs (2026)',
+        description: 'Comprendre la différence DSO/DPO et optimiser votre Cash Conversion Cycle. Formules, exemples et stratégies pour libérer de la trésorerie.',
+        date: '2026-01-28',
+        readTime: '9 min',
+        category: 'Trésorerie',
+        keywords: ['dso', 'dpo', 'cash conversion cycle', 'trésorerie', 'fournisseurs clients']
+    },
+    {
+        slug: 'pme-b2b-6m-240k-cash-libere-4-mois',
+        title: 'Comment une PME B2B à 6M€ a libéré 240k€ de cash en 4 mois',
+        description: 'Étude de cas : DSO à 62 jours, BFR structurel élevé, trésorerie tendue. La séquence d\'intervention complète et les résultats chiffrés.',
+        date: '2026-02-21',
+        readTime: '11 min',
+        category: 'Étude de cas',
+        keywords: ['étude de cas', 'trésorerie pme', 'dso', 'cash libéré', 'daf externalisé']
+    },
+    {
+        slug: 'reduire-dso-62-41-jours-relation-client',
+        title: 'Comment réduire un DSO de 62 à 41 jours sans détériorer la relation client',
+        description: 'Cas client réel : de 62 à 41 jours de DSO en 90 jours. Méthode, actions concrètes et résultats chiffrés sur une PME services B2B.',
+        date: '2026-02-21',
+        readTime: '10 min',
+        category: 'Étude de cas',
+        keywords: ['réduire dso', 'relation client', 'pme b2b', 'cash management', 'recouvrement']
+    },
+    {
+        slug: 'pme-8m-risque-dependance-sous-estime',
+        title: 'Pourquoi cette PME à 8M€ de CA sous-estimait son risque de dépendance',
+        description: 'Étude de cas : quand 3 clients concentrent 72% du CA, le risque de dépendance est systémique. Comment l\'identifier et le corriger.',
+        date: '2026-02-21',
+        readTime: '12 min',
+        category: 'Étude de cas',
+        keywords: ['risque dépendance client', 'concentration client', 'pme', 'diagnostic financier', 'daf']
+    },
+    {
+        slug: 'lire-bilan-compte-resultat-guide-pratique',
+        title: 'Lire un bilan et un compte de résultat : guide pratique',
+        description: 'Apprenez à décrypter vos états financiers en 15 minutes : bilan, compte de résultat, signaux d\'alerte et questions à poser à votre comptable.',
+        date: '2026-01-25',
+        readTime: '12 min',
+        category: 'Gestion',
+        keywords: ['bilan comptable', 'compte de résultat', 'états financiers', 'lecture bilan', 'comptabilité pme']
+    },
+    {
+        slug: 'eva-roic-illusion-performance',
+        title: 'Pourquoi une entreprise rentable peut détruire de la valeur',
+        description: 'EVA, ROIC et WACC : découvrez pourquoi la rentabilité comptable ne suffit pas et comment mesurer la création de valeur réelle.',
+        date: '2026-01-25',
+        readTime: '14 min',
+        category: 'Analyse',
+        keywords: ['eva', 'roic', 'wacc', 'création de valeur', 'rentabilité économique', 'performance financière']
     }
 ]
 
