@@ -103,6 +103,12 @@ export default function Home() {
                 pilotage, anticipez vos décisions, sécurisez votre croissance.
               </p>
 
+              {/* Ligne concrète — ancrage opérationnel */}
+              <p className="text-sm text-gray-400 leading-relaxed max-w-lg border-l-2 border-accent-primary/40 pl-4">
+                Vision cash à 90 jours · Marges réelles par activité ·
+                Scénarios de croissance simulés avant décision
+              </p>
+
               {/* Score FinSight™ — Différenciateur visible dans le hero */}
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-5">
                 <div className="flex items-center gap-4">
@@ -263,6 +269,11 @@ export default function Home() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Les mêmes outils que nous utilisons en mission DAF. Obtenez un
               premier niveau de lecture de votre situation financière.
+            </p>
+            {/* Dissonance psychologique */}
+            <p className="text-base text-gray-400 max-w-2xl mx-auto mt-4 italic">
+              Beaucoup de dirigeants pensent piloter correctement leur cash…
+              jusqu'à ce qu'on mette les chiffres en face.
             </p>
           </div>
 
@@ -439,46 +450,50 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Credentials Grid */}
+              {/* Résultats concrets — impact > CV */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <GraduationCap className="w-5 h-5 text-accent-primary" />
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                  <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <TrendingUp className="w-5 h-5 text-blue-600" />
+                  </div>
                   <div>
-                    <p className="font-semibold text-gray-900 text-sm">
-                      Master Finance
+                    <p className="font-bold text-gray-900 text-lg leading-tight">
+                      −28 jours
                     </p>
-                    <p className="text-xs text-gray-500">
-                      Université Côte d'Azur
-                    </p>
+                    <p className="text-xs text-gray-500">DSO réduit · PME Services</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <Briefcase className="w-5 h-5 text-accent-primary" />
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                  <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
+                    <DollarSign className="w-5 h-5 text-green-600" />
+                  </div>
                   <div>
-                    <p className="font-semibold text-gray-900 text-sm">
-                      Data Analyst
+                    <p className="font-bold text-gray-900 text-lg leading-tight">
+                      +340k€
                     </p>
-                    <p className="text-xs text-gray-500">Le Wagon</p>
+                    <p className="text-xs text-gray-500">Cash libéré · PME BTP</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <Award className="w-5 h-5 text-accent-primary" />
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                  <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                    <BarChart3 className="w-5 h-5 text-purple-600" />
+                  </div>
                   <div>
-                    <p className="font-semibold text-gray-900 text-sm">
-                      10 ans Enseignement
+                    <p className="font-bold text-gray-900 text-lg leading-tight">
+                      +6 pts
                     </p>
-                    <p className="text-xs text-gray-500">
-                      Sciences Économiques
-                    </p>
+                    <p className="text-xs text-gray-500">Marge nette · Groupe 500M€</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <Users className="w-5 h-5 text-accent-primary" />
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                  <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-5 h-5 text-orange-600" />
+                  </div>
                   <div>
-                    <p className="font-semibold text-gray-900 text-sm">
-                      Double expertise
+                    <p className="font-bold text-gray-900 text-lg leading-tight">
+                      50+
                     </p>
-                    <p className="text-xs text-gray-500">Finance & Data</p>
+                    <p className="text-xs text-gray-500">Dirigeants accompagnés</p>
                   </div>
                 </div>
               </div>
