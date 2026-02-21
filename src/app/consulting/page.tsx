@@ -208,7 +208,7 @@ export default function ConsultingPage() {
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
                                 >
                                     <Calendar className="w-5 h-5" />
-                                    Réserver un diagnostic gratuit
+                                    Réserver un échange stratégique
                                 </a>
                                 <a
                                     href="#offres"
@@ -226,7 +226,7 @@ export default function ConsultingPage() {
                                     <span>Réponse sous 24h</span>
                                 </div>
                                 <span className="text-gray-600">•</span>
-                                <span>30 min gratuit</span>
+                                <span>30 min · Confidentiel · Sans engagement</span>
                             </div>
                         </motion.div>
 
@@ -736,16 +736,23 @@ export default function ConsultingPage() {
                             transition={{ duration: 0.6, delay: 0.1 }}
                             className="bg-background-primary rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
-                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Niveau 1</p>
-                            <h3 className="text-2xl font-bold text-text-primary mb-2">Diagnostic Stratégique</h3>
+                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Offre Signature</p>
+                            <h3 className="text-2xl font-bold text-text-primary mb-2">Diagnostic FinSight™ 90J</h3>
                             <div className="flex items-baseline gap-1 mb-4">
                                 <span className="text-4xl font-bold text-text-primary">1 990</span>
                                 <span className="text-text-secondary">€</span>
                             </div>
-                            <p className="text-text-secondary mb-6">Analyse complète de votre santé financière en 5 jours ouvrés.</p>
+                            <p className="text-text-secondary mb-6">Clarté stratégique complète en 5 jours ouvrés.</p>
 
                             <ul className="space-y-3 mb-8">
-                                {['Connexion sécurisée aux données', 'Analyse cash-flow, rentabilité, risques', 'Rapport PDF structuré (15 pages)', 'Restitution 1h avec plan d\'action', '3 quick wins chiffrés'].map((item, i) => (
+                                {[
+                                    'Score FinSight™ 0–100 détaillé',
+                                    'Décomposition 4 piliers Cash · Marges · Résilience · Risques',
+                                    '5 anomalies majeures détectées et expliquées',
+                                    '3 leviers prioritaires chiffrés et actionnables',
+                                    'Simulation d\'impact à 90 jours',
+                                    'Restitution stratégique 60 min avec plan d\'action'
+                                ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-text-secondary">
                                         <Check className="w-5 h-5 text-accent-success flex-shrink-0 mt-0.5" />
                                         {item}
@@ -769,16 +776,24 @@ export default function ConsultingPage() {
                             <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-accent-primary text-white text-xs font-bold rounded-full">
                                 Recommandé
                             </div>
-                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Niveau 2</p>
+                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Structuration &amp; Pilotage</p>
                             <h3 className="text-2xl font-bold mb-2">Audit Complet</h3>
                             <div className="flex items-baseline gap-1 mb-4">
                                 <span className="text-4xl font-bold">4 990</span>
                                 <span className="text-gray-400">€</span>
                             </div>
-                            <p className="text-gray-300 mb-6">Feuille de route complète pour débloquer votre rentabilité.</p>
+                            <p className="text-gray-300 mb-6">Visibilité complète, arbitrages rapides, décisions structurées.</p>
 
                             <ul className="space-y-3 mb-8">
-                                {['Tout le Diagnostic Stratégique', 'Immersion processus financiers', 'Structuration données 24 mois', 'Modèle rentabilité analytique', 'Dashboards Power BI / Tableau', 'Plan d\'action chiffré 6 mois', 'Formation 2h + 1 mois support'].map((item, i) => (
+                                {[
+                                    'Tout le Diagnostic FinSight™ 90J',
+                                    'Analyse de rentabilité réelle par activité',
+                                    'Vision trésorerie fiabilisée sur 24 mois',
+                                    'Tableau de bord dirigeant clé en main',
+                                    'Modèle de rentabilité analytique',
+                                    'Plan d\'action chiffré sur 6 mois',
+                                    'Formation 2h + 1 mois de support'
+                                ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
                                         <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
                                         {item}
@@ -799,16 +814,23 @@ export default function ConsultingPage() {
                             transition={{ duration: 0.6, delay: 0.3 }}
                             className="bg-background-primary rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
-                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Niveau 3</p>
+                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Système décisionnel</p>
                             <h3 className="text-2xl font-bold text-text-primary mb-2">Decision System</h3>
                             <div className="flex items-baseline gap-1 mb-4">
                                 <span className="text-4xl font-bold text-text-primary">9 990</span>
                                 <span className="text-text-secondary">€</span>
                             </div>
-                            <p className="text-text-secondary mb-6">Cockpit financier automatisé et intelligent, clé en main.</p>
+                            <p className="text-text-secondary mb-6">Un pilotage financier autonome, fiable et durable.</p>
 
                             <ul className="space-y-3 mb-8">
-                                {['Tout l\'Audit Complet', 'Infrastructure data complète', 'ETL automatisé multi-sources', 'Dashboards avancés temps réel', 'IA sur vos données (chatbot CFO)', 'Détection automatique anomalies', 'Formation équipe + 3 mois support'].map((item, i) => (
+                                {[
+                                    'Tout l\'Audit Complet',
+                                    'Cockpit décisionnel dirigeant temps réel',
+                                    'Alertes automatiques sur anomalies clés',
+                                    'Scénarios de croissance simulés en continu',
+                                    'Maîtrise totale des marges et du cash',
+                                    'Formation équipe + 3 mois d\'accompagnement'
+                                ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-text-secondary">
                                         <Check className="w-5 h-5 text-accent-success flex-shrink-0 mt-0.5" />
                                         {item}
@@ -817,7 +839,7 @@ export default function ConsultingPage() {
                             </ul>
 
                             <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="block w-full py-4 text-center bg-white border-2 border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white font-bold rounded-xl transition-all duration-200">
-                                Planifier un échange
+                                Planifier un échange stratégique
                             </a>
                         </motion.div>
                     </div>

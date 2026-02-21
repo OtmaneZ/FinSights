@@ -99,39 +99,28 @@ export default function ScoreMethodologyPage() {
                         {/* CTAs */}
                         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                             <Link
-                                href="/consulting"
+                                href="/mon-diagnostic"
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                             >
-                                <Users className="w-5 h-5" />
-                                Accompagnement expert
-                            </Link>
-                            <Link
-                                href="/agents"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
-                            >
-                                <Sparkles className="w-5 h-5" />
-                                Agents IA finance
+                                <Calculator className="w-5 h-5" />
+                                Calculer mon Score FinSight™
                             </Link>
                             <a
-                                href="#methodology"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/5 backdrop-blur-sm text-white font-medium rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300"
+                                href="https://calendly.com/zineinsight"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                             >
-                                Voir la méthodologie
                                 <ArrowRight className="w-5 h-5" />
+                                Réserver un échange stratégique
                             </a>
-                        </div>
-                        
-                        {/* Descriptions sous les CTAs */}
-                        <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto text-sm">
-                            <p className="text-slate-400">
-                                Faites-vous accompagner par un expert finance pour piloter votre entreprise
-                            </p>
-                            <p className="text-slate-400">
-                                Automatisez votre pilotage avec nos 3 agents IA spécialisés
-                            </p>
-                            <p className="text-slate-400">
-                                Découvrez comment nous calculons votre score de santé financière
-                            </p>
+                            <span
+                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/5 backdrop-blur-sm text-white/50 font-medium rounded-xl border border-white/10 cursor-default"
+                                title="Bientôt disponible"
+                            >
+                                <FileText className="w-5 h-5" />
+                                Exemple de rapport — à venir
+                            </span>
                         </div>
                     </motion.div>
                 </div>
@@ -241,6 +230,116 @@ export default function ScoreMethodologyPage() {
                             <div className="flex items-center justify-between pt-4 border-t border-slate-200">
                                 <span className="text-slate-500 text-sm">Poids</span>
                                 <span className="text-lg font-bold text-slate-900">25 pts</span>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* EXEMPLE CONCRET — Avant / Après */}
+            <section className="py-20 bg-slate-50">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center mb-12"
+                    >
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 mb-6">
+                            <Eye className="w-4 h-4 text-accent-primary" />
+                            <span className="text-sm text-slate-700 font-medium">Exemple réel</span>
+                        </div>
+                        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                            Ce que le Score révèle en pratique
+                        </h2>
+                        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                            Une PME services, 7M€ de CA. Le dirigeant pensait piloter correctement son cash.
+                        </p>
+                    </motion.div>
+
+                    <div className="max-w-4xl mx-auto">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                            className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm"
+                        >
+                            {/* Header */}
+                            <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100">
+                                <div>
+                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">PME Services · 7M€ CA</p>
+                                    <p className="text-slate-900 font-semibold">Diagnostic FinSight™ — Illustration</p>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center">
+                                        <span className="text-orange-700 font-bold text-xl">58</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-semibold text-orange-700">Fragile</p>
+                                        <p className="text-xs text-slate-500">Score global /100</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Piliers */}
+                            <div className="grid sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+                                {[
+                                    { pillar: 'Cash', score: 12, max: 25, label: 'Runway 3 mois', color: 'text-red-600', bg: 'bg-red-50' },
+                                    { pillar: 'Marges', score: 15, max: 25, label: 'Marge nette 8%', color: 'text-orange-600', bg: 'bg-orange-50' },
+                                    { pillar: 'Résilience', score: 18, max: 25, label: 'Charges fixes 45%', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+                                    { pillar: 'Risques', score: 13, max: 25, label: '1 client = 38% CA', color: 'text-orange-600', bg: 'bg-orange-50' },
+                                ].map((p) => (
+                                    <div key={p.pillar} className={`px-6 py-5 ${p.bg}`}>
+                                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">{p.pillar}</p>
+                                        <p className={`text-2xl font-bold ${p.color} mb-1`}>{p.score}<span className="text-sm font-normal text-slate-400">/{p.max}</span></p>
+                                        <p className="text-xs text-slate-500">{p.label}</p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Plan d'action */}
+                            <div className="px-8 py-6 bg-slate-900">
+                                <p className="text-xs font-semibold text-accent-primary uppercase tracking-wider mb-4">Plan d&apos;action — 3 leviers prioritaires</p>
+                                <div className="grid sm:grid-cols-3 gap-4">
+                                    {[
+                                        { n: '1', action: 'Réduire le DSO de 10 jours', impact: '+42k€ cash libéré immédiat' },
+                                        { n: '2', action: 'Baisser les charges fixes de 5 pts', impact: '+35k€ marge nette annuelle' },
+                                        { n: '3', action: 'Sécuriser la trésorerie 90j', impact: 'Runway 6 mois → zone Bon' },
+                                    ].map((l) => (
+                                        <div key={l.n} className="flex items-start gap-3">
+                                            <span className="w-6 h-6 rounded-full bg-accent-primary/20 text-accent-primary text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{l.n}</span>
+                                            <div>
+                                                <p className="text-white text-sm font-medium">{l.action}</p>
+                                                <p className="text-slate-400 text-xs mt-0.5">{l.impact}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Disclaimer légal + PCG */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: 0.2 }}
+                            className="mt-6 flex flex-col sm:flex-row gap-4"
+                        >
+                            <div className="flex items-start gap-3 flex-1 bg-white rounded-xl px-5 py-4 border border-slate-200">
+                                <Info className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                                <p className="text-sm text-slate-600">
+                                    <span className="font-medium text-slate-800">Ce score ne remplace pas un audit légal.</span>{' '}
+                                    Il sert à piloter, anticiper et prioriser — pas à certifier des comptes.
+                                </p>
+                            </div>
+                            <div className="flex items-start gap-3 flex-1 bg-white rounded-xl px-5 py-4 border border-slate-200">
+                                <Lock className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                                <p className="text-sm text-slate-600">
+                                    Les indicateurs s&apos;appuient sur les ratios usuels de contrôle de gestion et l&apos;analyse financière standard (PCG + bonnes pratiques CFO).
+                                </p>
                             </div>
                         </motion.div>
                     </div>
