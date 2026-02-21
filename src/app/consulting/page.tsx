@@ -579,9 +579,9 @@ export default function ConsultingPage() {
                                 icon: Users,
                                 color: 'purple',
                                 challenge: 'Identification des centres de coût déficitaires. Données RH et comptables dispersées.',
-                                solution: 'Dashboard PowerBI multi-sources, analyse rentabilité par centre, ETL automatisé.',
+                                solution: 'Centralisation multi-sources, analyse de rentabilité par centre de profit, vision consolidée en temps réel.',
                                 result: 'Récupération de trésorerie significative',
-                                tags: ['Power BI', 'ETL', 'Rentabilité']
+                                tags: ['Consolidation', 'Rentabilité', 'Vision temps réel']
                             },
                             {
                                 sector: 'BTP / Services',
@@ -589,9 +589,9 @@ export default function ConsultingPage() {
                                 icon: TrendingUp,
                                 color: 'blue',
                                 challenge: 'Croissance 40%/an avec perte de visibilité sur les marges chantier et le cash.',
-                                solution: 'Modèle rentabilité par projet, dashboard temps réel, prévisions trésorerie 90 jours.',
+                                solution: 'Modèle rentabilité par projet, pilotage cash à 90 jours, arbitrages avant engagement.',
                                 result: 'Arbitrages rapides, croissance rentable',
-                                tags: ['Cash-flow', 'Dashboard', 'Projet']
+                                tags: ['Cash-flow', 'Pilotage', 'Projet']
                             },
                             {
                                 sector: 'Services / Conseil',
@@ -599,9 +599,9 @@ export default function ConsultingPage() {
                                 icon: BarChart3,
                                 color: 'green',
                                 challenge: 'Dépendance aux retraitements Excel manuels. Indicateurs non fiables en comité.',
-                                solution: 'Cadre de pilotage structuré, automatisation complète, KPIs temps réel.',
+                                solution: 'Cadre de pilotage structuré, production automatique des indicateurs, reporting fiable en comité de direction.',
                                 result: 'Pilotage fiable sans intervention manuelle',
-                                tags: ['Automatisation', 'KPIs', 'CFO']
+                                tags: ['Pilotage', 'Automatisation', 'Comité direction']
                             }
                         ].map((study, i) => (
                             <motion.div
@@ -846,20 +846,8 @@ export default function ConsultingPage() {
             </section>
 
             {/* ============================================
-                TECH STACK - Minimal
+                APPROCHE TECHNIQUE - Supprimée (stack sous-entendue)
                ============================================ */}
-            <section className="py-12 bg-background-primary border-y border-border-subtle">
-                <div className="max-w-7xl mx-auto px-6 lg:px-12">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                        <p className="text-sm text-text-tertiary uppercase tracking-wider font-semibold">Stack technique</p>
-                        <div className="flex flex-wrap justify-center gap-6">
-                            {['Python', 'SQL', 'Power BI', 'Tableau', 'Next.js', 'PostgreSQL', 'OpenAI', 'Pandas'].map((tech, i) => (
-                                <span key={i} className="text-sm text-text-secondary font-medium">{tech}</span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             {/* ============================================
                 SECTION FAQ
@@ -1069,7 +1057,7 @@ export default function ConsultingPage() {
                             D&apos;autres questions ?
                         </p>
                         <p className="text-slate-600 mb-6">
-                            Réservez un appel de 30 minutes pour en discuter. C&apos;est gratuit et sans engagement.
+                            Réservez un échange exploratoire de 30 minutes pour en discuter.
                         </p>
                         <a
                             href="https://calendly.com/zineinsight"
@@ -1078,7 +1066,7 @@ export default function ConsultingPage() {
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
                         >
                             <Calendar className="w-5 h-5" />
-                            Réserver un appel gratuit
+                            Réserver un échange exploratoire
                         </a>
                     </motion.div>
                 </div>
@@ -1107,7 +1095,7 @@ export default function ConsultingPage() {
                             <span className="text-accent-primary">pilotage financier</span> ?
                         </h2>
                         <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-                            Échangeons 30 minutes sur vos enjeux. Sans engagement.
+                            Échangeons 30 minutes sur vos enjeux stratégiques.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -1135,7 +1123,7 @@ export default function ConsultingPage() {
                                 <span>Réponse sous 24h</span>
                             </div>
                             <span className="text-gray-600">•</span>
-                            <span>30 min gratuit</span>
+                            <span>30 min · Exploratoire</span>
                             <span className="text-gray-600">•</span>
                             <span>Sans engagement</span>
                         </div>
