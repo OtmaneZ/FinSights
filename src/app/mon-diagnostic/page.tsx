@@ -1049,23 +1049,22 @@ export default function MonDiagnosticPage() {
                   <Activity className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="font-serif text-3xl font-medium text-gray-900 mb-3">
-                  Commencez par votre DSO
+                  Demarrer votre diagnostic
                 </h2>
                 <p className="text-gray-500 leading-relaxed max-w-lg mx-auto mb-8">
-                  Le délai moyen de paiement clients est le premier indicateur
-                  de santé de votre trésorerie. Résultat en moins de 2 minutes.
+                  Un parcours guide en 4 piliers — tresorerie, rentabilite,
+                  resilience, risques. Environ 7 minutes.
                 </p>
                 <Link
-                  href="/calculateurs/dso"
+                  href="/diagnostic/guide"
                   className="group inline-flex items-center gap-3 px-8 py-4 bg-slate-950 text-white text-base font-semibold rounded-lg hover:bg-slate-800 transition-all duration-300"
                 >
-                  Obtenir mon Score FinSight™
+                  Demarrer le diagnostic guide
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <div className="flex items-center justify-center gap-3 text-sm text-gray-400 mt-4">
-                  <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                  <span>Premier indicateur en moins de 2 minutes</span>
-                </div>
+                <p className="text-xs text-gray-400 mt-4">
+                  Ou <Link href="/calculateurs/dso" className="underline hover:text-gray-600 transition-colors">commencez par un indicateur individuel</Link>
+                </p>
               </div>
             </FadeIn>
           </div>
@@ -1411,6 +1410,28 @@ export default function MonDiagnosticPage() {
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           <FadeIn>
+            {/* Refaire le diagnostic guide */}
+            <div className="mb-6 p-6 bg-gray-50 rounded-xl border border-gray-200">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-xl bg-slate-950 flex items-center justify-center flex-shrink-0">
+                    <Activity className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">Refaire le diagnostic guide</p>
+                    <p className="text-xs text-gray-500 mt-0.5">Parcours structure en 4 piliers — environ 7 minutes</p>
+                  </div>
+                </div>
+                <Link
+                  href="/diagnostic/guide"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors flex-shrink-0"
+                >
+                  Demarrer
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-6">
               <a
                 href="https://calendly.com/zineinsight"
@@ -1424,10 +1445,10 @@ export default function MonDiagnosticPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-base font-semibold text-gray-900 group-hover:text-accent-primary transition-colors">
-                      Échange stratégique
+                      Passer du diagnostic au plan d'action
                     </p>
                     <p className="text-sm text-gray-500 mt-1 leading-relaxed">
-                      30 min · Analyse de votre score · Confidentiel
+                      30 min · Analyse approfondie · Confidentiel
                     </p>
                   </div>
                   <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-accent-primary transition-colors flex-shrink-0 mt-1" />
@@ -1444,10 +1465,10 @@ export default function MonDiagnosticPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-base font-semibold text-gray-900 group-hover:text-accent-primary transition-colors">
-                      Audit complet sous 72h
+                      Audit complet et pilotage financier
                     </p>
                     <p className="text-sm text-gray-500 mt-1 leading-relaxed">
-                      Rapport détaillé + plan d'action priorisé + recommandations chiffrées
+                      Rapport detaille sous 72h + plan d'action priorise
                     </p>
                   </div>
                   <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-accent-primary transition-colors flex-shrink-0 mt-1" />
