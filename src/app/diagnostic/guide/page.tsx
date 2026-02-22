@@ -871,9 +871,9 @@ export default function DiagnosticGuidePage() {
             <span className="text-[11px] text-gray-500 font-medium tracking-wide uppercase">
               Protocole de diagnostic
             </span>
-            <div className="w-32 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+            <div className="w-32 h-2 bg-gray-700 rounded-full overflow-hidden" role="progressbar" aria-valuenow={progressPct} aria-valuemin={0} aria-valuemax={100} aria-label={`Progression du diagnostic : ${progressPct}%`}>
               <div
-                className="h-full bg-gray-500 rounded-full transition-all duration-700"
+                className="h-full bg-gray-300 rounded-full transition-all duration-700"
                 style={{ width: `${progressPct}%` }}
               />
             </div>
@@ -979,10 +979,23 @@ export default function DiagnosticGuidePage() {
                       chaque ratio positionne face aux medianes sectorielles reelles.
                     </p>
                   </div>
-                  <p className="text-xs text-gray-600 leading-relaxed max-w-md mx-auto mb-10">
-                    Sources : Banque de France 2024, Altares, INSEE.
-                    Vos donnees restent dans votre navigateur — rien n'est transmis.
-                  </p>
+                  {/* Trust signals strip */}
+                  <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 max-w-sm mx-auto mb-10" aria-label="Signaux de confiance">
+                    <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                      <svg className="w-3.5 h-3.5 text-gray-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                      Banque de France 2024
+                    </span>
+                    <span className="w-px h-3 bg-gray-800 hidden sm:block" aria-hidden="true" />
+                    <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                      <svg className="w-3.5 h-3.5 text-gray-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                      Altares / INSEE
+                    </span>
+                    <span className="w-px h-3 bg-gray-800 hidden sm:block" aria-hidden="true" />
+                    <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                      <svg className="w-3.5 h-3.5 text-gray-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                      RGPD — 0 donnée transmise
+                    </span>
+                  </div>
 
                   {/* Sector selector */}
                   <div className="mb-10">
@@ -1008,11 +1021,15 @@ export default function DiagnosticGuidePage() {
 
                   <button
                     onClick={goNext}
-                    className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-950 text-sm font-semibold rounded-lg hover:bg-gray-100 transition-all duration-200"
+                    aria-label="Démarrer le protocole de diagnostic financier"
+                    className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-950 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-950 transition-all duration-200 shadow-lg shadow-white/10"
                   >
                     Démarrer le diagnostic
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </button>
+                  <p className="text-[11px] text-gray-600 mt-4">
+                    ~7 min &middot; Donn&eacute;es stock&eacute;es localement &middot; Sans inscription
+                  </p>
                 </div>
               </motion.div>
             )}
@@ -1081,8 +1098,8 @@ export default function DiagnosticGuidePage() {
                       )
                     })()}
                     {currentStep.optional && (
-                      <span className="text-[10px] text-gray-600 border border-gray-700 px-2 py-0.5 rounded-full">
-                        Optionnel
+                      <span className="text-[10px] text-amber-400 border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 rounded-full font-medium">
+                        Optionnel — vous pouvez passer
                       </span>
                     )}
                   </div>
@@ -1110,23 +1127,29 @@ export default function DiagnosticGuidePage() {
                   <div className="space-y-5">
                     {currentStep.fields.map((field) => (
                       <div key={field.id}>
-                        <label className="block text-xs font-semibold text-gray-300 mb-2 tracking-wide">
+                        <label
+                          htmlFor={`field-${currentStep.id}-${field.id}`}
+                          className="block text-xs font-semibold text-gray-300 mb-2 tracking-wide"
+                        >
                           {field.label}
                         </label>
                         <div className="relative">
                           <input
+                            id={`field-${currentStep.id}-${field.id}`}
                             type="number"
+                            inputMode="decimal"
                             value={getFieldValue(currentStep.id, field.id)}
                             onChange={(e) => setFieldValue(currentStep.id, field.id, e.target.value)}
                             placeholder={field.placeholder}
-                            className="w-full px-4 py-3.5 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-600 focus:border-gray-500 focus:ring-1 focus:ring-gray-500 outline-none transition-all text-base tabular-nums"
+                            aria-describedby={field.help ? `help-${currentStep.id}-${field.id}` : undefined}
+                            className="w-full px-4 py-3.5 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-600 focus:border-gray-400 focus:ring-2 focus:ring-gray-400/30 outline-none transition-all text-base tabular-nums"
                           />
-                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 font-medium">
+                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 font-medium" aria-hidden="true">
                             {field.suffix}
                           </span>
                         </div>
                         {field.help && (
-                          <p className="text-[11px] text-gray-600 mt-1.5">{field.help}</p>
+                          <p id={`help-${currentStep.id}-${field.id}`} className="text-[11px] text-gray-600 mt-1.5">{field.help}</p>
                         )}
                       </div>
                     ))}

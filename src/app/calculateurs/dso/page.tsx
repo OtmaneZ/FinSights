@@ -418,6 +418,24 @@ export default function CalculateurDSO() {
                                 </div>
 
                                 {/* CTA vers consulting */}
+                                <div className="not-prose bg-slate-50 border border-slate-200 rounded-xl p-5 mb-6 flex items-start gap-4">
+                                    <div className="w-9 h-9 rounded-lg bg-accent-primary/10 flex items-center justify-center shrink-0">
+                                        <Target className="w-4 h-4 text-accent-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-semibold text-slate-900 mb-1">Aller au-delà du calcul</p>
+                                        <p className="text-sm text-slate-600">
+                                            Positionnez votre DSO face aux médianes sectorielles et obtenez un score global sur 100 avec notre{' '}
+                                            <Link href="/diagnostic/guide" className="text-accent-primary hover:underline font-medium">
+                                                diagnostic DSO complet
+                                            </Link>
+                                            {' '}— ou découvrez comment le DSO s'intègre dans votre{' '}
+                                            <Link href="/pilotage-financier-pme" className="text-accent-primary hover:underline font-medium">
+                                                tableau de bord de pilotage financier
+                                            </Link>.
+                                        </p>
+                                    </div>
+                                </div>
                                 <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
                                     <p className="text-accent-primary font-semibold mb-2">💡 Besoin d&apos;aide pour piloter votre DSO ?</p>
                                     <p className="text-white text-lg mb-6">
@@ -499,6 +517,31 @@ export default function CalculateurDSO() {
                                                     className="block p-3 text-center bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all text-sm font-semibold"
                                                 >
                                                     Voir tous les calculateurs →
+                                                </Link>
+                                            </div>
+                                        </div>
+
+                                        {/* Pilotage CTA */}
+                                        <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                                            <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-3">Aller plus loin</p>
+                                            <div className="space-y-2">
+                                                <Link
+                                                    href="/pilotage-financier-pme"
+                                                    className="flex items-center gap-2 text-sm text-slate-700 hover:text-accent-primary transition-colors group"
+                                                >
+                                                    <span className="w-5 h-5 rounded bg-slate-200 group-hover:bg-accent-primary/10 flex items-center justify-center shrink-0">
+                                                        <TrendingUp className="w-3 h-3 text-slate-500 group-hover:text-accent-primary" />
+                                                    </span>
+                                                    Pilotage financier PME
+                                                </Link>
+                                                <Link
+                                                    href="/diagnostic/guide"
+                                                    className="flex items-center gap-2 text-sm text-slate-700 hover:text-accent-primary transition-colors group"
+                                                >
+                                                    <span className="w-5 h-5 rounded bg-slate-200 group-hover:bg-accent-primary/10 flex items-center justify-center shrink-0">
+                                                        <Target className="w-3 h-3 text-slate-500 group-hover:text-accent-primary" />
+                                                    </span>
+                                                    Diagnostic DSO complet
                                                 </Link>
                                             </div>
                                         </div>
