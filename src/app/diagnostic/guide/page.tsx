@@ -15,8 +15,26 @@ import {
   Building2,
   Activity,
   ChevronRight,
+  Sparkles,
 } from 'lucide-react'
 import { useCalculatorHistory, type CalculatorType } from '@/hooks/useCalculatorHistory'
+import {
+  type SectorKey,
+  type SectorBenchmark,
+  type PillarKey,
+  type SynthesisLever,
+  SECTOR_BENCHMARKS,
+  computeLiveScores,
+  computeSynthesis,
+  getBenchmarkHint,
+  getContextualCTA,
+} from '@/lib/scoring/diagnosticScore'
+import { useScorisEngine } from '@/hooks/useScorisEngine'
+import { SectorComparisonGrid } from '@/components/diagnostic/SectorComparisonBadge'
+import { WhatIfSlider } from '@/components/diagnostic/WhatIfSlider'
+import { ExecutiveSummary } from '@/components/diagnostic/ExecutiveSummary'
+import type { AnalysisStep } from '@/lib/scoris/types'
+import { ANALYSIS_STEP_LABELS } from '@/lib/scoris/types'
 
 // ---------------------------------------------------------------------------
 // DiagnosticEmailCapture — email opt-in + newsletter (rendered inside guide)
@@ -155,100 +173,12 @@ function DiagnosticEmailCapture({ totalScore, sector, pillarScores, synthesis, r
 }
 
 // ---------------------------------------------------------------------------
-// Sector benchmarks (aligned with /mon-diagnostic)
+// Sector benchmarks & types imported from shared lib
 // ---------------------------------------------------------------------------
 
-type SectorKey =
-  | 'services-b2b'
-  | 'commerce'
-  | 'industrie'
-  | 'saas-tech'
-  | 'btp'
-  | 'chr'
-  | 'autre'
-
-interface SectorBenchmark {
-  label: string
-  dsoMedian: number
-  dsoGood: number
-  dsoBad: number
-  margeMedian: number
-  margeBon: number
-  margeFaible: number
-  bfrJoursMedian: number
-  bfrJoursBon: number
-  bfrJoursBad: number
-  ebitdaMedian: number
-  /** Ratio dette nette / EBITDA — seuils sectoriels */
-  gearingMedian: number
-  gearingBon: number
-  gearingCritique: number
-}
-
-const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
-  'services-b2b': {
-    label: 'Services B2B',
-    dsoMedian: 45, dsoGood: 35, dsoBad: 60,
-    margeMedian: 55, margeBon: 45, margeFaible: 30,
-    bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 50,
-    ebitdaMedian: 12,
-    gearingMedian: 2, gearingBon: 1.5, gearingCritique: 4,
-  },
-  commerce: {
-    label: 'Commerce & Distribution',
-    dsoMedian: 30, dsoGood: 20, dsoBad: 45,
-    margeMedian: 30, margeBon: 22, margeFaible: 15,
-    bfrJoursMedian: 35, bfrJoursBon: 20, bfrJoursBad: 55,
-    ebitdaMedian: 5,
-    gearingMedian: 2.5, gearingBon: 2, gearingCritique: 4.5,
-  },
-  industrie: {
-    label: 'Industrie & Fabrication',
-    dsoMedian: 55, dsoGood: 40, dsoBad: 75,
-    margeMedian: 38, margeBon: 28, margeFaible: 18,
-    bfrJoursMedian: 50, bfrJoursBon: 35, bfrJoursBad: 75,
-    ebitdaMedian: 8,
-    gearingMedian: 3, gearingBon: 2, gearingCritique: 5,
-  },
-  'saas-tech': {
-    label: 'SaaS & Tech',
-    dsoMedian: 25, dsoGood: 15, dsoBad: 45,
-    margeMedian: 70, margeBon: 55, margeFaible: 35,
-    bfrJoursMedian: 15, bfrJoursBon: 10, bfrJoursBad: 30,
-    ebitdaMedian: 15,
-    gearingMedian: 1.5, gearingBon: 1, gearingCritique: 3.5,
-  },
-  btp: {
-    label: 'BTP & Construction',
-    dsoMedian: 65, dsoGood: 50, dsoBad: 90,
-    margeMedian: 22, margeBon: 15, margeFaible: 8,
-    bfrJoursMedian: 45, bfrJoursBon: 30, bfrJoursBad: 70,
-    ebitdaMedian: 5,
-    gearingMedian: 3.5, gearingBon: 2.5, gearingCritique: 5.5,
-  },
-  chr: {
-    label: 'Restauration & CHR',
-    dsoMedian: 10, dsoGood: 5, dsoBad: 20,
-    margeMedian: 68, margeBon: 60, margeFaible: 50,
-    bfrJoursMedian: -5, bfrJoursBon: -10, bfrJoursBad: 15,
-    ebitdaMedian: 10,
-    gearingMedian: 3, gearingBon: 2, gearingCritique: 5,
-  },
-  autre: {
-    label: 'Tous secteurs',
-    dsoMedian: 45, dsoGood: 30, dsoBad: 60,
-    margeMedian: 40, margeBon: 30, margeFaible: 20,
-    bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 55,
-    ebitdaMedian: 8,
-    gearingMedian: 2.5, gearingBon: 2, gearingCritique: 4.5,
-  },
-}
-
 // ---------------------------------------------------------------------------
-// Pillar types
+// Pillar metadata (UI-specific, uses PillarKey from shared lib)
 // ---------------------------------------------------------------------------
-
-type PillarKey = 'cash' | 'margin' | 'resilience' | 'risk'
 
 interface PillarMeta {
   key: PillarKey
@@ -500,290 +430,6 @@ const PHASES: Phase[] = [
 ]
 
 // ---------------------------------------------------------------------------
-// Scoring helpers (simplified for live sidebar)
-// ---------------------------------------------------------------------------
-
-function scoreDSO(value: number, bench: SectorBenchmark): number {
-  if (value <= bench.dsoGood) return 10
-  if (value <= bench.dsoMedian) return 7
-  if (value <= bench.dsoBad) return 4
-  return 1
-}
-
-function scoreBFR(value: number, ca: number, bench: SectorBenchmark): number {
-  if (value < 0) return 10
-  if (ca > 0) {
-    const j = Math.round((value / ca) * 365)
-    if (j <= bench.bfrJoursBon) return 10
-    if (j <= bench.bfrJoursMedian) return 7
-    if (j <= bench.bfrJoursBad) return 4
-    return 1
-  }
-  return 3
-}
-
-function scoreMarge(value: number, bench: SectorBenchmark): number {
-  if (value >= bench.margeBon * 1.3) return 8
-  if (value >= bench.margeBon) return 6
-  if (value >= bench.margeMedian) return 4
-  if (value >= bench.margeFaible) return 2
-  return 1
-}
-
-function scoreSeuil(tauxMarge: number, bench: SectorBenchmark): number {
-  if (tauxMarge >= bench.margeBon) return 6
-  if (tauxMarge >= bench.margeMedian) return 4
-  if (tauxMarge >= bench.margeFaible) return 2
-  return 1
-}
-
-function computeLiveScores(
-  results: Record<string, { value: number; inputs: Record<string, number> }>,
-  bench: SectorBenchmark,
-) {
-  const scores: Record<PillarKey, number | null> = {
-    cash: null,
-    margin: null,
-    resilience: null,
-    risk: null,
-  }
-
-  // Cash
-  let cashPts = 0
-  let cashMax = 0
-  if (results.dso) {
-    cashMax += 10
-    cashPts += scoreDSO(results.dso.value, bench)
-  }
-  if (results.bfr) {
-    cashMax += 10
-    cashPts += scoreBFR(results.bfr.value, results.bfr.inputs.ca || 0, bench)
-  }
-  if (results['burn-rate']) {
-    cashMax += 5
-    const br = results['burn-rate'].value
-    const ca = results.bfr?.inputs.ca || results.dso?.inputs.ca || 0
-    const caMensuel = ca / 12
-    if (caMensuel > 0) {
-      const pct = (br / caMensuel) * 100
-      if (pct < 30) cashPts += 5
-      else if (pct < 60) cashPts += 3
-      else if (pct < 90) cashPts += 1
-    } else {
-      if (br < 5000) cashPts += 5
-      else if (br < 15000) cashPts += 3
-      else if (br < 50000) cashPts += 1
-    }
-  }
-  if (cashMax > 0) scores.cash = Math.round((cashPts / cashMax) * 25)
-
-  // Margin
-  let marginPts = 0
-  let marginMax = 0
-  if (results.marge) {
-    marginMax += 8
-    marginPts += scoreMarge(results.marge.value, bench)
-  }
-  if (results['seuil-rentabilite']) {
-    marginMax += 6
-    marginPts += scoreSeuil(results['seuil-rentabilite'].inputs.tauxMarge || 0, bench)
-  }
-  if (results.roi) {
-    marginMax += 7
-    const v = results.roi.value
-    if (v >= 100) marginPts += 7
-    else if (v >= 50) marginPts += 5
-    else if (v >= 20) marginPts += 3
-    else if (v >= 0) marginPts += 1
-  }
-  if (marginMax > 0) scores.margin = Math.round((marginPts / marginMax) * 25)
-
-  // Resilience
-  let resPts = 0
-  let resMax = 0
-  if (results.ebitda) {
-    const ca = results.ebitda.inputs.ca || 0
-    if (ca > 0) {
-      resMax += 4
-      const pct = (results.ebitda.value / ca) * 100
-      if (pct >= bench.ebitdaMedian * 1.5) resPts += 4
-      else if (pct >= bench.ebitdaMedian) resPts += 3
-      else if (pct > 0) resPts += 2
-      else resPts += 1
-    }
-  }
-  if (results['cac-ltv']) {
-    resMax += 10
-    const v = results['cac-ltv'].value
-    if (v >= 3) resPts += 10
-    else if (v >= 2) resPts += 7
-    else if (v >= 1) resPts += 3
-    else resPts += 1
-  }
-  if (results.gearing) {
-    resMax += 8
-    const g = results.gearing.value
-    if (g <= 0) resPts += 8                        // Tresorerie nette positive
-    else if (g <= bench.gearingBon) resPts += 7    // En-dessous du seuil favorable
-    else if (g <= bench.gearingMedian) resPts += 5  // Autour de la mediane
-    else if (g <= bench.gearingCritique) resPts += 2 // Zone de vigilance
-    else resPts += 0                                // Endettement critique
-  }
-  // derived resilience
-  if ((results.dso || results.bfr) && (results.marge || results.ebitda)) {
-    resMax += 7
-    let sp = 7
-    if (results.dso && results.dso.value > bench.dsoBad) sp -= 2
-    else if (results.dso && results.dso.value > bench.dsoMedian) sp -= 1
-    if (results.marge && results.marge.value >= bench.margeBon) sp += 1
-    else if (results.marge && results.marge.value < bench.margeFaible) sp -= 1
-    resPts += Math.max(0, Math.min(7, sp))
-  }
-  if (resMax > 0) scores.resilience = Math.round((resPts / resMax) * 25)
-
-  // Risk
-  if ((results.dso || results.bfr) && (results.marge || results['seuil-rentabilite'])) {
-    let pts = 25
-    if (results.dso && results.dso.value > bench.dsoBad) pts -= 5
-    else if (results.dso && results.dso.value > bench.dsoMedian) pts -= 2
-    if (results.bfr && results.bfr.inputs.ca && results.bfr.inputs.ca > 0) {
-      const j = Math.round((results.bfr.value / results.bfr.inputs.ca) * 365)
-      if (j > bench.bfrJoursBad) pts -= 6
-      else if (j > bench.bfrJoursMedian) pts -= 3
-    }
-    if (results.marge && results.marge.value < bench.margeFaible) pts -= 5
-    else if (results.marge && results.marge.value < bench.margeMedian) pts -= 2
-    if (results['seuil-rentabilite']) {
-      const tm = results['seuil-rentabilite'].inputs.tauxMarge
-      if (tm && tm < bench.margeFaible * 0.7) pts -= 6
-      else if (tm && tm < bench.margeFaible) pts -= 3
-    }
-    // crossed: DSO high + marge low
-    if (results.dso && results.dso.value > bench.dsoMedian && results.marge && results.marge.value < bench.margeMedian) pts -= 3
-    // crossed: gearing high + marge low
-    if (results.gearing && results.gearing.value > bench.gearingCritique) pts -= 4
-    else if (results.gearing && results.gearing.value > bench.gearingMedian) pts -= 2
-    scores.risk = Math.max(0, Math.min(25, pts))
-  }
-
-  return scores
-}
-
-// ---------------------------------------------------------------------------
-// Synthesis helpers
-// ---------------------------------------------------------------------------
-
-interface SynthesisResult {
-  total: number | null
-  level: string
-  levelColor: string
-  forces: string[]
-  vulnerabilites: string[]
-  priorite: string
-  cashImpact: string | null
-}
-
-function computeSynthesis(
-  results: Record<string, { value: number; inputs: Record<string, number> }>,
-  scores: Record<PillarKey, number | null>,
-  bench: SectorBenchmark,
-): SynthesisResult {
-  const scored = Object.values(scores).filter((s) => s !== null) as number[]
-  const total = scored.length > 0
-    ? (scored.length === 4 ? scored.reduce((a, b) => a + b, 0) : Math.round((scored.reduce((a, b) => a + b, 0) / scored.length) * 4))
-    : null
-
-  let level = 'Diagnostic en cours'
-  let levelColor = 'text-gray-400'
-  if (total !== null) {
-    if (total >= 75) { level = 'Sante financiere solide'; levelColor = 'text-emerald-400' }
-    else if (total >= 55) { level = 'Dynamique favorable'; levelColor = 'text-blue-400' }
-    else if (total >= 35) { level = 'Points de vigilance identifies'; levelColor = 'text-amber-400' }
-    else { level = 'Actions correctives recommandees'; levelColor = 'text-red-400' }
-  }
-
-  const forces: string[] = []
-  const vulnerabilites: string[] = []
-
-  if (results.dso) {
-    if (results.dso.value <= bench.dsoGood)
-      forces.push(`DSO de ${results.dso.value}j — encaissements rapides vs mediane sectorielle ${bench.dsoMedian}j`)
-    else if (results.dso.value > bench.dsoBad)
-      vulnerabilites.push(`DSO de ${results.dso.value}j — depasse le seuil critique sectoriel (${bench.dsoBad}j)`)
-    else if (results.dso.value > bench.dsoMedian)
-      vulnerabilites.push(`DSO de ${results.dso.value}j — au-dessus de la mediane sectorielle (${bench.dsoMedian}j)`)
-  }
-
-  if (results.bfr) {
-    if (results.bfr.value < 0) forces.push('BFR negatif — l\'activite genere de la tresorerie en amont')
-    else if (results.bfr.inputs.ca && results.bfr.inputs.ca > 0) {
-      const j = Math.round((results.bfr.value / results.bfr.inputs.ca) * 365)
-      if (j <= bench.bfrJoursBon) forces.push(`BFR de ${j}j de CA — maitrise vs mediane ${bench.bfrJoursMedian}j`)
-      else if (j > bench.bfrJoursBad) vulnerabilites.push(`BFR de ${j}j de CA — au-dessus du seuil sectoriel (${bench.bfrJoursBad}j)`)
-    }
-  }
-
-  if (results.marge) {
-    if (results.marge.value >= bench.margeBon) forces.push(`Taux de marge de ${results.marge.value}% — au-dessus du benchmark sectoriel (${bench.margeMedian}%)`)
-    else if (results.marge.value < bench.margeFaible) vulnerabilites.push(`Taux de marge de ${results.marge.value}% — sous le seuil critique (${bench.margeFaible}%)`)
-  }
-
-  if (results.dso && results.dso.value > bench.dsoMedian && results.marge && results.marge.value < bench.margeMedian)
-    vulnerabilites.push('Double pression cash : delais clients longs + marge sous la mediane')
-
-  if (results.gearing) {
-    if (results.gearing.value <= bench.gearingBon)
-      forces.push(`Endettement maitrise (${results.gearing.value}x EBITDA) — sous la mediane sectorielle ${bench.gearingMedian}x`)
-    else if (results.gearing.value > bench.gearingCritique)
-      vulnerabilites.push(`Endettement critique (${results.gearing.value}x EBITDA) — au-dessus du seuil sectoriel ${bench.gearingCritique}x`)
-    else if (results.gearing.value > bench.gearingMedian)
-      vulnerabilites.push(`Endettement en zone de vigilance (${results.gearing.value}x EBITDA) — mediane sectorielle ${bench.gearingMedian}x`)
-  }
-
-  if (scores.cash !== null && scores.cash >= 20) forces.push('Pilier CASH solide — tresorerie saine')
-  if (scores.margin !== null && scores.margin >= 20) forces.push('Rentabilite operationnelle forte')
-
-  // Priorite
-  let priorite = ''
-  const ca = results.bfr?.inputs.ca || results.dso?.inputs.ca || results['seuil-rentabilite']?.inputs.chargesFixes
-  if (results.dso && results.dso.value > bench.dsoBad && ca && ca > 0) {
-    const gap = results.dso.value - bench.dsoMedian
-    const impact = Math.round((gap / 365) * ca)
-    priorite = `Reduire le DSO de ${gap}j pour liberer ${impact.toLocaleString('fr-FR')} \u20ac de tresorerie`
-  } else if (results.marge && results.marge.value < bench.margeFaible) {
-    priorite = `Revoir la structure de couts : marge de ${results.marge.value}% sous le seuil critique (${bench.margeFaible}%)`
-  } else if (results.gearing && results.gearing.value > bench.gearingCritique) {
-    priorite = `Reduire l'endettement net (${results.gearing.value}x EBITDA) — seuil sectoriel depasse (${bench.gearingCritique}x)`
-  } else if (scores.cash !== null && scores.cash < 12) {
-    priorite = 'Renforcer la tresorerie en priorite — pilier CASH fragile'
-  } else if (scores.margin !== null && scores.margin < 12) {
-    priorite = 'Ameliorer la rentabilite — pilier MARGIN sous les standards sectoriels'
-  } else if (forces.length > vulnerabilites.length) {
-    priorite = 'Diagnostic globalement solide — capitaliser sur les forces identifiees'
-  } else {
-    priorite = 'Completer le diagnostic pour identifier la priorite avec precision'
-  }
-
-  // Cash impact
-  let cashImpact: string | null = null
-  if (results.dso && results.dso.value > bench.dsoMedian && ca && ca > 0) {
-    const gap = results.dso.value - bench.dsoMedian
-    const impact = Math.round((gap / 365) * ca)
-    cashImpact = `${impact.toLocaleString('fr-FR')} \u20ac immobilises (${gap}j DSO au-dessus de la mediane)`
-  }
-
-  return {
-    total,
-    level,
-    levelColor,
-    forces: forces.slice(0, 3),
-    vulnerabilites: vulnerabilites.slice(0, 3),
-    priorite,
-    cashImpact,
-  }
-}
-
-// ---------------------------------------------------------------------------
 // Format helpers
 // ---------------------------------------------------------------------------
 
@@ -808,6 +454,10 @@ export default function DiagnosticGuidePage() {
   const [formValues, setFormValues] = useState<Record<string, Record<string, string>>>({})
   const [results, setResults] = useState<Record<string, { value: number; inputs: Record<string, number>}>>({})
   const [skippedSteps, setSkippedSteps] = useState<Set<string>>(new Set())
+  const [emailCapturedAfterCash, setEmailCapturedAfterCash] = useState(false)
+
+  // SCORIS engine — drives IDLE → ANALYZING → SUCCESS micro-latency
+  const [engineState, engineActions] = useScorisEngine()
 
   useEffect(() => {
     setMounted(true)
@@ -896,6 +546,16 @@ export default function DiagnosticGuidePage() {
     if (phase.key === 'risk') {
       setStepIndex(null)
       setPhaseIndex((p) => Math.min(p + 1, PHASES.length - 1))
+      // Trigger SCORIS analysis engine for micro-latency synthesis
+      engineActions.analyze({
+        sector,
+        results,
+        enabledModules: {
+          causalAnalysis: true,
+          sectorBenchmarks: true,
+          whatIfSimulation: true,
+        },
+      })
       return
     }
 
@@ -918,7 +578,7 @@ export default function DiagnosticGuidePage() {
       setStepIndex(null)
       setPhaseIndex((p) => Math.min(p + 1, PHASES.length - 1))
     }
-  }, [phase, stepIndex, currentStep, currentSteps, isStepComplete, submitStep])
+  }, [phase, stepIndex, currentStep, currentSteps, isStepComplete, submitStep, engineActions, results, sector])
 
   const goPrev = useCallback(() => {
     if (phase.key === 'intro') return
@@ -1201,6 +861,38 @@ export default function DiagnosticGuidePage() {
                   <p className="text-gray-400 leading-relaxed mb-10">
                     {phase.subtitle}
                   </p>
+
+                  {/* Email capture — shown once on Margin transition (Cash pillar just completed) */}
+                  {phase.key === 'margin' && !emailCapturedAfterCash && liveScores.cash !== null && (
+                    <div className="mb-10 mx-auto max-w-md">
+                      <div className="rounded-xl border border-blue-500/20 bg-blue-950/30 backdrop-blur p-5">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Sparkles className="w-4 h-4 text-blue-400" />
+                          <p className="text-xs font-semibold text-blue-300">
+                            Votre pilier Cash est évalué à {liveScores.cash}/25
+                          </p>
+                        </div>
+                        <p className="text-[11px] text-gray-400 mb-4 leading-relaxed">
+                          Recevez votre rapport complet par email à la fin du diagnostic
+                          — avec les recommandations personnalisées par secteur.
+                        </p>
+                        <DiagnosticEmailCapture
+                          totalScore={liveScores.cash}
+                          sector={sector}
+                          pillarScores={liveScores}
+                          synthesis={{}}
+                          results={results}
+                        />
+                        <button
+                          onClick={() => setEmailCapturedAfterCash(true)}
+                          className="text-[10px] text-gray-600 hover:text-gray-400 mt-2 transition-colors"
+                        >
+                          Continuer sans email →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     onClick={goNext}
                     className="group inline-flex items-center gap-3 px-7 py-3.5 bg-white text-slate-950 text-sm font-semibold rounded-lg hover:bg-gray-100 transition-all duration-200"
@@ -1287,6 +979,21 @@ export default function DiagnosticGuidePage() {
                         {field.help && (
                           <p id={`help-${currentStep.id}-${field.id}`} className="text-[11px] text-gray-600 mt-1.5">{field.help}</p>
                         )}
+                        {/* Benchmark hint — sector-specific reference under each field */}
+                        {(() => {
+                          const hint = getBenchmarkHint(currentStep.id, bench)
+                          if (!hint) return null
+                          return (
+                            <div className="flex items-center gap-2 mt-2 text-[11px] text-gray-500">
+                              <Activity className="w-3 h-3 text-gray-600 shrink-0" />
+                              <span>
+                                {hint.label} : <span className="text-gray-400 font-medium">{hint.median}</span>
+                                <span className="mx-1.5 text-gray-700">·</span>
+                                <span className="text-amber-500/70">{hint.critical}</span>
+                              </span>
+                            </div>
+                          )
+                        })()}
                       </div>
                     ))}
                   </div>
@@ -1525,8 +1232,71 @@ export default function DiagnosticGuidePage() {
               </motion.div>
             )}
 
+            {/* ── SYNTHESIS — ANALYZING OVERLAY (micro-latency) ── */}
+            {phase.key === 'synthesis' && engineState.status === 'analyzing' && (
+              <motion.div
+                key="analyzing"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex-1 flex items-center justify-center px-6"
+              >
+                <div className="max-w-md text-center">
+                  {/* Animated pulse ring */}
+                  <div className="relative w-20 h-20 mx-auto mb-8">
+                    <div className="absolute inset-0 rounded-full bg-white/5 animate-ping" style={{ animationDuration: '2s' }} />
+                    <div className="absolute inset-2 rounded-full bg-white/10 animate-ping" style={{ animationDuration: '2s', animationDelay: '0.3s' }} />
+                    <div className="relative w-20 h-20 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+                      <Sparkles className="w-6 h-6 text-white animate-pulse" />
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] text-gray-500 font-medium tracking-[0.2em] uppercase mb-3">
+                    Analyse en cours
+                  </p>
+                  <h2 className="font-serif text-2xl font-medium text-white mb-4">
+                    {engineState.statusMessage || 'Initialisation…'}
+                  </h2>
+
+                  {/* Progress bar */}
+                  <div className="w-64 mx-auto mb-4">
+                    <div className="h-1 bg-slate-800 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-white rounded-full"
+                        initial={{ width: '0%' }}
+                        animate={{ width: `${engineState.progress}%` }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
+                      />
+                    </div>
+                    <p className="text-[10px] text-gray-600 mt-2 tabular-nums">
+                      {engineState.progress}%
+                    </p>
+                  </div>
+
+                  {/* Step dots */}
+                  <div className="flex items-center justify-center gap-2">
+                    {(['scoring', 'benchmarking', 'causal', 'simulation', 'enrichment', 'synthesis'] as AnalysisStep[]).map((step) => {
+                      const isActive = engineState.currentStep === step
+                      const isDone = engineState.report?.meta.stepsCompleted.includes(step) ?? false
+                      return (
+                        <div
+                          key={step}
+                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                            isActive ? 'bg-white scale-125' :
+                            isDone ? 'bg-gray-500' :
+                            'bg-gray-800'
+                          }`}
+                        />
+                      )
+                    })}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
             {/* ── SYNTHESIS ── */}
-            {phase.key === 'synthesis' && (
+            {phase.key === 'synthesis' && engineState.status !== 'analyzing' && (
               <motion.div
                 key="synthesis"
                 initial={{ opacity: 0 }}
@@ -1545,6 +1315,15 @@ export default function DiagnosticGuidePage() {
                   <p className="text-gray-500 mb-10">
                     Resultat consolide de votre diagnostic
                   </p>
+
+                  {/* Executive Summary — DAF Virtuel typing animation */}
+                  {engineState.report?.executiveSummary && (
+                    <ExecutiveSummary
+                      text={engineState.report.executiveSummary}
+                      enrichedByTresoris={engineState.report.meta.enrichedBy.includes('tresoris')}
+                      className="mb-10"
+                    />
+                  )}
 
                   {/* Score */}
                   <div className="flex items-center gap-6 mb-10 pb-10 border-b border-gray-800">
@@ -1633,6 +1412,99 @@ export default function DiagnosticGuidePage() {
                     </div>
                   )}
 
+                  {/* Sector Comparison — benchmark positioning */}
+                  {engineState.report && engineState.report.sectorComparisons.length > 0 && (
+                    <div className="mb-10 px-5 py-5 bg-white/[0.02] border border-white/10 rounded-lg">
+                      <SectorComparisonGrid comparisons={engineState.report.sectorComparisons} />
+                    </div>
+                  )}
+
+                  {/* What-If Simulation sliders */}
+                  {totalScore !== null && (
+                    <div className="mb-10 px-5 py-5 bg-white/[0.02] border border-white/10 rounded-lg">
+                      <WhatIfSlider
+                        results={results}
+                        sector={sector}
+                        currentScore={{
+                          total: totalScore,
+                          pillars: {
+                            cash: { score: liveScores.cash, max: 25, calculators: [], label: 'CASH', sublabel: '', color: '', borderColor: '', bgColor: '' },
+                            margin: { score: liveScores.margin, max: 25, calculators: [], label: 'MARGIN', sublabel: '', color: '', borderColor: '', bgColor: '' },
+                            resilience: { score: liveScores.resilience, max: 25, calculators: [], label: 'RÉSILIENCE', sublabel: '', color: '', borderColor: '', bgColor: '' },
+                            risk: { score: liveScores.risk, max: 25, calculators: [], label: 'RISQUES', sublabel: '', color: '', borderColor: '', bgColor: '' },
+                          },
+                          level: totalScore >= 75 ? 'excellent' : totalScore >= 55 ? 'bon' : totalScore >= 35 ? 'vigilance' : 'action',
+                          confidence: Object.values(liveScores).filter(s => s !== null).length >= 4 ? 'haute' : 'moyenne',
+                          completedPillars: Object.values(liveScores).filter(s => s !== null).length,
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Causal Insights — cross-pillar causal chains */}
+                  {engineState.report && engineState.report.causalInsights.length > 0 && (
+                    <div className="mb-10">
+                      <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">
+                        Analyse causale
+                      </p>
+                      <div className="space-y-2">
+                        {engineState.report.causalInsights.map((insight) => (
+                          <div
+                            key={insight.id}
+                            className={`px-4 py-3 rounded-lg border ${
+                              insight.severity === 'critical' ? 'bg-red-500/5 border-red-500/15' :
+                              insight.severity === 'danger' ? 'bg-amber-500/5 border-amber-500/15' :
+                              'bg-white/[0.02] border-white/10'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                                insight.severity === 'critical' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
+                                insight.severity === 'danger' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                                'bg-gray-700/50 text-gray-400 border-gray-600/30'
+                              }`}>
+                                {insight.source.label} → {insight.target.label}
+                              </span>
+                            </div>
+                            <p className="text-xs text-gray-300 leading-relaxed">{insight.impact.description}</p>
+                            {insight.impact.estimatedEuros && (
+                              <p className="text-[11px] text-amber-400/80 mt-1 font-medium">
+                                Impact estimé : {(insight.impact.estimatedEuros / 1000).toFixed(0)} k€
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Levers — actionable recommendations */}
+                  {synthesis.levers && synthesis.levers.length > 0 && (
+                    <div className="mb-10">
+                      <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">
+                        Leviers d'action prioritaires
+                      </p>
+                      <div className="space-y-2">
+                        {synthesis.levers.map((lever: SynthesisLever, i: number) => (
+                          <div key={lever.id || i} className="px-4 py-3 bg-white/[0.03] border border-white/10 rounded-lg">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                                lever.type === 'cash' ? 'bg-blue-500/20 text-blue-400' :
+                                lever.type === 'margin' ? 'bg-emerald-500/20 text-emerald-400' :
+                                'bg-purple-500/20 text-purple-400'
+                              }`}>
+                                {i + 1}
+                              </span>
+                              <p className="text-sm font-semibold text-white">{lever.label}</p>
+                            </div>
+                            <p className="text-xs text-gray-400 ml-7 leading-relaxed">{lever.detail}</p>
+                            <p className="text-[11px] text-amber-400/80 ml-7 mt-1 font-medium">{lever.impact}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Lecture dirigeant */}
                   {synthesis.total !== null && (
                     <div className="mb-10 px-5 py-5 bg-white/[0.03] border border-white/10 rounded-lg">
@@ -1677,18 +1549,39 @@ export default function DiagnosticGuidePage() {
                       results={results}
                     />
 
-                    <a
-                      href="https://calendly.com/zineinsight"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center justify-between w-full px-6 py-5 bg-white text-slate-950 rounded-lg hover:bg-gray-100 transition-all"
-                    >
-                      <div>
-                        <p className="text-sm font-semibold">Passer du diagnostic au plan d'action</p>
-                        <p className="text-xs text-gray-500 mt-0.5">Echange strategique 30 min — confidentiel, sans engagement</p>
-                      </div>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform flex-shrink-0" />
-                    </a>
+                    {/* Contextual CTA — adapté selon le score */}
+                    {(() => {
+                      const cta = getContextualCTA(totalScore)
+                      return (
+                        <a
+                          href={cta.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`group flex items-center justify-between w-full px-6 py-5 rounded-lg transition-all ${
+                            cta.urgency === 'high'
+                              ? 'bg-red-500 text-white hover:bg-red-600'
+                              : cta.urgency === 'medium'
+                              ? 'bg-white text-slate-950 hover:bg-gray-100'
+                              : 'bg-white text-slate-950 hover:bg-gray-100'
+                          }`}
+                        >
+                          <div>
+                            <p className="text-sm font-semibold">{cta.label}</p>
+                            <p className={`text-xs mt-0.5 ${
+                              cta.urgency === 'high' ? 'text-red-100' : 'text-gray-500'
+                            }`}>
+                              {cta.sublabel}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <span className={`text-xs font-bold ${
+                              cta.urgency === 'high' ? 'text-white' : 'text-gray-400'
+                            }`}>{cta.price}</span>
+                            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                          </div>
+                        </a>
+                      )
+                    })()}
 
                     <Link
                       href="/consulting"

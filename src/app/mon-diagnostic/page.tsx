@@ -11,6 +11,20 @@ import {
   type CalculatorType,
 } from '@/hooks/useCalculatorHistory'
 import {
+  type SectorKey,
+  type PillarKey,
+  type PillarResult,
+  type DiagnosticScore,
+  SECTOR_BENCHMARKS,
+  LEVEL_CONFIG,
+  computeDiagnosticScore,
+  computeInsights,
+  formatValue,
+  formatDate,
+  timeAgo,
+  getContextualCTA,
+} from '@/lib/scoring/diagnosticScore'
+import {
   TrendingUp,
   DollarSign,
   Target,
@@ -33,102 +47,8 @@ import {
   Database,
   Lock,
   Building2,
+  Sparkles,
 } from 'lucide-react'
-
-// ---------------------------------------------------------------------------
-// Benchmarks sectoriels — Sources : Banque de France 2024, INSEE, Altares
-// Seuils médians par secteur pour contextualiser chaque indicateur
-// ---------------------------------------------------------------------------
-
-export type SectorKey =
-  | 'services-b2b'
-  | 'commerce'
-  | 'industrie'
-  | 'saas-tech'
-  | 'btp'
-  | 'chr'
-  | 'autre'
-
-interface SectorBenchmark {
-  label: string
-  // DSO médian en jours (source : Altares 2024)
-  dsoMedian: number
-  dsoGood: number    // < ce seuil = bon
-  dsoBad: number     // > ce seuil = problématique
-  // Taux de marge brute médian (%)
-  margeMedian: number
-  margeBon: number
-  margeFaible: number
-  // BFR en jours de CA médian
-  bfrJoursMedian: number
-  bfrJoursBon: number
-  bfrJoursBad: number
-  // Taux EBITDA/CA médian (%)
-  ebitdaMedian: number
-  // Ratio dette nette / EBITDA — seuils sectoriels
-  gearingMedian: number
-  gearingBon: number
-  gearingCritique: number
-}
-
-const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
-  'services-b2b': {
-    label: 'Services B2B',
-    dsoMedian: 45, dsoGood: 35, dsoBad: 60,
-    margeMedian: 55, margeBon: 45, margeFaible: 30,
-    bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 50,
-    ebitdaMedian: 12,
-    gearingMedian: 2, gearingBon: 1.5, gearingCritique: 4,
-  },
-  commerce: {
-    label: 'Commerce & Distribution',
-    dsoMedian: 30, dsoGood: 20, dsoBad: 45,
-    margeMedian: 30, margeBon: 22, margeFaible: 15,
-    bfrJoursMedian: 35, bfrJoursBon: 20, bfrJoursBad: 55,
-    ebitdaMedian: 5,
-    gearingMedian: 2.5, gearingBon: 2, gearingCritique: 4.5,
-  },
-  industrie: {
-    label: 'Industrie & Fabrication',
-    dsoMedian: 55, dsoGood: 40, dsoBad: 75,
-    margeMedian: 38, margeBon: 28, margeFaible: 18,
-    bfrJoursMedian: 50, bfrJoursBon: 35, bfrJoursBad: 75,
-    ebitdaMedian: 8,
-    gearingMedian: 3, gearingBon: 2, gearingCritique: 5,
-  },
-  'saas-tech': {
-    label: 'SaaS & Tech',
-    dsoMedian: 25, dsoGood: 15, dsoBad: 45,
-    margeMedian: 70, margeBon: 55, margeFaible: 35,
-    bfrJoursMedian: 15, bfrJoursBon: 10, bfrJoursBad: 30,
-    ebitdaMedian: 15,
-    gearingMedian: 1.5, gearingBon: 1, gearingCritique: 3.5,
-  },
-  btp: {
-    label: 'BTP & Construction',
-    dsoMedian: 65, dsoGood: 50, dsoBad: 90,
-    margeMedian: 22, margeBon: 15, margeFaible: 8,
-    bfrJoursMedian: 45, bfrJoursBon: 30, bfrJoursBad: 70,
-    ebitdaMedian: 5,
-    gearingMedian: 3.5, gearingBon: 2.5, gearingCritique: 5.5,
-  },
-  chr: {
-    label: 'Restauration & CHR',
-    dsoMedian: 10, dsoGood: 5, dsoBad: 20,
-    margeMedian: 68, margeBon: 60, margeFaible: 50,
-    bfrJoursMedian: -5, bfrJoursBon: -10, bfrJoursBad: 15,
-    ebitdaMedian: 10,
-    gearingMedian: 3, gearingBon: 2, gearingCritique: 5,
-  },
-  autre: {
-    label: 'Autre / Tous secteurs',
-    dsoMedian: 45, dsoGood: 30, dsoBad: 60,
-    margeMedian: 40, margeBon: 30, margeFaible: 20,
-    bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 55,
-    ebitdaMedian: 8,
-    gearingMedian: 2.5, gearingBon: 2, gearingCritique: 4.5,
-  },
-}
 
 // ---------------------------------------------------------------------------
 // Constants & Metadata
@@ -240,378 +160,13 @@ const CALCULATOR_META: Record<
 }
 
 // ---------------------------------------------------------------------------
-// 4 Piliers — Score FinSight(tm)
+// Pillar icon mapping (kept page-local to avoid coupling shared lib to lucide)
 // ---------------------------------------------------------------------------
-
-type PillarKey = 'cash' | 'margin' | 'resilience' | 'risk'
-
-interface PillarResult {
-  score: number | null // null = donnees insuffisantes
-  max: 25
-  calculators: { type: CalculatorType; done: boolean }[]
-  label: string
-  sublabel: string
-  icon: typeof DollarSign
-  color: string
-  borderColor: string
-  bgColor: string
-}
-
-interface DiagnosticScore {
-  total: number | null
-  pillars: Record<PillarKey, PillarResult>
-  level: 'excellent' | 'bon' | 'vigilance' | 'action' | 'incomplet'
-  confidence: 'haute' | 'moyenne' | 'faible'
-  completedPillars: number
-}
-
-function computeDiagnosticScore(history: Calculation[], sector: SectorKey = 'autre'): DiagnosticScore {
-  const get = (t: CalculatorType) => history.find((c) => c.type === t)
-  const bench = SECTOR_BENCHMARKS[sector]
-
-  // ---------------------------------------------------------------------------
-  // Estimation du CA mensuel à partir des données disponibles
-  // ---------------------------------------------------------------------------
-  const bfrRaw = get('bfr')
-  const seuilRaw = get('seuil-rentabilite')
-
-  const caAnnuel: number | null =
-    bfrRaw?.inputs?.ca
-      ? bfrRaw.inputs.ca
-      : seuilRaw?.inputs?.chargesFixes && seuilRaw?.inputs?.tauxMarge
-      ? Math.round(seuilRaw.inputs.chargesFixes / (seuilRaw.inputs.tauxMarge / 100))
-      : null
-  const caMensuel = caAnnuel ? caAnnuel / 12 : null
-
-  // --- Pilier CASH (25 pts) : DSO + BFR + Burn Rate ---
-  const dso = get('dso')
-  const bfr = bfrRaw
-  const burnRate = get('burn-rate')
-  const cashCalcs: { type: CalculatorType; done: boolean }[] = [
-    { type: 'dso', done: !!dso },
-    { type: 'bfr', done: !!bfr },
-    { type: 'burn-rate', done: !!burnRate },
-  ]
-  const cashHasData = dso || bfr || burnRate
-
-  let cashScore: number | null = null
-  if (cashHasData) {
-    let pts = 0
-    let maxPossible = 0
-
-    if (dso) {
-      maxPossible += 10
-      // Seuils relatifs au benchmark sectoriel (source : Banque de France / Altares)
-      if (dso.value <= bench.dsoGood) pts += 10
-      else if (dso.value <= bench.dsoMedian) pts += 7
-      else if (dso.value <= bench.dsoBad) pts += 4
-      else pts += 1
-    }
-
-    if (bfr) {
-      maxPossible += 10
-      if (bfr.value < 0) {
-        pts += 10 // BFR négatif = ressource nette (ex : CHR, GMS)
-      } else if (bfr.inputs?.ca && bfr.inputs.ca > 0) {
-        const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
-        // Seuils relatifs au benchmark sectoriel
-        if (joursCA <= bench.bfrJoursBon) pts += 10
-        else if (joursCA <= bench.bfrJoursMedian) pts += 7
-        else if (joursCA <= bench.bfrJoursBad) pts += 4
-        else pts += 1
-      } else {
-        pts += 3
-      }
-    }
-
-    if (burnRate) {
-      maxPossible += 5
-      if (caMensuel && caMensuel > 0) {
-        const burnPct = (burnRate.value / caMensuel) * 100
-        if (burnPct < 30) pts += 5
-        else if (burnPct < 60) pts += 3
-        else if (burnPct < 90) pts += 1
-      } else {
-        if (burnRate.value < 5_000) pts += 5
-        else if (burnRate.value < 15_000) pts += 3
-        else if (burnRate.value < 50_000) pts += 1
-      }
-    }
-
-    cashScore = maxPossible > 0 ? Math.round((pts / maxPossible) * 25) : null
-  }
-
-  // --- Pilier MARGIN (25 pts) : Marge + ROI + Seuil + EBITDA ---
-  const marge = get('marge')
-  const ebitda = get('ebitda')
-  const roi = get('roi')
-  const seuil = seuilRaw
-  const marginCalcs: { type: CalculatorType; done: boolean }[] = [
-    { type: 'marge', done: !!marge },
-    { type: 'roi', done: !!roi },
-    { type: 'seuil-rentabilite', done: !!seuil },
-    { type: 'ebitda', done: !!ebitda },
-  ]
-  const marginHasData = marge || roi || seuil || ebitda
-
-  let marginScore: number | null = null
-  if (marginHasData) {
-    let pts = 0
-    let maxPossible = 0
-
-    if (marge) {
-      maxPossible += 8
-      // Seuils relatifs au benchmark sectoriel
-      if (marge.value >= bench.margeBon * 1.3) pts += 8       // Top quartile sectoriel
-      else if (marge.value >= bench.margeBon) pts += 6        // Au-dessus médiane
-      else if (marge.value >= bench.margeMedian) pts += 4     // Dans la médiane
-      else if (marge.value >= bench.margeFaible) pts += 2     // Sous la médiane
-      else pts += 1                                            // Critique
-    }
-
-    if (roi) {
-      maxPossible += 7
-      if (roi.value >= 100) pts += 7
-      else if (roi.value >= 50) pts += 5
-      else if (roi.value >= 20) pts += 3
-      else if (roi.value >= 0) pts += 1
-    }
-
-    if (seuil) {
-      maxPossible += 6
-      const tauxMarge = seuil.inputs?.tauxMarge
-      // Seuils relatifs au secteur
-      if (tauxMarge && tauxMarge >= bench.margeBon) pts += 6
-      else if (tauxMarge && tauxMarge >= bench.margeMedian) pts += 4
-      else if (tauxMarge && tauxMarge >= bench.margeFaible) pts += 2
-      else pts += 1
-    }
-
-    if (ebitda) {
-      maxPossible += 4
-      if (caAnnuel && caAnnuel > 0) {
-        // Ratio EBITDA/CA relatif au benchmark sectoriel
-        const ebitdaPct = (ebitda.value / caAnnuel) * 100
-        if (ebitdaPct >= bench.ebitdaMedian * 1.5) pts += 4
-        else if (ebitdaPct >= bench.ebitdaMedian) pts += 3
-        else if (ebitdaPct > 0) pts += 2
-      } else {
-        if (ebitda.value > 0) pts += 4
-        else pts += 1
-      }
-    }
-
-    marginScore = maxPossible > 0 ? Math.round((pts / maxPossible) * 25) : null
-  }
-
-  // --- Pilier RÉSILIENCE (25 pts) — Universel PME ---
-  const cacLtv = get('cac-ltv')
-  const valorisation = get('valorisation')
-  const gearing = get('gearing')
-  const resilienceCalcs: { type: CalculatorType; done: boolean }[] = [
-    { type: 'cac-ltv', done: !!cacLtv },
-    { type: 'valorisation', done: !!valorisation },
-    { type: 'gearing', done: !!gearing },
-  ]
-
-  const hasDerivedResilience = (dso && bfr) || (marge && (ebitda || seuil))
-  const resilienceHasData = cacLtv || valorisation || gearing || hasDerivedResilience
-
-  let resilienceScore: number | null = null
-  if (resilienceHasData) {
-    let pts = 0
-    let maxPossible = 0
-
-    // A. CAC/LTV — 10 pts (pertinent SaaS/acquisition)
-    if (cacLtv) {
-      maxPossible += 10
-      if (cacLtv.value >= 3) pts += 10
-      else if (cacLtv.value >= 2) pts += 7
-      else if (cacLtv.value >= 1) pts += 3
-      else pts += 1
-    }
-
-    // B. Valorisation vs CA — 8 pts
-    if (valorisation) {
-      maxPossible += 8
-      if (valorisation.value > 0) {
-        if (caAnnuel && caAnnuel > 0) {
-          const multCA = valorisation.value / caAnnuel
-          if (multCA >= 2) pts += 8
-          else if (multCA >= 1) pts += 6
-          else if (multCA >= 0.5) pts += 3
-          else pts += 1
-        } else {
-          pts += 5
-        }
-      } else {
-        pts += 1
-      }
-    }
-
-    // C. Résilience structurelle dérivée — 7 pts (toujours calculable si données cash+marge)
-    if (hasDerivedResilience) {
-      maxPossible += 7
-      let structPts = 7
-
-      // Fragilité trésorerie relative au benchmark sectoriel
-      if (dso && dso.value > bench.dsoBad) structPts -= 2
-      else if (dso && dso.value > bench.dsoMedian) structPts -= 1
-
-      if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
-        const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
-        if (joursCA > bench.bfrJoursBad) structPts -= 2
-        else if (joursCA > bench.bfrJoursMedian) structPts -= 1
-      }
-
-      // Coussin de marge relatif au secteur
-      if (ebitda && ebitda.value > 0) structPts += 1
-      if (marge) {
-        if (marge.value >= bench.margeBon) structPts += 1
-        else if (marge.value < bench.margeFaible) structPts -= 1
-      }
-
-      pts += Math.max(0, Math.min(7, structPts))
-    }
-
-    // D. Gearing (dette nette / EBITDA) — 8 pts
-    if (gearing) {
-      maxPossible += 8
-      const g = gearing.value
-      if (g <= 0) pts += 8                          // Trésorerie nette positive
-      else if (g <= bench.gearingBon) pts += 7      // En-dessous du seuil favorable
-      else if (g <= bench.gearingMedian) pts += 5    // Autour de la médiane
-      else if (g <= bench.gearingCritique) pts += 2  // Zone de vigilance
-      // else 0 — endettement critique
-    }
-
-    resilienceScore = maxPossible > 0 ? Math.round((pts / maxPossible) * 25) : null
-  }
-
-  // --- Pilier RISQUES (25 pts) — Analyse croisée des signaux de fragilité ---
-  const riskCalcs: { type: CalculatorType; done: boolean }[] = [
-    { type: 'dso', done: !!dso },
-    { type: 'marge', done: !!marge },
-    { type: 'seuil-rentabilite', done: !!seuil },
-  ]
-  const riskHasData = (dso || bfr) && (marge || seuil)
-
-  let riskScore: number | null = null
-  if (riskHasData) {
-    let pts = 25
-
-    // Risque délai clients — relatif au benchmark sectoriel
-    if (dso && dso.value > bench.dsoBad) pts -= 5
-    else if (dso && dso.value > bench.dsoMedian) pts -= 2
-
-    // Risque BFR — relatif au benchmark sectoriel
-    if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
-      const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
-      if (joursCA > bench.bfrJoursBad) pts -= 6
-      else if (joursCA > bench.bfrJoursMedian) pts -= 3
-    }
-
-    // Risque marge — relatif au secteur
-    if (marge && marge.value < bench.margeFaible) pts -= 5
-    else if (marge && marge.value < bench.margeMedian) pts -= 2
-
-    // Risque seuil — taux de marge critique vs seuil sectoriel
-    if (seuil) {
-      const tm = seuil.inputs?.tauxMarge
-      if (tm && tm < bench.margeFaible * 0.7) pts -= 6
-      else if (tm && tm < bench.margeFaible) pts -= 3
-    }
-
-    // Risque Burn Rate relatif au CA mensuel
-    if (burnRate && caMensuel && caMensuel > 0) {
-      const burnPct = (burnRate.value / caMensuel) * 100
-      if (burnPct > 90) pts -= 5
-      else if (burnPct > 70) pts -= 2
-    }
-
-    // Risque croisé #1 : DSO au-dessus médiane ET marge sous médiane = double pression cash
-    if (dso && dso.value > bench.dsoMedian && marge && marge.value < bench.margeMedian) pts -= 3
-
-    // Risque croisé #2 : BFR élevé ET taux de marge tendu = fragilité structurelle
-    if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0 && seuil) {
-      const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
-      const tm = seuil.inputs?.tauxMarge
-      if (joursCA > bench.bfrJoursMedian && tm && tm < bench.margeFaible) pts -= 2
-    }
-
-    riskScore = Math.max(0, Math.min(25, pts))
-  }
-
-  // --- Assemblage ---
-  const pillars: Record<PillarKey, PillarResult> = {
-    cash: {
-      score: cashScore,
-      max: 25,
-      calculators: cashCalcs,
-      label: 'CASH',
-      sublabel: 'Trésorerie et Liquidité',
-      icon: DollarSign,
-      color: 'text-blue-600',
-      borderColor: 'border-blue-200',
-      bgColor: 'bg-blue-50',
-    },
-    margin: {
-      score: marginScore,
-      max: 25,
-      calculators: marginCalcs,
-      label: 'MARGIN',
-      sublabel: 'Rentabilité et Croissance',
-      icon: TrendingUp,
-      color: 'text-emerald-600',
-      borderColor: 'border-emerald-200',
-      bgColor: 'bg-emerald-50',
-    },
-    resilience: {
-      score: resilienceScore,
-      max: 25,
-      calculators: resilienceCalcs,
-      label: 'RÉSILIENCE',
-      sublabel: 'Stabilité Structurelle',
-      icon: Shield,
-      color: 'text-purple-600',
-      borderColor: 'border-purple-200',
-      bgColor: 'bg-purple-50',
-    },
-    risk: {
-      score: riskScore,
-      max: 25,
-      calculators: riskCalcs,
-      label: 'RISQUES',
-      sublabel: 'Anomalies et Croisements',
-      icon: AlertTriangle,
-      color: 'text-amber-600',
-      borderColor: 'border-amber-200',
-      bgColor: 'bg-amber-50',
-    },
-  }
-
-  const scored = Object.values(pillars).filter((p) => p.score !== null)
-  const completedPillars = scored.length
-
-  let total: number | null = null
-  if (completedPillars > 0) {
-    const sum = scored.reduce((acc, p) => acc + (p.score ?? 0), 0)
-    // Extrapoler sur 100 si incomplet
-    total = completedPillars === 4 ? sum : Math.round((sum / completedPillars) * 4)
-  }
-
-  let level: DiagnosticScore['level'] = 'incomplet'
-  if (total !== null) {
-    if (total >= 75) level = 'excellent'
-    else if (total >= 55) level = 'bon'
-    else if (total >= 35) level = 'vigilance'
-    else level = 'action'
-  }
-
-  const confidence: DiagnosticScore['confidence'] =
-    completedPillars >= 4 ? 'haute' : completedPillars >= 2 ? 'moyenne' : 'faible'
-
-  return { total, pillars, level, confidence, completedPillars }
+const PILLAR_ICONS: Record<PillarKey, typeof DollarSign> = {
+  cash: DollarSign,
+  margin: TrendingUp,
+  resilience: Shield,
+  risk: AlertTriangle,
 }
 
 // ---------------------------------------------------------------------------
@@ -638,251 +193,6 @@ function getNextRecommended(completed: CalculatorType[]): CalculatorType | null 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-function formatDate(dateStr: string): string {
-  const d = new Date(dateStr)
-  return d.toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
-
-function formatValue(value: number, unit: string): string {
-  if (unit === '\u20ac' || unit === '\u20ac/mois') return `${value.toLocaleString('fr-FR')} ${unit}`
-  if (unit === '%') return `${value.toLocaleString('fr-FR')}%`
-  if (unit === 'jours') return `${value} jours`
-  return `${value}`
-}
-
-function timeAgo(dateStr: string): string {
-  const diffD = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86_400_000)
-  if (diffD === 0) return "Aujourd'hui"
-  if (diffD === 1) return 'Hier'
-  if (diffD < 30) return `Il y a ${diffD} jours`
-  return `Il y a ${Math.floor(diffD / 30)} mois`
-}
-
-const LEVEL_CONFIG: Record<
-  DiagnosticScore['level'],
-  { label: string; sublabel: string; color: string; bg: string; border: string; bar: string }
-> = {
-  excellent: {
-    label: 'Santé financière solide',
-    sublabel: 'Vos indicateurs clés sont conformes aux standards du secteur.',
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-200',
-    bar: 'bg-emerald-500',
-  },
-  bon: {
-    label: 'Dynamique favorable',
-    sublabel: 'La majorité de vos indicateurs sont positifs.',
-    color: 'text-accent-primary',
-    bg: 'bg-blue-50',
-    border: 'border-blue-200',
-    bar: 'bg-accent-primary',
-  },
-  vigilance: {
-    label: 'Points de vigilance identifiés',
-    sublabel: 'Certains indicateurs méritent une attention particulière.',
-    color: 'text-amber-600',
-    bg: 'bg-amber-50',
-    border: 'border-amber-200',
-    bar: 'bg-amber-500',
-  },
-  action: {
-    label: 'Actions correctives recommandées',
-    sublabel: 'Plusieurs indicateurs nécessitent une intervention rapide.',
-    color: 'text-red-600',
-    bg: 'bg-red-50',
-    border: 'border-red-200',
-    bar: 'bg-red-500',
-  },
-  incomplet: {
-    label: 'Diagnostic en cours',
-    sublabel: 'Complétez davantage d\'indicateurs pour affiner votre score.',
-    color: 'text-gray-500',
-    bg: 'bg-gray-50',
-    border: 'border-gray-200',
-    bar: 'bg-gray-400',
-  },
-}
-
-// ---------------------------------------------------------------------------
-// Insights Engine — forces, vulnérabilités, priorité, impact €
-// ---------------------------------------------------------------------------
-
-interface Insight {
-  forces: string[]
-  vulnerabilites: string[]
-  priorite: string
-  cashImpactLabel: string | null   // ex: "≈ 82 000 € immobilisés"
-  cashImpactDetail: string | null  // ex: "DSO 60j vs médiane 45j · CA 2 M€"
-}
-
-function computeInsights(
-  diagnostic: DiagnosticScore,
-  history: Calculation[],
-  sector: SectorKey,
-): Insight {
-  const bench = SECTOR_BENCHMARKS[sector]
-  const get = (t: CalculatorType) => history.find((c) => c.type === t)
-
-  const dso = get('dso')
-  const bfr = get('bfr')
-  const marge = get('marge')
-  const ebitda = get('ebitda')
-  const burnRate = get('burn-rate')
-  const seuil = get('seuil-rentabilite')
-  const cacLtv = get('cac-ltv')
-
-  const caAnnuel: number | null =
-    bfr?.inputs?.ca
-      ? bfr.inputs.ca
-      : seuil?.inputs?.chargesFixes && seuil?.inputs?.tauxMarge
-      ? Math.round(seuil.inputs.chargesFixes / (seuil.inputs.tauxMarge / 100))
-      : null
-
-  const forces: string[] = []
-  const vulnerabilites: string[] = []
-
-  // ── Forces ──────────────────────────────────────────────────────────────
-
-  // DSO excellent
-  if (dso && dso.value <= bench.dsoGood)
-    forces.push(`DSO de ${dso.value}j — encaissements rapides vs médiane sectorielle de ${bench.dsoMedian}j`)
-
-  // BFR négatif ou très bon
-  if (bfr && bfr.value < 0)
-    forces.push('BFR négatif — votre activité génère de la trésorerie avant de payer vos fournisseurs')
-  else if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
-    const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
-    if (joursCA <= bench.bfrJoursBon)
-      forces.push(`BFR de ${joursCA}j de CA — maîtrisé vs médiane ${bench.bfrJoursMedian}j dans votre secteur`)
-  }
-
-  // Marge au-dessus du benchmark
-  if (marge && marge.value >= bench.margeBon)
-    forces.push(`Taux de marge de ${marge.value}% — au-dessus de la médiane sectorielle (${bench.margeMedian}%)`)
-
-  // EBITDA positif et au-dessus médiane
-  if (ebitda && caAnnuel && caAnnuel > 0) {
-    const ebitdaPct = Math.round((ebitda.value / caAnnuel) * 100)
-    if (ebitdaPct >= bench.ebitdaMedian)
-      forces.push(`EBITDA à ${ebitdaPct}% du CA — coussin de rentabilité solide vs ${bench.ebitdaMedian}% médian`)
-  }
-
-  // CAC/LTV sain
-  if (cacLtv && cacLtv.value >= 3)
-    forces.push(`Ratio LTV/CAC de ${cacLtv.value.toFixed(1)}x — acquisition client très rentable`)
-
-  // Burn Rate maîtrisé
-  if (burnRate && caAnnuel) {
-    const caMensuel = caAnnuel / 12
-    const burnPct = Math.round((burnRate.value / caMensuel) * 100)
-    if (burnPct < 30)
-      forces.push(`Burn Rate à ${burnPct}% du CA mensuel — consommation de cash très maîtrisée`)
-  }
-
-  // Score CASH élevé
-  if (diagnostic.pillars.cash.score !== null && diagnostic.pillars.cash.score >= 20)
-    forces.push('Pilier CASH solide — trésorerie saine sur l\'ensemble des indicateurs')
-
-  // Score MARGIN élevé
-  if (diagnostic.pillars.margin.score !== null && diagnostic.pillars.margin.score >= 20)
-    forces.push('Rentabilité opérationnelle forte — structure de coûts efficiente')
-
-  // ── Vulnérabilités ───────────────────────────────────────────────────────
-
-  // DSO problématique
-  if (dso && dso.value > bench.dsoBad)
-    vulnerabilites.push(`DSO de ${dso.value}j — dépasse le seuil critique sectoriel (${bench.dsoBad}j) : risque de tension cash`)
-  else if (dso && dso.value > bench.dsoMedian)
-    vulnerabilites.push(`DSO de ${dso.value}j — au-dessus de la médiane (${bench.dsoMedian}j) : créances qui s'allongent`)
-
-  // BFR élevé
-  if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
-    const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
-    if (joursCA > bench.bfrJoursBad)
-      vulnerabilites.push(`BFR de ${joursCA}j de CA — nettement au-dessus du seuil sectoriel (${bench.bfrJoursBad}j) : exposition aux aléas`)
-    else if (joursCA > bench.bfrJoursMedian)
-      vulnerabilites.push(`BFR de ${joursCA}j de CA — dépasse la médiane sectorielle (${bench.bfrJoursMedian}j)`)
-  }
-
-  // Marge faible
-  if (marge && marge.value < bench.margeFaible)
-    vulnerabilites.push(`Taux de marge de ${marge.value}% — sous le seuil critique (${bench.margeFaible}%) : structure de coûts à revoir`)
-  else if (marge && marge.value < bench.margeMedian)
-    vulnerabilites.push(`Taux de marge de ${marge.value}% — sous la médiane sectorielle (${bench.margeMedian}%)`)
-
-  // Burn Rate tendu
-  if (burnRate && caAnnuel) {
-    const caMensuel = caAnnuel / 12
-    const burnPct = Math.round((burnRate.value / caMensuel) * 100)
-    if (burnPct > 90)
-      vulnerabilites.push(`Burn Rate à ${burnPct}% du CA mensuel — structure déficitaire : runway limité`)
-    else if (burnPct > 70)
-      vulnerabilites.push(`Burn Rate à ${burnPct}% du CA mensuel — peu de marge de manœuvre`)
-  }
-
-  // Croisement DSO + marge faible
-  if (dso && dso.value > bench.dsoMedian && marge && marge.value < bench.margeMedian)
-    vulnerabilites.push('Double pression cash : délais clients longs + marge sous la médiane — risque structurel')
-
-  // Score RISK faible
-  if (diagnostic.pillars.risk.score !== null && diagnostic.pillars.risk.score < 12)
-    vulnerabilites.push('Plusieurs signaux de risque croisés détectés — combinaison défavorable d\'indicateurs')
-
-  // ── Priorité ─────────────────────────────────────────────────────────────
-  let priorite = ''
-
-  // Logique de priorité : le problème le plus coûteux à résoudre en premier
-  const cashScore = diagnostic.pillars.cash.score
-  const marginScore = diagnostic.pillars.margin.score
-  const riskScore = diagnostic.pillars.risk.score
-
-  if (dso && dso.value > bench.dsoBad && caAnnuel) {
-    const gapJours = dso.value - bench.dsoMedian
-    const impact = Math.round((gapJours / 365) * caAnnuel)
-    priorite = `Réduire le DSO de ${gapJours}j pour libérer ${impact.toLocaleString('fr-FR')} € de trésorerie — c'est votre levier cash #1`
-  } else if (marge && marge.value < bench.margeFaible) {
-    priorite = `Améliorer la structure de coûts : votre marge de ${marge.value}% est sous le seuil critique (${bench.margeFaible}%) — revoir les achats ou la tarification`
-  } else if (burnRate && caAnnuel && (burnRate.value / (caAnnuel / 12)) > 0.7) {
-    priorite = `Réduire le Burn Rate : votre consommation mensuelle représente ${Math.round((burnRate.value / (caAnnuel / 12)) * 100)}% du CA — identifier les charges compressibles en priorité`
-  } else if (cashScore !== null && cashScore < 12) {
-    priorite = 'Renforcer la trésorerie en priorité : le pilier CASH est votre point de fragilité majeur — agir sur DSO et BFR'
-  } else if (marginScore !== null && marginScore < 12) {
-    priorite = 'Améliorer la rentabilité : le pilier MARGIN est sous les standards du secteur — revoir la structure de coûts et la tarification'
-  } else if (riskScore !== null && riskScore < 15) {
-    priorite = 'Adresser les signaux de risque croisés : plusieurs indicateurs combinés indiquent une fragilité structurelle à corriger avant qu\'elle s\'aggrave'
-  } else if (forces.length > vulnerabilites.length) {
-    priorite = 'Votre diagnostic est globalement solide — capitaliser sur les forces identifiées et surveiller les indicateurs à la marge'
-  } else {
-    priorite = 'Compléter le diagnostic avec les indicateurs manquants pour identifier la priorité avec précision'
-  }
-
-  // ── Impact cash immobilisé (DSO gap × CA) ───────────────────────────────
-  let cashImpactLabel: string | null = null
-  let cashImpactDetail: string | null = null
-
-  if (dso && dso.value > bench.dsoMedian && caAnnuel && caAnnuel > 0) {
-    const gapJours = dso.value - bench.dsoMedian
-    const impact = Math.round((gapJours / 365) * caAnnuel)
-    cashImpactLabel = `≈ ${impact.toLocaleString('fr-FR')} €`
-    cashImpactDetail = `${gapJours}j de DSO au-dessus de la médiane · CA ${(caAnnuel / 1_000_000).toFixed(2).replace('.', ',')} M€ · à libérer par optimisation des encaissements`
-  }
-
-  return {
-    forces: forces.slice(0, 3),
-    vulnerabilites: vulnerabilites.slice(0, 3),
-    priorite,
-    cashImpactLabel,
-    cashImpactDetail,
-  }
-}
 
 // ---------------------------------------------------------------------------
 // Page Component
@@ -1009,7 +319,7 @@ export default function MonDiagnosticPage() {
             <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-5 max-w-4xl mx-auto" staggerDelay={0.12}>
               {(['cash', 'margin', 'resilience', 'risk'] as PillarKey[]).map((key) => {
                 const p = computeDiagnosticScore([]).pillars[key]
-                const Icon = p.icon
+                const Icon = PILLAR_ICONS[key]
                 return (
                   <StaggerItem key={key}>
                     <div className="bg-white rounded-xl p-6 border border-gray-200 text-center hover:shadow-md hover:border-gray-300 transition-all duration-300">
@@ -1431,7 +741,7 @@ export default function MonDiagnosticPage() {
               const pillar = diagnostic.pillars[key]
               return (
                 <StaggerItem key={key}>
-                  <PillarCard pillar={pillar} />
+                  <PillarCard pillar={pillar} pillarKey={key} />
                 </StaggerItem>
               )
             })}
@@ -1465,28 +775,101 @@ export default function MonDiagnosticPage() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <a
-                href="https://calendly.com/zineinsight"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group bg-white rounded-xl p-6 border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-300"
-              >
+            {/* Email capture banner — collect email for report delivery */}
+            {diagnostic.total !== null && (
+              <div className="mb-6 p-6 bg-blue-50 rounded-xl border border-blue-200">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-slate-950 flex items-center justify-center flex-shrink-0">
-                    <Calendar className="w-5 h-5 text-white" />
+                  <div className="w-11 h-11 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-5 h-5 text-white" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-base font-semibold text-gray-900 group-hover:text-accent-primary transition-colors">
-                      Passer du diagnostic au plan d'action
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-gray-900">
+                      Recevez votre rapport de diagnostic
                     </p>
-                    <p className="text-sm text-gray-500 mt-1 leading-relaxed">
-                      30 min · Analyse approfondie · Confidentiel
+                    <p className="text-xs text-gray-500 mt-0.5 mb-3">
+                      Score {diagnostic.total}/100 · {LEVEL_CONFIG[diagnostic.level].label} · Rapport PDF + recommandations personnalisées
                     </p>
+                    <form
+                      onSubmit={async (e) => {
+                        e.preventDefault()
+                        const form = e.currentTarget
+                        const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement
+                        if (!emailInput?.value) return
+                        try {
+                          await fetch('/api/diagnostic/email', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              email: emailInput.value,
+                              score: diagnostic.total,
+                              sector,
+                              pillars: diagnostic.pillars,
+                              insights,
+                            }),
+                          })
+                          emailInput.value = ''
+                          emailInput.placeholder = '✓ Rapport envoyé !'
+                        } catch {
+                          // silently fail — non-blocking
+                        }
+                      }}
+                      className="flex items-center gap-2"
+                    >
+                      <input
+                        type="email"
+                        placeholder="email@entreprise.com"
+                        required
+                        className="flex-1 px-3 py-2 text-sm border border-blue-200 rounded-lg bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-200 outline-none"
+                      />
+                      <button
+                        type="submit"
+                        className="px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+                      >
+                        Envoyer le rapport
+                      </button>
+                    </form>
                   </div>
-                  <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-accent-primary transition-colors flex-shrink-0 mt-1" />
                 </div>
-              </a>
+              </div>
+            )}
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Contextual CTA — adapté au score */}
+              {(() => {
+                const cta = getContextualCTA(diagnostic.total)
+                return (
+                  <a
+                    href={cta.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group rounded-xl p-6 border transition-all duration-300 hover:shadow-md ${
+                      cta.urgency === 'high'
+                        ? 'bg-red-50 border-red-200 hover:border-red-300'
+                        : 'bg-white border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                        cta.urgency === 'high' ? 'bg-red-600' : 'bg-slate-950'
+                      }`}>
+                        <Calendar className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-base font-semibold text-gray-900 group-hover:text-accent-primary transition-colors">
+                          {cta.label}
+                        </p>
+                        <p className="text-sm text-gray-500 mt-1 leading-relaxed">
+                          {cta.sublabel}
+                        </p>
+                        <p className={`text-xs font-bold mt-2 ${
+                          cta.urgency === 'high' ? 'text-red-600' : 'text-gray-400'
+                        }`}>{cta.price}</p>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-gray-400 group-hover:text-accent-primary transition-colors flex-shrink-0 mt-1" />
+                    </div>
+                  </a>
+                )
+              })()}
 
               <Link
                 href="/consulting"
@@ -1642,10 +1025,10 @@ export default function MonDiagnosticPage() {
 // Sub-components
 // ---------------------------------------------------------------------------
 
-function PillarCard({ pillar }: { pillar: PillarResult }) {
-  const Icon = pillar.icon
+function PillarCard({ pillar, pillarKey }: { pillar: PillarResult; pillarKey: PillarKey }) {
+  const Icon = PILLAR_ICONS[pillarKey]
   const hasData = pillar.score !== null
-  const doneCount = pillar.calculators.filter((c) => c.done).length
+  const doneCount = pillar.calculators.filter((c: { type: CalculatorType; done: boolean }) => c.done).length
   const totalCount = pillar.calculators.length
   const pct = hasData ? Math.round((pillar.score! / 25) * 100) : 0
 

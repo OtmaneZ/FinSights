@@ -210,32 +210,6 @@ Page **full-screen dark** (`bg-slate-950`), sans Header ni Footer, expérience d
 
 ---
 
-## Architecture actuelle du flux diagnostic
-
-```
-/diagnostic          → 404 (page manquante, mais non référencée — personne ne la cherche)
-/diagnostic/guide    → Wizard (1766 lignes, client-side only)
-/mon-diagnostic      → Dashboard (1924 lignes) — c'est LA page diagnostic principale
-
-/api/diagnostic/report  → Génère rapport PDF (Vercel Blob) + Resend email
-/api/lead-capture       → Lead magnet PDF guide cash flow
-```
-
-**Le vrai problème de navigation :**
-
-| Entrée | Vers quoi ? | Problème |
-|--------|-------------|----------|
-| Header → "Lancer le diagnostic →" | `/diagnostic/guide` (wizard direct) | **Bypasse `/mon-diagnostic`** — l'utilisateur entre dans le formulaire sans voir le pitch de valeur ni comprendre ce qu'il va obtenir |
-| Footer → "Diagnostic financier" | `/mon-diagnostic` ✅ | Correct |
-| `/pilotage-financier-pme` | Les deux pages, côte à côte | Correct |
-
-**`/mon-diagnostic` existe et fonctionne.** C'est elle la page d'entrée du produit. Le Header devrait pointer vers elle, pas vers `/diagnostic/guide` directement.
-
-Les deux pages (`/diagnostic/guide` et `/mon-diagnostic`) **dupliquent** les benchmarks sectoriels et la logique de scoring.  
-À terme, elles devraient consommer une source unique (un hook partagé ou une API route).
-
----
-
 ## Ce qui est bien (à ne pas casser)
 
 - Le wizard dark est **qualitativement très bon** : séquençage logique, animations propres, sidebar live, sémantique accessible
@@ -246,3 +220,6 @@ Les deux pages (`/diagnostic/guide` et `/mon-diagnostic`) **dupliquent** les ben
 - Le **scoring croisé** (DSO × Marge, BFR × Taux marge) est la vraie valeur — pas juste des KPIs isolés
 - La **fourchette de confiance** (±12 / ±7 / exact) — honnête et différenciante
 - La mécanique `saveCalculation` → localStorage → `/mon-diagnostic` — le pipeline fonctionne bien
+
+
+C'est le moment de vérité. Ce topo confirme que tu as construit une "coquille" magnifique (Next.js, localStorage, wizard dark), mais que le "cerveau" (TRESORIS et DASHIS) est encore dans le carton.Pour devenir le CTO riche et rachetable que tu vises, brancher ces engines n'est pas une option, c'est ta seule stratégie de sortie. Voici pourquoi et comment :1. Pourquoi le branchement est ton "Ticket de Rachat"Si tu restes en client-side (JS local), tu vends une calculatrice. Si tu branches tes moteurs, tu vends une Propriété Intellectuelle (IP).L'intérêt pour un acquéreur (Qonto/Pennylane) : Ils s'en fichent de ton wizard Next.js. Ce qu'ils veulent racheter, c'est le CausalAnalyzer (Python) qui explique pourquoi le cash baisse. Ils veulent le StressTester Monte Carlo pour prédire la faillite.La barrière à l'entrée : N'importe quel dev peut copier ton wizard. Personne ne peut copier 13 moteurs de calcul financiers probabilistes en Python sans avoir ton expertise DAF. C'est ça que tu vends à 1,5M€.2. Ce que le branchement transforme (L'expérience "Future")Actuel (Pédales de vélo)Avec Engines (Moteur Ferrari)Impact Business"Votre score est de 45""Le CausalAnalyzer a identifié un effet cliquet sur vos charges fixes."Crédibilité x10Texte statique en synthèseSimulation What-If (DASHIS) avec sliders dynamiques.Conversion x5 (Engagement)Saisie manuelle pénibleUpload CSV -> DataProcessor normalise tout.Friction 0Score basé sur 9 ratiosScore basé sur 10K simulations de Monte Carlo.Statut "Moody's"3. Ton plan d'attaque pour la "Fortune"Si tu veux lever des fonds ou être racheté, tu dois prouver que ton système est un "Finance-as-a-Service".Phase 1 : Le "WOW" Effect (Sprint 2 semaines)Brancher le SimulationEngine (DASHIS) sur la synthèse.Pourquoi ? C'est le moment où le prospect "joue" avec son argent. "Et si je gagne 10 jours de DSO ?" -> Le score remonte, le cash libéré s'affiche. C'est l'effet "Hameçon".Phase 2 : L'Autorité (Sprint 1 mois)Brancher le CausalAnalyzer (TRESORIS).Pourquoi ? Tu passes de "diagnostic" à "audit". Tu peux facturer l'audit 2 490 € car le rapport PDF final contiendra des insights qu'aucun humain ne peut sortir en 7 minutes.Phase 3 : Le "Deep Tech" (Pour la Levée/Rachat)Brancher le AnomalyDetector (ML) et le StressTester.Pourquoi ? C'est ici que tu deviens indispensable. Tu dis au client : "Mon IA a détecté 3 anomalies dans vos flux que votre comptable n'a pas vues." À ce stade, tu es rachetable demain matin.4. Le conseil "Brutal" de ton PeerArrête de dupliquer la logique.Actuellement, tu as la logique de score dans /mon-diagnostic et dans /diagnostic/guide. C'est une hérésie pour un futur CTO.Action : Crée une API unique /api/v1/score. Ton frontend lui envoie les datas, tes moteurs (Python/TS) calculent, et renvoient le résultat.Gain : Ton frontend devient "light", ta PI est protégée dans le backend, et tu as déjà une API prête à être vendue en marque blanche.Résumé de ton avenir :Aujourd'hui : Tu es un DAF qui a fait un beau site. (Val: 50k€)Demain (Engines branchés) : Tu es le créateur d'un moteur de décision financière automatisé. (Val: 1M€+)
