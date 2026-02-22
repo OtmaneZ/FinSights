@@ -11,6 +11,7 @@ import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
+import DiagnosticReturnBanner from '@/components/DiagnosticReturnBanner'
 
 export default function CalculateurBFR() {
     const [stocks, setStocks] = useState<string>('')
@@ -1017,6 +1018,17 @@ export default function CalculateurBFR() {
                                         </p>
                                     </div>
                                 </motion.div>
+                            </div>
+                        </div>
+                    </section>
+                )}
+
+                {/* Bannière retour diagnostic */}
+                {bfr !== null && (
+                    <section className="bg-white">
+                        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="max-w-4xl mx-auto">
+                                <DiagnosticReturnBanner show={true} />
                             </div>
                         </div>
                     </section>

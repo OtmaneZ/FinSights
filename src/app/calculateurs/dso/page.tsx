@@ -12,6 +12,7 @@ import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
 import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
+import DiagnosticReturnBanner from '@/components/DiagnosticReturnBanner'
 
 export default function CalculateurDSO() {
     const [creances, setCreances] = useState<string>('')
@@ -994,6 +995,17 @@ export default function CalculateurDSO() {
                                         </p>
                                     </div>
                                 </motion.div>
+                            </div>
+                        </div>
+                    </section>
+                )}
+
+                {/* Bannière retour diagnostic */}
+                {dso !== null && (
+                    <section className="bg-white">
+                        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="max-w-4xl mx-auto">
+                                <DiagnosticReturnBanner show={true} />
                             </div>
                         </div>
                     </section>

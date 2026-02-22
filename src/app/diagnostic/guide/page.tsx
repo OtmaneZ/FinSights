@@ -1486,8 +1486,8 @@ export default function DiagnosticGuidePage() {
                       className="group flex items-center justify-between w-full px-6 py-3 bg-transparent border border-gray-800/50 rounded-lg hover:border-gray-700 transition-all"
                     >
                       <div>
-                        <p className="text-xs font-medium text-gray-400">Consulter le diagnostic detaille</p>
-                        <p className="text-[11px] text-gray-600 mt-0.5">Score par pilier, historique et analyses</p>
+                        <p className="text-xs font-medium text-gray-400">Score sauvegardé — consulter le tableau de bord complet</p>
+                        <p className="text-[11px] text-gray-600 mt-0.5">Piliers détaillés, historique, analyses manquantes — accessible à tout moment</p>
                       </div>
                       <ArrowRight className="w-3.5 h-3.5 text-gray-600 group-hover:text-gray-400 transition-colors flex-shrink-0" />
                     </Link>
