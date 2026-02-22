@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinSight Stack — Vision Produit & Commerciale</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:    #0f172a;
+      --dark2:   #1e293b;
+      --dark3:   #334155;
+      --blue:    #2563eb;
+      --blue-l:  #3b82f6;
+      --blue-xl: #dbeafe;
+      --green:   #059669;
+      --green-l: #d1fae5;
+      --orange:  #d97706;
+      --orange-l:#fef3c7;
+      --red:     #dc2626;
+      --purple:  #7c3aed;
+      --purple-l:#ede9fe;
+      --slate:   #64748b;
+      --border:  #e2e8f0;
+      --bg:      #f8fafc;
+      --white:   #ffffff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--dark);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #1e3a5f;
+    }
+    nav .brand { color: white; font-weight: 700; font-size: 15px; letter-spacing: 0.3px; }
+    nav .brand span { color: #93c5fd; }
+    nav .badge {
+      background: var(--blue);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    nav .links { display: flex; gap: 24px; }
+    nav .links a { color: #94a3b8; font-size: 13px; text-decoration: none; }
+    nav .links a:hover { color: white; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--dark) 0%, #0c1f3d 60%, #0f172a 100%);
+      padding: 80px 40px 60px;
+      text-align: center;
+      border-bottom: 1px solid #1e3a5f;
+    }
+    .hero .eyebrow {
+      display: inline-block;
+      background: var(--blue);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      color: white;
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      line-height: 1.15;
+      max-width: 800px;
+      margin: 0 auto 16px;
+    }
+    .hero h1 em { color: #93c5fd; font-style: normal; }
+    .hero p {
+      color: #94a3b8;
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat .val { color: white; font-size: 26px; font-weight: 800; }
+    .hero-stat .lbl { color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 64px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .section-intro {
+      color: var(--slate);
+      font-size: 15px;
+      max-width: 640px;
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+
+    /* ── TAG ── */
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+    .tag-blue   { background: var(--blue-xl);   color: var(--blue); }
+    .tag-green  { background: var(--green-l);   color: var(--green); }
+    .tag-orange { background: var(--orange-l);  color: var(--orange); }
+    .tag-purple { background: var(--purple-l);  color: var(--purple); }
+    .tag-dark   { background: var(--dark2);     color: #94a3b8; }
+
+    /* ── CARDS 3 PRODUITS ── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .product-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .product-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+    .product-card .card-header {
+      padding: 24px 28px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .product-card .card-header h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .product-card .card-header p {
+      font-size: 13px;
+      color: var(--slate);
+      line-height: 1.6;
+    }
+    .product-card .accent-bar { height: 3px; }
+    .accent-blue   { background: var(--blue); }
+    .accent-green  { background: var(--green); }
+    .accent-purple { background: var(--purple); }
+    .product-card .card-body { padding: 20px 28px; }
+    .engine-list { list-style: none; }
+    .engine-list li {
+      display: flex;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 13px;
+      color: var(--dark2);
+      border-bottom: 1px dashed #f1f5f9;
+      align-items: flex-start;
+    }
+    .engine-list li:last-child { border-bottom: none; }
+    .engine-list li .icon { font-size: 14px; flex-shrink: 0; line-height: 1.4; }
+    .engine-list li .name { font-weight: 600; color: var(--dark); }
+    .engine-list li .desc { color: var(--slate); font-size: 12px; }
+    .card-footer {
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      padding: 14px 28px;
+      font-size: 12px;
+      color: var(--slate);
+    }
+    .card-footer code {
+      background: #e2e8f0;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--dark2);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* ── STACK DIAGRAM ── */
+    .stack-diagram {
+      background: var(--dark);
+      border-radius: 16px;
+      padding: 40px;
+      color: white;
+    }
+    .stack-layers { display: flex; flex-direction: column; gap: 0; }
+    .stack-layer {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 20px;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #1e3a5f;
+    }
+    .stack-layer:last-child { border-bottom: none; }
+    .layer-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #64748b;
+      text-align: right;
+      padding-right: 16px;
+      border-right: 2px solid #1e3a5f;
+    }
+    .layer-content { padding-left: 4px; }
+    .layer-content h4 { font-size: 13px; font-weight: 600; color: white; margin-bottom: 8px; }
+    .layer-boxes { display: flex; flex-wrap: wrap; gap: 8px; }
+    .layer-box {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .box-blue   { background: rgba(37,99,235,0.2); color: #93c5fd; border: 1px solid rgba(37,99,235,0.3); }
+    .box-green  { background: rgba(5,150,105,0.2); color: #6ee7b7; border: 1px solid rgba(5,150,105,0.3); }
+    .box-purple { background: rgba(124,58,237,0.2); color: #c4b5fd; border: 1px solid rgba(124,58,237,0.3); }
+    .box-orange { background: rgba(217,119,6,0.2);  color: #fcd34d; border: 1px solid rgba(217,119,6,0.3); }
+    .box-dark   { background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.08); }
+
+    .arrow-down {
+      text-align: center;
+      color: #1e3a5f;
+      font-size: 20px;
+      padding: 4px 0;
+    }
+
+    /* ── WHAT DOES WHAT ── */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    .comparison-table thead tr {
+      background: var(--dark);
+      color: white;
+    }
+    .comparison-table thead th {
+      padding: 14px 18px;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-align: left;
+    }
+    .comparison-table thead th:first-child { border-radius: 8px 0 0 0; }
+    .comparison-table thead th:last-child  { border-radius: 0 8px 0 0; }
+    .comparison-table tbody tr { border-bottom: 1px solid var(--border); }
+    .comparison-table tbody tr:nth-child(even) { background: #f8fafc; }
+    .comparison-table tbody td { padding: 12px 18px; vertical-align: top; }
+    .comparison-table tbody td:first-child { font-weight: 600; color: var(--dark); white-space: nowrap; }
+    .pill {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+    }
+    .pill-blue   { background: var(--blue-xl); color: var(--blue); }
+    .pill-green  { background: var(--green-l); color: var(--green); }
+    .pill-purple { background: var(--purple-l); color: var(--purple); }
+    .pill-none   { background: #f1f5f9; color: #94a3b8; }
+
+    /* ── BRANCHES ── */
+    .branches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .branch-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      overflow: hidden;
+    }
+    .branch-card .bc-header {
+      padding: 20px 24px 14px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .branch-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .branch-card .bc-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .branch-card .bc-sub { font-size: 12px; color: var(--slate); line-height: 1.5; }
+    .branch-card .bc-body { padding: 0 24px 20px; }
+    .branch-card .bc-body ul { list-style: none; }
+    .branch-card .bc-body ul li {
+      padding: 5px 0;
+      font-size: 13px;
+      color: var(--dark2);
+      display: flex;
+      gap: 8px;
+    }
+    .branch-card .bc-body ul li::before { content: "→"; color: var(--slate); flex-shrink: 0; }
+    .branch-card .bc-footer {
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      padding: 12px 24px;
+      font-size: 11.5px;
+      color: var(--slate);
+    }
+    .branch-card .bc-footer strong { color: var(--dark); }
+
+    /* ── REVENUE MODELS ── */
+    .rev-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .rev-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: white;
+      padding: 20px 22px;
+    }
+    .rev-card .rev-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--slate); margin-bottom: 8px; }
+    .rev-card .rev-model { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .rev-card .rev-split {
+      display: flex;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .rev-card .rev-split .you { background: var(--blue); }
+    .rev-card .rev-split .partner { background: #e2e8f0; }
+    .rev-card .rev-nums { display: flex; justify-content: space-between; font-size: 11px; }
+    .rev-card .rev-nums .you-n { color: var(--blue); font-weight: 700; }
+    .rev-card .rev-nums .part-n { color: var(--slate); }
+    .rev-card .rev-desc { font-size: 12px; color: var(--slate); margin-top: 10px; line-height: 1.5; }
+    .rev-card.featured { border-color: var(--blue); background: var(--blue-xl); }
+    .rev-card.featured .rev-model { color: var(--blue); }
+
+    /* ── TARGETS ── */
+    .targets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .target-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+    }
+    .target-card .t-logo {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .target-card .t-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .target-card .t-type { font-size: 11px; color: var(--slate); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; }
+    .target-card .t-pain {
+      background: #fef2f2;
+      border-left: 3px solid var(--red);
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #7f1d1d;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .target-card .t-what {
+      background: var(--green-l);
+      border-left: 3px solid var(--green);
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #064e3b;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .target-card .t-deal { font-size: 12px; color: var(--slate); margin-top: 10px; }
+    .target-card .t-deal strong { color: var(--dark); }
+
+    /* ── CALLOUT ── */
+    .callout {
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .callout-blue   { background: var(--blue-xl);   border-left: 4px solid var(--blue); color: #1e3a5f; }
+    .callout-green  { background: var(--green-l);   border-left: 4px solid var(--green); color: #064e3b; }
+    .callout-orange { background: var(--orange-l);  border-left: 4px solid var(--orange); color: #78350f; }
+    .callout-purple { background: var(--purple-l);  border-left: 4px solid var(--purple); color: #3b0764; }
+    .callout strong { font-weight: 700; }
+
+    /* ── ROADMAP ── */
+    .roadmap { display: flex; flex-direction: column; gap: 0; }
+    .roadmap-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 0;
+    }
+    .roadmap-item .rm-left {
+      text-align: right;
+      padding: 0 20px 32px 0;
+      border-right: 2px solid var(--border);
+      position: relative;
+    }
+    .roadmap-item .rm-left::after {
+      content: '';
+      position: absolute;
+      right: -7px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--blue);
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px var(--border);
+    }
+    .roadmap-item .rm-phase {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--blue);
+    }
+    .roadmap-item .rm-time {
+      font-size: 11px;
+      color: var(--slate);
+      margin-top: 2px;
+    }
+    .roadmap-item .rm-right { padding: 0 0 32px 20px; }
+    .roadmap-item .rm-right h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .roadmap-item .rm-right p { font-size: 13px; color: var(--slate); line-height: 1.6; }
+    .roadmap-item .rm-right ul { list-style: none; margin-top: 8px; }
+    .roadmap-item .rm-right ul li { font-size: 12.5px; color: var(--dark2); padding: 3px 0; }
+    .roadmap-item .rm-right ul li::before { content: "· "; color: var(--blue); font-weight: 700; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: #64748b;
+      text-align: center;
+      padding: 32px;
+      font-size: 12px;
+      border-top: 1px solid #1e3a5f;
+    }
+    footer strong { color: white; }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="brand">Fin<span>Sight</span> · ZineInsight</div>
+  <div class="links">
+    <a href="#produits">Produits</a>
+    <a href="#stack">Stack</a>
+    <a href="#branches">Branches</a>
+    <a href="#cibles">Cibles</a>
+    <a href="#revenus">Revenus</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+  <span class="badge">Usage interne</span>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="eyebrow">Vision Stratégique — Février 2026</div>
+  <h1>Trois couches. Un seul actif.<br><em>Le moteur IA décisionnel des PME.</em></h1>
+  <p>
+    FinSight (frontend), TRESORIS (engine Python) et DASHIS (agent TS) ne sont pas trois projets séparés.
+    Ce sont trois couches d'un même stack propriétaire — vendable en SaaS, en OEM, en white-label ou en API.
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="val">13</div><div class="lbl">Moteurs IA live</div></div>
+    <div class="hero-stat"><div class="val">10K</div><div class="lbl">Simulations Monte Carlo</div></div>
+    <div class="hero-stat"><div class="val">3</div><div class="lbl">Layers distincts</div></div>
+    <div class="hero-stat"><div class="val">4</div><div class="lbl">Modèles de revente</div></div>
+  </div>
+</div>
+
+<!-- ── SECTION 1 : LES 3 PRODUITS ── -->
+<section id="produits">
+  <div class="container">
+    <h2>Ce que font les 3 éléments</h2>
+    <p class="section-intro">
+      Chaque layer a un rôle précis. Ensemble, ils couvrent la totalité de la chaîne : ingestion de données brutes → analyse → décision → affichage interactif.
+    </p>
+
+    <div class="products-grid">
+
+      <!-- TRESORIS -->
+      <div class="product-card">
+        <div class="accent-bar accent-green"></div>
+        <div class="card-header">
+          <span class="tag tag-green">Layer 1 — Moteur</span>
+          <h3>TRESORIS · Engine Python</h3>
+          <p>13 moteurs de calcul déterministes et probabilistes. Le cerveau analytique. Zéro UI, zéro LLM nécessaire — pure logique financière.</p>
+        </div>
+        <div class="card-body">
+          <ul class="engine-list">
+            <li><span class="icon">💳</span><div><div class="name">FinanceEngine</div><div class="desc">Trésorerie, runway, prévisions cash, RiskItems — base de tout</div></div></li>
+            <li><span class="icon">🔍</span><div><div class="name">ClientRiskScorer</div><div class="desc">Score 0–100 par client (A/B/C/D), formule pondérée 4 axes</div></div></li>
+            <li><span class="icon">📈</span><div><div class="name">SmartForecaster</div><div class="desc">Prévision de paiement facture par facture avec intervalles de confiance</div></div></li>
+            <li><span class="icon">🚨</span><div><div class="name">EarlyWarningDetector</div><div class="desc">Signaux faibles — détecte la dégradation avant la crise (delay, churn, concentration)</div></div></li>
+            <li><span class="icon">⚡</span><div><div class="name">ActionPrioritizer</div><div class="desc">Priorisation impact×0.7 + ease×0.3 — P0 à P3 avec quick wins</div></div></li>
+            <li><span class="icon">📅</span><div><div class="name">SeasonalityEngine</div><div class="desc">Facteurs août (×1.3), décembre (×1.15), Pâques (×1.1)</div></div></li>
+            <li><span class="icon">📊</span><div><div class="name">MarginAnalyzer <span style="color:#059669;font-size:10px;">V3</span></div><div class="desc">Marge contributive réelle : COGS + coûts cachés (financement DSO, recouvrement, SAV)</div></div></li>
+            <li><span class="icon">👻</span><div><div class="name">CostDriftAnalyzer <span style="color:#059669;font-size:10px;">V3</span></div><div class="desc">Coûts fantômes, effet cliquet, inflation interne, doublons SaaS</div></div></li>
+            <li><span class="icon">🔗</span><div><div class="name">CausalAnalyzer <span style="color:#059669;font-size:10px;">V3</span></div><div class="desc">Répond au POURQUOI : décompose une baisse de marge en causes chiffrées (mix, inflation, volume)</div></div></li>
+            <li><span class="icon">📉</span><div><div class="name">VarianceAnalyzer <span style="color:#059669;font-size:10px;">V3</span></div><div class="desc">Écart budget/réel décomposé — effet prix, effet volume, effet mix</div></div></li>
+            <li><span class="icon">🎲</span><div><div class="name">StressTester <span style="color:#059669;font-size:10px;">V3</span></div><div class="desc">Monte Carlo 10K simulations, VaR, worst-case, reverse stress (quel choc pour casser ?)</div></div></li>
+            <li><span class="icon">⚖️</span><div><div class="name">DecisionArbiter <span style="color:#059669;font-size:10px;">V3</span></div><div class="desc">Recruter vs sous-traiter, acheter vs louer, NPV, IRR, payback — avec impact trésorerie</div></div></li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          Stack : <code>Python</code> <code>pandas</code> <code>numpy</code> <code>scipy</code> · API FastAPI · Deploy Railway/Vercel
+        </div>
+      </div>
+
+      <!-- DASHIS -->
+      <div class="product-card">
+        <div class="accent-bar accent-blue"></div>
+        <div class="card-header">
+          <span class="tag tag-blue">Layer 2 — Agent TS</span>
+          <h3>DASHIS · Agent TypeScript</h3>
+          <p>Agent autonome qui orchestre la chaîne complète : ingestion → KPIs → ML/IA → simulation → scoring. Zéro dépendance UI.</p>
+        </div>
+        <div class="card-body">
+          <ul class="engine-list">
+            <li><span class="icon">🔄</span><div><div class="name">DataProcessor</div><div class="desc">Normalise n'importe quel CSV/Excel en FinancialRecord[]  — validation + tri chronologique</div></div></li>
+            <li><span class="icon">📐</span><div><div class="name">KPIEngine</div><div class="desc">CA, Marge, Cash Flow, DSO, BFR — calculs purs, confidence 1.0</div></div></li>
+            <li><span class="icon">🧠</span><div><div class="name">AnalysisOrchestrator</div><div class="desc">Séquence : AnomalyDetector → CashFlowPredictions → AdvancedPatterns → FinSightScore™</div></div></li>
+            <li><span class="icon">🤖</span><div><div class="name">AnomalyDetector (ML)</div><div class="desc">Z-Score sur transactions — détecte valeurs aberrantes sans LLM</div></div></li>
+            <li><span class="icon">🔮</span><div><div class="name">CashFlowPredictions (GPT-4)</div><div class="desc">Forecasting 3–6 mois + alertes prédictives de tensions trésorerie</div></div></li>
+            <li><span class="icon">🔍</span><div><div class="name">PatternDetector (GPT-4)</div><div class="desc">Comportements clients, saisonnalité cachée, tendances non linéaires</div></div></li>
+            <li><span class="icon">🏆</span><div><div class="name">FinSight Score™</div><div class="desc">Note 0–100 sur 4 piliers : Cash / Margin / Resilience / Risk + benchmark sectoriel</div></div></li>
+            <li><span class="icon">⚙️</span><div><div class="name">SimulationEngine</div><div class="desc">What-If : réduction charges, accélération paiements, hausse prix — impact immédiat sur KPIs</div></div></li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          Stack : <code>TypeScript</code> <code>Node.js</code> <code>OpenAI GPT-4</code> <code>TensorFlow.js</code> · Stateless
+        </div>
+      </div>
+
+      <!-- FINSIGHT FRONTEND -->
+      <div class="product-card">
+        <div class="accent-bar accent-purple"></div>
+        <div class="card-header">
+          <span class="tag tag-purple">Layer 3 — Surface</span>
+          <h3>FinSight · Frontend Next.js</h3>
+          <p>Interface de présentation et point d'entrée commercial. Dashboard, copilot IA, export PDF, lead capture, pages SEO. Le visage du stack.</p>
+        </div>
+        <div class="card-body">
+          <ul class="engine-list">
+            <li><span class="icon">📊</span><div><div class="name">FinancialDashboardV2</div><div class="desc">1 991 lignes — hub central KPIs + 8 charts (Recharts + D3.js Sankey/Sunburst)</div></div></li>
+            <li><span class="icon">💬</span><div><div class="name">AICopilot</div><div class="desc">Requêtes en langage naturel — "Quel est mon pire client en marge réelle ?"</div></div></li>
+            <li><span class="icon">📤</span><div><div class="name">Upload CSV/Excel</div><div class="desc">Parsing client-side, aucune donnée stockée, RGPD by design</div></div></li>
+            <li><span class="icon">📄</span><div><div class="name">PDF Export</div><div class="desc">Rapport de gestion complet généré depuis le dashboard</div></div></li>
+            <li><span class="icon">🎯</span><div><div class="name">Diagnostic FinSight™ 90J</div><div class="desc">Score 0–100 + 3 leviers chiffrés — funnel commercial principal (2 490€ HT)</div></div></li>
+            <li><span class="icon">📧</span><div><div class="name">Lead Capture + Resend</div><div class="desc">ExitIntentPopup, CalcEmailCapture — guide PDF cash flow envoyé auto</div></div></li>
+            <li><span class="icon">🔗</span><div><div class="name">API Routes Next.js</div><div class="desc">/api/lead-capture, /api/diagnostic/report, /api/chat — pont vers engines</div></div></li>
+            <li><span class="icon">📱</span><div><div class="name">PWA + SEO</div><div class="desc">Manifest, SW, schema.org, 15+ pages optimisées, Vercel Edge</div></div></li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          Stack : <code>Next.js 14</code> <code>React</code> <code>TypeScript</code> <code>Tailwind</code> · Deploy Vercel
+        </div>
+      </div>
+
+    </div><!-- /products-grid -->
+  </div>
+</section>
+
+<!-- ── SECTION 2 : STACK DIAGRAM ── -->
+<section id="stack">
+  <div class="container">
+    <h2>Architecture combinée — Comment les 3 layers s'emboîtent</h2>
+    <p class="section-intro">
+      Le flux de données va toujours dans le même sens : données brutes → TRESORIS calcule → DASHIS orchestre + IA → FinSight affiche + vend.
+      Chaque layer est indépendant et peut être exposé seul.
+    </p>
+
+    <div class="stack-diagram">
+      <div class="stack-layers">
+
+        <div class="stack-layer">
+          <div class="layer-label">Input</div>
+          <div class="layer-content">
+            <h4>Sources de données</h4>
+            <div class="layer-boxes">
+              <span class="layer-box box-dark">CSV / Excel upload</span>
+              <span class="layer-box box-dark">Pennylane API</span>
+              <span class="layer-box box-dark">FEC comptable</span>
+              <span class="layer-box box-dark">Flux bancaires JSON</span>
+              <span class="layer-box box-dark">Google Sheets (multi-tenant)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arrow-down">↓</div>
+
+        <div class="stack-layer">
+          <div class="layer-label">Layer 1<br>TRESORIS</div>
+          <div class="layer-content">
+            <h4>Moteurs Python — Calculs déterministes + probabilistes</h4>
+            <div class="layer-boxes">
+              <span class="layer-box box-green">FinanceEngine (base)</span>
+              <span class="layer-box box-green">ClientRiskScorer</span>
+              <span class="layer-box box-green">SmartForecaster</span>
+              <span class="layer-box box-green">EarlyWarning</span>
+              <span class="layer-box box-green">ActionPrioritizer</span>
+              <span class="layer-box box-green">MarginAnalyzer V3</span>
+              <span class="layer-box box-green">CostDriftAnalyzer V3</span>
+              <span class="layer-box box-green">CausalAnalyzer V3</span>
+              <span class="layer-box box-green">StressTester Monte Carlo</span>
+              <span class="layer-box box-green">DecisionArbiter V3</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arrow-down">↓</div>
+
+        <div class="stack-layer">
+          <div class="layer-label">Layer 2<br>DASHIS</div>
+          <div class="layer-content">
+            <h4>Agent TypeScript — Orchestration IA + State Machine</h4>
+            <div class="layer-boxes">
+              <span class="layer-box box-blue">DataProcessor</span>
+              <span class="layer-box box-blue">KPIEngine</span>
+              <span class="layer-box box-blue">AnomalyDetector (ML)</span>
+              <span class="layer-box box-blue">CashFlow Predictions (GPT-4)</span>
+              <span class="layer-box box-blue">PatternDetector (GPT-4)</span>
+              <span class="layer-box box-blue">FinSight Score™</span>
+              <span class="layer-box box-blue">SimulationEngine What-If</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arrow-down">↓</div>
+
+        <div class="stack-layer">
+          <div class="layer-label">Layer 3<br>FinSight</div>
+          <div class="layer-content">
+            <h4>Surface Next.js — Dashboard, Copilot, Export, Funnel commercial</h4>
+            <div class="layer-boxes">
+              <span class="layer-box box-purple">Dashboard KPIs + 8 charts</span>
+              <span class="layer-box box-purple">AICopilot (langage naturel)</span>
+              <span class="layer-box box-purple">Export PDF rapport</span>
+              <span class="layer-box box-purple">Diagnostic FinSight™</span>
+              <span class="layer-box box-purple">Lead Capture + Resend</span>
+              <span class="layer-box box-purple">API REST /v1/*</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arrow-down">↓</div>
+
+        <div class="stack-layer">
+          <div class="layer-label">Output</div>
+          <div class="layer-content">
+            <h4>Livrables actionnables</h4>
+            <div class="layer-boxes">
+              <span class="layer-box box-orange">Score FinSight™ 0–100</span>
+              <span class="layer-box box-orange">3 leviers chiffrés</span>
+              <span class="layer-box box-orange">Plan d'action priorisé</span>
+              <span class="layer-box box-orange">Rapport PDF/HTML</span>
+              <span class="layer-box box-orange">Alertes webhook</span>
+              <span class="layer-box box-orange">Simulations What-If</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /stack-diagram -->
+
+    <div class="callout callout-blue" style="margin-top:24px;">
+      <strong>Point clé :</strong> Les 3 layers sont <strong>découplés</strong>. TRESORIS peut être exposé via son API FastAPI sans DASHIS ni FinSight.
+      DASHIS peut tourner en CLI sans frontend. FinSight peut appeler TRESORIS directement depuis ses API routes Next.js.
+      C'est ce découplage qui rend le stack <strong>revendable en OEM, en API, en white-label ou en SaaS autonome</strong>.
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SECTION 3 : TABLEAU CAPACITÉS ── -->
+<section>
+  <div class="container">
+    <h2>Qui fait quoi — Matrice des capacités</h2>
+    <p class="section-intro">Cartographie précise de chaque capacité et du layer qui la porte.</p>
+
+    <div style="overflow-x:auto;">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Capacité</th>
+          <th>TRESORIS<br><small style="opacity:0.6;font-weight:400;">Python Engine</small></th>
+          <th>DASHIS<br><small style="opacity:0.6;font-weight:400;">TS Agent</small></th>
+          <th>FinSight<br><small style="opacity:0.6;font-weight:400;">Next.js</small></th>
+          <th>Valeur pour acheteur</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Calcul trésorerie + runway</td>
+          <td><span class="pill pill-green">Core</span></td>
+          <td><span class="pill pill-blue">Consomme</span></td>
+          <td><span class="pill pill-purple">Affiche</span></td>
+          <td>Position de cash en temps réel</td>
+        </tr>
+        <tr>
+          <td>Scoring client 0–100</td>
+          <td><span class="pill pill-green">Core</span></td>
+          <td><span class="pill pill-blue">Orchestre</span></td>
+          <td><span class="pill pill-purple">Affiche</span></td>
+          <td>Priorisation recouvrement automatique</td>
+        </tr>
+        <tr>
+          <td>Détection signaux faibles</td>
+          <td><span class="pill pill-green">Core</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-purple">Affiche</span></td>
+          <td>Agir 3–8 semaines avant la crise</td>
+        </tr>
+        <tr>
+          <td>Monte Carlo 10K scénarios</td>
+          <td><span class="pill pill-green">Core</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-purple">Affiche</span></td>
+          <td>Probabilité rupture cash chiffrée</td>
+        </tr>
+        <tr>
+          <td>Analyse causale (WHY)</td>
+          <td><span class="pill pill-green">Core</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-purple">Affiche</span></td>
+          <td>Comprendre l'origine d'une dérive</td>
+        </tr>
+        <tr>
+          <td>Coûts fantômes / drift</td>
+          <td><span class="pill pill-green">Core</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-purple">Affiche</span></td>
+          <td>Récupérer 3–8% de marge silencieuse</td>
+        </tr>
+        <tr>
+          <td>Marge contributive réelle</td>
+          <td><span class="pill pill-green">Core</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-purple">Affiche</span></td>
+          <td>Identifier clients destructeurs de valeur</td>
+        </tr>
+        <tr>
+          <td>Arbitrage décisionnel (NPV/IRR)</td>
+          <td><span class="pill pill-green">Core</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-none">Futur</span></td>
+          <td>Recruter vs sous-traiter — chiffré</td>
+        </tr>
+        <tr>
+          <td>Ingestion CSV/Excel</td>
+          <td><span class="pill pill-green">Python</span></td>
+          <td><span class="pill pill-blue">TS (client)</span></td>
+          <td><span class="pill pill-purple">Upload UI</span></td>
+          <td>Zéro friction onboarding</td>
+        </tr>
+        <tr>
+          <td>Anomaly Detection (ML)</td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-blue">Z-Score</span></td>
+          <td><span class="pill pill-purple">Affiche</span></td>
+          <td>Fraude, erreur comptable, outliers</td>
+        </tr>
+        <tr>
+          <td>Prédictions IA (GPT-4)</td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-blue">Core</span></td>
+          <td><span class="pill pill-purple">Copilot</span></td>
+          <td>Forecast langage naturel</td>
+        </tr>
+        <tr>
+          <td>Simulations What-If</td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-blue">Core</span></td>
+          <td><span class="pill pill-purple">Sliders UI</span></td>
+          <td>Impact décision avant exécution</td>
+        </tr>
+        <tr>
+          <td>FinSight Score™</td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-blue">Core</span></td>
+          <td><span class="pill pill-purple">Affiche</span></td>
+          <td>Note synthétique vendable</td>
+        </tr>
+        <tr>
+          <td>Dashboard interactif</td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-purple">Core</span></td>
+          <td>Interface DAF clé en main</td>
+        </tr>
+        <tr>
+          <td>Export PDF rapport</td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-purple">Core</span></td>
+          <td>Livrable client immédiat</td>
+        </tr>
+        <tr>
+          <td>Lead capture + email auto</td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-purple">Core</span></td>
+          <td>Funnel commercial automatisé</td>
+        </tr>
+        <tr>
+          <td>Multi-tenant / Google Sheets</td>
+          <td><span class="pill pill-green">Core</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td>1 instance → N clients cabinets</td>
+        </tr>
+        <tr>
+          <td>Widget embeddable</td>
+          <td><span class="pill pill-none">–</span></td>
+          <td><span class="pill pill-blue">FinSightWidget</span></td>
+          <td><span class="pill pill-none">–</span></td>
+          <td>Intégration 1 ligne chez partenaire</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 4 : BRANCHES POSSIBLES ── -->
+<section id="branches">
+  <div class="container">
+    <h2>Les 5 embranchements possibles</h2>
+    <p class="section-intro">
+      Le même stack peut prendre 5 formes commerciales différentes selon le partenaire, le timing et l'effort de dev.
+      Ce ne sont pas des pivots — ce sont des couches parallèles activables à la demande.
+    </p>
+
+    <div class="branches-grid">
+
+      <div class="branch-card">
+        <div class="bc-header">
+          <div class="branch-icon" style="background:#dbeafe;">🏢</div>
+          <div>
+            <div class="bc-title">SaaS PME Direct</div>
+            <div class="bc-sub">FinSight comme produit B2B autonome. Le dirigeant uploade son export comptable, reçoit le score + rapport.</div>
+          </div>
+        </div>
+        <div class="bc-body">
+          <ul>
+            <li>Abonnement mensuel ou mission one-shot (Diagnostic 2 490€)</li>
+            <li>Upsell vers Audit (6 990€) ou Decision System (12 500€)</li>
+            <li>Lead magnet → nurture email → funnel déjà en place</li>
+            <li>Cible : dirigeants PME 2–20 M€ sans DAF interne</li>
+          </ul>
+        </div>
+        <div class="bc-footer"><strong>Statut :</strong> Live sur finsight.zineinsight.com</div>
+      </div>
+
+      <div class="branch-card">
+        <div class="bc-header">
+          <div class="branch-icon" style="background:#d1fae5;">⚙️</div>
+          <div>
+            <div class="bc-title">API OEM / Moteur Embarqué</div>
+            <div class="bc-sub">TRESORIS vendu comme CPU financier intégré dans l'offre d'un partenaire. Le partenaire garde 65–75%.</div>
+          </div>
+        </div>
+        <div class="bc-body">
+          <ul>
+            <li>Revenue share 25–35% ZineInsight / 65–75% partenaire</li>
+            <li>Upfront 10–30k€ + % sur chaque client activé</li>
+            <li>White-label possible : aucune mention ZineInsight</li>
+            <li>Exclusivité sectorielle / géographique négociable</li>
+          </ul>
+        </div>
+        <div class="bc-footer"><strong>Statut :</strong> Deal FINAVIA signé — 30/70, 10k€ upfront, France Finance PME 24 mois</div>
+      </div>
+
+      <div class="branch-card">
+        <div class="bc-header">
+          <div class="branch-icon" style="background:#ede9fe;">🏦</div>
+          <div>
+            <div class="bc-title">Finance-as-a-Service (FaaS)</div>
+            <div class="bc-sub">Le stack complet exposé via API RESTful stateless. Partenaires appellent /v1/score, /v1/anomalies, /v1/simulate.</div>
+          </div>
+        </div>
+        <div class="bc-body">
+          <ul>
+            <li>Pricing pay-per-call : 0,10–0,50€/appel selon endpoint</li>
+            <li>Tier SLA : sandbox (gratuit) → growth → enterprise</li>
+            <li>Widget React <code>&lt;FinSightWidget /&gt;</code> embeddable 1 ligne</li>
+            <li>Webhooks : alerte franchissement DSO, runway critique</li>
+          </ul>
+        </div>
+        <div class="bc-footer"><strong>Endpoints clés :</strong> /v1/score · /v1/anomalies · /v1/simulate · /v1/forecast</div>
+      </div>
+
+      <div class="branch-card">
+        <div class="bc-header">
+          <div class="branch-icon" style="background:#fef3c7;">🔌</div>
+          <div>
+            <div class="bc-title">Plug-in Qonto / Pennylane / Agicap</div>
+            <div class="bc-sub">TRESORIS comme module de scoring et d'analyse embarqué dans les plateformes fintech existantes.</div>
+          </div>
+        </div>
+        <div class="bc-body">
+          <ul>
+            <li>S'intègre dans leur flow : données bancaires → score FinSight™</li>
+            <li>Qonto : alertes trésorerie intelligentes dans le dashboard</li>
+            <li>Pennylane : scoring client + early warning dans le CRM compta</li>
+            <li>Agicap : causal analyzer + variance analyzer en overlay</li>
+          </ul>
+        </div>
+        <div class="bc-footer"><strong>Avantage :</strong> Ils ont la distribution, on a l'IP analytique qu'ils n'ont pas</div>
+      </div>
+
+      <div class="branch-card">
+        <div class="bc-header">
+          <div class="branch-icon" style="background:#fce7f3;">🧑‍💼</div>
+          <div>
+            <div class="bc-title">DAF-as-a-Service (Cabinets)</div>
+            <div class="bc-sub">Le stack vendu à des cabinets d'experts-comptables ou DAF externalisés. Chaque cabinet sert ses clients avec le moteur.</div>
+          </div>
+        </div>
+        <div class="bc-body">
+          <ul>
+            <li>Multi-tenant déjà implémenté dans TRESORIS (Google Sheets poller)</li>
+            <li>1 instance → N clients du cabinet</li>
+            <li>Dashboard white-label + rapports PDF brandés cabinet</li>
+            <li>Facturation cabinet : forfait mensuel par client actif</li>
+          </ul>
+        </div>
+        <div class="bc-footer"><strong>Modèle :</strong> 200–500€/mois par cabinet × 5–20 clients actifs chacun</div>
+      </div>
+
+    </div><!-- /branches-grid -->
+
+    <div class="callout callout-orange" style="margin-top:28px;">
+      <strong>Règle des embranchements :</strong> les branches 1 (SaaS direct) et 2 (OEM) sont actives maintenant.
+      La branche 3 (FaaS API) nécessite 4–6 semaines de dev (versioning, auth, rate limiting).
+      La branche 4 (plug-in Qonto/Pennylane) nécessite un accord partenariat — mais le code est déjà compatible.
+      La branche 5 (cabinets) est activable aujourd'hui avec TRESORIS multi-tenant existant.
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SECTION 5 : CIBLES ── -->
+<section id="cibles">
+  <div class="container">
+    <h2>Cibles prioritaires — Qui achète quoi</h2>
+    <p class="section-intro">
+      Quatre cibles distinctes avec des motivations d'achat radicalement différentes.
+      Le même produit, quatre pitchs.
+    </p>
+
+    <div class="targets-grid">
+
+      <div class="target-card">
+        <div class="t-logo">🏦</div>
+        <div class="t-name">Agicap</div>
+        <div class="t-type">Concurrent → Partenaire potentiel</div>
+        <div class="t-pain">❌ Leur angle : forecast manuel, pas d'analyse causale, pas de scoring client, pas de Monte Carlo.</div>
+        <div class="t-what">✅ Ce qu'on leur apporte : CausalAnalyzer + StressTester V3 en overlay — différenciation immédiate vs leurs concurrents.</div>
+        <div class="t-deal">
+          <strong>Deal type :</strong> Licence non-exclusive · API pay-per-call · 15–20% revenue share<br>
+          <strong>Argument :</strong> "Vous avez la distribution, on a l'IP que vos ingénieurs mettraient 18 mois à reconstruire."
+        </div>
+      </div>
+
+      <div class="target-card">
+        <div class="t-logo">💚</div>
+        <div class="t-name">Pennylane</div>
+        <div class="t-type">Partenaire distribution</div>
+        <div class="t-pain">❌ Comptabilité très bien. Analyse financière décisionnelle : inexistante. Pas de scoring client, pas d'early warning.</div>
+        <div class="t-what">✅ Ce qu'on leur apporte : TRESORIS branché sur leurs données factures → scoring client + early warning dans leur CRM compta.</div>
+        <div class="t-deal">
+          <strong>Deal type :</strong> Plug-in officiel Pennylane · Revenue share 25/75 · Accès 50K+ PME clientes<br>
+          <strong>Argument :</strong> "Vos clients voient déjà leurs factures. On leur dit lesquelles vont partir en retard avant que ça arrive."
+        </div>
+      </div>
+
+      <div class="target-card">
+        <div class="t-logo">🟦</div>
+        <div class="t-name">Qonto</div>
+        <div class="t-type">Néobanque B2B — 500K clients</div>
+        <div class="t-pain">❌ Excellent pour les paiements et la trésorerie courante. Zéro intelligence prédictive. Pas de Monte Carlo, pas de scoring.</div>
+        <div class="t-what">✅ Ce qu'on leur apporte : FinSight Score™ + EarlyWarning dans leur dashboard — "Votre runway passe sous 60 jours dans 3 semaines."</div>
+        <div class="t-deal">
+          <strong>Deal type :</strong> Widget embeddable · API pay-per-call · ~0,15€/score · Potentiel 500K appels/mois<br>
+          <strong>Argument :</strong> "Amazon a intégré Stripe pas pour faire mieux — pour ne pas construire eux-mêmes."
+        </div>
+      </div>
+
+      <div class="target-card">
+        <div class="t-logo">📋</div>
+        <div class="t-name">Cabinets EC / DAF Ext.</div>
+        <div class="t-type">Canal de distribution indirect</div>
+        <div class="t-pain">❌ Ils analysent manuellement. Chaque client = 4–8h de saisie + analyse. Marge comprimée, pas différenciés vs confrères.</div>
+        <div class="t-what">✅ Ce qu'on leur apporte : 1 CSV → rapport complet en 30 secondes. Ils font 10× plus de clients sans recruter.</div>
+        <div class="t-deal">
+          <strong>Deal type :</strong> Licence cabinet 300–600€/mois · Accès illimité · PDF brandé cabinet<br>
+          <strong>Argument :</strong> "Vos clients paient pour votre jugement. On automatise le diagnostic pour que vous passiez 100% du temps sur le conseil."
+        </div>
+      </div>
+
+    </div><!-- /targets-grid -->
+  </div>
+</section>
+
+<!-- ── SECTION 6 : MODÈLES DE REVENUS ── -->
+<section id="revenus">
+  <div class="container">
+    <h2>Modèles de revenus — 4 mécaniques, 1 stack</h2>
+    <p class="section-intro">
+      Le même actif technologique peut générer des revenus sur 4 mécaniques simultanées.
+      Pas de pivot — activation progressive selon les deals.
+    </p>
+
+    <div class="rev-grid">
+
+      <div class="rev-card featured">
+        <div class="rev-label">⭐ Actif maintenant</div>
+        <div class="rev-model">Mission DAF + Diagnostic</div>
+        <div class="rev-split">
+          <div class="you" style="width:100%"></div>
+        </div>
+        <div class="rev-nums">
+          <span class="you-n">100% you</span>
+          <span class="part-n">0% partenaire</span>
+        </div>
+        <div class="rev-desc">
+          Diagnostic 2 490€ · Audit 6 990€ · Decision System 12 500€.
+          Vente directe via finsight.zineinsight.com. Marge max, volume limité.
+        </div>
+      </div>
+
+      <div class="rev-card">
+        <div class="rev-label">Actif — FINAVIA</div>
+        <div class="rev-model">OEM Exclusif Sectoriel</div>
+        <div class="rev-split">
+          <div class="you" style="width:30%"></div>
+          <div class="partner" style="width:70%"></div>
+        </div>
+        <div class="rev-nums">
+          <span class="you-n">30% you</span>
+          <span class="part-n">70% partenaire</span>
+        </div>
+        <div class="rev-desc">
+          Upfront 10k€ + 30% du MRR partenaire. Pas de support client, pas de vente.
+          Revenu passif sur les clients du partenaire. Standard Intel/Nvidia.
+        </div>
+      </div>
+
+      <div class="rev-card">
+        <div class="rev-label">À activer (4–6 sem.)</div>
+        <div class="rev-model">API Finance-as-a-Service</div>
+        <div class="rev-split">
+          <div class="you" style="width:100%"></div>
+        </div>
+        <div class="rev-nums">
+          <span class="you-n">100% you (pay-per-call)</span>
+          <span class="part-n">&nbsp;</span>
+        </div>
+        <div class="rev-desc">
+          0,10–0,50€/appel selon endpoint. /v1/score · /v1/simulate · /v1/anomalies.
+          Stripe-like pour la finance PME. Scalable sans effort de vente.
+        </div>
+      </div>
+
+      <div class="rev-card">
+        <div class="rev-label">À activer (deal)</div>
+        <div class="rev-model">Plug-in Fintech (Qonto…)</div>
+        <div class="rev-split">
+          <div class="you" style="width:20%"></div>
+          <div class="partner" style="width:80%"></div>
+        </div>
+        <div class="rev-nums">
+          <span class="you-n">15–20% you</span>
+          <span class="part-n">80–85% plateforme</span>
+        </div>
+        <div class="rev-desc">
+          Volume × 500K clients. Même à 0,10€/score, 10% d'activation = 50K scores/mois = 5K€/mois passifs.
+          Faible % mais volume exponentiellement différent.
+        </div>
+      </div>
+
+    </div><!-- /rev-grid -->
+
+    <div class="callout callout-green" style="margin-top:24px;">
+      <strong>Projection conservative An 1 (3 partenaires OEM) :</strong>
+      Deal FINAVIA (14k€) + 2 cabinets (6k€/an chacun) + ventes directes (30k€) = ~56k€ ARR.
+      Sans plug-in fintech. Sans API publique. Avec 1 seule personne (vous).
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SECTION 7 : CE QUI MANQUE ── -->
+<section>
+  <div class="container">
+    <h2>Gaps réels — Ce qui manque pour chaque branche</h2>
+    <p class="section-intro">
+      Vue honnête de ce qui est live, ce qui est codé mais pas exposé, et ce qui reste à construire.
+    </p>
+
+    <div style="overflow-x:auto;">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Branche</th>
+          <th>Statut</th>
+          <th>Ce qui manque</th>
+          <th>Effort estimé</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SaaS Direct (FinSight)</td>
+          <td><span class="pill pill-green">Live</span></td>
+          <td>A/B test pricing, séquence email onboarding, analytics conversion</td>
+          <td>2–3 semaines</td>
+        </tr>
+        <tr>
+          <td>OEM TRESORIS (cabinets)</td>
+          <td><span class="pill pill-green">Live (1 deal)</span></td>
+          <td>Dashboard partenaire self-serve, portail admin multi-tenant</td>
+          <td>3–4 semaines</td>
+        </tr>
+        <tr>
+          <td>API FaaS publique</td>
+          <td><span class="pill" style="background:#fef3c7;color:#92400e;">En dev</span></td>
+          <td>Auth API key, rate limiting, versioning /v1/, docs Swagger, billing Stripe</td>
+          <td>4–6 semaines</td>
+        </tr>
+        <tr>
+          <td>Plug-in Pennylane</td>
+          <td><span class="pill" style="background:#fef3c7;color:#92400e;">Code prêt</span></td>
+          <td>Accord partenariat, intégration webhook Pennylane → TRESORIS, certification</td>
+          <td>Deal + 2 semaines dev</td>
+        </tr>
+        <tr>
+          <td>Widget Qonto</td>
+          <td><span class="pill pill-blue">FinSightWidget TS</span></td>
+          <td>API Qonto sandbox, accord intégration, design Qonto guidelines</td>
+          <td>Deal + 3 semaines dev</td>
+        </tr>
+        <tr>
+          <td>Cabinets EC multi-tenant</td>
+          <td><span class="pill pill-green">TRESORIS prêt</span></td>
+          <td>Interface admin cabinet, facturation par client actif, onboarding guidé</td>
+          <td>3–4 semaines</td>
+        </tr>
+        <tr>
+          <td>DecisionArbiter (FinSight UI)</td>
+          <td><span class="pill pill-blue">Engine live</span></td>
+          <td>Page /simulateur/decision dans FinSight — recruter/louer/sous-traiter</td>
+          <td>1 semaine</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 8 : PITCH 1 MIN ── -->
+<section>
+  <div class="container">
+    <h2>Le pitch 60 secondes selon la cible</h2>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:24px;">
+        <div class="tag tag-green">Pour Pennylane / Agicap</div>
+        <p style="font-size:14px;line-height:1.7;color:var(--dark2);">
+          <em>"Vous avez les données de 50 000 PME. Aujourd'hui elles regardent leurs factures. Demain elles veulent savoir quelle facture va partir en retard avant que ça arrive, quel client détruit leur marge en réalité, et combien de semaines de cash il leur reste si leur plus gros client décroche. C'est ce que fait TRESORIS. Vous avez la distribution. On a l'IP. On fait 30/70."</em>
+        </p>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:24px;">
+        <div class="tag tag-blue">Pour Qonto</div>
+        <p style="font-size:14px;line-height:1.7;color:var(--dark2);">
+          <em>"Vos clients voient leurs soldes. Ce qu'ils veulent c'est une alerte 3 semaines avant que le solde passe en négatif, et la raison précise. Pas un graphique — une décision. TRESORIS fait ça en 30 secondes sur leurs données Qonto. Vous l'embarquez, vous le rebrandez, vos clients restent. Nous on prend 15% du revenu que ça génère."</em>
+        </p>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:24px;">
+        <div class="tag tag-purple">Pour cabinets EC</div>
+        <p style="font-size:14px;line-height:1.7;color:var(--dark2);">
+          <em>"Aujourd'hui vous passez 4h à analyser un client pour lui dire ce qui ne va pas. Avec TRESORIS, vous uploadez l'export comptable, en 30 secondes vous avez le score, les 3 alertes critiques, et le plan d'action priorisé. Vous facturez le conseil, pas la saisie. 300€/mois pour accès illimité, vos rapports à votre nom."</em>
+        </p>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:24px;">
+        <div class="tag tag-orange">Pour un investisseur / acquéreur</div>
+        <p style="font-size:14px;line-height:1.7;color:var(--dark2);">
+          <em>"On a construit l'Intel de l'analyse financière PME. 13 moteurs propriétaires en Python. Un agent TypeScript qui orchestre GPT-4 + ML. Une surface Next.js avec funnel commercial actif. Un deal OEM signé. Tout ça par 1 personne en 6 mois. Le marché cible : 3,8 millions de PME en France. Le vecteur : la distribution des fintech qui n'ont pas l'IP."</em>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 9 : ROADMAP ── -->
+<section id="roadmap">
+  <div class="container">
+    <h2>Roadmap — Prochains 90 jours</h2>
+    <p class="section-intro">Dans quel ordre activer les embranchements pour maximiser le revenu avec le moins d'effort.</p>
+
+    <div class="roadmap">
+
+      <div class="roadmap-item">
+        <div class="rm-left">
+          <div class="rm-phase">J0–J14</div>
+          <div class="rm-time">Maintenant</div>
+        </div>
+        <div class="rm-right">
+          <h4>Monétiser l'existant + déclencher 1 deal cabinet</h4>
+          <p>Tout est live. L'objectif est de convertir le trafic FinSight existant et de signer 1 cabinet pilote.</p>
+          <ul>
+            <li>Activer la séquence email post-diagnostic (Resend)</li>
+            <li>Prendre RDV avec 3 cabinets EC de son réseau</li>
+            <li>Préparer le deck TRESORIS cabinet (PDF + démo live)</li>
+            <li>Exposer DecisionArbiter dans FinSight (/simulateur/decision)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-item">
+        <div class="rm-left">
+          <div class="rm-phase">J14–J45</div>
+          <div class="rm-time">Mars 2026</div>
+        </div>
+        <div class="rm-right">
+          <h4>API FaaS v1 publique + portail partenaire</h4>
+          <p>Ouvrir le stack à des consommateurs API externes. Nécessite auth, rate limiting, billing.</p>
+          <ul>
+            <li>API key auth + rate limiting (middleware Next.js ou FastAPI)</li>
+            <li>Stripe Billing pour pay-per-call</li>
+            <li>Docs Swagger auto-générées (/api-docs)</li>
+            <li>Portail partenaire self-serve (dashboard usage + facturation)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-item">
+        <div class="rm-left">
+          <div class="rm-phase">J45–J75</div>
+          <div class="rm-time">Avril 2026</div>
+        </div>
+        <div class="rm-right">
+          <h4>Approche Pennylane / Qonto en cold outreach structuré</h4>
+          <p>Le code est prêt. La démarche commerciale doit être structurée pour ne pas louper l'approche.</p>
+          <ul>
+            <li>Identifier le contact Business Development chez chaque cible</li>
+            <li>Préparer une démo live sur leurs propres données (sandbox)</li>
+            <li>Envoyer le deck + propose un pilote 30 jours / 100 clients</li>
+            <li>Cadrer le contrat : licence non-exclusive, 20% revenue share</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-item">
+        <div class="rm-left">
+          <div class="rm-phase">J75–J90</div>
+          <div class="rm-time">Mai 2026</div>
+        </div>
+        <div class="rm-right">
+          <h4>Closing 3 deals actifs → ARR 60–80k€</h4>
+          <p>Avec 1 cabinet pilote, 1 accord fintech et les ventes directes FinSight, l'ARR franchit 60k€.</p>
+          <ul>
+            <li>Cabinet EC ×2 : ~600€/mois × 12 = 7 200€/an chacun</li>
+            <li>Deal FINAVIA en cours : 14k€ ARR</li>
+            <li>Ventes directes FinSight : objectif 3 diagnostics/mois = 7 500€/mois</li>
+            <li>API FaaS : early adopters → 500–2 000€/mois passifs</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /roadmap -->
+
+    <div class="callout callout-purple" style="margin-top:24px;">
+      <strong>La thèse de revente (exit) :</strong> Un acquéreur type Qonto ou Pennylane paierait 3–5× ARR pour un moteur IA propriétaire avec des deals OEM actifs et une IP démontrée en production.
+      À 80k€ ARR, fourchette de valorisation : <strong>240k–400k€</strong> sans levier.
+      À 300k€ ARR (avec 2 deals fintech), fourchette : <strong>900k–1,5M€</strong>.
+      L'IP — les 13 moteurs Python — est l'actif, pas le dashboard.
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <strong>ZineInsight</strong> — Otmane Boulahia · otmane@zineinsight.com ·
+  <a href="https://finsight.zineinsight.com" style="color:#94a3b8;">finsight.zineinsight.com</a><br>
+  Document interne — Février 2026 · Ne pas diffuser sans accord
+</footer>
+
+</body>
+</html>
