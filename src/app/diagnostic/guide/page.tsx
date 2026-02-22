@@ -554,15 +554,18 @@ export default function DiagnosticGuidePage() {
     ]
 
     for (const entry of fecMap) {
+      // Null-safe (gearing can be null if no debt data)
       if (!entry.data) continue
+      // Defensive: skip NaN or Infinity values from parser edge cases
+      if (!Number.isFinite(entry.data.value)) continue
 
       // Populate results (drives live scoring)
       newResults[entry.stepId] = { value: entry.data.value, inputs: entry.data.inputs }
 
-      // Populate formValues (pre-fills the form fields)
+      // Populate formValues (pre-fills the form fields visually)
       const fields: Record<string, string> = {}
       for (const [k, v] of Object.entries(entry.data.inputs)) {
-        fields[k] = String(v)
+        fields[k] = Number.isFinite(v) ? String(v) : '0'
       }
       newFormValues[entry.stepId] = fields
 

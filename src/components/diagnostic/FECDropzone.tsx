@@ -93,12 +93,27 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
   const [result, setResult] = useState<FECParseResult | null>(null)
   const [error, setError] = useState<{ title: string; detail?: string } | null>(null)
   const [fileName, setFileName] = useState('')
+  const [fileSize, setFileSize] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
+  const progressRAF = useRef<number | null>(null)
+  const pendingProgress = useRef(0)
+
+  // ── Smooth progress updates via requestAnimationFrame ──
+  const updateProgress = useCallback((p: number) => {
+    pendingProgress.current = p
+    if (progressRAF.current === null) {
+      progressRAF.current = requestAnimationFrame(() => {
+        setProgress(pendingProgress.current)
+        progressRAF.current = null
+      })
+    }
+  }, [])
 
   // ── File handling ──
 
   const handleFile = useCallback(async (file: File) => {
     setFileName(file.name)
+    setFileSize(file.size)
     setError(null)
     setResult(null)
 
@@ -118,7 +133,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
 
     // Step 2: Full parse
     setState('parsing')
-    const parseResult = await parseFEC(file, (p) => setProgress(p))
+    const parseResult = await parseFEC(file, updateProgress)
 
     if (!parseResult.success) {
       setState('error')
@@ -132,7 +147,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
     // Step 3: Preview
     setResult(parseResult)
     setState('preview')
-  }, [])
+  }, [updateProgress])
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
@@ -163,6 +178,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
     setResult(null)
     setError(null)
     setFileName('')
+    setFileSize(0)
     setProgress(0)
     if (inputRef.current) inputRef.current.value = ''
   }, [])
@@ -309,6 +325,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
                   <p className="text-[11px] text-gray-500">
                     {result.extracted.nbEcritures.toLocaleString('fr-FR')} écritures
                     · {result.extracted.dateDebut} → {result.extracted.dateFin}
+                    · {fileSize > 0 ? `${(fileSize / (1024 * 1024)).toFixed(1)} Mo` : ''}
                     · Qualité {result.dataQuality}%
                   </p>
                 </div>

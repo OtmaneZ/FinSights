@@ -12,13 +12,20 @@
  *   ValidDate | Montantdevise | Idevise
  *
  * Mapping PCG (Plan Comptable Général) :
- *   - CA          : Σ credits comptes 70x (ventes et produits)
- *   - Créances    : solde débiteur comptes 411x (clients)
- *   - Dettes fourn: solde créditeur comptes 401x (fournisseurs)
- *   - Charges     : Σ débits comptes classe 6
+ *   - CA          : Σ crédits comptes 70x (ventes et produits)
+ *   - Créances    : balance (débits − crédits) comptes 411x (clients)
+ *   - Dettes fourn: balance (crédits − débits) comptes 401x (fournisseurs)
+ *   - Charges     : Σ débits comptes classe 6 (net des avoirs créditeurs)
  *   - Trésorerie  : solde comptes 512x (banque)
  *   - Stocks      : solde débiteur comptes 3x (si disponible)
  *   - Dette nette : solde créditeur comptes 16x (emprunts)
+ *
+ * Robustesse :
+ *   - Détection de colonnes « lazy » (aliases, accents, casse, espaces)
+ *   - Encodage : UTF-8 avec repli automatique ISO-8859-1 (Sage/Cegid)
+ *   - Parsing chunked async (50 Mo+ sans bloquer le thread UI)
+ *   - Arrondi financier `round2()` anti-erreur de flottants JS
+ *   - Prorata temporel au jour près via `computeMonthsBetween`
  *
  * L'output est un objet prêt à injecter dans useCalculatorHistory.saveCalculation()
  * pour chaque calculateur du Wizard.
@@ -105,7 +112,7 @@ export interface FECParseError {
 export type FECResult = FECParseResult | FECParseError
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// FEC COLUMN DEFINITIONS (DGFIP standard)
+// FEC COLUMN DEFINITIONS (DGFIP standard) — lazy matching with aliases
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /** Required FEC column names — case-insensitive matching */
@@ -119,6 +126,31 @@ const REQUIRED_COLUMNS = [
 
 /** Optional but useful columns */
 const OPTIONAL_COLUMNS = ['comptelib', 'journallib', 'ecriturelib'] as const
+
+/**
+ * Lazy alias map — many accounting tools export variants of column names.
+ * Sage exports "CompteNumero", Cegid uses "NumCompte", etc.
+ * Key = canonical name, Value = array of accepted aliases (all lowercase, no accents).
+ */
+const COLUMN_ALIASES: Record<string, string[]> = {
+  journalcode:   ['journalcode', 'codejournal', 'journal'],
+  ecrituredate:  ['ecrituredate', 'dateecriture', 'date'],
+  comptenum:     ['comptenum', 'comptenumero', 'numerocompte', 'numcompte', 'compte', 'comptegeneral', 'comptegeneralnum'],
+  debit:         ['debit', 'montantdebit'],
+  credit:        ['credit', 'montantcredit'],
+  comptelib:     ['comptelib', 'comptelibelle', 'libellecompte', 'libcompte'],
+  journallib:    ['journallib', 'journallibelle', 'libellejournal'],
+  ecriturelib:   ['ecriturelib', 'ecriturelibelle', 'libelleecriture', 'libelle'],
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// UTIL: Financial rounding (anti-float drift)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/** Round to 2 decimal places — avoids IEEE 754 drift in cumulative sums */
+function round2(n: number): number {
+  return Math.round((n + Number.EPSILON) * 100) / 100
+}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // MAIN PARSER
@@ -145,11 +177,16 @@ export async function parseFEC(
     }
   }
 
-  // ── Read file content ──
+  // ── Read file content with encoding fallback ──
   onProgress?.(5)
   let content: string
   try {
-    content = await readFileAsText(file)
+    content = await readFileAsText(file, 'UTF-8')
+    // If UTF-8 produced replacement characters (�), retry with ISO-8859-1
+    // This is very common with Sage, Cegid, EBP exports
+    if (content.includes('\uFFFD')) {
+      content = await readFileAsText(file, 'ISO-8859-1')
+    }
   } catch {
     return {
       success: false,
@@ -189,9 +226,10 @@ export async function parseFEC(
 
   onProgress?.(25)
 
-  // ── Parse rows ──
+  // ── Parse rows — chunked async for large files ──
   const rows: FECRow[] = []
   const totalLines = lines.length - 1 // minus header
+  const CHUNK_SIZE = 2000 // yield to UI thread every N rows
 
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim()
@@ -202,8 +240,11 @@ export async function parseFEC(
     if (row) rows.push(row)
 
     // Progress: 25% → 70% during row parsing
-    if (i % 500 === 0) {
-      onProgress?.(25 + Math.round(((i / totalLines) * 45)))
+    if (i % CHUNK_SIZE === 0) {
+      const pct = 25 + Math.round((i / totalLines) * 45)
+      onProgress?.(pct)
+      // Yield to the event loop so the UI thread can repaint (critical for 50Mo+)
+      await yieldToUI()
     }
   }
 
@@ -249,13 +290,12 @@ export async function parseFEC(
 // FILE READING
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-function readFileAsText(file: File): Promise<string> {
+function readFileAsText(file: File, encoding: string = 'UTF-8'): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => resolve(reader.result as string)
     reader.onerror = () => reject(reader.error)
-    // Try UTF-8 first, FEC files are typically ISO-8859-1 or UTF-8
-    reader.readAsText(file, 'UTF-8')
+    reader.readAsText(file, encoding)
   })
 }
 
@@ -294,20 +334,41 @@ function detectSeparator(content: string): string {
 
 type ColumnKey = (typeof REQUIRED_COLUMNS)[number] | (typeof OPTIONAL_COLUMNS)[number]
 
+/**
+ * Build a column index map using lazy alias matching.
+ * Normalizes headers by stripping accents, lowercase, removing spaces/underscores.
+ * Then checks against known aliases for each canonical column name.
+ */
 function buildColumnMap(headers: string[]): Record<string, number> {
   const map: Record<string, number> = {}
 
-  // Normalize column names: remove accents, lowercase, remove spaces
+  // Normalize: remove accents, lowercase, strip spaces/underscores/hyphens
   const normalize = (s: string) =>
-    s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, '')
+    s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[\s_\-]+/g, '')
 
-  const allColumns = [...REQUIRED_COLUMNS, ...OPTIONAL_COLUMNS]
+  const normalizedHeaders = headers.map(normalize)
+
+  const allColumns: ColumnKey[] = [...REQUIRED_COLUMNS, ...OPTIONAL_COLUMNS]
 
   for (const col of allColumns) {
-    const normalized = normalize(col)
-    const idx = headers.findIndex((h) => normalize(h) === normalized)
-    if (idx !== -1) {
-      map[col] = idx
+    // Check direct normalized match first
+    const directIdx = normalizedHeaders.indexOf(normalize(col))
+    if (directIdx !== -1) {
+      map[col] = directIdx
+      continue
+    }
+
+    // Check aliases
+    const aliases = COLUMN_ALIASES[col]
+    if (aliases) {
+      for (const alias of aliases) {
+        const aliasNorm = normalize(alias)
+        const idx = normalizedHeaders.indexOf(aliasNorm)
+        if (idx !== -1) {
+          map[col] = idx
+          break
+        }
+      }
     }
   }
 
@@ -382,7 +443,8 @@ function aggregateFinancials(rows: FECRow[], fileName: string): FECExtractedData
   let creancesCredit = 0      // Comptes 411x: crédit
   let dettesFournDebit = 0    // Comptes 401x: débit
   let dettesFournCredit = 0   // Comptes 401x: crédit
-  let chargesDebit = 0        // Comptes classe 6: débit
+  let chargesDebit = 0        // Comptes classe 6: débit (charges)
+  let chargesCredit = 0       // Comptes classe 6: crédit (avoirs, remboursements)
   let tresorerieDebit = 0     // Comptes 512x: débit
   let tresorerieCredit = 0    // Comptes 512x: crédit
   let stocksDebit = 0         // Comptes classe 3: débit
@@ -402,65 +464,69 @@ function aggregateFinancials(rows: FECRow[], fileName: string): FECExtractedData
       if (row.ecritureDate > dateMax) dateMax = row.ecritureDate
     }
 
-    // ── CA: comptes 70x (ventes) — on prend les crédits
+    // ── CA: comptes 70x (ventes) — Σ crédits
     if (num.startsWith('70')) {
-      caCredits += row.credit
+      caCredits = round2(caCredits + row.credit)
     }
 
-    // ── Créances clients: comptes 411x
+    // ── Créances clients: comptes 411x — balance (débit − crédit)
     if (num.startsWith('411')) {
-      creancesDebit += row.debit
-      creancesCredit += row.credit
+      creancesDebit = round2(creancesDebit + row.debit)
+      creancesCredit = round2(creancesCredit + row.credit)
     }
 
-    // ── Dettes fournisseurs: comptes 401x
+    // ── Dettes fournisseurs: comptes 401x — balance (crédit − débit)
     if (num.startsWith('401')) {
-      dettesFournDebit += row.debit
-      dettesFournCredit += row.credit
+      dettesFournDebit = round2(dettesFournDebit + row.debit)
+      dettesFournCredit = round2(dettesFournCredit + row.credit)
     }
 
-    // ── Charges exploitation: classe 6
+    // ── Charges exploitation: classe 6 — net (débits − crédits avoirs)
     if (num.startsWith('6')) {
-      chargesDebit += row.debit
+      chargesDebit = round2(chargesDebit + row.debit)
+      chargesCredit = round2(chargesCredit + row.credit)
     }
 
     // ── Trésorerie: comptes 512x (banque)
     if (num.startsWith('512')) {
-      tresorerieDebit += row.debit
-      tresorerieCredit += row.credit
+      tresorerieDebit = round2(tresorerieDebit + row.debit)
+      tresorerieCredit = round2(tresorerieCredit + row.credit)
     }
 
     // ── Stocks: comptes classe 3
     if (num.startsWith('3')) {
-      stocksDebit += row.debit
-      stocksCredit += row.credit
+      stocksDebit = round2(stocksDebit + row.debit)
+      stocksCredit = round2(stocksCredit + row.credit)
     }
 
     // ── Dettes financières: comptes 16x
     if (num.startsWith('16')) {
-      detteFinDebit += row.debit
-      detteFinCredit += row.credit
+      detteFinDebit = round2(detteFinDebit + row.debit)
+      detteFinCredit = round2(detteFinCredit + row.credit)
     }
   }
 
-  // ── Date range & annualization
+  // ── Date range & annualization (day-precise)
   const dateDebut = formatFECDate(dateMin)
   const dateFin = formatFECDate(dateMax)
   const moisExercice = computeMonthsBetween(dateMin, dateMax)
   const facteurAnnualisation = moisExercice > 0 && moisExercice < 12
-    ? 12 / moisExercice
+    ? round2(12 / moisExercice)
     : 1
 
   // ── Apply annualization to flow accounts (CA, charges)
-  const ca = Math.round(caCredits * facteurAnnualisation)
-  const chargesExploitation = Math.round(chargesDebit * facteurAnnualisation)
+  // Balance accounts (créances, dettes, tréso, stocks, dette fin) are NOT annualized
+  const ca = Math.round(round2(caCredits * facteurAnnualisation))
+  // Charges NET = débits − crédits (avoirs comptables reduce the charge base)
+  const chargesNettes = round2(chargesDebit - chargesCredit)
+  const chargesExploitation = Math.round(round2(Math.max(0, chargesNettes) * facteurAnnualisation))
 
-  // ── Balance accounts: solde = débit - crédit
-  const creancesClients = Math.max(0, Math.round(creancesDebit - creancesCredit))
-  const dettesFournisseurs = Math.max(0, Math.round(dettesFournCredit - dettesFournDebit))
-  const tresorerie = Math.round(tresorerieDebit - tresorerieCredit)
-  const stocks = Math.max(0, Math.round(stocksDebit - stocksCredit))
-  const detteFinanciere = Math.max(0, Math.round(detteFinCredit - detteFinDebit))
+  // ── Balance accounts: solde at cutoff date
+  const creancesClients = Math.max(0, Math.round(round2(creancesDebit - creancesCredit)))
+  const dettesFournisseurs = Math.max(0, Math.round(round2(dettesFournCredit - dettesFournDebit)))
+  const tresorerie = Math.round(round2(tresorerieDebit - tresorerieCredit))
+  const stocks = Math.max(0, Math.round(round2(stocksDebit - stocksCredit)))
+  const detteFinanciere = Math.max(0, Math.round(round2(detteFinCredit - detteFinDebit)))
 
   return {
     ca,
@@ -570,18 +636,43 @@ function formatFECDate(yyyymmdd: string): string {
   return `${yyyymmdd.slice(6, 8)}/${yyyymmdd.slice(4, 6)}/${yyyymmdd.slice(0, 4)}`
 }
 
-/** Compute months between two YYYYMMDD dates */
+/**
+ * Compute months between two YYYYMMDD dates — day-level precision.
+ * Uses actual Date difference for accuracy (handles Feb, leap years, etc.).
+ * Returns at least 1 month, capped at 24.
+ */
 function computeMonthsBetween(dateMin: string, dateMax: string): number {
   if (dateMin.length !== 8 || dateMax.length !== 8) return 12
+
   const y1 = parseInt(dateMin.slice(0, 4))
   const m1 = parseInt(dateMin.slice(4, 6))
+  const d1 = parseInt(dateMin.slice(6, 8))
   const y2 = parseInt(dateMax.slice(0, 4))
   const m2 = parseInt(dateMax.slice(4, 6))
+  const d2 = parseInt(dateMax.slice(6, 8))
 
-  if (isNaN(y1) || isNaN(m1) || isNaN(y2) || isNaN(m2)) return 12
+  if ([y1, m1, d1, y2, m2, d2].some(isNaN)) return 12
 
-  const months = (y2 - y1) * 12 + (m2 - m1) + 1 // inclusive
-  return Math.max(1, Math.min(24, months)) // clamp 1-24
+  // Use actual date objects for precision
+  const start = new Date(y1, m1 - 1, d1)
+  const end = new Date(y2, m2 - 1, d2)
+
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) return 12
+
+  // Difference in days → months (30.4375 avg days/month)
+  const diffDays = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+  const months = Math.round((diffDays / 30.4375) * 10) / 10 // 1 decimal
+
+  return Math.max(1, Math.min(24, Math.ceil(months)))
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// UI THREAD YIELD — critical for large file parsing
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/** Yield control back to the browser's event loop so the UI stays responsive. */
+function yieldToUI(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 0))
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -591,6 +682,7 @@ function computeMonthsBetween(dateMin: string, dateMax: string): number {
 /**
  * Quick header-only validation without parsing the entire file.
  * Useful for instant feedback on drag & drop.
+ * Uses the same lazy alias matching as the full parser + encoding fallback.
  */
 export async function quickValidateFEC(file: File): Promise<{
   valid: boolean
@@ -601,22 +693,44 @@ export async function quickValidateFEC(file: File): Promise<{
     return { valid: false, reason: `Format ".${ext}" non supporté. Utilisez un fichier .txt ou .csv.` }
   }
 
-  // Read only the first 2KB for header check
-  const slice = file.slice(0, 2048)
-  const text = await new Promise<string>((resolve) => {
+  // Read only the first 4KB for header check (enough even with BOM + long headers)
+  const slice = file.slice(0, 4096)
+
+  let text = await new Promise<string>((resolve) => {
     const r = new FileReader()
     r.onload = () => resolve(r.result as string)
     r.readAsText(slice, 'UTF-8')
   })
 
-  const firstLine = text.split(/\r?\n/)[0]?.toLowerCase() || ''
-  const hasCompteNum = firstLine.includes('comptenum')
-  const hasEcritureDate = firstLine.includes('ecrituredate')
+  // Encoding fallback: if UTF-8 produces replacement characters, try ISO-8859-1
+  if (text.includes('\uFFFD')) {
+    text = await new Promise<string>((resolve) => {
+      const r = new FileReader()
+      r.onload = () => resolve(r.result as string)
+      r.readAsText(slice, 'ISO-8859-1')
+    })
+  }
 
-  if (!hasCompteNum || !hasEcritureDate) {
+  const firstLine = text.split(/\r?\n/)[0] || ''
+
+  // Normalize: strip accents, lowercase, remove spaces/underscores
+  const normalize = (s: string) =>
+    s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[\s_\-]+/g, '')
+
+  const headerNorm = normalize(firstLine)
+
+  // Check for CompteNum aliases
+  const compteAliases = COLUMN_ALIASES['comptenum'] || ['comptenum']
+  const hasCompte = compteAliases.some((a) => headerNorm.includes(normalize(a)))
+
+  // Check for EcritureDate aliases
+  const dateAliases = COLUMN_ALIASES['ecrituredate'] || ['ecrituredate']
+  const hasDate = dateAliases.some((a) => headerNorm.includes(normalize(a)))
+
+  if (!hasCompte || !hasDate) {
     return {
       valid: false,
-      reason: 'En-tête FEC non reconnu. Colonnes "CompteNum" et "EcritureDate" introuvables.',
+      reason: 'En-tête FEC non reconnu. Colonnes "CompteNum" et "EcritureDate" (ou variantes) introuvables.',
     }
   }
 
