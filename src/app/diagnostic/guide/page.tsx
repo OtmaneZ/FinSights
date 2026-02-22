@@ -16,6 +16,7 @@ import {
   Activity,
   ChevronRight,
   Sparkles,
+  FileText,
 } from 'lucide-react'
 import { useCalculatorHistory, type CalculatorType } from '@/hooks/useCalculatorHistory'
 import {
@@ -34,6 +35,8 @@ import { SectorComparisonGrid } from '@/components/diagnostic/SectorComparisonBa
 import { WhatIfSlider } from '@/components/diagnostic/WhatIfSlider'
 import { ExecutiveSummary } from '@/components/diagnostic/ExecutiveSummary'
 import { GuideDownloadCTA } from '@/components/diagnostic/GuideDownloadCTA'
+import { FECDropzone } from '@/components/diagnostic/FECDropzone'
+import type { FECExtractedData, FECWizardData } from '@/lib/scoris/fecParser'
 import type { AnalysisStep } from '@/lib/scoris/types'
 import { ANALYSIS_STEP_LABELS } from '@/lib/scoris/types'
 
@@ -456,6 +459,7 @@ export default function DiagnosticGuidePage() {
   const [results, setResults] = useState<Record<string, { value: number; inputs: Record<string, number>}>>({})
   const [skippedSteps, setSkippedSteps] = useState<Set<string>>(new Set())
   const [emailCapturedAfterCash, setEmailCapturedAfterCash] = useState(false)
+  const [introMode, setIntroMode] = useState<'choose' | 'fec'>('choose') // 'choose' = Option A/B, 'fec' = FEC dropzone expanded
 
   // SCORIS engine — drives IDLE → ANALYZING → SUCCESS micro-latency
   const [engineState, engineActions] = useScorisEngine()
@@ -532,6 +536,65 @@ export default function DiagnosticGuidePage() {
     setSector(s)
     localStorage.setItem('finsight_sector', s)
   }, [])
+
+  // ── FEC data injection bridge ──
+  const handleFECData = useCallback((wizard: FECWizardData, extracted: FECExtractedData) => {
+    const newResults: Record<string, { value: number; inputs: Record<string, number> }> = {}
+    const newFormValues: Record<string, Record<string, string>> = {}
+
+    // Map FEC wizard data to each wizard step
+    const fecMap: { stepId: string; calcType: CalculatorType; data: { value: number; inputs: Record<string, number> } | null; unit: string }[] = [
+      { stepId: 'dso', calcType: 'dso', data: wizard.dso, unit: 'jours' },
+      { stepId: 'bfr', calcType: 'bfr', data: wizard.bfr, unit: '€' },
+      { stepId: 'marge', calcType: 'marge', data: wizard.marge, unit: '%' },
+      { stepId: 'ebitda', calcType: 'ebitda', data: wizard.ebitda, unit: '€' },
+      { stepId: 'burn-rate', calcType: 'burn-rate', data: wizard.burnRate, unit: '€/mois' },
+      { stepId: 'seuil-rentabilite', calcType: 'seuil-rentabilite', data: wizard.seuilRentabilite, unit: '€' },
+      { stepId: 'gearing', calcType: 'gearing', data: wizard.gearing, unit: 'x' },
+    ]
+
+    for (const entry of fecMap) {
+      if (!entry.data) continue
+
+      // Populate results (drives live scoring)
+      newResults[entry.stepId] = { value: entry.data.value, inputs: entry.data.inputs }
+
+      // Populate formValues (pre-fills the form fields)
+      const fields: Record<string, string> = {}
+      for (const [k, v] of Object.entries(entry.data.inputs)) {
+        fields[k] = String(v)
+      }
+      newFormValues[entry.stepId] = fields
+
+      // Persist to localStorage via saveCalculation
+      saveCalculation({
+        type: entry.calcType,
+        value: entry.data.value,
+        inputs: entry.data.inputs,
+        unit: entry.unit,
+      })
+    }
+
+    setResults(newResults)
+    setFormValues(newFormValues)
+
+    // Jump straight to synthesis phase (index 5)
+    const synthesisIdx = PHASES.findIndex((p) => p.key === 'synthesis')
+
+    // Trigger SCORIS engine for micro-latency analysis
+    engineActions.analyze({
+      sector,
+      results: newResults,
+      enabledModules: {
+        causalAnalysis: true,
+        sectorBenchmarks: true,
+        whatIfSimulation: true,
+      },
+    })
+
+    setPhaseIndex(synthesisIdx)
+    setStepIndex(null)
+  }, [saveCalculation, engineActions, sector])
 
   // Navigation
   const goNext = useCallback(() => {
@@ -816,17 +879,80 @@ export default function DiagnosticGuidePage() {
                     </div>
                   </div>
 
-                  <button
-                    onClick={goNext}
-                    aria-label="Démarrer le protocole de diagnostic financier"
-                    className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-950 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-950 transition-all duration-200 shadow-lg shadow-white/10"
-                  >
-                    Démarrer le diagnostic
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
-                  <p className="text-[11px] text-gray-600 mt-4">
-                    ~7 min &middot; Donn&eacute;es stock&eacute;es localement &middot; Sans inscription
-                  </p>
+                  {/* ── Option A / B split ── */}
+                  <AnimatePresence mode="wait">
+                    {introMode === 'choose' && (
+                      <motion.div
+                        key="choose"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.3 }}
+                        className="max-w-lg mx-auto"
+                      >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {/* Option A — Saisie manuelle */}
+                          <button
+                            onClick={goNext}
+                            className="group relative text-left px-5 py-5 rounded-xl border border-gray-700 bg-slate-900/50 hover:border-gray-500 hover:bg-slate-800/60 transition-all duration-200"
+                          >
+                            <div className="w-9 h-9 rounded-lg bg-slate-800 group-hover:bg-slate-700 flex items-center justify-center mb-3 transition-colors">
+                              <Activity className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
+                            </div>
+                            <p className="text-sm font-semibold text-white mb-1">Saisie guidée</p>
+                            <p className="text-[11px] text-gray-500 leading-relaxed mb-3">
+                              9 indicateurs, étape par étape. Idéal si vous connaissez vos chiffres clés.
+                            </p>
+                            <span className="inline-flex items-center gap-1 text-[10px] text-gray-600">
+                              ~7 min · Sans inscription
+                            </span>
+                            <ArrowRight className="absolute top-5 right-4 w-4 h-4 text-gray-700 group-hover:text-gray-400 group-hover:translate-x-0.5 transition-all" />
+                          </button>
+
+                          {/* Option B — FEC Upload */}
+                          <button
+                            onClick={() => setIntroMode('fec')}
+                            className="group relative text-left px-5 py-5 rounded-xl border border-blue-500/20 bg-blue-500/5 hover:border-blue-400/30 hover:bg-blue-500/10 transition-all duration-200"
+                          >
+                            <div className="absolute -top-2 right-4">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-500/20 border border-blue-400/20 rounded-full text-[9px] font-semibold text-blue-400 uppercase tracking-wider">
+                                <Sparkles className="w-2.5 h-2.5" /> Précision
+                              </span>
+                            </div>
+                            <div className="w-9 h-9 rounded-lg bg-blue-500/10 group-hover:bg-blue-500/20 flex items-center justify-center mb-3 transition-colors">
+                              <FileText className="w-4 h-4 text-blue-400 group-hover:text-blue-300 transition-colors" />
+                            </div>
+                            <p className="text-sm font-semibold text-white mb-1">Upload FEC</p>
+                            <p className="text-[11px] text-gray-500 leading-relaxed mb-3">
+                              Importez votre fichier d&apos;écritures comptables. Diagnostic instantané.
+                            </p>
+                            <span className="inline-flex items-center gap-1 text-[10px] text-blue-400/60">
+                              ~30 sec · 100% local
+                            </span>
+                            <ArrowRight className="absolute top-5 right-4 w-4 h-4 text-blue-500/30 group-hover:text-blue-400/60 group-hover:translate-x-0.5 transition-all" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {introMode === 'fec' && (
+                      <motion.div
+                        key="fec"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.3 }}
+                        className="max-w-lg mx-auto"
+                      >
+                        <FECDropzone
+                          onDataReady={handleFECData}
+                          onSwitchToManual={() => {
+                            setIntroMode('choose')
+                          }}
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </motion.div>
             )}
