@@ -17,60 +17,10 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import StructuredData from "@/components/StructuredData";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import {
-  AGGREGATE_RATING_VALUE,
-  AGGREGATE_REVIEW_COUNT,
-  BEST_RATING,
-  WORST_RATING,
   SOCIAL_PROOF_LABEL,
 } from "@/config/social-proof";
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Pourquoi faire appel à un DAF externalisé pour sa PME ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Un DAF externalisé apporte l'expertise stratégique d'un directeur financier senior sans le coût d'un recrutement fixe. Il aide les dirigeants de PME (2 à 20M€ CA) à sécuriser leur trésorerie, optimiser leurs marges et piloter leur croissance avec des données fiables.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Qu'est-ce que le Score FinSight™ ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Le Score FinSight™ est un indicateur exclusif de santé financière noté sur 100. Il analyse 4 piliers critiques de votre entreprise : Cash, Marges, Résilience et Risques, pour vous permettre de décider avec 3 mois d'avance.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Comment se déroule un diagnostic financier avec FinSight ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Le diagnostic débute par un échange stratégique de 30 minutes pour identifier vos enjeux. Nous réalisons ensuite un audit flash en 5 jours pour détecter vos fuites de cash et établir un plan d'action immédiat avec 3 recommandations chiffrées.",
-      },
-    },
-  ],
-};
-
-const aggregateRatingSchema = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "FinSight — Direction Financière Externalisée",
-  url: "https://finsight.zineinsight.com",
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: AGGREGATE_RATING_VALUE,
-    reviewCount: AGGREGATE_REVIEW_COUNT,
-    bestRating: BEST_RATING,
-    worstRating: WORST_RATING,
-  },
-};
 
 export default function HomeClient() {
   return (
@@ -615,8 +565,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      <StructuredData data={faqSchema} />
-      <StructuredData data={aggregateRatingSchema} />
       <Footer />
     </div>
   );
