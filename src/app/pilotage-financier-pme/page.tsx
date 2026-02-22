@@ -160,15 +160,16 @@ export default function PilotageFinancierPME() {
                     </h1>
 
                     <p className="text-xl text-white/90 leading-snug max-w-3xl mb-6 font-light">
-                        Le pilotage financier d&apos;une PME consiste &agrave; structurer le suivi de la
-                        tr&eacute;sorerie, des marges et des risques afin d&apos;anticiper les d&eacute;cisions
-                        &agrave; 90&nbsp;jours. Il d&eacute;passe la simple comptabilit&eacute; en int&eacute;grant analyse,
-                        projection et arbitrage strat&eacute;gique.
+                        Le pilotage financier d&apos;une PME consiste &agrave; construire un syst&egrave;me de
+                        d&eacute;cision pr&eacute;dictif&nbsp;: tr&eacute;sorerie anticip&eacute;e &agrave; 90&nbsp;jours, marges
+                        surveill&eacute;es en temps r&eacute;el, risques identifi&eacute;s avant qu&apos;ils ne deviennent
+                        des crises. Il d&eacute;passe la comptabilit&eacute; en int&eacute;grant analyse, projection
+                        et arbitrage strat&eacute;gique.
                     </p>
 
                     <p className="text-base text-gray-400 leading-relaxed max-w-3xl mb-10">
-                        M&eacute;thode structur&eacute;e pour dirigeants de PME de 1 &agrave; 100&nbsp;M&euro;. Indicateurs
-                        cl&eacute;s, tableau de bord, pr&eacute;visionnel de tr&eacute;sorerie et r&ocirc;le du DAF externalis&eacute;.
+                        M&eacute;thode structur&eacute;e pour dirigeants de PME de 2 &agrave; 20&nbsp;M&euro;. Indicateurs
+                        cl&eacute;s, tableau de bord, pr&eacute;visionnel de tr&eacute;sorerie 90 jours et syst&egrave;me de pilotage pr&eacute;dictif.
                     </p>
 
                     <div className="flex flex-wrap gap-8 text-sm text-gray-500 border-t border-gray-800 pt-6">
@@ -233,21 +234,44 @@ export default function PilotageFinancierPME() {
                     </ol>
                 </nav>
 
+                {/* SYNTHÈSE EXÉCUTIVE */}
+                <div className="mb-12 grid sm:grid-cols-3 gap-4 not-prose">
+                    <div className="px-5 py-4 bg-gray-50 border border-gray-200 rounded-lg">
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Trésorerie</p>
+                        <p className="text-sm text-gray-700 leading-snug">
+                            Sans pr&eacute;visionnel &agrave; 90 jours, chaque d&eacute;cision strat&eacute;gique est prise sans visibilit&eacute; r&eacute;elle sur la liquidit&eacute;.
+                        </p>
+                    </div>
+                    <div className="px-5 py-4 bg-gray-50 border border-gray-200 rounded-lg">
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Rentabilité</p>
+                        <p className="text-sm text-gray-700 leading-snug">
+                            Un compte de r&eacute;sultat annuel ne suffit pas. Les d&eacute;rives de marge se d&eacute;tectent au mois, pas &agrave; la cl&ocirc;ture.
+                        </p>
+                    </div>
+                    <div className="px-5 py-4 bg-gray-50 border border-gray-200 rounded-lg">
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Pilotage</p>
+                        <p className="text-sm text-gray-700 leading-snug">
+                            Un syst&egrave;me de pilotage pr&eacute;dictif anticipe les probl&egrave;mes. Il ne les constate pas.
+                        </p>
+                    </div>
+                </div>
+
                 {/* INTRODUCTION SEO */}
                 <div className="prose prose-lg prose-gray max-w-none mb-20">
                     <p className="text-lg text-gray-600 leading-relaxed">
                         Le <strong className="text-gray-800 font-medium">pilotage financier PME</strong> est
                         la discipline qui permet &agrave; un dirigeant de transformer des donn&eacute;es comptables
-                        brutes en un syst&egrave;me de d&eacute;cision op&eacute;rationnel. Tr&eacute;sorerie, marges, rentabilit&eacute;,
-                        structure de co&ucirc;ts &mdash; chaque indicateur financier PME raconte une partie de la
-                        r&eacute;alit&eacute; de l&apos;entreprise. Sans cadre structur&eacute;, ces donn&eacute;es restent des chiffres
-                        dans un tableau Excel. Avec un syst&egrave;me de pilotage adapt&eacute;, elles deviennent
-                        les fondations de chaque arbitrage strat&eacute;gique.
+                        brutes en un <strong className="text-gray-800 font-medium">syst&egrave;me de d&eacute;cision pr&eacute;dictif</strong>.
+                        Tr&eacute;sorerie, marges, rentabilit&eacute;, structure de co&ucirc;ts &mdash; chaque indicateur
+                        financier raconte une partie de la r&eacute;alit&eacute; de l&apos;entreprise. Sans cadre
+                        structur&eacute;, ces donn&eacute;es restent des chiffres dans un tableau Excel.
+                        Avec un syst&egrave;me de pilotage adapt&eacute;, elles pr&eacute;c&egrave;dent les probl&egrave;mes
+                        plut&ocirc;t que de les constater.
                     </p>
                     <p className="text-lg text-gray-600 leading-relaxed">
                         Ce guide d&eacute;taille la m&eacute;thode compl&egrave;te pour mettre en place
                         un <strong className="text-gray-800 font-medium">pilotage financier PME</strong> adapt&eacute;
-                        aux entreprises de 1 &agrave; 100&nbsp;millions d&apos;euros de chiffre d&apos;affaires. Il couvre
+                        aux entreprises de 2 &agrave; 20&nbsp;millions d&apos;euros de chiffre d&apos;affaires. Il couvre
                         les quatre piliers fondamentaux &mdash; direction financi&egrave;re, pilotage de tr&eacute;sorerie,
                         rentabilit&eacute; et gouvernance &mdash; et s&apos;appuie sur des cas d&apos;intervention r&eacute;els
                         en mission de direction financi&egrave;re externalis&eacute;e.
@@ -368,8 +392,9 @@ export default function PilotageFinancierPME() {
                                 <p className="font-serif text-3xl font-medium text-gray-900 mb-2">62&nbsp;844</p>
                                 <p className="text-sm text-gray-600 leading-snug">
                                     d&eacute;faillances d&apos;entreprises en France sur 12&nbsp;mois &mdash;
-                                    +21&nbsp;% par rapport &agrave; 2019. La tr&eacute;sorerie et les retards
-                                    de paiement en sont les causes structurelles principales.
+                                    +21&nbsp;% par rapport &agrave; 2019. Les tensions de tr&eacute;sorerie et les
+                                    retards de paiement figurent parmi les causes structurelles
+                                    les plus fr&eacute;quemment identifi&eacute;es.
                                 </p>
                                 <p className="text-xs text-gray-400 mt-3">Source&nbsp;: BPCE L&apos;Observatoire, 2024</p>
                             </div>
@@ -433,6 +458,42 @@ export default function PilotageFinancierPME() {
                             </p>
                         </div>
 
+                        {/* SOURCES INSTITUTIONNELLES */}
+                        <div className="my-8 p-6 bg-gray-50 border border-gray-200 rounded-lg space-y-4">
+                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Donn&eacute;es institutionnelles
+                            </p>
+                            <p className="text-sm text-gray-600 leading-relaxed">
+                                Selon les{' '}
+                                <a
+                                    href="https://www.banque-france.fr/fr/publications-et-statistiques/statistiques/defaillances-dentreprises"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors"
+                                >
+                                    statistiques officielles de la Banque de France
+                                </a>
+                                , le nombre de d&eacute;faillances d&apos;entreprises en France reste nettement
+                                au-dessus des niveaux pr&eacute;-pand&eacute;miques. Ces donn&eacute;es soulignent combien
+                                la capacit&eacute; &agrave; anticiper les ruptures de cash &mdash; et non simplement
+                                &agrave; les constater &mdash; est devenue d&eacute;terminante pour la survie des PME.
+                            </p>
+                            <p className="text-sm text-gray-600 leading-relaxed">
+                                De m&ecirc;me, le{' '}
+                                <a
+                                    href="https://www.banque-france.fr/fr/publications-et-statistiques/publications/rapport-de-lobservatoire-des-delais-de-paiement-2024"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors"
+                                >
+                                    Rapport de l&apos;Observatoire des d&eacute;lais de paiement 2024
+                                </a>
+                                {' '}met en &eacute;vidence une d&eacute;gradation des d&eacute;lais de paiement interentreprises,
+                                avec un retard moyen qui d&eacute;passe la moyenne europ&eacute;enne et fragilise
+                                durablement les cycles de tr&eacute;sorerie des PME.
+                            </p>
+                        </div>
+
                         {/* MICRO-CTA — après section 2 */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-gray-200">
                             <p className="text-sm text-gray-500">
@@ -453,6 +514,26 @@ export default function PilotageFinancierPME() {
                                     Analyser mon BFR
                                 </Link>
                             </div>
+                        </div>
+
+                        {/* CTA directionnel — trésorerie 90 jours */}
+                        <div className="mt-6 p-6 bg-slate-950 rounded-xl">
+                            <p className="text-white font-serif text-lg leading-snug mb-1">
+                                Si votre position de tr&eacute;sorerie &agrave; 90&nbsp;jours n&apos;est pas connue aujourd&apos;hui,
+                                le probl&egrave;me commence ici.
+                            </p>
+                            <p className="text-gray-400 text-sm mb-5">
+                                Le diagnostic FinSight&trade; identifie vos expositions en 10 minutes.
+                            </p>
+                            <Link
+                                href="/diagnostic/guide"
+                                className="inline-flex items-center gap-2 px-5 py-3 bg-white text-gray-900 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors"
+                            >
+                                Lancer le diagnostic
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                                </svg>
+                            </Link>
                         </div>
                     </div>
                 </section>
@@ -909,7 +990,7 @@ export default function PilotageFinancierPME() {
 
                     <div className="space-y-5 text-gray-600 leading-relaxed text-[17px]">
                         <p>
-                            Le tableau de bord financier est l&apos;outil central du <strong className="text-gray-800 font-medium">pilotage financier PME</strong>.
+                            Le tableau de bord financier est l&apos;outil central de la <strong className="text-gray-800 font-medium">gouvernance financi&egrave;re PME</strong>.
                             Il doit r&eacute;pondre &agrave; trois exigences : &ecirc;tre lu (lisibilit&eacute;),
                             &ecirc;tre fiable (coh&eacute;rence avec la comptabilit&eacute;), &ecirc;tre actionnable
                             (permettre une d&eacute;cision).
@@ -1119,72 +1200,147 @@ export default function PilotageFinancierPME() {
                     </div>
                 </section>
 
+                {/* BLOC AUTORITÉ */}
+                <div className="mb-20 not-prose grid sm:grid-cols-3 gap-4 border-t border-gray-100 pt-12">
+                    <div className="text-center">
+                        <p className="font-serif text-3xl font-medium text-gray-900 mb-1">240&nbsp;k&euro;</p>
+                        <p className="text-sm text-gray-500 leading-snug">de cash lib&eacute;r&eacute; en 4&nbsp;mois sur une PME B2B 6&nbsp;M&euro;</p>
+                    </div>
+                    <div className="text-center">
+                        <p className="font-serif text-3xl font-medium text-gray-900 mb-1">&minus;18 jours</p>
+                        <p className="text-sm text-gray-500 leading-snug">de DSO r&eacute;duit en 90 jours sur une PME services</p>
+                    </div>
+                    <div className="text-center">
+                        <p className="font-serif text-3xl font-medium text-gray-900 mb-1">J+7</p>
+                        <p className="text-sm text-gray-500 leading-snug">d&eacute;lai de cl&ocirc;ture mensuelle atteint apr&egrave;s structuration du reporting</p>
+                    </div>
+                </div>
+
                 {/* SECTION 8 */}
                 <section id="methode-finsight" className="mb-20">
-                    <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mb-8">
-                        8. M&eacute;thode FinSight : un cadre de pilotage structur&eacute;
+                    <span className="inline-block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">
+                        Framework propri&eacute;taire
+                    </span>
+                    <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mb-4">
+                        8. Architecture FinSight&trade; — Le standard du pilotage pr&eacute;dictif PME
                     </h2>
+                    <p className="text-gray-500 text-[15px] mb-10 leading-relaxed max-w-2xl">
+                        Un DAF classique produit des rapports. L&apos;Architecture FinSight&trade; produit
+                        de l&apos;anticipation. La diff&eacute;rence n&apos;est pas de degr&eacute; — elle est de nature.
+                    </p>
 
                     <div className="space-y-5 text-gray-600 leading-relaxed text-[17px]">
-                        <p>
-                            L&apos;approche que nous d&eacute;ployons en mission repose sur un cadre structur&eacute;
-                            en trois phases, adapt&eacute; aux sp&eacute;cificit&eacute;s du <strong className="text-gray-800 font-medium">pilotage financier PME</strong>.
-                            Chaque phase r&eacute;pond &agrave; un objectif pr&eacute;cis et produit des livrables
-                            exploitables par le dirigeant.
-                        </p>
 
-                        <h3 className="font-serif text-xl font-medium text-gray-900 mt-10 mb-4">
-                            Phase 1 &mdash; Diagnostic
-                        </h3>
-                        <p>
-                            Le Score FinSight (0-100) quantifie la sant&eacute; financi&egrave;re de
-                            l&apos;entreprise sur les quatre piliers : tr&eacute;sorerie, rentabilit&eacute;,
-                            r&eacute;silience, risques. Il identifie les trois leviers prioritaires
-                            et chiffre leur impact potentiel. Le diagnostic est d&eacute;livr&eacute; en
-                            cinq jours ouvr&eacute;s.
-                        </p>
+                        {/* Les 3 niveaux */}
+                        <div className="space-y-0 divide-y divide-gray-100 border-t border-b border-gray-100 my-8 not-prose">
+                            <div className="py-7 grid md:grid-cols-[120px_1fr] gap-6 items-start">
+                                <div>
+                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Niveau 1</span>
+                                    <p className="font-serif text-lg font-medium text-gray-900 mt-1">Diagnostic</p>
+                                </div>
+                                <div>
+                                    <p className="text-[15px] text-gray-600 leading-relaxed mb-3">
+                                        Le <Link href="/methodologie" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">Score FinSight&trade;</Link> (0–100)
+                                        quantifie la sant&eacute; financi&egrave;re sur 4 piliers. Il ne d&eacute;crit pas
+                                        l&apos;&eacute;tat de l&apos;entreprise — il hiérarchise les leviers et chiffre
+                                        leur impact potentiel. Le{' '}
+                                        <Link href="/diagnostic/guide" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                                            diagnostic
+                                        </Link>{' '}
+                                        est accessible en 10 minutes, sans transmission de donn&eacute;es comptables.
+                                    </p>
+                                    <p className="text-xs text-gray-400">Livrable : Score + 3 leviers prioritaires chiffr&eacute;s</p>
+                                </div>
+                            </div>
+                            <div className="py-7 grid md:grid-cols-[120px_1fr] gap-6 items-start">
+                                <div>
+                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Niveau 2</span>
+                                    <p className="font-serif text-lg font-medium text-gray-900 mt-1">Structuration</p>
+                                </div>
+                                <div>
+                                    <p className="text-[15px] text-gray-600 leading-relaxed mb-3">
+                                        Mise en place du tableau de bord adapt&eacute; &agrave; la structure de l&apos;entreprise.
+                                        Automatisation des flux, param&eacute;trage des alertes, d&eacute;finition des
+                                        indicateurs de <strong className="text-gray-800 font-medium">direction financi&egrave;re op&eacute;rationnelle</strong>.
+                                        Le{' '}
+                                        <Link href="/blog/4-priorites-daf-90-jours" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                                            s&eacute;quencement des 90 premiers jours
+                                        </Link>{' '}
+                                        suit un ordre invariable : tr&eacute;sorerie, marge, structure, reporting.
+                                    </p>
+                                    <p className="text-xs text-gray-400">Livrable : tableau de bord op&eacute;rationnel + pr&eacute;visionnel 90 jours</p>
+                                </div>
+                            </div>
+                            <div className="py-7 grid md:grid-cols-[120px_1fr] gap-6 items-start">
+                                <div>
+                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Niveau 3</span>
+                                    <p className="font-serif text-lg font-medium text-gray-900 mt-1">Pilotage continu</p>
+                                </div>
+                                <div>
+                                    <p className="text-[15px] text-gray-600 leading-relaxed mb-3">
+                                        Les agents sp&eacute;cialis&eacute;s prennent le relais.{' '}
+                                        <Link href="/agents/tresoris" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">TRESORIS</Link>{' '}
+                                        surveille la tr&eacute;sorerie &agrave; 90 jours en continu.{' '}
+                                        <Link href="/agents/dashis" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">DASHIS</Link>{' '}
+                                        consolide les KPI de gouvernance financi&egrave;re en temps r&eacute;el.
+                                        Le dirigeant ne g&egrave;re plus l&apos;urgence — il arbitre l&apos;anticipation.
+                                    </p>
+                                    <p className="text-xs text-gray-400">Livrable : alertes pr&eacute;dictives + reporting mensuel automatis&eacute;</p>
+                                </div>
+                            </div>
+                        </div>
 
-                        <h3 className="font-serif text-xl font-medium text-gray-900 mt-10 mb-4">
-                            Phase 2 &mdash; Structuration
-                        </h3>
-                        <p>
-                            Mise en place du tableau de bord financier adapt&eacute; &agrave; la structure
-                            de l&apos;entreprise. Automatisation des flux de donn&eacute;es, param&eacute;trage
-                            des alertes, d&eacute;finition des indicateurs de pilotage.
-                            Le{' '}
-                            <Link href="/blog/4-priorites-daf-90-jours" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
-                                s&eacute;quencement des 90 premiers jours
-                            </Link>{' '}
-                            suit un ordre pr&eacute;cis : tr&eacute;sorerie, marge, structure, reporting.
-                        </p>
-
-                        <h3 className="font-serif text-xl font-medium text-gray-900 mt-10 mb-4">
-                            Phase 3 &mdash; Pilotage continu
-                        </h3>
-                        <p>
-                            Surveillance automatis&eacute;e des indicateurs critiques par des
-                            agents sp&eacute;cialis&eacute;s. Le syst&egrave;me{' '}
-                            <Link href="/agents/tresoris" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
-                                TRESORIS
-                            </Link>{' '}
-                            surveille la tr&eacute;sorerie &agrave; 90 jours. Le syst&egrave;me{' '}
-                            <Link href="/agents/dashis" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
-                                DASHIS
-                            </Link>{' '}
-                            consolide les indicateurs de pilotage en temps r&eacute;el.
-                            L&apos;objectif est de passer d&apos;un pilotage r&eacute;actif &agrave; un pilotage
-                            pr&eacute;dictif, o&ugrave; les alertes pr&eacute;c&egrave;dent les probl&egrave;mes.
-                        </p>
+                        {/* Différenciateurs */}
+                        <div className="grid sm:grid-cols-2 gap-3 my-8 not-prose">
+                            <div className="p-5 bg-gray-50 border border-gray-200 rounded-lg">
+                                <p className="font-medium text-gray-900 text-sm mb-1">Score FinSight&trade;</p>
+                                <p className="text-gray-600 text-sm leading-snug">
+                                    Indicateur composite 0–100 sur 4 piliers. Sant&eacute; financi&egrave;re r&eacute;elle,
+                                    pas seulement conformit&eacute; comptable.
+                                </p>
+                                <Link href="/methodologie" className="mt-3 inline-block text-xs text-gray-500 underline underline-offset-2 hover:text-gray-900 transition-colors">
+                                    M&eacute;thodologie compl&egrave;te →
+                                </Link>
+                            </div>
+                            <div className="p-5 bg-gray-50 border border-gray-200 rounded-lg">
+                                <p className="font-medium text-gray-900 text-sm mb-1">TRESORIS — Agent tr&eacute;sorerie</p>
+                                <p className="text-gray-600 text-sm leading-snug">
+                                    Surveillance automatis&eacute;e de la position de cash &agrave; 90 jours.
+                                    L&apos;alerte pr&eacute;c&egrave;de la rupture. Toujours.
+                                </p>
+                                <Link href="/agents/tresoris" className="mt-3 inline-block text-xs text-gray-500 underline underline-offset-2 hover:text-gray-900 transition-colors">
+                                    D&eacute;couvrir TRESORIS →
+                                </Link>
+                            </div>
+                            <div className="p-5 bg-gray-50 border border-gray-200 rounded-lg">
+                                <p className="font-medium text-gray-900 text-sm mb-1">DASHIS — Tableau de bord temps r&eacute;el</p>
+                                <p className="text-gray-600 text-sm leading-snug">
+                                    Consolidation des KPI de pilotage. Donn&eacute;es lisibles, fiables,
+                                    actionnables — sans tableur.
+                                </p>
+                            </div>
+                            <div className="p-5 bg-gray-50 border border-gray-200 rounded-lg">
+                                <p className="font-medium text-gray-900 text-sm mb-1">Syst&egrave;me op&eacute;rationnel en 90 jours</p>
+                                <p className="text-gray-600 text-sm leading-snug">
+                                    Tableau de bord, pr&eacute;visionnel, alertes, reporting mensuel.
+                                    Pas de phase de d&eacute;veloppement ind&eacute;finie.
+                                </p>
+                            </div>
+                        </div>
 
                         <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 my-8">
                             <p className="font-medium text-gray-900 mb-3">
-                                R&eacute;f&eacute;rence
+                                Documentation de r&eacute;f&eacute;rence
                             </p>
                             <p className="text-gray-600 text-sm leading-relaxed">
-                                Le d&eacute;tail de la m&eacute;thode et les transformations concr&egrave;tes observ&eacute;es
-                                sur les PME de 5 &agrave; 20&nbsp;M&euro; sont document&eacute;es dans l&apos;article{' '}
+                                Les transformations concr&egrave;tes observ&eacute;es sur les PME de 5 &agrave; 20&nbsp;M&euro;
+                                sont document&eacute;es dans{' '}
                                 <Link href="/blog/pilotage-financier-change-pme-5-20m" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
-                                    Ce qu&apos;un vrai pilotage financier change dans une PME 5-20&nbsp;M&euro;
+                                    Ce qu&apos;un vrai pilotage financier change dans une PME 5–20&nbsp;M&euro;
+                                </Link>{' '}
+                                et dans la{' '}
+                                <Link href="/methodologie" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                                    m&eacute;thodologie FinSight&trade;
                                 </Link>.
                             </p>
                         </div>
@@ -1215,16 +1371,7 @@ export default function PilotageFinancierPME() {
                         </li>
                     </ul>
 
-                    <div className="mt-8 pt-6 border-t border-gray-200 grid sm:grid-cols-2 gap-6">
-                        <div>
-                            <p className="text-2xl font-serif font-medium text-gray-900 mb-1">62&nbsp;844</p>
-                            <p className="text-sm text-gray-500 leading-snug">
-                                d&eacute;faillances d&apos;entreprises en France sur 12 mois &mdash; soit +21&nbsp;% vs 2019.
-                                La tr&eacute;sorerie et les retards de paiement en sont les causes
-                                structurelles principales.
-                            </p>
-                            <p className="text-xs text-gray-400 mt-2">Source&nbsp;: BPCE L&apos;Observatoire, 2024</p>
-                        </div>
+                    <div className="mt-8 pt-6 border-t border-gray-200">
                         <div>
                             <p className="text-2xl font-serif font-medium text-gray-900 mb-1">24&nbsp;%</p>
                             <p className="text-sm text-gray-500 leading-snug">
@@ -1384,6 +1531,46 @@ export default function PilotageFinancierPME() {
                 </section>
             </div>
 
+            {/* BIO AUTEUR — E-E-A-T */}
+            <div className="max-w-4xl mx-auto px-6 py-12">
+                <div className="flex items-start gap-5 p-6 bg-gray-50 border border-gray-200 rounded-xl">
+                    <div className="w-12 h-12 rounded-full bg-slate-950 flex items-center justify-center flex-shrink-0 text-white font-serif font-medium text-lg">
+                        OB
+                    </div>
+                    <div>
+                        <p className="font-semibold text-gray-900 text-sm">Otmane Boulahia</p>
+                        <p className="text-xs text-gray-500 mb-1">Directeur financier externalis&eacute; &middot; Fondateur de FinSight</p>
+                        <p className="text-xs text-gray-400 mb-3">+10 ans d&apos;exp&eacute;rience en finance &amp; pilotage PME</p>
+                        <p className="text-sm text-gray-600 leading-relaxed">
+                            Sp&eacute;cialis&eacute; dans les PME de 2 &agrave; 20&nbsp;M&euro;. Interventions en structuration
+                            de pilotage financier, optimisation de tr&eacute;sorerie et gouvernance financi&egrave;re.
+                            Cas document&eacute;s disponibles dans le{' '}
+                            <Link href="/blog" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                                blog FinSight
+                            </Link>.
+                        </p>
+                        <div className="flex items-center gap-4 mt-3">
+                            <a
+                                href="https://www.linkedin.com/in/otmaneboulahia"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-gray-500 hover:text-gray-900 transition-colors underline underline-offset-2"
+                            >
+                                LinkedIn
+                            </a>
+                            <span className="text-gray-300 text-xs">&middot;</span>
+                            <Link href="/consulting" className="text-xs text-gray-500 hover:text-gray-900 transition-colors underline underline-offset-2">
+                                Profil &amp; missions
+                            </Link>
+                            <span className="text-gray-300 text-xs">&middot;</span>
+                            <Link href="/methodologie" className="text-xs text-gray-500 hover:text-gray-900 transition-colors underline underline-offset-2">
+                                M&eacute;thodologie FinSight&trade;
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* CTA FINAL */}
             <section className="py-24 bg-slate-950 relative overflow-hidden">
                 <div className="absolute inset-0">
@@ -1412,7 +1599,7 @@ export default function PilotageFinancierPME() {
                         <span className="text-gray-700">&middot;</span>
                         <span>Confidentiel</span>
                         <span className="text-gray-700">&middot;</span>
-                        <span>PME 1 &agrave; 100 M&euro;</span>
+                        <span>PME 2 &agrave; 20 M&euro;</span>
                     </div>
                 </div>
             </section>
