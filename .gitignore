@@ -51,3 +51,4 @@ docs/archive/
 .sentryclirc
 .env.sentry-build-plugin
 .env*.local
+tresoris/
