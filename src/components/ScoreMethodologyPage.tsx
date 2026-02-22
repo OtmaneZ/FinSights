@@ -5,6 +5,14 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
+    ResponsiveContainer,
+    RadarChart,
+    PolarGrid,
+    PolarAngleAxis,
+    PolarRadiusAxis,
+    Radar,
+} from 'recharts'
+import {
     TrendingUp,
     DollarSign,
     Shield,
@@ -24,6 +32,22 @@ import {
 } from 'lucide-react'
 import Header from './Header'
 import Footer from './Footer'
+
+// ---------------------------------------------------------------------------
+// Radar chart data — illustration PME Services 7M€ (avant / après)
+// ---------------------------------------------------------------------------
+const RADAR_EXAMPLE_BEFORE = [
+    { pillar: 'CASH', score: 10, fullMark: 25 },
+    { pillar: 'MARGIN', score: 18, fullMark: 25 },
+    { pillar: 'RESILIENCE', score: 8, fullMark: 25 },
+    { pillar: 'RISK', score: 12, fullMark: 25 },
+]
+const RADAR_EXAMPLE_AFTER = [
+    { pillar: 'CASH', score: 21, fullMark: 25 },
+    { pillar: 'MARGIN', score: 22, fullMark: 25 },
+    { pillar: 'RESILIENCE', score: 17, fullMark: 25 },
+    { pillar: 'RISK', score: 20, fullMark: 25 },
+]
 
 export default function ScoreMethodologyPage() {
     return (
@@ -236,8 +260,89 @@ export default function ScoreMethodologyPage() {
                 </div>
             </section>
 
-            {/* EXEMPLE CONCRET — Avant / Après */}
+            {/* RADAR CHART — Visualisation des 4 piliers */}
             <section className="py-20 bg-slate-50">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center mb-12"
+                    >
+                        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                            Lecture visuelle du Score
+                        </h2>
+                        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                            Le radar des 4 piliers identifie instantanément les zones de force et les axes de vigilance.
+                            Exemple : PME Services, 7&nbsp;M€ de CA — avant et après structuration.
+                        </p>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        {/* Avant */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5 }}
+                            className="bg-white rounded-2xl border border-slate-200 p-6"
+                        >
+                            <div className="flex items-center justify-between mb-4">
+                                <div>
+                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Avant structuration</p>
+                                    <p className="text-2xl font-bold text-red-500 mt-1">48 <span className="text-sm font-normal text-slate-400">/ 100</span></p>
+                                </div>
+                                <div className="px-3 py-1 rounded-full bg-red-50 text-red-600 text-xs font-semibold">Fragile</div>
+                            </div>
+                            <div className="h-64">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <RadarChart data={RADAR_EXAMPLE_BEFORE} cx="50%" cy="50%" outerRadius="75%">
+                                        <PolarGrid stroke="#e2e8f0" />
+                                        <PolarAngleAxis dataKey="pillar" tick={{ fill: '#64748b', fontSize: 12, fontWeight: 600 }} />
+                                        <PolarRadiusAxis domain={[0, 25]} tick={false} axisLine={false} />
+                                        <Radar name="Score" dataKey="score" stroke="#ef4444" fill="#ef4444" fillOpacity={0.15} strokeWidth={2} />
+                                    </RadarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </motion.div>
+
+                        {/* Après */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.15 }}
+                            className="bg-white rounded-2xl border border-slate-200 p-6"
+                        >
+                            <div className="flex items-center justify-between mb-4">
+                                <div>
+                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Après 4 mois</p>
+                                    <p className="text-2xl font-bold text-emerald-500 mt-1">80 <span className="text-sm font-normal text-slate-400">/ 100</span></p>
+                                </div>
+                                <div className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold">Excellent</div>
+                            </div>
+                            <div className="h-64">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <RadarChart data={RADAR_EXAMPLE_AFTER} cx="50%" cy="50%" outerRadius="75%">
+                                        <PolarGrid stroke="#e2e8f0" />
+                                        <PolarAngleAxis dataKey="pillar" tick={{ fill: '#64748b', fontSize: 12, fontWeight: 600 }} />
+                                        <PolarRadiusAxis domain={[0, 25]} tick={false} axisLine={false} />
+                                        <Radar name="Score" dataKey="score" stroke="#10b981" fill="#10b981" fillOpacity={0.15} strokeWidth={2} />
+                                    </RadarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    <p className="text-center text-sm text-slate-400 mt-6 max-w-lg mx-auto">
+                        Illustration basée sur un cas réel anonymisé. Résultats variables selon le profil et le secteur d&apos;activité.
+                    </p>
+                </div>
+            </section>
+
+            {/* EXEMPLE CONCRET — Avant / Après */}
+            <section className="py-20 bg-white">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -1088,6 +1193,22 @@ export default function ScoreMethodologyPage() {
                         <p className="text-slate-400 text-sm mt-8">
                             Confidentiel · Sans engagement · Résultats immédiats
                         </p>
+
+                        <div className="flex items-center justify-center gap-4 mt-6">
+                            <Link
+                                href="/pilotage-financier-pme"
+                                className="text-xs text-slate-500 hover:text-white transition-colors underline underline-offset-2"
+                            >
+                                Guide complet du pilotage financier PME
+                            </Link>
+                            <span className="text-slate-700 text-xs">&middot;</span>
+                            <Link
+                                href="/mon-diagnostic"
+                                className="text-xs text-slate-500 hover:text-white transition-colors underline underline-offset-2"
+                            >
+                                Mon tableau de bord FinSight&trade;
+                            </Link>
+                        </div>
                     </motion.div>
                 </div>
             </section>

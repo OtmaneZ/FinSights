@@ -22,9 +22,10 @@ const CALCULATOR_META: Record<
   'cac-ltv': { label: 'CAC / LTV', icon: Target, unit: '€', href: '/calculateurs' },
   'burn-rate': { label: 'Burn Rate', icon: TrendingUp, unit: '€/mois', href: '/calculateurs' },
   valorisation: { label: 'Valorisation', icon: DollarSign, unit: '€', href: '/calculateurs' },
+  gearing: { label: 'Gearing', icon: BarChart3, unit: 'x', href: '/diagnostic/guide' },
 }
 
-const TOTAL_CALCULATORS = 9
+const TOTAL_CALCULATORS = 10
 
 // ---------------------------------------------------------------------------
 // Helpers

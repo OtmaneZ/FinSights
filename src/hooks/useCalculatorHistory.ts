@@ -16,6 +16,7 @@ export type CalculatorType =
   | 'cac-ltv'
   | 'burn-rate'
   | 'valorisation'
+  | 'gearing'
 
 export interface Calculation {
   /** Identifiant du calculateur */

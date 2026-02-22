@@ -43,6 +43,10 @@ interface SectorBenchmark {
   bfrJoursBon: number
   bfrJoursBad: number
   ebitdaMedian: number
+  /** Ratio dette nette / EBITDA — seuils sectoriels */
+  gearingMedian: number
+  gearingBon: number
+  gearingCritique: number
 }
 
 const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
@@ -52,6 +56,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 55, margeBon: 45, margeFaible: 30,
     bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 50,
     ebitdaMedian: 12,
+    gearingMedian: 2, gearingBon: 1.5, gearingCritique: 4,
   },
   commerce: {
     label: 'Commerce & Distribution',
@@ -59,6 +64,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 30, margeBon: 22, margeFaible: 15,
     bfrJoursMedian: 35, bfrJoursBon: 20, bfrJoursBad: 55,
     ebitdaMedian: 5,
+    gearingMedian: 2.5, gearingBon: 2, gearingCritique: 4.5,
   },
   industrie: {
     label: 'Industrie & Fabrication',
@@ -66,6 +72,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 38, margeBon: 28, margeFaible: 18,
     bfrJoursMedian: 50, bfrJoursBon: 35, bfrJoursBad: 75,
     ebitdaMedian: 8,
+    gearingMedian: 3, gearingBon: 2, gearingCritique: 5,
   },
   'saas-tech': {
     label: 'SaaS & Tech',
@@ -73,6 +80,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 70, margeBon: 55, margeFaible: 35,
     bfrJoursMedian: 15, bfrJoursBon: 10, bfrJoursBad: 30,
     ebitdaMedian: 15,
+    gearingMedian: 1.5, gearingBon: 1, gearingCritique: 3.5,
   },
   btp: {
     label: 'BTP & Construction',
@@ -80,6 +88,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 22, margeBon: 15, margeFaible: 8,
     bfrJoursMedian: 45, bfrJoursBon: 30, bfrJoursBad: 70,
     ebitdaMedian: 5,
+    gearingMedian: 3.5, gearingBon: 2.5, gearingCritique: 5.5,
   },
   chr: {
     label: 'Restauration & CHR',
@@ -87,6 +96,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 68, margeBon: 60, margeFaible: 50,
     bfrJoursMedian: -5, bfrJoursBon: -10, bfrJoursBad: 15,
     ebitdaMedian: 10,
+    gearingMedian: 3, gearingBon: 2, gearingCritique: 5,
   },
   autre: {
     label: 'Tous secteurs',
@@ -94,6 +104,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 40, margeBon: 30, margeFaible: 20,
     bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 55,
     ebitdaMedian: 8,
+    gearingMedian: 2.5, gearingBon: 2, gearingCritique: 4.5,
   },
 }
 
@@ -279,6 +290,22 @@ const WIZARD_STEPS: WizardStep[] = [
       unit: 'x',
     }),
   },
+  {
+    id: 'gearing',
+    calcType: 'gearing',
+    title: 'Poids de l\'endettement',
+    subtitle: 'Ratio dette nette / EBITDA',
+    pillar: 'resilience',
+    optional: true,
+    fields: [
+      { id: 'detteNette', label: 'Dette financiere nette', placeholder: '400 000', suffix: '\u20ac', help: 'Dettes bancaires + obligataires - tresorerie disponible' },
+      { id: 'ebitda', label: 'EBITDA annuel', placeholder: '200 000', suffix: '\u20ac', help: 'Resultat operationnel avant amortissements' },
+    ],
+    compute: (inputs) => ({
+      value: inputs.ebitda > 0 ? Math.round((inputs.detteNette / inputs.ebitda) * 10) / 10 : 0,
+      unit: 'x',
+    }),
+  },
 ]
 
 // ---------------------------------------------------------------------------
@@ -457,6 +484,15 @@ function computeLiveScores(
     else if (v >= 1) resPts += 3
     else resPts += 1
   }
+  if (results.gearing) {
+    resMax += 8
+    const g = results.gearing.value
+    if (g <= 0) resPts += 8                        // Tresorerie nette positive
+    else if (g <= bench.gearingBon) resPts += 7    // En-dessous du seuil favorable
+    else if (g <= bench.gearingMedian) resPts += 5  // Autour de la mediane
+    else if (g <= bench.gearingCritique) resPts += 2 // Zone de vigilance
+    else resPts += 0                                // Endettement critique
+  }
   // derived resilience
   if ((results.dso || results.bfr) && (results.marge || results.ebitda)) {
     resMax += 7
@@ -488,6 +524,9 @@ function computeLiveScores(
     }
     // crossed: DSO high + marge low
     if (results.dso && results.dso.value > bench.dsoMedian && results.marge && results.marge.value < bench.margeMedian) pts -= 3
+    // crossed: gearing high + marge low
+    if (results.gearing && results.gearing.value > bench.gearingCritique) pts -= 4
+    else if (results.gearing && results.gearing.value > bench.gearingMedian) pts -= 2
     scores.risk = Math.max(0, Math.min(25, pts))
   }
 
@@ -556,6 +595,15 @@ function computeSynthesis(
   if (results.dso && results.dso.value > bench.dsoMedian && results.marge && results.marge.value < bench.margeMedian)
     vulnerabilites.push('Double pression cash : delais clients longs + marge sous la mediane')
 
+  if (results.gearing) {
+    if (results.gearing.value <= bench.gearingBon)
+      forces.push(`Endettement maitrise (${results.gearing.value}x EBITDA) — sous la mediane sectorielle ${bench.gearingMedian}x`)
+    else if (results.gearing.value > bench.gearingCritique)
+      vulnerabilites.push(`Endettement critique (${results.gearing.value}x EBITDA) — au-dessus du seuil sectoriel ${bench.gearingCritique}x`)
+    else if (results.gearing.value > bench.gearingMedian)
+      vulnerabilites.push(`Endettement en zone de vigilance (${results.gearing.value}x EBITDA) — mediane sectorielle ${bench.gearingMedian}x`)
+  }
+
   if (scores.cash !== null && scores.cash >= 20) forces.push('Pilier CASH solide — tresorerie saine')
   if (scores.margin !== null && scores.margin >= 20) forces.push('Rentabilite operationnelle forte')
 
@@ -568,6 +616,8 @@ function computeSynthesis(
     priorite = `Reduire le DSO de ${gap}j pour liberer ${impact.toLocaleString('fr-FR')} \u20ac de tresorerie`
   } else if (results.marge && results.marge.value < bench.margeFaible) {
     priorite = `Revoir la structure de couts : marge de ${results.marge.value}% sous le seuil critique (${bench.margeFaible}%)`
+  } else if (results.gearing && results.gearing.value > bench.gearingCritique) {
+    priorite = `Reduire l'endettement net (${results.gearing.value}x EBITDA) — seuil sectoriel depasse (${bench.gearingCritique}x)`
   } else if (scores.cash !== null && scores.cash < 12) {
     priorite = 'Renforcer la tresorerie en priorite — pilier CASH fragile'
   } else if (scores.margin !== null && scores.margin < 12) {
@@ -1451,6 +1501,7 @@ export default function DiagnosticGuidePage() {
                     <p className="text-xs text-gray-600 leading-relaxed max-w-md">
                       Ce score repose sur les donnees declaratives saisies et les medianes sectorielles publiques
                       (Banque de France 2024, Altares). Il constitue un premier niveau de lecture.
+                      Les resultats doivent etre interpretes en tenant compte de la saisonnalite eventuelle de l'activite.
                       Passer d'un diagnostic a un plan d'action priorise necessite un audit approfondi.
                     </p>
                   </div>
@@ -1491,6 +1542,22 @@ export default function DiagnosticGuidePage() {
                       </div>
                       <ArrowRight className="w-3.5 h-3.5 text-gray-600 group-hover:text-gray-400 transition-colors flex-shrink-0" />
                     </Link>
+
+                    <div className="flex items-center gap-3 pt-2">
+                      <Link
+                        href="/methodologie"
+                        className="text-[11px] text-gray-600 hover:text-gray-400 transition-colors underline underline-offset-2"
+                      >
+                        Comprendre la methodologie du Score
+                      </Link>
+                      <span className="text-gray-800 text-[10px]">&middot;</span>
+                      <Link
+                        href="/pilotage-financier-pme"
+                        className="text-[11px] text-gray-600 hover:text-gray-400 transition-colors underline underline-offset-2"
+                      >
+                        Guide du pilotage financier PME
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </motion.div>

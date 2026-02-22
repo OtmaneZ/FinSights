@@ -65,6 +65,10 @@ interface SectorBenchmark {
   bfrJoursBad: number
   // Taux EBITDA/CA médian (%)
   ebitdaMedian: number
+  // Ratio dette nette / EBITDA — seuils sectoriels
+  gearingMedian: number
+  gearingBon: number
+  gearingCritique: number
 }
 
 const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
@@ -74,6 +78,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 55, margeBon: 45, margeFaible: 30,
     bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 50,
     ebitdaMedian: 12,
+    gearingMedian: 2, gearingBon: 1.5, gearingCritique: 4,
   },
   commerce: {
     label: 'Commerce & Distribution',
@@ -81,6 +86,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 30, margeBon: 22, margeFaible: 15,
     bfrJoursMedian: 35, bfrJoursBon: 20, bfrJoursBad: 55,
     ebitdaMedian: 5,
+    gearingMedian: 2.5, gearingBon: 2, gearingCritique: 4.5,
   },
   industrie: {
     label: 'Industrie & Fabrication',
@@ -88,6 +94,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 38, margeBon: 28, margeFaible: 18,
     bfrJoursMedian: 50, bfrJoursBon: 35, bfrJoursBad: 75,
     ebitdaMedian: 8,
+    gearingMedian: 3, gearingBon: 2, gearingCritique: 5,
   },
   'saas-tech': {
     label: 'SaaS & Tech',
@@ -95,6 +102,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 70, margeBon: 55, margeFaible: 35,
     bfrJoursMedian: 15, bfrJoursBon: 10, bfrJoursBad: 30,
     ebitdaMedian: 15,
+    gearingMedian: 1.5, gearingBon: 1, gearingCritique: 3.5,
   },
   btp: {
     label: 'BTP & Construction',
@@ -102,6 +110,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 22, margeBon: 15, margeFaible: 8,
     bfrJoursMedian: 45, bfrJoursBon: 30, bfrJoursBad: 70,
     ebitdaMedian: 5,
+    gearingMedian: 3.5, gearingBon: 2.5, gearingCritique: 5.5,
   },
   chr: {
     label: 'Restauration & CHR',
@@ -109,6 +118,7 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 68, margeBon: 60, margeFaible: 50,
     bfrJoursMedian: -5, bfrJoursBon: -10, bfrJoursBad: 15,
     ebitdaMedian: 10,
+    gearingMedian: 3, gearingBon: 2, gearingCritique: 5,
   },
   autre: {
     label: 'Autre / Tous secteurs',
@@ -116,13 +126,14 @@ const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
     margeMedian: 40, margeBon: 30, margeFaible: 20,
     bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 55,
     ebitdaMedian: 8,
+    gearingMedian: 2.5, gearingBon: 2, gearingCritique: 4.5,
   },
 }
 
 // ---------------------------------------------------------------------------
 // Constants & Metadata
 // ---------------------------------------------------------------------------
-const TOTAL_CALCULATORS = 9
+const TOTAL_CALCULATORS = 10
 
 const CALCULATOR_META: Record<
   CalculatorType,
@@ -216,6 +227,15 @@ const CALCULATOR_META: Record<
     href: '/calculateurs',
     pillar: 'resilience',
     description: 'Estimation de la valeur de votre entreprise',
+  },
+  gearing: {
+    label: 'Gearing',
+    fullLabel: 'Dette nette / EBITDA',
+    icon: Shield,
+    unit: 'x',
+    href: '/diagnostic/guide',
+    pillar: 'resilience',
+    description: 'Niveau d\'endettement rapporte a la capacite beneficiaire',
   },
 }
 
@@ -387,13 +407,15 @@ function computeDiagnosticScore(history: Calculation[], sector: SectorKey = 'aut
   // --- Pilier RÉSILIENCE (25 pts) — Universel PME ---
   const cacLtv = get('cac-ltv')
   const valorisation = get('valorisation')
+  const gearing = get('gearing')
   const resilienceCalcs: { type: CalculatorType; done: boolean }[] = [
     { type: 'cac-ltv', done: !!cacLtv },
     { type: 'valorisation', done: !!valorisation },
+    { type: 'gearing', done: !!gearing },
   ]
 
   const hasDerivedResilience = (dso && bfr) || (marge && (ebitda || seuil))
-  const resilienceHasData = cacLtv || valorisation || hasDerivedResilience
+  const resilienceHasData = cacLtv || valorisation || gearing || hasDerivedResilience
 
   let resilienceScore: number | null = null
   if (resilienceHasData) {
@@ -450,6 +472,17 @@ function computeDiagnosticScore(history: Calculation[], sector: SectorKey = 'aut
       }
 
       pts += Math.max(0, Math.min(7, structPts))
+    }
+
+    // D. Gearing (dette nette / EBITDA) — 8 pts
+    if (gearing) {
+      maxPossible += 8
+      const g = gearing.value
+      if (g <= 0) pts += 8                          // Trésorerie nette positive
+      else if (g <= bench.gearingBon) pts += 7      // En-dessous du seuil favorable
+      else if (g <= bench.gearingMedian) pts += 5    // Autour de la médiane
+      else if (g <= bench.gearingCritique) pts += 2  // Zone de vigilance
+      // else 0 — endettement critique
     }
 
     resilienceScore = maxPossible > 0 ? Math.round((pts / maxPossible) * 25) : null
@@ -1868,14 +1901,22 @@ function MethodologySection() {
         })}
       </div>
 
-      {/* Footer link */}
-      <div className="text-center mt-6">
+      {/* Footer links */}
+      <div className="text-center mt-6 space-y-2">
         <Link
           href="/methodologie"
           className="text-sm font-medium text-gray-400 hover:text-accent-primary transition-colors"
         >
           Documentation complète de la méthodologie →
         </Link>
+        <div>
+          <Link
+            href="/pilotage-financier-pme"
+            className="text-xs text-gray-500 hover:text-accent-primary transition-colors"
+          >
+            Guide complet : pilotage financier PME →
+          </Link>
+        </div>
       </div>
     </div>
   )

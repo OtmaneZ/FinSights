@@ -1216,6 +1216,36 @@ export default function PilotageFinancierPME() {
                     </div>
                 </div>
 
+                {/* RETOURS D'EXPÉRIENCE — Social Proof */}
+                <div className="mb-20 not-prose">
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-8">Retours d&apos;exp&eacute;rience</p>
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <blockquote className="border-l-2 border-gray-200 pl-6">
+                            <p className="text-gray-700 italic leading-relaxed text-[15px] mb-4">
+                                &laquo;&nbsp;En 3&nbsp;mois, j&apos;ai retrouv&eacute; de la visibilit&eacute; sur ma tr&eacute;sorerie.
+                                Le DSO est pass&eacute; de 58 &agrave; 42&nbsp;jours. Je recommande sans
+                                r&eacute;serve.&nbsp;&raquo;
+                            </p>
+                            <footer className="not-italic">
+                                <p className="text-sm font-medium text-gray-900">Jean&nbsp;D.</p>
+                                <p className="text-xs text-gray-500">CEO, PME Services — 8&nbsp;M&euro; de CA</p>
+                                <p className="text-xs font-medium text-emerald-600 mt-1">+180&nbsp;k&euro; de tr&eacute;sorerie lib&eacute;r&eacute;e</p>
+                            </footer>
+                        </blockquote>
+                        <blockquote className="border-l-2 border-gray-200 pl-6">
+                            <p className="text-gray-700 italic leading-relaxed text-[15px] mb-4">
+                                &laquo;&nbsp;Nous disposons d&eacute;sormais d&apos;un cadre de pilotage fiable
+                                et homog&egrave;ne, utilisable au quotidien en comit&eacute; de direction.&nbsp;&raquo;
+                            </p>
+                            <footer className="not-italic">
+                                <p className="text-sm font-medium text-gray-900">Directrice Administrative</p>
+                                <p className="text-xs text-gray-500">Groupe Formation &amp; Conseil</p>
+                                <p className="text-xs font-medium text-emerald-600 mt-1">Cl&ocirc;ture mensuelle ramen&eacute;e &agrave; J+7</p>
+                            </footer>
+                        </blockquote>
+                    </div>
+                </div>
+
                 {/* SECTION 8 */}
                 <section id="methode-finsight" className="mb-20">
                     <span className="inline-block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">
@@ -1491,6 +1521,24 @@ export default function PilotageFinancierPME() {
                     </h2>
 
                     <div className="grid md:grid-cols-2 gap-6">
+                        <Link
+                            href="/mon-diagnostic"
+                            className="group block p-6 bg-gray-50 border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-white transition-all"
+                        >
+                            <p className="text-sm text-gray-500 mb-2">Outil interactif</p>
+                            <p className="font-medium text-gray-900 group-hover:text-gray-600 transition-colors">
+                                Mon Diagnostic FinSight&trade; — tableau de bord 0&ndash;100
+                            </p>
+                        </Link>
+                        <Link
+                            href="/diagnostic/guide"
+                            className="group block p-6 bg-gray-50 border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-white transition-all"
+                        >
+                            <p className="text-sm text-gray-500 mb-2">Diagnostic guid&eacute;</p>
+                            <p className="font-medium text-gray-900 group-hover:text-gray-600 transition-colors">
+                                Protocole en 4 piliers — 7 minutes pour &eacute;valuer votre PME
+                            </p>
+                        </Link>
                         <Link
                             href="/fondamentaux/lire-bilan"
                             className="group block p-6 bg-gray-50 border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-white transition-all"
