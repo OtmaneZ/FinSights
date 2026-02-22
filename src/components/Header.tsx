@@ -84,6 +84,11 @@ export default function Header() {
                         Méthodologie
                     </Link>
 
+                    {/* Tarifs */}
+                    <Link href="/tarifs" className="text-secondary hover:text-primary transition-colors text-base font-semibold">
+                        Tarifs
+                    </Link>
+
                     {/* Ressources & Outils Dropdown */}
                     <div className="relative" ref={resourcesRef}>
                         <button
@@ -214,12 +219,12 @@ export default function Header() {
                                         <div className="py-2">
                                             {session.user?.plan === 'FREE' && (
                                                 <Link
-                                                    href="/pricing"
+                                                    href="/tarifs"
                                                     className="flex items-center gap-3 px-4 py-2 text-sm text-accent-primary hover:bg-accent-primary/5 transition-colors"
                                                     onClick={() => setIsDropdownOpen(false)}
                                                 >
                                                     <Crown className="w-4 h-4" />
-                                                    Passer à Business
+                                                    Découvrir les offres DAF
                                                 </Link>
                                             )}
 

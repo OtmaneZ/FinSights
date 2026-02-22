@@ -47,7 +47,7 @@ export default function UploadSuccessBanner({ onClose }: UploadSuccessBannerProp
                                     Session locale • Données non sauvegardées
                                 </p>
                                 <Link
-                                    href="/pricing"
+                                    href="/tarifs"
                                     className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-accent-primary to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-blue-500/20"
                                 >
                                     <Crown className="w-4 h-4" />

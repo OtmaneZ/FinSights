@@ -66,7 +66,7 @@ export async function checkSmartRateLimit(
                     limit,
                     resetAt: getNextMidnight(),
                     upgradeMessage: '💎 Passez PRO pour des questions IA illimitées',
-                    upgradeUrl: '/pricing'
+                    upgradeUrl: '/tarifs'
                 };
             }
 

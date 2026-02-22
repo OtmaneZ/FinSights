@@ -31,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
-      url: `${baseUrl}/pricing`,
+      url: `${baseUrl}/tarifs`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,

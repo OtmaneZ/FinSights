@@ -41,7 +41,7 @@ export default function DemoPage() {
                         <Link href="/" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                             Accueil
                         </Link>
-                        <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
+                        <Link href="/tarifs" className="text-secondary hover:text-primary transition-colors text-sm font-medium">
                             Nos Offres
                         </Link>
                         <a
@@ -99,7 +99,7 @@ export default function DemoPage() {
                             <Link href="/" className="text-secondary hover:text-primary transition-colors text-sm">
                                 Accueil
                             </Link>
-                            <Link href="/pricing" className="text-secondary hover:text-primary transition-colors text-sm">
+                            <Link href="/tarifs" className="text-secondary hover:text-primary transition-colors text-sm">
                                 Nos Offres
                             </Link>
                             <a

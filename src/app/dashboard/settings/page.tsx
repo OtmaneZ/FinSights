@@ -90,7 +90,7 @@ export default function SettingsPage() {
             icon: CreditCard,
             title: 'Facturation',
             description: userPlan === 'FREE' ? 'Passez à Business pour débloquer toutes les fonctionnalités' : 'Gérez votre abonnement et moyens de paiement',
-            href: userPlan === 'FREE' ? '/pricing' : '/dashboard/settings/billing',
+            href: userPlan === 'FREE' ? '/tarifs' : '/dashboard/settings/billing',
             available: true,
             planRequired: null
         }
@@ -143,7 +143,7 @@ export default function SettingsPage() {
                             onClick={(e) => {
                                 if (isLocked) {
                                     e.preventDefault();
-                                    router.push('/pricing');
+                                    router.push('/tarifs');
                                 }
                             }}
                         >
@@ -182,7 +182,7 @@ export default function SettingsPage() {
                                         className="text-sm text-accent-primary hover:underline font-medium"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            router.push('/pricing');
+                                            router.push('/tarifs');
                                         }}
                                     >
                                         Passer à {card.planRequired} →
@@ -209,10 +209,10 @@ export default function SettingsPage() {
                                 Passez à Business pour accéder aux webhooks, 5 entreprises, intégrations avancées et support prioritaire.
                             </p>
                             <Link
-                                href="/pricing"
+                                href="/tarifs"
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-medium transition-colors"
                             >
-                                Voir les plans
+                                Voir les offres
                                 <ChevronRight className="w-4 h-4" />
                             </Link>
                         </div>

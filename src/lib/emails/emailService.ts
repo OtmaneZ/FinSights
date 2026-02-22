@@ -159,7 +159,7 @@ export async function sendUsageAlertEmail(params: {
                 currentUsage: params.currentUsage,
                 limit: params.limit,
                 percentage: params.percentage,
-                upgradeUrl: `${process.env.NEXTAUTH_URL}/pricing`,
+                upgradeUrl: `${process.env.NEXTAUTH_URL}/tarifs`,
             })
         )
 

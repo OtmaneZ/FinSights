@@ -186,7 +186,7 @@ export default function ApiKeysPage() {
                             <p className="text-sm text-secondary">
                                 Les clés API sont disponibles à partir du plan PRO.
                                 <button
-                                    onClick={() => router.push('/pricing')}
+                                    onClick={() => router.push('/tarifs')}
                                     className="ml-1 text-accent-primary hover:underline font-medium"
                                 >
                                     Passer à PRO →

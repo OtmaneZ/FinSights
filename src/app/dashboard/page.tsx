@@ -621,10 +621,10 @@ function AutoWorkflowTab({ userPlan }: { userPlan: string }) {
                             Votre plan actuel limite les syncs automatiques à <strong>1 workflow actif</strong>.
                         </p>
                         <Link
-                            href="/pricing"
+                            href="/tarifs"
                             className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold text-sm transition-all"
                         >
-                            Passer à Business
+                            Découvrir les offres DAF
                             <ArrowRight className="w-4 h-4" />
                         </Link>
                     </div>

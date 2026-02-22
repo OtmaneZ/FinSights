@@ -153,10 +153,10 @@ export default function TwoPathsSection() {
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
                             <Link
-                                href="/pricing"
+                                href="/tarifs"
                                 className="flex items-center justify-center gap-2 w-full px-6 py-3 border-2 border-gray-300 hover:border-green-500 text-gray-700 hover:text-green-600 rounded-xl font-semibold text-sm transition-all"
                             >
-                                Voir tous les tarifs SaaS
+                                Voir tous les tarifs
                             </Link>
                         </div>
                     </div>

@@ -229,10 +229,10 @@ export async function checkUnifiedRateLimit(
             if (userPlan === 'FREE') {
                 if (action === 'copilot_queries') {
                     message = `💎 Limite FREE atteinte (${limit}/${periodText}). Passez PRO pour l'IA illimitée !`;
-                    upgradeUrl = '/pricing';
+                    upgradeUrl = '/tarifs';
                 } else if (action === 'uploads') {
                     message = `📂 Limite FREE atteinte (${limit} uploads/${periodText}). Upgrade PRO pour uploads illimités !`;
-                    upgradeUrl = '/pricing';
+                    upgradeUrl = '/tarifs';
                 }
             }
 
@@ -257,7 +257,7 @@ export async function checkUnifiedRateLimit(
         // Message d'avertissement quand proche de la limite
         if (userPlan === 'FREE' && remaining === 2 && action === 'copilot_queries') {
             message = '💎 Plus que 2 questions aujourd\'hui ! Passez PRO pour l\'illimité';
-            upgradeUrl = '/pricing';
+            upgradeUrl = '/tarifs';
         }
 
         return {
