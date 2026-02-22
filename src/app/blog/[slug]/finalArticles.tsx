@@ -838,7 +838,7 @@ export const finalArticles = {
                                 <td>Pas besoin de suivi temps réel, budget serré</td>
                             </tr>
                             <tr>
-                                <td>PME 1-10M€ CA</td>
+                                <td>PME 2-20M€ CA</td>
                                 <td className="text-green-600">Dashboard IA 100%</td>
                                 <td>ROI massif, complexité croissante</td>
                             </tr>
@@ -1210,7 +1210,7 @@ export const finalArticles = {
 
                 <h2 id="formules">🎯 Les 4 formules d'intervention</h2>
 
-                <h3>1️⃣ Diagnostic Ponctuel (1 490€)</h3>
+                <h3>1️⃣ Diagnostic Ponctuel (1 990€)</h3>
                 <div className="card">
                     <p><strong>Durée</strong> : 2 jours</p>
                     <p><strong>Livrables</strong> :</p>
@@ -1334,7 +1334,7 @@ export const finalArticles = {
 
                 <h3>4️⃣ Tester avec une mission diagnostic</h3>
                 <p>
-                    Avant un engagement long terme, commencez par une <strong>mission diagnostic 2 jours (1 490-2 500€)</strong>. 
+                    Avant un engagement long terme, commencez par une <strong>mission diagnostic 2 jours (1 990-2 500€)</strong>. 
                     Cela vous permet de :
                 </p>
                 <ul>

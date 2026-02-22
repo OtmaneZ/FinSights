@@ -349,7 +349,7 @@ export default function ContactPage() {
 
                             <div className="space-y-4 text-gray-300 leading-relaxed">
                                 <p>
-                                    J&apos;accompagne des dirigeants de PME (1 à 10 M€ de chiffre d&apos;affaires) 
+                                    J&apos;accompagne des dirigeants de PME (2 à 20 M€ de chiffre d&apos;affaires) 
                                     confrontés à une complexité croissante de leurs décisions financières : 
                                     <span className="text-white font-medium"> arbitrages d&apos;investissement, pilotage du cash, rentabilité réelle, timing des choix stratégiques.</span>
                                 </p>
@@ -369,7 +369,7 @@ export default function ContactPage() {
                             <div className="grid grid-cols-2 gap-4 pt-4">
                                 {[
                                     { icon: BarChart3, label: 'Finance & Data' },
-                                    { icon: Users, label: 'PME 1-10M€' },
+                                    { icon: Users, label: 'PME 2-20M€' },
                                     { icon: Target, label: 'ROI mesurable' },
                                     { icon: Shield, label: 'Confidentialité' }
                                 ].map((item, i) => (

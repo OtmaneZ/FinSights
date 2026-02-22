@@ -2,7 +2,7 @@ import { type Metadata } from 'next'
 import HomeClient from './HomeClient'
 
 export const metadata: Metadata = {
-  title: 'FinSight | Direction Financière Externalisée pour Dirigeants PME (1-100M€)',
+  title: 'FinSight | Direction Financière Externalisée pour Dirigeants PME (2M€ à 20M€)',
   description: "Pilotez votre PME avec 3 mois d'avance. Score FinSight™ (0-100), audit stratégique, tableaux de bord et agents IA finance. Échange stratégique 30 min offert.",
   keywords: [
     'direction financière externalisée pme',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
       url: 'https://finsight.zineinsight.com/images/og-default.png',
       width: 1200,
       height: 630,
-      alt: 'FinSight - DAF Externalisé pour PME 1-100M€',
+      alt: 'FinSight - DAF Externalisé pour PME 2M€-20M€',
     }],
   },
   twitter: {

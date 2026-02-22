@@ -8,7 +8,7 @@ import StructuredData from '@/components/StructuredData'
 export const metadata: Metadata = {
     title: 'Guide complet du pilotage financier PME (2026) | FinSight',
     description:
-        'Méthode structurée de pilotage financier PME : indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours, DAF externalisé. Guide de référence pour dirigeants 1–100 M€.',
+        'Méthode structurée de pilotage financier PME : indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours, DAF externalisé. Guide de référence pour dirigeants 2–20 M€.',
     alternates: {
         canonical: 'https://finsight.zineinsight.com/pilotage-financier-pme',
     },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         title: 'Guide complet du pilotage financier PME (2026)',
         description:
-            'Indicateurs clés, tableau de bord, pilotage de trésorerie et DAF externalisé. Méthode structurée pour dirigeants PME 1–100 M€.',
+            'Indicateurs clés, tableau de bord, pilotage de trésorerie et DAF externalisé. Méthode structurée pour dirigeants PME 2–20 M€.',
         images: ['https://finsight.zineinsight.com/images/og-default.png'],
     },
     robots: { index: true, follow: true },
@@ -46,7 +46,7 @@ const articleSchema = {
     '@type': 'Article',
     headline: 'Guide complet du pilotage financier PME (2026)',
     description:
-        'Méthode structurée de pilotage financier pour PME de 1 à 100 M€. Indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours et rôle du DAF externalisé.',
+        'Méthode structurée de pilotage financier pour PME de 2 à 20 M€. Indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours et rôle du DAF externalisé.',
     author: {
         '@type': 'Person',
         name: 'Otmane Boulahia',

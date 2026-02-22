@@ -34,7 +34,7 @@ export default function DAFExternalisePME() {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         "name": "DAF Externalisé PME - FinSight",
-        "description": "Services de direction financière externalisée pour PME de 1 à 50 millions d'euros. Pilotage trésorerie, marges et finance stratégique.",
+        "description": "Services de direction financière externalisée pour PME de 2 à 20 millions d'euros. Pilotage trésorerie, marges et finance stratégique.",
         "url": "https://finsight.zineinsight.com/daf-externalise-pme",
         "provider": {
             "@type": "Person",
@@ -51,7 +51,7 @@ export default function DAFExternalisePME() {
             {
                 "@type": "Offer",
                 "name": "Diagnostic Stratégique",
-                "price": "1490",
+                "price": "1990",
                 "priceCurrency": "EUR",
                 "description": "Audit flash + feuille de route prioritaire"
             },
@@ -93,7 +93,7 @@ export default function DAFExternalisePME() {
                 "name": "Qu'est-ce qu'un DAF externalisé ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Un DAF externalisé (ou DAF à temps partagé) est un Directeur Administratif et Financier qui intervient quelques jours par mois dans votre entreprise. C'est une alternative au recrutement d'un DAF temps plein, idéale pour les PME de 1 à 50M€ qui ont besoin d'expertise financière sans le coût d'un cadre dirigeant permanent."
+                    "text": "Un DAF externalisé (ou DAF à temps partagé) est un Directeur Administratif et Financier qui intervient quelques jours par mois dans votre entreprise. C'est une alternative au recrutement d'un DAF temps plein, idéale pour les PME de 2 à 20M€ qui ont besoin d'expertise financière sans le coût d'un cadre dirigeant permanent."
                 }
             },
             {
@@ -232,7 +232,7 @@ export default function DAFExternalisePME() {
     const offres = [
         {
             nom: "Diagnostic",
-            prix: "1 490€",
+            prix: "1 990€",
             description: "Audit flash de votre situation financière",
             duree: "2-3 semaines",
             inclus: [
@@ -310,7 +310,7 @@ export default function DAFExternalisePME() {
                             >
                                 <Building2 className="w-4 h-4 text-accent-primary" />
                                 <span className="text-sm text-accent-primary font-medium">
-                                    PME 1-50M€ de chiffre d&apos;affaires
+                                    PME 2M€-20M€ de chiffre d&apos;affaires
                                 </span>
                             </motion.div>
 
@@ -398,7 +398,7 @@ export default function DAFExternalisePME() {
                                     Ces problèmes vous parlent ?
                                 </h2>
                                 <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                                    80% des PME de 1 à 50M€ rencontrent ces difficultés financières. 
+                                    80% des PME de 2 à 20M€ rencontrent ces difficultés financières. 
                                     Ce n&apos;est pas une fatalité.
                                 </p>
                             </motion.div>
@@ -530,7 +530,7 @@ export default function DAFExternalisePME() {
                                     <div className="space-y-4 text-slate-300">
                                         <p>
                                             Après 8 ans en finance d&apos;entreprise (audit, contrôle de gestion, direction financière), 
-                                            j&apos;accompagne les <strong className="text-white">PME ambitieuses de 1 à 50M€</strong> dans leur pilotage financier.
+                                            j&apos;accompagne les <strong className="text-white">PME ambitieuses de 2 à 20M€</strong> dans leur pilotage financier.
                                         </p>
                                         <p>
                                             Ma différence ? Je combine <strong className="text-white">expertise finance</strong> et 
@@ -543,7 +543,7 @@ export default function DAFExternalisePME() {
                                     <div className="grid grid-cols-2 gap-4 mt-8">
                                         {[
                                             { label: "Secteurs", value: "Services, SaaS, Industrie" },
-                                            { label: "Taille PME", value: "1M€ à 50M€ CA" },
+                                            { label: "Taille PME", value: "2M€ à 20M€ CA" },
                                             { label: "Expérience", value: "8+ ans finance" },
                                             { label: "Clients", value: "50+ accompagnés" }
                                         ].map((item, i) => (

@@ -16,7 +16,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', weight: ['400', '500', '600', '700'] })
 
 export const metadata = {
-    title: 'FinSight | Direction Financière Externalisée pour Dirigeants PME (1-100M€)',
+    title: 'FinSight | Direction Financière Externalisée pour Dirigeants PME (2M€ à 20M€)',
     description: 'Pilotez votre PME avec 3 mois d\'avance. Score FinSight™ (0-100), audit stratégique, tableaux de bord et agents IA finance. Échange stratégique 30 min offert.',
     keywords: ['direction financière externalisée pme', 'daf externalisé', 'pilotage financier stratégique', 'score finsight', 'audit financier pme', 'agents ia finance', 'tableau de bord financier pme', 'anticipation trésorerie', 'consulting finance pme', 'structuration financière'],
     authors: [{ name: 'Otmane Boulahia', url: 'https://finsight.zineinsight.com/consulting' }],
@@ -37,7 +37,7 @@ export const metadata = {
             url: 'https://finsight.zineinsight.com/images/og-default.png',
             width: 1200,
             height: 630,
-            alt: 'FinSight - DAF Externalisé pour PME 1-100M€'
+            alt: 'FinSight - DAF Externalisé pour PME 2M€-20M€'
         }]
     },
     twitter: {

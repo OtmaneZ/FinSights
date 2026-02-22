@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'FAQ FinSight | Questions Fréquentes sur le DAF Externalisé & la Plateforme',
-    description: 'Toutes les réponses à vos questions : DAF externalisé vs expert-comptable, sécurité des données, formats acceptés, tarifs, engagement. FinSight - PME 1-100M€.',
+    description: 'Toutes les réponses à vos questions : DAF externalisé vs expert-comptable, sécurité des données, formats acceptés, tarifs, engagement. FinSight - PME 2M€-20M€.',
     keywords: [
         'faq daf externalisé',
         'questions finsight',

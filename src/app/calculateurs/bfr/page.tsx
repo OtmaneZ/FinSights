@@ -478,7 +478,7 @@ export default function CalculateurBFR() {
                                 <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
                                     <p className="text-accent-primary font-semibold mb-2">💡 BFR qui explose avec votre croissance ?</p>
                                     <p className="text-white text-lg mb-6">
-                                        Mon <strong>Audit Stratégique (1 490€)</strong> diagnostique vos fuites de trésorerie liées au BFR 
+                                        Mon <strong>Audit Stratégique (1 990€)</strong> diagnostique vos fuites de trésorerie liées au BFR 
                                         et propose des leviers d&apos;optimisation immédiate. Je vous aide ensuite à piloter votre BFR 
                                         en temps réel avec prévisionnel 90 jours et alertes.
                                     </p>
@@ -999,7 +999,7 @@ export default function CalculateurBFR() {
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                             >
                                                 <Target className="w-5 h-5" />
-                                                Voir l'Audit Stratégique (1 490€)
+                                                Voir l'Audit Stratégique (1 990€)
                                             </Link>
                                             <a
                                                 href="https://calendly.com/zineinsight"

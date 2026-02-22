@@ -112,7 +112,7 @@ export default function ConsultingPage() {
                 "name": "Pour quels types d'entreprises ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "J'accompagne principalement les PME de 1 à 100 millions d'euros de chiffre d'affaires, dans les secteurs Services B2B, SaaS, Commerce et Industrie."
+                    "text": "J'accompagne principalement les PME de 2 à 20 millions d'euros de chiffre d'affaires, dans les secteurs Services B2B, SaaS, Commerce et Industrie."
                 }
             }
         ]
@@ -511,7 +511,7 @@ export default function ConsultingPage() {
                             <div className="grid grid-cols-2 gap-4 pt-4">
                                 {[
                                     { icon: BarChart3, label: 'Finance & Data' },
-                                    { icon: Users, label: 'PME 1-10M€' },
+                                    { icon: Users, label: 'PME 2-20M€' },
                                     { icon: Target, label: 'ROI mesurable' },
                                     { icon: Shield, label: 'Confidentialité' }
                                 ].map((item, i) => (

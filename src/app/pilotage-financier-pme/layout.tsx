@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
     title: 'Guide complet du pilotage financier PME (2026) | FinSight',
     description:
-        'Méthode structurée de pilotage financier pour PME de 1 à 100 M\u20AC. Indicateurs cl\u00E9s, tableau de bord, pr\u00E9visionnel de tr\u00E9sorerie 90 jours et r\u00F4le du DAF externalis\u00E9.',
+        'Méthode structurée de pilotage financier pour PME de 2 à 20 M€. Indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours et rôle du DAF externalisé.',
     keywords: [
         'pilotage financier pme',
         'indicateurs financiers pme',

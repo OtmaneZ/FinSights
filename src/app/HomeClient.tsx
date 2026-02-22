@@ -28,7 +28,7 @@ const faqSchema = {
       name: "Pourquoi faire appel à un DAF externalisé pour sa PME ?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Un DAF externalisé apporte l'expertise stratégique d'un directeur financier senior sans le coût d'un recrutement fixe. Il aide les dirigeants de PME (1-100M€ CA) à sécuriser leur trésorerie, optimiser leurs marges et piloter leur croissance avec des données fiables.",
+        text: "Un DAF externalisé apporte l'expertise stratégique d'un directeur financier senior sans le coût d'un recrutement fixe. Il aide les dirigeants de PME (2 à 20M€ CA) à sécuriser leur trésorerie, optimiser leurs marges et piloter leur croissance avec des données fiables.",
       },
     },
     {
@@ -83,7 +83,7 @@ export default function HomeClient() {
                   Structurez votre pilotage financier, anticipez vos décisions
                   et sécurisez votre croissance.{" "}
                   <span className="text-gray-300">
-                    Pour dirigeants PME ambitieux, de 1M€ à 100M€.
+                    Pour dirigeants PME ambitieux, de 2M€ à 20M€.
                   </span>
                 </p>
               </FadeIn>

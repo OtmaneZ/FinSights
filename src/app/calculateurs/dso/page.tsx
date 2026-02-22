@@ -420,7 +420,7 @@ export default function CalculateurDSO() {
                                 <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
                                     <p className="text-accent-primary font-semibold mb-2">💡 Besoin d&apos;aide pour piloter votre DSO ?</p>
                                     <p className="text-white text-lg mb-6">
-                                        Avec mon <strong>Audit Stratégique (1 490€)</strong>, j&apos;analyse votre DSO en détail et vous propose 
+                                        Avec mon <strong>Audit Stratégique (1 990€)</strong>, j&apos;analyse votre DSO en détail et vous propose 
                                         un plan d&apos;action personnalisé pour libérer du cash. Je vous aide ensuite à optimiser ces ratios en réel 
                                         avec un pilotage de trésorerie sur 90 jours.
                                     </p>
@@ -976,7 +976,7 @@ export default function CalculateurDSO() {
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
                                             >
                                                 <Target className="w-5 h-5" />
-                                                Voir l'Audit Stratégique (1 490€)
+                                                Voir l'Audit Stratégique (1 990€)
                                             </Link>
                                             <a
                                                 href="https://calendly.com/zineinsight"

@@ -689,7 +689,7 @@ export default function CalculateurMarge() {
                                                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-all"
                                                     >
                                                         <FileText className="w-4 h-4" />
-                                                        Voir l'Audit Stratégique (1 490€)
+                                                        Voir l'Audit Stratégique (1 990€)
                                                     </Link>
                                                     <a
                                                         href="https://calendly.com/zineinsight"
@@ -719,7 +719,7 @@ export default function CalculateurMarge() {
                             <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
                                 <p className="text-accent-primary font-semibold mb-2">💡 Vos marges stagnent ou baissent ?</p>
                                 <p className="text-white text-lg mb-6">
-                                    Mon <strong>Audit Stratégique (1 490€)</strong> analyse en profondeur votre structure tarifaire, 
+                                    Mon <strong>Audit Stratégique (1 990€)</strong> analyse en profondeur votre structure tarifaire, 
                                     identifie vos produits/clients non rentables et propose des leviers concrets pour relever vos marges. 
                                     Je vous aide ensuite à piloter cette optimisation mois après mois.
                                 </p>
@@ -730,7 +730,7 @@ export default function CalculateurMarge() {
                                         className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-slate-100 transition-all"
                                     >
                                         <FileText className="w-5 h-5" />
-                                        Voir l&apos;Audit Stratégique (1 490€)
+                                        Voir l&apos;Audit Stratégique (1 990€)
                                     </Link>
                                     <a
                                         href="https://calendly.com/zineinsight"

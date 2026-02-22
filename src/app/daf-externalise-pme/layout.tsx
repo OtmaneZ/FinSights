@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'DAF Externalisé PME (1-50M€) | Pilotage Trésorerie & Finance Stratégique',
-    description: 'DAF externalisé à temps partagé pour PME ambitieuses. Visibilité trésorerie 90 jours, optimisation marges, pilotage financier. Diagnostic gratuit 30 min. Dès 1490€.',
+    title: 'DAF Externalisé PME (2M€ à 20M€) | Pilotage Trésorerie & Finance Stratégique',
+    description: 'DAF externalisé à temps partagé pour PME ambitieuses. Visibilité trésorerie 90 jours, optimisation marges, pilotage financier. Diagnostic gratuit 30 min. Dès 1990€.',
     keywords: [
         'daf externalisé',
         'daf externalisé pme',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     ],
     openGraph: {
         title: 'DAF Externalisé PME | Pilotez Votre Trésorerie Sans Recruter',
-        description: 'Expertise CFO à temps partagé pour PME 1-50M€. Visibilité trésorerie 90 jours, marges optimisées. Diagnostic gratuit.',
+        description: 'Expertise CFO à temps partagé pour PME 2M€-20M€. Visibilité trésorerie 90 jours, marges optimisées. Diagnostic gratuit.',
         url: 'https://finsight.zineinsight.com/daf-externalise-pme',
         type: 'website',
         images: [{
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'DAF Externalisé PME | Pilotage Trésorerie',
-        description: 'Expertise CFO à temps partagé pour PME 1-50M€. Diagnostic gratuit 30 min.',
+        description: 'Expertise CFO à temps partagé pour PME 2M€-20M€. Diagnostic gratuit 30 min.',
         images: ['https://finsight.zineinsight.com/images/og-daf-externalise.png']
     },
     alternates: {

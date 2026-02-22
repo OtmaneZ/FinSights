@@ -22,7 +22,7 @@ export default function Footer() {
                             <span className="text-xl font-semibold text-white">FinSight</span>
                         </Link>
                         <p className="text-[15px] leading-relaxed max-w-md mb-8">
-                            Direction financière externalisée pour PME de 1 à 100&nbsp;M€.
+                            Direction financière externalisée pour PME de 2 à 20&nbsp;M€.
                             Nous structurons le pilotage financier des entreprises en
                             croissance — trésorerie, marges, reporting — pour que chaque
                             décision repose sur des données fiables.
