@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { ArrowRight, CheckCircle, Shield, Star, TrendingUp, Target, Clock, Lock } from 'lucide-react'
+import { SOCIAL_PROOF_LABEL, AGGREGATE_REVIEW_COUNT } from '@/config/social-proof'
 
 // ---------------------------------------------------------------------------
 // Before / After score data for the visual
@@ -127,7 +128,7 @@ export default function AnalysePredictivePage() {
                                 <span className="w-px h-3 bg-gray-800" aria-hidden="true" />
                                 <span className="flex items-center gap-1.5 text-[12px] text-gray-500">
                                     <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" aria-hidden="true" />
-                                    4,8 / 5 (47 avis)
+                                    {SOCIAL_PROOF_LABEL}
                                 </span>
                             </div>
 

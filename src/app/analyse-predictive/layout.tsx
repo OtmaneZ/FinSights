@@ -1,4 +1,10 @@
 import { Metadata } from 'next'
+import {
+    AGGREGATE_RATING_VALUE,
+    AGGREGATE_REVIEW_COUNT,
+    BEST_RATING,
+    WORST_RATING,
+} from '@/config/social-proof'
 
 export const metadata: Metadata = {
     title: 'FinSight Advanced : Avis & Test — Diagnostic PME en 7 min | Analyse Prédictive',
@@ -62,10 +68,10 @@ const reviewJsonLd = {
     },
     aggregateRating: {
         '@type': 'AggregateRating',
-        ratingValue: '4.8',
-        reviewCount: '47',
-        bestRating: '5',
-        worstRating: '1',
+        ratingValue: AGGREGATE_RATING_VALUE,
+        reviewCount: AGGREGATE_REVIEW_COUNT,
+        bestRating: BEST_RATING,
+        worstRating: WORST_RATING,
     },
     review: [
         {

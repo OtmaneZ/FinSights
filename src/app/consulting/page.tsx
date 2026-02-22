@@ -24,6 +24,11 @@ import {
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
+import {
+    CONSULTING_RATING_VALUE,
+    CONSULTING_REVIEW_COUNT,
+    BEST_RATING,
+} from '@/config/social-proof'
 
 export default function ConsultingPage() {
     // Schema.org structured data for rich snippets
@@ -81,9 +86,9 @@ export default function ConsultingPage() {
         ],
         "aggregateRating": {
             "@type": "AggregateRating",
-            "ratingValue": "5",
-            "reviewCount": "12",
-            "bestRating": "5"
+            "ratingValue": CONSULTING_RATING_VALUE,
+            "reviewCount": CONSULTING_REVIEW_COUNT,
+            "bestRating": BEST_RATING
         }
     }
 
