@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { list } from '@vercel/blob'
+
+// Public base URL of the Vercel Blob store (no API call needed — deterministic)
+const BLOB_BASE = 'https://vta1eeblg62qjixo.public.blob.vercel-storage.com'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -72,11 +74,8 @@ export default async function RapportPage({
   } | null = null
 
   try {
-    // List blobs matching the token prefix to get the public URL
-    const { blobs } = await list({ prefix: `reports/${params.token}` })
-    if (blobs.length === 0) notFound()
-
-    const blobUrl = blobs[0].url
+    // Direct fetch — URL is deterministic, no Advanced Blob Operation needed
+    const blobUrl = `${BLOB_BASE}/reports/${params.token}.json`
     const res = await fetch(blobUrl, { next: { revalidate: 0 } })
     if (!res.ok) notFound()
     report = await res.json()
