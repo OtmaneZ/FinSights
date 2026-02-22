@@ -1010,7 +1010,7 @@ export default function DiagnosticGuidePage() {
                     onClick={goNext}
                     className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-950 text-sm font-semibold rounded-lg hover:bg-gray-100 transition-all duration-200"
                   >
-                    Demarrer le diagnostic
+                    Démarrer le diagnostic
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </button>
                 </div>
