@@ -51,14 +51,14 @@ export default function DAFExternalisePME() {
             {
                 "@type": "Offer",
                 "name": "Diagnostic Stratégique",
-                "price": "1990",
+                "price": "2490",
                 "priceCurrency": "EUR",
                 "description": "Audit flash + feuille de route prioritaire"
             },
             {
                 "@type": "Offer", 
                 "name": "Audit Financier Complet",
-                "price": "4990",
+                "price": "6990",
                 "priceCurrency": "EUR",
                 "description": "Analyse complète trésorerie, marges et rentabilité"
             },
@@ -232,7 +232,7 @@ export default function DAFExternalisePME() {
     const offres = [
         {
             nom: "Diagnostic",
-            prix: "1 990€",
+            prix: "2 490€",
             description: "Audit flash de votre situation financière",
             duree: "2-3 semaines",
             inclus: [
@@ -246,7 +246,7 @@ export default function DAFExternalisePME() {
         },
         {
             nom: "Audit Complet",
-            prix: "4 990€",
+            prix: "6 990€",
             description: "Analyse approfondie + plan d'action détaillé",
             duree: "4-6 semaines", 
             inclus: [

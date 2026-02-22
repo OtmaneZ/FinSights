@@ -135,7 +135,7 @@ export const DAFOfferEmail = ({
                         <Section style={offerCard}>
                             <Section style={offerHeader1}>
                                 <Text style={offerLabel}>🔍 DIAGNOSTIC</Text>
-                                <Text style={offerPrice}>1 990€ HT</Text>
+                                <Text style={offerPrice}>2 490€ HT</Text>
                                 <Text style={offerDuration}>Ponctuel (3-5 jours)</Text>
                             </Section>
                             <Section style={offerBody}>

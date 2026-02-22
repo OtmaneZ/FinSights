@@ -116,7 +116,7 @@ const faqSchema = {
             name: 'Combien coûte un pilotage financier externalisé pour une PME ?',
             acceptedAnswer: {
                 '@type': 'Answer',
-                text: "Le coût d'une mission de pilotage financier externalisée pour une PME démarre à partir de 1 990 € par mois, selon la complexité de l'entreprise et la fréquence d'intervention. Ce montant est significativement inférieur au coût d'un DAF salarié (60 000–120 000 € brut annuel), pour un niveau d'expertise équivalent.",
+                text: "Le coût d'une mission de pilotage financier externalisée pour une PME démarre à partir de 2 490 € HT selon la complexité de l'entreprise et la fréquence d'intervention. Ce montant est significativement inférieur au coût d'un DAF salarié (60 000–120 000 € brut annuel), pour un niveau d'expertise équivalent.",
             },
         },
     ],

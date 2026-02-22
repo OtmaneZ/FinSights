@@ -395,7 +395,7 @@ export default function HomeClient() {
 
                 <div className="pt-6 border-t border-gray-100">
                   <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">À partir de</p>
-                  <p className="text-3xl font-semibold text-gray-900 mb-5">1 990€</p>
+                  <p className="text-3xl font-semibold text-gray-900 mb-5">2 490€</p>
                   <Link
                     href="/consulting"
                     className="block w-full px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-medium text-center transition-all duration-200"

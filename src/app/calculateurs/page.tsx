@@ -163,7 +163,7 @@ export default function CalculateursPage() {
                                         Audit & Pilotage complet
                                     </h3>
                                     <p className="text-sm text-gray-600 mb-4">
-                                        Score FinSight™ + plan d'action chiffré · À partir de 1 990€
+                                        Score FinSight™ + plan d'action chiffré · À partir de 2 490€ HT
                                     </p>
                                     <ul className="space-y-2 text-sm text-gray-700 mb-6">
                                         <li className="flex items-start gap-2">

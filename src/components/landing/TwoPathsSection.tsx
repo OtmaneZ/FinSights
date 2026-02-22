@@ -84,11 +84,11 @@ export default function TwoPathsSection() {
                         </Link>
                     </div>
 
-                    {/* RIGHT: SaaS Path */}
-                    <div className="surface rounded-2xl p-8 lg:p-10 border-2 border-gray-200 hover:border-accent-primary hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
-                        {/* Badge "Self-Service" */}
+                    {/* RIGHT: Outils gratuits Path */}
+                    <div className="surface rounded-2xl p-8 lg:p-10 border-2 border-gray-200 hover:border-green-500 hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+                        {/* Badge "Gratuit" */}
                         <div className="absolute top-0 right-0 bg-green-500 text-white px-4 py-1.5 text-xs font-bold rounded-bl-xl">
-                            SELF-SERVICE
+                            100% GRATUIT
                         </div>
 
                         <div className="flex items-start gap-4 mb-6 mt-2">
@@ -97,31 +97,31 @@ export default function TwoPathsSection() {
                             </div>
                             <div>
                                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                                    Plateforme SaaS FinSight
+                                    Outils gratuits FinSight
                                 </h3>
                                 <p className="text-gray-600 text-sm">
-                                    Score instantané, dashboards, CFO virtuel — en autonomie
+                                    Calculateurs, diagnostic Score, dashboards — en autonomie, sans inscription
                                 </p>
                             </div>
                         </div>
 
-                        {/* Plans tarifaires */}
+                        {/* Outils disponibles */}
                         <div className="space-y-3 mb-8">
                             <div className="flex items-center justify-between p-3 bg-green-50/50 rounded-lg border border-green-100">
-                                <span className="text-sm font-medium text-gray-700">Plan Starter</span>
+                                <span className="text-sm font-medium text-gray-700">Calculateur DSO / BFR / Marge</span>
                                 <span className="text-lg font-bold text-green-600">Gratuit</span>
                             </div>
                             <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
-                                <span className="text-sm font-bold text-gray-900">Plan Business</span>
-                                <span className="text-lg font-bold text-green-600">249€/mois</span>
+                                <span className="text-sm font-bold text-gray-900">Score FinSight™ diagnostic</span>
+                                <span className="text-lg font-bold text-green-600">Gratuit</span>
                             </div>
                             <div className="flex items-center justify-between p-3 bg-green-50/50 rounded-lg border border-green-100">
-                                <span className="text-sm font-medium text-gray-700">Plan Growth</span>
-                                <span className="text-lg font-bold text-green-600">499€/mois</span>
+                                <span className="text-sm font-medium text-gray-700">Dashboard upload CSV</span>
+                                <span className="text-lg font-bold text-green-600">Gratuit</span>
                             </div>
                             <div className="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-emerald-200">
-                                <span className="text-sm font-medium text-gray-700">Plan Enterprise</span>
-                                <span className="text-base font-bold text-green-600">Sur devis</span>
+                                <span className="text-sm font-medium text-gray-700">Rapport Score personnalisé</span>
+                                <span className="text-base font-bold text-green-600">Gratuit</span>
                             </div>
                         </div>
 
@@ -131,32 +131,32 @@ export default function TwoPathsSection() {
                             <ul className="space-y-1.5 text-sm text-gray-700">
                                 <li className="flex items-start gap-2">
                                     <span className="text-green-600 mt-0.5">✓</span>
-                                    <span>Startups et PME cherchant un outil clé en main</span>
+                                    <span>Faire un premier point sur votre santé financière</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <span className="text-green-600 mt-0.5">✓</span>
-                                    <span>DAF/CFO voulant tester avant de s'engager</span>
+                                    <span>Calculer DSO, BFR, seuil de rentabilité en 2 min</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <span className="text-green-600 mt-0.5">✓</span>
-                                    <span>Équipes finance autonomes sur leur stack</span>
+                                    <span>Préparer un brief avant d'échanger avec un expert</span>
                                 </li>
                             </ul>
                         </div>
 
                         <div className="space-y-3">
                             <Link
-                                href="/dashboard"
+                                href="/calculateurs"
                                 className="group flex items-center justify-center gap-2 w-full px-6 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold text-base shadow-lg hover:shadow-xl transition-all"
                             >
-                                Essayer gratuitement
+                                Accéder aux outils gratuits
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
                             <Link
-                                href="/tarifs"
+                                href="/diagnostic/guide"
                                 className="flex items-center justify-center gap-2 w-full px-6 py-3 border-2 border-gray-300 hover:border-green-500 text-gray-700 hover:text-green-600 rounded-xl font-semibold text-sm transition-all"
                             >
-                                Voir tous les tarifs
+                                Faire le diagnostic Score FinSight™
                             </Link>
                         </div>
                     </div>
@@ -165,9 +165,9 @@ export default function TwoPathsSection() {
                 {/* Bottom Note */}
                 <div className="mt-12 text-center">
                     <p className="text-sm text-gray-600">
-                        <span className="font-semibold text-gray-900">Pas sûr de votre choix ?</span> Commencez par le{' '}
-                        <Link href="/dashboard" className="text-accent-primary hover:underline font-semibold">
-                            plan gratuit
+                        <span className="font-semibold text-gray-900">Pas sûr de votre besoin ?</span> Commencez par les{' '}
+                        <Link href="/calculateurs" className="text-accent-primary hover:underline font-semibold">
+                            outils gratuits
                         </Link>{' '}
                         ou{' '}
                         <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="text-accent-primary hover:underline font-semibold">

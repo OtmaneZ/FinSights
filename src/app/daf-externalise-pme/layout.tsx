@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'DAF Externalisé PME (2M€ à 20M€) | Pilotage Trésorerie & Finance Stratégique',
-    description: 'DAF externalisé à temps partagé pour PME ambitieuses. Visibilité trésorerie 90 jours, optimisation marges, pilotage financier. Diagnostic gratuit 30 min. Dès 1990€.',
+    description: 'DAF externalisé à temps partagé pour PME ambitieuses. Visibilité trésorerie 90 jours, optimisation marges, pilotage financier. Diagnostic gratuit 30 min. Dès 2 490€.',
     keywords: [
         'daf externalisé',
         'daf externalisé pme',

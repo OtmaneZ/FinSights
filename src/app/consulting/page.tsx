@@ -63,7 +63,7 @@ export default function ConsultingPage() {
                 "@type": "Offer",
                 "name": "Diagnostic Stratégique",
                 "description": "Audit financier flash avec feuille de route prioritaire",
-                "price": "1990",
+                "price": "2490",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock"
             },
@@ -71,7 +71,7 @@ export default function ConsultingPage() {
                 "@type": "Offer",
                 "name": "Audit Complet",
                 "description": "Analyse approfondie trésorerie, marges et rentabilité avec plan d'optimisation",
-                "price": "4990",
+                "price": "6990",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock"
             },
@@ -79,7 +79,7 @@ export default function ConsultingPage() {
                 "@type": "Offer",
                 "name": "Système de Décision",
                 "description": "Direction financière externalisée avec tableaux de bord automatisés",
-                "price": "9990",
+                "price": "12500",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock"
             }
@@ -109,7 +109,7 @@ export default function ConsultingPage() {
                 "name": "Combien coûte un audit financier ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Le diagnostic stratégique démarre à 1990€ pour un audit flash de 2-3 semaines. L'audit complet est à 4990€ et inclut une analyse approfondie de vos marges, trésorerie et un plan d'optimisation chiffré."
+                    "text": "Le diagnostic stratégique démarre à 2 490€ HT pour un audit flash de 2-3 semaines. L'audit complet est à 6 990€ HT et inclut une analyse approfondie de vos marges, trésorerie et un plan d'optimisation chiffré."
                 }
             },
             {
@@ -744,8 +744,8 @@ export default function ConsultingPage() {
                             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Offre Signature</p>
                             <h3 className="text-2xl font-bold text-text-primary mb-2">Diagnostic FinSight™ 90J</h3>
                             <div className="flex items-baseline gap-1 mb-4">
-                                <span className="text-4xl font-bold text-text-primary">1 990</span>
-                                <span className="text-text-secondary">€</span>
+                                <span className="text-4xl font-bold text-text-primary">2 490</span>
+                                <span className="text-text-secondary">€ HT</span>
                             </div>
                             <p className="text-text-secondary mb-6">Clarté stratégique complète en 5 jours ouvrés.</p>
 
@@ -783,8 +783,8 @@ export default function ConsultingPage() {
                             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Structuration &amp; Pilotage</p>
                             <h3 className="text-2xl font-bold mb-2">Audit Complet</h3>
                             <div className="flex items-baseline gap-1 mb-4">
-                                <span className="text-4xl font-bold">4 990</span>
-                                <span className="text-gray-400">€</span>
+                                <span className="text-4xl font-bold">6 990</span>
+                                <span className="text-gray-400">€ HT</span>
                             </div>
                             <p className="text-gray-300 mb-6">Visibilité complète, arbitrages rapides, décisions structurées.</p>
 
@@ -821,8 +821,8 @@ export default function ConsultingPage() {
                             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Système décisionnel</p>
                             <h3 className="text-2xl font-bold text-text-primary mb-2">Decision System</h3>
                             <div className="flex items-baseline gap-1 mb-4">
-                                <span className="text-4xl font-bold text-text-primary">9 990</span>
-                                <span className="text-text-secondary">€</span>
+                                <span className="text-4xl font-bold text-text-primary">12 500</span>
+                                <span className="text-text-secondary">€ HT</span>
                             </div>
                             <p className="text-text-secondary mb-6">Un pilotage financier autonome, fiable et durable.</p>
 

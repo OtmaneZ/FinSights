@@ -92,7 +92,7 @@ export default function TarifsPage() {
                 {
                     '@type': 'Offer',
                     name: 'Diagnostic FinSight™ 90J',
-                    price: '1990',
+                    price: '2490',
                     priceCurrency: 'EUR',
                     description:
                         'Score FinSight™ 0-100, décomposition 4 piliers, 3 leviers prioritaires chiffrés, simulation d\'impact 90 jours, restitution stratégique 60 min.',
@@ -101,7 +101,7 @@ export default function TarifsPage() {
                 {
                     '@type': 'Offer',
                     name: 'Audit Complet',
-                    price: '4990',
+                    price: '6990',
                     priceCurrency: 'EUR',
                     description:
                         'Diagnostic + analyse rentabilité par activité, vision trésorerie 24 mois, cockpit décisionnel, plan d\'action chiffré sur 6 mois, formation + 1 mois support.',
@@ -110,7 +110,7 @@ export default function TarifsPage() {
                 {
                     '@type': 'Offer',
                     name: 'Decision System',
-                    price: '9990',
+                    price: '12500',
                     priceCurrency: 'EUR',
                     description:
                         'Audit Complet + cockpit dirigeant temps réel, alertes automatiques, scénarios de croissance, formation équipe + 3 mois d\'accompagnement.',
@@ -214,7 +214,7 @@ export default function TarifsPage() {
                                 Diagnostic FinSight™ 90J
                             </h2>
                             <div className="flex items-baseline gap-1 mb-1">
-                                <span className="text-4xl font-bold text-slate-900">1&nbsp;990</span>
+                                <span className="text-4xl font-bold text-slate-900">2&nbsp;490</span>
                                 <span className="text-slate-500">€ HT</span>
                             </div>
                             <p className="text-sm text-slate-400 mb-6">Mission ponctuelle · 5 jours ouvrés</p>
@@ -265,7 +265,7 @@ export default function TarifsPage() {
                             </p>
                             <h2 className="text-2xl font-bold mb-2">Audit Complet</h2>
                             <div className="flex items-baseline gap-1 mb-1">
-                                <span className="text-4xl font-bold">4&nbsp;990</span>
+                                <span className="text-4xl font-bold">6&nbsp;990</span>
                                 <span className="text-gray-400">€ HT</span>
                             </div>
                             <p className="text-sm text-gray-500 mb-6">Mission structurante · Paiement échelonnable</p>
@@ -315,7 +315,7 @@ export default function TarifsPage() {
                             </p>
                             <h2 className="text-2xl font-bold text-slate-900 mb-2">Decision System</h2>
                             <div className="flex items-baseline gap-1 mb-1">
-                                <span className="text-4xl font-bold text-slate-900">9&nbsp;990</span>
+                                <span className="text-4xl font-bold text-slate-900">12&nbsp;500</span>
                                 <span className="text-slate-500">€ HT</span>
                             </div>
                             <p className="text-sm text-slate-400 mb-6">Accompagnement complet · 3 mois inclus</p>
@@ -389,9 +389,9 @@ export default function TarifsPage() {
                             <thead>
                                 <tr className="bg-slate-900 text-white">
                                     <th className="text-left p-4 font-semibold">Livrable</th>
-                                    <th className="text-center p-4 font-semibold">Diagnostic<br /><span className="text-xs font-normal text-gray-400">1 990 €</span></th>
-                                    <th className="text-center p-4 font-semibold bg-accent-primary/20">Audit Complet<br /><span className="text-xs font-normal text-gray-300">4 990 €</span></th>
-                                    <th className="text-center p-4 font-semibold">Decision System<br /><span className="text-xs font-normal text-gray-400">9 990 €</span></th>
+                                    <th className="text-center p-4 font-semibold">Diagnostic<br /><span className="text-xs font-normal text-gray-400">2 490 €</span></th>
+                                    <th className="text-center p-4 font-semibold bg-accent-primary/20">Audit Complet<br /><span className="text-xs font-normal text-gray-300">6 990 €</span></th>
+                                    <th className="text-center p-4 font-semibold">Decision System<br /><span className="text-xs font-normal text-gray-400">12 500 €</span></th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">

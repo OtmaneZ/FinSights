@@ -47,7 +47,7 @@ export default function PourQuiPage() {
                 { label: 'Score', value: '0–100' }
             ],
             cta: {
-                primary: 'Diagnostic FinSight™ — 1 990€',
+                primary: 'Diagnostic FinSight™ — 2 490€',
                 secondary: 'Réserver un échange stratégique',
                 link: '/consulting'
             },
@@ -82,7 +82,7 @@ export default function PourQuiPage() {
                 { label: 'Dashboard', value: 'Clé en main' }
             ],
             cta: {
-                primary: 'Audit Complet — 4 990€',
+                primary: 'Audit Complet — 6 990€',
                 secondary: 'Réserver un échange stratégique',
                 link: '/consulting'
             },
@@ -117,7 +117,7 @@ export default function PourQuiPage() {
                 { label: 'Support', value: '3 mois' }
             ],
             cta: {
-                primary: 'Decision System — 9 990€',
+                primary: 'Decision System — 12 500€',
                 secondary: 'Réserver un échange stratégique',
                 link: '/consulting'
             },

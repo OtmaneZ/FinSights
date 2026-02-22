@@ -159,9 +159,9 @@ export default function RootLayout({
                                 '@type': 'OfferCatalog',
                                 name: 'Missions DAF Externalisé',
                                 itemListElement: [
-                                    { '@type': 'Offer', name: 'Diagnostic FinSight™ 90J', price: '1990', priceCurrency: 'EUR' },
-                                    { '@type': 'Offer', name: 'Audit Complet', price: '4990', priceCurrency: 'EUR' },
-                                    { '@type': 'Offer', name: 'Decision System', price: '9990', priceCurrency: 'EUR' }
+                                    { '@type': 'Offer', name: 'Diagnostic FinSight™ 90J', price: '2490', priceCurrency: 'EUR' },
+                                    { '@type': 'Offer', name: 'Audit Complet', price: '6990', priceCurrency: 'EUR' },
+                                    { '@type': 'Offer', name: 'Decision System', price: '12500', priceCurrency: 'EUR' }
                                 ]
                             }
                         })

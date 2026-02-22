@@ -633,7 +633,7 @@ export default function CalculateurSeuilRentabilite() {
                                                         className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-all"
                                                     >
                                                         <FileText className="w-4 h-4" />
-                                                        Voir l'Audit Stratégique (1 990€)
+                                                        Voir l'Diagnostic FinSight™ 90J (2 490€ HT)
                                                     </Link>
                                                     <a
                                                         href="https://calendly.com/zineinsight"
@@ -663,7 +663,7 @@ export default function CalculateurSeuilRentabilite() {
                             <div className="not-prose bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-center">
                                 <p className="text-accent-primary font-semibold mb-2">💡 Prêt à optimiser votre rentabilité ?</p>
                                 <p className="text-white text-lg mb-6">
-                                    Mon <strong>Audit Stratégique (1 990€)</strong> analyse en détail votre structure de coûts, 
+                                    Mon <strong>Diagnostic FinSight™ 90J (2 490€ HT)</strong> analyse en détail votre structure de coûts, 
                                     identifie les leviers de réduction et propose un plan d&apos;action chiffré. 
                                     Je vous aide ensuite à abaisser votre seuil et à maximiser votre profitabilité.
                                 </p>
@@ -674,7 +674,7 @@ export default function CalculateurSeuilRentabilite() {
                                         className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-slate-100 transition-all"
                                     >
                                         <FileText className="w-5 h-5" />
-                                        Voir l&apos;Audit Stratégique (1 990€)
+                                        Voir l&apos;Diagnostic FinSight™ 90J (2 490€ HT)
                                     </Link>
                                     <a
                                         href="https://calendly.com/zineinsight"

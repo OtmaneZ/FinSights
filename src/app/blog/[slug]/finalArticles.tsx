@@ -1210,7 +1210,7 @@ export const finalArticles = {
 
                 <h2 id="formules">🎯 Les 4 formules d'intervention</h2>
 
-                <h3>1️⃣ Diagnostic Ponctuel (1 990€)</h3>
+                <h3>1️⃣ Diagnostic Ponctuel (2 490€ HT)</h3>
                 <div className="card">
                     <p><strong>Durée</strong> : 2 jours</p>
                     <p><strong>Livrables</strong> :</p>
@@ -1222,7 +1222,7 @@ export const finalArticles = {
                     <p><strong>Pour qui ?</strong> PME voulant un état des lieux avant engagement</p>
                 </div>
 
-                <h3>2️⃣ Audit Complet (4 990€)</h3>
+                <h3>2️⃣ Audit Complet (6 990€ HT)</h3>
                 <div className="card">
                     <p><strong>Durée</strong> : 5-7 jours</p>
                     <p><strong>Livrables</strong> :</p>
@@ -1249,7 +1249,7 @@ export const finalArticles = {
                     <p><strong>Pour qui ?</strong> PME 1-20M€ voulant un pilotage régulier sans DAF temps plein</p>
                 </div>
 
-                <h3>4️⃣ Transformation / Projets (9 990€ - 25 000€)</h3>
+                <h3>4️⃣ Transformation / Projets (12 500€ - 25 000€ HT)</h3>
                 <div className="card">
                     <p><strong>Durée</strong> : 3-6 mois (mission projet)</p>
                     <p><strong>Exemples projets</strong> :</p>
@@ -1334,7 +1334,7 @@ export const finalArticles = {
 
                 <h3>4️⃣ Tester avec une mission diagnostic</h3>
                 <p>
-                    Avant un engagement long terme, commencez par une <strong>mission diagnostic 2 jours (1 990-2 500€)</strong>. 
+                    Avant un engagement long terme, commencez par une <strong>mission diagnostic 2 jours (2 490€ HT)</strong>. 
                     Cela vous permet de :
                 </p>
                 <ul>

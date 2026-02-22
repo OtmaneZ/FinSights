@@ -130,7 +130,7 @@ const faqJsonLd = {
             name: 'Quelle est la différence entre FinSight et un cabinet comptable ?',
             acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'FinSight est un outil de pré-diagnostic qui vous donne une vision instantanée et structurée de votre santé financière. Il identifie les signaux d\'alerte et priorise les actions. Pour un accompagnement DAF externalisé complet, FinSight propose ensuite un Audit Stratégique à 1 990€.',
+                text: 'FinSight est un outil de pré-diagnostic qui vous donne une vision instantanée et structurée de votre santé financière. Il identifie les signaux d\'alerte et priorise les actions. Pour un accompagnement DAF externalisé complet, FinSight propose ensuite un Audit Stratégique à 2 490€ HT.',
             },
         },
     ],
