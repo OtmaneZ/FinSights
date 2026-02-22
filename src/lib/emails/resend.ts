@@ -8,6 +8,7 @@ const apiKey = process.env.RESEND_API_KEY || 'placeholder-key-for-build'
 
 export const resend = new Resend(apiKey)
 
-// Production domain - verify on resend.com/domains first
-export const FROM_EMAIL = 'FinSight <noreply@finsight.zineinsight.com>'
-export const REPLY_TO_EMAIL = 'support@zineinsight.com'
+// Domaine vérifié Resend : finsight.zineinsight.com (DKIM resend._domainkey.finsight présent)
+// Variable d'env RESEND_FROM_EMAIL pour override si besoin
+export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'FinSight <noreply@finsight.zineinsight.com>'
+export const REPLY_TO_EMAIL = 'otmane@zineinsight.com'

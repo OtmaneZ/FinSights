@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Resend } from 'resend'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+import { resend, FROM_EMAIL, REPLY_TO_EMAIL } from '@/lib/emails/resend'
 
 // Simple email validation
 function isValidEmail(email: string): boolean {
@@ -95,12 +93,11 @@ export async function POST(req: NextRequest) {
 
     const cleanEmail = email.trim().toLowerCase()
 
-    // Send email via Resend (same pattern as /api/newsletter/subscribe)
-    if (process.env.RESEND_API_KEY) {
-      const { subject, html } = getEmailContent(source, leadMagnet, score)
+    const { subject, html } = getEmailContent(source, leadMagnet, score)
 
-      const { error } = await resend.emails.send({
-        from: 'FinSight <otmane@zineinsight.com>',
+    const { error } = await resend.emails.send({
+        from: FROM_EMAIL,
+        replyTo: REPLY_TO_EMAIL,
         to: [cleanEmail],
         subject,
         html,
@@ -115,13 +112,6 @@ export async function POST(req: NextRequest) {
         console.error('[lead-capture] Resend error:', error)
         return NextResponse.json({ error: 'Erreur envoi email' }, { status: 500 })
       }
-    } else {
-      // Fallback log if Resend not configured
-      console.log('[lead-capture] RESEND_API_KEY manquante — lead enregistré localement:', {
-        email: cleanEmail, source, leadMagnet, newsletterOptIn, score,
-        capturedAt: new Date().toISOString(),
-      })
-    }
 
     return NextResponse.json({ success: true }, { status: 200 })
   } catch {
