@@ -1,0 +1,76 @@
+<div class="finsight-tech-sheet">
+  <header>
+    <h1>FinSight Core Engine : The Financial Decision Layer</h1>
+    <p><strong>Middleware intelligent pour la donnée financière des PME.</strong></p>
+    <p>FinSight n'est pas un outil de visualisation passif. C'est un moteur d'exécution asynchrone conçu pour s'interfacer entre les flux bancaires/comptables et l'ERP/SaaS de l'entreprise, transformant la donnée brute en décisions automatisées.</p>
+  </header>
+
+  <hr>
+
+  <section>
+    <h2>1. Vision Architecturale</h2>
+    <ul>
+      <li><strong>Modèle :</strong> API RESTful / Stateless. Aucune donnée sensible n'est stockée à long terme. Traitement "on-the-fly" pour une sécurité maximale et une conformité RGPD stricte.</li>
+      <li><strong>Stack & Performance :</strong> Conçu pour ingérer et normaliser des exports massifs (FEC, JSON Bank flows) avec une latence minimale.</li>
+      <li><strong>Interopérabilité :</strong> Pensé comme un "Plug-in" intégrable (White-label) dans des plateformes tierces (Qonto, Pennylane, Agicap).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Moteur de Scoring (Algorithme Propriétaire)</h2>
+    <p>Le cœur de la propriété intellectuelle de FinSight repose sur l'industrialisation de l'analyse financière.</p>
+    <ul>
+      <li><strong>Feature Engineering :</strong> Nettoyage et catégorisation des flux sans intervention humaine.</li>
+      <li><strong>Détection d'Anomalies (Z-Score) :</strong> Repérage des transactions aberrantes, prévention de la fraude et des erreurs comptables.</li>
+      <li><strong>Clustering Temporel :</strong> Identification automatique des patterns récurrents (loyers, salaires, abonnements cachés).</li>
+      <li><strong>Output :</strong> Génération du <code>Score FinSight™ v1.0</code> renvoyant les 4 piliers (Cash, Margin, Resilience, Risk) accompagnés d'un Index de Confiance (Data Confidence Score).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Couche IA : Actionable Agents</h2>
+    <p>FinSight utilise l'IA non pas pour "chatter", mais pour exécuter des actions métiers complexes.</p>
+    <ul>
+      <li><strong>Logic Agent :</strong> Interprétation du score en langage naturel (ex: <em>"Risque de concentration identifié : Le client X représente 42% du CA. Probabilité de tension de trésorerie à 60j : Élevée."</em>).</li>
+      <li><strong>Execution Agent :</strong> Génération de plans d'action chiffrés et préparation d'instructions exécutables via API (scénarios "What-if", alertes de franchissement de seuil).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Endpoints Stratégiques (Extrait)</h2>
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left;">
+      <thead>
+        <tr>
+          <th>Endpoint</th>
+          <th>Méthode</th>
+          <th>Description & Valeur Ajoutée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>/v1/score</code></td>
+          <td><strong>POST</strong></td>
+          <td>Calcule le Score FinSight™ global à partir d'un payload de flux bruts. Évaluation instantanée du risque et benchmark sectoriel.</td>
+        </tr>
+        <tr>
+          <td><code>/v1/anomalies</code></td>
+          <td><strong>GET</strong></td>
+          <td>Isole les transactions hors-normes et les ruptures de tendance. Idéal pour la pré-due diligence ou l'audit continu.</td>
+        </tr>
+        <tr>
+          <td><code>/v1/simulate</code></td>
+          <td><strong>POST</strong></td>
+          <td>Simule l'impact d'une décision (ex: embauche, investissement) sur les 4 piliers financiers avant exécution.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>5. Intégration & Déploiement</h2>
+    <ul>
+      <li><strong>Widget Frontend :</strong> Composant React (<code>&lt;FinSightWidget /&gt;</code>) intégrable en une ligne de code pour un affichage natif du Score chez le partenaire.</li>
+      <li><strong>Webhooks :</strong> Système de notifications asynchrones déclenché lorsqu'un KPI financier critique (ex: Runway, DSO) franchit un seuil de sécurité pré-défini.</li>
+    </ul>
+  </section>
+</div>
