@@ -123,7 +123,7 @@ export default function RootLayout({
                                 width: 250,
                                 height: 60
                             },
-                            description: 'Plateforme d\'intelligence financière pour TPE/PME : agents IA finance, dashboard interactif, Score FinSight™ 0-100, consulting DAF externalisé. Automatisez votre pilotage financier.',
+                            description: 'Cabinet de direction financière externalisée pour PME de 2 à 20 M€. Diagnostic financier, audit stratégique et pilotage décisionnel — Score FinSight™ 0-100.',
                             founder: {
                                 '@type': 'Person',
                                 name: 'Otmane Boulahia',
@@ -153,12 +153,14 @@ export default function RootLayout({
                             sameAs: [
                                 'https://www.linkedin.com/in/otmane-boulahia-553bb6363'
                             ],
-                            offers: {
-                                '@type': 'AggregateOffer',
-                                priceCurrency: 'EUR',
-                                lowPrice: '0',
-                                highPrice: '49',
-                                offerCount: '3'
+                            hasOfferCatalog: {
+                                '@type': 'OfferCatalog',
+                                name: 'Missions DAF Externalisé',
+                                itemListElement: [
+                                    { '@type': 'Offer', name: 'Diagnostic FinSight™ 90J', price: '1990', priceCurrency: 'EUR' },
+                                    { '@type': 'Offer', name: 'Audit Complet', price: '4990', priceCurrency: 'EUR' },
+                                    { '@type': 'Offer', name: 'Decision System', price: '9990', priceCurrency: 'EUR' }
+                                ]
                             }
                         })
                     }}

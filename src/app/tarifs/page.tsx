@@ -18,6 +18,7 @@ import {
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
+import TestimonialsSection from '@/components/TestimonialsSection'
 import {
     AGGREGATE_RATING_VALUE,
     AGGREGATE_REVIEW_COUNT,
@@ -351,6 +352,11 @@ export default function TarifsPage() {
                     </div>
                 </div>
             </section>
+
+            {/* ============================================
+                TEMOIGNAGES — Social proof post-offres
+               ============================================ */}
+            <TestimonialsSection background="slate" showAggregate={true} />
 
             {/* ============================================
                 COMPARATIF — Tableau simple 

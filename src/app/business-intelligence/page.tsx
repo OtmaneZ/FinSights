@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Calendar } from 'lucide-react'
+import { ArrowRight, Calendar, Target } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -963,6 +963,23 @@ export default function BusinessIntelligencePage() {
                     <p className="text-xs text-gray-400 mt-6">
                         Gratuit. Sans engagement. Réponse sous 24h.
                     </p>
+
+                    {/* CTA diagnostic — qualifier le besoin avant la mission BI */}
+                    <div className="mt-10 pt-10 border-t border-gray-200">
+                        <p className="text-sm text-gray-400 mb-3">
+                            Pas encore sûr de vos enjeux prioritaires ?
+                        </p>
+                        <Link
+                            href="/diagnostic/guide"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded text-sm transition-all"
+                        >
+                            <Target className="w-4 h-4" />
+                            Obtenir le Score FinSight™ gratuit — 7 min
+                        </Link>
+                        <p className="text-xs text-gray-400 mt-2">
+                            Score 0–100 · 4 piliers · Sans inscription
+                        </p>
+                    </div>
                 </div>
             </section>
 

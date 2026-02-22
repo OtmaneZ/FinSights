@@ -13,11 +13,19 @@ import {
   AlertTriangle,
   Sparkles,
   Zap,
+  Star,
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StructuredData from "@/components/StructuredData";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
+import {
+  AGGREGATE_RATING_VALUE,
+  AGGREGATE_REVIEW_COUNT,
+  BEST_RATING,
+  WORST_RATING,
+  SOCIAL_PROOF_LABEL,
+} from "@/config/social-proof";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -48,6 +56,20 @@ const faqSchema = {
       },
     },
   ],
+};
+
+const aggregateRatingSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "FinSight — Direction Financière Externalisée",
+  url: "https://finsight.zineinsight.com",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: AGGREGATE_RATING_VALUE,
+    reviewCount: AGGREGATE_REVIEW_COUNT,
+    bestRating: BEST_RATING,
+    worstRating: WORST_RATING,
+  },
 };
 
 export default function HomeClient() {
@@ -110,6 +132,20 @@ export default function HomeClient() {
                     <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
                     <span>Confidentiel · Sans engagement</span>
                   </div>
+                </div>
+              </FadeIn>
+
+              <FadeIn delay={0.65}>
+                <div className="flex items-center gap-2 pt-1">
+                  <div className="flex items-center gap-0.5">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star
+                        key={s}
+                        className={`w-3.5 h-3.5 ${s <= 4 ? "fill-amber-400 text-amber-400" : "fill-amber-400/40 text-amber-400/40"}`}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm text-gray-500">{SOCIAL_PROOF_LABEL} · PME 2–20 M€</span>
                 </div>
               </FadeIn>
             </div>
@@ -573,13 +609,14 @@ export default function HomeClient() {
               <span className="text-gray-700">·</span>
               <span>100% confidentiel</span>
               <span className="text-gray-700">·</span>
-              <span>PME de 1M€ à 20M€</span>
+              <span>PME de 2 à 20 M€</span>
             </div>
           </FadeIn>
         </div>
       </section>
 
       <StructuredData data={faqSchema} />
+      <StructuredData data={aggregateRatingSchema} />
       <Footer />
     </div>
   );
