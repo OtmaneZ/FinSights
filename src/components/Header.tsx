@@ -12,7 +12,7 @@ const resourcesItems = {
     outils: [
         { href: '/calculateurs', label: 'Calculateurs financiers', icon: Calculator, desc: 'DSO, BFR, marge, ROI' },
         { href: '/ressources/templates', label: 'Templates financiers', icon: FileText, desc: 'Tableaux de bord Excel/Notion' },
-        { href: '/diagnostic/guide', label: 'Score FinSight™', icon: BarChart3, desc: 'Diagnostic 0-100 en 7 min' },
+        { href: '/mon-diagnostic', label: 'Score FinSight™', icon: BarChart3, desc: 'Diagnostic 0-100 en 7 min' },
     ],
     contenu: [
         { href: '/blog', label: 'Blog', icon: BookOpen, desc: 'Finance & pilotage PME' },
@@ -195,7 +195,7 @@ export default function Header() {
                                                 <p className="text-xs font-semibold text-white mb-0.5">Score FinSight™</p>
                                                 <p className="text-xs text-gray-400 mb-2.5">Évaluez la santé financière de votre PME en 7 minutes.</p>
                                                 <Link
-                                                    href="/diagnostic/guide"
+                                                    href="/mon-diagnostic"
                                                     onClick={() => setIsResourcesOpen(false)}
                                                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent-primary hover:text-blue-400 transition-colors"
                                                 >
@@ -217,7 +217,7 @@ export default function Header() {
                 {/* Right — CTA + Auth */}
                 <div className="flex items-center gap-3">
                     <Link
-                        href="/diagnostic/guide"
+                        href="/mon-diagnostic"
                         className="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-accent-primary hover:bg-accent-primary-hover text-white text-sm font-semibold rounded-lg shadow-sm hover:shadow-md transition-all"
                     >
                         Diagnostic gratuit

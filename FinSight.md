@@ -1,62 +1,248 @@
-les reco de gemini
-Voici la mécanique de ton système actuel :
+# FinSight — Topo produit · `/mon-diagnostic` vs `/diagnostic/guide`
 
-L'Attraction (Pillar Page) : Éduque le dirigeant, crée l'urgence (le "Pourquoi").
+_Dernière mise à jour : 22 février 2026_
 
-La Réassurance (Méthodologie) : Prouve la rigueur scientifique et technique (le "Comment").
+---
 
-L'Engagement (Le Guide/Wizard) : Fait passer le prospect à l'action sans friction via un pré-audit interactif.
+## Les deux pages actuelles
 
-La Révélation (Le Dashboard) : Déclenche le "Aha! moment" avec un score, des insights et l'impact cash chiffré.
+### 1. `/mon-diagnostic` — Le dashboard (1 924 lignes)
 
-L'ensemble est dans le top 1% de ce qui se fait sur le marché des DAF externalisés francophones.
+Page **light** (fond blanc, Header + Footer), accessible depuis la navigation principale.
 
-Cependant, avec ma double casquette (SEO Master & DAF Expert), voici le topo des éléments perfectibles pour transformer cette excellente base en une machine de conversion irréprochable.
+**Ce que c'est :** Un tableau de bord agrégateur qui consolide tous les calculs faits dans les calculateurs individuels (`/calculateurs/dso`, `/calculateurs/bfr`, etc.) et les transforme en score.
 
-1. Le paradoxe de la conversion (Le "Trou" dans la raquette)
-Ton atout n°1 (zéro friction, données 100% locales dans le navigateur) est aussi ton plus grand point faible commercial.
+**Deux états distincts :**
 
-Le problème : Un dirigeant avec 5 M€ de CA peut faire tout le diagnostic, voir qu'il a 150 000 € bloqués en DSO, et fermer l'onglet. S'il ne clique pas sur le Calendly, tu ne sauras jamais qu'il est venu.
+**État vide (première visite, 0 calcul) :**
+- Hero dark "Votre Score FinSight™" avec sous-titre 4 piliers
+- Sélecteur de secteur (7 secteurs, benchmarks Banque de France / Altares)
+- Préview des 4 piliers × 25 pts (tout à `—`, score vide)
+- Section "3 étapes, 2 minutes" (comment ça marche)
+- CTA central → `/diagnostic/guide` ("Démarrer le diagnostic guidé")
+- Section méthodologie
 
-La solution (Lead Capture intelligent) : Sur la page /mon-diagnostic, au moment d'afficher la Synthèse (le bouton de fin), ajoute un "Gated Content" optionnel.
+**État rempli (calculs existants en localStorage) :**
+- Hero dark avec le **Score FinSight™ affiché** (exact si 4 piliers, fourchette ±12 si 1 pilier, ±7 si 2–3 piliers)
+- Sélecteur de secteur avec les benchmarks du secteur sélectionné affichés en dessous
+- Section "Ce que cela signifie pour vous" : **Forces** (vert) + **Vulnérabilités** (ambre) + **Priorité #1 + impact €** (dark)
+- Barre de couverture diagnostique (X/10 analyses) + prochaine analyse recommandée
+- Grille des 4 piliers avec scores individuels /25
+- CTA : refaire `/diagnostic/guide` + Calendly + `/consulting`
+- Historique des analyses (toutes les saisies passées avec date)
+- Liste des analyses manquantes par pilier avec liens directs
 
-Exemple : Laisse le score sur 100 visible, mais propose : "Générez votre rapport d'audit complet en PDF (incluant le plan d'action détaillé) pour le partager à vos associés" ➔ [Entrez votre email].
+**Source des données :** `useCalculatorHistory` → `localStorage` exclusivement. Aucun appel API.
 
-Tu respectes la promesse de l'anonymat sur le calcul, mais tu crées un "Lead Magnet" irrésistible.
+**Mécanique de scoring (`computeDiagnosticScore`) :**
+- **CASH /25** : DSO (10 pts) + BFR (10 pts) + Burn Rate (5 pts), pondérés sur le max disponible
+- **MARGIN /25** : Marge (8 pts) + ROI (7 pts) + Seuil rentabilité (6 pts) + EBITDA (4 pts)
+- **RESILIENCE /25** : CAC/LTV (10 pts) + Valorisation (8 pts) + Résilience dérivée (7 pts) + Gearing (8 pts)
+- **RISK /25** : Part de 25 avec pénalités croisées — DSO haut (-2 à -5), BFR haut (-3 à -6), Marge faible (-2 à -5), croisements (-2 à -3)
+- Niveau : excellent (≥75) / bon (55–74) / vigilance (35–54) / action (<35) / incomplet
+- Confiance : haute (4 piliers), moyenne (2–3), faible (1)
 
-2. Les angles morts financiers (L'œil du DAF)
-Le moteur de calcul actuel est très orienté "Exploitation" (Compte de Résultat) et "Trésorerie d'exploitation" (BFR, DSO). Il manque deux dimensions cruciales pour un dirigeant.
+**`computeInsights` — ce qu'il génère :**
+- Forces : textes contextualisés avec les vrais chiffres et les médianes sectorielles
+- Vulnérabilités : idem
+- Priorité #1 : la plus coûteuse en premier (DSO→libération cash chiffrée > marge faible > burn rate > pilier faible)
+- `cashImpactLabel` : montant immobilisé calculé (DSO gap × CA annuel)
 
-L'endettement (Gearing) : Une PME peut avoir une super marge et un BFR maîtrisé, mais être écrasée par la dette (PGE à rembourser, LBO, etc.).
+---
 
-Amélioration : Ajouter une question optionnelle dans le pilier Résilience : "Total des dettes financières / Capitaux propres".
+### 2. `/diagnostic/guide` — Le wizard (1 766 lignes)
 
-L'impact Patrimonial (Enterprise Value) : Tu parles d'optimiser le cash, c'est génial. Mais le but ultime du patron, c'est la valeur de sa boîte.
+Page **full-screen dark** (`bg-slate-950`), sans Header ni Footer, expérience dédiée.
 
-Amélioration : Dans ta synthèse finale, ajoute une phrase choc : "Avec un multiple moyen de 6x dans votre secteur, améliorer votre EBITDA de 2 points valoriserait votre entreprise de X € supplémentaires." C'est ce qui fait signer les gros contrats.
+**Ce que c'est :** Un parcours guidé en 4 piliers qui collecte les données de zéro (pas besoin d'avoir utilisé les calculateurs individuels) et aboutit à une synthèse directement sur la page.
 
-La Saisonnalité : Tes données sont des "photos" (snapshots). Si un hôtelier (secteur CHR) fait le test en août, son cash est au max. S'il le fait en février, il est critique.
+**Structure séquentielle (wizard) :**
 
-Amélioration : Tu peux simplement ajouter :
+| Phase | Contenu |
+|-------|---------|
+| **Intro** | Titre, description, sélecteur secteur, bouton Démarrer |
+| **Cash 1** | DSO : créances + CA → jours |
+| **Cash 2** | BFR : stocks + créances + dettes fournisseurs + CA → € |
+| **Cash 3** | Burn Rate : charges mensuelles → €/mois *(optionnel)* |
+| **Margin 1** | Marge brute : prix vente + coût revient → % |
+| **Margin 2** | Seuil rentabilité : charges fixes + taux marge → € |
+| **Margin 3** | ROI : gains + investissement → % *(optionnel)* |
+| **Resilience 1** | EBITDA : CA + charges → € |
+| **Resilience 2** | CAC/LTV : LTV + CAC → ratio x *(optionnel)* |
+| **Resilience 3** | Gearing : dette nette + EBITDA → ratio x *(optionnel)* |
+| **Risk** | Analyse narrative des croisements — pas de saisie |
+| **Synthesis** | Score /100, piliers /25, forces, vulnérabilités, priorité, CTA |
 
-Les résultats doivent être interprétés en tenant compte de la saisonnalité éventuelle de l’activité.
+**Sidebar live (desktop) :** Score total + 4 piliers mis à jour à chaque champ rempli.
 
-3. UX et Visualisation (Le ressenti "FinTech")
-Le code React est très propre, mais l'affichage final manque d'un peu de data-visualisation pour marquer les esprits.
+**Ce qui se passe à la fin (synthesis) :**
+1. `DiagnosticEmailCapture` → POST `/api/diagnostic/report` → rapport Vercel Blob + email Resend
+2. CTA Calendly 30 min
+3. Lien `/consulting`
+4. Lien `/mon-diagnostic`
 
-Le Radar Chart manquant : Tu as 4 piliers. C'est la structure parfaite pour un graphique en toile d'araignée (Radar Chart). Voir visuellement que le pilier "Cash" est atrophié par rapport au pilier "Marge" a un impact psychologique bien plus fort qu'une barre de progression.
+**Particularité :** Le wizard sauvegarde chaque résultat dans `localStorage` via `saveCalculation` (même format que les calculateurs), donc `/mon-diagnostic` le retrouve automatiquement après le wizard.
 
+---
 
-4. SEO & Preuve Sociale (L'autorité Google)
-Tes pages textuelles (/pilotage-financier-pme et /methodologie) sont sémantiquement parfaites, mais manquent un peu de chair "humaine".
+## Comparaison directe
 
-Humaniser la Pillar Page : Il manque de la "Social Proof". Intègre des témoignages ou des mini-cas clients avec des logos réels ou des citations de dirigeants. Google (avec sa norme E-E-A-T) adore vérifier l'expérience réelle (le fameux "E" pour Experience).
+| Dimension | `/mon-diagnostic` | `/diagnostic/guide` |
+|-----------|-------------------|---------------------|
+| **Nature** | Dashboard agrégateur | Wizard de collecte guidée |
+| **Tonalité** | Light, institutionnel | Dark, immersif |
+| **Navigation** | Header + Footer présents | Barre minimale fixe (Quitter / Progression) |
+| **Source données** | localStorage (calculateurs individuels) | Saisie dans le wizard → localStorage |
+| **Scoring** | `computeDiagnosticScore()` | Version quasi-identique recalculée inline |
+| **Insights** | `computeInsights()` séparée | `computeSynthesis()` intégrée |
+| **Email capture** | ❌ Absent | ✅ En fin de parcours (`DiagnosticEmailCapture`) |
+| **Prochaine action** | Calculateur recommandé + Calendly | Calendly + /consulting |
+| **Historique** | ✅ Tableau complet | ❌ Absent |
+| **Couverture** | ✅ Barre X/10 avec manquants | ❌ Absent |
+| **Piliers détaillés** | ✅ Cards avec sous-indicateurs | ✅ Sidebar minimale |
+| **Benchmark visible** | Sous le sélecteur secteur | Dans la synthesis seulement |
+| **Benchmarks inline champs** | ❌ Jamais | ❌ Jamais |
 
- 2 mini-blocs type :
+---
 
-“En 4 mois, nous avons réduit le DSO de 62 à 41 jours.”
-Dirigeant PME B2B, 6M€
+## Ce que les gens vivent réellement (parcours type)
 
-Ça change tout.
+**Parcours A — Découverte via `/mon-diagnostic` (état vide) :**
+1. Arrive sur la page → voit le pitch "4 piliers × 25 pts"
+2. Clique "Démarrer le diagnostic guidé" → arrive sur `/diagnostic/guide`
+3. Fait le wizard → à la fin, voit le score + synthèse + email capture
+4. S'il revient sur `/mon-diagnostic` → retrouve son score
 
-Données Structurées (Schema.org) : Ta page méthodologie avec ses tableaux de scoring DOIT inclure un balisage FAQPage ou Dataset en JSON-LD pour espérer apparaître directement dans les résultats de recherche (Featured Snippets).
+**Parcours B — Revient sur `/mon-diagnostic` après wizard :**
+1. Score affiché dans le hero
+2. Forces / Vulnérabilités / Priorité #1 + impact €
+3. Barre de couverture (ex. 9/10), prochain calcul recommandé
+4. Historique des saisies
+
+**Ce qui manque dans le parcours actuel :**
+- `/diagnostic/guide` ne montre **pas** les benchmarks sectoriels pendant la saisie — seulement dans la synthèse finale. L'utilisateur remplit ses chiffres "dans le vide" sans savoir si son DSO de 65j est bon ou mauvais
+- `/mon-diagnostic` n'a **pas d'email capture** — si quelqu'un fait les calculateurs un à un et arrive ici avec un score, il n'y a aucun moyen de le recontacter
+- Les deux pages **dupliquent** toute la logique de scoring (même formules, mêmes benchmarks, juste dans deux fichiers différents)
+- Aucune des deux pages ne consomme les engines TRESORIS ni DASHIS — tout le scoring est recalculé en JS client-side
+
+---
+
+## Ce qu'on veut proposer (vs ce qui existe)
+
+**Sur `/diagnostic/guide` (le wizard) :**
+
+1. **Afficher le benchmark à chaque champ pendant la saisie**
+   - Sous chaque input : "Médiane Services B2B : 45j | Seuil critique : 60j"
+   - Aujourd'hui c'est invisible pendant la saisie, révélé seulement à la fin
+
+2. **Email capture après le pilier Cash** (pas uniquement à la synthesis)
+   - Dès que le score Cash est calculé, proposer l'email : "Votre pilier Cash est prêt — recevez la suite"
+   - L'intention maximale est au moment de découvrir le premier score, pas après tout le parcours
+
+3. **3 leviers chiffrés dans la synthesis** (pas 1)
+   - Levier 1 : DSO → cash libéré (déjà là)
+   - Levier 2 : si marge +X% → impact €
+   - Levier 3 : seuil rentabilité → marge de sécurité CA
+
+4. **CTA contextuel selon le score**
+   - Score <40 → "Audit correctif — 2 490€" mis en avant
+   - Score 40–65 → "Diagnostic approfondi 90J — 6 990€"
+   - Score >65 → "Optimisation des leviers — plan sur mesure"
+
+5. **Simulation What-If dans la synthesis** (DASHIS SimulationEngine disponible)
+   - "Si votre DSO passe de 65j à 45j → +X€ libérés" avec slider interactif
+
+**Sur `/mon-diagnostic` :**
+
+1. **Email capture contextuelle** si score calculé et pas d'email connu
+2. **Benchmarks visibles sous chaque pilier card** (pas juste sous le sélecteur secteur)
+3. **Bouton "Simuler un levier"** sur la priorité #1 → brancher SimulationEngine
+
+**Ce qui est bien à ne pas toucher :**
+- Le scoring croisé (Risk pilier) — c'est le vrai différenciateur vs un simple agrégateur de ratios
+- L'intelligence des `computeInsights` — les textes contextualisés avec les vraies valeurs sont bons
+- La fourchette de confiance (±12 / ±7 / exact) — honnête et différenciante
+- Le wizard dark immersif de `/diagnostic/guide` — l'expérience est propre et fluide
+- La mécanique `saveCalculation` → localStorage → `/mon-diagnostic` — le pipeline fonctionne bien
+
+---
+
+## Ce que les engines permettent déjà (non branchés)
+
+| Capacité engine | Statut code | Branché dans les pages ? |
+|-----------------|-------------|--------------------------|
+| Score FinSight™ simplifié | ✅ Recalculé en JS client-side dans les deux pages | ✅ (version simplifiée) |
+| Benchmarks sectoriels | ✅ Codés en dur dans les deux pages | ✅ (synthesis seulement pour le guide) |
+| Analyse causale WHY (CausalAnalyzer) | ✅ TRESORIS V3 Python live | ❌ Non |
+| SimulationEngine What-If | ✅ DASHIS TS live | ❌ Non |
+| EarlyWarningDetector | ✅ TRESORIS V2 Python live | ❌ Non |
+| StressTester Monte Carlo | ✅ TRESORIS V3 Python live | ❌ Non |
+| MarginAnalyzer (coûts cachés) | ✅ TRESORIS V3 Python live | ❌ Non |
+| AnomalyDetector ML (Z-score) | ✅ DASHIS TS live | ❌ Non |
+
+**Conclusion :** Les deux pages sont entièrement client-side. Elles recodent manuellement une version simplifiée des moteurs. Les 13 engines Python (TRESORIS) et les 7 modules TypeScript (DASHIS) existent mais ne sont pas consommés dans le parcours diagnostic public.
+
+---
+
+## Priorités concrètes
+
+### P0 — Rapide, fort impact, aucune dépendance engine
+
+| Action | Page | Effort |
+|--------|------|--------|
+| **Corriger le Header** : "Lancer le diagnostic →" doit pointer vers `/mon-diagnostic`, pas `/diagnostic/guide` | `Header.tsx` | ~5min |
+| Afficher benchmark sectoriel sous chaque champ du wizard | `/diagnostic/guide` | ~2h |
+| Email capture après pilier Cash | `/diagnostic/guide` | ~1h |
+| Bannière email capture sur `/mon-diagnostic` si score calculé | `/mon-diagnostic` | ~1h |
+| 3 leviers chiffrés dans synthesis (au lieu de 1) | `/diagnostic/guide` | ~2h |
+| CTA contextuel selon score dans synthesis | `/diagnostic/guide` | ~1h |
+
+### P1 — Moyen terme, branchement engines
+
+| Action | Page | Effort |
+|--------|------|--------|
+| Créer `/diagnostic/page.tsx` (landing SEO + CTA → wizard) | `/diagnostic` | ~3h |
+| Ajouter métadonnées SEO sur `/diagnostic/guide` | `/diagnostic/guide` | ~30min |
+| Brancher SimulationEngine DASHIS dans la synthesis | `/diagnostic/guide` | 1–2 jours |
+| Brancher CausalAnalyzer TRESORIS en fin de diagnostic | `/diagnostic/guide` | 2–3 jours |
+| Dédupliquer la logique de scoring (hook ou lib partagée) | Les deux | 1 jour |
+| Upload CSV comme alternative à la saisie manuelle | `/diagnostic/guide` | 2–3 jours |
+
+---
+
+## Architecture actuelle du flux diagnostic
+
+```
+/diagnostic          → 404 (page manquante, mais non référencée — personne ne la cherche)
+/diagnostic/guide    → Wizard (1766 lignes, client-side only)
+/mon-diagnostic      → Dashboard (1924 lignes) — c'est LA page diagnostic principale
+
+/api/diagnostic/report  → Génère rapport PDF (Vercel Blob) + Resend email
+/api/lead-capture       → Lead magnet PDF guide cash flow
+```
+
+**Le vrai problème de navigation :**
+
+| Entrée | Vers quoi ? | Problème |
+|--------|-------------|----------|
+| Header → "Lancer le diagnostic →" | `/diagnostic/guide` (wizard direct) | **Bypasse `/mon-diagnostic`** — l'utilisateur entre dans le formulaire sans voir le pitch de valeur ni comprendre ce qu'il va obtenir |
+| Footer → "Diagnostic financier" | `/mon-diagnostic` ✅ | Correct |
+| `/pilotage-financier-pme` | Les deux pages, côte à côte | Correct |
+
+**`/mon-diagnostic` existe et fonctionne.** C'est elle la page d'entrée du produit. Le Header devrait pointer vers elle, pas vers `/diagnostic/guide` directement.
+
+Les deux pages (`/diagnostic/guide` et `/mon-diagnostic`) **dupliquent** les benchmarks sectoriels et la logique de scoring.  
+À terme, elles devraient consommer une source unique (un hook partagé ou une API route).
+
+---
+
+## Ce qui est bien (à ne pas casser)
+
+- Le wizard dark est **qualitativement très bon** : séquençage logique, animations propres, sidebar live, sémantique accessible
+- La mécanique de scoring est **correcte** pour un calcul déclaratif
+- Les **benchmarks sectoriels** sont pertinents (7 secteurs, sources Banque de France / Altares)
+- Le **DiagnosticEmailCapture** avec rapport Vercel Blob est fonctionnel et produit un vrai livrable
+- La **synthèse** avec "lecture dirigeant" est différenciante — les textes contextualisés selon le score sont bons
+- Le **scoring croisé** (DSO × Marge, BFR × Taux marge) est la vraie valeur — pas juste des KPIs isolés
+- La **fourchette de confiance** (±12 / ±7 / exact) — honnête et différenciante
+- La mécanique `saveCalculation` → localStorage → `/mon-diagnostic` — le pipeline fonctionne bien
