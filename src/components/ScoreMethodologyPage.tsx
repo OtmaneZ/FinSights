@@ -32,6 +32,7 @@ import {
 } from 'lucide-react'
 import Header from './Header'
 import Footer from './Footer'
+import ExitIntentPopup from './ExitIntentPopup'
 
 // ---------------------------------------------------------------------------
 // Radar chart data — illustration PME Services 7M€ (avant / après)
@@ -1214,6 +1215,7 @@ export default function ScoreMethodologyPage() {
             </section>
         </div>
         <Footer />
+        <ExitIntentPopup />
         </>
     )
 }

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import {
   SOCIAL_PROOF_LABEL,
@@ -583,6 +584,7 @@ export default function HomeClient() {
       </section>
 
       <Footer />
+      <ExitIntentPopup />
     </div>
   );
 }

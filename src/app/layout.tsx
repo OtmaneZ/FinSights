@@ -11,7 +11,6 @@ import Analytics from '@/components/Analytics'
 import CookieConsent from '@/components/CookieConsent'
 import AnalyticsDebugger from '@/components/AnalyticsDebugger'
 import FinSightAssistant from '@/components/FinSightAssistant'
-import ExitIntentPopup from '@/components/ExitIntentPopup'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', weight: ['400', '500', '600', '700'] })
@@ -103,7 +102,6 @@ export default function RootLayout({
                             <FinancialDataProvider>
                                 {children}
                                 <FinSightAssistant />
-                                <ExitIntentPopup />
                             </FinancialDataProvider>
                         </ThemeProvider>
                     </CompanyProvider>

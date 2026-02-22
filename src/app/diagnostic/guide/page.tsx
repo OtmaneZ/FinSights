@@ -33,6 +33,7 @@ import { useScorisEngine } from '@/hooks/useScorisEngine'
 import { SectorComparisonGrid } from '@/components/diagnostic/SectorComparisonBadge'
 import { WhatIfSlider } from '@/components/diagnostic/WhatIfSlider'
 import { ExecutiveSummary } from '@/components/diagnostic/ExecutiveSummary'
+import { GuideDownloadCTA } from '@/components/diagnostic/GuideDownloadCTA'
 import type { AnalysisStep } from '@/lib/scoris/types'
 import { ANALYSIS_STEP_LABELS } from '@/lib/scoris/types'
 
@@ -1523,6 +1524,9 @@ export default function DiagnosticGuidePage() {
                       </p>
                     </div>
                   )}
+
+                  {/* Guide Download CTA */}
+                  <GuideDownloadCTA score={totalScore} className="mb-10" />
 
                   {/* Separator */}
                   <div className="border-t border-gray-800 pt-10 mb-10">
