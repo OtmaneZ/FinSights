@@ -202,11 +202,20 @@ export default function MonDiagnosticPage() {
   const { history, completedTypes, clearHistory } = useCalculatorHistory()
   const [mounted, setMounted] = useState(false)
   const [sector, setSector] = useState<SectorKey>('autre')
+  const [fecMeta, setFecMeta] = useState<{
+    source: string; fileName: string; nbEcritures: number
+    dateDebut: string; dateFin: string; dataQuality: number; timestamp: string
+  } | null>(null)
 
   useEffect(() => {
     setMounted(true)
     const saved = localStorage.getItem('finsight_sector') as SectorKey | null
     if (saved && saved in SECTOR_BENCHMARKS) setSector(saved)
+    // Read FEC metadata if score was sourced from FEC import
+    try {
+      const raw = localStorage.getItem('finsight_fec_meta')
+      if (raw) setFecMeta(JSON.parse(raw))
+    } catch { /* ignore malformed */ }
   }, [])
 
   const handleSectorChange = (s: SectorKey) => {
@@ -265,10 +274,26 @@ export default function MonDiagnosticPage() {
               </p>
             </FadeIn>
 
+            <FadeIn delay={0.35}>
+              <div className="flex items-center justify-center mt-5">
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-400/20 rounded-full text-xs font-semibold text-blue-400">
+                  <Sparkles className="w-3 h-3" />
+                  Nouveau : Importez votre comptabilité pour un score instantané
+                </span>
+              </div>
+            </FadeIn>
+
             <FadeIn delay={0.4}>
               <p className="text-sm text-gray-500 max-w-lg mx-auto mt-4 border-l border-gray-700 pl-4 text-left">
                 Trésorerie · Rentabilité · Résilience · Risques — chaque pilier noté
                 sur 25, construit à partir de vos données réelles.
+              </p>
+            </FadeIn>
+
+            <FadeIn delay={0.45}>
+              <p className="text-sm text-gray-500 max-w-lg mx-auto mt-3 border-l border-blue-500/30 pl-4 text-left">
+                Analyse pilotée par nos moteurs propriétaires SCORIS, TRESORIS (analyse causale)
+                et DASHIS (simulations What-If).
               </p>
             </FadeIn>
           </div>
@@ -348,34 +373,98 @@ export default function MonDiagnosticPage() {
                 Processus
               </span>
               <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mt-4">
-                Trois étapes, deux minutes
+                Deux parcours, un diagnostic
               </h2>
             </FadeIn>
 
-            <StaggerContainer className="space-y-4" staggerDelay={0.15}>
-              {[
-                { step: '01', title: 'Renseignez vos chiffres clés', desc: 'Créances, chiffre d\'affaires, charges — 2 à 3 données par indicateur.', time: '2 min' },
-                { step: '02', title: 'Chaque indicateur alimente un pilier', desc: 'Le calcul est instantané. Votre Score FinSight™ se construit progressivement.', time: 'Instantané' },
-                { step: '03', title: 'Votre score se précise à chaque analyse', desc: 'Revenez ici pour voir l\'évolution. Plus vous renseignez, plus le diagnostic est fiable.', time: 'Cumulatif' },
-              ].map((item) => (
-                <StaggerItem key={item.step}>
-                  <div className="flex items-start gap-6 p-6 bg-gray-50 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-300">
-                    <span className="font-serif text-3xl font-medium text-gray-200 flex-shrink-0 leading-none mt-1">
-                      {item.step}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-base font-semibold text-gray-900">{item.title}</p>
-                      <p className="text-sm text-gray-500 mt-1 leading-relaxed">{item.desc}</p>
-                    </div>
-                    <span className="text-xs text-gray-400 font-medium flex-shrink-0 mt-1 bg-white px-3 py-1 rounded-full border border-gray-200">
-                      {item.time}
+            <StaggerContainer className="grid md:grid-cols-2 gap-5 mt-2" staggerDelay={0.15}>
+              {/* Parcours A — FEC Expert */}
+              <StaggerItem>
+                <div className="relative bg-white rounded-xl p-7 border border-blue-200 hover:border-blue-300 hover:shadow-md transition-all duration-300">
+                  <div className="absolute -top-2.5 right-5">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-blue-600 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
+                      <Zap className="w-2.5 h-2.5" /> Recommandé
                     </span>
                   </div>
-                </StaggerItem>
-              ))}
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center flex-shrink-0">
+                      <FileText className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="text-base font-bold text-gray-900">Parcours Expert</p>
+                        <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">30 sec</span>
+                      </div>
+                      <p className="text-sm font-semibold text-blue-600 mb-2">Import FEC automatique</p>
+                      <p className="text-sm text-gray-500 leading-relaxed mb-3">
+                        Glissez votre Fichier des Écritures Comptables. Le moteur extrait automatiquement
+                        CA, DSO, BFR, marges et charges — diagnostic instantané.
+                      </p>
+                      <div className="space-y-1.5 mb-4">
+                        {['CA et charges extraits automatiquement', 'DSO, BFR, marge calculés en temps réel', 'Données comptables certifiées (source audit)'].map((item) => (
+                          <div key={item} className="flex items-center gap-2">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                            <span className="text-xs text-gray-600">{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <Link
+                        href="/diagnostic/guide"
+                        className="group inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        Analyse flash via FEC
+                        <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-blue-100 flex items-center gap-1.5">
+                    <Shield className="w-3 h-3 text-emerald-500" />
+                    <span className="text-[10px] text-emerald-600 font-medium">
+                      Parsing 100% local — votre FEC n'est jamais stocké sur nos serveurs
+                    </span>
+                  </div>
+                </div>
+              </StaggerItem>
+
+              {/* Parcours B — Manuel */}
+              <StaggerItem>
+                <div className="bg-white rounded-xl p-7 border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center flex-shrink-0">
+                      <Activity className="w-5 h-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="text-base font-bold text-gray-900">Parcours Guidé</p>
+                        <span className="text-[10px] font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full border border-gray-200">~7 min</span>
+                      </div>
+                      <p className="text-sm font-semibold text-gray-600 mb-2">Saisie étape par étape</p>
+                      <p className="text-sm text-gray-500 leading-relaxed mb-3">
+                        Pour ceux qui n'ont pas leur fichier comptable sous la main.
+                        9 indicateurs, questionnaire progressif en 4 piliers.
+                      </p>
+                      <div className="space-y-1.5 mb-4">
+                        {['Aucun fichier requis', 'Aide contextuelle à chaque étape', 'Score progressif au fil de la saisie'].map((item) => (
+                          <div key={item} className="flex items-center gap-2">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                            <span className="text-xs text-gray-600">{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <Link
+                        href="/diagnostic/guide"
+                        className="group inline-flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors"
+                      >
+                        Démarrer le diagnostic guidé
+                        <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </StaggerItem>
             </StaggerContainer>
 
-            <FadeIn delay={0.4} className="mt-4 text-center">
+            <FadeIn delay={0.4} className="mt-5 text-center">
               <p className="text-xs text-gray-400 italic">
                 Vos données restent dans votre navigateur — rien n'est envoyé à un serveur.
               </p>
@@ -392,19 +481,29 @@ export default function MonDiagnosticPage() {
                   <Activity className="w-7 h-7 text-white" />
                 </div>
                 <h2 className="font-serif text-3xl font-medium text-gray-900 mb-3">
-                  Demarrer votre diagnostic
+                  Démarrer votre diagnostic
                 </h2>
                 <p className="text-gray-500 leading-relaxed max-w-lg mx-auto mb-8">
-                  Un parcours guide en 4 piliers — tresorerie, rentabilite,
-                  resilience, risques. Environ 7 minutes.
+                  Un parcours guidé en 4 piliers — trésorerie, rentabilité,
+                  résilience, risques. Import FEC ou saisie manuelle.
                 </p>
-                <Link
-                  href="/diagnostic/guide"
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-slate-950 text-white text-base font-semibold rounded-lg hover:bg-slate-800 transition-all duration-300"
-                >
-                  Demarrer le diagnostic guide
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <Link
+                    href="/diagnostic/guide"
+                    className="group inline-flex items-center gap-3 px-7 py-3.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-600/20"
+                  >
+                    <FileText className="w-4 h-4" />
+                    Analyse flash via FEC
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
+                  <Link
+                    href="/diagnostic/guide"
+                    className="group inline-flex items-center gap-3 px-7 py-3.5 bg-slate-950 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-all duration-300"
+                  >
+                    Saisie guidée
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
                 <p className="text-xs text-gray-400 mt-4">
                   Ou <Link href="/calculateurs/dso" className="underline hover:text-gray-600 transition-colors">commencez par un indicateur individuel</Link>
                 </p>
@@ -531,6 +630,44 @@ export default function MonDiagnosticPage() {
               </div>
             </FadeIn>
           </div>
+
+          {/* ── FEC certification badge + data quality ── */}
+          {fecMeta && (
+            <FadeIn delay={0.45} direction="none" className="mt-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white/5 backdrop-blur rounded-xl border border-white/10 px-5 py-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-emerald-400 tracking-wide">
+                      Données comptables certifiées (FEC)
+                    </p>
+                    <p className="text-[11px] text-gray-500 mt-0.5">
+                      {fecMeta.fileName} · {fecMeta.nbEcritures?.toLocaleString('fr-FR')} écritures
+                      {fecMeta.dateDebut && fecMeta.dateFin && (
+                        <span> · {fecMeta.dateDebut} → {fecMeta.dateFin}</span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex-1 min-w-[140px] sm:max-w-[200px]">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Qualité données</span>
+                    <span className="text-[10px] font-semibold text-gray-400">{fecMeta.dataQuality}%</span>
+                  </div>
+                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-500 ${
+                        fecMeta.dataQuality >= 80 ? 'bg-emerald-400' : fecMeta.dataQuality >= 50 ? 'bg-amber-400' : 'bg-red-400'
+                      }`}
+                      style={{ width: `${fecMeta.dataQuality}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+          )}
         </div>
 
         <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
@@ -753,6 +890,35 @@ export default function MonDiagnosticPage() {
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           <FadeIn>
+            {/* Analyse flash via FEC */}
+            <div className="mb-6 p-6 bg-emerald-50 rounded-xl border border-emerald-200">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-xl bg-emerald-600 flex items-center justify-center flex-shrink-0">
+                    <Zap className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">
+                      Analyse flash via FEC
+                      <span className="ml-2 text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded">
+                        30 sec
+                      </span>
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      Importez votre Fichier d&apos;Écritures Comptables — extraction automatique par SCORIS™
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="/diagnostic/guide?mode=fec"
+                  className="group inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700 transition-colors flex-shrink-0"
+                >
+                  Importer FEC
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
             {/* Refaire le diagnostic guide */}
             <div className="mb-6 p-6 bg-gray-50 rounded-xl border border-gray-200">
               <div className="flex items-center justify-between">
@@ -761,15 +927,15 @@ export default function MonDiagnosticPage() {
                     <Activity className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">Refaire le diagnostic guide</p>
-                    <p className="text-xs text-gray-500 mt-0.5">Parcours structure en 4 piliers — environ 7 minutes</p>
+                    <p className="text-sm font-semibold text-gray-900">Refaire le diagnostic guidé</p>
+                    <p className="text-xs text-gray-500 mt-0.5">Parcours structuré en 4 piliers — environ 7 minutes</p>
                   </div>
                 </div>
                 <Link
                   href="/diagnostic/guide"
                   className="group inline-flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors flex-shrink-0"
                 >
-                  Demarrer
+                  Démarrer
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
@@ -1132,7 +1298,13 @@ Top quartile (>1,3× médiane) · Au-dessus médiane · Dans la médiane · Sous
     id: 'scoring',
     icon: Target,
     title: 'Logique de calcul du score',
-    content: `**Seuils relatifs, non absolus**
+    content: `**Moteurs d'analyse propriétaires**
+L'analyse est pilotée par notre suite de moteurs IA propriétaires : **SCORIS™** (scoring multi-pilier et orchestration), **TRESORIS™** (analyse causale de trésorerie et détection d'anomalies), et **DASHIS™** (simulations What-If et projections dynamiques). Ces moteurs fonctionnent en cascade pour produire un diagnostic structuré de qualité institutionnelle.
+
+**Import FEC — Extraction automatique**
+Lorsqu'un Fichier des Écritures Comptables (FEC) est importé, SCORIS™ extrait automatiquement les indicateurs financiers (CA, charges, marges, BFR, DSO…) par analyse des comptes du PCG. Le parsing est 100% local (navigateur) et prend moins de 30 secondes.
+
+**Seuils relatifs, non absolus**
 Un Burn Rate de 15 000 €/mois est maîtrisé pour une entreprise à 600 k€ CA (30%), mais critique pour une à 100 k€ CA (180%). Le moteur utilise systématiquement le CA mensuel estimé (depuis BFR.inputs.ca ou Seuil.chargesFixes ÷ tauxMarge) pour contextualiser tous les indicateurs monétaires.
 
 **Pondération interne**
@@ -1153,6 +1325,9 @@ Contrairement aux 3 autres piliers (logique additive normalisée), RISQUES part 
     title: 'Confidentialité et stockage des données',
     content: `**Aucun envoi de données**
 Toutes vos données financières restent exclusivement dans votre navigateur (localStorage). Aucune information n'est transmise à un serveur, une base de données, ou un tiers.
+
+**Import FEC 100% local**
+Lorsque vous importez un Fichier des Écritures Comptables, le parsing est effectué intégralement dans votre navigateur via notre moteur SCORIS™. Le fichier n'est jamais uploadé, jamais stocké sur un serveur, et jamais transmis à un tiers. Seuls les indicateurs agrégés extraits (CA, marges, BFR…) sont conservés dans votre localStorage.
 
 **Pas de compte requis**
 Le diagnostic fonctionne sans inscription. Vos calculs sont conservés localement et accessibles uniquement depuis votre navigateur.

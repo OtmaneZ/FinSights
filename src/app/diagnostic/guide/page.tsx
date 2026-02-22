@@ -581,6 +581,23 @@ export default function DiagnosticGuidePage() {
     setResults(newResults)
     setFormValues(newFormValues)
 
+    // Persist FEC source metadata so /mon-diagnostic can show certification badge
+    try {
+      localStorage.setItem('finsight_fec_meta', JSON.stringify({
+        source: 'fec',
+        fileName: extracted.fileName,
+        nbEcritures: extracted.nbEcritures,
+        dateDebut: extracted.dateDebut,
+        dateFin: extracted.dateFin,
+        dataQuality: Math.round(
+          [extracted.ca > 0, extracted.creancesClients > 0, extracted.chargesExploitation > 0,
+           extracted.tresorerie !== 0, extracted.stocks > 0, extracted.dettesFournisseurs > 0,
+           extracted.detteFinanciere > 0].filter(Boolean).length / 7 * 100
+        ),
+        timestamp: new Date().toISOString(),
+      }))
+    } catch { /* localStorage full — non-blocking */ }
+
     // Jump straight to synthesis phase (index 5)
     const synthesisIdx = PHASES.findIndex((p) => p.key === 'synthesis')
 
