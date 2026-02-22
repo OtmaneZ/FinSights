@@ -21,11 +21,20 @@ import { useCalculatorHistory, type CalculatorType } from '@/hooks/useCalculator
 // ---------------------------------------------------------------------------
 // DiagnosticEmailCapture — email opt-in + newsletter (rendered inside guide)
 // ---------------------------------------------------------------------------
-function DiagnosticEmailCapture({ totalScore }: { totalScore: number }) {
+interface DiagnosticEmailCaptureProps {
+  totalScore: number
+  sector: string
+  pillarScores: Record<string, number | null>
+  synthesis: Record<string, unknown>
+  results: Record<string, { value: number; inputs: Record<string, number> }>
+}
+
+function DiagnosticEmailCapture({ totalScore, sector, pillarScores, synthesis, results }: DiagnosticEmailCaptureProps) {
   const [email, setEmail] = useState('')
   const [newsletter, setNewsletter] = useState(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [reportUrl, setReportUrl] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -36,28 +45,32 @@ function DiagnosticEmailCapture({ totalScore }: { totalScore: number }) {
     setStatus('loading')
     setErrorMsg('')
     try {
-      const res = await fetch('/api/lead-capture', {
+      const res = await fetch('/api/diagnostic/report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
-          source: 'diagnostic_guide',
-          leadMagnet: 'rapport_score_finsight',
           newsletterOptIn: newsletter,
-          score: totalScore,
+          sector,
+          totalScore,
+          pillarScores,
+          synthesis,
+          results,
         }),
       })
-      if (res.ok) {
+      const data = await res.json()
+      if (res.ok && data.reportUrl) {
         setStatus('success')
+        setReportUrl(data.reportUrl)
         if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-          ;(window as any).gtag('event', 'diagnostic_email_capture', {
+          ;(window as any).gtag('event', 'diagnostic_report_requested', {
             event_category: 'lead_capture',
             score: totalScore,
             newsletter_opt_in: newsletter,
             email_domain: email.split('@')[1] || 'unknown',
           })
         }
-      } else throw new Error()
+      } else throw new Error(data.error || 'unknown')
     } catch {
       setStatus('error')
       setErrorMsg('Une erreur est survenue. Réessayez.')
@@ -66,12 +79,24 @@ function DiagnosticEmailCapture({ totalScore }: { totalScore: number }) {
 
   if (status === 'success') {
     return (
-      <div className="flex items-start gap-3 px-6 py-5 bg-slate-800 rounded-lg border border-slate-700">
-        <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-        <div>
-          <p className="text-sm font-semibold text-white">Rapport envoyé !</p>
-          <p className="text-xs text-gray-400 mt-0.5">Vérifiez votre boîte mail dans les prochaines minutes.</p>
+      <div className="px-6 py-5 bg-slate-800 rounded-lg border border-slate-700">
+        <div className="flex items-start gap-3 mb-3">
+          <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-semibold text-white">Rapport envoyé !</p>
+            <p className="text-xs text-gray-400 mt-0.5">Vérifiez votre boîte mail dans les prochaines minutes.</p>
+          </div>
         </div>
+        {reportUrl && (
+          <a
+            href={reportUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 transition-colors underline underline-offset-2"
+          >
+            Voir le rapport maintenant →
+          </a>
+        )}
       </div>
     )
   }
@@ -1644,7 +1669,13 @@ export default function DiagnosticGuidePage() {
                   <div className="space-y-3">
 
                     {/* Opt-in rapport email + Flash Finance Hebdo */}
-                    <DiagnosticEmailCapture totalScore={totalScore ?? 0} />
+                    <DiagnosticEmailCapture
+                      totalScore={totalScore ?? 0}
+                      sector={sector}
+                      pillarScores={liveScores}
+                      synthesis={synthesis as unknown as Record<string, unknown>}
+                      results={results}
+                    />
 
                     <a
                       href="https://calendly.com/zineinsight"
