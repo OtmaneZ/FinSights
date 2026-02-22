@@ -19,6 +19,117 @@ import {
 import { useCalculatorHistory, type CalculatorType } from '@/hooks/useCalculatorHistory'
 
 // ---------------------------------------------------------------------------
+// DiagnosticEmailCapture — email opt-in + newsletter (rendered inside guide)
+// ---------------------------------------------------------------------------
+function DiagnosticEmailCapture({ totalScore }: { totalScore: number }) {
+  const [email, setEmail] = useState('')
+  const [newsletter, setNewsletter] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErrorMsg('Veuillez saisir une adresse email valide.')
+      return
+    }
+    setStatus('loading')
+    setErrorMsg('')
+    try {
+      const res = await fetch('/api/lead-capture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          source: 'diagnostic_guide',
+          leadMagnet: 'rapport_score_finsight',
+          newsletterOptIn: newsletter,
+          score: totalScore,
+        }),
+      })
+      if (res.ok) {
+        setStatus('success')
+        if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+          ;(window as any).gtag('event', 'diagnostic_email_capture', {
+            event_category: 'lead_capture',
+            score: totalScore,
+            newsletter_opt_in: newsletter,
+            email_domain: email.split('@')[1] || 'unknown',
+          })
+        }
+      } else throw new Error()
+    } catch {
+      setStatus('error')
+      setErrorMsg('Une erreur est survenue. Réessayez.')
+    }
+  }
+
+  if (status === 'success') {
+    return (
+      <div className="flex items-start gap-3 px-6 py-5 bg-slate-800 rounded-lg border border-slate-700">
+        <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+        <div>
+          <p className="text-sm font-semibold text-white">Rapport envoyé !</p>
+          <p className="text-xs text-gray-400 mt-0.5">Vérifiez votre boîte mail dans les prochaines minutes.</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="px-6 py-5 bg-slate-800 rounded-lg border border-slate-700">
+      <p className="text-sm font-semibold text-white mb-0.5">
+        Recevez votre rapport Score FinSight™ {totalScore}/100 par email
+      </p>
+      <p className="text-xs text-gray-400 mb-3 leading-relaxed">
+        Analyse détaillée des 4 piliers · Recommandations prioritaires · Plan d&apos;action personnalisé
+      </p>
+      <form onSubmit={handleSubmit} noValidate>
+        <div className="flex gap-2 mb-2.5">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="votre@email.com"
+            required
+            autoComplete="email"
+            inputMode="email"
+            className="flex-1 px-3 py-2.5 bg-slate-700 border border-slate-600 rounded text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-slate-400 min-w-0"
+            aria-label="Votre adresse email"
+          />
+          <button
+            type="submit"
+            disabled={status === 'loading'}
+            className="px-4 py-2 bg-white hover:bg-gray-100 text-slate-900 text-sm font-semibold rounded transition-colors flex-shrink-0 disabled:opacity-60 flex items-center gap-1.5"
+          >
+            {status === 'loading' ? (
+              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+              </svg>
+            ) : 'Envoyer'}
+          </button>
+        </div>
+        {errorMsg && <p className="text-xs text-red-400 mb-2">{errorMsg}</p>}
+        <label className="flex items-start gap-2 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={newsletter}
+            onChange={(e) => setNewsletter(e.target.checked)}
+            className="mt-0.5 accent-white flex-shrink-0"
+          />
+          <span className="text-[11px] text-gray-500 group-hover:text-gray-400 leading-relaxed transition-colors">
+            Je souhaite recevoir le Flash Finance Hebdo — conseils DAF, benchmarks PME, cas pratiques.
+            Désinscription à tout moment. Données protégées conformément au{' '}
+            <a href="/politique-confidentialite" className="underline hover:text-gray-300">RGPD</a>.
+          </span>
+        </label>
+      </form>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
 // Sector benchmarks (aligned with /mon-diagnostic)
 // ---------------------------------------------------------------------------
 
@@ -1531,6 +1642,10 @@ export default function DiagnosticGuidePage() {
 
                   {/* CTAs — mission first, outil second */}
                   <div className="space-y-3">
+
+                    {/* Opt-in rapport email + Flash Finance Hebdo */}
+                    <DiagnosticEmailCapture totalScore={totalScore ?? 0} />
+
                     <a
                       href="https://calendly.com/zineinsight"
                       target="_blank"

@@ -12,6 +12,7 @@ import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
 import DiagnosticReturnBanner from '@/components/DiagnosticReturnBanner'
+import CalcEmailCapture from '@/components/CalcEmailCapture'
 
 export default function CalculateurBFR() {
     const [stocks, setStocks] = useState<string>('')
@@ -910,6 +911,14 @@ export default function CalculateurBFR() {
                                             </div>
                                             <ArrowRight className="w-6 h-6 text-blue-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                                         </Link>
+
+                                        {/* Étape 2.5 : Email — Benchmark sectoriel */}
+                                        <CalcEmailCapture
+                                            context="bfr"
+                                            contextValue={bfr}
+                                            label="Recevez votre benchmark sectoriel BFR par email"
+                                            description={`Votre BFR de ${bfr !== null ? Math.round(bfr).toLocaleString('fr-FR') : '...'} € comparé aux médianes Banque de France de votre secteur — directement dans votre boîte mail.`}
+                                        />
 
                                         {/* Étape 3 : Audit */}
                                         <a

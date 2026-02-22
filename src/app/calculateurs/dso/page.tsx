@@ -13,6 +13,7 @@ import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 import DiagnosticReturnBanner from '@/components/DiagnosticReturnBanner'
+import CalcEmailCapture from '@/components/CalcEmailCapture'
 
 export default function CalculateurDSO() {
     const [creances, setCreances] = useState<string>('')
@@ -906,6 +907,14 @@ export default function CalculateurDSO() {
                                             </div>
                                             <ArrowRight className="w-6 h-6 text-blue-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                                         </Link>
+
+                                        {/* Étape 2.5 : Email — Benchmark sectoriel */}
+                                        <CalcEmailCapture
+                                            context="dso"
+                                            contextValue={dso}
+                                            label="Recevez votre benchmark sectoriel DSO par email"
+                                            description={`Votre DSO de ${dso} jours comparé aux médianes Banque de France de votre secteur — directement dans votre boîte mail.`}
+                                        />
 
                                         {/* Étape 3 : Audit */}
                                         <a
