@@ -16,7 +16,7 @@
  *   ValidDate | Montantdevise | Idevise
  *
  * Mapping PCG (Plan Comptable Général) :
- *   - CA          : Σ crédits comptes 70x (ventes et produits)
+ *   - CA          : balance (crédits − débits) comptes 70x (net des extournes FAE et avoirs)
  *   - Créances    : balance (débits − crédits) comptes 411x (clients)
  *   - Dettes fourn: balance (crédits − débits) comptes 401x (fournisseurs)
  *   - Charges     : Σ débits comptes classe 6 (net des avoirs créditeurs)
@@ -541,6 +541,7 @@ function parseAmount(raw: string | undefined): number {
 
 function aggregateFinancials(rows: FECRow[], fileName: string): FECExtractedData {
   let caCredits = 0           // Comptes 70x: crédits = ventes
+  let caDebits = 0            // Comptes 70x: débits = extournes FAE, avoirs
   let creancesDebit = 0       // Comptes 411x: débit
   let creancesCredit = 0      // Comptes 411x: crédit
   let dettesFournDebit = 0    // Comptes 401x: débit
@@ -566,9 +567,11 @@ function aggregateFinancials(rows: FECRow[], fileName: string): FECExtractedData
       if (row.ecritureDate > dateMax) dateMax = row.ecritureDate
     }
 
-    // ── CA: comptes 70x (ventes) — Σ crédits
+    // ── CA: comptes 70x (ventes) — balance (crédits − débits)
+    // Débits = extournes de FAE, avoirs, régularisations
     if (num.startsWith('70')) {
       caCredits = round2(caCredits + row.credit)
+      caDebits = round2(caDebits + row.debit)
     }
 
     // ── Créances clients: comptes 411x — balance (débit − crédit)
@@ -618,7 +621,9 @@ function aggregateFinancials(rows: FECRow[], fileName: string): FECExtractedData
 
   // ── Apply annualization to flow accounts (CA, charges)
   // Balance accounts (créances, dettes, tréso, stocks, dette fin) are NOT annualized
-  const ca = Math.round(round2(caCredits * facteurAnnualisation))
+  // CA = crédits − débits comptes 70x (débits = extournes FAE, avoirs, régularisations)
+  const caNet = round2(caCredits - caDebits)
+  const ca = Math.round(round2(Math.max(0, caNet) * facteurAnnualisation))
   // Charges NET = débits − crédits (avoirs comptables reduce the charge base)
   const chargesNettes = round2(chargesDebit - chargesCredit)
   const chargesExploitation = Math.round(round2(Math.max(0, chargesNettes) * facteurAnnualisation))
