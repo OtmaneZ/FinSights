@@ -127,12 +127,18 @@ const REQUIRED_COLUMNS = [
   'journalcode',
   'ecrituredate',
   'comptenum',
-  'debit',
-  'credit',
 ] as const
 
 /** Optional but useful columns */
-const OPTIONAL_COLUMNS = ['comptelib', 'journallib', 'ecriturelib'] as const
+const OPTIONAL_COLUMNS = [
+  'debit',
+  'credit',
+  'montant',
+  'sens',
+  'comptelib',
+  'journallib',
+  'ecriturelib',
+] as const
 
 /**
  * Lazy alias map — many accounting tools export variants of column names.
@@ -145,6 +151,8 @@ const COLUMN_ALIASES: Record<string, string[]> = {
   comptenum:     ['comptenum', 'comptenumero', 'numerocompte', 'numcompte', 'compte', 'comptegeneral', 'comptegeneralnum'],
   debit:         ['debit', 'montantdebit'],
   credit:        ['credit', 'montantcredit'],
+  montant:       ['montant', 'montanteur', 'amount'],
+  sens:          ['sens', 'sensmontant', 'dc', 'sensdc'],
   comptelib:     ['comptelib', 'comptelibelle', 'libellecompte', 'libcompte'],
   journallib:    ['journallib', 'journallibelle', 'libellejournal'],
   ecriturelib:   ['ecriturelib', 'ecriturelibelle', 'libelleecriture', 'libelle'],
@@ -270,6 +278,18 @@ export async function parseFEC(
       success: false,
       error: 'Colonnes FEC obligatoires manquantes',
       details: `Colonnes introuvables : ${missingCols.join(', ')}. Vérifiez que votre fichier est au format FEC standard (DGFIP).`,
+    }
+  }
+
+  // ── Validate amount columns: either Debit+Credit OR Montant+Sens ──
+  const hasDebitCredit = columnMap['debit'] !== undefined && columnMap['credit'] !== undefined
+  const hasMontantSens = columnMap['montant'] !== undefined && columnMap['sens'] !== undefined
+
+  if (!hasDebitCredit && !hasMontantSens) {
+    return {
+      success: false,
+      error: 'Colonnes de montants introuvables',
+      details: 'Le fichier doit contenir soit "Debit" + "Credit", soit "Montant" + "Sens" (D/C). Aucune de ces combinaisons n\'a été trouvée.',
     }
   }
 
@@ -471,13 +491,33 @@ function mapToFECRow(cols: string[], columnMap: Record<string, number>): FECRow 
     const compteNum = cols[columnMap['comptenum']] || ''
     if (!compteNum) return null
 
+    let debit = 0
+    let credit = 0
+
+    // Format A: Debit + Credit columns (two separate amount columns)
+    if (columnMap['debit'] !== undefined && columnMap['credit'] !== undefined) {
+      debit = parseAmount(cols[columnMap['debit']])
+      credit = parseAmount(cols[columnMap['credit']])
+    }
+    // Format B: Montant + Sens (single amount + D/C indicator)
+    else if (columnMap['montant'] !== undefined && columnMap['sens'] !== undefined) {
+      const montant = parseAmount(cols[columnMap['montant']])
+      const sens = (cols[columnMap['sens']] || '').trim().toUpperCase()
+      if (sens === 'D') {
+        debit = montant
+      } else if (sens === 'C') {
+        credit = montant
+      }
+      // Sens missing or unknown — skip row silently
+    }
+
     return {
       journalCode: cols[columnMap['journalcode']] || '',
       ecritureDate: cols[columnMap['ecrituredate']] || '',
       compteNum: compteNum.replace(/\s/g, ''),
       compteLib: cols[columnMap['comptelib'] ?? -1] || '',
-      debit: parseAmount(cols[columnMap['debit']]),
-      credit: parseAmount(cols[columnMap['credit']]),
+      debit,
+      credit,
     }
   } catch {
     return null
@@ -788,6 +828,23 @@ export async function quickValidateFEC(file: File): Promise<{
         }
       }
 
+      // Check amount columns: Debit+Credit OR Montant+Sens
+      const debitAliasesXl = COLUMN_ALIASES['debit'] || ['debit']
+      const creditAliasesXl = COLUMN_ALIASES['credit'] || ['credit']
+      const montantAliasesXl = COLUMN_ALIASES['montant'] || ['montant']
+      const sensAliasesXl = COLUMN_ALIASES['sens'] || ['sens']
+      const hasDebitXl = debitAliasesXl.some((a) => headerNorm.includes(normalize(a)))
+      const hasCreditXl = creditAliasesXl.some((a) => headerNorm.includes(normalize(a)))
+      const hasMontantXl = montantAliasesXl.some((a) => headerNorm.includes(normalize(a)))
+      const hasSensXl = sensAliasesXl.some((a) => headerNorm.includes(normalize(a)))
+      const hasAmountsXl = (hasDebitXl && hasCreditXl) || (hasMontantXl && hasSensXl)
+      if (!hasAmountsXl) {
+        return {
+          valid: false,
+          reason: 'Colonnes de montants introuvables. Le fichier doit contenir "Debit"+"Credit" ou "Montant"+"Sens".',
+        }
+      }
+
       return { valid: true, isExcel: true }
     } catch {
       return { valid: false, reason: 'Impossible de lire le fichier Excel. Vérifiez qu\'il n\'est pas corrompu.' }
@@ -826,6 +883,23 @@ export async function quickValidateFEC(file: File): Promise<{
     return {
       valid: false,
       reason: 'En-tête FEC non reconnu. Colonnes "CompteNum" et "EcritureDate" (ou variantes) introuvables.',
+    }
+  }
+
+  // Check amount columns: Debit+Credit OR Montant+Sens
+  const debitAliasesCsv = COLUMN_ALIASES['debit'] || ['debit']
+  const creditAliasesCsv = COLUMN_ALIASES['credit'] || ['credit']
+  const montantAliasesCsv = COLUMN_ALIASES['montant'] || ['montant']
+  const sensAliasesCsv = COLUMN_ALIASES['sens'] || ['sens']
+  const hasDebitCsv = debitAliasesCsv.some((a) => headerNorm.includes(normalize(a)))
+  const hasCreditCsv = creditAliasesCsv.some((a) => headerNorm.includes(normalize(a)))
+  const hasMontantCsv = montantAliasesCsv.some((a) => headerNorm.includes(normalize(a)))
+  const hasSensCsv = sensAliasesCsv.some((a) => headerNorm.includes(normalize(a)))
+  const hasAmountsCsv = (hasDebitCsv && hasCreditCsv) || (hasMontantCsv && hasSensCsv)
+  if (!hasAmountsCsv) {
+    return {
+      valid: false,
+      reason: 'Colonnes de montants introuvables. Le fichier doit contenir "Debit"+"Credit" ou "Montant"+"Sens".',
     }
   }
 
