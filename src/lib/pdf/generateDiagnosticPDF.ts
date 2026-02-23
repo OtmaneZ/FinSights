@@ -1,13 +1,17 @@
 /**
- * DIAGNOSTIC PDF GENERATOR — Big Four Edition
+ * DIAGNOSTIC PDF GENERATOR — Executive Edition v2.0
  *
- * Generates a 4-page A4 portrait consulting-grade report.
+ * Generates a 5-page A4 portrait consulting-grade report.
  * Pure jsPDF — no DOM capture, no html2canvas dependency.
  *
  * Page 1: Cover
- * Page 2: Executive Summary (score + pillars)
- * Page 3: Priorités d'action (cash impact, DSO lever)
- * Page 4: Benchmarks & Méthodologie + Legal disclaimer
+ * Page 2: Executive Summary (score + pillars + signaux clés)
+ * Page 3: Priorités d'action (result-oriented) + Cash Impact Pareto
+ * Page 4: Comparaison sectorielle (real values) + Synthèse de Solvabilité
+ * Page 5: Méthodologie + Legal disclaimer
+ *
+ * Design: Big Four audit aesthetic — navy/white, minimal, impactful.
+ * Footer: "Document confidentiel" + "Powered by SCORIS™ v1" on every page.
  */
 
 import jsPDF from 'jspdf'
@@ -17,21 +21,24 @@ import {
   type Insight,
   SECTOR_BENCHMARKS,
   LEVEL_CONFIG,
+  estimateCA,
 } from '@/lib/scoring/diagnosticScore'
+import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
 
 // ─── Palette ────────────────────────────────────────────────────────────────
 const C = {
-  navy:     [15, 23, 42]   as const,  // slate-950
-  dark:     [30, 41, 59]   as const,  // slate-800
-  text:     [51, 65, 85]   as const,  // slate-600
-  muted:    [100, 116, 139] as const, // slate-500
-  light:    [148, 163, 184] as const, // slate-400
-  border:   [226, 232, 240] as const, // slate-200
-  bg:       [248, 250, 252] as const, // slate-50
-  accent:   [0, 82, 204]   as const,  // deep blue
-  green:    [16, 185, 129]  as const,  // emerald-500
-  amber:    [217, 119, 6]   as const,  // amber-600
-  red:      [220, 38, 38]   as const,  // red-600
+  navy:     [15, 23, 42]   as const,
+  dark:     [30, 41, 59]   as const,
+  text:     [51, 65, 85]   as const,
+  muted:    [100, 116, 139] as const,
+  light:    [148, 163, 184] as const,
+  border:   [226, 232, 240] as const,
+  bg:       [248, 250, 252] as const,
+  bgWarm:   [241, 245, 249] as const,
+  accent:   [0, 82, 204]   as const,
+  green:    [16, 185, 129]  as const,
+  amber:    [217, 119, 6]   as const,
+  red:      [220, 38, 38]   as const,
   white:    [255, 255, 255] as const,
 } as const
 
@@ -41,7 +48,6 @@ type RGB = readonly [number, number, number]
 
 function rgb(c: RGB) { return c as unknown as [number, number, number] }
 
-/** Clean non-breaking spaces for jsPDF */
 function clean(text: string): string {
   return text
     .replace(/\u00A0/g, ' ')
@@ -50,26 +56,24 @@ function clean(text: string): string {
     .trim()
 }
 
-/** Wrap text into lines that fit maxWidth (mm) */
+function fmt(n: number): string {
+  return n.toLocaleString('fr-FR')
+}
+
 function wrapText(pdf: jsPDF, text: string, maxWidth: number): string[] {
   return pdf.splitTextToSize(clean(text), maxWidth)
 }
 
-/** Ensure Y won't overflow page; add new page if needed */
 function ensureSpace(
-  pdf: jsPDF,
-  y: number,
-  needed: number,
-  margin: number,
-  pageH: number,
-  footerH: number,
-  addFooter: () => void,
+  pdf: jsPDF, y: number, needed: number,
+  margin: number, pageH: number, footerH: number,
+  onNewPage: () => void,
 ): number {
   if (y + needed > pageH - margin - footerH) {
-    addFooter()
+    onNewPage()
     pdf.addPage()
     addPageHeader(pdf, margin)
-    return margin + 18 // after header
+    return margin + 18
   }
   return y
 }
@@ -92,11 +96,24 @@ function addPageFooter(pdf: jsPDF, margin: number, pageNum: number) {
   pdf.setDrawColor(...rgb(C.border))
   pdf.setLineWidth(0.3)
   pdf.line(margin, h - 15, w - margin, h - 15)
-  pdf.setFontSize(7)
+  pdf.setFontSize(6.5)
   pdf.setTextColor(...rgb(C.light))
   pdf.setFont('helvetica', 'normal')
-  pdf.text('Document confidentiel — ne pas diffuser sans autorisation', margin, h - 10)
+  pdf.text('Document confidentiel', margin, h - 10)
+  pdf.text('Powered by SCORIS v1', w / 2, h - 10, { align: 'center' })
   pdf.text(`${pageNum}`, w - margin, h - 10, { align: 'right' })
+}
+
+function sectionTitle(pdf: jsPDF, text: string, x: number, y: number): number {
+  pdf.setFontSize(8)
+  pdf.setFont('helvetica', 'bold')
+  pdf.setTextColor(...rgb(C.accent))
+  pdf.text(text, x, y)
+  return y + 10
+}
+
+function getCalc(history: Calculation[], type: CalculatorType): Calculation | undefined {
+  return history.find(c => c.type === type)
 }
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -105,6 +122,7 @@ export interface DiagnosticPDFData {
   diagnostic: DiagnosticScore
   insights: Insight
   sector: SectorKey
+  history: Calculation[]
   companyName?: string
   fileName?: string
   fecMeta?: {
@@ -123,12 +141,29 @@ export interface DiagnosticPDFData {
 
 export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<void> {
   const pdf = new jsPDF('p', 'mm', 'a4')
-  const W = pdf.internal.pageSize.getWidth()   // 210
-  const H = pdf.internal.pageSize.getHeight()  // 297
-  const M = 20 // margin
-  const CW = W - 2 * M // content width = 170
+  const W = pdf.internal.pageSize.getWidth()
+  const H = pdf.internal.pageSize.getHeight()
+  const M = 20
+  const CW = W - 2 * M
   const FOOTER_H = 18
   let pageNum = 0
+
+  const bench = SECTOR_BENCHMARKS[data.sector]
+  const get = (t: CalculatorType) => getCalc(data.history, t)
+  const dso = get('dso')
+  const bfr = get('bfr')
+  const marge = get('marge')
+  const ebitda = get('ebitda')
+  const seuil = get('seuil-rentabilite')
+  const caAnnuel = estimateCA((t: CalculatorType) => get(t))
+
+  // Pre-compute cash impact
+  let cashImpactAmount = 0
+  let cashGapJours = 0
+  if (dso && dso.value > bench.dsoMedian && caAnnuel && caAnnuel > 0) {
+    cashGapJours = dso.value - bench.dsoMedian
+    cashImpactAmount = Math.round((cashGapJours / 365) * caAnnuel)
+  }
 
   const footer = () => { pageNum++; addPageFooter(pdf, M, pageNum) }
 
@@ -137,11 +172,9 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // ═══════════════════════════════════════════════════════════════════════════
   pageNum = 1
 
-  // Top line accent
   pdf.setFillColor(...rgb(C.accent))
   pdf.rect(0, 0, W, 3, 'F')
 
-  // Logo text (clean, no image dependency)
   pdf.setFontSize(28)
   pdf.setFont('helvetica', 'bold')
   pdf.setTextColor(...rgb(C.navy))
@@ -152,55 +185,45 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   pdf.setTextColor(...rgb(C.muted))
   pdf.text('Intelligence Financiere Augmentee', M, 48)
 
-  // Separator
   pdf.setDrawColor(...rgb(C.accent))
   pdf.setLineWidth(0.8)
   pdf.line(M, 58, M + 40, 58)
 
-  // Title block
   pdf.setFontSize(32)
   pdf.setFont('helvetica', 'bold')
   pdf.setTextColor(...rgb(C.navy))
   pdf.text('Diagnostic de', M, 90)
   pdf.text('Performance Financiere', M, 103)
 
-  // Company / file name
   const displayName = data.companyName || data.fileName || 'Mon Entreprise'
   pdf.setFontSize(16)
   pdf.setFont('helvetica', 'normal')
   pdf.setTextColor(...rgb(C.text))
   pdf.text(clean(displayName), M, 125)
 
-  // Metadata block
   const metaY = 150
   pdf.setFontSize(9)
-  pdf.setFont('helvetica', 'normal')
   pdf.setTextColor(...rgb(C.muted))
-
-  const dateStr = new Date().toLocaleDateString('fr-FR', {
-    day: 'numeric', month: 'long', year: 'numeric',
-  })
+  const dateStr = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
   const metaLines = [
     `Date du rapport : ${dateStr}`,
-    `Secteur d'analyse : ${SECTOR_BENCHMARKS[data.sector]?.label || 'Tous secteurs'}`,
+    `Secteur d'analyse : ${bench.label}`,
     `Indicateurs analyses : ${data.completedCount} / ${data.totalCalculators}`,
-    `Moteur : SCORIS v1 — Score FinSight`,
+    'Moteur : SCORIS v1',
   ]
   if (data.fecMeta) {
-    metaLines.push(`Source : FEC (${data.fecMeta.nbEcritures?.toLocaleString('fr-FR')} ecritures)`)
+    metaLines.push(`Source : FEC (${fmt(data.fecMeta.nbEcritures)} ecritures)`)
   }
-  metaLines.forEach((line, i) => {
-    pdf.text(clean(line), M, metaY + i * 7)
-  })
+  metaLines.forEach((line, i) => { pdf.text(clean(line), M, metaY + i * 7) })
 
-  // Bottom bar
   pdf.setFillColor(...rgb(C.navy))
   pdf.rect(0, H - 30, W, 30, 'F')
   pdf.setFontSize(8)
   pdf.setTextColor(...rgb(C.white))
-  pdf.setFont('helvetica', 'normal')
-  pdf.text('Document confidentiel — ne pas diffuser sans autorisation', M, H - 15)
-  pdf.text('finsight.zineinsight.com', W - M, H - 15, { align: 'right' })
+  pdf.text('Document confidentiel', M, H - 18)
+  pdf.setFontSize(7)
+  pdf.text('Powered by SCORIS v1', M, H - 12)
+  pdf.text('finsight.zineinsight.com', W - M, H - 12, { align: 'right' })
 
   // ═══════════════════════════════════════════════════════════════════════════
   // PAGE 2 — EXECUTIVE SUMMARY
@@ -210,45 +233,33 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   addPageHeader(pdf, M)
   let y = M + 18
 
-  // Section title
-  pdf.setFontSize(8)
-  pdf.setFont('helvetica', 'bold')
-  pdf.setTextColor(...rgb(C.accent))
-  pdf.text('SYNTHESE EXECUTIVE', M, y)
-  y += 10
+  y = sectionTitle(pdf, 'SYNTHESE EXECUTIVE', M, y)
 
-  // Score block
   const levelCfg = LEVEL_CONFIG[data.diagnostic.level]
   const scoreColor: RGB = data.diagnostic.level === 'excellent' || data.diagnostic.level === 'bon'
     ? C.green
     : data.diagnostic.level === 'vigilance' ? C.amber : C.red
 
-  // Score card background
   pdf.setFillColor(...rgb(C.bg))
   pdf.roundedRect(M, y, CW, 45, 3, 3, 'F')
   pdf.setDrawColor(...rgb(C.border))
   pdf.setLineWidth(0.3)
   pdf.roundedRect(M, y, CW, 45, 3, 3, 'S')
 
-  // Score number
   const scoreVal = data.diagnostic.total !== null ? `${data.diagnostic.total}` : '--'
   pdf.setFontSize(48)
   pdf.setFont('helvetica', 'bold')
   pdf.setTextColor(...rgb(scoreColor))
   pdf.text(scoreVal, M + 15, y + 32)
-
-  // /100
   pdf.setFontSize(16)
   pdf.setTextColor(...rgb(C.light))
   pdf.text('/ 100', M + 55, y + 32)
 
-  // Level label
   pdf.setFontSize(12)
   pdf.setFont('helvetica', 'bold')
   pdf.setTextColor(...rgb(scoreColor))
   pdf.text(clean(levelCfg.label), M + 90, y + 20)
 
-  // Confidence
   pdf.setFontSize(9)
   pdf.setFont('helvetica', 'normal')
   pdf.setTextColor(...rgb(C.muted))
@@ -257,7 +268,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
 
   y += 55
 
-  // DAF Virtuel synthesis line
+  // DAF Virtuel synthesis
   if (data.diagnostic.total !== null) {
     const synthText = data.diagnostic.total >= 75
       ? 'Situation financiere solide avec des fondamentaux sains. Axes d\'optimisation identifies pour renforcer la trajectoire.'
@@ -269,82 +280,65 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     pdf.setFont('helvetica', 'italic')
     pdf.setTextColor(...rgb(C.text))
     const synthLines = wrapText(pdf, `"${synthText}"`, CW - 10)
-    synthLines.forEach((line, i) => {
-      pdf.text(line, M + 5, y + i * 5)
-    })
+    synthLines.forEach((line, i) => { pdf.text(line, M + 5, y + i * 5) })
     y += synthLines.length * 5 + 5
 
     pdf.setFontSize(7)
     pdf.setTextColor(...rgb(C.light))
-    pdf.text('— DAF Virtuel FinSight', M + 5, y)
+    pdf.text('-- DAF Virtuel FinSight', M + 5, y)
     y += 12
   }
 
   // ── 4 Pillars ──
-  pdf.setFontSize(8)
-  pdf.setFont('helvetica', 'bold')
-  pdf.setTextColor(...rgb(C.accent))
-  pdf.text('PERFORMANCE PAR PILIER', M, y)
-  y += 8
+  y = sectionTitle(pdf, 'PERFORMANCE PAR PILIER', M, y)
 
-  const pillarOrder: Array<{ key: string; label: string }> = [
+  const pillarOrder = [
     { key: 'cash', label: 'Tresorerie & Cash' },
     { key: 'margin', label: 'Rentabilite & Marges' },
     { key: 'resilience', label: 'Resilience & Croissance' },
     { key: 'risk', label: 'Risques & Anomalies' },
   ]
 
-  const pillarCardW = (CW - 6) / 2
-  const pillarCardH = 32
+  const pW = (CW - 6) / 2
+  const pH = 32
 
   pillarOrder.forEach((p, i) => {
     const col = i % 2
     const row = Math.floor(i / 2)
-    const px = M + col * (pillarCardW + 6)
-    const py = y + row * (pillarCardH + 6)
+    const px = M + col * (pW + 6)
+    const py = y + row * (pH + 6)
     const pillar = data.diagnostic.pillars[p.key as keyof typeof data.diagnostic.pillars]
 
-    // Card bg
     pdf.setFillColor(...rgb(C.white))
-    pdf.roundedRect(px, py, pillarCardW, pillarCardH, 2, 2, 'F')
+    pdf.roundedRect(px, py, pW, pH, 2, 2, 'F')
     pdf.setDrawColor(...rgb(C.border))
     pdf.setLineWidth(0.3)
-    pdf.roundedRect(px, py, pillarCardW, pillarCardH, 2, 2, 'S')
+    pdf.roundedRect(px, py, pW, pH, 2, 2, 'S')
 
-    // Pillar label
     pdf.setFontSize(8)
     pdf.setFont('helvetica', 'bold')
     pdf.setTextColor(...rgb(C.dark))
     pdf.text(clean(p.label), px + 5, py + 9)
 
-    // Score or "Données insuffisantes"
     if (pillar.score !== null) {
-      // Score bar background
-      const barX = px + 5
-      const barY = py + 14
-      const barW = pillarCardW - 10
-      const barH = 4
+      const barX = px + 5, barY = py + 14, barW = pW - 10, barH = 4
       pdf.setFillColor(...rgb(C.bg))
       pdf.roundedRect(barX, barY, barW, barH, 1, 1, 'F')
-
-      // Score bar fill
       const pct = Math.min(pillar.score / 25, 1)
-      const fillColor: RGB = pct >= 0.7 ? C.green : pct >= 0.4 ? C.amber : C.red
-      pdf.setFillColor(...rgb(fillColor))
+      const fill: RGB = pct >= 0.7 ? C.green : pct >= 0.4 ? C.amber : C.red
+      pdf.setFillColor(...rgb(fill))
       pdf.roundedRect(barX, barY, barW * pct, barH, 1, 1, 'F')
 
-      // Score value
       pdf.setFontSize(10)
       pdf.setFont('helvetica', 'bold')
-      pdf.setTextColor(...rgb(fillColor))
+      pdf.setTextColor(...rgb(fill))
       pdf.text(`${pillar.score}/25`, px + 5, py + 28)
 
-      // Indicators count
-      const doneCount = pillar.calculators.filter(c => c.done).length
+      const done = pillar.calculators.filter(c => c.done).length
       pdf.setFontSize(7)
       pdf.setFont('helvetica', 'normal')
       pdf.setTextColor(...rgb(C.muted))
-      pdf.text(`${doneCount} indicateur${doneCount > 1 ? 's' : ''}`, px + pillarCardW - 5, py + 28, { align: 'right' })
+      pdf.text(`${done} indicateur${done > 1 ? 's' : ''}`, px + pW - 5, py + 28, { align: 'right' })
     } else {
       pdf.setFontSize(8)
       pdf.setFont('helvetica', 'italic')
@@ -353,267 +347,389 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     }
   })
 
-  y += 2 * (pillarCardH + 6) + 4
+  y += 2 * (pH + 6) + 4
 
-  // ── Insights summary (forces / vulnerabilities) ──
+  // ── Signaux clés ──
   y = ensureSpace(pdf, y, 40, M, H, FOOTER_H, footer)
-
   const forces = data.insights.forces.slice(0, 3)
   const vulns = data.insights.vulnerabilites.slice(0, 3)
 
   if (forces.length > 0 || vulns.length > 0) {
-    pdf.setFontSize(8)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.accent))
-    pdf.text('SIGNAUX CLES', M, y)
-    y += 7
+    y = sectionTitle(pdf, 'SIGNAUX CLES', M, y)
 
-    const renderStringList = (items: string[], startY: number, labelColor: RGB, bulletChar: string): number => {
+    const renderList = (items: string[], startY: number, color: RGB, bullet: string): number => {
       let cy = startY
       items.forEach(text => {
         cy = ensureSpace(pdf, cy, 12, M, H, FOOTER_H, footer)
         pdf.setFontSize(8)
         pdf.setFont('helvetica', 'bold')
-        pdf.setTextColor(...rgb(labelColor))
-        pdf.text(bulletChar, M + 2, cy)
+        pdf.setTextColor(...rgb(color))
+        pdf.text(bullet, M + 2, cy)
         pdf.setFont('helvetica', 'normal')
         pdf.setTextColor(...rgb(C.dark))
-        const wrapped = wrapText(pdf, text, CW - 12)
-        wrapped.forEach(line => {
-          pdf.text(line, M + 8, cy)
-          cy += 4.5
-        })
+        wrapText(pdf, text, CW - 12).forEach(line => { pdf.text(line, M + 8, cy); cy += 4.5 })
         cy += 2
       })
       return cy
     }
 
     if (forces.length > 0) {
-      pdf.setFontSize(7)
-      pdf.setFont('helvetica', 'bold')
-      pdf.setTextColor(...rgb(C.green))
-      pdf.text('FORCES', M + 2, y)
-      y += 5
-      y = renderStringList(forces, y, C.green, '+')
-      y += 3
+      pdf.setFontSize(7); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.green))
+      pdf.text('FORCES', M + 2, y); y += 5
+      y = renderList(forces, y, C.green, '+'); y += 3
     }
-
     if (vulns.length > 0) {
-      pdf.setFontSize(7)
-      pdf.setFont('helvetica', 'bold')
-      pdf.setTextColor(...rgb(C.red))
-      pdf.text('VULNERABILITES', M + 2, y)
-      y += 5
-      y = renderStringList(vulns, y, C.red, '!')
+      pdf.setFontSize(7); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.red))
+      pdf.text('VULNERABILITES', M + 2, y); y += 5
+      y = renderList(vulns, y, C.red, '!')
     }
   }
 
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 3 — PRIORITES D'ACTION
+  // PAGE 3 — PRIORITÉS D'ACTION (result-oriented, no vuln repeats)
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
   pageNum = 3
   addPageHeader(pdf, M)
   y = M + 18
 
-  pdf.setFontSize(8)
-  pdf.setFont('helvetica', 'bold')
-  pdf.setTextColor(...rgb(C.accent))
-  pdf.text('PRIORITES D\'ACTION', M, y)
-  y += 10
+  y = sectionTitle(pdf, 'PRIORITES D\'ACTION', M, y)
 
-  // Build priority list from insights
-  const priorityItems: string[] = []
-  if (data.insights.priorite) priorityItems.push(data.insights.priorite)
-  data.insights.vulnerabilites.forEach(v => priorityItems.push(v))
+  // Build 3 result-oriented priority items
+  const priorities: Array<{ title: string; detail: string; urgency: 'critique' | 'haute' | 'moyenne' }> = []
 
-  if (priorityItems.length > 0) {
-    priorityItems.slice(0, 5).forEach((text, idx) => {
-      y = ensureSpace(pdf, y, 35, M, H, FOOTER_H, footer)
-
-      // Priority card
-      pdf.setFillColor(...rgb(C.bg))
-      pdf.roundedRect(M, y, CW, 28, 2, 2, 'F')
-      pdf.setDrawColor(...rgb(C.border))
-      pdf.setLineWidth(0.3)
-      pdf.roundedRect(M, y, CW, 28, 2, 2, 'S')
-
-      // Priority number
-      pdf.setFillColor(...rgb(idx === 0 ? C.red : C.amber))
-      pdf.roundedRect(M + 5, y + 5, 18, 18, 2, 2, 'F')
-      pdf.setFontSize(12)
-      pdf.setFont('helvetica', 'bold')
-      pdf.setTextColor(...rgb(C.white))
-      pdf.text(`#${idx + 1}`, M + 9, y + 17)
-
-      // Text
-      pdf.setFontSize(9)
-      pdf.setFont('helvetica', 'normal')
-      pdf.setTextColor(...rgb(C.dark))
-      const lines = wrapText(pdf, text, CW - 40)
-      lines.slice(0, 2).forEach((line, li) => {
-        pdf.text(line, M + 30, y + 12 + li * 5)
-      })
-
-      y += 34
+  if (data.insights.priorite) {
+    priorities.push({
+      title: 'Levier cash prioritaire',
+      detail: data.insights.priorite,
+      urgency: 'critique',
     })
-  } else {
-    pdf.setFontSize(10)
-    pdf.setFont('helvetica', 'italic')
-    pdf.setTextColor(...rgb(C.muted))
-    pdf.text('Aucune priorite critique identifiee — situation saine.', M, y + 5)
-    y += 20
   }
 
-  // ── Cash Impact Focus ──
-  y = ensureSpace(pdf, y, 60, M, H, FOOTER_H, footer)
-  y += 5
-
-  pdf.setFontSize(8)
-  pdf.setFont('helvetica', 'bold')
-  pdf.setTextColor(...rgb(C.accent))
-  pdf.text('IMPACT CASH — LEVIER DSO', M, y)
-  y += 8
-
-  // Explanation block
-  pdf.setFillColor(...rgb(C.white))
-  pdf.roundedRect(M, y, CW, 50, 3, 3, 'F')
-  pdf.setDrawColor(...rgb(C.accent))
-  pdf.setLineWidth(0.5)
-  pdf.line(M, y, M, y + 50) // left accent bar
-
-  const cashPillar = data.diagnostic.pillars.cash
-  const bench = SECTOR_BENCHMARKS[data.sector]
-
-  pdf.setFontSize(9)
-  pdf.setFont('helvetica', 'normal')
-  pdf.setTextColor(...rgb(C.text))
-
-  const cashLines = [
-    `Score Tresorerie : ${cashPillar.score !== null ? cashPillar.score + '/25' : 'Non calcule'}`,
-    '',
-    `DSO mediane sectorielle (${bench.label}) : ${bench.dsoMedian} jours`,
-    `BFR mediane sectorielle : ${bench.bfrJoursMedian} jours de CA`,
-    '',
-    'Le DSO (Days Sales Outstanding) est le levier le plus direct pour',
-    'ameliorer la tresorerie. Chaque jour de DSO reduit libere du cash',
-    'disponible pour l\'exploitation et les investissements.',
-    '',
-    'Recommandation : automatiser les relances factures, negocier des',
-    'acomptes sur les projets > 5 000 EUR, reviser les conditions de paiement.',
-  ]
-
-  cashLines.forEach((line, i) => {
-    pdf.text(clean(line), M + 6, y + 6 + i * 4.2)
+  priorities.push({
+    title: 'Restructuration du poste clients',
+    detail: 'Implementer une politique de facturation avec acomptes systematiques de 30% pour reduire l\'exposition au risque. Objectif : securiser le flux d\'encaissements et diminuer le DSO de 15 a 25 jours.',
+    urgency: 'haute',
   })
 
-  y += 58
+  priorities.push({
+    title: 'Optimisation du BFR',
+    detail: 'Negocier l\'alignement des delais fournisseurs sur les delais clients pour stabiliser le cycle d\'exploitation. Cible : remonter 10 a 15 jours de tresorerie immobilisee.',
+    urgency: 'moyenne',
+  })
+
+  priorities.slice(0, 3).forEach((prio, idx) => {
+    y = ensureSpace(pdf, y, 40, M, H, FOOTER_H, footer)
+
+    const cardH = 32
+    pdf.setFillColor(...rgb(C.bg))
+    pdf.roundedRect(M, y, CW, cardH, 2, 2, 'F')
+    pdf.setDrawColor(...rgb(C.border))
+    pdf.setLineWidth(0.3)
+    pdf.roundedRect(M, y, CW, cardH, 2, 2, 'S')
+
+    const badgeColor: RGB = prio.urgency === 'critique' ? C.red : prio.urgency === 'haute' ? C.amber : C.accent
+    pdf.setFillColor(...rgb(badgeColor))
+    pdf.roundedRect(M + 5, y + 4, 18, 18, 2, 2, 'F')
+    pdf.setFontSize(12)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.white))
+    pdf.text(`#${idx + 1}`, M + 8.5, y + 16)
+
+    pdf.setFontSize(9)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.navy))
+    pdf.text(clean(prio.title), M + 30, y + 10)
+
+    pdf.setFontSize(8)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.text))
+    wrapText(pdf, prio.detail, CW - 38).slice(0, 3).forEach((line, li) => {
+      pdf.text(line, M + 30, y + 16 + li * 4)
+    })
+
+    y += cardH + 6
+  })
+
+  // ── Cash Impact Pareto — encadré redesigné ──
+  y = ensureSpace(pdf, y, 65, M, H, FOOTER_H, footer)
+  y += 5
+
+  y = sectionTitle(pdf, 'IMPACT CASH — LEVIER PARETO', M, y)
+
+  const paretoH = 50
+  // Light grey background
+  pdf.setFillColor(...rgb(C.bgWarm))
+  pdf.roundedRect(M, y, CW, paretoH, 3, 3, 'F')
+  // Thick navy-blue left border (2.5mm)
+  pdf.setFillColor(...rgb(C.navy))
+  pdf.rect(M, y, 2.5, paretoH, 'F')
+
+  const ppx = M + 10
+
+  if (cashImpactAmount > 0) {
+    pdf.setFontSize(22)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.navy))
+    pdf.text(clean(`${fmt(cashImpactAmount)} EUR`), ppx, y + 14)
+
+    pdf.setFontSize(8)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.text))
+    pdf.text(`${cashGapJours}j de DSO au-dessus de la mediane sectorielle (${bench.dsoMedian}j)`, ppx, y + 24)
+
+    pdf.setFontSize(9)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.accent))
+    pdf.text('Impact immediat sur le disponible bancaire', ppx, y + 34)
+
+    pdf.setFontSize(7.5)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.muted))
+    pdf.text('Reserve de cash mobilisable par simple optimisation du recouvrement clients.', ppx, y + 42)
+  } else {
+    pdf.setFontSize(10)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.navy))
+    pdf.text('DSO aligne sur la mediane sectorielle', ppx, y + 14)
+
+    pdf.setFontSize(8)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.text))
+    pdf.text('Pas de cash immobilise identifie sur le poste clients. Bonne maitrise du cycle.', ppx, y + 24)
+
+    pdf.setFontSize(9)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.accent))
+    pdf.text('Impact immediat sur le disponible bancaire : aucun levier DSO supplementaire', ppx, y + 34)
+  }
+
+  y += paretoH + 5
 
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 4 — BENCHMARKS & METHODOLOGIE
+  // PAGE 4 — COMPARAISON SECTORIELLE + NOTE DE SOLVABILITÉ
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
   pageNum = 4
   addPageHeader(pdf, M)
   y = M + 18
 
-  pdf.setFontSize(8)
-  pdf.setFont('helvetica', 'bold')
-  pdf.setTextColor(...rgb(C.accent))
-  pdf.text('COMPARAISON SECTORIELLE', M, y)
-  y += 8
+  y = sectionTitle(pdf, 'COMPARAISON SECTORIELLE', M, y)
 
-  // Benchmark table
-  const benchHeaders = ['Indicateur', 'Mediane sectorielle', 'Votre positionnement']
-  const colWidths = [55, 55, 60]
+  // Benchmark table with REAL values
+  const bHeaders = ['Indicateur', 'Mediane sectorielle', 'Votre valeur', 'Ecart']
+  const bCols = [45, 40, 40, 45]
 
-  // Header row
   pdf.setFillColor(...rgb(C.navy))
   pdf.rect(M, y, CW, 8, 'F')
   pdf.setFontSize(7)
   pdf.setFont('helvetica', 'bold')
   pdf.setTextColor(...rgb(C.white))
-  let colX = M
-  benchHeaders.forEach((header, i) => {
-    pdf.text(clean(header), colX + 3, y + 5.5)
-    colX += colWidths[i]
-  })
+  let cx = M
+  bHeaders.forEach((h, i) => { pdf.text(h, cx + 3, y + 5.5); cx += bCols[i] })
   y += 8
 
-  // Data rows
-  const benchRows = [
-    { label: 'DSO (delai encaissement)', value: `${bench.dsoMedian} jours`, position: cashPillar.score !== null ? 'Analyse disponible' : 'Non mesure' },
-    { label: 'Marge brute mediane', value: `${bench.margeMedian}%`, position: data.diagnostic.pillars.margin.score !== null ? 'Analyse disponible' : 'Non mesure' },
-    { label: 'BFR (jours de CA)', value: `${bench.bfrJoursMedian} jours`, position: cashPillar.score !== null ? 'Analyse disponible' : 'Non mesure' },
-    { label: 'EBITDA median', value: `${bench.ebitdaMedian}%`, position: data.diagnostic.pillars.margin.score !== null ? 'Analyse disponible' : 'Non mesure' },
-  ]
+  interface BRow { label: string; median: string; actual: string; ecart: string; ecartColor: RGB }
+  const rows: BRow[] = []
 
-  benchRows.forEach((row, i) => {
-    const rowY = y + i * 8
+  // DSO
+  if (dso) {
+    const g = dso.value - bench.dsoMedian
+    rows.push({ label: 'DSO (delai encaissement)', median: `${bench.dsoMedian}j`, actual: `${dso.value}j`, ecart: g > 0 ? `+${g}j (defavorable)` : `${g}j (favorable)`, ecartColor: g > 0 ? C.red : C.green })
+  } else {
+    rows.push({ label: 'DSO (delai encaissement)', median: `${bench.dsoMedian}j`, actual: 'Non mesure', ecart: '--', ecartColor: C.light })
+  }
+
+  // Marge brute
+  if (marge) {
+    const g = marge.value - bench.margeMedian
+    rows.push({ label: 'Marge brute', median: `${bench.margeMedian}%`, actual: `${marge.value}%`, ecart: g >= 0 ? `+${g}pts (favorable)` : `${g}pts (defavorable)`, ecartColor: g >= 0 ? C.green : C.red })
+  } else {
+    rows.push({ label: 'Marge brute', median: `${bench.margeMedian}%`, actual: 'Non mesure', ecart: '--', ecartColor: C.light })
+  }
+
+  // BFR
+  if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
+    const j = Math.round((bfr.value / bfr.inputs.ca) * 365)
+    const g = j - bench.bfrJoursMedian
+    rows.push({ label: 'BFR (jours de CA)', median: `${bench.bfrJoursMedian}j`, actual: `${j}j`, ecart: g > 0 ? `+${g}j (defavorable)` : `${g}j (favorable)`, ecartColor: g > 0 ? C.red : C.green })
+  } else {
+    rows.push({ label: 'BFR (jours de CA)', median: `${bench.bfrJoursMedian}j`, actual: 'Non mesure', ecart: '--', ecartColor: C.light })
+  }
+
+  // EBITDA %
+  if (ebitda && caAnnuel && caAnnuel > 0) {
+    const pct = Math.round((ebitda.value / caAnnuel) * 100)
+    const g = pct - bench.ebitdaMedian
+    rows.push({ label: 'EBITDA (% du CA)', median: `${bench.ebitdaMedian}%`, actual: `${pct}%`, ecart: g >= 0 ? `+${g}pts (favorable)` : `${g}pts (defavorable)`, ecartColor: g >= 0 ? C.green : C.red })
+  } else {
+    rows.push({ label: 'EBITDA (% du CA)', median: `${bench.ebitdaMedian}%`, actual: 'Non mesure', ecart: '--', ecartColor: C.light })
+  }
+
+  rows.forEach((row, i) => {
+    const ry = y + i * 9
     pdf.setFillColor(...rgb(i % 2 === 0 ? C.bg : C.white))
-    pdf.rect(M, rowY, CW, 8, 'F')
+    pdf.rect(M, ry, CW, 9, 'F')
 
     pdf.setFontSize(7.5)
     pdf.setFont('helvetica', 'normal')
     pdf.setTextColor(...rgb(C.dark))
 
-    let cx = M
-    ;[row.label, row.value, row.position].forEach((cell, ci) => {
-      pdf.text(clean(cell), cx + 3, rowY + 5.5)
-      cx += colWidths[ci]
-    })
+    let rx = M
+    pdf.text(row.label, rx + 3, ry + 6)
+    rx += bCols[0]
+    pdf.text(row.median, rx + 3, ry + 6)
+    rx += bCols[1]
+
+    pdf.setFont('helvetica', 'bold')
+    pdf.text(row.actual, rx + 3, ry + 6)
+    rx += bCols[2]
+
+    pdf.setTextColor(...rgb(row.ecartColor))
+    pdf.text(row.ecart, rx + 3, ry + 6)
   })
 
-  y += benchRows.length * 8 + 10
-
-  // Sector info
+  y += rows.length * 9 + 6
   pdf.setFontSize(7)
   pdf.setFont('helvetica', 'italic')
   pdf.setTextColor(...rgb(C.muted))
   pdf.text(`Secteur : ${bench.label} — Sources : Banque de France, INSEE, Altares (2024)`, M, y)
   y += 15
 
-  // ── Methodology ──
-  y = ensureSpace(pdf, y, 50, M, H, FOOTER_H, footer)
+  // ── NOTE DE SOLVABILITÉ ──
+  y = ensureSpace(pdf, y, 120, M, H, FOOTER_H, footer)
+  y = sectionTitle(pdf, 'SYNTHESE DE SOLVABILITE & CAPACITE DE FINANCEMENT', M, y)
 
-  pdf.setFontSize(8)
-  pdf.setFont('helvetica', 'bold')
-  pdf.setTextColor(...rgb(C.accent))
-  pdf.text('METHODOLOGIE', M, y)
-  y += 8
+  pdf.setFontSize(7.5)
+  pdf.setFont('helvetica', 'italic')
+  pdf.setTextColor(...rgb(C.muted))
+  pdf.text('Indicateurs cles de creditworthiness — a destination des partenaires financiers', M, y)
+  y += 10
+
+  interface BankerKPI { label: string; value: string; sublabel: string; detail: string; color: RGB }
+  const kpis: BankerKPI[] = []
+
+  // KPI 1: Capacité d'Autofinancement (EBITDA)
+  if (ebitda && caAnnuel && caAnnuel > 0) {
+    const pct = Math.round((ebitda.value / caAnnuel) * 100)
+    const topLabel = pct >= bench.ebitdaMedian * 2 ? 'Top 5% sectoriel'
+      : pct >= bench.ebitdaMedian * 1.5 ? 'Top 15% sectoriel'
+      : pct >= bench.ebitdaMedian ? 'Au-dessus de la mediane' : 'Sous la mediane sectorielle'
+    const profile = pct >= bench.ebitdaMedian * 1.5
+      ? 'Profil de rentabilite exceptionnel'
+      : pct >= bench.ebitdaMedian ? 'Profil de rentabilite solide' : 'Profil de rentabilite a renforcer'
+    kpis.push({ label: 'Capacite d\'Autofinancement (EBITDA)', value: `${pct}%`, sublabel: topLabel, detail: profile, color: pct >= bench.ebitdaMedian ? C.green : C.amber })
+  } else {
+    kpis.push({ label: 'Capacite d\'Autofinancement (EBITDA)', value: '--', sublabel: 'Donnee non disponible', detail: 'Completez EBITDA et CA pour activer cet indicateur.', color: C.light })
+  }
+
+  // KPI 2: Marge de sécurité
+  if (seuil && caAnnuel && caAnnuel > 0) {
+    const ms = caAnnuel - seuil.value
+    const pct = Math.round((ms / caAnnuel) * 100)
+    kpis.push({
+      label: 'Marge de Securite',
+      value: `${pct}%`,
+      sublabel: ms > 0 ? `L'entreprise peut absorber une baisse de CA de ${fmt(ms)} EUR` : 'CA sous le seuil de rentabilite',
+      detail: ms > 0 ? 'avant d\'atteindre son seuil de rentabilite.' : 'Situation deficitaire — intervention urgente recommandee.',
+      color: pct >= 30 ? C.green : pct >= 10 ? C.amber : C.red,
+    })
+  } else {
+    kpis.push({ label: 'Marge de Securite', value: '--', sublabel: 'Donnee non disponible', detail: 'Completez le seuil de rentabilite pour activer.', color: C.light })
+  }
+
+  // KPI 3: Garantie de liquidité
+  if (cashImpactAmount > 0) {
+    kpis.push({ label: 'Garantie de Liquidite', value: `${fmt(cashImpactAmount)} EUR`, sublabel: 'Reserve de cash mobilisable', detail: 'par simple optimisation du recouvrement clients.', color: C.accent })
+  } else if (dso && caAnnuel) {
+    kpis.push({ label: 'Garantie de Liquidite', value: 'Optimal', sublabel: 'DSO aligne sur la mediane', detail: 'Pas de cash immobilise supplementaire identifie.', color: C.green })
+  } else {
+    kpis.push({ label: 'Garantie de Liquidite', value: '--', sublabel: 'Donnee non disponible', detail: 'Completez DSO et CA pour activer.', color: C.light })
+  }
+
+  const kpiH = 28
+  kpis.forEach((kpi) => {
+    y = ensureSpace(pdf, y, kpiH + 6, M, H, FOOTER_H, footer)
+
+    pdf.setFillColor(...rgb(C.white))
+    pdf.roundedRect(M, y, CW, kpiH, 2, 2, 'F')
+    pdf.setDrawColor(...rgb(C.border))
+    pdf.setLineWidth(0.3)
+    pdf.roundedRect(M, y, CW, kpiH, 2, 2, 'S')
+
+    // Left accent bar
+    pdf.setFillColor(...rgb(kpi.color))
+    pdf.rect(M, y, 2, kpiH, 'F')
+
+    // Label
+    pdf.setFontSize(7.5)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.muted))
+    pdf.text(clean(kpi.label).toUpperCase(), M + 8, y + 7)
+
+    // Value
+    pdf.setFontSize(16)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(kpi.color))
+    pdf.text(clean(kpi.value), M + 8, y + 18)
+
+    // Sublabel + detail
+    pdf.setFontSize(8)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.dark))
+    const subs = wrapText(pdf, kpi.sublabel, 85)
+    subs.forEach((l, li) => { pdf.text(l, M + 70, y + 10 + li * 4) })
+
+    pdf.setFontSize(7)
+    pdf.setTextColor(...rgb(C.muted))
+    const dets = wrapText(pdf, kpi.detail, 85)
+    dets.forEach((l, li) => { pdf.text(l, M + 70, y + 10 + subs.length * 4 + 2 + li * 3.5) })
+
+    y += kpiH + 5
+  })
+
+  footer()
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PAGE 5 — MÉTHODOLOGIE + LEGAL
+  // ═══════════════════════════════════════════════════════════════════════════
+  pdf.addPage()
+  pageNum = 5
+  addPageHeader(pdf, M)
+  y = M + 18
+
+  y = sectionTitle(pdf, 'METHODOLOGIE', M, y)
 
   pdf.setFontSize(7.5)
   pdf.setFont('helvetica', 'normal')
   pdf.setTextColor(...rgb(C.text))
 
-  const methodoLines = [
+  const methodo = [
     'Score FinSight : score composite 0-100 calcule sur 4 piliers ponderes (Tresorerie 25, Rentabilite 25, Resilience 25, Risques 25).',
     '',
-    'Chaque indicateur est compare aux medianes sectorielles francaises (Banque de France, INSEE, Altares 2024). Les seuils sont relatifs, pas absolus : un burn rate de 15k EUR/mois est maitrise pour une entreprise a 600k EUR CA, mais critique a 100k EUR CA.',
+    'Chaque indicateur est compare aux medianes sectorielles francaises (Banque de France, INSEE, Altares 2024). Les seuils sont relatifs : un burn rate de 15k EUR/mois est maitrise pour une entreprise a 600k EUR CA, mais critique a 100k EUR CA.',
     '',
     'Moteurs d\'analyse : SCORIS (scoring multi-pilier), TRESORIS (analyse causale de tresorerie), DASHIS (simulations What-If).',
     '',
     'Confiance : Haute (4/4 piliers) / Moyenne (2-3) / Faible (1). Score extrapole sur 100 a partir des piliers disponibles.',
     '',
     'Import FEC : parsing 100% local (navigateur). Le fichier n\'est jamais stocke sur un serveur ni transmis a un tiers.',
+    '',
+    'Note de solvabilite : les indicateurs bancaires (EBITDA %, marge de securite, garantie de liquidite) sont calcules a partir des donnees declarees. Ils ne constituent pas une notation de credit officielle.',
   ]
 
-  methodoLines.forEach(line => {
+  methodo.forEach(line => {
     if (line === '') { y += 2; return }
     y = ensureSpace(pdf, y, 10, M, H, FOOTER_H, footer)
-    const wrapped = wrapText(pdf, line, CW)
-    wrapped.forEach(wl => {
-      pdf.text(wl, M, y)
-      y += 4
-    })
+    wrapText(pdf, line, CW).forEach(wl => { pdf.text(wl, M, y); y += 4 })
     y += 1
   })
 
-  y += 10
+  y += 15
 
   // ── Legal Disclaimer ──
   y = ensureSpace(pdf, y, 35, M, H, FOOTER_H, footer)
@@ -631,14 +747,11 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
 
   pdf.setFont('helvetica', 'normal')
   pdf.setFontSize(6)
-  const disclaimerLines = wrapText(
+  wrapText(
     pdf,
-    'Ce document est genere automatiquement a titre informatif. Il ne constitue en aucun cas un conseil financier, fiscal ou juridique. Les scores et recommandations sont bases sur les donnees declarees par l\'utilisateur et les medianes sectorielles publiques. FinSight decline toute responsabilite en cas de decision fondee exclusivement sur ce rapport. Pour un audit complet, nous recommandons de consulter un expert-comptable ou un DAF qualifie.',
+    'Ce document est genere automatiquement a titre informatif. Il ne constitue en aucun cas un conseil financier, fiscal ou juridique. Les scores et recommandations sont bases sur les donnees declarees et les medianes sectorielles publiques. FinSight decline toute responsabilite en cas de decision fondee exclusivement sur ce rapport. Pour un audit complet, consulter un expert-comptable ou un DAF qualifie.',
     CW - 10,
-  )
-  disclaimerLines.forEach((line, i) => {
-    pdf.text(line, M + 5, y + 11 + i * 3.2)
-  })
+  ).forEach((line, i) => { pdf.text(line, M + 5, y + 11 + i * 3.2) })
 
   footer()
 

@@ -246,6 +246,7 @@ export default function MonDiagnosticPage() {
         diagnostic,
         insights,
         sector,
+        history,
         companyName: fecMeta?.fileName?.replace(/\.[^.]+$/, '') || undefined,
         fileName: fecMeta?.fileName || undefined,
         fecMeta: fecMeta || undefined,
@@ -590,6 +591,16 @@ export default function MonDiagnosticPage() {
                 <p className="text-gray-400 mt-4 text-lg">
                   {completed.length} indicateur{completed.length > 1 ? 's' : ''} analysé{completed.length > 1 ? 's' : ''} · Dernière mise à jour : {timeAgo(history[0].date)}
                 </p>
+              </FadeIn>
+              <FadeIn delay={0.4} direction="none">
+                <button
+                  onClick={handleReset}
+                  disabled={resetting}
+                  className="group mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-white/5 backdrop-blur text-sm font-medium text-gray-400 hover:text-white hover:border-white/20 hover:bg-white/10 transition-all duration-200 disabled:opacity-40"
+                >
+                  <RotateCcw className={`w-3.5 h-3.5 ${resetting ? 'animate-spin' : 'group-hover:rotate-[-30deg] transition-transform duration-200'}`} />
+                  Nouveau diagnostic
+                </button>
               </FadeIn>
             </div>
 
