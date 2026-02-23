@@ -24,6 +24,7 @@ import {
   timeAgo,
   getContextualCTA,
 } from '@/lib/scoring/diagnosticScore'
+import { generateDiagnosticPDF } from '@/lib/pdf/generateDiagnosticPDF'
 import {
   TrendingUp,
   DollarSign,
@@ -48,6 +49,8 @@ import {
   Lock,
   Building2,
   Sparkles,
+  RotateCcw,
+  Download,
 } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
@@ -221,6 +224,39 @@ export default function MonDiagnosticPage() {
   const handleSectorChange = (s: SectorKey) => {
     setSector(s)
     localStorage.setItem('finsight_sector', s)
+  }
+
+  const [resetting, setResetting] = useState(false)
+  const handleReset = () => {
+    if (resetting) return
+    if (!window.confirm('Réinitialiser l\u2019analyse ? Tout l\u2019historique sera supprimé.')) return
+    setResetting(true)
+    clearHistory()
+    localStorage.removeItem('finsight_fec_meta')
+    localStorage.removeItem('finsight_sector')
+    window.location.reload()
+  }
+
+  const [generatingPDF, setGeneratingPDF] = useState(false)
+  const handleDownloadPDF = async () => {
+    if (generatingPDF) return
+    setGeneratingPDF(true)
+    try {
+      await generateDiagnosticPDF({
+        diagnostic,
+        insights,
+        sector,
+        companyName: fecMeta?.fileName?.replace(/\.[^.]+$/, '') || undefined,
+        fileName: fecMeta?.fileName || undefined,
+        fecMeta: fecMeta || undefined,
+        completedCount: completed.length,
+        totalCalculators: TOTAL_CALCULATORS,
+      })
+    } catch (err) {
+      console.error('PDF generation failed:', err)
+    } finally {
+      setGeneratingPDF(false)
+    }
   }
 
   if (!mounted) {
@@ -941,60 +977,40 @@ export default function MonDiagnosticPage() {
               </div>
             </div>
 
-            {/* Email capture banner — collect email for report delivery */}
+            {/* Download PDF report */}
             {diagnostic.total !== null && (
-              <div className="mb-6 p-6 bg-blue-50 rounded-xl border border-blue-200">
-                <div className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-5 h-5 text-white" />
+              <div className="mb-6 p-6 bg-gray-50 rounded-xl border border-gray-200">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 rounded-xl bg-slate-800 flex items-center justify-center flex-shrink-0">
+                      <Download className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">
+                        Télécharger le rapport PDF
+                      </p>
+                      <p className="text-xs text-gray-500 mt-0.5">
+                        Score {diagnostic.total}/100 · {LEVEL_CONFIG[diagnostic.level].label} · Format consulting A4
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-gray-900">
-                      Recevez votre rapport de diagnostic
-                    </p>
-                    <p className="text-xs text-gray-500 mt-0.5 mb-3">
-                      Score {diagnostic.total}/100 · {LEVEL_CONFIG[diagnostic.level].label} · Rapport PDF + recommandations personnalisées
-                    </p>
-                    <form
-                      onSubmit={async (e) => {
-                        e.preventDefault()
-                        const form = e.currentTarget
-                        const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement
-                        if (!emailInput?.value) return
-                        try {
-                          await fetch('/api/diagnostic/email', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                              email: emailInput.value,
-                              score: diagnostic.total,
-                              sector,
-                              pillars: diagnostic.pillars,
-                              insights,
-                            }),
-                          })
-                          emailInput.value = ''
-                          emailInput.placeholder = '✓ Rapport envoyé !'
-                        } catch {
-                          // silently fail — non-blocking
-                        }
-                      }}
-                      className="flex items-center gap-2"
-                    >
-                      <input
-                        type="email"
-                        placeholder="email@entreprise.com"
-                        required
-                        className="flex-1 px-3 py-2 text-sm border border-blue-200 rounded-lg bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-200 outline-none"
-                      />
-                      <button
-                        type="submit"
-                        className="px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
-                      >
-                        Envoyer le rapport
-                      </button>
-                    </form>
-                  </div>
+                  <button
+                    onClick={handleDownloadPDF}
+                    disabled={generatingPDF}
+                    className="group inline-flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors flex-shrink-0 disabled:opacity-50"
+                  >
+                    {generatingPDF ? (
+                      <>
+                        <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Génération…
+                      </>
+                    ) : (
+                      <>
+                        Télécharger
+                        <Download className="w-3 h-3 group-hover:translate-y-0.5 transition-transform" />
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
             )}
@@ -1071,9 +1087,20 @@ export default function MonDiagnosticPage() {
                   <Clock className="w-5 h-5 text-accent-primary" />
                   <h2 className="text-base font-bold text-gray-900">Historique des analyses</h2>
                 </div>
-                <span className="text-xs text-gray-400 font-medium">
-                  {history.length} calcul{history.length > 1 ? 's' : ''}
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-gray-400 font-medium">
+                    {history.length} calcul{history.length > 1 ? 's' : ''}
+                  </span>
+                  <button
+                    onClick={handleReset}
+                    disabled={resetting}
+                    className="group inline-flex items-center gap-1.5 text-[11px] font-medium text-gray-400 hover:text-red-500 transition-colors duration-200 disabled:opacity-40"
+                    title="Réinitialiser l'analyse"
+                  >
+                    <RotateCcw className={`w-3 h-3 ${resetting ? 'animate-spin' : 'group-hover:rotate-[-30deg] transition-transform duration-200'}`} />
+                    <span className="hidden sm:inline">Réinitialiser</span>
+                  </button>
+                </div>
               </div>
 
               <div className="divide-y divide-gray-100">
