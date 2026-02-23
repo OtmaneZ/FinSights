@@ -5,6 +5,10 @@
  * RGPD by Design : parsing exclusivement client-side via FileReader API.
  * Aucune donnée comptable ne transite par le serveur.
  *
+ * Formats acceptés :
+ *   - FEC DGFIP standard (.txt, .csv, .tsv) — séparateur tab, pipe, ou point-virgule
+ *   - Excel (.xlsx) — lecture du premier onglet via SheetJS
+ *
  * Format FEC (DGFIP) — 18 colonnes obligatoires :
  *   JournalCode | JournalLib | EcritureNum | EcritureDate | CompteNum |
  *   CompteLib | CompAuxNum | CompAuxLib | PieceRef | PieceDate |
@@ -26,10 +30,13 @@
  *   - Parsing chunked async (50 Mo+ sans bloquer le thread UI)
  *   - Arrondi financier `round2()` anti-erreur de flottants JS
  *   - Prorata temporel au jour près via `computeMonthsBetween`
+ *   - Support Excel (.xlsx) : conversion Sheet 1 → même structure que CSV
  *
  * L'output est un objet prêt à injecter dans useCalculatorHistory.saveCalculation()
  * pour chaque calculateur du Wizard.
  */
+
+import * as XLSX from 'xlsx'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // TYPES
@@ -152,6 +159,11 @@ function round2(n: number): number {
   return Math.round((n + Number.EPSILON) * 100) / 100
 }
 
+/** Normalize string for column matching: strip accents, lowercase, remove spaces/underscores/hyphens */
+function normalize(s: string): string {
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[\s_\-]+/g, '')
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // MAIN PARSER
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -169,49 +181,86 @@ export async function parseFEC(
 ): Promise<FECResult> {
   // ── Validate file type ──
   const ext = file.name.split('.').pop()?.toLowerCase()
-  if (!ext || !['txt', 'csv', 'tsv'].includes(ext)) {
+  if (!ext || !['txt', 'csv', 'tsv', 'xlsx'].includes(ext)) {
     return {
       success: false,
       error: 'Format de fichier non supporté',
-      details: `Extension ".${ext}" non reconnue. Formats acceptés : .txt, .csv (format FEC DGFIP).`,
+      details: `Extension ".${ext}" non reconnue. Formats acceptés : .txt, .csv, .xlsx (format FEC DGFIP ou Excel).`,
     }
   }
 
-  // ── Read file content with encoding fallback ──
+  const isExcel = ext === 'xlsx'
+
+  // ── Read file content ──
   onProgress?.(5)
-  let content: string
-  try {
-    content = await readFileAsText(file, 'UTF-8')
-    // If UTF-8 produced replacement characters (�), retry with ISO-8859-1
-    // This is very common with Sage, Cegid, EBP exports
-    if (content.includes('\uFFFD')) {
-      content = await readFileAsText(file, 'ISO-8859-1')
-    }
-  } catch {
-    return {
-      success: false,
-      error: 'Impossible de lire le fichier',
-      details: 'Le fichier est peut-être corrompu ou trop volumineux.',
-    }
-  }
+  let headers: string[]
+  let dataLines: string[][] // each row = array of cell values (strings)
 
-  if (!content.trim()) {
-    return { success: false, error: 'Le fichier est vide' }
+  if (isExcel) {
+    // ── XLSX: read with SheetJS ──
+    try {
+      const buffer = await readFileAsArrayBuffer(file)
+      const workbook = XLSX.read(buffer, { type: 'array' })
+      const sheetName = workbook.SheetNames[0]
+      if (!sheetName) {
+        return { success: false, error: 'Le fichier Excel ne contient aucun onglet' }
+      }
+      const sheet = workbook.Sheets[sheetName]
+      // Convert to array-of-arrays (header row + data rows)
+      const aoa: string[][] = XLSX.utils.sheet_to_json(sheet, {
+        header: 1,
+        defval: '',
+        raw: false, // force string output for all cells
+      })
+      if (aoa.length < 2) {
+        return { success: false, error: 'L\'onglet Excel ne contient pas assez de lignes (header + au moins 1 écriture)' }
+      }
+
+      // Normalize header names: trim, lowercase
+      headers = aoa[0].map((h) => normalizeColumnName(String(h)))
+      dataLines = aoa.slice(1).filter((row) => row.some((cell) => String(cell).trim() !== ''))
+    } catch {
+      return {
+        success: false,
+        error: 'Impossible de lire le fichier Excel',
+        details: 'Le fichier .xlsx est peut-être corrompu ou dans un format non supporté.',
+      }
+    }
+  } else {
+    // ── CSV / TXT / TSV: existing logic ──
+    let content: string
+    try {
+      content = await readFileAsText(file, 'UTF-8')
+      // If UTF-8 produced replacement characters (�), retry with ISO-8859-1
+      if (content.includes('\uFFFD')) {
+        content = await readFileAsText(file, 'ISO-8859-1')
+      }
+    } catch {
+      return {
+        success: false,
+        error: 'Impossible de lire le fichier',
+        details: 'Le fichier est peut-être corrompu ou trop volumineux.',
+      }
+    }
+
+    if (!content.trim()) {
+      return { success: false, error: 'Le fichier est vide' }
+    }
+
+    // Detect separator
+    const separator = detectSeparator(content)
+    const lines = content.split(/\r?\n/)
+    if (lines.length < 2) {
+      return { success: false, error: 'Le fichier ne contient pas assez de lignes (header + au moins 1 écriture)' }
+    }
+
+    headers = lines[0].split(separator).map((h) => h.trim().replace(/^"|"$/g, '').toLowerCase())
+    dataLines = lines.slice(1)
+      .filter((l) => l.trim() !== '')
+      .map((l) => parseLine(l, separator))
   }
 
   onProgress?.(15)
-
-  // ── Detect separator ──
-  const separator = detectSeparator(content)
-
-  // ── Parse header ──
-  const lines = content.split(/\r?\n/)
-  if (lines.length < 2) {
-    return { success: false, error: 'Le fichier ne contient pas assez de lignes (header + au moins 1 écriture)' }
-  }
-
-  const headerLine = lines[0]
-  const headers = headerLine.split(separator).map((h) => h.trim().replace(/^"|"$/g, '').toLowerCase())
 
   // ── Validate required columns ──
   const columnMap = buildColumnMap(headers)
@@ -228,22 +277,18 @@ export async function parseFEC(
 
   // ── Parse rows — chunked async for large files ──
   const rows: FECRow[] = []
-  const totalLines = lines.length - 1 // minus header
-  const CHUNK_SIZE = 2000 // yield to UI thread every N rows
+  const totalLines = dataLines.length
+  const CHUNK_SIZE = 2000
 
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim()
-    if (!line) continue
-
-    const cols = parseLine(line, separator)
+  for (let i = 0; i < totalLines; i++) {
+    const cols = dataLines[i]
     const row = mapToFECRow(cols, columnMap)
     if (row) rows.push(row)
 
     // Progress: 25% → 70% during row parsing
-    if (i % CHUNK_SIZE === 0) {
+    if (i % CHUNK_SIZE === 0 && i > 0) {
       const pct = 25 + Math.round((i / totalLines) * 45)
       onProgress?.(pct)
-      // Yield to the event loop so the UI thread can repaint (critical for 50Mo+)
       await yieldToUI()
     }
   }
@@ -299,6 +344,27 @@ function readFileAsText(file: File, encoding: string = 'UTF-8'): Promise<string>
   })
 }
 
+/** Read file as ArrayBuffer (for xlsx/binary formats) */
+function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as ArrayBuffer)
+    reader.onerror = () => reject(reader.error)
+    reader.readAsArrayBuffer(file)
+  })
+}
+
+/**
+ * Normalize an Excel/CSV column name for matching.
+ * - Trim whitespace
+ * - Lowercase
+ * - Strip accents, underscores, hyphens
+ * This ensures "Journal Code", " journal_code ", "JournalCode" all normalize the same.
+ */
+function normalizeColumnName(raw: string): string {
+  return raw.trim().toLowerCase()
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SEPARATOR DETECTION
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -341,10 +407,6 @@ type ColumnKey = (typeof REQUIRED_COLUMNS)[number] | (typeof OPTIONAL_COLUMNS)[n
  */
 function buildColumnMap(headers: string[]): Record<string, number> {
   const map: Record<string, number> = {}
-
-  // Normalize: remove accents, lowercase, strip spaces/underscores/hyphens
-  const normalize = (s: string) =>
-    s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[\s_\-]+/g, '')
 
   const normalizedHeaders = headers.map(normalize)
 
@@ -687,13 +749,53 @@ function yieldToUI(): Promise<void> {
 export async function quickValidateFEC(file: File): Promise<{
   valid: boolean
   reason?: string
+  isExcel?: boolean
 }> {
   const ext = file.name.split('.').pop()?.toLowerCase()
-  if (!ext || !['txt', 'csv', 'tsv'].includes(ext)) {
-    return { valid: false, reason: `Format ".${ext}" non supporté. Utilisez un fichier .txt ou .csv.` }
+  if (!ext || !['txt', 'csv', 'tsv', 'xlsx'].includes(ext)) {
+    return { valid: false, reason: `Format ".${ext}" non supporté. Utilisez un fichier .txt, .csv ou .xlsx.` }
   }
 
-  // Read only the first 4KB for header check (enough even with BOM + long headers)
+  const isExcel = ext === 'xlsx'
+
+  if (isExcel) {
+    // ── XLSX: read workbook, check first sheet headers ──
+    try {
+      const buffer = await readFileAsArrayBuffer(file)
+      const workbook = XLSX.read(buffer, { type: 'array' })
+      const sheetName = workbook.SheetNames[0]
+      if (!sheetName) {
+        return { valid: false, reason: 'Le fichier Excel ne contient aucun onglet.' }
+      }
+      const sheet = workbook.Sheets[sheetName]
+      const aoa: string[][] = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: false })
+      if (aoa.length < 2) {
+        return { valid: false, reason: 'L\'onglet Excel est vide ou ne contient qu\'un en-tête.' }
+      }
+
+      const headerNorm = aoa[0].map((h) => normalize(String(h))).join(' ')
+
+      const compteAliases = COLUMN_ALIASES['comptenum'] || ['comptenum']
+      const hasCompte = compteAliases.some((a) => headerNorm.includes(normalize(a)))
+
+      const dateAliases = COLUMN_ALIASES['ecrituredate'] || ['ecrituredate']
+      const hasDate = dateAliases.some((a) => headerNorm.includes(normalize(a)))
+
+      if (!hasCompte || !hasDate) {
+        return {
+          valid: false,
+          reason: 'En-tête FEC non reconnu dans le fichier Excel. Colonnes "CompteNum" et "EcritureDate" introuvables.',
+        }
+      }
+
+      return { valid: true, isExcel: true }
+    } catch {
+      return { valid: false, reason: 'Impossible de lire le fichier Excel. Vérifiez qu\'il n\'est pas corrompu.' }
+    }
+  }
+
+  // ── CSV / TXT / TSV: existing logic ──
+  // Read only the first 4KB for header check
   const slice = file.slice(0, 4096)
 
   let text = await new Promise<string>((resolve) => {
@@ -702,7 +804,7 @@ export async function quickValidateFEC(file: File): Promise<{
     r.readAsText(slice, 'UTF-8')
   })
 
-  // Encoding fallback: if UTF-8 produces replacement characters, try ISO-8859-1
+  // Encoding fallback
   if (text.includes('\uFFFD')) {
     text = await new Promise<string>((resolve) => {
       const r = new FileReader()
@@ -712,18 +814,11 @@ export async function quickValidateFEC(file: File): Promise<{
   }
 
   const firstLine = text.split(/\r?\n/)[0] || ''
-
-  // Normalize: strip accents, lowercase, remove spaces/underscores
-  const normalize = (s: string) =>
-    s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[\s_\-]+/g, '')
-
   const headerNorm = normalize(firstLine)
 
-  // Check for CompteNum aliases
   const compteAliases = COLUMN_ALIASES['comptenum'] || ['comptenum']
   const hasCompte = compteAliases.some((a) => headerNorm.includes(normalize(a)))
 
-  // Check for EcritureDate aliases
   const dateAliases = COLUMN_ALIASES['ecrituredate'] || ['ecrituredate']
   const hasDate = dateAliases.some((a) => headerNorm.includes(normalize(a)))
 

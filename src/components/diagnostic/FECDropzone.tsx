@@ -51,6 +51,7 @@ type DropzoneState =
   | 'idle'        // Waiting for file
   | 'validating'  // Quick header check
   | 'parsing'     // Full FEC parse in progress
+  | 'analyzing'   // Labor illusion — staged messages after parse
   | 'preview'     // Parsed data recap shown
   | 'error'       // Validation / parse error
 
@@ -83,6 +84,23 @@ const INDICATOR_META: {
 ]
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// LABOR ILLUSION — staged analysis messages
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+const ANALYSIS_STAGES = [
+  { message: 'Lecture du fichier et vérification de la structure DGFIP…', progress: 20 },
+  { message: 'Analyse des 4 piliers SCORIS™ en cours…', progress: 40 },
+  { message: 'Calcul du DSO et de l\u2019impact trésorerie…', progress: 60 },
+  { message: 'Génération des recommandations stratégiques…', progress: 80 },
+  { message: 'Finalisation du rapport Big Four…', progress: 95 },
+] as const
+
+const STAGE_INTERVAL_MS = 700
+
+/** Promise-based delay */
+const delay = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // COMPONENT
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -94,6 +112,9 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
   const [error, setError] = useState<{ title: string; detail?: string } | null>(null)
   const [fileName, setFileName] = useState('')
   const [fileSize, setFileSize] = useState(0)
+  const [isExcel, setIsExcel] = useState(false)
+  const [analysisMessage, setAnalysisMessage] = useState('')
+  const [analysisProgress, setAnalysisProgress] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const progressRAF = useRef<number | null>(null)
   const pendingProgress = useRef(0)
@@ -116,6 +137,11 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
     setFileSize(file.size)
     setError(null)
     setResult(null)
+
+    // Detect Excel
+    const ext = file.name.split('.').pop()?.toLowerCase()
+    const excelFile = ext === 'xlsx'
+    setIsExcel(excelFile)
 
     // Step 1: Quick validation
     setState('validating')
@@ -144,7 +170,23 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
       return
     }
 
-    // Step 3: Preview
+    // Step 3: Labor illusion — staged analysis messages (3-4 seconds)
+    setState('analyzing')
+    setAnalysisProgress(0)
+    setAnalysisMessage(ANALYSIS_STAGES[0].message)
+
+    for (let i = 0; i < ANALYSIS_STAGES.length; i++) {
+      setAnalysisMessage(ANALYSIS_STAGES[i].message)
+      setAnalysisProgress(ANALYSIS_STAGES[i].progress)
+      await delay(STAGE_INTERVAL_MS)
+    }
+
+    // Final 100% before transition
+    setAnalysisProgress(100)
+    setAnalysisMessage('Analyse terminée')
+    await delay(400)
+
+    // Step 4: Preview
     setResult(parseResult)
     setState('preview')
   }, [updateProgress])
@@ -180,6 +222,9 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
     setFileName('')
     setFileSize(0)
     setProgress(0)
+    setIsExcel(false)
+    setAnalysisMessage('')
+    setAnalysisProgress(0)
     if (inputRef.current) inputRef.current.value = ''
   }, [])
 
@@ -219,7 +264,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
               <input
                 ref={inputRef}
                 type="file"
-                accept=".txt,.csv,.tsv"
+                accept=".txt,.csv,.tsv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 onChange={handleInputChange}
                 className="hidden"
                 aria-hidden="true"
@@ -228,7 +273,9 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
               {state === 'validating' ? (
                 <div className="flex flex-col items-center gap-3">
                   <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
-                  <p className="text-sm text-gray-400">Vérification du fichier…</p>
+                  <p className="text-sm text-gray-400">
+                    {isExcel ? 'Fichier Excel détecté — Conversion en cours…' : 'Vérification du fichier…'}
+                  </p>
                 </div>
               ) : (
                 <>
@@ -244,7 +291,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
                     Glissez votre FEC ici
                   </p>
                   <p className="text-xs text-gray-500 mb-4">
-                    ou cliquez pour sélectionner · .txt, .csv · Format DGFIP standard
+                    ou cliquez pour sélectionner · .txt, .csv, .xlsx · Format DGFIP standard
                   </p>
 
                   {/* RGPD badge */}
@@ -300,6 +347,55 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
                 />
               </div>
               <p className="text-[10px] text-gray-600 mt-2 tabular-nums">{progress}%</p>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ════════════ ANALYZING — LABOR ILLUSION ════════════ */}
+        {state === 'analyzing' && (
+          <motion.div
+            key="analyzing"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.4 }}
+            className="rounded-xl border border-blue-500/20 bg-gradient-to-b from-slate-900/80 to-blue-950/30 p-8"
+          >
+            <div className="flex flex-col items-center">
+              {/* Pulsing icon */}
+              <div className="relative w-16 h-16 mb-5">
+                <div className="absolute inset-0 rounded-full bg-blue-500/10 animate-ping" style={{ animationDuration: '2s' }} />
+                <div className="absolute inset-0 rounded-full bg-blue-500/5 border border-blue-500/20 flex items-center justify-center">
+                  <BarChart3 className="w-6 h-6 text-blue-400" />
+                </div>
+              </div>
+
+              {/* Rotating message */}
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={analysisMessage}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25 }}
+                  className="text-sm font-medium text-white mb-1 text-center min-h-[20px]"
+                >
+                  {analysisMessage}
+                </motion.p>
+              </AnimatePresence>
+
+              <p className="text-xs text-gray-500 mb-4">{fileName}</p>
+
+              {/* Stepped progress bar */}
+              <div className="w-56 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-400"
+                  initial={{ width: '0%' }}
+                  animate={{ width: `${analysisProgress}%` }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                />
+              </div>
+              <p className="text-[10px] text-gray-600 mt-2 tabular-nums">{analysisProgress}%</p>
             </div>
           </motion.div>
         )}
