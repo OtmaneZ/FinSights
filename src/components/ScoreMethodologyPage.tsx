@@ -380,7 +380,7 @@ export default function ScoreMethodologyPage() {
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <div className="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center">
-                                        <span className="text-orange-700 font-bold text-xl">58</span>
+                                        <span className="text-orange-700 font-bold text-xl">53</span>
                                     </div>
                                     <div>
                                         <p className="text-sm font-semibold text-orange-700">Fragile</p>
@@ -394,7 +394,7 @@ export default function ScoreMethodologyPage() {
                                 {[
                                     { pillar: 'Cash', score: 12, max: 25, label: 'Runway 3 mois', color: 'text-red-600', bg: 'bg-red-50' },
                                     { pillar: 'Marges', score: 15, max: 25, label: 'Marge nette 8%', color: 'text-orange-600', bg: 'bg-orange-50' },
-                                    { pillar: 'Résilience', score: 18, max: 25, label: 'Charges fixes 45%', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+                                    { pillar: 'Résilience', score: 13, max: 25, label: 'Charges fixes 45%', color: 'text-orange-600', bg: 'bg-orange-50' },
                                     { pillar: 'Risques', score: 13, max: 25, label: '1 client = 38% CA', color: 'text-orange-600', bg: 'bg-orange-50' },
                                 ].map((p) => (
                                     <div key={p.pillar} className={`px-6 py-5 ${p.bg}`}>
@@ -410,8 +410,8 @@ export default function ScoreMethodologyPage() {
                                 <p className="text-xs font-semibold text-accent-primary uppercase tracking-wider mb-4">Plan d&apos;action — 3 leviers prioritaires</p>
                                 <div className="grid sm:grid-cols-3 gap-4">
                                     {[
-                                        { n: '1', action: 'Réduire le DSO de 10 jours', impact: '+42k€ cash libéré immédiat' },
-                                        { n: '2', action: 'Baisser les charges fixes de 5 pts', impact: '+35k€ marge nette annuelle' },
+                                        { n: '1', action: 'Réduire le DSO de 10 jours', impact: '+192k€ de trésorerie libérée' },
+                                        { n: '2', action: 'Baisser les charges fixes de 5 pts', impact: '+350k€ économie annuelle' },
                                         { n: '3', action: 'Sécuriser la trésorerie 90j', impact: 'Runway 6 mois → zone Bon' },
                                     ].map((l) => (
                                         <div key={l.n} className="flex items-start gap-3">

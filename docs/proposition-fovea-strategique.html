@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposition d'Intervention Strat&eacute;gique &mdash; Groupe Fov&eacute;a &mdash; ZineInsights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy: #0f2137;
+            --blue: #1a3a5c;
+            --blue-light: #2c5282;
+            --accent: #3182ce;
+            --bg-subtle: #f7f9fb;
+            --bg-warm: #fafafa;
+            --border: #e8e8e8;
+            --text: #1a1a1a;
+            --text-secondary: #444;
+            --text-muted: #666;
+            --gold: #8b6914;
+            --gold-light: #f5f0e1;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background-color: #ffffff;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .page-wrapper {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section { padding: 3rem 0; }
+        section + section { border-top: 1px solid var(--border); }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            color: #0d0d0d;
+            letter-spacing: -0.01em;
+        }
+
+        h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.2; }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.7rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 36px;
+            height: 2px;
+            background-color: var(--blue);
+        }
+
+        h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: var(--blue);
+        }
+
+        p {
+            margin-bottom: 0.85rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 3.5rem 0 2.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 1.25rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--blue);
+            border-radius: 2px;
+        }
+
+        .hero-label-confidential {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-left: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--gold);
+            border-radius: 2px;
+            background: var(--gold-light);
+        }
+
+        .hero h1 { margin-bottom: 0.35rem; }
+
+        .hero .subtitle-client {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--blue);
+            letter-spacing: 0.02em;
+            margin-bottom: 0.2rem;
+        }
+
+        .hero .subtitle-destinataire {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            margin-bottom: 0.15rem;
+        }
+
+        .hero .subtitle-tech {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .subtitle-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 640px;
+            font-weight: 300;
+        }
+
+        /* PARTIES */
+        .parties-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .partie-card {
+            padding: 1.1rem 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--bg-warm);
+        }
+
+        .partie-label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .partie-card h3 {
+            font-size: 0.95rem;
+            margin-bottom: 0.15rem;
+            color: var(--navy);
+        }
+
+        .partie-card p {
+            font-size: 0.8rem;
+            margin-bottom: 0.1rem;
+            color: var(--text-muted);
+        }
+
+        /* METRICS BAR */
+        .metrics-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1.25rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .metric:last-child { border-right: none; }
+
+        .metric-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* SYNTHESE */
+        .synthese-block {
+            padding: 1.75rem 2rem;
+            background: var(--bg-subtle);
+            border-left: 3px solid var(--blue);
+            border-radius: 0 4px 4px 0;
+            margin-bottom: 1rem;
+        }
+
+        .synthese-block p {
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .synthese-block p:last-child { margin-bottom: 0; }
+
+        .synthese-block .highlight { font-weight: 500; color: var(--blue); }
+
+        /* ROADMAP */
+        .roadmap-intro { margin-bottom: 1.25rem; font-size: 0.88rem; }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .phase-card {
+            background: var(--bg-warm);
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+            padding: 1.35rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .phase-card:hover { border-color: var(--blue); }
+
+        .phase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.75rem;
+        }
+
+        .phase-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--blue);
+        }
+
+        .phase-days {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: #f0f0f0;
+            padding: 0.15rem 0.45rem;
+            border-radius: 2px;
+        }
+
+        .phase-card h3 { margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .phase-card ul { list-style: none; padding: 0; }
+
+        .phase-card li {
+            position: relative;
+            padding-left: 0.9rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .phase-card li::before {
+            content: '\2014';
+            position: absolute;
+            left: 0;
+            color: #bbb;
+            font-size: 0.7rem;
+        }
+
+        .phase-livrable {
+            margin-top: 0.75rem;
+            padding-top: 0.6rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: var(--blue);
+            font-weight: 500;
+        }
+
+        .phase-jalon {
+            margin-top: 0.35rem;
+            font-size: 0.7rem;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .roadmap-total {
+            margin-top: 1.25rem;
+            padding: 0.85rem 1.25rem;
+            background: var(--bg-subtle);
+            border-left: 3px solid var(--blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .roadmap-total span {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--blue);
+        }
+
+        /* CLAUSES */
+        .clauses-intro {
+            margin-bottom: 1.5rem;
+            font-size: 0.88rem;
+        }
+
+        .clause-item {
+            padding: 1.1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .clause-item:last-child { border-bottom: none; }
+
+        .clause-header {
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            margin-bottom: 0.45rem;
+        }
+
+        .clause-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--blue);
+            background: var(--bg-subtle);
+            padding: 0.15rem 0.45rem;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .clause-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .clause-body {
+            font-size: 0.82rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 0;
+            padding-left: 0;
+        }
+
+        .clause-body em {
+            color: var(--blue);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        /* FINANCE SECTION */
+        .finance-summary {
+            margin-bottom: 1.5rem;
+        }
+
+        .finance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
+        }
+
+        .finance-table thead th {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: left;
+            padding: 0.65rem 1rem;
+            border-bottom: 2px solid var(--border);
+            background: var(--bg-warm);
+        }
+
+        .finance-table thead th:last-child,
+        .finance-table tbody td:last-child {
+            text-align: right;
+        }
+
+        .finance-table tbody td {
+            padding: 0.65rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            color: var(--text-secondary);
+            font-size: 0.83rem;
+        }
+
+        .finance-table tbody tr:hover { background: var(--bg-warm); }
+
+        .finance-table tfoot td {
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: var(--navy);
+            border-top: 2px solid var(--blue);
+            font-size: 0.88rem;
+        }
+
+        .echeancier-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+        }
+
+        .echeancier-item {
+            text-align: center;
+            padding: 1rem 0.75rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .echeancier-item:last-child { border-right: none; }
+
+        .echeancier-pct {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--navy);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .echeancier-amount {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--blue);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .echeancier-label {
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .finance-callout {
+            padding: 1rem 1.25rem;
+            background: var(--bg-subtle);
+            border-left: 3px solid var(--blue);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--blue);
+            line-height: 1.5;
+        }
+
+        /* POSITIONNEMENT */
+        .positionnement-block {
+            padding: 1.75rem 2rem;
+            background: var(--navy);
+            color: #ffffff;
+            border-radius: 4px;
+        }
+
+        .positionnement-block p {
+            color: #d0d8e0;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            margin-bottom: 0.85rem;
+        }
+
+        .positionnement-block p:last-child { margin-bottom: 0; }
+
+        .positionnement-block .highlight-text {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* SIGNATURES */
+        .signatures-section {
+            padding: 2.5rem 0 1.5rem;
+        }
+
+        .signatures-intro {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .signatures-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .signature-block {
+            padding-top: 1rem;
+        }
+
+        .signature-role {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .signature-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.15rem;
+        }
+
+        .signature-entity {
+            font-size: 0.8rem;
+            color: var(--blue);
+            margin-bottom: 0.75rem;
+        }
+
+        .signature-line {
+            border-top: 1px solid var(--border);
+            padding-top: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .signature-date-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* CONTACT */
+        .contact-section {
+            padding: 2rem 0 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .contact-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .contact-info h3 {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            color: #0d0d0d;
+        }
+
+        .contact-cabinet {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--blue);
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-email { font-size: 0.8rem; color: var(--text-muted); }
+
+        .contact-email a {
+            color: var(--blue);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .contact-email a:hover { border-bottom-color: var(--blue); }
+
+        .contact-right { text-align: right; }
+
+        .contact-date {
+            font-size: 0.7rem;
+            color: #999;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-ref {
+            font-size: 0.65rem;
+            color: #bbb;
+            display: block;
+            margin-bottom: 0.2rem;
+            letter-spacing: 0.03em;
+        }
+
+        .contact-calendly { font-size: 0.75rem; }
+
+        .contact-calendly a {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .page-wrapper { padding: 0 1.25rem; }
+            .hero { padding: 2.5rem 0 2rem; }
+            h1 { font-size: 1.65rem; }
+            h2 { font-size: 1.25rem; }
+            section { padding: 2rem 0; }
+            .metrics-bar, .echeancier-grid { grid-template-columns: repeat(2, 1fr); }
+            .metric, .echeancier-item { border-bottom: 1px solid var(--border); }
+            .roadmap-grid, .parties-grid, .signatures-grid { grid-template-columns: 1fr; }
+            .contact-inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+            .contact-right { text-align: left; }
+            .positionnement-block { padding: 1.25rem; }
+            .synthese-block { padding: 1.25rem; }
+        }
+
+        /* PRINT */
+        @media print {
+            @page { size: A4 portrait; margin: 18mm 16mm 20mm 16mm; }
+            html { font-size: 9.5pt; }
+            body { background: white; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .page-wrapper { max-width: 100%; padding: 0; }
+            .hero { padding: 0 0 1rem; page-break-after: avoid; }
+            section { padding: 1.1rem 0; }
+            .section-synthese { page-break-after: auto; }
+            .section-roadmap { page-break-before: always; page-break-after: auto; }
+            .section-clauses { page-break-before: always; page-break-after: auto; }
+            .section-finance { page-break-before: always; page-break-after: auto; }
+            .section-engagement { page-break-before: auto; }
+            .section-signatures { page-break-before: auto; }
+            .phase-card, .clause-item, .positionnement-block, .signature-block {
+                page-break-inside: avoid; break-inside: avoid;
+            }
+            .roadmap-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+            .phase-card { padding: 1rem; border: 1px solid #ccc; }
+            .positionnement-block { background: var(--navy) !important; color: #fff !important; }
+            .positionnement-block p { color: #d0d8e0 !important; }
+            .metrics-bar { border: 1px solid #ccc; }
+            .metric { border-right: 1px solid #ccc; }
+            .echeancier-grid { border: 1px solid #ccc; }
+            .echeancier-item { border-right: 1px solid #ccc; }
+            .contact-section { page-break-before: avoid; padding-top: 1rem; }
+            .phase-card:hover { border-color: #ccc; }
+            .contact-email a { color: var(--blue); }
+            .signatures-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HERO -->
+    <header class="hero">
+        <span class="hero-label">Offre de services</span>
+        <span class="hero-label-confidential">Confidentiel</span>
+
+        <h1>Fiabilisation &amp; &Eacute;volution<br>du Reporting Power&nbsp;BI Groupe</h1>
+        <p class="subtitle-client">Groupe Fov&eacute;a &mdash; R&eacute;seau national de cliniques v&eacute;t&eacute;rinaires (30 cliniques)</p>
+        <p class="subtitle-destinataire">&Agrave; l&rsquo;attention de la Direction Financi&egrave;re</p>
+        <p class="subtitle-tech">Power BI &middot; Architecture Data &middot; Finance &amp; Contr&ocirc;le de Gestion</p>
+
+        <!-- Parties -->
+        <div class="parties-grid">
+            <div class="partie-card">
+                <span class="partie-label">Prestataire</span>
+                <h3>ZineInsights</h3>
+                <p>Otmane Boulahia, Pr&eacute;sident</p>
+                <p>Conseil en Architecture Data &amp; Finance</p>
+            </div>
+            <div class="partie-card">
+                <span class="partie-label">Client</span>
+                <h3>Groupe Fov&eacute;a</h3>
+                <p>R&eacute;seau national de cliniques v&eacute;t&eacute;rinaires</p>
+            </div>
+        </div>
+
+        <div class="metrics-bar">
+            <div class="metric">
+                <span class="metric-value">5 + estimatif</span>
+                <span class="metric-label">Phase ferme + volume cible</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">4</span>
+                <span class="metric-label">Phases structur&eacute;es</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">30</span>
+                <span class="metric-label">Cliniques couvertes</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value" style="font-size:0.95rem; padding-top:0.2rem;">Objectif</span>
+                <span class="metric-label">R&eacute;f&eacute;rentiel analytique consolid&eacute; &amp; r&eacute;conciliable</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- SYNTHESE DE LA MISSION -->
+    <section class="section-synthese">
+        <h2>Synth&egrave;se de la mission</h2>
+        <div class="synthese-block">
+            <p>
+                Le Groupe Fov&eacute;a dispose aujourd&rsquo;hui d&rsquo;un socle de reporting Power&nbsp;BI
+                aliment&eacute; par plusieurs sources m&eacute;tier h&eacute;t&eacute;rog&egrave;nes (systèmes métier vétérinaires, outils Finance, RH et autres flux opérationnels).
+                La croissance du r&eacute;seau &mdash; pass&eacute; de 15 &agrave; 30 cliniques &mdash; a cr&eacute;&eacute; une
+                <span class="highlight">dette technique et analytique</span> qui fragilise la fiabilit&eacute;
+                des indicateurs de pilotage et la confiance des parties prenantes.
+            </p>
+            <p>
+                L&rsquo;objet de la pr&eacute;sente intervention est de
+                <span class="highlight">fiabiliser et faire &eacute;voluer le reporting existant</span>
+                pour en faire un outil de pilotage coh&eacute;rent, r&eacute;conciliable avec la comptabilit&eacute;
+                et utilisable au quotidien par la Finance, le Contr&ocirc;le de Gestion et les Op&eacute;rations.
+            </p>
+            <p>
+                Cette mission couvre la cartographie des sources, la refonte
+                du mod&egrave;le Power&nbsp;BI, l&rsquo;automatisation des flux de collecte et le transfert
+                de comp&eacute;tences aux &eacute;quipes internes.
+            </p>
+        </div>
+    </section>
+
+    <!-- PLAN D'EXECUTION -->
+    <section class="section-roadmap">
+        <h2>Plan d&rsquo;ex&eacute;cution en quatre phases</h2>
+        <p class="roadmap-intro">
+            Quatre phases s&eacute;quentielles, chacune avec un livrable concret et un point de validation avant de passer &agrave; la suivante.
+        </p>
+        <div class="roadmap-grid">
+
+            <!-- Phase 1 -->
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-number">Phase 1</span>
+                    <span class="phase-days">5 jours</span>
+                </div>
+                <h3>Audit &amp; Cartographie</h3>
+                <ul>
+                    <li>Inventaire des sources de donn&eacute;es (systèmes métier vétérinaires, outils Finance, flux RH, achats et autres systèmes opérationnels)</li>
+                    <li>Audit du mod&egrave;le Power&nbsp;BI existant et de la documentation associ&eacute;e</li>
+                    <li>Cartographie des flux de donn&eacute;es, des extractions manuelles et des d&eacute;pendances</li>
+                    <li>Identification des KPI critiques et des divergences de d&eacute;finition</li>
+                    <li>&Eacute;valuation de la faisabilit&eacute; de l&rsquo;automatisation</li>
+                    <li>Recommandation d&rsquo;architecture pour la suite de la mission</li>
+                </ul>
+                <p class="phase-livrable">Livrable &mdash; Note d&rsquo;audit, cartographie des flux, recommandation d&rsquo;architecture</p>
+                <p class="phase-jalon">&#9670; Point de cadrage &mdash; validation du plan avant Phase 2</p>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-number">Phase 2</span>
+                    <span class="phase-days">25 jours</span>
+                </div>
+                <h3>Restructuration du Mod&egrave;le &amp; Automatisation</h3>
+                <ul>
+                    <li>Restructuration du mod&egrave;le en &eacute;toile (dimensions : clinique, p&eacute;riode, compte, activit&eacute;)</li>
+                    <li>Nettoyage, optimisation et documentation des mesures DAX</li>
+                    <li>Harmonisation des r&eacute;f&eacute;rentiels et des identifiants inter-sources</li>
+                    <li>Centralisation des d&eacute;finitions KPI valid&eacute;es par la Direction Financi&egrave;re</li>
+                    <li>Int&eacute;gration des nouveaux indicateurs CDG, Op&eacute;rations et RH</li>
+                    <li>Mise en place de l&rsquo;alimentation automatis&eacute;e des donn&eacute;es selon l&rsquo;architecture retenue en Phase 1</li>
+                </ul>
+                <p class="phase-livrable">Livrable &mdash; Mod&egrave;le Power&nbsp;BI refondu, flux automatis&eacute;s, r&eacute;f&eacute;rentiel KPI valid&eacute;</p>
+                <p class="phase-jalon">&#9670; Recette fonctionnelle avec la Finance &amp; les Op&eacute;rations</p>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-number">Phase 3</span>
+                    <span class="phase-days">8 jours</span>
+                </div>
+                <h3>Stabilisation &amp; Documentation</h3>
+                <ul>
+                    <li>Formalisation des r&egrave;gles m&eacute;tier (p&eacute;rim&egrave;tres, calculs, exclusions)</li>
+                    <li>Documentation du mod&egrave;le (logique des mesures, sources, d&eacute;finitions)</li>
+                    <li>S&eacute;curisation des acc&egrave;s et des droits par profil utilisateur</li>
+                    <li>Tests de coh&eacute;rence sur l&rsquo;ensemble du p&eacute;rim&egrave;tre</li>
+                    <li>R&eacute;conciliation comptable sur p&eacute;riode de r&eacute;f&eacute;rence</li>
+                </ul>
+                <p class="phase-livrable">Livrable &mdash; Documentation des r&egrave;gles m&eacute;tier, rapport de tests, r&eacute;conciliation comptable</p>
+                <p class="phase-jalon">&#9670; Validation Direction Financi&egrave;re</p>
+            </div>
+
+            <!-- Phase 4 -->
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-number">Phase 4</span>
+                    <span class="phase-days">7 jours</span>
+                </div>
+                <h3>Transfert &amp; P&eacute;rennisation</h3>
+                <ul>
+                    <li>Formation du CDG : lecture des mod&egrave;les, alimentation, maintenance courante</li>
+                    <li>Formation Op&eacute;rations &amp; DRH : navigation et interpr&eacute;tation des tableaux de bord</li>
+                    <li>Formation des Directeurs de cliniques : tableaux de bord d&eacute;di&eacute;s</li>
+                    <li>Guide de maintenance et passage de relais technique complet</li>
+                </ul>
+                <p class="phase-livrable">Livrable &mdash; Supports de formation, guide de maintenance, documentation de prise en main</p>
+                <p class="phase-jalon">&#9670; R&eacute;ception &amp; passage de relais aux &eacute;quipes</p>
+            </div>
+
+        </div>
+        <div class="roadmap-total">
+            <span>Phase 1 : 5 jours fermes — Phases 2 à 4 : volume estimatif ajusté à l’issue de l’audit</span>
+        </div>
+    </section>
+
+    <!-- DISPOSITIF CONTRACTUEL -->
+    <section class="section-clauses">
+        <h2>Conditions g&eacute;n&eacute;rales de la mission</h2>
+        <p class="clauses-intro">
+            Les points suivants encadrent le d&eacute;roulement de la mission et s&eacute;curisent les deux parties.
+        </p>
+
+        <!-- Clause 1 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 1</span>
+                <span class="clause-title">Validation des livrables</span>
+            </div>
+            <p class="clause-body">
+                Chaque livrable de phase fera l&rsquo;objet d&rsquo;une <em>validation formelle par le Client
+                dans un d&eacute;lai de cinq (5) jours ouvrables</em> suivant sa remise. Pass&eacute; ce d&eacute;lai
+                sans observation &eacute;crite, le livrable sera r&eacute;put&eacute; accept&eacute; de plein droit.
+                Toute demande de modification devra &ecirc;tre formul&eacute;e par &eacute;crit et portera exclusivement
+                sur des &eacute;carts constat&eacute;s par rapport aux sp&eacute;cifications convenues.
+            </p>
+        </div>
+
+        <!-- Clause 2 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 2</span>
+                <span class="clause-title">Mise &agrave; disposition des acc&egrave;s sources</span>
+            </div>
+            <p class="clause-body">
+                L&rsquo;acc&egrave;s aux syst&egrave;mes sources (systèmes métier vétérinaires, outils Finance, flux RH et autres systèmes opérationnels)
+                constitue une <em>condition sine qua non</em> de l&rsquo;ex&eacute;cution de la mission.
+                Le Client s&rsquo;engage &agrave; fournir l&rsquo;ensemble des acc&egrave;s, identifiants et
+                documentations techniques n&eacute;cessaires dans un d&eacute;lai de dix (10) jours ouvrables
+                suivant la signature du pr&eacute;sent accord. Tout retard dans la mise &agrave; disposition
+                entra&icirc;nera un d&eacute;calage &eacute;quivalent du calendrier d&rsquo;intervention, sans incidence
+                sur le montant contractuel.
+            </p>
+        </div>
+
+        <!-- Clause 3 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 3</span>
+                <span class="clause-title">Architecture d&rsquo;alimentation des donn&eacute;es</span>
+            </div>
+            <p class="clause-body">
+                Le choix de l&rsquo;architecture d&rsquo;alimentation (manuelle, semi-automatis&eacute;e ou API)
+                sera arr&ecirc;t&eacute; conjointement &agrave; l&rsquo;issue de la Phase 1, sur la base de la recommandation
+                du Prestataire et des contraintes techniques du Client.
+                Toute option n&eacute;cessitant des d&eacute;veloppements hors p&eacute;rim&egrave;tre initial
+                fera l&rsquo;objet d&rsquo;un <em>avenant chiffr&eacute;</em> et accept&eacute; avant engagement.
+            </p>
+        </div>
+
+        <!-- Clause 4 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 4</span>
+                <span class="clause-title">D&eacute;limitation du p&eacute;rim&egrave;tre</span>
+            </div>
+            <p class="clause-body">
+                La mission porte <em>exclusivement sur la structuration du reporting BI</em>,
+                l&rsquo;architecture de collecte et le transfert de comp&eacute;tences, tels que d&eacute;finis
+                dans le plan d&rsquo;ex&eacute;cution ci-dessus. Sont express&eacute;ment exclus du p&eacute;rim&egrave;tre :
+                la maintenance continue post-transfert, le d&eacute;veloppement de fonctionnalit&eacute;s
+                applicatives tierces, et toute prestation de support r&eacute;current non pr&eacute;vue
+                au pr&eacute;sent accord. Toute demande hors p&eacute;rim&egrave;tre fera l&rsquo;objet d&rsquo;un avenant distinct.
+            </p>
+        </div>
+
+        <!-- Clause 5 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 5</span>
+                <span class="clause-title">Limitation de responsabilit&eacute;</span>
+            </div>
+            <p class="clause-body">
+                Le Prestataire apporte tout le soin et la diligence n&eacute;cessaires &agrave; l&rsquo;ex&eacute;cution
+                de la mission. Sa responsabilit&eacute; ne saurait &ecirc;tre engag&eacute;e au-del&agrave;
+                <em>du montant total des honoraires effectivement per&ccedil;us</em> au titre du pr&eacute;sent accord.
+                Les livrables constituent des <em>outils d&rsquo;aide &agrave; la d&eacute;cision</em> ;
+                les d&eacute;cisions op&eacute;rationnelles et financi&egrave;res prises sur leur base
+                rel&egrave;vent de la responsabilit&eacute; du Client.
+            </p>
+        </div>
+
+        <!-- Clause 6 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 6</span>
+                <span class="clause-title">Propri&eacute;t&eacute; intellectuelle</span>
+            </div>
+            <p class="clause-body">
+                L&rsquo;ensemble des livrables sp&eacute;cifiquement d&eacute;velopp&eacute;s pour le Groupe Fov&eacute;a
+                (mod&egrave;les Power&nbsp;BI, mesures DAX, documentation) sera
+                <em>c&eacute;d&eacute; en pleine propri&eacute;t&eacute; au Client d&egrave;s r&egrave;glement int&eacute;gral des honoraires</em>.
+                Les m&eacute;thodologies, scripts g&eacute;n&eacute;riques et composants techniques pr&eacute;existants
+                restent la propri&eacute;t&eacute; du Prestataire ; le Client en b&eacute;n&eacute;ficie dans
+                le cadre de l&rsquo;exploitation des livrables.
+            </p>
+        </div>
+
+        <!-- Clause 7 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 7</span>
+                <span class="clause-title">Confidentialit&eacute;</span>
+            </div>
+            <p class="clause-body">
+                Le Prestataire s&rsquo;engage &agrave; traiter avec <em>la plus stricte confidentialit&eacute;</em>
+                l&rsquo;ensemble des donn&eacute;es communiqu&eacute;es (financi&egrave;res, cliniques, RH),
+                conform&eacute;ment au RGPD. Ces donn&eacute;es ne seront utilis&eacute;es qu&rsquo;aux fins de la mission
+                et ne seront pas communiqu&eacute;es &agrave; des tiers.
+                Cette obligation s&rsquo;applique pendant toute la dur&eacute;e de la mission
+                et durant les <em>vingt-quatre (24) mois suivant son terme</em>.
+            </p>
+        </div>
+
+        <!-- Clause 8 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 8</span>
+                <span class="clause-title">Conditions de r&egrave;glement</span>
+            </div>
+            <p class="clause-body">
+                Le règlement s’effectue par phase. Pour la Phase 1, un acompte de cinquante pour cent (50 %) du montant de la phase est dû à la signature du présent accord, valant ordre de démarrage ; le solde de la Phase 1 est facturé à la remise du livrable d’audit. Les phases suivantes sont déclenchées après validation Go/No-Go et facturées individuellement à leur démarrage, avec règlement à trente (30) jours date de facture, net et sans escompte. En cas de retard de paiement, des pénalités de retard seront appliquées de plein droit, au taux de trois (3) fois le taux d’intérêt légal en vigueur. Tout retard de paiement supérieur à quinze (15) jours ouvrables autorise le Prestataire à suspendre l’exécution de la mission jusqu’à régularisation complète.
+            </p>
+        </div>
+
+        <!-- Clause 9 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 9</span>
+                <span class="clause-title">R&eacute;siliation anticip&eacute;e</span>
+            </div>
+            <p class="clause-body">
+                En cas d&rsquo;interruption &agrave; l&rsquo;initiative du Client,
+                <em>les travaux r&eacute;alis&eacute;s seront factur&eacute;s au prorata des jours consomm&eacute;s</em>,
+                et les sommes d&eacute;j&agrave; vers&eacute;es resteront acquises au Prestataire.
+                Les livrables des phases enti&egrave;rement r&eacute;alis&eacute;es seront remis
+                <em>sous r&eacute;serve du r&egrave;glement int&eacute;gral des sommes dues</em>.
+                Dans les deux sens, un pr&eacute;avis de <em>quinze (15) jours ouvrables</em> sera respect&eacute;.
+            </p>
+        </div>
+
+        <!-- Clause 10 -->
+        <div class="clause-item">
+            <div class="clause-header">
+                <span class="clause-number">ART. 10</span>
+                <span class="clause-title">Respect du planning</span>
+            </div>
+            <p class="clause-body">
+                La Phase 1 est contractualisée pour une durée ferme de cinq (5) jours. Les Phases 2 à 4 feront l’objet d’un recalibrage à l’issue de l’audit, sur la base du périmètre opérationnel constaté et validé par les Parties. Tout dépassement imputable exclusivement à une erreur d’estimation du Prestataire sera absorbé par celui-ci. Toute évolution de périmètre, modification des spécifications, retard de validation ou contrainte technique externe donnera lieu soit à un ajustement du planning, soit à un avenant validé préalablement par les Parties.
+            </p>
+        </div>
+    </section>
+
+    <!-- SYNTHESE FINANCIERE -->
+    <section class="section-finance">
+        <h2>Synth&egrave;se financi&egrave;re</h2>
+        <p class="finance-summary">
+            Le budget ci-dessous distingue la Phase 1 ferme et les Phases 2 à 4, dont le volume définitif sera arrêté à l’issue de l’audit.
+        </p>
+
+        <table class="finance-table">
+            <thead>
+                <tr>
+                    <th>Phase</th>
+                    <th>Jours</th>
+                    <th>Montant HT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Phase 1 &mdash; Audit &amp; Cartographie</td>
+                    <td>5 jours</td>
+                    <td>2&thinsp;750&thinsp;&euro;</td>
+                </tr>
+                <tr>
+                    <td>Phase 2 à 4 — Refonte, Stabilisation &amp; Transfert</td>
+                    <td>Volume estimatif (à recalibrer)</td>
+                    <td>22&nbsp;000&nbsp;&euro;</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Total mission</td>
+                    <td>5 jours fermes + estimatif</td>
+                    <td>24&thinsp;750&thinsp;&euro;&thinsp;HT</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="finance-callout">
+            Les Phases 2 à 4 feront l’objet d’un avenant ferme à l’issue de la Phase 1, sur la base des constats réalisés lors de l’audit et du périmètre validé par les Parties. Toute évolution de périmètre donnera lieu à un avenant chiffré séparément.
+        </div>
+    </section>
+
+    <!-- SIGNATURES -->
+    <section class="section-signatures">
+        <h2>Acceptation &amp; signatures</h2>
+        <p class="signatures-intro">
+            La signature vaut acceptation des termes ci-dessus et d&eacute;clenche le d&eacute;marrage de la Phase 1.
+        </p>
+        <p class="signatures-intro" style="margin-top: 0.5rem; font-style: italic; color: #8b6914;">
+            Validit&eacute; de l&rsquo;offre&nbsp;: <strong>30 jours calendaires</strong> &agrave; compter de la date d&rsquo;&eacute;mission.
+        </p>
+        <div class="signatures-grid">
+            <div class="signature-block">
+                <span class="signature-role">Le Prestataire</span>
+                <p class="signature-name">Otmane Boulahia</p>
+                <p class="signature-entity">Pr&eacute;sident &mdash; ZineInsights (SASU)</p>
+                <p style="font-size: 0.78rem; color: #64748b; margin: 0.2rem 0 0.1rem;">
+                    SIREN&nbsp;990&thinsp;447&thinsp;294 &mdash; SIRET&nbsp;990&thinsp;447&thinsp;294&thinsp;00010<br>
+                    RCS Paris &mdash; TVA&nbsp;FR64990447294<br>
+                    60 rue Fran&ccedil;ois&nbsp;I<sup>er</sup>, 75008 Paris
+                </p>
+                <p style="font-size: 0.82rem; margin-top: 1.2rem; font-style: italic; color: #1a3a5c;">
+                    &laquo;&thinsp;Lu et approuv&eacute; &mdash; Bon pour accord&thinsp;&raquo;
+                </p>
+                <div class="signature-line">
+                    <span class="signature-date-label">Paris, le 25/02/2026 &mdash; Otmane Boulahia &mdash; <em style="color:#1a3a5c;">Lu et approuv&eacute;, Bon pour accord</em></span>
+                </div>
+            </div>
+            <div class="signature-block">
+                <span class="signature-role">Le Client</span>
+                <p class="signature-name">Fov&eacute;a Associ&eacute;s</p>
+                <p class="signature-entity" style="margin-bottom: 0.1rem;">Repr&eacute;sent&eacute;e par :</p>
+                <p style="font-size: 0.82rem; color: #555; margin-bottom: 0.1rem;">
+                    ____________________ <span style="color: var(--text-muted); font-size: 0.75rem;">(Nom et Qualit&eacute;)</span>
+                </p>
+                <p style="font-size: 0.82rem; margin-top: 1.2rem; font-style: italic; color: #1a3a5c;">
+                    &laquo;&thinsp;Lu et approuv&eacute; &mdash; Bon pour accord&thinsp;&raquo;
+                </p>
+                <div class="signature-line">
+                    <span class="signature-date-label">Date et signature : ____________________</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <footer class="contact-section">
+        <div class="contact-inner">
+            <div class="contact-info">
+                <h3>Otmane Boulahia</h3>
+                <p class="contact-cabinet">ZineInsights &mdash; Pr&eacute;sident</p>
+                <p class="contact-email"><a href="mailto:otmane@zineinsight.com">otmane@zineinsight.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>

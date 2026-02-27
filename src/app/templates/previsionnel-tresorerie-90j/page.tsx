@@ -211,7 +211,7 @@ export default function TemplateExcelTresoreriePage() {
                                         <h3 className="font-bold text-slate-900 mb-2">{problem.title}</h3>
                                         <p className="text-slate-700 mb-3">{problem.description}</p>
                                         <p className="text-sm text-red-700 font-medium">
-                                            💸 Impact : {problem.impact}
+                                            Impact : {problem.impact}
                                         </p>
                                     </div>
                                 </div>
@@ -538,7 +538,7 @@ export default function TemplateExcelTresoreriePage() {
                                 </tbody>
                             </table>
                             <p className="text-sm text-slate-600 mt-4">
-                                💡 <strong>Règle d&apos;or</strong> : Une PME saine doit avoir <strong>minimum 90 jours de visibilité</strong> sur sa trésorerie.
+                                <strong>Règle d&apos;or</strong> : Une PME saine doit avoir <strong>minimum 90 jours de visibilité</strong> sur sa trésorerie.
                             </p>
                         </div>
                     </motion.div>
@@ -649,19 +649,19 @@ export default function TemplateExcelTresoreriePage() {
                             <div className="max-w-md mx-auto bg-white/10 rounded-xl p-8 border border-white/20">
                                 <CheckCircle2 className="w-12 h-12 mx-auto mb-4 text-green-300" />
                                 <p className="text-lg font-semibold mb-2">
-                                    ✅ Téléchargement démarré !
+                                    Téléchargement démarré !
                                 </p>
                                 <p className="text-sm opacity-90 mb-4">
                                     Le fichier <strong>finsight-previsionnel-tresorerie-90j.xlsx</strong> a été téléchargé.
                                 </p>
                                 <p className="text-sm opacity-90 mb-6">
-                                    📧 Vous allez recevoir un email avec :
+                                    Vous allez recevoir un email avec :
                                 </p>
                                 <ul className="text-sm opacity-90 mb-6 text-left space-y-2">
-                                    <li>✅ Le lien de téléchargement (si besoin)</li>
-                                    <li>✅ 3 bonus exclusifs (checklist, calculateurs, articles)</li>
-                                    <li>✅ Un tutoriel vidéo dans 2 jours</li>
-                                    <li>✅ Un cas client inspirant dans 5 jours</li>
+                                    <li>Le lien de téléchargement (si besoin)</li>
+                                    <li>3 bonus exclusifs (checklist, calculateurs, articles)</li>
+                                    <li>Un tutoriel vidéo dans 2 jours</li>
+                                    <li>Un cas client inspirant dans 5 jours</li>
                                 </ul>
                                 <Link
                                     href="/consulting"
@@ -674,7 +674,7 @@ export default function TemplateExcelTresoreriePage() {
                         )}
 
                         <p className="text-sm mt-8 opacity-75">
-                            📧 En téléchargeant, vous acceptez de recevoir des emails utiles sur le pilotage financier PME 
+                            En téléchargeant, vous acceptez de recevoir des emails utiles sur le pilotage financier PME 
                             (désabonnement en 1 clic). Consultez notre <Link href="/legal/politique-confidentialite" className="underline">politique de confidentialité</Link>.
                         </p>
                     </motion.div>
