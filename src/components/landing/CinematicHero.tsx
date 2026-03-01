@@ -24,7 +24,7 @@ export default function CinematicHero() {
       {/* ── 1. Background video ── */}
       <video
         ref={videoRef}
-        src="/hero.mp4"
+        src="/video/hero.mp4"
         autoPlay
         muted
         loop
