@@ -22,126 +22,14 @@ import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import {
   SOCIAL_PROOF_LABEL,
 } from "@/config/social-proof";
+import CinematicHero from "@/components/landing/CinematicHero";
 
 export default function HomeClient() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
       <Header />
 
-      {/* HERO */}
-      <section className="relative bg-slate-950 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(0,120,212,0.08)_0%,_transparent_60%)]" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 lg:pt-44 lg:pb-36">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-            <div className="space-y-10">
-              <FadeIn delay={0.1} direction="none">
-                <span className="inline-block text-accent-primary text-sm font-medium tracking-widest uppercase">
-                  Direction Financière Externalisée
-                </span>
-              </FadeIn>
-
-              <FadeIn delay={0.2}>
-                <h1 className="font-serif text-5xl lg:text-7xl font-medium leading-[1.05] tracking-tight text-white">
-                  Décidez avec
-                  <br />
-                  trois mois d&apos;avance.
-                </h1>
-              </FadeIn>
-
-              <FadeIn delay={0.35}>
-                <p className="text-lg text-gray-400 leading-relaxed max-w-xl">
-                  Structurez votre pilotage financier, anticipez vos décisions
-                  et sécurisez votre croissance.{" "}
-                  <span className="text-gray-300">
-                    Pour dirigeants PME ambitieux, de 2M€ à 20M€.
-                  </span>
-                </p>
-              </FadeIn>
-
-              <FadeIn delay={0.45}>
-                <p className="text-sm text-gray-500 leading-relaxed max-w-lg border-l border-gray-700 pl-4">
-                  Vision cash à 90 jours · Marges réelles par activité ·
-                  Scénarios de croissance simulés avant décision
-                </p>
-              </FadeIn>
-
-              <FadeIn delay={0.55}>
-                <div className="flex flex-col sm:flex-row items-start gap-6 pt-2">
-                  <a
-                    href="https://calendly.com/zineinsight"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 text-base font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300"
-                  >
-                    Identifier mes leviers financiers
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                  <div className="flex items-center gap-3 text-sm text-gray-500">
-                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                    <span>Confidentiel · Sans engagement</span>
-                  </div>
-                </div>
-              </FadeIn>
-
-              <FadeIn delay={0.65}>
-                <div className="flex items-center gap-2 pt-1">
-                  <div className="flex items-center gap-0.5">
-                    {/* 4 étoiles pleines */}
-                    {[1, 2, 3, 4].map((s) => (
-                      <Star
-                        key={s}
-                        className="w-3.5 h-3.5 fill-amber-400 text-amber-400"
-                      />
-                    ))}
-                    {/* 5e étoile : 80% remplie (= 4,8/5) via SVG gradient */}
-                    <svg width="14" height="14" viewBox="0 0 24 24" className="w-3.5 h-3.5" aria-hidden="true">
-                      <defs>
-                        <linearGradient id="star48" x1="0" x2="1" y1="0" y2="0">
-                          <stop offset="80%" stopColor="#FBBF24" />
-                          <stop offset="80%" stopColor="#FBBF24" stopOpacity="0.25" />
-                        </linearGradient>
-                      </defs>
-                      <path
-                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                        fill="url(#star48)"
-                        stroke="#FBBF24"
-                        strokeWidth="1.5"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                  <span className="text-sm text-gray-500">{SOCIAL_PROOF_LABEL} · PME 2–20 M€</span>
-                </div>
-              </FadeIn>
-            </div>
-
-            <FadeIn delay={0.3} direction="none" className="relative lg:block hidden">
-              <div className="relative rounded-2xl overflow-hidden border border-white/10">
-                <Image
-                  src="/images/moi-bureau.png"
-                  alt="Otmane Boulahia - Direction Financière Externalisée"
-                  width={600}
-                  height={500}
-                  className="object-cover w-full"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <p className="text-white font-medium">Otmane Boulahia</p>
-                  <p className="text-gray-400 text-sm mt-1">
-                    Finance &amp; Stratégie Data · 10+ ans d&apos;expertise
-                  </p>
-                </div>
-              </div>
-            </FadeIn>
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
-      </section>
+      <CinematicHero />
 
       {/* SCORE FINSIGHT */}
       <section className="py-20 bg-gray-50">
