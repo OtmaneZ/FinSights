@@ -188,7 +188,7 @@ export default function HomeClient() {
                     { value: "−28 jours", label: "DSO réduit · PME Services" },
                     { value: "+340k€", label: "Cash libéré · PME BTP" },
                     { value: "+6 pts", label: "Marge nette · Groupe 500M€" },
-                    { value: "50+", label: "Dirigeants accompagnés" },
+                    { value: "10+", label: "Dirigeants accompagnés" },
                   ].map((metric) => (
                     <div
                       key={metric.value}
@@ -212,7 +212,7 @@ export default function HomeClient() {
                   <p className="text-gray-500 text-sm mt-4 leading-relaxed">
                     Ma mission : connecter vos données comptables et
                     opérationnelles pour construire un pilotage fiable — avec la
-                    rigueur d&apos;un audit et la puissance de Power BI, SQL et Python.
+                    rigueur d&apos;un audit et une structuration data robuste.
                   </p>
                 </blockquote>
 
