@@ -7,10 +7,10 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'Pourquoi faire appel à un DAF externalisé pour sa PME ?',
+      name: 'Comment FinSight structure le pilotage financier d\'une PME ?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Un DAF externalisé apporte l'expertise stratégique d'un directeur financier senior sans le coût d'un recrutement fixe. Il aide les dirigeants de PME (2 à 20M€ CA) à sécuriser leur trésorerie, optimiser leurs marges et piloter leur croissance avec des données fiables.",
+        text: "FinSight connecte vos données comptables et opérationnelles (ERP, exports, Excel) pour construire un pilotage fiable via Power BI, SQL et Python. Le Score FinSight™ (0-100) évalue 4 piliers — Cash, Marges, Résilience, Risques — pour vous donner une vision claire à 90 jours.",
       },
     },
     {
@@ -35,7 +35,7 @@ const faqSchema = {
 const aggregateRatingSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'FinSight — Direction Financière Externalisée',
+  name: 'FinSight — Pilotage Financier par la Data',
   url: 'https://finsight.zineinsight.com',
   aggregateRating: {
     '@type': 'AggregateRating',
@@ -47,19 +47,19 @@ const aggregateRatingSchema = {
 }
 
 export const metadata: Metadata = {
-  title: 'FinSight | Direction Financière Externalisée pour Dirigeants PME (2M€ à 20M€)',
-  description: "Pilotez votre PME avec 3 mois d'avance. Score FinSight™ (0-100), audit stratégique, tableaux de bord et agents IA finance. Échange stratégique 30 min offert.",
+  title: 'FinSight | Pilotage Financier & Data pour Dirigeants PME (2M€ à 20M€)',
+  description: "Structurez votre pilotage financier par la data. Score FinSight™ (0-100), vision cash à 90 jours, tableaux de bord Power BI et agents IA finance. Diagnostic stratégique offert.",
   keywords: [
-    'direction financière externalisée pme',
-    'daf externalisé',
-    'pilotage financier stratégique',
+    'pilotage financier data pme',
     'score finsight',
+    'structuration financière pme',
+    'power bi finance pme',
     'audit financier pme',
     'agents ia finance',
     'tableau de bord financier pme',
     'anticipation trésorerie',
-    'consulting finance pme',
-    'structuration financière',
+    'consulting finance data',
+    'dso optimisation pme',
   ],
   alternates: {
     canonical: 'https://finsight.zineinsight.com',
@@ -69,19 +69,19 @@ export const metadata: Metadata = {
     locale: 'fr_FR',
     url: 'https://finsight.zineinsight.com',
     siteName: 'FinSight',
-    title: 'FinSight | Direction Financière Externalisée pour PME',
-    description: "Décidez avec 3 mois d'avance. Score FinSight™, audit stratégique et agents IA finance pour dirigeants PME ambitieux.",
+    title: 'FinSight | Pilotage Financier & Data pour PME',
+    description: "Décidez avec 3 mois d'avance. Score FinSight™, structuration Power BI et agents IA finance pour dirigeants PME ambitieux.",
     images: [{
       url: 'https://finsight.zineinsight.com/images/og-default.png',
       width: 1200,
       height: 630,
-      alt: 'FinSight - DAF Externalisé pour PME 2M€-20M€',
+      alt: 'FinSight - Pilotage Financier & Data pour PME 2M€-20M€',
     }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FinSight | Direction Financière Externalisée PME',
-    description: 'Score FinSight™ + audit stratégique + agents IA. Pilotage financier pour dirigeants PME ambitieux.',
+    title: 'FinSight | Pilotage Financier & Data · PME',
+    description: 'Score FinSight™ + structuration Power BI + agents IA. Pilotage financier data-driven pour dirigeants PME ambitieux.',
     images: ['https://finsight.zineinsight.com/images/og-default.png'],
   },
 }

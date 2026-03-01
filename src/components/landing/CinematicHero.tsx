@@ -52,11 +52,11 @@ export default function CinematicHero() {
       {/* ── 5. Content ── */}
       <div className="relative z-20 w-full max-w-4xl mx-auto px-6 sm:px-10 lg:px-8 text-center">
 
-        {/* Eyebrow — positionne l'expert, pas le produit */}
+        {/* Eyebrow — positionne l'expertise Finance × Data */}
         <div className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-xs font-medium tracking-widest text-slate-300 uppercase">
-            Direction Financière Externalisée · PME 2M€ – 20M€
+            Finance &amp; Data · Score FinSight™
           </span>
         </div>
 
@@ -68,11 +68,11 @@ export default function CinematicHero() {
           </span>
         </h1>
 
-        {/* Sub-headline — crédibilité + cible */}
+        {/* Sub-headline — concret, orienté dirigeant */}
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-300/85 leading-relaxed mb-10">
           Score FinSight™, vision cash à 90 jours, marges réelles par activité.
-          Un diagnostic stratégique pour les dirigeants qui veulent piloter,
-          pas subir.
+          Nous connectons vos données comptables et opérationnelles pour un
+          pilotage fiable, structuré sur Power BI.
         </p>
 
         {/* Proof points — résultats concrets, pas des features */}

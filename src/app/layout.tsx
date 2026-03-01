@@ -16,9 +16,9 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', weight: ['400', '500', '600', '700'] })
 
 export const metadata = {
-    title: 'FinSight | Direction Financière Externalisée pour Dirigeants PME (2M€ à 20M€)',
-    description: 'Pilotez votre PME avec 3 mois d\'avance. Score FinSight™ (0-100), audit stratégique, tableaux de bord et agents IA finance. Échange stratégique 30 min offert.',
-    keywords: ['direction financière externalisée pme', 'daf externalisé', 'pilotage financier stratégique', 'score finsight', 'audit financier pme', 'agents ia finance', 'tableau de bord financier pme', 'anticipation trésorerie', 'consulting finance pme', 'structuration financière'],
+    title: 'FinSight | Pilotage Financier & Data pour Dirigeants PME (2M€ à 20M€)',
+    description: 'Structurez votre pilotage financier par la data. Score FinSight™ (0-100), vision cash à 90 jours, tableaux de bord Power BI et agents IA finance. Diagnostic stratégique offert.',
+    keywords: ['pilotage financier data pme', 'score finsight', 'structuration financière pme', 'power bi finance pme', 'audit financier pme', 'agents ia finance', 'tableau de bord financier pme', 'anticipation trésorerie', 'consulting finance data', 'dso optimisation pme'],
     authors: [{ name: 'Otmane Boulahia', url: 'https://finsight.zineinsight.com/consulting' }],
     creator: 'FinSight',
     publisher: 'FinSight',
@@ -31,19 +31,19 @@ export const metadata = {
         locale: 'fr_FR',
         url: 'https://finsight.zineinsight.com',
         siteName: 'FinSight',
-        title: 'FinSight | Direction Financière Externalisée pour PME',
-        description: 'Décidez avec 3 mois d\'avance. Score FinSight™, audit stratégique et agents IA finance pour dirigeants PME ambitieux.',
+        title: 'FinSight | Pilotage Financier & Data pour PME',
+        description: 'Décidez avec 3 mois d\'avance. Score FinSight™, structuration Power BI et agents IA finance pour dirigeants PME ambitieux.',
         images: [{
             url: 'https://finsight.zineinsight.com/images/og-default.png',
             width: 1200,
             height: 630,
-            alt: 'FinSight - DAF Externalisé pour PME 2M€-20M€'
+            alt: 'FinSight - Pilotage Financier & Data pour PME 2M€-20M€'
         }]
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'FinSight | Direction Financière Externalisée PME',
-        description: 'Score FinSight™ + audit stratégique + agents IA. Pilotage financier pour dirigeants PME ambitieux.',
+        title: 'FinSight | Pilotage Financier & Data · PME',
+        description: 'Score FinSight™ + structuration Power BI + agents IA. Pilotage financier data-driven pour dirigeants PME ambitieux.',
         images: ['https://finsight.zineinsight.com/images/og-default.png']
     },
     icons: {
@@ -123,11 +123,11 @@ export default function RootLayout({
                                 width: 250,
                                 height: 60
                             },
-                            description: 'Cabinet de direction financière externalisée pour PME de 2 à 20 M€. Diagnostic financier, audit stratégique et pilotage décisionnel — Score FinSight™ 0-100.',
+                            description: 'Expert Finance & Data pour PME de 2 à 20 M€. Score FinSight™ (0-100), structuration Power BI, audit stratégique et pilotage décisionnel par la data.',
                             founder: {
                                 '@type': 'Person',
                                 name: 'Otmane Boulahia',
-                                jobTitle: 'Founder & CEO',
+                                jobTitle: 'Expert Finance & Data · Score FinSight™',
                                 sameAs: 'https://www.linkedin.com/in/otmane-boulahia-553bb6363'
                             },
                             foundingDate: '2024',
@@ -155,7 +155,7 @@ export default function RootLayout({
                             ],
                             hasOfferCatalog: {
                                 '@type': 'OfferCatalog',
-                                name: 'Missions DAF Externalisé',
+                                name: 'Offres Pilotage Financier & Data',
                                 itemListElement: [
                                     { '@type': 'Offer', name: 'Diagnostic FinSight™ 90J', price: '2490', priceCurrency: 'EUR' },
                                     { '@type': 'Offer', name: 'Audit Complet', price: '6990', priceCurrency: 'EUR' },

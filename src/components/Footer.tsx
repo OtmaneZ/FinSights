@@ -22,10 +22,10 @@ export default function Footer() {
                             <span className="text-xl font-semibold text-white">FinSight</span>
                         </Link>
                         <p className="text-[15px] leading-relaxed max-w-md mb-8">
-                            Direction financière externalisée pour PME de 2 à 20&nbsp;M€.
-                            Nous structurons le pilotage financier des entreprises en
-                            croissance — trésorerie, marges, reporting — pour que chaque
-                            décision repose sur des données fiables.
+                            Expert Finance &amp; Data pour PME de 2 à 20&nbsp;M€.
+                            Nous connectons vos données comptables et opérationnelles
+                            pour construire un pilotage fiable — trésorerie, marges,
+                            reporting — via Power BI, SQL et le Score FinSight™.
                         </p>
                         <a
                             href="https://calendly.com/zineinsight"
@@ -44,7 +44,7 @@ export default function Footer() {
                         </p>
                         <nav className="space-y-3">
                             <Link href="/consulting" className="block text-sm text-gray-400 hover:text-white transition-colors">
-                                Accompagnement DAF
+                                Consulting Finance & Data
                             </Link>
                             <Link href="/mon-diagnostic" className="block text-sm text-gray-400 hover:text-white transition-colors">
                                 Diagnostic financier
@@ -80,7 +80,7 @@ export default function Footer() {
                                 Calculateur DSO
                             </Link>
                             <Link href="/daf-externalise-pme" className="block text-sm text-gray-400 hover:text-white transition-colors">
-                                DAF externalisé PME
+                                Pilotage financier PME
                             </Link>
                             <Link href="/calculateurs/bfr" className="block text-sm text-gray-400 hover:text-white transition-colors">
                                 Calculateur BFR

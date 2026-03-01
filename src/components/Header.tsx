@@ -16,7 +16,7 @@ const resourcesItems = {
     ],
     contenu: [
         { href: '/blog', label: 'Blog', icon: BookOpen, desc: 'Finance & pilotage PME' },
-        { href: '/pilotage-financier-pme', label: 'Guide pilotage PME', icon: Layers, desc: 'Méthode complète DAF' },
+        { href: '/pilotage-financier-pme', label: 'Guide pilotage PME', icon: Layers, desc: 'Structuration & pilotage' },
         { href: '/fondamentaux', label: 'Fondamentaux', icon: BookOpen, desc: 'Cash, marges, résilience' },
     ],
     technologie: [
@@ -251,7 +251,7 @@ export default function Header() {
                                             {session.user?.plan === 'FREE' && (
                                                 <Link href="/tarifs" className="flex items-center gap-3 px-4 py-2 text-sm text-accent-primary hover:bg-accent-primary/5 transition-colors" onClick={() => setIsDropdownOpen(false)}>
                                                     <Crown className="w-4 h-4" />
-                                                    Découvrir les offres DAF
+                                                    Découvrir les offres
                                                 </Link>
                                             )}
                                             <Link href="/dashboard/api-keys" className="flex items-center gap-3 px-4 py-2 text-sm text-secondary hover:bg-surface-hover hover:text-primary transition-colors" onClick={() => setIsDropdownOpen(false)}>

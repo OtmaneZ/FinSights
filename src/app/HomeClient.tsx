@@ -80,8 +80,8 @@ export default function HomeClient() {
               <span className="text-accent-primary">avant de décider</span>
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
-              Les mêmes méthodes que nous utilisons en mission DAF. Obtenez un
-              premier niveau de lecture de votre situation financière.
+              Les mêmes méthodes que nous déployons en mission de structuration.
+              Obtenez un premier niveau de lecture de votre situation financière.
             </p>
             <p className="text-base text-gray-400 max-w-xl mx-auto mt-4 italic">
               Beaucoup de dirigeants pensent piloter correctement leur cash…
@@ -179,7 +179,7 @@ export default function HomeClient() {
                     Otmane Boulahia
                   </h2>
                   <p className="text-lg text-gray-500">
-                    Direction Financière &amp; Stratégie Data
+                    Expert Finance &amp; Data · Score FinSight™
                   </p>
                 </div>
 
@@ -210,9 +210,9 @@ export default function HomeClient() {
                     </span>
                   </p>
                   <p className="text-gray-500 text-sm mt-4 leading-relaxed">
-                    Ma mission : structurer votre pilotage financier pour que
-                    chaque décision s&apos;appuie sur des données fiables — avec la
-                    rigueur d&apos;un cabinet d&apos;audit et la réactivité d&apos;un expert terrain.
+                    Ma mission : connecter vos données comptables et
+                    opérationnelles pour construire un pilotage fiable — avec la
+                    rigueur d&apos;un audit et la puissance de Power BI, SQL et Python.
                   </p>
                 </blockquote>
 
@@ -240,7 +240,7 @@ export default function HomeClient() {
               <span className="text-accent-primary">des résultats mesurables</span>
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              Deux niveaux d&apos;accompagnement selon votre maturité financière
+              Deux niveaux de structuration selon votre maturité financière
             </p>
           </FadeIn>
 
@@ -335,7 +335,7 @@ export default function HomeClient() {
                     href="/consulting"
                     className="block w-full px-6 py-3.5 bg-white hover:bg-gray-100 text-gray-900 rounded-lg font-semibold text-center transition-all duration-200"
                   >
-                    Découvrir l&apos;accompagnement
+                    Découvrir le pilotage augmenté
                   </Link>
                 </div>
               </div>
@@ -353,7 +353,7 @@ export default function HomeClient() {
               <span className="text-accent-primary">ils témoignent</span>
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              Ce que disent les dirigeants qui ont structuré leur pilotage financier
+              Ce que disent les dirigeants qui ont structuré leur pilotage par la data
             </p>
           </FadeIn>
 
