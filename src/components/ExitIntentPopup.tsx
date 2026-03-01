@@ -3,11 +3,34 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { X, FileText, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react'
 
+// Storage keys
+const STORAGE_KEY_DISMISSED = 'finsight_exit_popup_dismissed'
+const STORAGE_KEY_CONVERTED = 'finsight_exit_popup_converted'
+// Re-show after 30 days (ms) — never re-show if converted
+const DISMISS_COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000
+// Minimum time on page before the exit intent can fire (ms)
+const MIN_PAGE_TIME_MS = 20000
+
 // GA4 helper
 function trackGA4Event(eventName: string, params: Record<string, string>) {
   if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
     ;(window as any).gtag('event', eventName, params)
   }
+}
+
+/** Returns true if the popup should be suppressed based on localStorage state */
+function isSuppressed(): boolean {
+  try {
+    if (localStorage.getItem(STORAGE_KEY_CONVERTED) === 'true') return true
+    const dismissedAt = localStorage.getItem(STORAGE_KEY_DISMISSED)
+    if (dismissedAt) {
+      const elapsed = Date.now() - parseInt(dismissedAt, 10)
+      if (elapsed < DISMISS_COOLDOWN_MS) return true
+    }
+  } catch {
+    // localStorage unavailable (private mode, etc.) — allow popup
+  }
+  return false
 }
 
 export default function ExitIntentPopup() {
@@ -20,20 +43,24 @@ export default function ExitIntentPopup() {
 
   const show = useCallback(() => {
     if (hasShown.current) return
+    if (isSuppressed()) return
     hasShown.current = true
     setIsVisible(true)
     trackGA4Event('exit_intent_popup_shown', { trigger: 'mouse_leave_top' })
   }, [])
 
   useEffect(() => {
-    // Wait 8s minimum before enabling exit intent (avoid false positives on load)
+    // Bail out immediately if already converted/dismissed recently
+    if (isSuppressed()) return
+
+    // Wait MIN_PAGE_TIME_MS before enabling exit intent (user needs to have engaged with the page)
     timeoutRef.current = setTimeout(() => {
       const handleMouseLeave = (e: MouseEvent) => {
         if (e.clientY <= 10) show()
       }
       document.addEventListener('mouseleave', handleMouseLeave)
       return () => document.removeEventListener('mouseleave', handleMouseLeave)
-    }, 8000)
+    }, MIN_PAGE_TIME_MS)
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
@@ -58,6 +85,7 @@ export default function ExitIntentPopup() {
 
       if (res.ok) {
         setStatus('success')
+        try { localStorage.setItem(STORAGE_KEY_CONVERTED, 'true') } catch { /* noop */ }
         trackGA4Event('lead_magnet_submit', {
           source: 'exit_intent_popup',
           lead_magnet: 'guide_cash_pdf',
@@ -76,6 +104,7 @@ export default function ExitIntentPopup() {
 
   const handleClose = () => {
     setIsVisible(false)
+    try { localStorage.setItem(STORAGE_KEY_DISMISSED, String(Date.now())) } catch { /* noop */ }
     trackGA4Event('exit_intent_popup_dismissed', { email_filled: email ? 'yes' : 'no' })
   }
 

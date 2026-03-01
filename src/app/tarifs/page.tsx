@@ -54,7 +54,7 @@ const faqItems = [
     {
         question: 'Quelle est la différence avec un cabinet de conseil traditionnel ?',
         answer:
-            'FinSight combine l\'expertise financière d\'un DAF avec des outils d\'analyse avancés (Score FinSight™, benchmarks Banque de France, cockpit décisionnel temps réel). Vous obtenez des livrables actionnables avec des données chiffrées, pas simplement des recommandations PowerPoint.',
+            'FinSight combine l\'expertise financière terrain avec une stack data concrète (Score FinSight™, Power BI, SQL, Python, benchmarks Banque de France). Vous obtenez des livrables actionnables avec des données chiffrées et des flux automatisés — pas simplement des recommandations PowerPoint.',
     },
     {
         question: 'Comment se déroule la première étape ?',
@@ -73,10 +73,10 @@ export default function TarifsPage() {
     const offersSchema = {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
-        name: 'FinSight — Direction Financière Externalisée',
+        name: 'FinSight — Pilotage Financier & Data',
         url: 'https://finsight.zineinsight.com/tarifs',
         description:
-            'Missions de DAF externalisé pour PME : diagnostic financier, audit complet, système décisionnel.',
+            'Expert Finance & Data pour PME : diagnostic financier par la data, structuration Power BI, score propriétaire et systèmes décisionnels.',
         areaServed: { '@type': 'Country', name: 'France' },
         aggregateRating: {
             '@type': 'AggregateRating',
@@ -87,7 +87,7 @@ export default function TarifsPage() {
         },
         hasOfferCatalog: {
             '@type': 'OfferCatalog',
-            name: 'Offres DAF Externalisé FinSight',
+            name: 'Offres Pilotage Financier & Data FinSight',
             itemListElement: [
                 {
                     '@type': 'Offer',
@@ -193,7 +193,7 @@ export default function TarifsPage() {
             </section>
 
             {/* ============================================
-                OFFRES — 3 cartes DAF
+                OFFRES — 3 niveaux de structuration
                ============================================ */}
             <section className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -657,7 +657,7 @@ export default function TarifsPage() {
                             <BarChart3 className="w-5 h-5 text-accent-primary flex-shrink-0" />
                             <div>
                                 <p className="font-semibold text-slate-900 group-hover:text-accent-primary transition-colors">
-                                    Accompagnement DAF
+                                    Consulting Finance & Data
                                 </p>
                                 <p className="text-xs text-slate-500">Détails des missions</p>
                             </div>

@@ -36,7 +36,7 @@ export default function ConsultingPage() {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         "name": "FinSight - Architecture Financière & Systèmes Décisionnels",
-        "description": "Services de conseil financier et direction financière externalisée (DAF) pour PME. Audit financier, tableaux de bord, pilotage trésorerie.",
+        "description": "Expert Finance & Data pour PME. Score FinSight™ (0-100), structuration Power BI, automatisation des flux (SQL, Python) et pilotage décisionnel.",
         "url": "https://finsight.zineinsight.com/consulting",
         "provider": {
             "@type": "Person",
@@ -53,10 +53,10 @@ export default function ConsultingPage() {
         },
         "serviceType": [
             "Audit financier",
-            "DAF externalisé",
+            "Structuration Power BI",
+            "Automatisation des flux financiers",
             "Pilotage de trésorerie",
-            "Tableaux de bord financiers",
-            "Conseil stratégique PME"
+            "Score FinSight™ et systèmes décisionnels"
         ],
         "offers": [
             {
@@ -78,7 +78,7 @@ export default function ConsultingPage() {
             {
                 "@type": "Offer",
                 "name": "Système de Décision",
-                "description": "Direction financière externalisée avec tableaux de bord automatisés",
+                "description": "Système de pilotage financier autonome : cockpit dirigeant temps réel, alertes automatiques et scénarios de croissance",
                 "price": "12500",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock"
@@ -98,10 +98,10 @@ export default function ConsultingPage() {
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "Qu'est-ce que le conseil DAF externalisé ?",
+                "name": "Qu'est-ce que le pilotage financier par la data ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Le conseil DAF externalisé permet aux PME de bénéficier d'une expertise de directeur financier à temps partagé, sans le coût d'un recrutement permanent. Je travaille 2 à 4 jours par mois sur votre pilotage financier."
+                    "text": "Le pilotage financier par la data consiste à connecter vos sources existantes (ERP, comptabilité, exports) via SQL et Python, puis à construire des tableaux de bord Power BI fiables et réconciliés. Le Score FinSight™ fournit ensuite un indicateur propriétaire 0-100 sur 4 piliers pour éclairer chaque décision stratégique."
                 }
             },
             {
@@ -873,7 +873,7 @@ export default function ConsultingPage() {
                             Vous vous posez des questions ?
                         </h2>
                         <p className="text-lg text-slate-600">
-                            Voici les réponses aux questions les plus courantes sur le conseil DAF externalisé
+                            Voici les réponses aux questions les plus courantes sur le pilotage financier par la data
                         </p>
                     </motion.div>
 
@@ -917,9 +917,10 @@ export default function ConsultingPage() {
                             </summary>
                             <div className="px-6 pb-6">
                                 <p className="text-slate-600 leading-relaxed">
-                                    L&apos;expert-comptable s&apos;occupe de la <strong>comptabilité légale</strong> et des déclarations fiscales. 
-                                    Le DAF externalisé va plus loin : pilotage stratégique, optimisation trésorerie, tableaux de bord, 
-                                    analyse marges par produit/client, et accompagnement décisions (investissements, recrutements, levées de fonds).
+                                    L&apos;expert-comptable s&apos;occupe de la <strong>comptabilité légale</strong> et des déclarations fiscales.
+                                    FinSight va plus loin : connecter vos données (ERP, comptabilité, exports) via SQL et Python,
+                                    construire un pilotage Power BI fiable et réconcilié, produire le Score FinSight™ et accompagner
+                                    les décisions stratégiques (investissements, recrutements, cash à 90 jours).
                                 </p>
                             </div>
                         </motion.details>
@@ -961,8 +962,9 @@ export default function ConsultingPage() {
                             </summary>
                             <div className="px-6 pb-6">
                                 <p className="text-slate-600 leading-relaxed">
-                                    Le <strong>diagnostic</strong> et l&apos;<strong>audit</strong> sont des missions ponctuelles sans engagement. 
-                                    Pour l&apos;accompagnement DAF externalisé récurrent, je recommande un minimum de <strong>3 mois</strong> pour voir des résultats concrets, 
+                                    Le <strong>diagnostic</strong> et l&apos;<strong>audit</strong> sont des missions ponctuelles sans engagement.
+                                    Pour un accompagnement récurrent (structuration continue, alertes automatiques, scénarios),
+                                    je recommande un minimum de <strong>3 mois</strong> pour produire des résultats consolidés,
                                     mais vous restez libre d&apos;arrêter quand vous voulez.
                                 </p>
                             </div>
@@ -977,7 +979,7 @@ export default function ConsultingPage() {
                         >
                             <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
                                 <h3 className="font-semibold text-slate-900 pr-4 text-lg">
-                                    Combien de jours par mois pour un DAF externalisé ?
+                                    Quelle est la cadence d&apos;une mission de structuration ?
                                 </h3>
                                 <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform flex-shrink-0" />
                             </summary>
