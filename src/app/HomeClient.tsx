@@ -32,7 +32,7 @@ export default function HomeClient() {
       <CinematicHero />
 
       {/* SCORE FINSIGHT */}
-      <section className="py-20 bg-gray-50">
+      <section id="diagnostic" className="py-20 bg-gray-50">
         <div className="max-w-5xl mx-auto px-6">
           <FadeIn>
             <div className="bg-white rounded-2xl p-10 lg:p-14 border border-gray-200 shadow-sm">
@@ -285,12 +285,15 @@ export default function HomeClient() {
                 <div className="pt-6 border-t border-gray-100">
                   <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">À partir de</p>
                   <p className="text-3xl font-semibold text-gray-900 mb-5">2 490€</p>
-                  <Link
-                    href="/consulting"
-                    className="block w-full px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-medium text-center transition-all duration-200"
+                  <a
+                    href="https://calendly.com/zineinsight"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full px-6 py-3.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-center transition-all duration-200"
                   >
-                    Découvrir l&apos;accompagnement
-                  </Link>
+                    Demander mon diagnostic
+                  </a>
+                  <p className="text-xs text-center text-gray-400 mt-3">Réponse sous 24h · Sans engagement</p>
                 </div>
               </div>
             </StaggerItem>
@@ -326,13 +329,13 @@ export default function HomeClient() {
                   <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Investissement</p>
                   <p className="text-2xl font-semibold text-white mb-5">
                     Sur mesure
-                    <span className="text-sm text-gray-500 font-normal ml-2">· Extension Audit</span>
+                    <span className="text-sm text-gray-500 font-normal ml-2">· Extension Diagnostic</span>
                   </p>
                   <Link
-                    href="/agents"
-                    className="block w-full px-6 py-3 bg-white hover:bg-gray-100 text-gray-900 rounded-lg font-medium text-center transition-all duration-200"
+                    href="/consulting"
+                    className="block w-full px-6 py-3.5 bg-white hover:bg-gray-100 text-gray-900 rounded-lg font-semibold text-center transition-all duration-200"
                   >
-                    Explorer le pilotage augmenté
+                    Découvrir l&apos;accompagnement
                   </Link>
                 </div>
               </div>
