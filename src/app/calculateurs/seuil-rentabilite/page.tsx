@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -11,6 +11,8 @@ import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
+import EmailCaptureModal from '@/components/EmailCaptureModal'
+import PremiumUpsellCard from '@/components/PremiumUpsellCard'
 
 export default function CalculateurSeuilRentabilite() {
     const [chargesFixes, setChargesFixes] = useState<string>('')
@@ -150,6 +152,32 @@ export default function CalculateurSeuilRentabilite() {
     }
 
     const interpretation = seuil !== null ? getInterpretation(parseFloat(tauxMarge)) : null
+
+    const reportInputs = useMemo(() => {
+        if (seuil === null) return {}
+        return {
+            chargesFixes: parseFloat(chargesFixes) || 0,
+            tauxMarge: parseFloat(tauxMarge) || 0,
+        }
+    }, [seuil, chargesFixes, tauxMarge])
+
+    const reportResult = useMemo(() => {
+        if (seuil === null || seuilJour === null || !interpretation) return {}
+        return {
+            seuil,
+            seuilJour,
+            tauxMarge: parseFloat(tauxMarge) || 0,
+            niveau: interpretation.niveau,
+            titre: interpretation.titre,
+            message: interpretation.message,
+            interpretationLines: [interpretation.message],
+            summary: [
+                { label: 'Seuil de rentabilité', value: `${seuil.toLocaleString('fr-FR')} € / mois` },
+                { label: 'Équivalent jours ouvrés', value: `${seuilJour} j / mois` },
+                { label: 'Taux de marge (hyp.)', value: `${parseFloat(tauxMarge) || 0}%` },
+            ],
+        }
+    }, [seuil, seuilJour, tauxMarge, interpretation])
 
     return (
         <div className="min-h-screen bg-white">
@@ -858,6 +886,22 @@ export default function CalculateurSeuilRentabilite() {
                     </div>
                 </section>
             </main>
+
+            <EmailCaptureModal
+                calculatorType="seuil-rentabilite"
+                hasResult={seuil !== null && seuilJour !== null}
+                result={reportResult}
+                inputs={reportInputs}
+            />
+
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl pb-10">
+                <PremiumUpsellCard
+                    calculatorType="seuil-rentabilite"
+                    hasResult={seuil !== null && seuilJour !== null}
+                    result={reportResult}
+                    inputs={reportInputs}
+                />
+            </div>
 
             <Footer />
         </div>

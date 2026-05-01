@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -13,7 +13,8 @@ import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 import DiagnosticReturnBanner from '@/components/DiagnosticReturnBanner'
-import CalcEmailCapture from '@/components/CalcEmailCapture'
+import EmailCaptureModal from '@/components/EmailCaptureModal'
+import PremiumUpsellCard from '@/components/PremiumUpsellCard'
 
 export default function CalculateurDSO() {
     const [creances, setCreances] = useState<string>('')
@@ -165,6 +166,32 @@ export default function CalculateurDSO() {
     }
 
     const interpretation = dso !== null ? getInterpretation(dso, secteur) : null
+
+    const reportInputs = useMemo(() => {
+        if (dso === null) return {}
+        return {
+            creances: parseFloat(creances) || 0,
+            ca: parseFloat(ca) || 0,
+            secteur,
+        }
+    }, [dso, creances, ca, secteur])
+
+    const reportResult = useMemo(() => {
+        if (dso === null || !interpretation) return {}
+        return {
+            dso,
+            secteur,
+            niveau: interpretation.niveau,
+            titre: interpretation.titre,
+            message: interpretation.message,
+            interpretationLines: [interpretation.message],
+            summary: [
+                { label: 'DSO', value: `${dso} jours` },
+                { label: 'Secteur', value: secteur },
+                { label: 'Niveau', value: interpretation.niveau },
+            ],
+        }
+    }, [dso, secteur, interpretation])
 
     return (
         <div className="min-h-screen bg-white">
@@ -908,14 +935,6 @@ export default function CalculateurDSO() {
                                             <ArrowRight className="w-6 h-6 text-blue-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                                         </Link>
 
-                                        {/* Étape 2.5 : Email — Benchmark sectoriel */}
-                                        <CalcEmailCapture
-                                            context="dso"
-                                            contextValue={dso}
-                                            label="Recevez votre benchmark sectoriel DSO par email"
-                                            description={`Votre DSO de ${dso} jours comparé aux médianes Banque de France de votre secteur — directement dans votre boîte mail.`}
-                                        />
-
                                         {/* Étape 3 : Audit */}
                                         <a
                                             href="https://calendly.com/zineinsight"
@@ -1370,6 +1389,22 @@ export default function CalculateurDSO() {
                     </div>
                 </section>
             </main>
+
+            <EmailCaptureModal
+                calculatorType="dso"
+                hasResult={dso !== null}
+                result={reportResult}
+                inputs={reportInputs}
+            />
+
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl pb-10">
+                <PremiumUpsellCard
+                    calculatorType="dso"
+                    hasResult={dso !== null}
+                    result={reportResult}
+                    inputs={reportInputs}
+                />
+            </div>
 
             <Footer />
         </div>

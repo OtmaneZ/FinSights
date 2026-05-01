@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -12,7 +12,8 @@ import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
 import DiagnosticReturnBanner from '@/components/DiagnosticReturnBanner'
-import CalcEmailCapture from '@/components/CalcEmailCapture'
+import EmailCaptureModal from '@/components/EmailCaptureModal'
+import PremiumUpsellCard from '@/components/PremiumUpsellCard'
 
 export default function CalculateurBFR() {
     const [stocks, setStocks] = useState<string>('')
@@ -158,6 +159,33 @@ export default function CalculateurBFR() {
     }
 
     const interpretation = bfr !== null ? getInterpretation(bfr, joursCA) : null
+
+    const reportInputs = useMemo(() => {
+        if (bfr === null) return {}
+        return {
+            stocks: parseFloat(stocks) || 0,
+            creances: parseFloat(creances) || 0,
+            dettes: parseFloat(dettes) || 0,
+            ca: parseFloat(ca) || 0,
+        }
+    }, [bfr, stocks, creances, dettes, ca])
+
+    const reportResult = useMemo(() => {
+        if (bfr === null || !interpretation) return {}
+        return {
+            bfr,
+            joursCA,
+            niveau: interpretation.niveau,
+            titre: interpretation.titre,
+            message: interpretation.message,
+            interpretationLines: [interpretation.message],
+            summary: [
+                { label: 'BFR', value: `${Math.round(bfr).toLocaleString('fr-FR')} €` },
+                { label: 'BFR en jours de CA', value: joursCA === null ? 'N/A' : `${joursCA} j` },
+                { label: 'Niveau', value: interpretation.niveau },
+            ],
+        }
+    }, [bfr, joursCA, interpretation])
 
     // FAQ Schema for rich snippets
     const faqSchema = {
@@ -912,14 +940,6 @@ export default function CalculateurBFR() {
                                             <ArrowRight className="w-6 h-6 text-blue-500 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                                         </Link>
 
-                                        {/* Étape 2.5 : Email — Benchmark sectoriel */}
-                                        <CalcEmailCapture
-                                            context="bfr"
-                                            contextValue={bfr}
-                                            label="Recevez votre benchmark sectoriel BFR par email"
-                                            description={`Votre BFR de ${bfr !== null ? Math.round(bfr).toLocaleString('fr-FR') : '...'} € comparé aux médianes Banque de France de votre secteur — directement dans votre boîte mail.`}
-                                        />
-
                                         {/* Étape 3 : Audit */}
                                         <a
                                             href="https://calendly.com/zineinsight"
@@ -1292,6 +1312,22 @@ export default function CalculateurBFR() {
                     </div>
                 </section>
             </main>
+
+            <EmailCaptureModal
+                calculatorType="bfr"
+                hasResult={bfr !== null}
+                result={reportResult}
+                inputs={reportInputs}
+            />
+
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl pb-10">
+                <PremiumUpsellCard
+                    calculatorType="bfr"
+                    hasResult={bfr !== null}
+                    result={reportResult}
+                    inputs={reportInputs}
+                />
+            </div>
 
             <Footer />
         </div>

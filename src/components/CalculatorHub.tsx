@@ -384,6 +384,7 @@ const calculators: CalculatorConfig[] = [
         description: 'Earnings Before Interest, Taxes, Depreciation & Amortization',
         icon: Calculator,
         color: 'from-slate-700 to-slate-900',
+        dedicatedPage: '/calculateurs/ebitda',
         inputs: [
             { key: 'resultatNet', label: 'Résultat net', placeholder: '100000', unit: '€' },
             { key: 'impots', label: 'Impôts sur bénéfices', placeholder: '30000', unit: '€' },
@@ -448,6 +449,7 @@ const calculators: CalculatorConfig[] = [
         description: 'Customer Acquisition Cost & Lifetime Value',
         icon: Target,
         color: 'from-slate-600 to-slate-800',
+        dedicatedPage: '/calculateurs/cac-ltv',
         inputs: [
             { key: 'cac', label: 'Coût d\'acquisition client (CAC)', placeholder: '500', unit: '€', tooltip: 'Marketing + Sales / Nb nouveaux clients' },
             { key: 'arpu', label: 'ARPU mensuel', placeholder: '99', unit: '€', tooltip: 'Average Revenue Per User' },
@@ -522,6 +524,7 @@ const calculators: CalculatorConfig[] = [
         description: 'Trésorerie & mois avant rupture de cash',
         icon: TrendingUp,
         color: 'from-slate-700 to-slate-900',
+        dedicatedPage: '/calculateurs/burn-rate',
         inputs: [
             { key: 'tresorerie', label: 'Trésorerie actuelle', placeholder: '500000', unit: '€' },
             { key: 'depenses', label: 'Dépenses mensuelles', placeholder: '80000', unit: '€' },
@@ -605,6 +608,7 @@ const calculators: CalculatorConfig[] = [
         description: 'Estimation par multiple EBITDA',
         icon: Calculator,
         color: 'from-slate-600 to-slate-800',
+        dedicatedPage: '/calculateurs/valorisation',
         inputs: [
             { key: 'ebitda', label: 'EBITDA annuel', placeholder: '500000', unit: '€' },
             { key: 'secteur', label: 'Secteur', placeholder: 'services', tooltip: 'Services, SaaS, Industrie, Commerce' }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -11,6 +11,8 @@ import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
+import EmailCaptureModal from '@/components/EmailCaptureModal'
+import PremiumUpsellCard from '@/components/PremiumUpsellCard'
 
 export default function CalculateurROI() {
     const [investissement, setInvestissement] = useState<string>('')
@@ -168,6 +170,33 @@ export default function CalculateurROI() {
     }
 
     const interpretation = roi !== null && payback !== null ? getInterpretation(roi, payback) : null
+
+    const reportInputs = useMemo(() => {
+        if (roi === null || payback === null) return {}
+        return {
+            investissement: parseFloat(investissement) || 0,
+            gainsAnnuels: parseFloat(gainsAnnuels) || 0,
+            dureeAns: parseFloat(dureeAns) || 1,
+        }
+    }, [roi, payback, investissement, gainsAnnuels, dureeAns])
+
+    const reportResult = useMemo(() => {
+        if (roi === null || payback === null || !interpretation) return {}
+        return {
+            roi,
+            paybackMois: payback,
+            gainNet,
+            niveau: interpretation.niveau,
+            titre: interpretation.titre,
+            message: interpretation.message,
+            interpretationLines: [interpretation.message],
+            summary: [
+                { label: 'ROI', value: `${roi >= 0 ? '+' : ''}${roi}%` },
+                { label: 'Payback', value: payback < 999 ? `${payback} mois` : '∞' },
+                { label: 'Gain net', value: `${gainNet !== null && gainNet >= 0 ? '+' : ''}${gainNet?.toLocaleString('fr-FR') ?? '—'} €` },
+            ],
+        }
+    }, [roi, payback, gainNet, interpretation])
 
     return (
         <div className="min-h-screen bg-white">
@@ -983,6 +1012,22 @@ export default function CalculateurROI() {
                     </div>
                 </section>
             </main>
+
+            <EmailCaptureModal
+                calculatorType="roi"
+                hasResult={roi !== null && payback !== null}
+                result={reportResult}
+                inputs={reportInputs}
+            />
+
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl pb-10">
+                <PremiumUpsellCard
+                    calculatorType="roi"
+                    hasResult={roi !== null && payback !== null}
+                    result={reportResult}
+                    inputs={reportInputs}
+                />
+            </div>
 
             <Footer />
         </div>

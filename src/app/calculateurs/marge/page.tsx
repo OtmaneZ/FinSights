@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -11,6 +11,8 @@ import StructuredData from '@/components/StructuredData'
 import { generateHowToJsonLd } from '@/lib/seo'
 import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
+import EmailCaptureModal from '@/components/EmailCaptureModal'
+import PremiumUpsellCard from '@/components/PremiumUpsellCard'
 
 export default function CalculateurMarge() {
     const [prixAchat, setPrixAchat] = useState<string>('')
@@ -180,6 +182,35 @@ export default function CalculateurMarge() {
     }
 
     const interpretation = tauxMarge !== null ? getInterpretation(tauxMarge) : null
+
+    const reportInputs = useMemo(() => {
+        if (tauxMarge === null) return {}
+        return {
+            prixAchat: parseFloat(prixAchat) || 0,
+            prixVente: parseFloat(prixVente) || 0,
+        }
+    }, [tauxMarge, prixAchat, prixVente])
+
+    const reportResult = useMemo(() => {
+        if (tauxMarge === null || tauxMarque === null || margeEuros === null || coefficient === null || !interpretation) {
+            return {}
+        }
+        return {
+            tauxMarge,
+            tauxMarque,
+            margeEuros,
+            coefficient,
+            niveau: interpretation.niveau,
+            titre: interpretation.titre,
+            message: interpretation.message,
+            interpretationLines: [interpretation.message],
+            summary: [
+                { label: 'Taux de marge', value: `${tauxMarge}%` },
+                { label: 'Taux de marque', value: `${tauxMarque}%` },
+                { label: 'Marge €', value: `${margeEuros.toLocaleString('fr-FR')} €` },
+            ],
+        }
+    }, [tauxMarge, tauxMarque, margeEuros, coefficient, interpretation])
 
     return (
         <div className="min-h-screen bg-white">
@@ -915,6 +946,22 @@ export default function CalculateurMarge() {
                     </div>
                 </section>
             </main>
+
+            <EmailCaptureModal
+                calculatorType="marge"
+                hasResult={tauxMarge !== null && tauxMarque !== null && margeEuros !== null && coefficient !== null}
+                result={reportResult}
+                inputs={reportInputs}
+            />
+
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl pb-10">
+                <PremiumUpsellCard
+                    calculatorType="marge"
+                    hasResult={tauxMarge !== null && tauxMarque !== null && margeEuros !== null && coefficient !== null}
+                    result={reportResult}
+                    inputs={reportInputs}
+                />
+            </div>
 
             <Footer />
         </div>
