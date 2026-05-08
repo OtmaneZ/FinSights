@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { Suspense, useEffect, useState, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Header from '@/components/Header'
@@ -203,7 +203,7 @@ function getNextRecommended(completed: CalculatorType[]): CalculatorType | null 
 // Page Component
 // ---------------------------------------------------------------------------
 
-export default function MonDiagnosticPage() {
+function MonDiagnosticContent() {
   const { history, completedTypes, clearHistory } = useCalculatorHistory()
   const [mounted, setMounted] = useState(false)
   const [sector, setSector] = useState<SectorKey>('autre')
@@ -1273,6 +1273,22 @@ export default function MonDiagnosticPage() {
 
       <Footer />
     </div>
+  )
+}
+
+export default function MonDiagnosticPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white text-gray-900 font-sans">
+          <Header />
+          <div className="max-w-5xl mx-auto px-6 py-20" />
+          <Footer />
+        </div>
+      }
+    >
+      <MonDiagnosticContent />
+    </Suspense>
   )
 }
 

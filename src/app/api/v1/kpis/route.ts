@@ -10,6 +10,8 @@ import { prisma } from '@/lib/prisma';
 import { authenticateRequest, apiError, apiSuccess } from '@/lib/apiAuth';
 import { logger } from '@/lib/logger';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/v1/kpis - Get KPIs with optional filtering
  *

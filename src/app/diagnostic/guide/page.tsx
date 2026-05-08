@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { Suspense, useState, useEffect, useMemo, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -451,7 +451,7 @@ function formatResult(value: number, unit: string): string {
 // Page
 // ---------------------------------------------------------------------------
 
-export default function DiagnosticGuidePage() {
+function DiagnosticGuideContent() {
   const { saveCalculation } = useCalculatorHistory()
   const [mounted, setMounted] = useState(false)
   const [sector, setSector] = useState<SectorKey>('autre')
@@ -1837,5 +1837,13 @@ export default function DiagnosticGuidePage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function DiagnosticGuidePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
+      <DiagnosticGuideContent />
+    </Suspense>
   )
 }

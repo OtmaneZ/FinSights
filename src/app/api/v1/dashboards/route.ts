@@ -17,6 +17,8 @@ import {
     apiSuccess,
 } from '@/lib/apiAuth';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/v1/dashboards - List dashboards with pagination
  *
