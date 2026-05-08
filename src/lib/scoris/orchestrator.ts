@@ -186,14 +186,61 @@ export async function runAnalysis(
   checkAbort()
 
   const cta = buildCTA(score, synthesis)
-  const executiveSummary = generateExecutiveSummary(
-    score,
-    synthesis,
-    causalInsights,
-    results,
-    bench,
-    tresorisEnrichment,
-  )
+
+  // Tenter d'obtenir un executive summary Opus (appel API server-side)
+  // Fallback transparent sur le générateur de strings SCORIS si Opus indisponible
+  let executiveSummary: string
+  try {
+    const opusSummaryRes = await fetch('/api/diagnostic/opus-plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mode: 'summary',
+        context: {
+          score: score.total ?? 0,
+          pillars: {
+            cash: score.pillars.cash.score ?? 0,
+            margin: score.pillars.margin.score ?? 0,
+            resilience: score.pillars.resilience.score ?? 0,
+            risk: score.pillars.risk.score ?? 0,
+          },
+          sector,
+          indicators: {
+            dso: results.dso?.value,
+            dsoMedian: bench.dsoMedian,
+            marge: results.marge?.value,
+            margeMedian: bench.margeMedian,
+            bfrJours: results.bfr?.inputs?.ca && results.bfr.inputs.ca > 0
+              ? Math.round((results.bfr.value / results.bfr.inputs.ca) * 365)
+              : undefined,
+            bfrJoursMedian: bench.bfrJoursMedian,
+            ebitdaMedian: bench.ebitdaMedian,
+            burnRate: results['burn-rate']?.value,
+            gearing: results.gearing?.value,
+          },
+          forces: synthesis.forces,
+          vulnerabilites: synthesis.vulnerabilites,
+          prioriteScorisFallback: synthesis.priorite,
+        },
+      }),
+    })
+    if (opusSummaryRes.ok) {
+      const opusJson = await opusSummaryRes.json()
+      executiveSummary = opusJson.summary || generateExecutiveSummary(
+        score, synthesis, causalInsights, results, bench, tresorisEnrichment,
+      )
+    } else {
+      executiveSummary = generateExecutiveSummary(
+        score, synthesis, causalInsights, results, bench, tresorisEnrichment,
+      )
+    }
+  } catch {
+    // Non-bloquant — wizard toujours fonctionnel sans clé OpenRouter
+    executiveSummary = generateExecutiveSummary(
+      score, synthesis, causalInsights, results, bench, tresorisEnrichment,
+    )
+  }
+
   stepsCompleted.push('synthesis')
 
   const durationMs = Math.round(performance.now() - startTime)

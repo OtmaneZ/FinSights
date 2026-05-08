@@ -24,6 +24,7 @@ import {
   estimateCA,
 } from '@/lib/scoring/diagnosticScore'
 import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
+import type { ScoreContext, RecommendationPlan, OpusPriority } from '@/lib/opus-engine'
 
 // ─── Palette ────────────────────────────────────────────────────────────────
 const C = {
@@ -137,6 +138,64 @@ export interface DiagnosticPDFData {
   totalCalculators: number
 }
 
+// ─── Opus plan fetcher (client-side → /api/diagnostic/opus-plan) ─────────────
+
+async function fetchOpusPlan(data: DiagnosticPDFData): Promise<RecommendationPlan | null> {
+  try {
+    const bench = SECTOR_BENCHMARKS[data.sector]
+    const get = (t: CalculatorType) => data.history.find(c => c.type === t)
+    const dso = get('dso')
+    const bfr = get('bfr')
+    const marge = get('marge')
+    const ebitda = get('ebitda')
+    const caAnnuel = estimateCA((t: CalculatorType) => get(t))
+
+    const context: ScoreContext = {
+      score: data.diagnostic.total ?? 0,
+      pillars: {
+        cash: data.diagnostic.pillars.cash.score ?? 0,
+        margin: data.diagnostic.pillars.margin.score ?? 0,
+        resilience: data.diagnostic.pillars.resilience.score ?? 0,
+        risk: data.diagnostic.pillars.risk.score ?? 0,
+      },
+      sector: data.sector,
+      companyName: data.companyName,
+      caAnnuel: caAnnuel ?? undefined,
+      indicators: {
+        dso: dso?.value,
+        dsoMedian: bench.dsoMedian,
+        bfrJours: bfr && caAnnuel && caAnnuel > 0
+          ? Math.round((bfr.value / caAnnuel) * 365)
+          : undefined,
+        bfrJoursMedian: bench.bfrJoursMedian,
+        marge: marge?.value,
+        margeMedian: bench.margeMedian,
+        ebitdaPct: ebitda && caAnnuel && caAnnuel > 0
+          ? Math.round((ebitda.value / caAnnuel) * 100)
+          : undefined,
+        ebitdaMedian: bench.ebitdaMedian,
+      },
+      forces: data.insights.forces ?? [],
+      vulnerabilites: data.insights.vulnerabilites ?? [],
+      prioriteScorisFallback: data.insights.priorite ?? undefined,
+    }
+
+    const res = await fetch('/api/diagnostic/opus-plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ context, mode: 'full' }),
+    })
+
+    if (!res.ok) return null
+    const json = await res.json()
+    return json.plan ?? null
+
+  } catch {
+    // Non-bloquant — le PDF sera généré avec le fallback
+    return null
+  }
+}
+
 // ─── Main Generator ─────────────────────────────────────────────────────────
 
 export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<void> {
@@ -164,6 +223,9 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     cashGapJours = dso.value - bench.dsoMedian
     cashImpactAmount = Math.round((cashGapJours / 365) * caAnnuel)
   }
+
+  // ── Fetch Opus plan avant de commencer le rendu (non-bloquant si indisponible) ──
+  const opusPlan = await fetchOpusPlan(data)
 
   const footer = () => { pageNum++; addPageFooter(pdf, M, pageNum) }
 
@@ -398,27 +460,38 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   y = sectionTitle(pdf, 'PRIORITES D\'ACTION', M, y)
 
   // Build 3 result-oriented priority items
-  const priorities: Array<{ title: string; detail: string; urgency: 'critique' | 'haute' | 'moyenne' }> = []
+  // Source : Opus si disponible, fallback SCORIS sinon
+  type PriorityItem = { title: string; detail: string; urgency: 'critique' | 'haute' | 'moyenne' }
+  let priorities: PriorityItem[]
 
-  if (data.insights.priorite) {
+  if (opusPlan && opusPlan.priorities.length === 3) {
+    // ✅ Recommandations Opus — personnalisées secteur + chiffres réels
+    priorities = opusPlan.priorities.map((p: OpusPriority) => ({
+      title: p.title,
+      detail: p.detail,
+      urgency: p.urgency,
+    }))
+  } else {
+    // Fallback SCORIS déterministe
+    priorities = []
+    if (data.insights.priorite) {
+      priorities.push({
+        title: 'Levier cash prioritaire',
+        detail: data.insights.priorite,
+        urgency: 'critique',
+      })
+    }
     priorities.push({
-      title: 'Levier cash prioritaire',
-      detail: data.insights.priorite,
-      urgency: 'critique',
+      title: 'Restructuration du poste clients',
+      detail: 'Implementer une politique de facturation avec acomptes systematiques de 30% pour reduire l\'exposition au risque. Objectif : securiser le flux d\'encaissements et diminuer le DSO de 15 a 25 jours.',
+      urgency: 'haute',
+    })
+    priorities.push({
+      title: 'Optimisation du BFR',
+      detail: 'Negocier l\'alignement des delais fournisseurs sur les delais clients pour stabiliser le cycle d\'exploitation. Cible : remonter 10 a 15 jours de tresorerie immobilisee.',
+      urgency: 'moyenne',
     })
   }
-
-  priorities.push({
-    title: 'Restructuration du poste clients',
-    detail: 'Implementer une politique de facturation avec acomptes systematiques de 30% pour reduire l\'exposition au risque. Objectif : securiser le flux d\'encaissements et diminuer le DSO de 15 a 25 jours.',
-    urgency: 'haute',
-  })
-
-  priorities.push({
-    title: 'Optimisation du BFR',
-    detail: 'Negocier l\'alignement des delais fournisseurs sur les delais clients pour stabiliser le cycle d\'exploitation. Cible : remonter 10 a 15 jours de tresorerie immobilisee.',
-    urgency: 'moyenne',
-  })
 
   priorities.slice(0, 3).forEach((prio, idx) => {
     y = ensureSpace(pdf, y, 40, M, H, FOOTER_H, footer)

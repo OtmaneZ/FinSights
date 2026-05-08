@@ -441,3 +441,28 @@ model AssistantMessage {
   @@index([createdAt])
   @@map("assistant_messages")
 }
+
+// ============================================
+// DIAGNOSTIC LEAD — Paywall SCORIS 49€
+// ============================================
+
+model DiagnosticLead {
+  id        String   @id @default(cuid())
+  email     String
+  score     Int?
+  sector    String?
+
+  // Paiement
+  paid              Boolean  @default(false)
+  stripeSessionId   String?  @unique
+  paidAt            DateTime?
+
+  // Livraison
+  pdfSentAt         DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([stripeSessionId])
+  @@map("diagnostic_leads")
+}
