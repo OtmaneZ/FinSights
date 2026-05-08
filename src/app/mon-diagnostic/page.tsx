@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -25,6 +26,7 @@ import {
   getContextualCTA,
 } from '@/lib/scoring/diagnosticScore'
 import { generateDiagnosticPDF } from '@/lib/pdf/generateDiagnosticPDF'
+import ScorePaywall from '@/components/diagnostic/ScorePaywall'
 import {
   TrendingUp,
   DollarSign,
@@ -237,28 +239,46 @@ export default function MonDiagnosticPage() {
     window.location.reload()
   }
 
+  const searchParams = useSearchParams()
+  const [paywallUnlocked, setPaywallUnlocked] = useState(false)
   const [generatingPDF, setGeneratingPDF] = useState(false)
-  const handleDownloadPDF = async () => {
+
+  const handleDownloadPDF = useCallback(async (auto = false) => {
     if (generatingPDF) return
     setGeneratingPDF(true)
     try {
+      // Recalcul au moment de l'appel pour avoir les dernières valeurs
+      const diagSnap = computeDiagnosticScore(history, sector)
+      const insightsSnap = computeInsights(diagSnap, history, sector)
       await generateDiagnosticPDF({
-        diagnostic,
-        insights,
+        diagnostic: diagSnap,
+        insights: insightsSnap,
         sector,
         history,
         companyName: fecMeta?.fileName?.replace(/\.[^.]+$/, '') || undefined,
         fileName: fecMeta?.fileName || undefined,
         fecMeta: fecMeta || undefined,
-        completedCount: completed.length,
+        completedCount: completedTypes().length,
         totalCalculators: TOTAL_CALCULATORS,
       })
     } catch (err) {
-      console.error('PDF generation failed:', err)
+      if (!auto) console.error('PDF generation failed:', err)
     } finally {
       setGeneratingPDF(false)
     }
-  }
+  }, [generatingPDF, history, sector, fecMeta, completedTypes])
+
+  // Détection ?success=true → débloquer + auto-générer PDF
+  useEffect(() => {
+    if (!mounted) return
+    const success = searchParams?.get('success')
+    if (success === 'true') {
+      setPaywallUnlocked(true)
+      // Auto-génération PDF avec un léger délai pour laisser le composant se rendre
+      const timer = setTimeout(() => { handleDownloadPDF(true) }, 800)
+      return () => clearTimeout(timer)
+    }
+  }, [mounted, searchParams]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!mounted) {
     return (
@@ -910,6 +930,26 @@ export default function MonDiagnosticPage() {
             </div>
           </FadeIn>
 
+          {/* ── Paywall SCORIS 49€ ── */}
+          {!paywallUnlocked && diagnostic.total !== null && (
+            <FadeIn className="mb-12">
+              <ScorePaywall score={diagnostic.total} sector={sector} />
+            </FadeIn>
+          )}
+
+          {/* ── Bannière succès paiement ── */}
+          {paywallUnlocked && generatingPDF && (
+            <FadeIn className="mb-10">
+              <div className="flex items-center gap-4 p-5 bg-emerald-50 rounded-xl border border-emerald-200">
+                <span className="w-5 h-5 border-2 border-emerald-400/40 border-t-emerald-500 rounded-full animate-spin flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-emerald-800">Génération du rapport en cours…</p>
+                  <p className="text-xs text-emerald-600 mt-0.5">Votre PDF SCORIS™ personnalisé est préparé par l'IA. Le téléchargement démarrera dans quelques secondes.</p>
+                </div>
+              </div>
+            </FadeIn>
+          )}
+
           {/* 4 Piliers */}
           <FadeIn className="text-center mb-10">
             <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">
@@ -920,16 +960,27 @@ export default function MonDiagnosticPage() {
             </h2>
           </FadeIn>
 
-          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-5" staggerDelay={0.1}>
-            {(['cash', 'margin', 'resilience', 'risk'] as PillarKey[]).map((key) => {
-              const pillar = diagnostic.pillars[key]
-              return (
-                <StaggerItem key={key}>
-                  <PillarCard pillar={pillar} pillarKey={key} />
-                </StaggerItem>
-              )
-            })}
-          </StaggerContainer>
+          {/* Blur wrapper — actif si paywall non débloqué */}
+          <div className={`relative transition-all duration-500 ${!paywallUnlocked && diagnostic.total !== null ? 'pointer-events-none select-none' : ''}`}>
+            {!paywallUnlocked && diagnostic.total !== null && (
+              <div className="absolute inset-0 z-10 backdrop-blur-sm bg-white/30 rounded-2xl flex items-center justify-center">
+                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-gray-200 shadow-sm">
+                  <Lock className="w-4 h-4 text-gray-500" />
+                  <span className="text-xs font-semibold text-gray-600">Détail des piliers disponible après rapport</span>
+                </div>
+              </div>
+            )}
+            <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-5" staggerDelay={0.1}>
+              {(['cash', 'margin', 'resilience', 'risk'] as PillarKey[]).map((key) => {
+                const pillar = diagnostic.pillars[key]
+                return (
+                  <StaggerItem key={key}>
+                    <PillarCard pillar={pillar} pillarKey={key} />
+                  </StaggerItem>
+                )
+              })}
+            </StaggerContainer>
+          </div>
         </div>
       </section>
 
@@ -1006,7 +1057,7 @@ export default function MonDiagnosticPage() {
                     </div>
                   </div>
                   <button
-                    onClick={handleDownloadPDF}
+                    onClick={() => handleDownloadPDF(false)}
                     disabled={generatingPDF}
                     className="group inline-flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors flex-shrink-0 disabled:opacity-50"
                   >

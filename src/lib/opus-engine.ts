@@ -15,7 +15,7 @@
  *   - /api/relance/generate     (P4 email relance)
  */
 
-import Anthropic from '@anthropic-ai/sdk'
+import OpenAI from 'openai'
 import { SECTOR_BENCHMARKS, type SectorKey } from '@/lib/scoring/diagnosticScore'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -171,14 +171,17 @@ IMPORTANT : priorities doit contenir exactement 3 objets. actionPlan90j doit con
 // CLIENT ANTHROPIC (lazy init)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-let _client: Anthropic | null = null
+let _client: OpenAI | null = null
 
-function getClient(): Anthropic {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    throw new Error('ANTHROPIC_API_KEY manquante dans les variables d\'environnement')
+function getClient(): OpenAI {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OPENAI_API_KEY manquante dans les variables d\'environnement')
   }
   if (!_client) {
-    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+    _client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+      baseURL: 'https://openrouter.ai/api/v1',
+    })
   }
   return _client
 }
@@ -199,15 +202,16 @@ export async function callOpus(
     try {
       const client = getClient()
 
-      const message = await client.messages.create({
-        model: 'claude-opus-4-5',
+      const completion = await client.chat.completions.create({
+        model: 'anthropic/claude-opus-4-5',
         max_tokens: 2048,
-        // temperature not supported in this way for messages API — use default
-        system: OPUS_SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: buildOpusPrompt(context) }],
+        messages: [
+          { role: 'system', content: OPUS_SYSTEM_PROMPT },
+          { role: 'user', content: buildOpusPrompt(context) },
+        ],
       })
 
-      const raw = message.content[0].type === 'text' ? message.content[0].text : ''
+      const raw = completion.choices[0]?.message?.content ?? ''
 
       // Extraire le JSON — Opus peut wrapper dans ```json ... ```
       const jsonMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/)
@@ -231,7 +235,7 @@ export async function callOpus(
 
       // Ne pas retry sur erreur d'auth ou parsing définitif
       const msg = lastError.message
-      if (msg.includes('401') || msg.includes('403') || msg.includes('ANTHROPIC_API_KEY')) break
+      if (msg.includes('401') || msg.includes('403') || msg.includes('OPENAI_API_KEY')) break
 
       if (attempt < maxRetries) {
         await new Promise(resolve => setTimeout(resolve, 1200 * (attempt + 1)))
@@ -263,14 +267,16 @@ ${context.forces.length > 0 ? `Point fort : ${context.forces[0]}` : ''}
 
 La synthèse doit : (1) qualifier l'état de santé globale, (2) nommer le point de blocage principal avec chiffres, (3) donner la recommandation directrice. Réponds uniquement avec le texte de la synthèse, aucun JSON.`
 
-    const message = await client.messages.create({
-      model: 'claude-opus-4-5',
+    const message = await client.chat.completions.create({
+      model: 'anthropic/claude-opus-4-5',
       max_tokens: 300,
-      system: OPUS_SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: prompt }],
+      messages: [
+        { role: 'system', content: OPUS_SYSTEM_PROMPT },
+        { role: 'user', content: prompt },
+      ],
     })
 
-    const text = message.content[0].type === 'text' ? message.content[0].text.trim() : ''
+    const text = (message.choices[0]?.message?.content ?? '').trim()
     return text || buildFallbackSummary(context)
 
   } catch (err) {

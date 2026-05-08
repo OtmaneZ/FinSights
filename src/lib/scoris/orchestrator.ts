@@ -235,7 +235,7 @@ export async function runAnalysis(
       )
     }
   } catch {
-    // Non-bloquant — wizard toujours fonctionnel sans clé Anthropic
+    // Non-bloquant — wizard toujours fonctionnel sans clé OpenRouter
     executiveSummary = generateExecutiveSummary(
       score, synthesis, causalInsights, results, bench, tresorisEnrichment,
     )
