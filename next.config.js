@@ -7,6 +7,11 @@ const nextConfig = {
         destination: '/tarifs',
         permanent: true, // 301
       },
+      {
+        source: '/diagnostic',
+        destination: '/diagnostic/guide',
+        permanent: true, // 301
+      },
     ];
   },
   webpack: (config) => {

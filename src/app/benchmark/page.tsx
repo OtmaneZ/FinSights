@@ -5,7 +5,7 @@ import {
   BarChart3, TrendingUp, TrendingDown, Minus, AlertTriangle, CheckCircle2,
   ChevronDown, Info, Loader2, Building2, Search
 } from 'lucide-react'
-import { Navigation } from '@/components/navigation'
+import Header from '@/components/Header'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -262,7 +262,7 @@ export default function BenchmarkPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
+      <Header />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Header */}
