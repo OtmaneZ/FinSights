@@ -9,6 +9,27 @@ import { getClientIP } from '@/lib/rateLimitKV'
 import { logger } from '@/lib/logger';
 import { anonymizeFinancialData } from '@/lib/ai/anonymizer'
 
+// ── Routing heuristique : détecter les questions complexes ────────────────
+// Les questions complexes méritent Claude Opus (analyse approfondie, plan d'action)
+// Les questions simples restent sur gpt-4o-mini (réactivité conversationnelle)
+
+const OPUS_TRIGGER_KEYWORDS = [
+  'plan d\'action', 'stratégie', 'analyse approfondie', 'identifie tous',
+  'explique en détail', 'que faire pour', 'comment améliorer', 'comment optimiser',
+  'recommande', 'recommandations', 'risques principaux', 'risques de trésorerie',
+  'plan 90', 'plan à 90', 'roadmap', 'priorise', 'priorités', 'diagnostic complet',
+  'situation globale', 'synthèse complète', 'que penses-tu de', 'analyse ma',
+  'analyse mon', 'analyse mes', 'évalue', 'compare', 'benchmark',
+]
+
+function requiresOpus(message: string): boolean {
+  const lower = message.toLowerCase()
+  // Question longue (> 100 chars) → probablement complexe
+  if (message.length > 100) return true
+  // Mots-clés déclencheurs
+  return OPUS_TRIGGER_KEYWORDS.some(kw => lower.includes(kw))
+}
+
 interface CopilotRequest {
     message: string
     rawData?: any[]
@@ -137,13 +158,13 @@ export default async function handler(
             logger.warn('⚠️ OPENAI_API_KEY manquante - Mode démo')
             return res.status(200).json({
                 success: true,
-                response: `🤖 **Mode Démo** (clé OpenAI manquante)
+                response: `🤖 **Mode Démo** (clé OpenRouter manquante)
 
 Votre question : "${message}"
 
-Pour activer l'IA complète, ajoutez votre clé OpenAI dans \`.env.local\`:
+Pour activer l'IA complète, ajoutez votre clé dans \`.env.local\`:
 \`\`\`
-OPENAI_API_KEY=sk-...
+OPENAI_API_KEY=sk-or-...
 \`\`\`
 
 En attendant, voici ce que je peux dire sur vos données :
@@ -151,23 +172,32 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
             })
         }
 
-        // Initialiser OpenAI
-        const openai = new OpenAI({
-            apiKey: process.env.OPENAI_API_KEY
+        // Client OpenRouter unique (compatible OpenAI SDK)
+        const openrouter = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+            baseURL: 'https://openrouter.ai/api/v1',
         })
 
-        const completion = await openai.chat.completions.create({
-            model: 'gpt-4o-mini',
-            messages: [
-                { role: 'system', content: SYSTEM_PROMPT },
-                ...conversationHistory || [],
-                { role: 'user', content: `Contexte financier actuel :\n${financialContext}\n\nQuestion de l'utilisateur : ${message}` }
-            ],
+        // ── Routing : Opus pour les questions complexes, gpt-4o-mini pour le reste ──
+        const useOpus = requiresOpus(message)
+        const model = useOpus ? 'anthropic/claude-opus-4-5' : 'openai/gpt-4o-mini'
+        const maxTokens = useOpus ? 1200 : 800
+        const userContent = `Contexte financier actuel :\n${financialContext}\n\nQuestion de l'utilisateur : ${message}`
+
+        logger.debug(`🧠 Routing copilot → ${model} (${message.length} chars)`)
+
+        const completion = await openrouter.chat.completions.create({
+            model,
+            max_tokens: maxTokens,
             temperature: 0.3,
-            max_tokens: 800
+            messages: [
+                { role: 'system', content: SYSTEM_PROMPT + contextFromMemory },
+                ...(conversationHistory || []),
+                { role: 'user', content: userContent },
+            ],
         })
 
-        const response = completion.choices[0]?.message?.content || 'Désolé, je n\'ai pas pu générer une réponse.';
+        const response = completion.choices[0]?.message?.content || 'Désolé, je n\'ai pas pu générer une réponse.'
 
         logger.debug('✅ Réponse générée:', response.substring(0, 100) + '...')
 

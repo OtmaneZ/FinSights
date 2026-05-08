@@ -1,5 +1,6 @@
 /**
  * API Route: Génération de recommandations intelligentes avec IA
+ * Modèle : claude-opus-4-5 via OpenRouter (baseURL openrouter.ai/api/v1, clé OPENAI_API_KEY)
  */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -9,23 +10,19 @@ import { ScoreBreakdown, ScoreFactors, ScoreLevel } from '@/lib/scoring/finSight
 import { logger } from '@/lib/logger';
 
 // Lazy initialization - only create client when API key is present
-let openaiClient: OpenAI | null = null;
+let openrouterClient: OpenAI | null = null;
 
-function getOpenAIClient(): OpenAI | null {
+function getOpenRouterClient(): OpenAI | null {
     if (!process.env.OPENAI_API_KEY) {
         return null;
     }
-    if (!openaiClient) {
-        openaiClient = new OpenAI({
+    if (!openrouterClient) {
+        openrouterClient = new OpenAI({
             apiKey: process.env.OPENAI_API_KEY,
             baseURL: 'https://openrouter.ai/api/v1',
-            defaultHeaders: {
-                'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://finsights.app',
-                'X-Title': 'FinSight',
-            }
         });
     }
-    return openaiClient;
+    return openrouterClient;
 }
 
 interface RecommendationsResponse {
@@ -91,7 +88,7 @@ export default async function handler(
             Génère 3-5 recommandations priorisées et actionnables.
         `;
 
-        const client = getOpenAIClient();
+        const client = getOpenRouterClient();
         if (!client) {
             // Return default recommendations when AI not available
             return res.status(200).json({
@@ -105,18 +102,18 @@ export default async function handler(
             });
         }
 
-        const response = await client.chat.completions.create({
-            model: "google/gemini-2.5-flash",
+        const completion = await client.chat.completions.create({
+            model: 'anthropic/claude-opus-4-5',
+            max_tokens: 1024,
             messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: userPrompt }
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: userPrompt },
             ],
-            temperature: 0.7
         });
 
-        const rawContent = response.choices[0].message.content;
+        const rawContent = completion.choices[0]?.message?.content ?? '';
         if (!rawContent) {
-            throw new Error('Réponse IA vide');
+            throw new Error('Réponse Opus vide');
         }
 
         // Parse JSON from response (may be wrapped in markdown code blocks)
