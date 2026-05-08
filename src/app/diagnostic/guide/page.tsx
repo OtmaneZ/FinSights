@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -39,6 +40,7 @@ import { FECDropzone } from '@/components/diagnostic/FECDropzone'
 import type { FECExtractedData, FECWizardData } from '@/lib/scoris/fecParser'
 import type { AnalysisStep } from '@/lib/scoris/types'
 import { ANALYSIS_STEP_LABELS } from '@/lib/scoris/types'
+import ScorePaywall from '@/components/diagnostic/ScorePaywall'
 
 // ---------------------------------------------------------------------------
 // DiagnosticEmailCapture — email opt-in + newsletter (rendered inside guide)
@@ -460,6 +462,13 @@ export default function DiagnosticGuidePage() {
   const [skippedSteps, setSkippedSteps] = useState<Set<string>>(new Set())
   const [emailCapturedAfterCash, setEmailCapturedAfterCash] = useState(false)
   const [introMode, setIntroMode] = useState<'choose' | 'fec'>('choose') // 'choose' = Option A/B, 'fec' = FEC dropzone expanded
+  const [paywallUnlocked, setPaywallUnlocked] = useState(false)
+
+  // Detect Stripe success redirect (?success=true)
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    if (searchParams?.get('success') === 'true') setPaywallUnlocked(true)
+  }, [searchParams])
 
   // SCORIS engine — drives IDLE → ANALYZING → SUCCESS micro-latency
   const [engineState, engineActions] = useScorisEngine()
@@ -1503,8 +1512,18 @@ export default function DiagnosticGuidePage() {
                     </div>
                   </div>
 
+                  {/* ── SCORIS Paywall — piliers floutés si non payé ── */}
+                  {!paywallUnlocked && (
+                    <div className="mb-10">
+                      <ScorePaywall
+                        score={totalScore}
+                        sector={sector}
+                      />
+                    </div>
+                  )}
+
                   {/* Forces */}
-                  {synthesis.forces.length > 0 && (
+                  {paywallUnlocked && synthesis.forces.length > 0 && (
                     <div className="mb-8">
                       <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">
                         Forces identifiees
@@ -1520,9 +1539,23 @@ export default function DiagnosticGuidePage() {
                     </div>
                   )}
 
+                  {/* Vulnerabilites — blurred behind paywall */}
+                  {!paywallUnlocked && synthesis.forces.length > 0 && (
+                    <div className="mb-8 select-none pointer-events-none" style={{ filter: 'blur(6px)', opacity: 0.4 }}>
+                      <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">Forces identifiees</p>
+                      <div className="space-y-2">
+                        {synthesis.forces.slice(0, 2).map((f, i) => (
+                          <div key={i} className="flex items-start gap-3 px-4 py-3 bg-emerald-500/5 border border-emerald-500/10 rounded-lg">
+                            <p className="text-sm text-gray-300 leading-snug">{f}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Vulnerabilites */}
                   {synthesis.vulnerabilites.length > 0 && (
-                    <div className="mb-8">
+                    <div className={`mb-8 transition-all duration-300 ${!paywallUnlocked ? 'select-none pointer-events-none' : ''}`} style={!paywallUnlocked ? { filter: 'blur(6px)', opacity: 0.4 } : undefined}>
                       <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">
                         Vulnerabilites
                       </p>
@@ -1538,7 +1571,7 @@ export default function DiagnosticGuidePage() {
                   )}
 
                   {/* Priorite */}
-                  <div className="mb-8">
+                  <div className={`mb-8 transition-all duration-300 ${!paywallUnlocked ? 'select-none pointer-events-none' : ''}`} style={!paywallUnlocked ? { filter: 'blur(6px)', opacity: 0.4 } : undefined}>
                     <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">
                       Priorite d'action
                     </p>
@@ -1549,7 +1582,7 @@ export default function DiagnosticGuidePage() {
 
                   {/* Cash impact */}
                   {synthesis.cashImpact && (
-                    <div className="mb-10">
+                    <div className={`mb-10 transition-all duration-300 ${!paywallUnlocked ? 'select-none pointer-events-none' : ''}`} style={!paywallUnlocked ? { filter: 'blur(6px)', opacity: 0.4 } : undefined}>
                       <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">
                         Impact cash immobilise
                       </p>
@@ -1627,7 +1660,7 @@ export default function DiagnosticGuidePage() {
 
                   {/* Levers — actionable recommendations */}
                   {synthesis.levers && synthesis.levers.length > 0 && (
-                    <div className="mb-10">
+                    <div className={`mb-10 transition-all duration-300 ${!paywallUnlocked ? 'select-none pointer-events-none' : ''}`} style={!paywallUnlocked ? { filter: 'blur(6px)', opacity: 0.4 } : undefined}>
                       <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">
                         Leviers d'action prioritaires
                       </p>
