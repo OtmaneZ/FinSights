@@ -1,7 +1,10 @@
 /**
  * API Route: Stripe Webhooks
  * POST /api/stripe/webhook
- * Gère les événements Stripe (payment success, subscription deleted, etc.)
+ *
+ * Gère deux familles d'événements :
+ *   A) SCORIS paywall (product = 'scoris_report') → marque lead payé + email PDF
+ *   B) Abonnements SaaS PRO/SCALE → mise à jour plan utilisateur
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -15,6 +18,7 @@ import {
     sendPaymentFailedEmail,
     isEmailEnabled,
 } from '@/lib/emails/emailService';
+import { resend, FROM_EMAIL, REPLY_TO_EMAIL } from '@/lib/emails/resend';
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -50,26 +54,85 @@ export async function POST(req: NextRequest) {
     try {
         switch (event.type) {
             // ============================================
-            // CHECKOUT COMPLETED → Abonnement créé
+            // CHECKOUT COMPLETED — SCORIS rapport (one-time 49€)
             // ============================================
             case 'checkout.session.completed': {
                 const session = event.data.object as Stripe.Checkout.Session;
-                const userId = session.metadata?.userId;
 
+                // ── Branche SCORIS ────────────────────────────────────────
+                if (session.metadata?.product === 'scoris_report') {
+                    const email = session.customer_email ?? session.metadata?.email;
+                    const score = session.metadata?.score ? parseInt(session.metadata.score) : null;
+                    const sector = session.metadata?.sector || 'autre';
+                    const leadId = session.metadata?.leadId;
+
+                    logger.debug('[webhook] Paiement SCORIS confirmé pour:', email);
+
+                    try {
+                        if (leadId) {
+                            await (prisma as any).diagnosticLead.update({
+                                where: { id: leadId },
+                                data: { paid: true, stripeSessionId: session.id, paidAt: new Date() },
+                            }).catch(() => null);
+                        } else if (email) {
+                            const lead = await (prisma as any).diagnosticLead.findFirst({
+                                where: { email: email.toLowerCase().trim(), paid: false },
+                                orderBy: { createdAt: 'desc' },
+                            });
+                            if (lead) {
+                                await (prisma as any).diagnosticLead.update({
+                                    where: { id: lead.id },
+                                    data: { paid: true, stripeSessionId: session.id, paidAt: new Date() },
+                                });
+                            } else {
+                                await (prisma as any).diagnosticLead.create({
+                                    data: { email: email!.toLowerCase().trim(), score, sector, paid: true, stripeSessionId: session.id, paidAt: new Date() },
+                                });
+                            }
+                        }
+
+                        if (email && process.env.RESEND_API_KEY) {
+                            const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://finsight.zineinsight.com';
+                            const downloadUrl = `${appUrl}/mon-diagnostic?success=true&session_id=${session.id}`;
+                            const levelLabel = score
+                                ? score >= 75 ? 'Excellente santé financière'
+                                : score >= 55 ? 'Situation saine'
+                                : score >= 35 ? 'Vigilance requise'
+                                : 'Situation critique'
+                                : 'Score calculé';
+
+                            await resend.emails.send({
+                                from: FROM_EMAIL,
+                                replyTo: REPLY_TO_EMAIL,
+                                to: email,
+                                subject: `Votre rapport SCORIS™ est prêt — Score ${score ?? '—'}/100`,
+                                html: `<!DOCTYPE html><html lang="fr"><body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,sans-serif;"><div style="max-width:600px;margin:40px auto;background:#fff;border-radius:16px;border:1px solid #e2e8f0;overflow:hidden;"><div style="background:#0f172a;padding:32px 40px;"><p style="margin:0;font-size:11px;font-weight:700;letter-spacing:3px;color:#64748b;text-transform:uppercase;">FinSight · SCORIS™</p><h1 style="margin:12px 0 0;font-size:24px;font-weight:600;color:#fff;">Votre rapport est prêt</h1></div><div style="background:#f1f5f9;padding:24px 40px;border-bottom:1px solid #e2e8f0;"><span style="font-size:48px;font-weight:600;color:#0052cc;font-family:Georgia,serif;">${score ?? '—'}</span><span style="font-size:20px;color:#94a3b8;"> / 100</span><p style="margin:4px 0 0;font-size:13px;font-weight:600;color:#64748b;">${levelLabel}</p></div><div style="padding:32px 40px;"><p style="margin:0 0 24px;font-size:15px;color:#334155;line-height:1.6;">Merci pour votre confiance. Votre rapport SCORIS™ personnalisé a été généré avec votre score détaillé, les 4 piliers financiers, le plan d'action 90 jours et une synthèse IA calibrée sur les médianes de votre secteur.</p><a href="${downloadUrl}" style="display:inline-block;padding:14px 28px;background:#0f172a;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;">Télécharger mon rapport PDF →</a><p style="margin:24px 0 0;font-size:12px;color:#94a3b8;">En cas de problème, répondez directement à cet email.</p></div><div style="padding:20px 40px;border-top:1px solid #e2e8f0;background:#f8fafc;"><p style="margin:0;font-size:11px;color:#94a3b8;">FinSight · SCORIS™ — <a href="${appUrl}" style="color:#94a3b8;">finsight.zineinsight.com</a></p></div></div></body></html>`,
+                            });
+
+                            await (prisma as any).diagnosticLead.updateMany({
+                                where: { stripeSessionId: session.id },
+                                data: { pdfSentAt: new Date() },
+                            }).catch(() => null);
+                        }
+                    } catch (err) {
+                        logger.error('[webhook] Erreur post-paiement SCORIS:', err);
+                    }
+                    break;
+                }
+
+                // ── Branche abonnement SaaS ───────────────────────────────
+                const userId = session.metadata?.userId;
                 if (!userId) {
                     logger.error('❌ userId manquant dans metadata');
                     break;
                 }
 
-                // Récupérer les détails de l'abonnement
                 const subscription = await stripe.subscriptions.retrieve(
                     session.subscription as string
                 );
-
                 const priceId = subscription.items.data[0].price.id;
                 const plan = getPlanFromPriceId(priceId);
 
-                // Mettre à jour l'utilisateur
                 const updatedUser = await prisma.user.update({
                     where: { id: userId },
                     data: {
