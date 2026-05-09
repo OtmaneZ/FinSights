@@ -392,7 +392,6 @@ interface Phase {
   pillar?: PillarKey
   title: string
   subtitle: string
-  transition?: string
 }
 
 const PHASES: Phase[] = [
@@ -406,28 +405,24 @@ const PHASES: Phase[] = [
     pillar: 'cash',
     title: 'Pilier I — Tresorerie et Liquidite',
     subtitle: 'Positionnement de votre cycle de tresorerie par rapport aux medianes sectorielles.',
-    transition: 'Votre liquidite est positionnee. Analysons maintenant la performance.',
   },
   {
     key: 'margin',
     pillar: 'margin',
     title: 'Pilier II — Rentabilite et Performance',
     subtitle: 'Structure de couts, seuil de rentabilite et retour sur investissement.',
-    transition: 'La rentabilite est evaluee. Passons a la solidite structurelle.',
   },
   {
     key: 'resilience',
     pillar: 'resilience',
     title: 'Pilier III — Stabilite Structurelle',
     subtitle: 'Capacite beneficiaire et perennite du modele economique.',
-    transition: 'La resilience est evaluee. Analyse des croisements critiques.',
   },
   {
     key: 'risk',
     pillar: 'risk',
     title: 'Pilier IV — Croisements critiques',
     subtitle: 'Detection des combinaisons de fragilite entre vos indicateurs.',
-    transition: 'Analyse des risques terminee. Consolidation de votre lecture strategique.',
   },
   {
     key: 'synthesis',
@@ -1445,25 +1440,6 @@ function DiagnosticGuideContent() {
                     Appuyez sur Entree pour continuer
                   </p>
                 </div>
-              </motion.div>
-            )}
-
-            {/* ── PHASE TRANSITION (between pillars) ── */}
-            {phase.pillar &&
-              stepIndex === null &&
-              phaseIndex > 1 &&
-              PHASES[phaseIndex - 1].transition &&
-              !(phase.key === 'margin' && !emailCapturedAfterCash) && (
-              <motion.div
-                key={`transition-${phase.key}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 flex items-center justify-center pointer-events-none"
-              >
-                <p className="text-sm text-gray-500 italic max-w-md text-center">
-                  {PHASES[phaseIndex - 1].transition}
-                </p>
               </motion.div>
             )}
 

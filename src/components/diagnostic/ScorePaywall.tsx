@@ -33,7 +33,7 @@ const BULLET_POINTS = [
   'Score détaillé par pilier — Trésorerie, Rentabilité, Résilience, Risques',
   'Plan d\'action 90 jours — 3 priorités calibrées sur vos chiffres réels',
   'Synthèse rédigée par IA — ton DAF senior, benchmarks sectoriels BdF 2024',
-  'Format consulting A4 — 5 pages, prêt à présenter à votre banque ou associés',
+  'Format consulting A4 — 9 pages, prêt à présenter à votre banque ou associés',
 ]
 
 export default function ScorePaywall({
