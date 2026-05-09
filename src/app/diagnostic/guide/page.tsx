@@ -1362,7 +1362,11 @@ function DiagnosticGuideContent() {
             )}
 
             {/* ── PHASE TRANSITION (between pillars) ── */}
-            {phase.pillar && stepIndex === null && phaseIndex > 1 && PHASES[phaseIndex - 1].transition && (
+            {phase.pillar &&
+              stepIndex === null &&
+              phaseIndex > 1 &&
+              PHASES[phaseIndex - 1].transition &&
+              !(phase.key === 'margin' && !emailCapturedAfterCash) && (
               <motion.div
                 key={`transition-${phase.key}`}
                 initial={{ opacity: 0 }}
