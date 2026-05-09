@@ -19,26 +19,38 @@
 
 import { useState } from 'react'
 import { Lock, Mail, FileText, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react'
+import type { ScorisLevel } from '@/lib/scoring/diagnosticScore'
 
 export interface ScorePaywallProps {
   score: number | null
   sector: string
+  /** Niveau SCORIS choisi — détermine le prix Stripe et le libellé */
+  scorisLevel?: ScorisLevel
   /** Aperçu PDF gratuit (sections verrouillées) — ex. handleDownloadPDF({ isPremium: false }) */
   onPreviewDownload?: () => void | Promise<void>
   /** Affiche un état chargement sur le lien aperçu */
   previewLoading?: boolean
 }
 
-const BULLET_POINTS = [
+const BULLET_POINTS_STANDARD = [
   'Score détaillé par pilier — Trésorerie, Rentabilité, Résilience, Risques',
   'Plan d\'action 90 jours — 3 priorités calibrées sur vos chiffres réels',
   'Synthèse rédigée par IA — ton DAF senior, benchmarks sectoriels BdF 2024',
   'Format consulting A4 — 9 pages, prêt à présenter à votre banque ou associés',
 ]
 
+const BULLET_POINTS_STRATEGIQUE = [
+  'Tout le rapport SCORIS Standard — 4 piliers, plan 90 jours, benchmarks BdF 2024',
+  'Z-Score Altman — zone de risque de défaillance (distinct du score /100)',
+  'Analyse SWOT par IA — forces / menaces à partir de vos réponses',
+  'Valorisation & Porter simplifié — lecture stratégique enrichie',
+  'Format consulting A4 étendu — 13 pages, pack banquier & dirigeant',
+]
+
 export default function ScorePaywall({
   score,
   sector,
+  scorisLevel = 'standard',
   onPreviewDownload,
   previewLoading = false,
 }: ScorePaywallProps) {
@@ -77,10 +89,21 @@ export default function ScorePaywall({
 
     // 2. Créer la session Stripe Checkout
     try {
+      const returnPath =
+        typeof window !== 'undefined'
+          ? `${window.location.pathname}${window.location.search}`
+          : '/diagnostic/guide'
       const checkoutRes = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, score, sector }),
+        body: JSON.stringify({
+          email,
+          score,
+          sector,
+          product: scorisLevel === 'strategique' ? 'scoris_strategique' : 'scoris_report',
+          scorisLevel,
+          returnPath,
+        }),
       })
 
       const checkoutData = await checkoutRes.json()
@@ -165,7 +188,7 @@ export default function ScorePaywall({
             )}
 
             <ul className="space-y-3 mb-6">
-              {BULLET_POINTS.map((point, i) => (
+              {(scorisLevel === 'strategique' ? BULLET_POINTS_STRATEGIQUE : BULLET_POINTS_STANDARD).map((point, i) => (
                 <li key={i} className="flex items-start gap-2.5 text-sm text-gray-300 leading-snug">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                   <span>{point}</span>
@@ -184,7 +207,9 @@ export default function ScorePaywall({
             <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur">
               {/* Prix */}
               <div className="flex items-baseline gap-2 mb-5">
-                <span className="font-serif text-4xl font-bold text-white">49 €</span>
+                <span className="font-serif text-4xl font-bold text-white">
+                  {scorisLevel === 'strategique' ? '99 €' : '49 €'}
+                </span>
                 <span className="text-sm text-gray-400">· paiement unique</span>
               </div>
 

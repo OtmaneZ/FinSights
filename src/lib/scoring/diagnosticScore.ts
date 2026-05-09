@@ -67,12 +67,27 @@ export interface PillarResult {
   bgColor: string
 }
 
+/** Valeurs saisies dans le wizard (numériques ou texte — questions stratégiques). */
+export type WizardInputValue = number | string
+
+export type ScorisLevel = 'standard' | 'strategique'
+
+export interface ZScoreZoneResult {
+  zone: 'danger' | 'grise' | 'saine'
+  label: string
+  /** Couleur sémantique UI — indicateur Altman distinct du score /100 */
+  color: 'red' | 'orange' | 'green'
+}
+
 export interface DiagnosticScore {
   total: number | null
   pillars: Record<PillarKey, PillarResult>
   level: 'excellent' | 'bon' | 'vigilance' | 'action' | 'incomplet'
   confidence: 'haute' | 'moyenne' | 'faible'
   completedPillars: number
+  /** Présent uniquement pour SCORIS Stratégique lorsque le Z-Score est calculable */
+  zScore?: number | null
+  zZone?: ZScoreZoneResult | null
 }
 
 export interface Insight {
@@ -84,7 +99,7 @@ export interface Insight {
 }
 
 /** Shape used by wizard live-scoring (results keyed by step id) */
-export type WizardResults = Record<string, { value: number; inputs: Record<string, number> }>
+export type WizardResults = Record<string, { value: number; inputs: Record<string, WizardInputValue> }>
 
 export interface SynthesisResult {
   total: number | null
@@ -318,11 +333,98 @@ export function estimateCA(
 }
 
 export function estimateCAFromResults(results: WizardResults): number | null {
-  if (results.company?.inputs.caAnnuel && results.company.inputs.caAnnuel > 0) return results.company.inputs.caAnnuel
-  if (results.dso?.inputs.caAnnuel && results.dso.inputs.caAnnuel > 0) return results.dso.inputs.caAnnuel
-  if (results.bfr?.inputs.caAnnuel && results.bfr.inputs.caAnnuel > 0) return results.bfr.inputs.caAnnuel
-  if (results['seuil-rentabilite']?.inputs.caAnnuel && results['seuil-rentabilite'].inputs.caAnnuel > 0) return results['seuil-rentabilite'].inputs.caAnnuel
-  return null
+  const pick = (v: WizardInputValue | undefined): number | null => {
+    const n = typeof v === 'number' ? v : parseFloat(String(v ?? '').replace(/\s/g, '').replace(',', '.'))
+    return Number.isFinite(n) && n > 0 ? n : null
+  }
+  return (
+    pick(results.company?.inputs?.caAnnuel) ??
+    pick(results.dso?.inputs?.caAnnuel) ??
+    pick(results.bfr?.inputs?.caAnnuel) ??
+    pick(results['seuil-rentabilite']?.inputs?.caAnnuel)
+  )
+}
+
+export function numericInput(v: WizardInputValue | number | undefined | null, fallback = 0): number {
+  if (v === undefined || v === null) return fallback
+  if (typeof v === 'number') return Number.isFinite(v) ? v : fallback
+  const p = parseFloat(String(v).replace(/\s/g, '').replace(',', '.'))
+  return Number.isFinite(p) ? p : fallback
+}
+
+/** CA au dénominateur pour les ratios BFR (legacy `ca` ou wizard `caAnnuel`). */
+export function bfrDenominatorCA(inputs: Record<string, WizardInputValue> | undefined): number {
+  if (!inputs) return 0
+  return numericInput(inputs.ca ?? inputs.caAnnuel, 0)
+}
+
+/**
+ * Compte les mots (séparateurs espaces) pour les champs textarea du volet stratégique.
+ */
+export function countWords(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length
+}
+
+/**
+ * Z-Score Altman (approximation déclarative — indicateur séparé du score SCORIS /100).
+ * X2 = 0 car le résultat non réinvesti n'est pas saisi.
+ */
+export function computeZScore(
+  results: WizardResults,
+  scorisLevel: ScorisLevel | null,
+): { zScore: number; zZone: ZScoreZoneResult } | null {
+  if (scorisLevel !== 'strategique') return null
+
+  const rawActif = results['strategic-actif-total']?.inputs?.actifTotal
+  const rawCp = results['strategic-capitaux']?.inputs?.capitauxPropres
+  const actifTotal =
+    typeof rawActif === 'number'
+      ? rawActif
+      : parseFloat(String(rawActif ?? '').replace(/\s/g, '').replace(',', '.'))
+  const capitauxPropres =
+    typeof rawCp === 'number'
+      ? rawCp
+      : parseFloat(String(rawCp ?? '').replace(/\s/g, '').replace(',', '.'))
+
+  if (!Number.isFinite(actifTotal) || actifTotal <= 0) return null
+
+  const caAnnuel = estimateCAFromResults(results) ?? 0
+  const margeBrute = Number(results['seuil-rentabilite']?.inputs?.margeBrute ?? results.marge?.value ?? 0)
+  const chargesFixesMensuelles = Number(results['seuil-rentabilite']?.inputs?.chargesFixesMensuelles ?? 0)
+
+  const bfrEuros = Number(results.bfr?.value ?? 0)
+
+  const X1 = bfrEuros / actifTotal
+  const X2 = 0
+  const X3 = (caAnnuel * (margeBrute / 100) - chargesFixesMensuelles * 12) / actifTotal
+  const dettes = actifTotal - capitauxPropres
+  const X4 =
+    dettes > 0 && Number.isFinite(capitauxPropres) ? capitauxPropres / dettes : 0
+  const X5 = caAnnuel / actifTotal
+
+  const Z = 0.717 * X1 + 0.847 * X2 + 3.107 * X3 + 0.42 * X4 + 0.998 * X5
+
+  let zZone: ZScoreZoneResult
+  if (Z < 1.23) {
+    zZone = { zone: 'danger', label: 'Zone de danger', color: 'red' }
+  } else if (Z <= 2.9) {
+    zZone = { zone: 'grise', label: "Zone d'incertitude", color: 'orange' }
+  } else {
+    zZone = { zone: 'saine', label: 'Zone saine', color: 'green' }
+  }
+
+  return { zScore: Z, zZone }
+}
+
+/** Fusionne Z-Score dans le diagnostic lorsque le niveau Stratégique et les données le permettent. */
+export function enrichDiagnosticWithZScore(
+  diagnostic: DiagnosticScore,
+  results: WizardResults,
+  scorisLevel: ScorisLevel | null,
+): DiagnosticScore {
+  const z = computeZScore(results, scorisLevel)
+  if (!z) return diagnostic
+  return { ...diagnostic, zScore: z.zScore, zZone: z.zZone }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -529,23 +631,18 @@ export function computeLiveScores(
     cash: null, margin: null, resilience: null, risk: null,
   }
 
-  const caAnnuel =
-    results.company?.inputs.caAnnuel ||
-    results.dso?.inputs.caAnnuel ||
-    results.bfr?.inputs.caAnnuel ||
-    results['seuil-rentabilite']?.inputs.caAnnuel ||
-    null
+  const caAnnuel = estimateCAFromResults(results)
 
-  const joursClients = results.dso?.inputs.joursClients ?? results.dso?.value ?? 0
-  const joursFournisseurs = results.dso?.inputs.joursFournisseurs ?? 0
-  const bfrJours = results.bfr?.inputs.bfrJours ?? (joursClients - joursFournisseurs)
-  const margeBrute = results['seuil-rentabilite']?.inputs.margeBrute ?? results.marge?.value ?? 0
-  const chargesFixesMensuelles = results['seuil-rentabilite']?.inputs.chargesFixesMensuelles ?? 0
-  const soldeBancaire = results.dso?.inputs.soldeBancaire ?? 0
+  const joursClients = numericInput(results.dso?.inputs.joursClients, numericInput(results.dso?.value, 0))
+  const joursFournisseurs = numericInput(results.dso?.inputs.joursFournisseurs, 0)
+  const bfrJours = numericInput(results.bfr?.inputs.bfrJours, joursClients - joursFournisseurs)
+  const margeBrute = numericInput(results['seuil-rentabilite']?.inputs.margeBrute, numericInput(results.marge?.value, 0))
+  const chargesFixesMensuelles = numericInput(results['seuil-rentabilite']?.inputs.chargesFixesMensuelles, 0)
+  const soldeBancaire = numericInput(results.dso?.inputs.soldeBancaire, 0)
 
-  const concentrationClient = results.gearing?.inputs.concentrationClient ?? 0
-  const nombreClients = results.gearing?.inputs.nombreClients ?? 0
-  const detteBancaire = results.gearing?.inputs.detteBancaire ?? 0
+  const concentrationClient = numericInput(results.gearing?.inputs.concentrationClient, 0)
+  const nombreClients = numericInput(results.gearing?.inputs.nombreClients, 0)
+  const detteBancaire = numericInput(results.gearing?.inputs.detteBancaire, 0)
 
   // Cash
   let cashPts = 0, cashMax = 0
@@ -778,8 +875,9 @@ export function computeSynthesis(
 
   if (results.bfr) {
     if (results.bfr.value < 0) forces.push('BFR négatif — l\'activité génère de la trésorerie en amont')
-    else if (results.bfr.inputs.ca && results.bfr.inputs.ca > 0) {
-      const j = Math.round((results.bfr.value / results.bfr.inputs.ca) * 365)
+    else if (bfrDenominatorCA(results.bfr.inputs) > 0) {
+      const caD = bfrDenominatorCA(results.bfr.inputs)
+      const j = Math.round((results.bfr.value / caD) * 365)
       if (j <= bench.bfrJoursBon) forces.push(`BFR de ${j}j de CA — maîtrisé vs médiane ${bench.bfrJoursMedian}j`)
       else if (j > bench.bfrJoursBad) vulnerabilites.push(`BFR de ${j}j de CA — au-dessus du seuil sectoriel (${bench.bfrJoursBad}j)`)
     }
@@ -891,11 +989,12 @@ export function computeSynthesis(
   }
 
   // Levier bonus : BFR si élevé
-  if (levers.length < 3 && results.bfr && results.bfr.value > 0 && results.bfr.inputs.ca && results.bfr.inputs.ca > 0) {
-    const joursCA = Math.round((results.bfr.value / results.bfr.inputs.ca) * 365)
+  if (levers.length < 3 && results.bfr && results.bfr.value > 0 && bfrDenominatorCA(results.bfr.inputs) > 0) {
+    const caD = bfrDenominatorCA(results.bfr.inputs)
+    const joursCA = Math.round((results.bfr.value / caD) * 365)
     if (joursCA > bench.bfrJoursMedian) {
       const gapJ = joursCA - bench.bfrJoursMedian
-      const impact = Math.round((gapJ / 365) * results.bfr.inputs.ca)
+      const impact = Math.round((gapJ / 365) * caD)
       levers.push({
         id: 'bfr-optimisation',
         label: 'Réduire le BFR',

@@ -26,17 +26,38 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://finsight.zineinsight.com';
 
-        // ── Mode SCORIS : paiement unique 49€, pas d'auth requise ────────────
-        if (body.product === 'scoris_report' || (!body.priceId && body.email)) {
-            const { email, score, sector, leadId } = body as {
-                email: string; score?: number; sector?: string; leadId?: string
+        // ── Mode SCORIS : paiement unique 49€ ou 99€ (Stratégique), pas d'auth requise ──
+        const isScorisCheckout =
+            body.product === 'scoris_report' ||
+            body.product === 'scoris_strategique' ||
+            (!body.priceId && body.email);
+
+        if (isScorisCheckout) {
+            const { email, score, sector, leadId, returnPath } = body as {
+                email: string;
+                score?: number;
+                sector?: string;
+                leadId?: string;
+                returnPath?: string;
             };
 
             if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 return NextResponse.json({ success: false, error: 'Email invalide' }, { status: 400 });
             }
 
-            const priceId = process.env.NEXT_PUBLIC_STRIPE_PRICE_SCORIS_REPORT;
+            const isStrategic =
+                body.product === 'scoris_strategique' ||
+                (body as { scorisLevel?: string }).scorisLevel === 'strategique';
+
+            const priceId = isStrategic
+                ? process.env.NEXT_PUBLIC_STRIPE_PRICE_SCORIS_STRATEGIQUE
+                : process.env.NEXT_PUBLIC_STRIPE_PRICE_SCORIS_REPORT;
+
+            const fallbackAmount = isStrategic ? 9900 : 4900;
+            const productSlug = isStrategic ? 'scoris_strategique' : 'scoris_report';
+
+            const safeReturn =
+                typeof returnPath === 'string' && returnPath.startsWith('/') ? returnPath : '/mon-diagnostic';
 
             const sessionParams: Stripe.Checkout.SessionCreateParams = {
                 mode: 'payment',
@@ -47,23 +68,28 @@ export async function POST(req: NextRequest) {
                     : [{
                         price_data: {
                             currency: 'eur',
-                            unit_amount: 4900,
+                            unit_amount: fallbackAmount,
                             product_data: {
-                                name: 'Rapport SCORIS™ — Diagnostic financier personnalisé',
-                                description: 'Score détaillé · 4 piliers · Plan d\'action 90j · PDF consulting A4 · Généré par IA',
+                                name: isStrategic
+                                    ? 'Rapport SCORIS Stratégique™ — Diagnostic & Z-Score'
+                                    : 'Rapport SCORIS™ — Diagnostic financier personnalisé',
+                                description: isStrategic
+                                    ? 'Score 4 piliers · Z-Score Altman · SWOT IA · Valorisation · PDF consulting'
+                                    : 'Score détaillé · 4 piliers · Plan d\'action 90j · PDF consulting A4 · Généré par IA',
                                 images: [`${appUrl}/images/og-default.jpg`],
                             },
                         },
                         quantity: 1,
                     }],
-                success_url: `${appUrl}/mon-diagnostic?success=true&session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `${appUrl}/mon-diagnostic`,
+                success_url: `${appUrl}${safeReturn}${safeReturn.includes('?') ? '&' : '?'}success=true&session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: `${appUrl}${safeReturn.split('?')[0]}`,
                 metadata: {
                     email: email.toLowerCase().trim(),
                     score: score?.toString() ?? '',
                     sector: sector ?? '',
                     leadId: leadId ?? '',
-                    product: 'scoris_report',
+                    product: productSlug,
+                    scorisLevel: isStrategic ? 'strategique' : 'standard',
                 },
                 locale: 'fr',
             };

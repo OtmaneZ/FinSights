@@ -36,6 +36,8 @@ import {
   scoreCACLTV,
   scoreROI,
   scoreSeuil,
+  bfrDenominatorCA,
+  numericInput,
 } from '@/lib/scoring/diagnosticScore'
 
 import type {
@@ -210,9 +212,10 @@ export async function runAnalysis(
             dsoMedian: bench.dsoMedian,
             marge: results.marge?.value,
             margeMedian: bench.margeMedian,
-            bfrJours: results.bfr?.inputs?.ca && results.bfr.inputs.ca > 0
-              ? Math.round((results.bfr.value / results.bfr.inputs.ca) * 365)
-              : undefined,
+            bfrJours: (() => {
+              const caD = results.bfr ? bfrDenominatorCA(results.bfr.inputs) : 0
+              return caD > 0 ? Math.round((results.bfr!.value / caD) * 365) : undefined
+            })(),
             bfrJoursMedian: bench.bfrJoursMedian,
             ebitdaMedian: bench.ebitdaMedian,
             burnRate: results['burn-rate']?.value,
@@ -394,8 +397,9 @@ function computeSectorComparisons(
   }
 
   // BFR en jours
-  if (results.bfr && results.bfr.inputs.ca && results.bfr.inputs.ca > 0) {
-    const j = Math.round((results.bfr.value / results.bfr.inputs.ca) * 365)
+  if (results.bfr && bfrDenominatorCA(results.bfr.inputs) > 0) {
+    const caD = bfrDenominatorCA(results.bfr.inputs)
+    const j = Math.round((results.bfr.value / caD) * 365)
     comparisons.push({
       indicator: 'bfr',
       label: 'BFR en jours de CA',
@@ -410,7 +414,7 @@ function computeSectorComparisons(
 
   // EBITDA margin
   if (results.ebitda) {
-    const ca = results.ebitda.inputs.ca || 0
+    const ca = numericInput(results.ebitda.inputs.ca, 0)
     if (ca > 0) {
       const pct = Math.round((results.ebitda.value / ca) * 100)
       comparisons.push({
@@ -697,15 +701,16 @@ export function computeSimulationVector(
     case 'charges-reduction': {
       // Reducing charges improves margin and potentially EBITDA
       if (results.marge) {
-        const currentCoutRevient = results.marge.inputs.coutRevient || 0
+        const currentCoutRevient = numericInput(results.marge.inputs.coutRevient, 0)
         const newCout = currentCoutRevient * (1 - value / 100)
-        const prixVente = results.marge.inputs.prixVente || 100
+        const prixVente = numericInput(results.marge.inputs.prixVente, 100)
         const newMarge = prixVente > 0 ? Math.round(((prixVente - newCout) / prixVente) * 100) : 0
         projections.marge = { current: results.marge.value, projected: newMarge, delta: newMarge - results.marge.value }
       }
-      if (results.ebitda && results.ebitda.inputs.charges) {
-        const newCharges = results.ebitda.inputs.charges * (1 - value / 100)
-        const newEbitda = Math.round((results.ebitda.inputs.ca || 0) - newCharges)
+      if (results.ebitda) {
+        const chargesBase = numericInput(results.ebitda.inputs.charges, 0)
+        const newCharges = chargesBase * (1 - value / 100)
+        const newEbitda = Math.round(numericInput(results.ebitda.inputs.ca, 0) - newCharges)
         projections.ebitda = { current: results.ebitda.value, projected: newEbitda, delta: newEbitda - results.ebitda.value }
       }
       if (results['burn-rate']) {
@@ -735,8 +740,8 @@ export function computeSimulationVector(
     case 'prix-augmentation': {
       // Increasing prices improves marge
       if (results.marge) {
-        const prixVente = results.marge.inputs.prixVente || 100
-        const coutRevient = results.marge.inputs.coutRevient || 60
+        const prixVente = numericInput(results.marge.inputs.prixVente, 100)
+        const coutRevient = numericInput(results.marge.inputs.coutRevient, 60)
         const newPrix = prixVente * (1 + value / 100)
         const newMarge = newPrix > 0 ? Math.round(((newPrix - coutRevient) / newPrix) * 100) : 0
         projections.marge = { current: results.marge.value, projected: newMarge, delta: newMarge - results.marge.value }

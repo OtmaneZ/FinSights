@@ -25,12 +25,16 @@ import {
   type SectorBenchmark,
   type PillarKey,
   type SynthesisLever,
+  type ScorisLevel,
+  type WizardResults,
   SECTOR_BENCHMARKS,
   computeLiveScores,
   computeSynthesis,
   getContextualCTA,
   computeDiagnosticScore,
   computeInsights,
+  computeZScore,
+  countWords,
 } from '@/lib/scoring/diagnosticScore'
 import { generateDiagnosticPDF } from '@/lib/pdf/generateDiagnosticPDF'
 import { useScorisEngine } from '@/hooks/useScorisEngine'
@@ -55,7 +59,7 @@ interface DiagnosticEmailCaptureProps {
   sector: string
   pillarScores: Record<string, number | null>
   synthesis: Record<string, unknown>
-  results: Record<string, { value: number; inputs: Record<string, number> }>
+  results: WizardResults
 }
 
 function DiagnosticEmailCapture({ totalScore, sector, pillarScores, synthesis, results }: DiagnosticEmailCaptureProps) {
@@ -220,9 +224,11 @@ interface WizardField {
   suffix: string
   help?: string
   required?: boolean
-  type?: 'number' | 'toggle'
+  type?: 'number' | 'toggle' | 'textarea' | 'choice'
   options?: { label: string; value: string }[]
   showWhen?: { fieldId: string; value: string }
+  /** Limite pour textarea (questions stratégiques) */
+  maxWords?: number
 }
 
 interface WizardStep {
@@ -232,8 +238,10 @@ interface WizardStep {
   subtitle: string
   pillar: PillarKey
   fields: WizardField[]
-  compute: (inputs: Record<string, number>) => { value: number; unit: string }
+  compute: (inputs: Record<string, number | string>) => { value: number; unit: string }
   optional?: boolean
+  /** Affichage pilier pour SCORIS Stratégique (Z-SCORE, SWOT, …) */
+  strategicTag?: string
 }
 
 const WIZARD_STEPS: WizardStep[] = [
@@ -253,7 +261,7 @@ const WIZARD_STEPS: WizardStep[] = [
         required: true,
       },
     ],
-    compute: (inputs) => ({ value: Math.round(inputs.caAnnuel || 0), unit: '€' }),
+    compute: (inputs) => ({ value: Math.round(Number(inputs.caAnnuel ?? 0)), unit: '€' }),
   },
   {
     id: 'dso',
@@ -288,7 +296,7 @@ const WIZARD_STEPS: WizardStep[] = [
         required: false,
       },
     ],
-    compute: (inputs) => ({ value: Math.round(inputs.joursClients || 0), unit: 'jours' }),
+    compute: (inputs) => ({ value: Math.round(Number(inputs.joursClients ?? 0)), unit: 'jours' }),
   },
   {
     id: 'seuil-rentabilite',
@@ -317,8 +325,8 @@ const WIZARD_STEPS: WizardStep[] = [
       },
     ],
     compute: (inputs) => {
-      const margeBrute = inputs.margeBrute || 0
-      const chargesFixesMensuelles = inputs.chargesFixesMensuelles || 0
+      const margeBrute = Number(inputs.margeBrute ?? 0)
+      const chargesFixesMensuelles = Number(inputs.chargesFixesMensuelles ?? 0)
       const seuilRentabilite = margeBrute > 0 ? Math.round((chargesFixesMensuelles * 12) / (margeBrute / 100)) : 0
       return { value: seuilRentabilite, unit: '€' }
     },
@@ -371,9 +379,9 @@ const WIZARD_STEPS: WizardStep[] = [
       },
     ],
     compute: (inputs) => {
-      const caAnnuel = inputs.caAnnuel || 0
-      const margeBrute = inputs.margeBrute || 0
-      const detteBancaire = inputs.detteBancaire || 0
+      const caAnnuel = Number(inputs.caAnnuel || 0)
+      const margeBrute = Number(inputs.margeBrute || 0)
+      const detteBancaire = Number(inputs.detteBancaire || 0)
       const denom = caAnnuel > 0 && margeBrute > 0 ? caAnnuel * (margeBrute / 100) : 0
       const gearing = denom > 0 && detteBancaire > 0 ? Math.round((detteBancaire / denom) * 100) / 100 : 0
       return { value: gearing, unit: 'x' }
@@ -381,11 +389,128 @@ const WIZARD_STEPS: WizardStep[] = [
   },
 ]
 
+const STRATEGIC_WIZARD_STEPS: WizardStep[] = [
+  {
+    id: 'strategic-actif-total',
+    title: 'Actif total',
+    subtitle: 'Indicateur de structure pour le Z-Score Altman.',
+    pillar: 'risk',
+    strategicTag: 'Z-SCORE',
+    fields: [
+      {
+        id: 'actifTotal',
+        label: 'Valeur totale de vos actifs',
+        question: 'Quelle est la valeur approximative de vos actifs ?',
+        placeholder: 'Ex: 450 000',
+        suffix: '€',
+        help: 'Immobilisations + stocks + créances + trésorerie — disponible sur votre bilan',
+        required: true,
+      },
+    ],
+    compute: (inputs) => ({ value: Math.round(Number(inputs.actifTotal || 0)), unit: '€' }),
+  },
+  {
+    id: 'strategic-capitaux',
+    title: 'Capitaux propres',
+    subtitle: 'Ratio fonds propres / dettes pour le Z-Score.',
+    pillar: 'risk',
+    strategicTag: 'Z-SCORE',
+    fields: [
+      {
+        id: 'capitauxPropres',
+        label: 'Capitaux propres',
+        question: 'Quel est le montant de vos capitaux propres ?',
+        placeholder: 'Ex: 120 000',
+        suffix: '€',
+        help: "Ligne 'Capitaux propres' de votre bilan — peut être négatif",
+        required: true,
+      },
+    ],
+    compute: (inputs) => ({ value: Math.round(Number(inputs.capitauxPropres || 0)), unit: '€' }),
+  },
+  {
+    id: 'strategic-swot-force',
+    title: 'Avantage concurrentiel',
+    subtitle: 'Analyse SWOT — lecture IA du rapport stratégique.',
+    pillar: 'risk',
+    strategicTag: 'SWOT',
+    fields: [
+      {
+        id: 'swotForce',
+        label: 'Votre avantage concurrentiel',
+        question: 'Pourquoi vos clients vous choisissent-ils plutôt qu\'un concurrent ?',
+        placeholder:
+          'Ex: Notre délai de livraison est 2x plus rapide que nos concurrents...',
+        suffix: '',
+        required: true,
+        type: 'textarea',
+        maxWords: 150,
+      },
+    ],
+    compute: (inputs) => ({
+      value: countWords(String(inputs.swotForce ?? '')),
+      unit: 'mots',
+    }),
+  },
+  {
+    id: 'strategic-swot-menace',
+    title: 'Menace externe',
+    subtitle: 'Analyse SWOT — contexte marché.',
+    pillar: 'risk',
+    strategicTag: 'SWOT',
+    fields: [
+      {
+        id: 'swotMenace',
+        label: 'Principale menace externe',
+        question: 'Quelle est la principale menace sur votre activité en ce moment ?',
+        placeholder:
+          'Ex: Un concurrent low-cost est entré sur notre marché...',
+        suffix: '',
+        required: true,
+        type: 'textarea',
+        maxWords: 150,
+      },
+    ],
+    compute: (inputs) => ({
+      value: countWords(String(inputs.swotMenace ?? '')),
+      unit: 'mots',
+    }),
+  },
+  {
+    id: 'strategic-objectif',
+    title: 'Horizon 12 mois',
+    subtitle: 'Alignement stratégique — Porter & valorisation.',
+    pillar: 'risk',
+    strategicTag: 'STRATÉGIE',
+    fields: [
+      {
+        id: 'objectif12mois',
+        label: 'Votre objectif 12 mois',
+        question: 'Quel est votre objectif principal pour les 12 prochains mois ?',
+        placeholder: '',
+        suffix: '',
+        required: true,
+        type: 'choice',
+        options: [
+          { label: 'Stabiliser et sécuriser la trésorerie', value: 'Stabiliser et sécuriser la trésorerie' },
+          { label: 'Croître le CA de +20% minimum', value: 'Croître le CA de +20% minimum' },
+          {
+            label: 'Préparer une levée de fonds ou un crédit bancaire',
+            value: 'Préparer une levée de fonds ou un crédit bancaire',
+          },
+          { label: 'Préparer la transmission ou la cession', value: 'Préparer la transmission ou la cession' },
+        ],
+      },
+    ],
+    compute: (inputs) => ({ value: 1, unit: '' }),
+  },
+]
+
 // ---------------------------------------------------------------------------
 // Wizard phases (narrative blocks)
 // ---------------------------------------------------------------------------
 
-type PhaseKey = 'intro' | 'cash' | 'margin' | 'resilience' | 'risk' | 'synthesis'
+type PhaseKey = 'intro' | 'cash' | 'margin' | 'resilience' | 'strategic' | 'risk' | 'synthesis'
 
 interface Phase {
   key: PhaseKey
@@ -417,6 +542,12 @@ const PHASES: Phase[] = [
     pillar: 'resilience',
     title: 'Pilier III — Stabilite Structurelle',
     subtitle: 'Capacite beneficiaire et perennite du modele economique.',
+  },
+  {
+    key: 'strategic',
+    title: 'SCORIS Stratégique',
+    subtitle:
+      'Z-Score Altman, lecture SWOT et objectifs — quelques étapes supplémentaires avant la synthèse.',
   },
   {
     key: 'risk',
@@ -464,11 +595,12 @@ function getWizardFieldHint(stepId: string, fieldId: string, bench: SectorBenchm
 function DiagnosticGuideContent() {
   const { saveCalculation, history, completedTypes } = useCalculatorHistory()
   const [mounted, setMounted] = useState(false)
+  const [scorisLevel, setScorisLevel] = useState<ScorisLevel | null>(null)
   const [sector, setSector] = useState<SectorKey>('autre')
   const [phaseIndex, setPhaseIndex] = useState(0)
   const [stepIndex, setStepIndex] = useState<number | null>(null) // null = phase transition screen
   const [formValues, setFormValues] = useState<Record<string, Record<string, string>>>({})
-  const [results, setResults] = useState<Record<string, { value: number; inputs: Record<string, number>}>>({})
+  const [results, setResults] = useState<WizardResults>({})
   const [skippedSteps, setSkippedSteps] = useState<Set<string>>(new Set())
   const [emailCapturedAfterCash, setEmailCapturedAfterCash] = useState(false)
   const [introMode, setIntroMode] = useState<'choose' | 'fec'>('choose') // 'choose' = Option A/B, 'fec' = FEC dropzone expanded
@@ -592,15 +724,16 @@ function DiagnosticGuideContent() {
 
   // Steps for current pillar phase
   const currentSteps = useMemo(() => {
+    if (phase.key === 'strategic') return STRATEGIC_WIZARD_STEPS
     if (!phase.pillar) return []
     return WIZARD_STEPS.filter((s) => s.pillar === phase.pillar)
-  }, [phase.pillar])
+  }, [phase])
 
   const currentStep = stepIndex !== null ? currentSteps[stepIndex] : null
 
   // Live scores (computed from in-progress form values + submitted results)
   const draftResults = useMemo(() => {
-    const next = { ...results } as Record<string, { value: number; inputs: Record<string, number> }>
+    const next = { ...results } as WizardResults
     const caAnnuel = parseFloat(formValues.company?.caAnnuel || '0') || 0
     const margeBrute = parseFloat(formValues['seuil-rentabilite']?.margeBrute || '0') || 0
     const chargesFixesMensuelles = parseFloat(formValues['seuil-rentabilite']?.chargesFixesMensuelles || '0') || 0
@@ -651,6 +784,13 @@ function DiagnosticGuideContent() {
 
   const synthesis = useMemo(() => computeSynthesis(draftResults, liveScores, bench), [draftResults, liveScores, bench])
 
+  const zScoreResult = useMemo(() => computeZScore(draftResults, scorisLevel), [draftResults, scorisLevel])
+
+  const allSteps = useMemo(() => {
+    if (scorisLevel === 'strategique') return [...WIZARD_STEPS, ...STRATEGIC_WIZARD_STEPS]
+    return WIZARD_STEPS
+  }, [scorisLevel])
+
   // Form handling
   const getFieldValue = useCallback((stepId: string, fieldId: string) => {
     return formValues[stepId]?.[fieldId] || ''
@@ -673,6 +813,16 @@ function DiagnosticGuideContent() {
       }
       if (f.required === false) return true
       if (f.type === 'toggle') return vals[f.id] === '0' || vals[f.id] === '1'
+      if (f.type === 'textarea') {
+        const t = vals[f.id] ?? ''
+        const n = countWords(t)
+        const max = f.maxWords ?? 150
+        return n >= 1 && n <= max
+      }
+      if (f.type === 'choice') {
+        const v = vals[f.id]
+        return v !== undefined && v !== ''
+      }
       const v = vals[f.id]
       return v !== undefined && v !== '' && Number.isFinite(parseFloat(v))
     })
@@ -680,7 +830,7 @@ function DiagnosticGuideContent() {
 
   const submitStep = useCallback((step: WizardStep) => {
     const vals = formValues[step.id] || {}
-    const inputs: Record<string, number> = {}
+    const inputs: Record<string, number | string> = {}
     const caAnnuel = parseFloat(formValues.company?.caAnnuel || '0') || 0
     const margeBrute = parseFloat(formValues['seuil-rentabilite']?.margeBrute || '0') || 0
     const chargesFixesMensuelles = parseFloat(formValues['seuil-rentabilite']?.chargesFixesMensuelles || '0') || 0
@@ -688,6 +838,10 @@ function DiagnosticGuideContent() {
     step.fields.forEach((f) => {
       if (f.type === 'toggle') {
         inputs[f.id] = vals[f.id] === '1' ? 1 : 0
+        return
+      }
+      if (f.type === 'textarea' || f.type === 'choice') {
+        inputs[f.id] = vals[f.id] ?? ''
         return
       }
       if (f.showWhen) {
@@ -701,14 +855,16 @@ function DiagnosticGuideContent() {
     })
 
     // Shared contextual inputs reused by all following steps
-    if (step.id !== 'company') inputs.caAnnuel = caAnnuel
-    if (step.id === 'gearing') inputs.margeBrute = margeBrute
-    if (step.id === 'dso' && chargesFixesMensuelles > 0) inputs.chargesFixesMensuelles = chargesFixesMensuelles
-    if (step.id === 'seuil-rentabilite') inputs.caAnnuel = caAnnuel
+    if (!step.id.startsWith('strategic-')) {
+      if (step.id !== 'company') inputs.caAnnuel = caAnnuel
+      if (step.id === 'gearing') inputs.margeBrute = margeBrute
+      if (step.id === 'dso' && chargesFixesMensuelles > 0) inputs.chargesFixesMensuelles = chargesFixesMensuelles
+      if (step.id === 'seuil-rentabilite') inputs.caAnnuel = caAnnuel
+    }
 
     // Derive BFR approximation step automatically from cash inputs
     if (step.id === 'dso') {
-      const bfrJours = (inputs.joursClients || 0) - (inputs.joursFournisseurs || 0)
+      const bfrJours = Number(inputs.joursClients ?? 0) - Number(inputs.joursFournisseurs ?? 0)
       const bfrEuros = caAnnuel > 0 ? Math.round((bfrJours / 365) * caAnnuel) : 0
       setResults((prev) => ({
         ...prev,
@@ -733,24 +889,25 @@ function DiagnosticGuideContent() {
       saveCalculation({
         type: step.calcType,
         value: result.value,
-        inputs,
+        inputs: inputs as Record<string, number>,
         unit: result.unit,
       })
     }
 
     // Persist margin as a calculator result for score engine compatibility
     if (step.id === 'seuil-rentabilite') {
+      const margeN = Number(inputs.margeBrute ?? 0)
       saveCalculation({
         type: 'marge',
-        value: inputs.margeBrute || 0,
-        inputs: { margeBrute: inputs.margeBrute || 0, caAnnuel },
+        value: margeN,
+        inputs: { margeBrute: margeN, caAnnuel },
         unit: '%',
       })
       setResults((prev) => ({
         ...prev,
         marge: {
-          value: inputs.margeBrute || 0,
-          inputs: { margeBrute: inputs.margeBrute || 0, caAnnuel },
+          value: margeN,
+          inputs: { margeBrute: margeN, caAnnuel },
         },
       }))
     }
@@ -763,7 +920,7 @@ function DiagnosticGuideContent() {
 
   // ── FEC data injection bridge ──
   const handleFECData = useCallback((wizard: FECWizardData, extracted: FECExtractedData) => {
-    const newResults: Record<string, { value: number; inputs: Record<string, number> }> = {}
+    const newResults: WizardResults = {}
     const newFormValues: Record<string, Record<string, string>> = {}
 
     // Map FEC wizard data to each wizard step
@@ -822,23 +979,26 @@ function DiagnosticGuideContent() {
       }))
     } catch { /* localStorage full — non-blocking */ }
 
-    // Jump straight to synthesis phase (index 5)
     const synthesisIdx = PHASES.findIndex((p) => p.key === 'synthesis')
+    const strategicIdx = PHASES.findIndex((p) => p.key === 'strategic')
 
-    // Trigger SCORIS engine for micro-latency analysis
-    engineActions.analyze({
-      sector,
-      results: newResults,
-      enabledModules: {
-        causalAnalysis: true,
-        sectorBenchmarks: true,
-        whatIfSimulation: true,
-      },
-    })
-
-    setPhaseIndex(synthesisIdx)
-    setStepIndex(null)
-  }, [saveCalculation, engineActions, sector])
+    if (scorisLevel === 'strategique') {
+      setPhaseIndex(strategicIdx)
+      setStepIndex(null)
+    } else {
+      engineActions.analyze({
+        sector,
+        results: newResults,
+        enabledModules: {
+          causalAnalysis: true,
+          sectorBenchmarks: true,
+          whatIfSimulation: true,
+        },
+      })
+      setPhaseIndex(synthesisIdx)
+      setStepIndex(null)
+    }
+  }, [saveCalculation, engineActions, sector, scorisLevel])
 
   // Navigation
   const goNext = useCallback(() => {
@@ -882,37 +1042,58 @@ function DiagnosticGuideContent() {
     if (stepIndex < currentSteps.length - 1) {
       setStepIndex(stepIndex + 1)
     } else {
-      // Move to next phase
       setStepIndex(null)
-      setPhaseIndex((p) => Math.min(p + 1, PHASES.length - 1))
+      const doneKey = phase.key
+      if (doneKey === 'resilience') {
+        if (scorisLevel === 'strategique') {
+          setPhaseIndex(PHASES.findIndex((p) => p.key === 'strategic'))
+        } else {
+          setPhaseIndex(PHASES.findIndex((p) => p.key === 'risk'))
+        }
+      } else if (doneKey === 'strategic') {
+        setPhaseIndex(PHASES.findIndex((p) => p.key === 'risk'))
+      } else {
+        setPhaseIndex((p) => Math.min(p + 1, PHASES.length - 1))
+      }
     }
-  }, [phase, stepIndex, currentStep, currentSteps, isStepComplete, submitStep, engineActions, draftResults, sector])
+  }, [phase, stepIndex, currentStep, currentSteps, isStepComplete, submitStep, engineActions, draftResults, sector, scorisLevel])
 
   const goPrev = useCallback(() => {
-    if (phase.key === 'intro') return
+    if (phase.key === 'intro') {
+      setScorisLevel(null)
+      setPhaseIndex(0)
+      setStepIndex(null)
+      return
+    }
 
     if (phase.key === 'synthesis') {
-      // Go back to risk phase (narrative, no form)
       const riskIdx = PHASES.findIndex((p) => p.key === 'risk')
       setPhaseIndex(riskIdx)
       setStepIndex(null)
       return
     }
 
-    // Risk phase → go back to last step of resilience
     if (phase.key === 'risk') {
-      const resIdx = PHASES.findIndex((p) => p.key === 'resilience')
-      const resSteps = WIZARD_STEPS.filter((s) => s.pillar === 'resilience')
-      setPhaseIndex(resIdx)
-      setStepIndex(resSteps.length - 1)
+      if (scorisLevel === 'strategique') {
+        const stratIdx = PHASES.findIndex((p) => p.key === 'strategic')
+        setPhaseIndex(stratIdx)
+        setStepIndex(STRATEGIC_WIZARD_STEPS.length - 1)
+      } else {
+        const resIdx = PHASES.findIndex((p) => p.key === 'resilience')
+        const resSteps = WIZARD_STEPS.filter((s) => s.pillar === 'resilience')
+        setPhaseIndex(resIdx)
+        setStepIndex(resSteps.length - 1)
+      }
       return
     }
 
     if (stepIndex === null) {
-      // Phase intro → go back to last step of previous phase
       if (phaseIndex > 1) {
         const prevPhase = PHASES[phaseIndex - 1]
-        const prevSteps = WIZARD_STEPS.filter((s) => s.pillar === prevPhase.pillar)
+        const prevSteps =
+          prevPhase.key === 'strategic'
+            ? STRATEGIC_WIZARD_STEPS
+            : WIZARD_STEPS.filter((s) => s.pillar === prevPhase.pillar)
         setPhaseIndex(phaseIndex - 1)
         setStepIndex(prevSteps.length - 1)
       } else {
@@ -925,9 +1106,9 @@ function DiagnosticGuideContent() {
     if (stepIndex > 0) {
       setStepIndex(stepIndex - 1)
     } else {
-      setStepIndex(null) // back to phase transition
+      setStepIndex(null)
     }
-  }, [phase, stepIndex, phaseIndex])
+  }, [phase, stepIndex, phaseIndex, scorisLevel])
 
   const skipStep = useCallback(() => {
     if (!currentStep) return
@@ -957,8 +1138,83 @@ function DiagnosticGuideContent() {
     return <div className="min-h-screen bg-slate-950" />
   }
 
-  // Total steps for progress
-  const allSteps = WIZARD_STEPS
+  // ── Écran de choix SCORIS Standard / Stratégique (avant intro)
+  if (scorisLevel === null) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col">
+        <header className="fixed top-0 inset-x-0 z-50 bg-slate-950/90 backdrop-blur-sm border-b border-gray-800/50">
+          <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+            <Link href="/mon-diagnostic" className="text-sm text-gray-500 hover:text-gray-300 transition-colors">
+              Quitter le diagnostic
+            </Link>
+          </div>
+        </header>
+        <div className="flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-16">
+          <p className="text-[11px] text-gray-500 font-medium tracking-[0.2em] uppercase mb-6">SCORIS™</p>
+          <h1 className="font-serif text-3xl lg:text-4xl font-medium text-center text-white mb-10 max-w-2xl">
+            Choisissez votre diagnostic
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+            <button
+              type="button"
+              onClick={() => setScorisLevel('standard')}
+              className="group text-left rounded-xl border border-gray-700 bg-slate-900/50 hover:border-gray-500 hover:bg-slate-800/60 transition-all duration-200 px-6 py-7"
+            >
+              <p className="text-lg font-semibold text-white mb-1">SCORIS Standard</p>
+              <p className="text-2xl font-serif font-medium text-white mb-2">49 €</p>
+              <p className="text-[11px] text-gray-500 mb-5">~7 minutes · 9 pages</p>
+              <ul className="space-y-2.5 mb-6 text-sm text-gray-300">
+                {[
+                  'Score financier 4 piliers',
+                  'Plan d\'action 90 jours',
+                  'Pack banquier préparé',
+                  'Benchmarks BdF 2024',
+                ].map((line) => (
+                  <li key={line} className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">
+                Commencer <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setScorisLevel('strategique')}
+              className="group text-left rounded-xl border-2 border-blue-500/50 bg-slate-900/70 hover:border-blue-400/70 hover:bg-blue-950/30 transition-all duration-200 px-6 py-7 relative ring-1 ring-blue-500/20"
+            >
+              <span className="absolute -top-2.5 left-5 inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-600 text-white uppercase tracking-wide">
+                Recommandé
+              </span>
+              <p className="text-lg font-semibold text-white mb-1 mt-1">SCORIS Stratégique</p>
+              <p className="text-2xl font-serif font-medium text-white mb-2">99 €</p>
+              <p className="text-[11px] text-blue-400/80 mb-5">~12 minutes · 13 pages</p>
+              <ul className="space-y-2.5 mb-6 text-sm text-gray-300">
+                {[
+                  'Tout SCORIS Standard',
+                  'Z-Score Altman (risque défaillance)',
+                  'Analyse SWOT par IA',
+                  'Valorisation de votre entreprise',
+                  'Porter simplifié',
+                ].map((line) => (
+                  <li key={line} className="flex items-start gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-blue-300">
+                Commencer <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   const completedStepCount = Object.keys(results).length + skippedSteps.size
   const progressPct = Math.min(100, Math.round((completedStepCount / allSteps.length) * 100))
 
@@ -1074,7 +1330,11 @@ function DiagnosticGuideContent() {
                     {phase.title}
                   </h1>
                   <p className="text-gray-400 leading-relaxed mb-4">
-                    {phase.subtitle}
+                    {phase.key === 'intro'
+                      ? scorisLevel === 'strategique'
+                        ? 'Nous allons analyser votre modèle en 4 piliers, puis des indicateurs stratégiques (Z-Score, SWOT). Environ 12 minutes.'
+                        : phase.subtitle
+                      : phase.subtitle}
                   </p>
                   <div className="border-l border-gray-700 pl-4 text-left max-w-md mx-auto mb-4">
                     <p className="text-sm text-gray-500 leading-relaxed">
@@ -1202,7 +1462,7 @@ function DiagnosticGuideContent() {
             )}
 
             {/* ── PILLAR PHASE: transition screen ── */}
-            {phase.pillar && phase.key !== 'risk' && stepIndex === null && (
+            {((phase.pillar && phase.key !== 'risk') || phase.key === 'strategic') && stepIndex === null && (
               <motion.div
                 key={`phase-${phase.key}`}
                 initial={{ opacity: 0 }}
@@ -1212,20 +1472,31 @@ function DiagnosticGuideContent() {
                 className="flex-1 flex items-center justify-center px-6"
               >
                 <div className="max-w-lg text-center">
-                  {(() => {
-                    const pillarMeta = PILLARS.find((p) => p.key === phase.pillar)!
-                    const Icon = pillarMeta.icon
-                    return (
-                      <>
-                        <div className={`w-14 h-14 rounded-xl ${pillarMeta.bgMuted} flex items-center justify-center mx-auto mb-6`}>
-                          <Icon className={`w-6 h-6 ${pillarMeta.color}`} />
-                        </div>
-                        <p className={`text-[11px] font-semibold tracking-[0.2em] uppercase mb-4 ${pillarMeta.color}`}>
-                          {pillarMeta.label}
-                        </p>
-                      </>
-                    )
-                  })()}
+                  {phase.key === 'strategic' ? (
+                    <>
+                      <div className="w-14 h-14 rounded-xl bg-indigo-500/10 flex items-center justify-center mx-auto mb-6 border border-indigo-500/20">
+                        <TrendingUp className="w-6 h-6 text-indigo-400" />
+                      </div>
+                      <p className="text-[11px] font-semibold tracking-[0.2em] uppercase mb-4 text-indigo-400">
+                        Extension stratégique
+                      </p>
+                    </>
+                  ) : (
+                    (() => {
+                      const pillarMeta = PILLARS.find((p) => p.key === phase.pillar)!
+                      const Icon = pillarMeta.icon
+                      return (
+                        <>
+                          <div className={`w-14 h-14 rounded-xl ${pillarMeta.bgMuted} flex items-center justify-center mx-auto mb-6`}>
+                            <Icon className={`w-6 h-6 ${pillarMeta.color}`} />
+                          </div>
+                          <p className={`text-[11px] font-semibold tracking-[0.2em] uppercase mb-4 ${pillarMeta.color}`}>
+                            {pillarMeta.label}
+                          </p>
+                        </>
+                      )
+                    })()
+                  )}
                   <h2 className="font-serif text-3xl font-medium leading-tight text-white mb-4">
                     {phase.title}
                   </h2>
@@ -1276,7 +1547,7 @@ function DiagnosticGuideContent() {
             )}
 
             {/* ── PILLAR PHASE: form step ── */}
-            {phase.pillar && phase.key !== 'risk' && stepIndex !== null && currentStep && (
+            {((phase.pillar && phase.key !== 'risk') || phase.key === 'strategic') && stepIndex !== null && currentStep && (
               <motion.div
                 key={`step-${currentStep.id}`}
                 initial={{ opacity: 0, x: 20 }}
@@ -1288,14 +1559,28 @@ function DiagnosticGuideContent() {
                 <div className="max-w-lg w-full">
                   {/* Step indicator */}
                   <div className="flex items-center gap-3 mb-8">
-                    {(() => {
-                      const pillarMeta = PILLARS.find((p) => p.key === phase.pillar)!
-                      return (
-                        <span className={`text-[10px] font-semibold tracking-[0.15em] uppercase ${pillarMeta.color}`}>
-                          {pillarMeta.label} — {stepIndex + 1}/{currentSteps.length}
-                        </span>
-                      )
-                    })()}
+                    {currentStep.strategicTag ? (
+                      <span
+                        className={`text-[10px] font-semibold tracking-[0.15em] uppercase ${
+                          currentStep.strategicTag === 'Z-SCORE'
+                            ? 'text-blue-400'
+                            : currentStep.strategicTag === 'SWOT'
+                              ? 'text-purple-400'
+                              : 'text-emerald-400'
+                        }`}
+                      >
+                        {currentStep.strategicTag} — {stepIndex + 1}/{currentSteps.length}
+                      </span>
+                    ) : (
+                      (() => {
+                        const pillarMeta = PILLARS.find((p) => p.key === phase.pillar)!
+                        return (
+                          <span className={`text-[10px] font-semibold tracking-[0.15em] uppercase ${pillarMeta.color}`}>
+                            {pillarMeta.label} — {stepIndex + 1}/{currentSteps.length}
+                          </span>
+                        )
+                      })()
+                    )}
                     {currentStep.optional && (
                       <span className="text-[10px] text-amber-400 border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 rounded-full font-medium">
                         Optionnel — vous pouvez passer
@@ -1354,6 +1639,41 @@ function DiagnosticGuideContent() {
                                       active
                                         ? 'bg-white text-slate-950 border-white'
                                         : 'bg-gray-900/50 text-gray-400 border-gray-700 hover:border-gray-500'
+                                    }`}
+                                  >
+                                    {option.label}
+                                  </button>
+                                )
+                              })}
+                            </div>
+                          ) : field.type === 'textarea' ? (
+                            <>
+                              <textarea
+                                id={`field-${currentStep.id}-${field.id}`}
+                                rows={5}
+                                value={getFieldValue(currentStep.id, field.id)}
+                                onChange={(e) => setFieldValue(currentStep.id, field.id, e.target.value)}
+                                placeholder={field.placeholder}
+                                aria-describedby={field.help ? `help-${currentStep.id}-${field.id}` : undefined}
+                                className="w-full px-4 py-3.5 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-600 focus:border-gray-400 focus:ring-2 focus:ring-gray-400/30 outline-none transition-all text-sm leading-relaxed resize-y min-h-[120px]"
+                              />
+                              <p className="text-[10px] text-gray-600 mt-1.5 tabular-nums">
+                                {countWords(getFieldValue(currentStep.id, field.id))} / {field.maxWords ?? 150} mots
+                              </p>
+                            </>
+                          ) : field.type === 'choice' ? (
+                            <div className="flex flex-col gap-2">
+                              {(field.options || []).map((option) => {
+                                const active = getFieldValue(currentStep.id, field.id) === option.value
+                                return (
+                                  <button
+                                    key={option.value}
+                                    type="button"
+                                    onClick={() => setFieldValue(currentStep.id, field.id, option.value)}
+                                    className={`text-left px-4 py-3 rounded-lg text-sm border transition-colors ${
+                                      active
+                                        ? 'bg-white text-slate-950 border-white'
+                                        : 'bg-gray-900/50 text-gray-300 border-gray-700 hover:border-gray-500'
                                     }`}
                                   >
                                     {option.label}
@@ -1497,15 +1817,15 @@ function DiagnosticGuideContent() {
                     {/* BFR × Seuil */}
                     {results.bfr && results['seuil-rentabilite'] && (
                       <div className={`px-4 py-3.5 rounded-lg border ${
-                        (results.bfr.inputs.bfrJours || 0) > 45 &&
-                        (results['seuil-rentabilite'].inputs.margeBrute || 0) < 30
+                        Number(results.bfr.inputs.bfrJours ?? 0) > 45 &&
+                        Number(results['seuil-rentabilite'].inputs.margeBrute ?? 0) < 30
                           ? 'bg-red-500/5 border-red-500/20'
                           : 'bg-gray-800/30 border-gray-700/50'
                       }`}>
                         <div className="flex items-center justify-between mb-1.5">
                           <p className="text-xs font-semibold text-gray-300">BFR × Taux de marge</p>
-                          {(results.bfr.inputs.bfrJours || 0) > 45 &&
-                           (results['seuil-rentabilite'].inputs.margeBrute || 0) < 30 ? (
+                          {Number(results.bfr.inputs.bfrJours ?? 0) > 45 &&
+                           Number(results['seuil-rentabilite'].inputs.margeBrute ?? 0) < 30 ? (
                             <span className="text-[10px] font-semibold text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full">Fragilite structurelle</span>
                           ) : (
                             <span className="text-[10px] font-semibold text-gray-500 bg-gray-700/50 px-2 py-0.5 rounded-full">Maitrise</span>
@@ -1513,8 +1833,8 @@ function DiagnosticGuideContent() {
                         </div>
                         <p className="text-[11px] text-gray-500 leading-relaxed">
                           {(() => {
-                            const bfrJ = results.bfr.inputs.bfrJours || 0
-                            const tm = results['seuil-rentabilite'].inputs.margeBrute || 0
+                            const bfrJ = Number(results.bfr.inputs.bfrJours ?? 0)
+                            const tm = Number(results['seuil-rentabilite'].inputs.margeBrute ?? 0)
                             if (bfrJ > 45 && tm < 30)
                               return `BFR a ${bfrJ}j avec une marge brute de ${tm}% — pression croisee elevee sur votre tresorerie.`
                             return `BFR et taux de marge dans des niveaux compatibles — pas de fragilite croisee detectee.`
@@ -1527,7 +1847,7 @@ function DiagnosticGuideContent() {
                     {results.gearing?.inputs.concentrationClient !== undefined && (
                       <div className={`px-4 py-3.5 rounded-lg border ${
                         (() => {
-                          const concentration = results.gearing?.inputs.concentrationClient || 0
+                          const concentration = Number(results.gearing?.inputs.concentrationClient ?? 0)
                           if (concentration > 60) return 'bg-red-500/5 border-red-500/20'
                           if (concentration > 40) return 'bg-amber-500/5 border-amber-500/20'
                           return 'bg-emerald-500/5 border-emerald-500/20'
@@ -1536,7 +1856,7 @@ function DiagnosticGuideContent() {
                         <div className="flex items-center justify-between mb-1.5">
                           <p className="text-xs font-semibold text-gray-300">Concentration client</p>
                           {(() => {
-                            const concentration = results.gearing?.inputs.concentrationClient || 0
+                            const concentration = Number(results.gearing?.inputs.concentrationClient ?? 0)
                             return concentration > 60 ? (
                               <span className="text-[10px] font-semibold text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full">Critique</span>
                             ) : concentration > 40 ? (
@@ -1548,7 +1868,7 @@ function DiagnosticGuideContent() {
                         </div>
                         <p className="text-[11px] text-gray-500 leading-relaxed">
                           {(() => {
-                            const concentration = results.gearing?.inputs.concentrationClient || 0
+                            const concentration = Number(results.gearing?.inputs.concentrationClient ?? 0)
                             if (concentration > 60) return '🔴 Risque structurel critique — dépendance client excessive'
                             if (concentration > 40) return '🟡 Dépendance client élevée — diversification recommandée'
                             return '🟢 Concentration client maîtrisée'
@@ -1737,12 +2057,56 @@ function DiagnosticGuideContent() {
                     </div>
                   </div>
 
+                  {/* Z-Score Altman — indicateur séparé du score /100 (SCORIS Stratégique) */}
+                  {scorisLevel === 'strategique' && zScoreResult && (
+                    <div
+                      className={`mb-10 px-5 py-5 rounded-xl border ${
+                        zScoreResult.zZone.color === 'red'
+                          ? 'bg-red-500/5 border-red-500/25'
+                          : zScoreResult.zZone.color === 'orange'
+                            ? 'bg-amber-500/5 border-amber-500/25'
+                            : 'bg-emerald-500/5 border-emerald-500/25'
+                      }`}
+                    >
+                      <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-2">
+                        Z-Score Altman (non coté au score /100)
+                      </p>
+                      <div className="flex flex-wrap items-baseline gap-3 mb-2">
+                        <span className="font-serif text-4xl font-medium text-white tabular-nums">
+                          {zScoreResult.zScore.toFixed(2)}
+                        </span>
+                        <span
+                          className={`text-sm font-semibold ${
+                            zScoreResult.zZone.color === 'red'
+                              ? 'text-red-400'
+                              : zScoreResult.zZone.color === 'orange'
+                                ? 'text-amber-400'
+                                : 'text-emerald-400'
+                          }`}
+                        >
+                          {zScoreResult.zZone.label}
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500 leading-relaxed">
+                        Indicateur de risque de défaillance — distinct du Score FinSight™ 4 piliers.
+                      </p>
+                    </div>
+                  )}
+                  {scorisLevel === 'strategique' && !zScoreResult && (
+                    <div className="mb-10 px-5 py-4 rounded-lg border border-gray-800 bg-gray-900/40">
+                      <p className="text-xs text-gray-500">
+                        Z-Score Altman : complétez les questions bilan (actif & capitaux propres) pour afficher l&apos;indicateur.
+                      </p>
+                    </div>
+                  )}
+
                   {/* ── SCORIS Paywall — piliers floutés si non payé ── */}
                   {!paywallUnlocked && (
                     <div className="mb-10">
                       <ScorePaywall
                         score={totalScore}
                         sector={sector}
+                        scorisLevel={scorisLevel ?? 'standard'}
                         onPreviewDownload={handleFreePreviewPDF}
                         previewLoading={generatingPreviewPdf}
                       />
