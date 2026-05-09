@@ -416,6 +416,83 @@ export function computeZScore(
   return { zScore: Z, zZone }
 }
 
+/** Détail des composantes Altman (poids × Xi) pour PDF / audit. X2 = 0 (non saisi). */
+export interface ZScoreBreakdownRow {
+  indicateur: string
+  valeur: number
+  poids: number
+  contribution: number
+}
+
+export function computeZScoreBreakdownFromInputs(params: {
+  actifTotal: number
+  capitauxPropres: number
+  bfrEuros: number
+  caAnnuel: number
+  margeBrute: number
+  chargesFixesMensuelles: number
+}): {
+  rows: ZScoreBreakdownRow[]
+  zScore: number
+  zZone: ZScoreZoneResult
+} | null {
+  const actifTotal = params.actifTotal
+  if (!Number.isFinite(actifTotal) || actifTotal <= 0) return null
+
+  const capitauxPropres = Number.isFinite(params.capitauxPropres) ? params.capitauxPropres : 0
+  const bfrEuros = Number.isFinite(params.bfrEuros) ? params.bfrEuros : 0
+  const caAnnuel = Number.isFinite(params.caAnnuel) ? params.caAnnuel : 0
+  const margeBrute = Number.isFinite(params.margeBrute) ? params.margeBrute : 0
+  const chargesFixesMensuelles = Number.isFinite(params.chargesFixesMensuelles)
+    ? params.chargesFixesMensuelles
+    : 0
+
+  const X1 = bfrEuros / actifTotal
+  const X2 = 0
+  const X3 = (caAnnuel * (margeBrute / 100) - chargesFixesMensuelles * 12) / actifTotal
+  const dettes = actifTotal - capitauxPropres
+  const X4 = dettes > 0 && Number.isFinite(capitauxPropres) ? capitauxPropres / dettes : 0
+  const X5 = caAnnuel / actifTotal
+
+  const w1 = 0.717
+  const w2 = 0.847
+  const w3 = 3.107
+  const w4 = 0.42
+  const w5 = 0.998
+
+  const c1 = w1 * X1
+  const c2 = w2 * X2
+  const c3 = w3 * X3
+  const c4 = w4 * X4
+  const c5 = w5 * X5
+
+  const Z = c1 + c2 + c3 + c4 + c5
+
+  let zZone: ZScoreZoneResult
+  if (Z < 1.23) {
+    zZone = { zone: 'danger', label: 'Zone de danger', color: 'red' }
+  } else if (Z <= 2.9) {
+    zZone = { zone: 'grise', label: "Zone d'incertitude", color: 'orange' }
+  } else {
+    zZone = { zone: 'saine', label: 'Zone saine', color: 'green' }
+  }
+
+  const rows: ZScoreBreakdownRow[] = [
+    { indicateur: 'BFR / Actif (X1)', valeur: X1, poids: w1, contribution: c1 },
+    { indicateur: 'Résultat réinvesti / Actif (X2)', valeur: X2, poids: w2, contribution: c2 },
+    {
+      indicateur: 'Résultat d\'exploitation approx. / Actif (X3)',
+      valeur: X3,
+      poids: w3,
+      contribution: c3,
+    },
+    { indicateur: 'Capitaux propres / Dettes (X4)', valeur: X4, poids: w4, contribution: c4 },
+    { indicateur: 'CA / Actif (X5)', valeur: X5, poids: w5, contribution: c5 },
+  ]
+
+  return { rows, zScore: Z, zZone }
+}
+
 /** Fusionne Z-Score dans le diagnostic lorsque le niveau Stratégique et les données le permettent. */
 export function enrichDiagnosticWithZScore(
   diagnostic: DiagnosticScore,

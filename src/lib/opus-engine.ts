@@ -22,6 +22,17 @@ import { SECTOR_BENCHMARKS, type SectorKey } from '@/lib/scoring/diagnosticScore
 // TYPES
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/** Bundle envoyé par le wizard stratégique → PDF / Opus */
+export type StrategiqueContextPayload = {
+  swotForce: string
+  swotMenace: string
+  objectif12mois: string
+  zScore: number
+  zZone: 'danger' | 'grise' | 'saine'
+  actifTotal: number
+  capitauxPropres: number
+}
+
 export interface ScoreContext {
   /** Score global 0–100 */
   score: number
@@ -53,6 +64,8 @@ export interface ScoreContext {
   vulnerabilites: string[]
   /** Priorité texte du moteur SCORIS (fallback P1) */
   prioriteScorisFallback?: string
+  /** Données SCORIS Stratégique (wizard + Z-Score) — uniquement si parcours stratégique */
+  strategique?: StrategiqueContextPayload
 }
 
 export interface OpusPriority {
@@ -96,6 +109,22 @@ export interface RecommendationPlan {
   }>
   /** 4–6 actions semaine par semaine — optionnel, pour future feature */
   actionPlan90j: OpusActionStep[]
+  /** Blocs enrichis — SCORIS Stratégique uniquement */
+  analyseStrategique?: {
+    swotStructure: {
+      forces: string[]
+      faiblesses: string[]
+      opportunites: string[]
+      menaces: string[]
+    }
+    zScoreCommentaire: string
+    valorisationFourchette: {
+      basse: number
+      haute: number
+      methode: string
+    }
+    recommendationFinancement: string
+  }
   /** Source : 'opus' | 'fallback' */
   source: 'opus' | 'fallback'
 }
@@ -125,9 +154,57 @@ RÈGLES ABSOLUES :
 
 REGISTRE : professionnel, direct, sans jargon inutile. Tu t'adresses à un dirigeant occupé, pas à un analyste.`
 
+const OPUS_STRATEGIC_MODE_APPEND = `MODE STRATÉGIQUE SCORIS :
+En mode Stratégique, tu intègres l'analyse SWOT déclarée et le Z-Score Altman dans tes recommandations. Le SWOT n'est pas un simple résumé — c'est du contexte dirigeant qui enrichit l'analyse chiffrée.
+Tu complètes obligatoirement le bloc JSON "analyseStrategique" : quadrants SWOT structurés, interprétation du Z-Score en prose, fourchette de valorisation cohérente si des bases de rentabilité sont fournies, et recommandations de financement adaptées au profil et à l'objectif 12 mois.`
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // PROMPT BUILDER
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+function strategicZoneExplanation(z: 'danger' | 'grise' | 'saine'): string {
+  if (z === 'danger') return 'Zone danger (<1.23) : risque de défaillance élevé à 24 mois'
+  if (z === 'grise') return "Zone grise (1,23–2,9) : situation à surveiller"
+  return 'Zone saine (>2,9) : structure financière solide'
+}
+
+function buildStrategicContextBlock(s: NonNullable<ScoreContext['strategique']>): string {
+  return `ANALYSE STRATÉGIQUE COMPLÉMENTAIRE :
+Z-Score Altman : ${s.zScore.toFixed(2)} — ${strategicZoneExplanation(s.zZone)}
+  → Zone danger (<1.23) : risque de défaillance élevé à 24 mois
+  → Zone grise (1.23-2.9) : situation à surveiller
+  → Zone saine (>2.9) : structure financière solide
+
+Avantage concurrentiel déclaré (dirigeant) : ${s.swotForce}
+Menace principale identifiée : ${s.swotMenace}
+Objectif 12 mois : ${s.objectif12mois}
+Actif total (déclaratif) : ${Math.round(s.actifTotal).toLocaleString('fr-FR')} € · Capitaux propres : ${Math.round(s.capitauxPropres).toLocaleString('fr-FR')} €
+
+Adapte tes recommandations en fonction de ces éléments :
+- Si objectif = cession → orienter vers valorisation et présentation
+- Si objectif = levée de fonds → orienter vers ratios bancaires
+- Si objectif = croissance → orienter vers investissement et BFR
+- Si Z-Score zone danger → prioriser la survie avant la croissance`
+}
+
+function buildAnalyseStrategiqueJsonBlock(): string {
+  return `,
+  "analyseStrategique": {
+    "swotStructure": {
+      "forces": ["<3-6 puces : forces financières + déclarées du dirigeant>"],
+      "faiblesses": ["<2-5 puces>"],
+      "opportunites": ["<2-5 puces liées à l'objectif 12 mois>"],
+      "menaces": ["<2-5 puces : risques financiers + menace déclarée>"]
+    },
+    "zScoreCommentaire": "<80-140 mots : interpréter le Z-Score, la zone, le lien avec la structure du bilan et la priorité cash>",
+    "valorisationFourchette": {
+      "basse": <nombre €, 0 si non estimable>,
+      "haute": <nombre €, 0 si non estimable>,
+      "methode": "<ex: Multiple EBITDA sectoriel — ou Non estimable si pas d'EBITDA>"
+    },
+    "recommendationFinancement": "<affacturage, BPI, crédit MT, médiation — adapté au profil et à l'objectif>"
+  }`
+}
 
 function buildOpusPrompt(ctx: ScoreContext): string {
   const bench = SECTOR_BENCHMARKS[ctx.sector]
@@ -164,6 +241,7 @@ ${ctx.forces.length > 0 ? ctx.forces.map(f => `• ${f}`).join('\n') : '• Aucu
 
 VULNÉRABILITÉS :
 ${ctx.vulnerabilites.length > 0 ? ctx.vulnerabilites.map(v => `• ${v}`).join('\n') : '• Aucune vulnérabilité critique détectée'}
+${ctx.strategique ? `\n\n${buildStrategicContextBlock(ctx.strategique)}\n` : ''}
 
 Génère un objet JSON avec exactement ces champs :
 {
@@ -194,7 +272,7 @@ Génère un objet JSON avec exactement ces champs :
   ],
   "actionPlan90j": [
     { "semaine": "S1-S2", "action": "<action concrète>", "kpi": "<indicateur de suivi>", "impactEstime": "<impact chiffré>" }
-  ]
+  ]${ctx.strategique ? buildAnalyseStrategiqueJsonBlock() : ''}
 }
 
 IMPORTANT :
@@ -202,6 +280,7 @@ IMPORTANT :
 - packBanquier doit contenir exactement 5 objets
 - radarsJ30 doit contenir exactement 3 objets
 - actionPlan90j doit contenir 4 à 6 objets
+${ctx.strategique ? '- analyseStrategique est obligatoire : swotStructure avec 4 tableaux de chaînes non vides, zScoreCommentaire non vide, valorisationFourchette avec nombres cohérents (0 si non estimable), recommendationFinancement non vide.\n' : ''}
 JSON strict, aucun texte autour.`
 }
 
@@ -224,6 +303,131 @@ function getClient(): OpenAI {
   return _client
 }
 
+function strArr(v: unknown): string[] {
+  return Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string' && x.trim().length > 0) : []
+}
+
+function buildStrategicAnalyseFallback(ctx: ScoreContext): NonNullable<RecommendationPlan['analyseStrategique']> {
+  const s = ctx.strategique!
+  const bench = SECTOR_BENCHMARKS[ctx.sector]
+  const forcesFin = ctx.forces.slice(0, 3)
+  const faiblesFin = ctx.vulnerabilites.slice(0, 3)
+
+  const opportunites: string[] = []
+  if (s.objectif12mois.includes('croître') || s.objectif12mois.includes('Croître')) {
+    opportunites.push('Accélération commerciale structurée avec pilotage BFR et marge')
+    opportunites.push(`Benchmark secteur ${bench.label} pour pricing et médiane DSO ${bench.dsoMedian}j`)
+  }
+  if (s.objectif12mois.includes('levée') || s.objectif12mois.includes('crédit')) {
+    opportunites.push('Montage de dossier bancaire : ratios dette / EBITDA, projections cash')
+    opportunites.push('Accompagnement BPI / garanties publiques selon taille et secteur')
+  }
+  if (s.objectif12mois.includes('transmission') || s.objectif12mois.includes('cession')) {
+    opportunites.push('Préparation dataroom : qualité des agrégats, normalisation du EBIT/EBITDA')
+    opportunites.push('Identification acquéreurs / advisors selon profil PME')
+  }
+  if (s.objectif12mois.includes('trésorerie') || s.objectif12mois.includes('Stabiliser')) {
+    opportunites.push('Plan de réduction de fragilité cash (DSO, stock, dette fournisseur)')
+  }
+  if (opportunites.length === 0) {
+    opportunites.push('Aligner les leviers opérationnels sur l’objectif prioritaire 12 mois')
+  }
+
+  const menaces: string[] = [
+    ...faiblesFin,
+    s.swotMenace.trim() ? `Déclaration dirigeant : ${s.swotMenace}` : '',
+  ].filter(Boolean)
+
+  const zScoreCommentaire =
+    s.zZone === 'danger'
+      ? `Le Z-Score ressort à ${s.zScore.toFixed(2)} (zone de danger). La structure laisse peu de marge : prioriser le cash, la négociation des échéances et la réduction des fragilités récurrentes avant toute offensive de croissance.`
+      : s.zZone === 'grise'
+        ? `Le Z-Score à ${s.zScore.toFixed(2)} se situe en zone d'incertitude. Le profil est gérable mais exige un suivi serré des encaissements, de la marge et de l'endettement.`
+        : `Le Z-Score à ${s.zScore.toFixed(2)} indique une structure bilan plus confortable ; reste à aligner l'exécution opérationnelle (BFR, marge) avec l'ambition 12 mois.`
+
+  const ca = ctx.caAnnuel ?? 0
+  const e = ctx.indicators.ebitdaPct
+  let basse = 0
+  let haute = 0
+  let methode = 'Non estimable — renseigner EBITDA / CA pour une fourchette'
+  if (ca > 0 && e != null && e > 0) {
+    const ebitdaEur = ca * (e / 100)
+    basse = Math.round(ebitdaEur * 4)
+    haute = Math.round(ebitdaEur * 7)
+    methode = `Multiple EBITDA sectoriel (fourchette indicative 4x–7x appliquée à l'EBITDA déclaratif ${e}% du CA, secteur ${bench.label})`
+  }
+
+  let recommendationFinancement =
+    'Envisager affacturage ciblant les gros comptes clients, ligne de trésorerie complémentaire, et médiation avec la banque sur le carnet d’échéances.'
+  if (s.zZone === 'danger') {
+    recommendationFinancement =
+      'Priorité : plafond de trésorerie, report d’échéances, factoring/affacturage, BPI en garantie d’escompte ; limiter les investissements non critiques.'
+  } else if (s.objectif12mois.includes('levée') || s.objectif12mois.includes('crédit')) {
+    recommendationFinancement =
+      'Préparer un dossier crédit moyen/long terme : business plan, sensibilité tréso, covenants — coupler banque et dispositifs BPI selon elgibilité.'
+  }
+
+  return {
+    swotStructure: {
+      forces: [
+        ...forcesFin.map((x) => `Financier : ${x}`),
+        s.swotForce.trim() ? `Dirigeant : ${s.swotForce}` : '',
+      ].filter(Boolean),
+      faiblesses: faiblesFin.length > 0 ? faiblesFin.map((x) => `Financier : ${x}`) : ['Données partielles — compléter le diagnostic pour affiner'],
+      opportunites: opportunites.slice(0, 6),
+      menaces: menaces.slice(0, 6),
+    },
+    zScoreCommentaire,
+    valorisationFourchette: { basse, haute, methode },
+    recommendationFinancement,
+  }
+}
+
+function mergeAnalyseStrategiqueFromOpus(
+  raw: unknown,
+  ctx: ScoreContext,
+): NonNullable<RecommendationPlan['analyseStrategique']> {
+  const fb = buildStrategicAnalyseFallback(ctx)
+  if (!raw || typeof raw !== 'object') return fb
+  const a = raw as Record<string, unknown>
+  const sw = a.swotStructure && typeof a.swotStructure === 'object' ? (a.swotStructure as Record<string, unknown>) : null
+  const val = a.valorisationFourchette && typeof a.valorisationFourchette === 'object'
+    ? (a.valorisationFourchette as Record<string, unknown>)
+    : null
+
+  const mergedSw = sw
+    ? {
+        forces: strArr(sw.forces).length ? strArr(sw.forces) : fb.swotStructure.forces,
+        faiblesses: strArr(sw.faiblesses).length ? strArr(sw.faiblesses) : fb.swotStructure.faiblesses,
+        opportunites: strArr(sw.opportunites).length ? strArr(sw.opportunites) : fb.swotStructure.opportunites,
+        menaces: strArr(sw.menaces).length ? strArr(sw.menaces) : fb.swotStructure.menaces,
+      }
+    : fb.swotStructure
+
+  const zc = typeof a.zScoreCommentaire === 'string' && a.zScoreCommentaire.trim().length > 10
+    ? a.zScoreCommentaire.trim()
+    : fb.zScoreCommentaire
+
+  let vf = fb.valorisationFourchette
+  if (val) {
+    const basse = typeof val.basse === 'number' && Number.isFinite(val.basse) ? val.basse : fb.valorisationFourchette.basse
+    const haute = typeof val.haute === 'number' && Number.isFinite(val.haute) ? val.haute : fb.valorisationFourchette.haute
+    const methode = typeof val.methode === 'string' && val.methode.trim() ? val.methode.trim() : fb.valorisationFourchette.methode
+    vf = { basse, haute, methode }
+  }
+
+  const rf = typeof a.recommendationFinancement === 'string' && a.recommendationFinancement.trim().length > 5
+    ? a.recommendationFinancement.trim()
+    : fb.recommendationFinancement
+
+  return {
+    swotStructure: mergedSw,
+    zScoreCommentaire: zc,
+    valorisationFourchette: vf,
+    recommendationFinancement: rf,
+  }
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // callOpus() — fonction principale
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -240,11 +444,15 @@ export async function callOpus(
     try {
       const client = getClient()
 
+      const systemContent = context.strategique
+        ? `${OPUS_SYSTEM_PROMPT}\n\n${OPUS_STRATEGIC_MODE_APPEND}`
+        : OPUS_SYSTEM_PROMPT
+
       const completion = await client.chat.completions.create({
         model: 'anthropic/claude-opus-4.5',
-        max_tokens: 3500,
+        max_tokens: 4500,
         messages: [
-          { role: 'system', content: OPUS_SYSTEM_PROMPT },
+          { role: 'system', content: systemContent },
           { role: 'user', content: buildOpusPrompt(context) },
         ],
       })
@@ -275,7 +483,15 @@ export async function callOpus(
         throw new Error('Structure JSON Opus invalide (blocs enrichis manquants)')
       }
 
-      return { ...parsed, source: 'opus' }
+      const out: RecommendationPlan = {
+        ...parsed,
+        source: 'opus',
+        ...(context.strategique
+          ? { analyseStrategique: mergeAnalyseStrategiqueFromOpus(parsed.analyseStrategique, context) }
+          : {}),
+      }
+
+      return out
 
     } catch (err) {
       lastError = err instanceof Error ? err : new Error(String(err))
@@ -314,12 +530,23 @@ ${context.forces.length > 0 ? `Point fort : ${context.forces[0]}` : ''}
 
 La synthèse doit : (1) qualifier l'état de santé globale, (2) nommer le point de blocage principal avec chiffres, (3) donner la recommandation directrice. Réponds uniquement avec le texte de la synthèse, aucun JSON.`
 
+    const summarySystem = context.strategique
+      ? `${OPUS_SYSTEM_PROMPT}\n\n${OPUS_STRATEGIC_MODE_APPEND}`
+      : OPUS_SYSTEM_PROMPT
+
+    const strategicLines = context.strategique
+      ? `
+Contexte stratégique : Z-Score ${context.strategique.zScore.toFixed(2)} (${context.strategique.zZone}). Objectif 12 mois : ${context.strategique.objectif12mois}.
+Avantage concurrentiel (dirigeant) : ${context.strategique.swotForce}
+Menace déclarée : ${context.strategique.swotMenace}`
+      : ''
+
     const message = await client.chat.completions.create({
       model: 'anthropic/claude-opus-4.5',
-      max_tokens: 300,
+      max_tokens: 380,
       messages: [
-        { role: 'system', content: OPUS_SYSTEM_PROMPT },
-        { role: 'user', content: prompt },
+        { role: 'system', content: summarySystem },
+        { role: 'user', content: `${prompt}${strategicLines}` },
       ],
     })
 
@@ -415,12 +642,13 @@ export function buildFallbackPlan(ctx: ScoreContext): RecommendationPlan {
     },
   }
 
-  const radarsJ30 = weakestPillars.slice(0, 2).map((pillarKey) => {
+  const radarKeys = [weakestPillars[0], weakestPillars[1] ?? 'risk', weakestPillars[2] ?? 'margin']
+  const radarsJ30 = radarKeys.map((pillarKey) => {
     const key = pillarKey === 'risk' ? 'risk' : pillarKey
     return radarByPillar[key] ?? radarByPillar.risk
   })
 
-  return {
+  const basePlan: RecommendationPlan = {
     executiveSummary: buildFallbackSummary(ctx),
     narrativeParPilier,
     priorities: [
@@ -459,6 +687,15 @@ export function buildFallbackPlan(ctx: ScoreContext): RecommendationPlan {
     ],
     source: 'fallback',
   }
+
+  if (ctx.strategique) {
+    return {
+      ...basePlan,
+      analyseStrategique: buildStrategicAnalyseFallback(ctx),
+    }
+  }
+
+  return basePlan
 }
 
 function buildFallbackSummary(ctx: ScoreContext): string {
