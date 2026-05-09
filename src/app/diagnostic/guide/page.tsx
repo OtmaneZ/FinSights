@@ -37,6 +37,7 @@ import {
   countWords,
 } from '@/lib/scoring/diagnosticScore'
 import { generateDiagnosticPDF } from '@/lib/pdf/generateDiagnosticPDF'
+import type { StrategiqueContextPayload } from '@/lib/opus-engine'
 import { useScorisEngine } from '@/hooks/useScorisEngine'
 import { SectorComparisonGrid } from '@/components/diagnostic/SectorComparisonBadge'
 import { WhatIfSlider } from '@/components/diagnostic/WhatIfSlider'
@@ -640,66 +641,6 @@ function DiagnosticGuideContent() {
     }
   }, [])
 
-  const handleFreePreviewPDF = useCallback(async () => {
-    if (generatingPreviewPdf) return
-    setGeneratingPreviewPdf(true)
-    try {
-      const diagSnap = computeDiagnosticScore(history, sector)
-      const insightsSnap = computeInsights(diagSnap, history, sector)
-      await generateDiagnosticPDF({
-        diagnostic: diagSnap,
-        insights: insightsSnap,
-        sector,
-        history,
-        companyName: fecMeta?.fileName?.replace(/\.[^.]+$/, '') || undefined,
-        fileName: fecMeta?.fileName || undefined,
-        fecMeta: fecMeta || undefined,
-        completedCount: completedTypes().length,
-        totalCalculators: TOTAL_CALCULATORS,
-        isPremium: false,
-      })
-      setHasDownloadedFreeReport(true)
-      if (!freePreviewBannerDismissed) {
-        setFreePreviewBannerVisible(true)
-        if (freePreviewBannerTimerRef.current) clearTimeout(freePreviewBannerTimerRef.current)
-        freePreviewBannerTimerRef.current = setTimeout(() => {
-          setFreePreviewBannerVisible(false)
-          freePreviewBannerTimerRef.current = null
-        }, 10000)
-      }
-    } catch (err) {
-      console.error('[guide] Aperçu PDF gratuit:', err)
-    } finally {
-      setGeneratingPreviewPdf(false)
-    }
-  }, [
-    generatingPreviewPdf,
-    history,
-    sector,
-    fecMeta,
-    completedTypes,
-    freePreviewBannerDismissed,
-  ])
-
-  /** Mode test weekend : rapport PDF premium sans paiement */
-  const handlePremiumTestPDF = useCallback(async () => {
-    const diagSnap = computeDiagnosticScore(history, sector)
-    const insightsSnap = computeInsights(diagSnap, history, sector)
-    await generateDiagnosticPDF({
-      diagnostic: diagSnap,
-      insights: insightsSnap,
-      sector,
-      history,
-      companyName: fecMeta?.fileName?.replace(/\.[^.]+$/, '') || undefined,
-      fileName: fecMeta?.fileName || undefined,
-      fecMeta: fecMeta || undefined,
-      completedCount: completedTypes().length,
-      totalCalculators: TOTAL_CALCULATORS,
-      isPremium: true,
-    })
-    setPaywallUnlocked(true)
-  }, [history, sector, fecMeta, completedTypes])
-
   // Detect Stripe success redirect and verify payment server-side
   const searchParams = useSearchParams()
   useEffect(() => {
@@ -804,6 +745,103 @@ function DiagnosticGuideContent() {
   const synthesis = useMemo(() => computeSynthesis(draftResults, liveScores, bench), [draftResults, liveScores, bench])
 
   const zScoreResult = useMemo(() => computeZScore(draftResults, scorisLevel), [draftResults, scorisLevel])
+
+  /** Données SCORIS Stratégique → PDF 13p + contexte Opus */
+  const strategicPdfBundle = useMemo((): StrategiqueContextPayload | undefined => {
+    if (scorisLevel !== 'strategique') return undefined
+    const z = computeZScore(draftResults, 'strategique')
+    const actifRaw = draftResults['strategic-actif-total']?.inputs?.actifTotal
+    const cpRaw = draftResults['strategic-capitaux']?.inputs?.capitauxPropres
+    const actifTotal =
+      typeof actifRaw === 'number' ? actifRaw : parseFloat(String(actifRaw ?? '').replace(/\s/g, '').replace(',', '.')) || 0
+    const capitauxPropres =
+      typeof cpRaw === 'number' ? cpRaw : parseFloat(String(cpRaw ?? '').replace(/\s/g, '').replace(',', '.')) || 0
+    return {
+      swotForce: String(draftResults['strategic-swot-force']?.inputs?.swotForce ?? ''),
+      swotMenace: String(draftResults['strategic-swot-menace']?.inputs?.swotMenace ?? ''),
+      objectif12mois: String(draftResults['strategic-objectif']?.inputs?.objectif12mois ?? ''),
+      zScore: z?.zScore ?? 0,
+      zZone: (z?.zZone.zone ?? 'grise') as StrategiqueContextPayload['zZone'],
+      actifTotal,
+      capitauxPropres,
+    }
+  }, [draftResults, scorisLevel])
+
+  useEffect(() => {
+    if (scorisLevel !== 'strategique' || !strategicPdfBundle) return
+    try {
+      localStorage.setItem('finsight_scoris_strategic', JSON.stringify(strategicPdfBundle))
+      localStorage.setItem('finsight_scoris_level', 'strategique')
+    } catch {
+      /* ignore */
+    }
+  }, [scorisLevel, strategicPdfBundle])
+
+  const handleFreePreviewPDF = useCallback(async () => {
+    if (generatingPreviewPdf) return
+    setGeneratingPreviewPdf(true)
+    try {
+      const diagSnap = computeDiagnosticScore(history, sector)
+      const insightsSnap = computeInsights(diagSnap, history, sector)
+      await generateDiagnosticPDF({
+        diagnostic: diagSnap,
+        insights: insightsSnap,
+        sector,
+        history,
+        companyName: fecMeta?.fileName?.replace(/\.[^.]+$/, '') || undefined,
+        fileName: fecMeta?.fileName || undefined,
+        fecMeta: fecMeta || undefined,
+        completedCount: completedTypes().length,
+        totalCalculators: TOTAL_CALCULATORS,
+        isPremium: false,
+        scorisLevel: scorisLevel ?? 'standard',
+        strategique: scorisLevel === 'strategique' ? strategicPdfBundle : undefined,
+      })
+      setHasDownloadedFreeReport(true)
+      if (!freePreviewBannerDismissed) {
+        setFreePreviewBannerVisible(true)
+        if (freePreviewBannerTimerRef.current) clearTimeout(freePreviewBannerTimerRef.current)
+        freePreviewBannerTimerRef.current = setTimeout(() => {
+          setFreePreviewBannerVisible(false)
+          freePreviewBannerTimerRef.current = null
+        }, 10000)
+      }
+    } catch (err) {
+      console.error('[guide] Aperçu PDF gratuit:', err)
+    } finally {
+      setGeneratingPreviewPdf(false)
+    }
+  }, [
+    generatingPreviewPdf,
+    history,
+    sector,
+    fecMeta,
+    completedTypes,
+    freePreviewBannerDismissed,
+    scorisLevel,
+    strategicPdfBundle,
+  ])
+
+  /** Mode test weekend : rapport PDF premium sans paiement */
+  const handlePremiumTestPDF = useCallback(async () => {
+    const diagSnap = computeDiagnosticScore(history, sector)
+    const insightsSnap = computeInsights(diagSnap, history, sector)
+    await generateDiagnosticPDF({
+      diagnostic: diagSnap,
+      insights: insightsSnap,
+      sector,
+      history,
+      companyName: fecMeta?.fileName?.replace(/\.[^.]+$/, '') || undefined,
+      fileName: fecMeta?.fileName || undefined,
+      fecMeta: fecMeta || undefined,
+      completedCount: completedTypes().length,
+      totalCalculators: TOTAL_CALCULATORS,
+      isPremium: true,
+      scorisLevel: scorisLevel ?? 'standard',
+      strategique: scorisLevel === 'strategique' ? strategicPdfBundle : undefined,
+    })
+    setPaywallUnlocked(true)
+  }, [history, sector, fecMeta, completedTypes, scorisLevel, strategicPdfBundle])
 
   const allSteps = useMemo(() => {
     if (scorisLevel === 'strategique') return [...WIZARD_STEPS, ...STRATEGIC_WIZARD_STEPS]

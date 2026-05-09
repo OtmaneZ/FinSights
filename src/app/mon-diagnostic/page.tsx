@@ -26,6 +26,7 @@ import {
   getContextualCTA,
 } from '@/lib/scoring/diagnosticScore'
 import { generateDiagnosticPDF } from '@/lib/pdf/generateDiagnosticPDF'
+import type { StrategiqueContextPayload } from '@/lib/opus-engine'
 import ScorePaywall from '@/components/diagnostic/ScorePaywall'
 import { FreePreviewReminderBanner } from '@/components/diagnostic/FreePreviewReminderBanner'
 import {
@@ -277,6 +278,20 @@ function MonDiagnosticContent() {
       // Recalcul au moment de l'appel pour avoir les dernières valeurs
       const diagSnap = computeDiagnosticScore(history, sector)
       const insightsSnap = computeInsights(diagSnap, history, sector)
+
+      let scorisLevelPdf: 'standard' | 'strategique' = 'standard'
+      let strategiquePayload: StrategiqueContextPayload | undefined
+      try {
+        const lvl = localStorage.getItem('finsight_scoris_level')
+        const raw = localStorage.getItem('finsight_scoris_strategic')
+        if (lvl === 'strategique' && raw) {
+          strategiquePayload = JSON.parse(raw) as StrategiqueContextPayload
+          scorisLevelPdf = 'strategique'
+        }
+      } catch {
+        /* ignore */
+      }
+
       await generateDiagnosticPDF({
         diagnostic: diagSnap,
         insights: insightsSnap,
@@ -288,6 +303,8 @@ function MonDiagnosticContent() {
         completedCount: completedTypes().length,
         totalCalculators: TOTAL_CALCULATORS,
         isPremium,
+        scorisLevel: scorisLevelPdf,
+        strategique: strategiquePayload,
       })
       if (opts?.isPremium === false) {
         setHasDownloadedFreeReport(true)

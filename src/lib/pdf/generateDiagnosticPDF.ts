@@ -1,7 +1,7 @@
 /**
  * DIAGNOSTIC PDF GENERATOR — Executive Edition v3.0
  *
- * Generates a 9-page A4 portrait consulting-grade report.
+ * Generates a 9-page (Standard) or 13-page (Stratégique) A4 portrait consulting-grade report.
  * Pure jsPDF — no DOM capture, no html2canvas dependency.
  *
  * Page 0: Message clé (full page)
@@ -26,9 +26,15 @@ import {
   SECTOR_BENCHMARKS,
   LEVEL_CONFIG,
   estimateCA,
+  computeZScoreBreakdownFromInputs,
 } from '@/lib/scoring/diagnosticScore'
 import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
-import type { ScoreContext, RecommendationPlan, OpusPriority } from '@/lib/opus-engine'
+import type {
+  ScoreContext,
+  RecommendationPlan,
+  OpusPriority,
+  StrategiqueContextPayload,
+} from '@/lib/opus-engine'
 
 // ─── Palette ────────────────────────────────────────────────────────────────
 const C = {
@@ -48,6 +54,11 @@ const C = {
 } as const
 
 type RGB = readonly [number, number, number]
+
+/** Pastels SWOT (jsPDF fill) */
+const SWOT_FAIB: RGB = [254, 226, 226] as const
+const SWOT_OPP: RGB = [219, 234, 254] as const
+const SWOT_MEN: RGB = [255, 237, 213] as const
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -232,6 +243,10 @@ export interface DiagnosticPDFData {
   totalCalculators: number
   /** false = version gratuite partielle ; undefined/true = rapport 9 pages complet */
   isPremium?: boolean
+  /** Standard = 9 pages · Stratégique = 13 pages */
+  scorisLevel?: 'standard' | 'strategique'
+  /** Données wizard stratégique — requis si scorisLevel === 'strategique' */
+  strategique?: StrategiqueContextPayload
 }
 
 // ─── Opus plan fetcher (client-side → /api/diagnostic/opus-plan) ─────────────
@@ -274,6 +289,9 @@ async function fetchOpusPlan(data: DiagnosticPDFData): Promise<RecommendationPla
       forces: data.insights.forces ?? [],
       vulnerabilites: data.insights.vulnerabilites ?? [],
       prioriteScorisFallback: data.insights.priorite ?? undefined,
+      ...(data.scorisLevel === 'strategique' && data.strategique
+        ? { strategique: data.strategique }
+        : {}),
     }
 
     const res = await fetch('/api/diagnostic/opus-plan', {
@@ -301,7 +319,8 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   const M = 20
   const CW = W - 2 * M
   const FOOTER_H = 18
-  const TOTAL_PAGES = 9
+  const isStrategicPdf = data.scorisLevel === 'strategique' && !!data.strategique
+  const totalPages = isStrategicPdf ? 13 : 9
   let pageNum = 0
 
   const isPremium = data.isPremium !== false
@@ -312,6 +331,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   const bfr = get('bfr')
   const marge = get('marge')
   const ebitda = get('ebitda')
+  const seuil = get('seuil-rentabilite')
   const caAnnuel = estimateCA((t: CalculatorType) => get(t))
   const displayName = data.companyName || data.fileName || 'Mon Entreprise'
   const dateStr = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -328,7 +348,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   const opusPlan = await fetchOpusPlan(data)
 
   let currentSection = 'Message clé'
-  const footer = () => { addPageFooter(pdf, M, pageNum, TOTAL_PAGES, currentSection) }
+  const footer = () => { addPageFooter(pdf, M, pageNum, totalPages, currentSection) }
 
   // ═══════════════════════════════════════════════════════════════════════════
   // PAGE 0 — MESSAGE CLÉ
@@ -352,7 +372,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   pdf.setTextColor(...rgb(C.light))
   pdf.text('Rapport stratégique FinSight', M, H - 20)
   pdf.text('FinSight', W - M, H - 20, { align: 'right' })
-  addPageFooter(pdf, M, pageNum, TOTAL_PAGES, 'Message clé')
+  addPageFooter(pdf, M, pageNum, totalPages, 'Message clé')
 
   // ═══════════════════════════════════════════════════════════════════════════
   // PAGE 1 — COVER
@@ -389,6 +409,15 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   pdf.text('Diagnostic de', M + 8, 90)
   pdf.text('Performance Financiere', M + 8, 103)
 
+  if (isStrategicPdf) {
+    pdf.setFillColor(...rgb(C.accent))
+    pdf.roundedRect(M + 8, 108, 64, 11, 2, 2, 'F')
+    pdf.setFontSize(9)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.white))
+    pdf.text('SCORIS STRATEGIQUE', M + 12, 115.5)
+  }
+
   pdf.setFontSize(16)
   pdf.setFont('helvetica', 'normal')
   pdf.setTextColor(...rgb(C.text))
@@ -403,7 +432,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   pdf.setTextColor(...rgb(C.muted))
   pdf.text(clean(LEVEL_CONFIG[data.diagnostic.level].label), M + 8, 147)
 
-  const metaY = 150
+  const metaY = isStrategicPdf ? 158 : 150
   pdf.setFontSize(9)
   pdf.setTextColor(...rgb(C.muted))
   const metaLines = [
@@ -429,7 +458,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   pdf.setFont('helvetica', 'italic')
   pdf.setTextColor(...rgb(C.light))
   pdf.text('Rapport confidentiel — Usage exclusif du dirigeant', M + 8, H - 6)
-  addPageFooter(pdf, M, pageNum, TOTAL_PAGES, currentSection)
+  addPageFooter(pdf, M, pageNum, totalPages, currentSection)
 
   // ═══════════════════════════════════════════════════════════════════════════
   // PAGE 2 — TABLE DES MATIÈRES
@@ -440,17 +469,33 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   addPageHeader(pdf, M, displayName, dateStr)
   let y = M + 18
   y = sectionTitle(pdf, 'TABLE DES MATIERES', M, y)
-  const toc = [
-    ['Message clé', '1'],
-    ['Couverture', '2'],
-    ['Table des matières', '3'],
-    ['Synthèse executive', '4'],
-    ['Analyse par pilier', '5'],
-    ['Priorités d’action', '6'],
-    ['Pack banquier', '7'],
-    ['Benchmark et radars J+30', '8'],
-    ['Méthodologie et disclaimer', '9'],
-  ]
+  const toc = isStrategicPdf
+    ? [
+        ['Message clé', '1'],
+        ['Couverture', '2'],
+        ['Table des matières', '3'],
+        ['Synthèse executive', '4'],
+        ['Analyse par pilier', '5'],
+        ['Priorités d’action', '6'],
+        ['Pack banquier', '7'],
+        ['Benchmark et radars J+30', '8'],
+        ['Z-Score Altman', '9'],
+        ['Analyse SWOT', '10'],
+        ['Positionnement stratégique', '11'],
+        ['Valorisation & financement', '12'],
+        ['Méthodologie et disclaimer', '13'],
+      ]
+    : [
+        ['Message clé', '1'],
+        ['Couverture', '2'],
+        ['Table des matières', '3'],
+        ['Synthèse executive', '4'],
+        ['Analyse par pilier', '5'],
+        ['Priorités d’action', '6'],
+        ['Pack banquier', '7'],
+        ['Benchmark et radars J+30', '8'],
+        ['Méthodologie et disclaimer', '9'],
+      ]
   pdf.setFont('helvetica', 'normal')
   pdf.setFontSize(TYPO.subtitle)
   pdf.setTextColor(...rgb(C.text))
@@ -459,7 +504,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     pdf.text(`........ ${p}`, W - M, y, { align: 'right' })
     y += 10
   })
-  addPageFooter(pdf, M, pageNum, TOTAL_PAGES, currentSection)
+  addPageFooter(pdf, M, pageNum, totalPages, currentSection)
 
   // ═══════════════════════════════════════════════════════════════════════════
   // PAGE 3 — EXECUTIVE SUMMARY
@@ -1082,10 +1127,393 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 8 — MÉTHODOLOGIE + LEGAL
+  // PAGES 9–12 — SCORIS STRATÉGIQUE (Z-Score, SWOT, feuille de route, valorisation)
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (isStrategicPdf && data.strategique) {
+    const strat = data.strategique
+    const margeBrute = Number(seuil?.inputs?.margeBrute ?? marge?.value ?? 0)
+    const chargesFixesMensuelles = Number(seuil?.inputs?.chargesFixesMensuelles ?? 0)
+    const bfrEuros = Number(bfr?.value ?? 0)
+    const zBreakdown =
+      strat.actifTotal > 0
+        ? computeZScoreBreakdownFromInputs({
+            actifTotal: strat.actifTotal,
+            capitauxPropres: strat.capitauxPropres,
+            bfrEuros,
+            caAnnuel: caAnnuel ?? 0,
+            margeBrute,
+            chargesFixesMensuelles,
+          })
+        : null
+
+    const as = opusPlan?.analyseStrategique
+    const ebitdaPctForVal =
+      ebitda && caAnnuel && caAnnuel > 0
+        ? Math.round((ebitda.value / caAnnuel) * 100)
+        : undefined
+    const ebitdaEstimable = !!(caAnnuel && caAnnuel > 0 && ebitdaPctForVal != null && ebitdaPctForVal > 0)
+
+    // ── Page 9 : Z-Score Altman
+    pdf.addPage()
+    pageNum = 9
+    currentSection = 'Z-Score Altman'
+    addPageHeader(pdf, M, displayName, dateStr)
+    y = M + 18
+    y = sectionTitle(pdf, 'INDICE DE SOLIDITE FINANCIERE — Z-SCORE ALTMAN', M, y)
+    pdf.setFontSize(TYPO.subtitle)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.muted))
+    pdf.text('Modele predictif de defaillance a 24 mois (approximation declarative PME)', M, y)
+    y += 14
+
+    if (strat.actifTotal > 0 && zBreakdown) {
+      const barW = CW
+      const barH = 9
+      const barY = y
+      const zShow = zBreakdown.zScore
+      const scaleMin = 0
+      const scaleMax = 5
+      const t1 = (1.23 - scaleMin) / (scaleMax - scaleMin)
+      const t2 = (2.9 - scaleMin) / (scaleMax - scaleMin)
+      const wR = barW * t1
+      const wO = barW * (t2 - t1)
+      const wG = barW - wR - wO
+      pdf.setFillColor(...rgb(C.red))
+      pdf.rect(M, barY, wR, barH, 'F')
+      pdf.setFillColor(...rgb(C.amber))
+      pdf.rect(M + wR, barY, wO, barH, 'F')
+      pdf.setFillColor(...rgb(C.green))
+      pdf.rect(M + wR + wO, barY, wG, barH, 'F')
+      const markerX = M + Math.max(0, Math.min(barW, ((zShow - scaleMin) / (scaleMax - scaleMin)) * barW))
+      pdf.setDrawColor(...rgb(C.navy))
+      pdf.setLineWidth(0.8)
+      pdf.line(markerX, barY - 2, markerX, barY + barH + 2)
+      pdf.setFontSize(8)
+      pdf.setFont('helvetica', 'bold')
+      pdf.setTextColor(...rgb(C.navy))
+      pdf.text(`${zShow.toFixed(2)}`, markerX, barY + barH + 8, { align: 'center' })
+      y = barY + barH + 16
+
+      pdf.setFontSize(7)
+      pdf.setFont('helvetica', 'normal')
+      pdf.setTextColor(...rgb(C.muted))
+      pdf.text('Rouge < 1,23 · Orange 1,23–2,9 · Vert > 2,9', M, y)
+      y += 10
+
+      pdf.setFontSize(7.5)
+      pdf.setFont('helvetica', 'bold')
+      pdf.setTextColor(...rgb(C.navy))
+      pdf.text('Composantes (formulation PME)', M, y)
+      y += 6
+
+      const tableHead = ['Indicateur', 'Valeur', 'Poids', 'Contribution']
+      const colW = [72, 28, 22, 38]
+      pdf.setFillColor(...rgb(C.navy))
+      pdf.rect(M, y, CW, 7, 'F')
+      pdf.setFontSize(6.5)
+      pdf.setTextColor(...rgb(C.white))
+      let hx = M + 2
+      tableHead.forEach((h, i) => {
+        pdf.text(h, hx, y + 5)
+        hx += colW[i]
+      })
+      y += 8
+
+      zBreakdown.rows.forEach((row, i) => {
+        pdf.setFillColor(...rgb(i % 2 === 0 ? C.bg : C.white))
+        pdf.rect(M, y, CW, 8, 'F')
+        pdf.setFont('helvetica', 'normal')
+        pdf.setTextColor(...rgb(C.dark))
+        let rx = M + 2
+        const cells = [
+          clean(row.indicateur),
+          row.valeur.toFixed(4),
+          row.poids.toFixed(3),
+          row.contribution.toFixed(4),
+        ]
+        cells.forEach((c, j) => {
+          pdf.text(c, rx, y + 5.5)
+          rx += colW[j]
+        })
+        y += 8
+      })
+      pdf.setFont('helvetica', 'bold')
+      pdf.setTextColor(...rgb(C.navy))
+      pdf.text('Z-Score total', M + 2, y + 5)
+      pdf.text(zBreakdown.zScore.toFixed(4), M + CW - 40, y + 5)
+      y += 12
+    } else {
+      pdf.setFontSize(9)
+      pdf.setTextColor(...rgb(C.muted))
+      wrapText(pdf, 'Z-Score non affiche : renseigner un actif total positif pour calculer l\'indicateur.', CW).forEach((ln) => {
+        pdf.text(ln, M, y)
+        y += 5
+      })
+      y += 8
+    }
+
+    const zComm = as?.zScoreCommentaire?.trim()
+      ? clean(as.zScoreCommentaire)
+      : 'Interpretation : croiser ce signal avec le pilotage cash court terme et la structure du bilan.'
+    pdf.setFontSize(TYPO.body)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.text))
+    wrapText(pdf, zComm, CW).forEach((ln) => {
+      y = ensureSpace(pdf, y, 8, M, H, FOOTER_H, footer)
+      pdf.text(ln, M, y)
+      y += TYPO.lineBody
+    })
+    y += 4
+    pdf.setFontSize(7)
+    pdf.setFont('helvetica', 'italic')
+    pdf.setTextColor(...rgb(C.muted))
+    pdf.text('Source : Modele Altman Z-Score adapte PME (1983, revise 2000) — X2 non saisi.', M, y)
+    footer()
+
+    // ── Page 10 : SWOT
+    pdf.addPage()
+    pageNum = 10
+    currentSection = 'Analyse SWOT'
+    addPageHeader(pdf, M, displayName, dateStr)
+    y = M + 18
+    y = sectionTitle(pdf, 'ANALYSE SWOT — DIAGNOSTIC STRATEGIQUE', M, y)
+
+    const sw = as?.swotStructure
+    const quad = (title: string, lines: string[], fill: RGB, x: number, qy: number, qw: number, qh: number) => {
+      pdf.setFillColor(...rgb(fill))
+      pdf.roundedRect(x, qy, qw, qh, 2, 2, 'F')
+      pdf.setDrawColor(...rgb(C.border))
+      pdf.roundedRect(x, qy, qw, qh, 2, 2, 'S')
+      pdf.setFontSize(8)
+      pdf.setFont('helvetica', 'bold')
+      pdf.setTextColor(...rgb(C.navy))
+      pdf.text(title, x + 4, qy + 7)
+      let ly = qy + 12
+      pdf.setFont('helvetica', 'normal')
+      pdf.setFontSize(7)
+      pdf.setTextColor(...rgb(C.text))
+      lines.slice(0, 8).forEach((line) => {
+        wrapText(pdf, `• ${clean(line)}`, qw - 8).forEach((wl) => {
+          if (ly > qy + qh - 4) return
+          pdf.text(wl, x + 4, ly)
+          ly += 3.6
+        })
+      })
+    }
+
+    const qw = (CW - 6) / 2
+    const qh = 62
+    const qy0 = y
+    quad(
+      'FORCES',
+      [
+        ...data.insights.forces.map((f) => `Financier : ${f}`),
+        strat.swotForce.trim() ? `Declare dirigeant : « ${clean(strat.swotForce)} »` : '',
+        ...(sw?.forces ?? []),
+      ].filter(Boolean),
+      C.green,
+      M,
+      qy0,
+      qw,
+      qh,
+    )
+    quad(
+      'FAIBLESSES',
+      [
+        ...data.insights.vulnerabilites.map((v) => `Financier : ${v}`),
+        ...(sw?.faiblesses ?? []),
+      ].filter(Boolean),
+      SWOT_FAIB,
+      M + qw + 6,
+      qy0,
+      qw,
+      qh,
+    )
+    const qy1 = qy0 + qh + 6
+    quad(
+      'OPPORTUNITES',
+      sw?.opportunites?.length ? sw.opportunites : [`Objectif 12 mois : ${clean(strat.objectif12mois)}`],
+      SWOT_OPP,
+      M,
+      qy1,
+      qw,
+      qh,
+    )
+    quad(
+      'MENACES',
+      [
+        ...(sw?.menaces ?? []),
+        strat.swotMenace.trim() ? `Declare dirigeant : « ${clean(strat.swotMenace)} »` : '',
+      ].filter(Boolean),
+      SWOT_MEN,
+      M + qw + 6,
+      qy1,
+      qw,
+      qh,
+    )
+
+    footer()
+
+    // ── Page 11 : Positionnement stratégique
+    pdf.addPage()
+    pageNum = 11
+    currentSection = 'Positionnement stratégique'
+    addPageHeader(pdf, M, displayName, dateStr)
+    y = M + 18
+    y = sectionTitle(pdf, 'FEUILLE DE ROUTE STRATEGIQUE — 12 MOIS', M, y)
+
+    pdf.setFillColor(...rgb(C.bgWarm))
+    pdf.roundedRect(M, y, CW, 22, 3, 3, 'F')
+    pdf.setFontSize(10)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.navy))
+    pdf.text('Objectif principal', M + 6, y + 10)
+    pdf.setFontSize(9)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.text))
+    wrapText(pdf, clean(strat.objectif12mois), CW - 12).forEach((ln, i) => {
+      pdf.text(ln, M + 6, y + 16 + i * 4.5)
+    })
+    y += 30
+
+    const steps = opusPlan?.actionPlan90j?.length ? opusPlan.actionPlan90j : []
+    const colW2 = (CW - 8) / 3
+    const headers = ['0-30 jours', '30-90 jours', '90-365 jours']
+    const buckets: string[][] = [[], [], []]
+    steps.forEach((st, idx) => {
+      const line = `${clean(st.semaine)} — ${clean(st.action)}`
+      if (idx % 3 === 0) buckets[0].push(line)
+      else if (idx % 3 === 1) buckets[1].push(line)
+      else buckets[2].push(line)
+    })
+    if (buckets.every((b) => b.length === 0)) {
+      buckets[0].push('Prioriser le cash et les encaissements.')
+      buckets[1].push('Consolider marge et BFR selon benchmarks.')
+      buckets[2].push('Aligner investissements sur l\'objectif 12 mois.')
+    }
+
+    const timelineTop = y
+    headers.forEach((h, i) => {
+      const cx = M + i * (colW2 + 4)
+      pdf.setFillColor(...rgb(C.navy))
+      pdf.rect(cx, timelineTop, colW2, 8, 'F')
+      pdf.setFontSize(7.5)
+      pdf.setFont('helvetica', 'bold')
+      pdf.setTextColor(...rgb(C.white))
+      pdf.text(h, cx + 3, timelineTop + 5.5)
+    })
+    let maxColY = timelineTop + 12
+    headers.forEach((_, i) => {
+      const cx = M + i * (colW2 + 4)
+      let ly = timelineTop + 12
+      pdf.setFont('helvetica', 'normal')
+      pdf.setFontSize(6.8)
+      pdf.setTextColor(...rgb(C.text))
+      buckets[i].forEach((txt) => {
+        wrapText(pdf, txt, colW2 - 4).forEach((wl) => {
+          ly = ensureSpace(pdf, ly, 6, M, H, FOOTER_H, footer)
+          pdf.text(wl, cx + 2, ly)
+          ly += 3.5
+        })
+      })
+      maxColY = Math.max(maxColY, ly)
+    })
+    y = maxColY + 10
+
+    y = sectionTitle(pdf, 'RECOMMANDATION FINANCEMENT', M, y)
+    pdf.setFontSize(8)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.text))
+    wrapText(pdf, clean(as?.recommendationFinancement ?? 'Structurer la dette court terme et securiser les lignes de tresorerie en lien avec votre banque.'), CW).forEach((ln) => {
+      y = ensureSpace(pdf, y, 6, M, H, FOOTER_H, footer)
+      pdf.text(ln, M, y)
+      y += 4.5
+    })
+    footer()
+
+    // ── Page 12 : Valorisation
+    pdf.addPage()
+    pageNum = 12
+    currentSection = 'Valorisation & financement'
+    addPageHeader(pdf, M, displayName, dateStr)
+    y = M + 18
+    y = sectionTitle(pdf, 'ESTIMATION DE LA VALEUR D\'ENTREPRISE', M, y)
+    pdf.setFontSize(TYPO.subtitle)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.muted))
+    pdf.text('Fourchette indicative — usage exclusif interne', M, y)
+    y += 12
+
+    if (ebitdaEstimable && as?.valorisationFourchette) {
+      const vf = as.valorisationFourchette
+      const cardW = (CW - 8) / 2
+      pdf.setFillColor(...rgb(C.bg))
+      pdf.roundedRect(M, y, cardW, 28, 2, 2, 'F')
+      pdf.roundedRect(M + cardW + 8, y, cardW, 28, 2, 2, 'F')
+      pdf.setFontSize(8)
+      pdf.setFont('helvetica', 'bold')
+      pdf.setTextColor(...rgb(C.navy))
+      pdf.text('Valeur basse', M + 6, y + 10)
+      pdf.text('Valeur haute', M + cardW + 14, y + 10)
+      pdf.setFontSize(14)
+      pdf.text(`${fmt(vf.basse)} EUR`, M + 6, y + 20)
+      pdf.text(`${fmt(vf.haute)} EUR`, M + cardW + 14, y + 20)
+      y += 34
+      pdf.setFontSize(7.5)
+      pdf.setFont('helvetica', 'normal')
+      pdf.setTextColor(...rgb(C.text))
+      wrapText(pdf, clean(vf.methode), CW).forEach((ln) => {
+        pdf.text(ln, M, y)
+        y += 4
+      })
+    } else {
+      pdf.setFontSize(9)
+      pdf.setTextColor(...rgb(C.muted))
+      wrapText(
+        pdf,
+        'Fourchette de valorisation non affichee : renseigner un EBITDA estime (calculateur EBITDA + CA) pour activer l\'estimation.',
+        CW,
+      ).forEach((ln) => {
+        pdf.text(ln, M, y)
+        y += 5
+      })
+    }
+
+    y += 8
+    pdf.setFillColor(...rgb(C.bg))
+    pdf.roundedRect(M, y, CW, 18, 2, 2, 'F')
+    pdf.setFontSize(6.5)
+    pdf.setTextColor(...rgb(C.muted))
+    wrapText(
+      pdf,
+      'Cette estimation repose sur des donnees declaratives et des multiples sectoriels. Elle ne constitue pas une evaluation officielle et ne peut etre utilisee dans un acte juridique.',
+      CW - 6,
+    ).forEach((ln, i) => {
+      pdf.text(ln, M + 3, y + 6 + i * 3.5)
+    })
+    y += 24
+
+    pdf.setFontSize(8)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.navy))
+    pdf.text('Options de financement', M, y)
+    y += 6
+    pdf.setFont('helvetica', 'normal')
+    pdf.setFontSize(7.5)
+    pdf.setTextColor(...rgb(C.text))
+    wrapText(pdf, clean(as?.recommendationFinancement ?? ''), CW).forEach((ln) => {
+      y = ensureSpace(pdf, y, 5, M, H, FOOTER_H, footer)
+      pdf.text(ln, M, y)
+      y += 4
+    })
+    footer()
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Dernière page — MÉTHODOLOGIE + LEGAL
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 9
+  pageNum = isStrategicPdf ? 13 : 9
   currentSection = 'Méthodologie et disclaimer'
   addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
