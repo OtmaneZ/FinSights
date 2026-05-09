@@ -681,6 +681,25 @@ function DiagnosticGuideContent() {
     freePreviewBannerDismissed,
   ])
 
+  /** Mode test weekend : rapport PDF premium sans paiement */
+  const handlePremiumTestPDF = useCallback(async () => {
+    const diagSnap = computeDiagnosticScore(history, sector)
+    const insightsSnap = computeInsights(diagSnap, history, sector)
+    await generateDiagnosticPDF({
+      diagnostic: diagSnap,
+      insights: insightsSnap,
+      sector,
+      history,
+      companyName: fecMeta?.fileName?.replace(/\.[^.]+$/, '') || undefined,
+      fileName: fecMeta?.fileName || undefined,
+      fecMeta: fecMeta || undefined,
+      completedCount: completedTypes().length,
+      totalCalculators: TOTAL_CALCULATORS,
+      isPremium: true,
+    })
+    setPaywallUnlocked(true)
+  }, [history, sector, fecMeta, completedTypes])
+
   // Detect Stripe success redirect and verify payment server-side
   const searchParams = useSearchParams()
   useEffect(() => {
@@ -2109,6 +2128,7 @@ function DiagnosticGuideContent() {
                         scorisLevel={scorisLevel ?? 'standard'}
                         onPreviewDownload={handleFreePreviewPDF}
                         previewLoading={generatingPreviewPdf}
+                        onPremiumDownload={handlePremiumTestPDF}
                       />
                     </div>
                   )}

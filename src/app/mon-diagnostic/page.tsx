@@ -977,6 +977,10 @@ function MonDiagnosticContent() {
                 sector={sector}
                 onPreviewDownload={() => handleDownloadPDF({ isPremium: false })}
                 previewLoading={generatingPDF}
+                onPremiumDownload={async () => {
+                  await handleDownloadPDF({ isPremium: true })
+                  setPaywallUnlocked(true)
+                }}
               />
             </FadeIn>
           )}

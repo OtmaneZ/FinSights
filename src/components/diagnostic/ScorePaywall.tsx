@@ -30,6 +30,8 @@ export interface ScorePaywallProps {
   onPreviewDownload?: () => void | Promise<void>
   /** Affiche un état chargement sur le lien aperçu */
   previewLoading?: boolean
+  /** Mode test : téléchargement rapport complet (isPremium: true) sans Stripe */
+  onPremiumDownload?: () => void | Promise<void>
 }
 
 const BULLET_POINTS_STANDARD = [
@@ -53,6 +55,7 @@ export default function ScorePaywall({
   scorisLevel = 'standard',
   onPreviewDownload,
   previewLoading = false,
+  onPremiumDownload,
 }: ScorePaywallProps) {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -63,70 +66,60 @@ export default function ScorePaywall({
 
   const isValidEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  /** Weekend test : PDF premium + pas de Stripe (voir TODO ci-dessous). */
+  const handleTestPremiumDownload = async () => {
     setEmailError('')
     setError('')
-
-    if (!isValidEmail(email)) {
+    if (email.trim() && !isValidEmail(email)) {
       setEmailError('Adresse email invalide')
+      return
+    }
+    if (!onPremiumDownload) {
+      setError('Téléchargement indisponible.')
       return
     }
 
     setLoading(true)
-
-    // 1. Capturer le lead en DB (non-bloquant)
     try {
-      await fetch('/api/diagnostic/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, score, sector }),
-      })
-      setLeadSaved(true)
-    } catch {
-      // Non-bloquant
-    }
-
-    // 2. Créer la session Stripe Checkout
-    try {
-      const returnPath =
-        typeof window !== 'undefined'
-          ? `${window.location.pathname}${window.location.search}`
-          : '/diagnostic/guide'
-      const checkoutRes = await fetch('/api/stripe/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          score,
-          sector,
-          product: scorisLevel === 'strategique' ? 'scoris_strategique' : 'scoris_report',
-          scorisLevel,
-          returnPath,
-        }),
-      })
-
-      const checkoutData = await checkoutRes.json()
-
-      if (checkoutData.error === 'stripe_not_configured') {
-        // Fallback : Stripe non configuré → lead capturé, message de confirmation
-        setStripeUnavailable(true)
-        setLoading(false)
-        return
+      if (email.trim() && isValidEmail(email)) {
+        try {
+          await fetch('/api/diagnostic/lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, score, sector }),
+          })
+          setLeadSaved(true)
+        } catch {
+          /* non-bloquant */
+        }
       }
 
-      if (!checkoutData.success || !checkoutData.url) {
-        throw new Error(checkoutData.error || 'Erreur lors de la création du paiement')
-      }
-
-      // Redirect vers Stripe Checkout
-      window.location.href = checkoutData.url
-
+      await onPremiumDownload()
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Une erreur est survenue')
+    } finally {
       setLoading(false)
     }
   }
+
+  // TODO: REMETTRE STRIPE — rétablir la redirection Checkout à la place du téléchargement test (handleTestPremiumDownload + onPremiumDownload)
+  // const checkoutRes = await fetch('/api/stripe/checkout', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({
+  //     email,
+  //     score,
+  //     sector,
+  //     product: scorisLevel === 'strategique' ? 'scoris_strategique' : 'scoris_report',
+  //     scorisLevel,
+  //     returnPath:
+  //       typeof window !== 'undefined'
+  //         ? `${window.location.pathname}${window.location.search}`
+  //         : '/diagnostic/guide',
+  //   }),
+  // })
+  // const checkoutData = await checkoutRes.json()
+  // if (checkoutData.success && checkoutData.url) window.location.href = checkoutData.url
 
   // ── Fallback : Stripe non configuré ─────────────────────────────────────
   if (stripeUnavailable) {
@@ -160,6 +153,9 @@ export default function ScorePaywall({
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative p-8 lg:p-10">
+        <p className="text-[11px] text-amber-300/90 bg-amber-500/10 border border-amber-500/25 rounded-lg px-3 py-2 mb-5 text-center tracking-wide">
+          Mode test — paiement désactivé
+        </p>
         {/* Badge */}
         <div className="flex items-center gap-2 mb-6">
           <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center">
@@ -213,11 +209,17 @@ export default function ScorePaywall({
                 <span className="text-sm text-gray-400">· paiement unique</span>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  void handleTestPremiumDownload()
+                }}
+                className="space-y-4"
+              >
                 {/* Email */}
                 <div>
                   <label className="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">
-                    Email de livraison
+                    Email de livraison <span className="text-gray-600 font-normal normal-case">(optionnel)</span>
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
@@ -226,7 +228,6 @@ export default function ScorePaywall({
                       value={email}
                       onChange={(e) => { setEmail(e.target.value); setEmailError('') }}
                       placeholder="vous@entreprise.com"
-                      required
                       className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 transition-all"
                     />
                   </div>
@@ -241,21 +242,23 @@ export default function ScorePaywall({
                   </p>
                 )}
 
-                {/* CTA */}
+                {/* CTA — weekend test : téléchargement premium sans Stripe */}
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || previewLoading}
                   className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-lg transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <>
                       <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Redirection vers le paiement…
+                      Génération du PDF…
                     </>
                   ) : (
                     <>
                       <FileText className="w-4 h-4" />
-                      Obtenir mon rapport complet
+                      {scorisLevel === 'strategique'
+                        ? 'Télécharger mon rapport Stratégique (test gratuit)'
+                        : 'Télécharger mon rapport (test gratuit)'}
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
@@ -263,7 +266,7 @@ export default function ScorePaywall({
 
                 {/* Mentions */}
                 <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 pt-1">
-                  {['Paiement sécurisé Stripe', 'Rapport PDF', 'Livré par email'].map((m) => (
+                  {['PDF complet (test)', 'Sans paiement ce weekend', 'Benchmarks BdF'].map((m) => (
                     <span key={m} className="text-[10px] text-gray-500 flex items-center gap-1">
                       <CheckCircle2 className="w-2.5 h-2.5 text-gray-600" />
                       {m}
