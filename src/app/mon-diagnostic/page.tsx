@@ -243,8 +243,10 @@ function MonDiagnosticContent() {
   const [paywallUnlocked, setPaywallUnlocked] = useState(false)
   const [generatingPDF, setGeneratingPDF] = useState(false)
 
-  const handleDownloadPDF = useCallback(async (auto = false) => {
+  const handleDownloadPDF = useCallback(async (opts?: { silent?: boolean; isPremium?: boolean }) => {
     if (generatingPDF) return
+    const silent = opts?.silent ?? false
+    const isPremium = opts?.isPremium ?? true
     setGeneratingPDF(true)
     try {
       // Recalcul au moment de l'appel pour avoir les dernières valeurs
@@ -260,25 +262,26 @@ function MonDiagnosticContent() {
         fecMeta: fecMeta || undefined,
         completedCount: completedTypes().length,
         totalCalculators: TOTAL_CALCULATORS,
+        isPremium,
       })
     } catch (err) {
-      if (!auto) console.error('PDF generation failed:', err)
+      if (!silent) console.error('PDF generation failed:', err)
     } finally {
       setGeneratingPDF(false)
     }
   }, [generatingPDF, history, sector, fecMeta, completedTypes])
 
-  // Détection ?success=true → débloquer + auto-générer PDF
+  // Détection ?success=true → débloquer + auto-générer PDF (version complète payante)
   useEffect(() => {
     if (!mounted) return
     const success = searchParams?.get('success')
     if (success === 'true') {
       setPaywallUnlocked(true)
       // Auto-génération PDF avec un léger délai pour laisser le composant se rendre
-      const timer = setTimeout(() => { handleDownloadPDF(true) }, 800)
+      const timer = setTimeout(() => { handleDownloadPDF({ silent: true, isPremium: true }) }, 800)
       return () => clearTimeout(timer)
     }
-  }, [mounted, searchParams]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mounted, searchParams, handleDownloadPDF])
 
   if (!mounted) {
     return (
@@ -1057,7 +1060,7 @@ function MonDiagnosticContent() {
                     </div>
                   </div>
                   <button
-                    onClick={() => handleDownloadPDF(false)}
+                    onClick={() => handleDownloadPDF({ isPremium: false })}
                     disabled={generatingPDF}
                     className="group inline-flex items-center gap-2 px-5 py-2.5 bg-slate-950 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors flex-shrink-0 disabled:opacity-50"
                   >

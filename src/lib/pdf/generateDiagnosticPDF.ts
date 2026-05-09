@@ -128,6 +128,41 @@ function sectionTitle(pdf: jsPDF, text: string, x: number, y: number): number {
   return y + 12
 }
 
+/** Freemium — fond #e2e8f0, CTA vers le rapport complet */
+const LOCK_FILL: RGB = [226, 232, 240]
+
+function drawLockedContentBlock(
+  pdf: jsPDF,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  headline: string,
+): void {
+  pdf.setFillColor(...rgb(LOCK_FILL))
+  pdf.roundedRect(x, y, w, h, 2, 2, 'F')
+  pdf.setDrawColor(...rgb(C.border))
+  pdf.setLineWidth(0.3)
+  pdf.roundedRect(x, y, w, h, 2, 2, 'S')
+  pdf.setFontSize(8.5)
+  pdf.setFont('helvetica', 'bold')
+  pdf.setTextColor(...rgb(C.navy))
+  const headLines = wrapText(pdf, `🔒 ${clean(headline)}`, w - 8)
+  let ly = y + 5.5
+  headLines.forEach((line) => {
+    pdf.text(line, x + 4, ly)
+    ly += 4.2
+  })
+  pdf.setFontSize(7)
+  pdf.setFont('helvetica', 'normal')
+  pdf.setTextColor(...rgb(C.muted))
+  const cta = 'Obtenir le rapport complet sur finsight.zineinsight.com'
+  wrapText(pdf, cta, w - 8).forEach((line) => {
+    pdf.text(line, x + 4, ly + 1)
+    ly += 3.8
+  })
+}
+
 function getCalc(history: Calculation[], type: CalculatorType): Calculation | undefined {
   return history.find(c => c.type === type)
 }
@@ -151,6 +186,8 @@ export interface DiagnosticPDFData {
   } | null
   completedCount: number
   totalCalculators: number
+  /** false = version gratuite partielle ; undefined/true = rapport 9 pages complet */
+  isPremium?: boolean
 }
 
 // ─── Opus plan fetcher (client-side → /api/diagnostic/opus-plan) ─────────────
@@ -222,6 +259,8 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   const FOOTER_H = 18
   const TOTAL_PAGES = 9
   let pageNum = 0
+
+  const isPremium = data.isPremium !== false
 
   const bench = SECTOR_BENCHMARKS[data.sector]
   const get = (t: CalculatorType) => getCalc(data.history, t)
@@ -643,12 +682,16 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     const medianX = barX + barW * 0.5
     pdf.line(medianX, barY - 0.5, medianX, barY + 4)
 
-    pdf.setFontSize(7.5)
-    pdf.setFont('helvetica', 'normal')
-    pdf.setTextColor(...rgb(C.text))
-    wrapText(pdf, item.text, CW - 10).slice(0, 4).forEach((line, li) => {
-      pdf.text(line, M + 5, y + 19 + li * 3.8)
-    })
+    if (isPremium) {
+      pdf.setFontSize(7.5)
+      pdf.setFont('helvetica', 'normal')
+      pdf.setTextColor(...rgb(C.text))
+      wrapText(pdf, item.text, CW - 10).slice(0, 4).forEach((line, li) => {
+        pdf.text(line, M + 5, y + 19 + li * 3.8)
+      })
+    } else {
+      drawLockedContentBlock(pdf, M + 5, y + 15.5, CW - 10, 13.5, 'Débloquez l\'analyse complète — 49€')
+    }
 
     y += 34
     if (idx < pillarNarratives.length - 1) {
@@ -762,6 +805,18 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     pdf.roundedRect(M + 5, y + 4, 18, 18, 2, 2, 'F')
     pdf.setFontSize(12); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.white)); pdf.text(`#${idx + 1}`, M + 8.5, y + 16)
     pdf.setFontSize(9); pdf.setTextColor(...rgb(C.navy)); pdf.text(clean(prio.title), M + 30, y + 10)
+
+    if (!isPremium && idx > 0) {
+      drawLockedContentBlock(pdf, M + 5, y + 5, CW - 10, cardH - 10, 'Débloquez l\'analyse complète — 49€')
+      y += cardH + 6
+      return
+    }
+    if (!isPremium && idx === 0) {
+      drawLockedContentBlock(pdf, M + 28, y + 16, CW - 36, 14, 'Débloquez l\'analyse complète — 49€')
+      y += cardH + 6
+      return
+    }
+
     pdf.setFontSize(8); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(...rgb(C.text))
     wrapText(pdf, prio.detail, CW - 38).slice(0, 3).forEach((line, li) => pdf.text(line, M + 30, y + 16 + li * 4))
     y += cardH + 6
@@ -799,25 +854,37 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
 
-  y = sectionTitle(pdf, 'PREPAREZ VOTRE RENDEZ-VOUS BANCAIRE', M, y)
-  pdf.setFontSize(8)
-  pdf.setTextColor(...rgb(C.muted))
-  pdf.text('5 questions que votre banquier va poser — et vos réponses préparées', M, y)
-  y += 8
-
-  packBanquier.slice(0, 5).forEach((qa, idx) => {
-    y = ensureSpace(pdf, y, 24, M, H, FOOTER_H, footer)
-    pdf.setFontSize(8.5)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.navy))
-    pdf.text(`${idx + 1}. ${clean(qa.question)}`, M, y)
-    y += 5
+  if (!isPremium) {
+    const lockPageH = H - y - M - FOOTER_H - 8
+    drawLockedContentBlock(
+      pdf,
+      M,
+      y,
+      CW,
+      Math.max(55, lockPageH),
+      'Pack Banquier — 5 questions préparées avec vos chiffres réels · Débloquez pour 49€',
+    )
+  } else {
+    y = sectionTitle(pdf, 'PREPAREZ VOTRE RENDEZ-VOUS BANCAIRE', M, y)
     pdf.setFontSize(8)
-    pdf.setFont('helvetica', 'normal')
-    pdf.setTextColor(...rgb(C.text))
-    wrapText(pdf, qa.reponse, CW).forEach((line) => { pdf.text(line, M + 2, y); y += 4 })
-    y += 3
-  })
+    pdf.setTextColor(...rgb(C.muted))
+    pdf.text('5 questions que votre banquier va poser — et vos réponses préparées', M, y)
+    y += 8
+
+    packBanquier.slice(0, 5).forEach((qa, idx) => {
+      y = ensureSpace(pdf, y, 24, M, H, FOOTER_H, footer)
+      pdf.setFontSize(8.5)
+      pdf.setFont('helvetica', 'bold')
+      pdf.setTextColor(...rgb(C.navy))
+      pdf.text(`${idx + 1}. ${clean(qa.question)}`, M, y)
+      y += 5
+      pdf.setFontSize(8)
+      pdf.setFont('helvetica', 'normal')
+      pdf.setTextColor(...rgb(C.text))
+      wrapText(pdf, qa.reponse, CW).forEach((line) => { pdf.text(line, M + 2, y); y += 4 })
+      y += 3
+    })
+  }
 
   footer()
 
@@ -924,21 +991,26 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
 
   y += 10
   y = sectionTitle(pdf, 'SIGNAUX A SURVEILLER — 30 PROCHAINS JOURS', M, y)
-  radarsJ30.slice(0, 3).forEach((radar, i) => {
-    y = ensureSpace(pdf, y, 24, M, H, FOOTER_H, footer)
-    const isCrit = /critique|>\s*\d+/i.test(radar.seuil)
-    const color = isCrit ? C.red : C.amber
-    pdf.setFillColor(...rgb(C.white))
-    pdf.roundedRect(M, y, CW, 20, 2, 2, 'F')
-    pdf.setDrawColor(...rgb(C.border))
-    pdf.roundedRect(M, y, CW, 20, 2, 2, 'S')
-    pdf.setFillColor(...rgb(color))
-    pdf.rect(M, y, 2, 20, 'F')
-    pdf.setFontSize(8.5); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.navy)); pdf.text(`${i + 1}. ${clean(radar.signal)}`, M + 5, y + 7)
-    pdf.setFontSize(7.5); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(...rgb(C.muted)); pdf.text(`Seuil : ${clean(radar.seuil)}`, M + 5, y + 12)
-    pdf.setTextColor(...rgb(C.text)); pdf.text(clean(radar.action), M + 5, y + 17)
-    y += 24
-  })
+  if (isPremium) {
+    radarsJ30.slice(0, 3).forEach((radar, i) => {
+      y = ensureSpace(pdf, y, 24, M, H, FOOTER_H, footer)
+      const isCrit = /critique|>\s*\d+/i.test(radar.seuil)
+      const color = isCrit ? C.red : C.amber
+      pdf.setFillColor(...rgb(C.white))
+      pdf.roundedRect(M, y, CW, 20, 2, 2, 'F')
+      pdf.setDrawColor(...rgb(C.border))
+      pdf.roundedRect(M, y, CW, 20, 2, 2, 'S')
+      pdf.setFillColor(...rgb(color))
+      pdf.rect(M, y, 2, 20, 'F')
+      pdf.setFontSize(8.5); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.navy)); pdf.text(`${i + 1}. ${clean(radar.signal)}`, M + 5, y + 7)
+      pdf.setFontSize(7.5); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(...rgb(C.muted)); pdf.text(`Seuil : ${clean(radar.seuil)}`, M + 5, y + 12)
+      pdf.setTextColor(...rgb(C.text)); pdf.text(clean(radar.action), M + 5, y + 17)
+      y += 24
+    })
+  } else {
+    y = ensureSpace(pdf, y, 42, M, H, FOOTER_H, footer)
+    drawLockedContentBlock(pdf, M, y, CW, 38, 'Débloquez l\'analyse complète — 49€')
+  }
 
   footer()
 
