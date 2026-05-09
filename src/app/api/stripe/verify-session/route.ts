@@ -15,7 +15,9 @@ export async function GET(req: NextRequest) {
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId)
     const isPaid = session.payment_status === 'paid'
-    const isScoris = session.metadata?.product === 'scoris_report'
+    const product = session.metadata?.product
+    const isScoris =
+      product === 'scoris_report' || product === 'scoris_strategique'
 
     return NextResponse.json({ verified: isPaid && isScoris }, { status: 200 })
   } catch {
