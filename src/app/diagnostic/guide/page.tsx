@@ -971,7 +971,7 @@ function DiagnosticGuideContent() {
         </aside>
 
         {/* ── Content area ── */}
-        <main className="flex-1 flex flex-col min-h-[calc(100vh-3.5rem)]">
+        <main className="relative flex-1 flex flex-col min-h-[calc(100vh-3.5rem)] pb-20 lg:pb-0">
 
           <AnimatePresence mode="wait">
             {/* ── INTRO PHASE ── */}
