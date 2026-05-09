@@ -332,7 +332,9 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
 
   // DAF Virtuel synthesis
   if (data.diagnostic.total !== null) {
-    const synthText = data.diagnostic.total >= 75
+    const synthText = opusPlan?.executiveSummary?.trim()
+      ? opusPlan.executiveSummary.trim()
+      : data.diagnostic.total >= 75
       ? 'Situation financiere solide avec des fondamentaux sains. Axes d\'optimisation identifies pour renforcer la trajectoire.'
       : data.diagnostic.total >= 50
       ? 'Situation intermediaire avec des leviers d\'amelioration significatifs. Un plan d\'action cible permettrait de gagner 10 a 20 points.'
