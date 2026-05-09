@@ -131,36 +131,80 @@ function sectionTitle(pdf: jsPDF, text: string, x: number, y: number): number {
 /** Freemium — fond #e2e8f0, CTA vers le rapport complet */
 const LOCK_FILL: RGB = [226, 232, 240]
 
+/** Pas d'emoji : Helvetica/jsPDF ne les encode pas → mojibake (ex. Ø=Ý) dans le PDF */
+const LOCK_PREFIX = '[Verrouille] '
+const LOCK_CTA = 'Obtenir le rapport complet sur finsight.zineinsight.com'
+
+const LOCK_PAD_T = 7
+const LOCK_PAD_B = 8
+const LOCK_GAP_HEAD_CTA = 5
+const LOCK_LH_HEAD = 4.25
+const LOCK_LH_CTA = 4
+
+function measureLockedBlockHeight(pdf: jsPDF, contentWidth: number, headline: string): number {
+  pdf.setFontSize(8.5)
+  pdf.setFont('helvetica', 'bold')
+  const headLines = wrapText(pdf, `${LOCK_PREFIX}${clean(headline)}`, contentWidth - 10)
+  pdf.setFontSize(7)
+  pdf.setFont('helvetica', 'normal')
+  const ctaLines = wrapText(pdf, LOCK_CTA, contentWidth - 10)
+  return (
+    LOCK_PAD_T +
+    headLines.length * LOCK_LH_HEAD +
+    LOCK_GAP_HEAD_CTA +
+    ctaLines.length * LOCK_LH_CTA +
+    LOCK_PAD_B
+  )
+}
+
+/** Dessine le bloc gris ; la hauteur suit le texte (plus de troncature). Retourne la hauteur utilisée (mm). */
 function drawLockedContentBlock(
   pdf: jsPDF,
   x: number,
   y: number,
   w: number,
-  h: number,
   headline: string,
-): void {
+): number {
+  pdf.setFontSize(8.5)
+  pdf.setFont('helvetica', 'bold')
+  const headLines = wrapText(pdf, `${LOCK_PREFIX}${clean(headline)}`, w - 10)
+  pdf.setFontSize(7)
+  pdf.setFont('helvetica', 'normal')
+  const ctaLines = wrapText(pdf, LOCK_CTA, w - 10)
+
+  const h = Math.max(
+    26,
+    LOCK_PAD_T +
+      headLines.length * LOCK_LH_HEAD +
+      LOCK_GAP_HEAD_CTA +
+      ctaLines.length * LOCK_LH_CTA +
+      LOCK_PAD_B,
+  )
+
   pdf.setFillColor(...rgb(LOCK_FILL))
   pdf.roundedRect(x, y, w, h, 2, 2, 'F')
   pdf.setDrawColor(...rgb(C.border))
   pdf.setLineWidth(0.3)
   pdf.roundedRect(x, y, w, h, 2, 2, 'S')
+
+  let ly = y + LOCK_PAD_T
   pdf.setFontSize(8.5)
   pdf.setFont('helvetica', 'bold')
   pdf.setTextColor(...rgb(C.navy))
-  const headLines = wrapText(pdf, `🔒 ${clean(headline)}`, w - 8)
-  let ly = y + 5.5
   headLines.forEach((line) => {
-    pdf.text(line, x + 4, ly)
-    ly += 4.2
+    pdf.text(line, x + 5, ly)
+    ly += LOCK_LH_HEAD
   })
+  ly += 1
   pdf.setFontSize(7)
   pdf.setFont('helvetica', 'normal')
   pdf.setTextColor(...rgb(C.muted))
-  const cta = 'Obtenir le rapport complet sur finsight.zineinsight.com'
-  wrapText(pdf, cta, w - 8).forEach((line) => {
-    pdf.text(line, x + 4, ly + 1)
-    ly += 3.8
+  ctaLines.forEach((line) => {
+    pdf.text(line, x + 5, ly)
+    ly += LOCK_LH_CTA
   })
+
+  return h
 }
 
 function getCalc(history: Calculation[], type: CalculatorType): Calculation | undefined {
@@ -653,15 +697,24 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   ]
 
   pillarNarratives.forEach((item, idx) => {
-    y = ensureSpace(pdf, y, 36, M, H, FOOTER_H, footer)
+    const lockHeadline = 'Débloquez l\'analyse complète — 49€'
+    const lockX = M + 5
+    const lockW = CW - 10
+    const lockY = y + 15.5
     const pillar = data.diagnostic.pillars[item.key]
     const score = pillar.score ?? 0
     const levelColor: RGB = score >= 18 ? C.green : score >= 12 ? C.amber : C.red
 
+    const cardH = isPremium
+      ? 30
+      : 15.5 + measureLockedBlockHeight(pdf, lockW, lockHeadline) + 5
+
+    y = ensureSpace(pdf, y, cardH + 8, M, H, FOOTER_H, footer)
+
     pdf.setFillColor(...rgb(C.white))
-    pdf.roundedRect(M, y, CW, 30, 2, 2, 'F')
+    pdf.roundedRect(M, y, CW, cardH, 2, 2, 'F')
     pdf.setDrawColor(...rgb(C.border))
-    pdf.roundedRect(M, y, CW, 30, 2, 2, 'S')
+    pdf.roundedRect(M, y, CW, cardH, 2, 2, 'S')
 
     pdf.setFontSize(8)
     pdf.setFont('helvetica', 'bold')
@@ -690,10 +743,10 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
         pdf.text(line, M + 5, y + 19 + li * 3.8)
       })
     } else {
-      drawLockedContentBlock(pdf, M + 5, y + 15.5, CW - 10, 13.5, 'Débloquez l\'analyse complète — 49€')
+      drawLockedContentBlock(pdf, lockX, lockY, lockW, lockHeadline)
     }
 
-    y += 34
+    y += cardH + 4
     if (idx < pillarNarratives.length - 1) {
       pdf.setDrawColor(...rgb(C.border))
       pdf.line(M, y - 2, M + CW, y - 2)
@@ -793,9 +846,23 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     })
   }
 
+  const prioLockHeadline = 'Débloquez l\'analyse complète — 49€'
+
   priorities.slice(0, 3).forEach((prio, idx) => {
-    y = ensureSpace(pdf, y, 40, M, H, FOOTER_H, footer)
-    const cardH = 32
+    const lockInnerW = CW - 10
+    const lockX = M + 5
+
+    let cardH = 32
+    if (!isPremium && idx > 0) {
+      const lockTop = y + 28
+      cardH = lockTop - y + measureLockedBlockHeight(pdf, lockInnerW, prioLockHeadline) + 8
+    } else if (!isPremium && idx === 0) {
+      const detailLockW = CW - 36
+      cardH = Math.max(32, 16 + measureLockedBlockHeight(pdf, detailLockW, prioLockHeadline) + 8)
+    }
+
+    y = ensureSpace(pdf, y, cardH + 12, M, H, FOOTER_H, footer)
+
     pdf.setFillColor(...rgb(C.bg))
     pdf.roundedRect(M, y, CW, cardH, 2, 2, 'F')
     pdf.setDrawColor(...rgb(C.border))
@@ -807,12 +874,12 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     pdf.setFontSize(9); pdf.setTextColor(...rgb(C.navy)); pdf.text(clean(prio.title), M + 30, y + 10)
 
     if (!isPremium && idx > 0) {
-      drawLockedContentBlock(pdf, M + 5, y + 5, CW - 10, cardH - 10, 'Débloquez l\'analyse complète — 49€')
+      drawLockedContentBlock(pdf, lockX, y + 28, lockInnerW, prioLockHeadline)
       y += cardH + 6
       return
     }
     if (!isPremium && idx === 0) {
-      drawLockedContentBlock(pdf, M + 28, y + 16, CW - 36, 14, 'Débloquez l\'analyse complète — 49€')
+      drawLockedContentBlock(pdf, M + 28, y + 16, CW - 36, prioLockHeadline)
       y += cardH + 6
       return
     }
@@ -855,15 +922,13 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   y = M + 18
 
   if (!isPremium) {
-    const lockPageH = H - y - M - FOOTER_H - 8
-    drawLockedContentBlock(
-      pdf,
-      M,
-      y,
-      CW,
-      Math.max(55, lockPageH),
-      'Pack Banquier — 5 questions préparées avec vos chiffres réels · Débloquez pour 49€',
-    )
+    const packHeadline =
+      'Pack Banquier — 5 questions préparées avec vos chiffres réels · Débloquez pour 49€'
+    const blockH = measureLockedBlockHeight(pdf, CW, packHeadline)
+    const contentTop = M + 18
+    const contentBottom = H - FOOTER_H - M
+    const blockY = contentTop + Math.max(0, (contentBottom - contentTop - blockH) / 2)
+    drawLockedContentBlock(pdf, M, blockY, CW, packHeadline)
   } else {
     y = sectionTitle(pdf, 'PREPAREZ VOTRE RENDEZ-VOUS BANCAIRE', M, y)
     pdf.setFontSize(8)
@@ -1008,8 +1073,10 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
       y += 24
     })
   } else {
-    y = ensureSpace(pdf, y, 42, M, H, FOOTER_H, footer)
-    drawLockedContentBlock(pdf, M, y, CW, 38, 'Débloquez l\'analyse complète — 49€')
+    const radarLockHeadline = 'Débloquez l\'analyse complète — 49€'
+    const lockH = measureLockedBlockHeight(pdf, CW, radarLockHeadline)
+    y = ensureSpace(pdf, y, lockH + 10, M, H, FOOTER_H, footer)
+    drawLockedContentBlock(pdf, M, y, CW, radarLockHeadline)
   }
 
   footer()
