@@ -1,16 +1,18 @@
 /**
- * DIAGNOSTIC PDF GENERATOR — Executive Edition v2.0
+ * DIAGNOSTIC PDF GENERATOR — Executive Edition v3.0
  *
- * Generates a 7-page A4 portrait consulting-grade report.
+ * Generates a 9-page A4 portrait consulting-grade report.
  * Pure jsPDF — no DOM capture, no html2canvas dependency.
  *
- * Page 1: Cover
- * Page 2: Executive Summary (score + pillars + signaux clés)
- * Page 3: Analyse narrative par pilier (Opus)
- * Page 4: Priorités d'action (result-oriented) + Cash Impact Pareto
- * Page 5: Pack banquier (Q/R)
- * Page 6: Comparaison sectorielle + Radars J+30
- * Page 7: Méthodologie + Legal disclaimer
+ * Page 0: Message clé (full page)
+ * Page 1: Cover enrichie
+ * Page 2: Table des matières
+ * Page 3: Executive Summary (score + pillars + signaux clés)
+ * Page 4: Analyse narrative par pilier + radar
+ * Page 5: Priorités d'action (result-oriented) + Cash Impact Pareto
+ * Page 6: Pack banquier (Q/R)
+ * Page 7: Comparaison sectorielle + Radars J+30
+ * Page 8: Méthodologie + Legal disclaimer
  *
  * Design: Big Four audit aesthetic — navy/white, minimal, impactful.
  * Footer: "Document confidentiel" + "Powered by SCORIS™ v1" on every page.
@@ -30,18 +32,18 @@ import type { ScoreContext, RecommendationPlan, OpusPriority } from '@/lib/opus-
 
 // ─── Palette ────────────────────────────────────────────────────────────────
 const C = {
-  navy:     [15, 23, 42]   as const,
-  dark:     [30, 41, 59]   as const,
-  text:     [51, 65, 85]   as const,
-  muted:    [100, 116, 139] as const,
+  navy:     [15, 23, 42]   as const,    // #0f172a
+  dark:     [37, 99, 235]  as const,    // #2563eb
+  text:     [51, 65, 85]   as const,    // #334155
+  muted:    [71, 85, 105]  as const,    // #475569
   light:    [148, 163, 184] as const,
   border:   [226, 232, 240] as const,
   bg:       [248, 250, 252] as const,
   bgWarm:   [241, 245, 249] as const,
-  accent:   [0, 82, 204]   as const,
-  green:    [16, 185, 129]  as const,
-  amber:    [217, 119, 6]   as const,
-  red:      [220, 38, 38]   as const,
+  accent:   [37, 99, 235]   as const,   // #2563eb
+  green:    [22, 163, 74]   as const,   // #16a34a
+  amber:    [234, 88, 12]   as const,   // #ea580c
+  red:      [220, 38, 38]   as const,   // #dc2626
   white:    [255, 255, 255] as const,
 } as const
 
@@ -67,6 +69,15 @@ function wrapText(pdf: jsPDF, text: string, maxWidth: number): string[] {
   return pdf.splitTextToSize(clean(text), maxWidth)
 }
 
+const TYPO = {
+  sectionTitle: 15,
+  subtitle: 11.5,
+  body: 9.5,
+  note: 8,
+  lineBody: 5.2,
+  lineOpus: 5.8,
+} as const
+
 function ensureSpace(
   pdf: jsPDF, y: number, needed: number,
   margin: number, pageH: number, footerH: number,
@@ -81,38 +92,40 @@ function ensureSpace(
   return y
 }
 
-function addPageHeader(pdf: jsPDF, margin: number) {
+function addPageHeader(pdf: jsPDF, margin: number, companyName = 'Entreprise', dateStr = '') {
   const w = pdf.internal.pageSize.getWidth()
-  pdf.setFontSize(7)
-  pdf.setTextColor(...rgb(C.light))
-  pdf.setFont('helvetica', 'normal')
+  pdf.setFontSize(8)
+  pdf.setTextColor(...rgb(C.navy))
+  pdf.setFont('helvetica', 'bold')
   pdf.text('FinSight', margin, 10)
-  pdf.text('Diagnostic de Performance Financiere', w - margin, 10, { align: 'right' })
+  pdf.setFont('helvetica', 'normal')
+  pdf.setTextColor(...rgb(C.muted))
+  pdf.text(`Confidentiel — ${clean(companyName)} — ${dateStr}`, w - margin, 10, { align: 'right' })
   pdf.setDrawColor(...rgb(C.border))
   pdf.setLineWidth(0.3)
   pdf.line(margin, 13, w - margin, 13)
 }
 
-function addPageFooter(pdf: jsPDF, margin: number, pageNum: number) {
+function addPageFooter(pdf: jsPDF, margin: number, pageNum: number, totalPages: number, sectionName: string) {
   const w = pdf.internal.pageSize.getWidth()
   const h = pdf.internal.pageSize.getHeight()
   pdf.setDrawColor(...rgb(C.border))
   pdf.setLineWidth(0.3)
   pdf.line(margin, h - 15, w - margin, h - 15)
-  pdf.setFontSize(6.5)
-  pdf.setTextColor(...rgb(C.light))
+  pdf.setFontSize(7)
+  pdf.setTextColor(...rgb(C.muted))
   pdf.setFont('helvetica', 'normal')
-  pdf.text('Document confidentiel', margin, h - 10)
-  pdf.text('Powered by SCORIS v1', w / 2, h - 10, { align: 'center' })
-  pdf.text(`${pageNum}`, w - margin, h - 10, { align: 'right' })
+  pdf.text(clean(sectionName), margin, h - 10)
+  pdf.text(`${pageNum} / ${totalPages}`, w / 2, h - 10, { align: 'center' })
+  pdf.text('Powered by SCORIS™', w - margin, h - 10, { align: 'right' })
 }
 
 function sectionTitle(pdf: jsPDF, text: string, x: number, y: number): number {
-  pdf.setFontSize(8)
+  pdf.setFontSize(TYPO.sectionTitle)
   pdf.setFont('helvetica', 'bold')
-  pdf.setTextColor(...rgb(C.accent))
-  pdf.text(text, x, y)
-  return y + 10
+  pdf.setTextColor(...rgb(C.navy))
+  pdf.text(clean(text.toUpperCase()), x, y)
+  return y + 12
 }
 
 function getCalc(history: Calculation[], type: CalculatorType): Calculation | undefined {
@@ -207,6 +220,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   const M = 20
   const CW = W - 2 * M
   const FOOTER_H = 18
+  const TOTAL_PAGES = 9
   let pageNum = 0
 
   const bench = SECTOR_BENCHMARKS[data.sector]
@@ -216,6 +230,8 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   const marge = get('marge')
   const ebitda = get('ebitda')
   const caAnnuel = estimateCA((t: CalculatorType) => get(t))
+  const displayName = data.companyName || data.fileName || 'Mon Entreprise'
+  const dateStr = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 
   // Pre-compute cash impact
   let cashImpactAmount = 0
@@ -228,46 +244,85 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // ── Fetch Opus plan avant de commencer le rendu (non-bloquant si indisponible) ──
   const opusPlan = await fetchOpusPlan(data)
 
-  const footer = () => { pageNum++; addPageFooter(pdf, M, pageNum) }
+  let currentSection = 'Message clé'
+  const footer = () => { addPageFooter(pdf, M, pageNum, TOTAL_PAGES, currentSection) }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PAGE 0 — MESSAGE CLÉ
+  // ═══════════════════════════════════════════════════════════════════════════
+  const keyMessage = opusPlan?.priorities?.[0]?.detail
+    ? clean(opusPlan.priorities[0].detail).split('.').slice(0, 1)[0] + '.'
+    : data.insights.priorite
+      ? clean(data.insights.priorite)
+      : 'Votre principal levier de performance est identifié : exécutez-le dans les 30 prochains jours.'
+
+  pageNum = 1
+  pdf.setFillColor(...rgb(C.navy))
+  pdf.rect(0, 0, W, H, 'F')
+  pdf.setFont('helvetica', 'bold')
+  pdf.setFontSize(30)
+  pdf.setTextColor(...rgb(C.white))
+  const keyLines = wrapText(pdf, keyMessage, CW - 10)
+  keyLines.forEach((line, i) => pdf.text(line, M, 85 + i * 12))
+  pdf.setFont('helvetica', 'normal')
+  pdf.setFontSize(10)
+  pdf.setTextColor(...rgb(C.light))
+  pdf.text('Rapport stratégique FinSight', M, H - 20)
+  pdf.text('FinSight', W - M, H - 20, { align: 'right' })
+  addPageFooter(pdf, M, pageNum, TOTAL_PAGES, 'Message clé')
 
   // ═══════════════════════════════════════════════════════════════════════════
   // PAGE 1 — COVER
   // ═══════════════════════════════════════════════════════════════════════════
-  pageNum = 1
+  pdf.addPage()
+  pageNum = 2
+  currentSection = 'Couverture'
+  const coverLevelColor: RGB = data.diagnostic.total !== null
+    ? data.diagnostic.total >= 75 ? C.green : data.diagnostic.total >= 55 ? C.accent : data.diagnostic.total >= 35 ? C.amber : C.red
+    : C.amber
 
+  pdf.setFillColor(...rgb(coverLevelColor))
+  pdf.rect(0, 0, 20, H, 'F')
   pdf.setFillColor(...rgb(C.accent))
-  pdf.rect(0, 0, W, 3, 'F')
+  pdf.rect(20, 0, W - 20, 3, 'F')
 
   pdf.setFontSize(28)
   pdf.setFont('helvetica', 'bold')
   pdf.setTextColor(...rgb(C.navy))
-  pdf.text('FinSight', M, 40)
+  pdf.text('FinSight', M + 8, 40)
 
   pdf.setFontSize(10)
   pdf.setFont('helvetica', 'normal')
   pdf.setTextColor(...rgb(C.muted))
-  pdf.text('Intelligence Financiere Augmentee', M, 48)
+  pdf.text('Intelligence Financiere Augmentee', M + 8, 48)
 
   pdf.setDrawColor(...rgb(C.accent))
   pdf.setLineWidth(0.8)
-  pdf.line(M, 58, M + 40, 58)
+  pdf.line(M + 8, 58, M + 48, 58)
 
   pdf.setFontSize(32)
   pdf.setFont('helvetica', 'bold')
   pdf.setTextColor(...rgb(C.navy))
-  pdf.text('Diagnostic de', M, 90)
-  pdf.text('Performance Financiere', M, 103)
+  pdf.text('Diagnostic de', M + 8, 90)
+  pdf.text('Performance Financiere', M + 8, 103)
 
-  const displayName = data.companyName || data.fileName || 'Mon Entreprise'
   pdf.setFontSize(16)
   pdf.setFont('helvetica', 'normal')
   pdf.setTextColor(...rgb(C.text))
-  pdf.text(clean(displayName), M, 125)
+  pdf.text(clean(displayName), M + 8, 125)
+
+  const scoreValCover = data.diagnostic.total !== null ? `${data.diagnostic.total}/100` : '--/100'
+  pdf.setFontSize(26)
+  pdf.setFont('helvetica', 'bold')
+  pdf.setTextColor(...rgb(coverLevelColor))
+  pdf.text(scoreValCover, M + 8, 140)
+  pdf.setFontSize(10)
+  pdf.setTextColor(...rgb(C.muted))
+  pdf.text(clean(LEVEL_CONFIG[data.diagnostic.level].label), M + 8, 147)
 
   const metaY = 150
   pdf.setFontSize(9)
   pdf.setTextColor(...rgb(C.muted))
-  const dateStr = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
   const metaLines = [
     `Date du rapport : ${dateStr}`,
     `Secteur d'analyse : ${bench.label}`,
@@ -277,24 +332,60 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   if (data.fecMeta) {
     metaLines.push(`Source : FEC (${fmt(data.fecMeta.nbEcritures)} ecritures)`)
   }
-  metaLines.forEach((line, i) => { pdf.text(clean(line), M, metaY + i * 7) })
+  metaLines.forEach((line, i) => { pdf.text(clean(line), M + 8, metaY + i * 7) })
 
   pdf.setFillColor(...rgb(C.navy))
   pdf.rect(0, H - 30, W, 30, 'F')
   pdf.setFontSize(8)
   pdf.setTextColor(...rgb(C.white))
-  pdf.text('Document confidentiel', M, H - 18)
+  pdf.text('Document confidentiel', M + 8, H - 18)
   pdf.setFontSize(7)
-  pdf.text('Powered by SCORIS v1', M, H - 12)
+  pdf.text('Powered by SCORIS v1', M + 8, H - 12)
   pdf.text('finsight.zineinsight.com', W - M, H - 12, { align: 'right' })
+  pdf.setFontSize(8)
+  pdf.setFont('helvetica', 'italic')
+  pdf.setTextColor(...rgb(C.light))
+  pdf.text('Rapport confidentiel — Usage exclusif du dirigeant', M + 8, H - 6)
+  addPageFooter(pdf, M, pageNum, TOTAL_PAGES, currentSection)
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 2 — EXECUTIVE SUMMARY
+  // PAGE 2 — TABLE DES MATIÈRES
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 2
-  addPageHeader(pdf, M)
+  pageNum = 3
+  currentSection = 'Table des matières'
+  addPageHeader(pdf, M, displayName, dateStr)
   let y = M + 18
+  y = sectionTitle(pdf, 'TABLE DES MATIERES', M, y)
+  const toc = [
+    ['Message clé', '1'],
+    ['Couverture', '2'],
+    ['Table des matières', '3'],
+    ['Synthèse executive', '4'],
+    ['Analyse par pilier', '5'],
+    ['Priorités d’action', '6'],
+    ['Pack banquier', '7'],
+    ['Benchmark et radars J+30', '8'],
+    ['Méthodologie et disclaimer', '9'],
+  ]
+  pdf.setFont('helvetica', 'normal')
+  pdf.setFontSize(TYPO.subtitle)
+  pdf.setTextColor(...rgb(C.text))
+  toc.forEach(([label, p]) => {
+    pdf.text(clean(label), M, y)
+    pdf.text(`........ ${p}`, W - M, y, { align: 'right' })
+    y += 10
+  })
+  addPageFooter(pdf, M, pageNum, TOTAL_PAGES, currentSection)
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PAGE 3 — EXECUTIVE SUMMARY
+  // ═══════════════════════════════════════════════════════════════════════════
+  pdf.addPage()
+  pageNum = 4
+  currentSection = 'Synthèse executive'
+  addPageHeader(pdf, M, displayName, dateStr)
+  y = M + 18
 
   y = sectionTitle(pdf, 'SYNTHESE EXECUTIVE', M, y)
 
@@ -341,12 +432,12 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
       ? 'Situation intermediaire avec des leviers d\'amelioration significatifs. Un plan d\'action cible permettrait de gagner 10 a 20 points.'
       : 'Situation tendue necessitant une attention immediate sur les fondamentaux cash et marges. Intervention recommandee sous 30 jours.'
 
-    pdf.setFontSize(9)
+    pdf.setFontSize(TYPO.body)
     pdf.setFont('helvetica', 'italic')
     pdf.setTextColor(...rgb(C.text))
     const synthLines = wrapText(pdf, `"${synthText}"`, CW - 10)
-    synthLines.forEach((line, i) => { pdf.text(line, M + 5, y + i * 5) })
-    y += synthLines.length * 5 + 5
+    synthLines.forEach((line, i) => { pdf.text(line, M + 5, y + i * TYPO.lineOpus) })
+    y += synthLines.length * TYPO.lineOpus + 6
 
     pdf.setFontSize(7)
     pdf.setTextColor(...rgb(C.light))
@@ -505,11 +596,12 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   const radarsJ30 = opusPlan?.radarsJ30?.length ? opusPlan.radarsJ30 : radarFallback
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 3 — ANALYSE PAR PILIER
+  // PAGE 4 — ANALYSE PAR PILIER
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 3
-  addPageHeader(pdf, M)
+  pageNum = 5
+  currentSection = 'Analyse par pilier'
+  addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
 
   y = sectionTitle(pdf, 'ANALYSE PAR PILIER', M, y)
@@ -565,14 +657,75 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     }
   })
 
+  // Radar chart (score actuel vs médiane 12.5/25)
+  try {
+    y = ensureSpace(pdf, y, 55, M, H, FOOTER_H, footer)
+    y += 2
+    pdf.setFontSize(TYPO.subtitle)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.navy))
+    pdf.text('POSITIONNEMENT GLOBAL (RADAR)', M, y)
+    y += 6
+
+    const cx = M + CW / 2
+    const cy = y + 22
+    const radius = 18
+    const keys: Array<keyof DiagnosticScore['pillars']> = ['cash', 'margin', 'resilience', 'risk']
+    const angleOf = (i: number) => (-Math.PI / 2) + i * ((Math.PI * 2) / keys.length)
+    const point = (value: number, i: number) => {
+      const r = radius * Math.max(0, Math.min(1, value / 25))
+      const a = angleOf(i)
+      return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) }
+    }
+
+    pdf.setDrawColor(...rgb(C.border))
+    ;[0.25, 0.5, 0.75, 1].forEach((k) => {
+      const rr = radius * k
+      const pts = keys.map((_, i) => ({ x: cx + rr * Math.cos(angleOf(i)), y: cy + rr * Math.sin(angleOf(i)) }))
+      pts.forEach((p, i) => {
+        const n = pts[(i + 1) % pts.length]
+        pdf.line(p.x, p.y, n.x, n.y)
+      })
+    })
+
+    keys.forEach((k, i) => {
+      const a = angleOf(i)
+      const ox = cx + (radius + 4) * Math.cos(a)
+      const oy = cy + (radius + 4) * Math.sin(a)
+      pdf.setFontSize(7)
+      pdf.setTextColor(...rgb(C.muted))
+      pdf.text(k.toUpperCase(), ox, oy, { align: 'center' })
+    })
+
+    const medianPts = keys.map((_, i) => point(12.5, i))
+    pdf.setDrawColor(...rgb(C.light))
+    medianPts.forEach((p, i) => {
+      const n = medianPts[(i + 1) % medianPts.length]
+      pdf.line(p.x, p.y, n.x, n.y)
+    })
+
+    const actualPts = keys.map((k, i) => point(data.diagnostic.pillars[k].score ?? 0, i))
+    pdf.setDrawColor(...rgb(C.accent))
+    actualPts.forEach((p, i) => {
+      const n = actualPts[(i + 1) % actualPts.length]
+      pdf.line(p.x, p.y, n.x, n.y)
+    })
+  } catch {
+    pdf.setFontSize(TYPO.note)
+    pdf.setFont('helvetica', 'italic')
+    pdf.setTextColor(...rgb(C.muted))
+    pdf.text('Graphique radar indisponible — lecture détaillée disponible dans les blocs par pilier.', M, y + 10)
+  }
+
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 4 — PRIORITÉS D'ACTION (result-oriented, no vuln repeats)
+  // PAGE 5 — PRIORITÉS D'ACTION (result-oriented, no vuln repeats)
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 4
-  addPageHeader(pdf, M)
+  pageNum = 6
+  currentSection = 'Priorités d’action'
+  addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
 
   y = sectionTitle(pdf, 'PRIORITES D\'ACTION', M, y)
@@ -638,11 +791,12 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 5 — PACK BANQUIER
+  // PAGE 6 — PACK BANQUIER
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 5
-  addPageHeader(pdf, M)
+  pageNum = 7
+  currentSection = 'Pack banquier'
+  addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
 
   y = sectionTitle(pdf, 'PREPAREZ VOTRE RENDEZ-VOUS BANCAIRE', M, y)
@@ -668,11 +822,12 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 6 — COMPARAISON SECTORIELLE + RADARS J+30
+  // PAGE 7 — COMPARAISON SECTORIELLE + RADARS J+30
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 6
-  addPageHeader(pdf, M)
+  pageNum = 8
+  currentSection = 'Benchmark et radars J+30'
+  addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
 
   y = sectionTitle(pdf, 'COMPARAISON SECTORIELLE', M, y)
@@ -748,6 +903,16 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
 
     pdf.setTextColor(...rgb(row.ecartColor))
     pdf.text(row.ecart, rx + 3, ry + 6)
+
+    // mini gauge
+    const gaugeW = 26
+    const gaugeX = M + CW - gaugeW - 4
+    const gaugeY = ry + 1.5
+    pdf.setFillColor(...rgb(C.bg))
+    pdf.roundedRect(gaugeX, gaugeY, gaugeW, 2.5, 1, 1, 'F')
+    const fillRatio = Math.max(0, Math.min(1, row.ecart.includes('favorable') ? 0.75 : row.ecart.includes('defavorable') ? 0.35 : 0.5))
+    pdf.setFillColor(...rgb(row.ecartColor))
+    pdf.roundedRect(gaugeX, gaugeY, gaugeW * fillRatio, 2.5, 1, 1, 'F')
   })
 
   y += rows.length * 9 + 6
@@ -778,11 +943,12 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 7 — MÉTHODOLOGIE + LEGAL
+  // PAGE 8 — MÉTHODOLOGIE + LEGAL
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 7
-  addPageHeader(pdf, M)
+  pageNum = 9
+  currentSection = 'Méthodologie et disclaimer'
+  addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
 
   y = sectionTitle(pdf, 'METHODOLOGIE', M, y)
