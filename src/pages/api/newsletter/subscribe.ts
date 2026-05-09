@@ -6,10 +6,13 @@
  */
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Resend } from 'resend';
+import {
+    sendUserEmailWithAdminNotify,
+    isResendConfigured,
+    FROM_EMAIL,
+    REPLY_TO_EMAIL,
+} from '@/lib/emails/resend';
 import { logger } from '@/lib/logger';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export interface SubscribeRequest {
     email: string;
@@ -34,9 +37,8 @@ export default async function handler(
         });
     }
 
-    // Vérifier la clé API Resend
-    if (!process.env.RESEND_API_KEY) {
-        logger.error('❌ RESEND_API_KEY manquante dans les variables d\'environnement');
+    if (!isResendConfigured()) {
+        logger.error('❌ RESEND_API_KEY manquante ou invalide — newsletter désactivée');
         return res.status(500).json({
             success: false,
             error: 'Newsletter service not configured',
@@ -56,12 +58,16 @@ export default async function handler(
 
         logger.debug(`📧 Inscription newsletter: ${email} (source: ${source})`);
 
-        // Envoyer un email de bienvenue via Resend
-        const { data, error } = await resend.emails.send({
-            from: 'FinSight Newsletter <newsletter@resend.dev>',
-            to: [email],
-            subject: '🎉 Bienvenue dans la newsletter FinSight !',
-            html: `
+        const emailTrim = email.trim().toLowerCase();
+        const adminLine = `Newsletter — Nouvel abonné : ${emailTrim}`;
+
+        const { data, error } = await sendUserEmailWithAdminNotify(
+            {
+                from: FROM_EMAIL,
+                replyTo: REPLY_TO_EMAIL,
+                to: [emailTrim],
+                subject: '🎉 Bienvenue dans la newsletter FinSight !',
+                html: `
                 <!DOCTYPE html>
                 <html>
                 <head>
@@ -117,11 +123,14 @@ export default async function handler(
                 </body>
                 </html>
             `,
-            tags: [
-                { name: 'type', value: 'newsletter_welcome' },
-                { name: 'source', value: source },
-            ],
-        });
+                tags: [
+                    { name: 'type', value: 'newsletter_welcome' },
+                    { name: 'source', value: source },
+                ],
+            },
+            adminLine,
+            adminLine,
+        );
 
         if (error) {
             logger.error('❌ Erreur Resend:', error);

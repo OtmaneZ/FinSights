@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
-import { resend, FROM_EMAIL, REPLY_TO_EMAIL } from '@/lib/emails/resend'
+import {
+  sendUserEmailWithAdminNotify,
+  isResendConfigured,
+  FROM_EMAIL,
+  REPLY_TO_EMAIL,
+} from '@/lib/emails/resend'
+import { logger } from '@/lib/logger'
 
 interface LeadCapturePayload {
   email?: string
@@ -105,25 +111,37 @@ export async function POST(req: NextRequest) {
       },
     })
     leadId = lead.id
-  } catch {
-    // Fallback silencieux si la DB est indisponible
+  } catch (dbErr) {
+    logger.warn('⚠️ Lead DB indisponible ou erreur Prisma:', dbErr)
   }
 
-  try {
-    const { subject, html } = buildConfirmationEmail(templateName)
-    await resend.emails.send({
-      from: FROM_EMAIL,
-      replyTo: REPLY_TO_EMAIL,
-      to: [email],
-      subject,
-      html,
-      tags: [
-        { name: 'source', value: source },
-        { name: 'template_name', value: templateName },
-      ],
-    })
-  } catch {
-    // Ne pas bloquer la réponse API si l'email échoue
+  if (isResendConfigured()) {
+    try {
+      const { subject, html } = buildConfirmationEmail(templateName)
+      const adminLine = `Nouveau lead FinSight — ${email} — source: ${source}`
+      const { error } = await sendUserEmailWithAdminNotify(
+        {
+          from: FROM_EMAIL,
+          replyTo: REPLY_TO_EMAIL,
+          to: [email],
+          subject,
+          html,
+          tags: [
+            { name: 'source', value: source },
+            { name: 'template_name', value: templateName },
+          ],
+        },
+        adminLine,
+        adminLine,
+      )
+      if (error) {
+        logger.error('❌ Envoi email confirmation lead (utilisateur):', error)
+      }
+    } catch (err) {
+      logger.error('❌ Envoi email lead (exception):', err)
+    }
+  } else {
+    logger.warn('⚠️ RESEND_API_KEY absente ou placeholder — email lead non envoyé')
   }
 
   return NextResponse.json({ success: true, leadId }, { status: 200 })

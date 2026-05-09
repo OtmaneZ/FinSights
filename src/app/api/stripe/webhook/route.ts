@@ -18,7 +18,13 @@ import {
     sendPaymentFailedEmail,
     isEmailEnabled,
 } from '@/lib/emails/emailService';
-import { resend, FROM_EMAIL, REPLY_TO_EMAIL } from '@/lib/emails/resend';
+import {
+    resend,
+    sendUserEmailWithAdminNotify,
+    isResendConfigured,
+    FROM_EMAIL,
+    REPLY_TO_EMAIL,
+} from '@/lib/emails/resend';
 import { generateCalculatorPDF, type CalculatorPDFCalculatorType } from '@/lib/pdf/generateCalculatorPDF';
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -213,7 +219,10 @@ export async function POST(req: NextRequest) {
                             }
                         }
 
-                        if (email && process.env.RESEND_API_KEY) {
+                        const emailNorm =
+                            typeof email === 'string' ? email.trim().toLowerCase() : '';
+
+                        if (emailNorm && isResendConfigured()) {
                             const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://finsight.zineinsight.com';
                             const downloadUrl = `${appUrl}/mon-diagnostic?success=true&session_id=${session.id}`;
                             const levelLabel = score
@@ -223,18 +232,29 @@ export async function POST(req: NextRequest) {
                                 : 'Situation critique'
                                 : 'Score calculé';
 
-                            await resend.emails.send({
-                                from: FROM_EMAIL,
-                                replyTo: REPLY_TO_EMAIL,
-                                to: email,
-                                subject: `Votre rapport SCORIS™ est prêt — Score ${score ?? '—'}/100`,
-                                html: `<!DOCTYPE html><html lang="fr"><body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,sans-serif;"><div style="max-width:600px;margin:40px auto;background:#fff;border-radius:16px;border:1px solid #e2e8f0;overflow:hidden;"><div style="background:#0f172a;padding:32px 40px;"><p style="margin:0;font-size:11px;font-weight:700;letter-spacing:3px;color:#64748b;text-transform:uppercase;">FinSight · SCORIS™</p><h1 style="margin:12px 0 0;font-size:24px;font-weight:600;color:#fff;">Votre rapport est prêt</h1></div><div style="background:#f1f5f9;padding:24px 40px;border-bottom:1px solid #e2e8f0;"><span style="font-size:48px;font-weight:600;color:#0052cc;font-family:Georgia,serif;">${score ?? '—'}</span><span style="font-size:20px;color:#94a3b8;"> / 100</span><p style="margin:4px 0 0;font-size:13px;font-weight:600;color:#64748b;">${levelLabel}</p></div><div style="padding:32px 40px;"><p style="margin:0 0 24px;font-size:15px;color:#334155;line-height:1.6;">Merci pour votre confiance. Votre rapport SCORIS™ personnalisé a été généré avec votre score détaillé, les 4 piliers financiers, le plan d'action 90 jours et une synthèse IA calibrée sur les médianes de votre secteur.</p><a href="${downloadUrl}" style="display:inline-block;padding:14px 28px;background:#0f172a;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;">Télécharger mon rapport PDF →</a><p style="margin:24px 0 0;font-size:12px;color:#94a3b8;">En cas de problème, répondez directement à cet email.</p></div><div style="padding:20px 40px;border-top:1px solid #e2e8f0;background:#f8fafc;"><p style="margin:0;font-size:11px;color:#94a3b8;">FinSight · SCORIS™ — <a href="${appUrl}" style="color:#94a3b8;">finsight.zineinsight.com</a></p></div></div></body></html>`,
-                            });
+                            const adminLine = `💰 Nouveau paiement SCORIS — ${emailNorm} — 49€`;
+                            const { error } = await sendUserEmailWithAdminNotify(
+                                {
+                                    from: FROM_EMAIL,
+                                    replyTo: REPLY_TO_EMAIL,
+                                    to: [emailNorm],
+                                    subject: `Votre rapport SCORIS™ est prêt — Score ${score ?? '—'}/100`,
+                                    html: `<!DOCTYPE html><html lang="fr"><body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,sans-serif;"><div style="max-width:600px;margin:40px auto;background:#fff;border-radius:16px;border:1px solid #e2e8f0;overflow:hidden;"><div style="background:#0f172a;padding:32px 40px;"><p style="margin:0;font-size:11px;font-weight:700;letter-spacing:3px;color:#64748b;text-transform:uppercase;">FinSight · SCORIS™</p><h1 style="margin:12px 0 0;font-size:24px;font-weight:600;color:#fff;">Votre rapport est prêt</h1></div><div style="background:#f1f5f9;padding:24px 40px;border-bottom:1px solid #e2e8f0;"><span style="font-size:48px;font-weight:600;color:#0052cc;font-family:Georgia,serif;">${score ?? '—'}</span><span style="font-size:20px;color:#94a3b8;"> / 100</span><p style="margin:4px 0 0;font-size:13px;font-weight:600;color:#64748b;">${levelLabel}</p></div><div style="padding:32px 40px;"><p style="margin:0 0 24px;font-size:15px;color:#334155;line-height:1.6;">Merci pour votre confiance. Votre rapport SCORIS™ personnalisé a été généré avec votre score détaillé, les 4 piliers financiers, le plan d'action 90 jours et une synthèse IA calibrée sur les médianes de votre secteur.</p><a href="${downloadUrl}" style="display:inline-block;padding:14px 28px;background:#0f172a;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;">Télécharger mon rapport PDF →</a><p style="margin:24px 0 0;font-size:12px;color:#94a3b8;">En cas de problème, répondez directement à cet email.</p></div><div style="padding:20px 40px;border-top:1px solid #e2e8f0;background:#f8fafc;"><p style="margin:0;font-size:11px;color:#94a3b8;">FinSight · SCORIS™ — <a href="${appUrl}" style="color:#94a3b8;">finsight.zineinsight.com</a></p></div></div></body></html>`,
+                                },
+                                adminLine,
+                                adminLine,
+                            );
 
-                            await (prisma as any).diagnosticLead.updateMany({
-                                where: { stripeSessionId: session.id },
-                                data: { pdfSentAt: new Date() },
-                            }).catch(() => null);
+                            if (error) {
+                                logger.error('❌ Envoi email SCORIS (acheteur):', error);
+                            } else {
+                                await (prisma as any).diagnosticLead.updateMany({
+                                    where: { stripeSessionId: session.id },
+                                    data: { pdfSentAt: new Date() },
+                                }).catch(() => null);
+                            }
+                        } else if (emailNorm && !isResendConfigured()) {
+                            logger.warn('⚠️ RESEND non configuré — email SCORIS non envoyé pour', emailNorm);
                         }
                     } catch (err) {
                         logger.error('[webhook] Erreur post-paiement SCORIS:', err);
