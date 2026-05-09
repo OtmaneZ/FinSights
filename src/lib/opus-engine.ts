@@ -203,7 +203,7 @@ export async function callOpus(
       const client = getClient()
 
       const completion = await client.chat.completions.create({
-        model: 'anthropic/claude-opus-4-5',
+        model: 'anthropic/claude-opus-4.5',
         max_tokens: 2048,
         messages: [
           { role: 'system', content: OPUS_SYSTEM_PROMPT },
@@ -268,7 +268,7 @@ ${context.forces.length > 0 ? `Point fort : ${context.forces[0]}` : ''}
 La synthèse doit : (1) qualifier l'état de santé globale, (2) nommer le point de blocage principal avec chiffres, (3) donner la recommandation directrice. Réponds uniquement avec le texte de la synthèse, aucun JSON.`
 
     const message = await client.chat.completions.create({
-      model: 'anthropic/claude-opus-4-5',
+      model: 'anthropic/claude-opus-4.5',
       max_tokens: 300,
       messages: [
         { role: 'system', content: OPUS_SYSTEM_PROMPT },

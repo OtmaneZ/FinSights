@@ -180,7 +180,7 @@ ${rawData ? buildFinancialContext(rawData).substring(0, 500) + '...' : 'Aucune d
 
         // ── Routing : Opus pour les questions complexes, gpt-4o-mini pour le reste ──
         const useOpus = requiresOpus(message)
-        const model = useOpus ? 'anthropic/claude-opus-4-5' : 'openai/gpt-4o-mini'
+        const model = useOpus ? 'anthropic/claude-opus-4.5' : 'openai/gpt-4o-mini'
         const maxTokens = useOpus ? 1200 : 800
         const userContent = `Contexte financier actuel :\n${financialContext}\n\nQuestion de l'utilisateur : ${message}`
 

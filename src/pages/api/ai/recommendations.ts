@@ -1,6 +1,6 @@
 /**
  * API Route: Génération de recommandations intelligentes avec IA
- * Modèle : claude-opus-4-5 via OpenRouter (baseURL openrouter.ai/api/v1, clé OPENAI_API_KEY)
+ * Modèle : claude-opus-4.5 via OpenRouter (baseURL openrouter.ai/api/v1, clé OPENAI_API_KEY)
  */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -103,7 +103,7 @@ export default async function handler(
         }
 
         const completion = await client.chat.completions.create({
-            model: 'anthropic/claude-opus-4-5',
+            model: 'anthropic/claude-opus-4.5',
             max_tokens: 1024,
             messages: [
                 { role: 'system', content: systemPrompt },

@@ -143,7 +143,7 @@ Règles :
 - JSON strict, aucun texte autour`
 
     const completion = await client.chat.completions.create({
-      model: 'anthropic/claude-opus-4-5',
+      model: 'anthropic/claude-opus-4.5',
       max_tokens: 600,
       messages: [
         {
