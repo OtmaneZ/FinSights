@@ -74,8 +74,26 @@ export interface OpusActionStep {
 export interface RecommendationPlan {
   /** 80–120 mots, prose DAF senior — utilisé dans PDF page 2 et synthèse wizard */
   executiveSummary: string
-  /** 3 priorités contextualisées secteur + chiffres réels — PDF page 3 */
-  priorities: [OpusPriority, OpusPriority, OpusPriority]
+  /** Narration courte par pilier — utilisée dans le PDF page "Analyse par pilier" */
+  narrativeParPilier: {
+    cash: string
+    margin: string
+    resilience: string
+    risques: string
+  }
+  /** 3 priorités contextualisées secteur + chiffres réels — PDF page 4 */
+  priorities: OpusPriority[]
+  /** 5 questions/réponses préparées pour un rendez-vous bancaire */
+  packBanquier: Array<{
+    question: string
+    reponse: string
+  }>
+  /** 3 radars d'alerte à 30 jours */
+  radarsJ30: Array<{
+    signal: string
+    seuil: string
+    action: string
+  }>
   /** 4–6 actions semaine par semaine — optionnel, pour future feature */
   actionPlan90j: OpusActionStep[]
   /** Source : 'opus' | 'fallback' */
@@ -101,6 +119,9 @@ RÈGLES ABSOLUES :
 4. Rester sous 150 mots par recommandation
 5. Format JSON strict — aucun commentaire, aucun texte hors du bloc JSON
 6. L'executiveSummary est de la prose fluide (pas de bullet points, pas de tirets)
+7. narrativeParPilier : 3-4 lignes par pilier, ton DAF senior direct, expliquer POURQUOI le score avec les vrais chiffres du contexte
+8. packBanquier : questions réalistes de banquier PME (BNP/CIC/CA), réponses préparées avec les vrais indicateurs du diagnostic
+9. radarsJ30 : signaux concrets, seuils chiffrés, action immédiate en cas de déclenchement
 
 REGISTRE : professionnel, direct, sans jargon inutile. Tu t'adresses à un dirigeant occupé, pas à un analyste.`
 
@@ -147,6 +168,12 @@ ${ctx.vulnerabilites.length > 0 ? ctx.vulnerabilites.map(v => `• ${v}`).join('
 Génère un objet JSON avec exactement ces champs :
 {
   "executiveSummary": "<80-120 mots de prose, ton DAF senior, pas de bullet points — synthèse de la situation + point de blocage principal + recommandation directrice>",
+  "narrativeParPilier": {
+    "cash": "<3-4 lignes max, pourquoi ce score cash et impact concret>",
+    "margin": "<3-4 lignes max, pourquoi ce score margin et impact concret>",
+    "resilience": "<3-4 lignes max, pourquoi ce score resilience et impact concret>",
+    "risques": "<3-4 lignes max, pourquoi ce score risques et impact concret>"
+  },
   "priorities": [
     {
       "rank": 1,
@@ -159,12 +186,23 @@ Génère un objet JSON avec exactement ces champs :
     { "rank": 2, ... "urgency": "haute", "horizon": "90j" },
     { "rank": 3, ... "urgency": "moyenne", "horizon": "6m" }
   ],
+  "packBanquier": [
+    { "question": "<question banquier>", "reponse": "<réponse préparée avec chiffres>" }
+  ],
+  "radarsJ30": [
+    { "signal": "<signal>", "seuil": "<seuil d'alerte chiffré>", "action": "<action immédiate>" }
+  ],
   "actionPlan90j": [
     { "semaine": "S1-S2", "action": "<action concrète>", "kpi": "<indicateur de suivi>", "impactEstime": "<impact chiffré>" }
   ]
 }
 
-IMPORTANT : priorities doit contenir exactement 3 objets. actionPlan90j doit contenir 4 à 6 objets. JSON strict, aucun texte autour.`
+IMPORTANT :
+- priorities doit contenir exactement 3 objets
+- packBanquier doit contenir exactement 5 objets
+- radarsJ30 doit contenir exactement 3 objets
+- actionPlan90j doit contenir 4 à 6 objets
+JSON strict, aucun texte autour.`
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -204,7 +242,7 @@ export async function callOpus(
 
       const completion = await client.chat.completions.create({
         model: 'anthropic/claude-opus-4.5',
-        max_tokens: 2048,
+        max_tokens: 3500,
         messages: [
           { role: 'system', content: OPUS_SYSTEM_PROMPT },
           { role: 'user', content: buildOpusPrompt(context) },
@@ -223,9 +261,18 @@ export async function callOpus(
       if (
         !parsed.executiveSummary ||
         !Array.isArray(parsed.priorities) ||
-        parsed.priorities.length !== 3
+        parsed.priorities.length !== 3 ||
+        !parsed.narrativeParPilier ||
+        !parsed.narrativeParPilier.cash ||
+        !parsed.narrativeParPilier.margin ||
+        !parsed.narrativeParPilier.resilience ||
+        !parsed.narrativeParPilier.risques ||
+        !Array.isArray(parsed.packBanquier) ||
+        parsed.packBanquier.length !== 5 ||
+        !Array.isArray(parsed.radarsJ30) ||
+        parsed.radarsJ30.length !== 3
       ) {
-        throw new Error('Structure JSON Opus invalide (executiveSummary ou priorities manquants)')
+        throw new Error('Structure JSON Opus invalide (blocs enrichis manquants)')
       }
 
       return { ...parsed, source: 'opus' }
@@ -303,8 +350,79 @@ export function buildFallbackPlan(ctx: ScoreContext): RecommendationPlan {
       ? `Le pilier Rentabilité (${ctx.pillars.margin}/25) nécessite une intervention. ${ind.marge != null ? `La marge de ${ind.marge}% est en dessous de la médiane sectorielle (${ind.margeMedian}%) — réviser la grille tarifaire ou réduire les charges variables.` : 'Analyser la structure des coûts et identifier les postes optimisables.'}`
       : `Le pilier ${worstPillar} (${(ctx.pillars as Record<string, number>)[worstPillar]}/25) concentre les actions prioritaires. Consulter le détail des indicateurs pour les actions spécifiques.`)
 
+  const weakestPillars = Object.entries(ctx.pillars)
+    .sort(([, a], [, b]) => a - b)
+    .map(([k]) => k)
+
+  const narrativeParPilier = {
+    cash: ind.dso != null
+      ? `Le pilier CASH est noté ${ctx.pillars.cash}/25. Votre DSO est à ${ind.dso}j contre une médiane sectorielle de ${ind.dsoMedian}j, ce qui pèse directement sur la liquidité disponible. L'enjeu immédiat est d'accélérer les encaissements pour réduire la tension de trésorerie.`
+      : `Le pilier CASH est noté ${ctx.pillars.cash}/25. Les données de cycle d'encaissement sont partielles, ce qui limite la précision d'analyse. Priorité à la mesure du délai client et du BFR pour objectiver le besoin de cash court terme.`,
+    margin: ind.marge != null
+      ? `Le pilier MARGIN est noté ${ctx.pillars.margin}/25. Votre marge ressort à ${ind.marge}% vs ${ind.margeMedian}% pour le secteur, ce qui explique le niveau de score observé. Le levier principal reste la combinaison pricing, mix offre et discipline de coûts variables.`
+      : `Le pilier MARGIN est noté ${ctx.pillars.margin}/25. La rentabilité n'est pas encore assez documentée pour une lecture fine. Il faut prioriser la mesure de la marge réelle et de la marge de sécurité pour fiabiliser les décisions tarifaires.`,
+    resilience: `Le pilier RESILIENCE est noté ${ctx.pillars.resilience}/25. Le niveau traduit la capacité de l'entreprise à absorber un choc sans rupture de trajectoire. L'objectif est de renforcer les marges de manœuvre structurelles (diversification clients, dette, capacité d'autofinancement).`,
+    risques: `Le pilier RISQUES est noté ${ctx.pillars.risk}/25. Ce score reflète les effets croisés entre délais d'encaissement, marge et pression de financement. Plus les signaux convergent, plus la probabilité d'un stress de trésorerie à 30-90 jours augmente.`,
+  }
+
+  const packBanquier = [
+    {
+      question: 'Comment évolue votre capacité à rembourser la dette à 12 mois ?',
+      reponse: `Notre Score FinSight est de ${ctx.score}/100 avec un suivi mensuel des 4 piliers. Nous pilotons en priorité ${weakestPillars[0]} pour réduire le risque court terme et sécuriser la capacité de remboursement.`,
+    },
+    {
+      question: 'Quel est votre plan concret pour améliorer la trésorerie ?',
+      reponse: ind.dso != null
+        ? `Nous ciblons le DSO, actuellement à ${ind.dso}j vs ${ind.dsoMedian}j sectoriel, via relance structurée, acomptes et renégociation des conditions de règlement.`
+        : 'Nous mettons en place un plan 90 jours de pilotage cash avec suivi hebdomadaire des encaissements, décaissements et BFR.',
+    },
+    {
+      question: 'Votre rentabilité est-elle suffisante pour absorber un aléa ?',
+      reponse: ind.marge != null
+        ? `La marge est à ${ind.marge}% (médiane ${ind.margeMedian}%). Notre plan vise un relèvement progressif de la marge via actions prix et rationalisation des coûts directs.`
+        : 'Nous fiabilisons la mesure de marge et activons un plan d’optimisation des coûts variables et fixes pour créer un coussin de sécurité.',
+    },
+    {
+      question: 'Quels indicateurs suivez-vous pour prévenir une dérive ?',
+      reponse: `Nous suivons chaque mois DSO, BFR, marge et score de risque. Les écarts aux médianes ${bench.label} déclenchent des actions correctives dans un délai court.`,
+    },
+    {
+      question: 'Quelles mesures prenez-vous si la conjoncture se dégrade ?',
+      reponse: 'Nous avons un plan graduel : réduction des dépenses discrétionnaires, renforcement du recouvrement, ajustement du mix commercial et arbitrage des investissements non prioritaires.',
+    },
+  ]
+
+  const radarByPillar: Record<string, { signal: string; seuil: string; action: string }> = {
+    cash: {
+      signal: 'Allongement des délais clients',
+      seuil: `Si DSO > ${ind.dsoMedian + 10}j`,
+      action: 'Lancer relance systématique J+3/J+7 et imposer des acomptes sur nouveaux devis.',
+    },
+    margin: {
+      signal: 'Erosion de la marge brute',
+      seuil: `Si marge < ${Math.max(0, ind.margeMedian - 5)}%`,
+      action: 'Revoir prix/mix offre et geler les coûts variables non essentiels sous 7 jours.',
+    },
+    resilience: {
+      signal: 'Tension structurelle de financement',
+      seuil: 'Si projection de trésorerie passe sous 30 jours de charges fixes',
+      action: 'Activer plan de trésorerie d’urgence et renégocier les échéances court terme.',
+    },
+    risk: {
+      signal: 'Accumulation de signaux croisés défavorables',
+      seuil: 'Si score RISQUES < 12/25',
+      action: 'Déclencher comité hebdomadaire de pilotage avec plan d’actions priorisé sur 30 jours.',
+    },
+  }
+
+  const radarsJ30 = weakestPillars.slice(0, 2).map((pillarKey) => {
+    const key = pillarKey === 'risk' ? 'risk' : pillarKey
+    return radarByPillar[key] ?? radarByPillar.risk
+  })
+
   return {
     executiveSummary: buildFallbackSummary(ctx),
+    narrativeParPilier,
     priorities: [
       {
         rank: 1,
@@ -331,6 +449,8 @@ export function buildFallbackPlan(ctx: ScoreContext): RecommendationPlan {
         horizon: '6m',
       },
     ],
+    packBanquier,
+    radarsJ30,
     actionPlan90j: [
       { semaine: 'S1-S2', action: 'Audit des créances clients en retard', kpi: 'Montant créances > 30j', impactEstime: 'Réduction DSO de 5-10j' },
       { semaine: 'S3-S4', action: 'Mise en place relances automatiques J-7 avant échéance', kpi: 'Taux de paiement à l\'échéance', impactEstime: 'Cash libéré sous 30j' },
