@@ -210,14 +210,19 @@ const PILLARS: PillarMeta[] = [
 interface WizardField {
   id: string
   label: string
+  question?: string
   placeholder: string
   suffix: string
   help?: string
+  required?: boolean
+  type?: 'number' | 'toggle'
+  options?: { label: string; value: string }[]
+  showWhen?: { fieldId: string; value: string }
 }
 
 interface WizardStep {
   id: string
-  calcType: CalculatorType
+  calcType?: CalculatorType
   title: string
   subtitle: string
   pillar: PillarKey
@@ -227,156 +232,147 @@ interface WizardStep {
 }
 
 const WIZARD_STEPS: WizardStep[] = [
-  // ── CASH ──────────────────────────────────────────────
+  {
+    id: 'company',
+    title: 'Votre entreprise',
+    subtitle: 'Une base simple pour calibrer tout le diagnostic.',
+    pillar: 'cash',
+    fields: [
+      {
+        id: 'caAnnuel',
+        label: 'Chiffre d\'affaires annuel',
+        question: 'Quel est votre chiffre d\'affaires annuel ?',
+        placeholder: 'Ex: 850 000',
+        suffix: '€ / an',
+        help: 'Une estimation suffit — votre dernier bilan ou votre intuition',
+        required: true,
+      },
+    ],
+    compute: (inputs) => ({ value: Math.round(inputs.caAnnuel || 0), unit: '€' }),
+  },
   {
     id: 'dso',
     calcType: 'dso',
-    title: 'Positionnement de votre tresorerie',
-    subtitle: 'Delai moyen de recouvrement clients',
+    title: 'Vos clients vous paient comment ?',
+    subtitle: 'Lecture rapide de votre cycle d\'encaissement et paiement.',
     pillar: 'cash',
     fields: [
-      { id: 'creances', label: 'Creances clients', placeholder: '150 000', suffix: '\u20ac', help: 'Montant total des factures non encaissees' },
-      { id: 'ca', label: 'Chiffre d\'affaires annuel', placeholder: '2 000 000', suffix: '\u20ac', help: 'CA sur les 12 derniers mois' },
+      {
+        id: 'joursClients',
+        label: 'Délai de paiement clients',
+        question: 'En moyenne, vos clients vous règlent en combien de jours ?',
+        placeholder: 'Ex: 45',
+        suffix: 'jours',
+        help: 'Regardez votre dernière facture envoyée',
+        required: true,
+      },
+      {
+        id: 'joursFournisseurs',
+        label: 'Délai de paiement fournisseurs',
+        question: 'Vous payez vos fournisseurs en combien de jours ?',
+        placeholder: 'Ex: 30',
+        suffix: 'jours',
+        required: true,
+      },
+      {
+        id: 'soldeBancaire',
+        label: 'Solde bancaire',
+        question: 'Quel est votre solde bancaire ce matin ?',
+        placeholder: 'Approximatif — votre relevé bancaire',
+        suffix: '€',
+        required: false,
+      },
     ],
-    compute: (inputs) => ({
-      value: inputs.ca > 0 ? Math.round((inputs.creances / inputs.ca) * 365) : 0,
-      unit: 'jours',
-    }),
-  },
-  {
-    id: 'bfr',
-    calcType: 'bfr',
-    title: 'Capital immobilise dans le cycle',
-    subtitle: 'Besoin en fonds de roulement',
-    pillar: 'cash',
-    fields: [
-      { id: 'stocks', label: 'Stocks', placeholder: '80 000', suffix: '\u20ac' },
-      { id: 'creances', label: 'Creances clients', placeholder: '150 000', suffix: '\u20ac' },
-      { id: 'dettes', label: 'Dettes fournisseurs', placeholder: '100 000', suffix: '\u20ac' },
-      { id: 'ca', label: 'Chiffre d\'affaires annuel', placeholder: '2 000 000', suffix: '\u20ac' },
-    ],
-    compute: (inputs) => ({
-      value: Math.round((inputs.stocks || 0) + (inputs.creances || 0) - (inputs.dettes || 0)),
-      unit: '\u20ac',
-    }),
-  },
-  {
-    id: 'burn-rate',
-    calcType: 'burn-rate',
-    title: 'Consommation mensuelle de cash',
-    subtitle: 'Burn rate operationnel',
-    pillar: 'cash',
-    optional: true,
-    fields: [
-      { id: 'depensesMensuelles', label: 'Charges mensuelles totales', placeholder: '45 000', suffix: '\u20ac/mois', help: 'Salaires + loyer + achats + abonnements' },
-    ],
-    compute: (inputs) => ({
-      value: Math.round(inputs.depensesMensuelles || 0),
-      unit: '\u20ac/mois',
-    }),
-  },
-
-  // ── MARGIN ────────────────────────────────────────────
-  {
-    id: 'marge',
-    calcType: 'marge',
-    title: 'Rentabilite de l\'activite commerciale',
-    subtitle: 'Taux de marge brute',
-    pillar: 'margin',
-    fields: [
-      { id: 'prixVente', label: 'Prix de vente HT', placeholder: '100', suffix: '\u20ac' },
-      { id: 'coutRevient', label: 'Cout de revient', placeholder: '60', suffix: '\u20ac' },
-    ],
-    compute: (inputs) => ({
-      value: inputs.prixVente > 0
-        ? Math.round(((inputs.prixVente - inputs.coutRevient) / inputs.prixVente) * 100)
-        : 0,
-      unit: '%',
-    }),
+    compute: (inputs) => ({ value: Math.round(inputs.joursClients || 0), unit: 'jours' }),
   },
   {
     id: 'seuil-rentabilite',
     calcType: 'seuil-rentabilite',
-    title: 'Chiffre d\'affaires minimum de survie',
-    subtitle: 'Seuil de rentabilite',
+    title: 'Votre rentabilité',
+    subtitle: 'Marge et charges fixes pour situer votre seuil de confort.',
     pillar: 'margin',
     fields: [
-      { id: 'chargesFixes', label: 'Charges fixes annuelles', placeholder: '300 000', suffix: '\u20ac', help: 'Loyer, salaires fixes, assurances, abonnements' },
-      { id: 'tauxMarge', label: 'Taux de marge sur couts variables', placeholder: '40', suffix: '%' },
+      {
+        id: 'margeBrute',
+        label: 'Marge brute',
+        question: 'Sur 100 € encaissés, combien vous reste-t-il après vos coûts directs ?',
+        placeholder: 'Ex: 35',
+        suffix: '%',
+        help: 'Coûts directs = matières, sous-traitants, achats liés à votre activité',
+        required: true,
+      },
+      {
+        id: 'chargesFixesMensuelles',
+        label: 'Charges fixes mensuelles',
+        question: 'Vos charges fixes mensuelles ?',
+        placeholder: 'Ex: 12 000',
+        suffix: '€ / mois',
+        help: 'Loyer + salaires fixes + abonnements',
+        required: true,
+      },
     ],
-    compute: (inputs) => ({
-      value: inputs.tauxMarge > 0
-        ? Math.round(inputs.chargesFixes / (inputs.tauxMarge / 100))
-        : 0,
-      unit: '\u20ac',
-    }),
-  },
-  {
-    id: 'roi',
-    calcType: 'roi',
-    title: 'Retour sur investissement',
-    subtitle: 'ROI sur un projet ou investissement',
-    pillar: 'margin',
-    optional: true,
-    fields: [
-      { id: 'gains', label: 'Gains generes', placeholder: '50 000', suffix: '\u20ac' },
-      { id: 'investissement', label: 'Montant investi', placeholder: '20 000', suffix: '\u20ac' },
-    ],
-    compute: (inputs) => ({
-      value: inputs.investissement > 0
-        ? Math.round(((inputs.gains - inputs.investissement) / inputs.investissement) * 100)
-        : 0,
-      unit: '%',
-    }),
-  },
-
-  // ── RESILIENCE ────────────────────────────────────────
-  {
-    id: 'ebitda',
-    calcType: 'ebitda',
-    title: 'Capacite beneficiaire operationnelle',
-    subtitle: 'EBITDA',
-    pillar: 'resilience',
-    fields: [
-      { id: 'ca', label: 'Chiffre d\'affaires', placeholder: '2 000 000', suffix: '\u20ac' },
-      { id: 'charges', label: 'Charges d\'exploitation (hors amortissements)', placeholder: '1 700 000', suffix: '\u20ac' },
-    ],
-    compute: (inputs) => ({
-      value: Math.round((inputs.ca || 0) - (inputs.charges || 0)),
-      unit: '\u20ac',
-    }),
-  },
-  {
-    id: 'cac-ltv',
-    calcType: 'cac-ltv',
-    title: 'Rentabilite de l\'acquisition clients',
-    subtitle: 'Ratio LTV / CAC',
-    pillar: 'resilience',
-    optional: true,
-    fields: [
-      { id: 'ltv', label: 'Valeur vie client (LTV)', placeholder: '15 000', suffix: '\u20ac', help: 'Revenu moyen genere par client sur toute sa duree' },
-      { id: 'cac', label: 'Cout d\'acquisition client (CAC)', placeholder: '3 000', suffix: '\u20ac', help: 'Depenses marketing et ventes par nouveau client' },
-    ],
-    compute: (inputs) => ({
-      value: inputs.cac > 0 ? Math.round((inputs.ltv / inputs.cac) * 10) / 10 : 0,
-      unit: 'x',
-    }),
+    compute: (inputs) => {
+      const margeBrute = inputs.margeBrute || 0
+      const chargesFixesMensuelles = inputs.chargesFixesMensuelles || 0
+      const seuilRentabilite = margeBrute > 0 ? Math.round((chargesFixesMensuelles * 12) / (margeBrute / 100)) : 0
+      return { value: seuilRentabilite, unit: '€' }
+    },
   },
   {
     id: 'gearing',
     calcType: 'gearing',
-    title: 'Poids de l\'endettement',
-    subtitle: 'Ratio dette nette / EBITDA',
+    title: 'Votre solidité',
+    subtitle: 'Dépendance client, base clients et niveau de dette.',
     pillar: 'resilience',
-    optional: true,
     fields: [
-      { id: 'detteNette', label: 'Dette financiere nette', placeholder: '400 000', suffix: '\u20ac', help: 'Dettes bancaires + obligataires - tresorerie disponible' },
-      { id: 'ebitda', label: 'EBITDA annuel', placeholder: '200 000', suffix: '\u20ac', help: 'Resultat operationnel avant amortissements' },
+      {
+        id: 'concentrationClient',
+        label: 'Concentration client',
+        question: 'Votre plus gros client représente quel % de votre CA ?',
+        placeholder: 'Ex: 40',
+        suffix: '%',
+        help: 'Si vous avez beaucoup de petits clients, mettez un chiffre faible',
+        required: true,
+      },
+      {
+        id: 'nombreClients',
+        label: 'Nombre de clients actifs',
+        question: 'Combien avez-vous de clients actifs en ce moment ?',
+        placeholder: 'Ex: 8',
+        suffix: 'clients',
+        required: true,
+      },
+      {
+        id: 'hasDetteBancaire',
+        label: 'Emprunts bancaires',
+        question: 'Avez-vous des emprunts bancaires en cours ?',
+        placeholder: '',
+        suffix: '',
+        required: false,
+        type: 'toggle',
+        options: [
+          { label: 'Non', value: '0' },
+          { label: 'Oui', value: '1' },
+        ],
+      },
+      {
+        id: 'detteBancaire',
+        label: 'Montant total restant dû',
+        question: 'Montant total restant dû ?',
+        placeholder: 'Ex: 80 000',
+        suffix: '€',
+        required: false,
+        showWhen: { fieldId: 'hasDetteBancaire', value: '1' },
+      },
     ],
-    compute: (inputs) => ({
-      value: inputs.ebitda > 0 ? Math.round((inputs.detteNette / inputs.ebitda) * 10) / 10 : 0,
-      unit: 'x',
-    }),
+    compute: (inputs) => {
+      const caAnnuel = inputs.caAnnuel || 0
+      const margeBrute = inputs.margeBrute || 0
+      const detteBancaire = inputs.detteBancaire || 0
+      const denom = caAnnuel > 0 && margeBrute > 0 ? caAnnuel * (margeBrute / 100) : 0
+      const gearing = denom > 0 && detteBancaire > 0 ? Math.round((detteBancaire / denom) * 100) / 100 : 0
+      return { value: gearing, unit: 'x' }
+    },
   },
 ]
 
@@ -507,8 +503,48 @@ function DiagnosticGuideContent() {
 
   const currentStep = stepIndex !== null ? currentSteps[stepIndex] : null
 
-  // Live scores
-  const liveScores = useMemo(() => computeLiveScores(results, bench), [results, bench])
+  // Live scores (computed from in-progress form values + submitted results)
+  const draftResults = useMemo(() => {
+    const next = { ...results } as Record<string, { value: number; inputs: Record<string, number> }>
+    const caAnnuel = parseFloat(formValues.company?.caAnnuel || '0') || 0
+    const margeBrute = parseFloat(formValues['seuil-rentabilite']?.margeBrute || '0') || 0
+    const chargesFixesMensuelles = parseFloat(formValues['seuil-rentabilite']?.chargesFixesMensuelles || '0') || 0
+
+    const joursClients = parseFloat(formValues.dso?.joursClients || '0') || 0
+    const joursFournisseurs = parseFloat(formValues.dso?.joursFournisseurs || '0') || 0
+    const soldeBancaire = parseFloat(formValues.dso?.soldeBancaire || '0') || 0
+    if (joursClients > 0) {
+      next.dso = {
+        value: joursClients,
+        inputs: { joursClients, joursFournisseurs, soldeBancaire, caAnnuel, chargesFixesMensuelles },
+      }
+      const bfrJours = joursClients - joursFournisseurs
+      next.bfr = { value: caAnnuel > 0 ? Math.round((bfrJours / 365) * caAnnuel) : 0, inputs: { bfrJours, caAnnuel } }
+    }
+
+    if (margeBrute > 0 || chargesFixesMensuelles > 0) {
+      const seuilRentabilite = margeBrute > 0 ? Math.round((chargesFixesMensuelles * 12) / (margeBrute / 100)) : 0
+      next['seuil-rentabilite'] = { value: seuilRentabilite, inputs: { margeBrute, chargesFixesMensuelles, caAnnuel } }
+      next.marge = { value: margeBrute, inputs: { margeBrute, caAnnuel } }
+    }
+
+    const concentrationClient = parseFloat(formValues.gearing?.concentrationClient || '0') || 0
+    const nombreClients = parseFloat(formValues.gearing?.nombreClients || '0') || 0
+    const hasDetteBancaire = formValues.gearing?.hasDetteBancaire === '1'
+    const detteBancaire = hasDetteBancaire ? (parseFloat(formValues.gearing?.detteBancaire || '0') || 0) : 0
+    if (concentrationClient > 0 || nombreClients > 0 || detteBancaire > 0) {
+      const denom = caAnnuel > 0 && margeBrute > 0 ? caAnnuel * (margeBrute / 100) : 0
+      const gearingValue = denom > 0 && detteBancaire > 0 ? Math.round((detteBancaire / denom) * 100) / 100 : 0
+      next.gearing = {
+        value: gearingValue,
+        inputs: { concentrationClient, nombreClients, detteBancaire, caAnnuel, margeBrute },
+      }
+    }
+
+    return next
+  }, [results, formValues])
+
+  const liveScores = useMemo(() => computeLiveScores(draftResults, bench), [draftResults, bench])
 
   const totalScore = useMemo(() => {
     const scored = Object.values(liveScores).filter((s) => s !== null) as number[]
@@ -518,7 +554,7 @@ function DiagnosticGuideContent() {
       : Math.round((scored.reduce((a, b) => a + b, 0) / scored.length) * 4)
   }, [liveScores])
 
-  const synthesis = useMemo(() => computeSynthesis(results, liveScores, bench), [results, liveScores, bench])
+  const synthesis = useMemo(() => computeSynthesis(draftResults, liveScores, bench), [draftResults, liveScores, bench])
 
   // Form handling
   const getFieldValue = useCallback((stepId: string, fieldId: string) => {
@@ -536,26 +572,93 @@ function DiagnosticGuideContent() {
     const vals = formValues[step.id]
     if (!vals) return false
     return step.fields.every((f) => {
+      if (f.showWhen) {
+        const parentVal = vals[f.showWhen.fieldId]
+        if (parentVal !== f.showWhen.value) return true
+      }
+      if (f.required === false) return true
+      if (f.type === 'toggle') return vals[f.id] === '0' || vals[f.id] === '1'
       const v = vals[f.id]
-      return v && parseFloat(v) > 0
+      return v !== undefined && v !== '' && Number.isFinite(parseFloat(v))
     })
   }, [formValues])
 
   const submitStep = useCallback((step: WizardStep) => {
     const vals = formValues[step.id] || {}
     const inputs: Record<string, number> = {}
-    step.fields.forEach((f) => { inputs[f.id] = parseFloat(vals[f.id]) || 0 })
+    const caAnnuel = parseFloat(formValues.company?.caAnnuel || '0') || 0
+    const margeBrute = parseFloat(formValues['seuil-rentabilite']?.margeBrute || '0') || 0
+    const chargesFixesMensuelles = parseFloat(formValues['seuil-rentabilite']?.chargesFixesMensuelles || '0') || 0
+
+    step.fields.forEach((f) => {
+      if (f.type === 'toggle') {
+        inputs[f.id] = vals[f.id] === '1' ? 1 : 0
+        return
+      }
+      if (f.showWhen) {
+        const parentVal = vals[f.showWhen.fieldId]
+        if (parentVal !== f.showWhen.value) {
+          inputs[f.id] = 0
+          return
+        }
+      }
+      inputs[f.id] = parseFloat(vals[f.id]) || 0
+    })
+
+    // Shared contextual inputs reused by all following steps
+    if (step.id !== 'company') inputs.caAnnuel = caAnnuel
+    if (step.id === 'gearing') inputs.margeBrute = margeBrute
+    if (step.id === 'dso' && chargesFixesMensuelles > 0) inputs.chargesFixesMensuelles = chargesFixesMensuelles
+    if (step.id === 'seuil-rentabilite') inputs.caAnnuel = caAnnuel
+
+    // Derive BFR approximation step automatically from cash inputs
+    if (step.id === 'dso') {
+      const bfrJours = (inputs.joursClients || 0) - (inputs.joursFournisseurs || 0)
+      const bfrEuros = caAnnuel > 0 ? Math.round((bfrJours / 365) * caAnnuel) : 0
+      setResults((prev) => ({
+        ...prev,
+        bfr: {
+          value: bfrEuros,
+          inputs: { bfrJours, caAnnuel },
+        },
+      }))
+      saveCalculation({
+        type: 'bfr',
+        value: bfrEuros,
+        inputs: { bfrJours, caAnnuel },
+        unit: '€',
+      })
+    }
     const result = step.compute(inputs)
 
     setResults((prev) => ({ ...prev, [step.id]: { value: result.value, inputs } }))
 
     // Save to localStorage (same format as calculators)
-    saveCalculation({
-      type: step.calcType,
-      value: result.value,
-      inputs,
-      unit: result.unit,
-    })
+    if (step.calcType) {
+      saveCalculation({
+        type: step.calcType,
+        value: result.value,
+        inputs,
+        unit: result.unit,
+      })
+    }
+
+    // Persist margin as a calculator result for score engine compatibility
+    if (step.id === 'seuil-rentabilite') {
+      saveCalculation({
+        type: 'marge',
+        value: inputs.margeBrute || 0,
+        inputs: { margeBrute: inputs.margeBrute || 0, caAnnuel },
+        unit: '%',
+      })
+      setResults((prev) => ({
+        ...prev,
+        marge: {
+          value: inputs.margeBrute || 0,
+          inputs: { margeBrute: inputs.margeBrute || 0, caAnnuel },
+        },
+      }))
+    }
   }, [formValues, saveCalculation])
 
   const handleSectorChange = useCallback((s: SectorKey) => {
@@ -659,7 +762,7 @@ function DiagnosticGuideContent() {
       // Trigger SCORIS analysis engine for micro-latency synthesis
       engineActions.analyze({
         sector,
-        results,
+        results: draftResults,
         enabledModules: {
           causalAnalysis: true,
           sectorBenchmarks: true,
@@ -688,7 +791,7 @@ function DiagnosticGuideContent() {
       setStepIndex(null)
       setPhaseIndex((p) => Math.min(p + 1, PHASES.length - 1))
     }
-  }, [phase, stepIndex, currentStep, currentSteps, isStepComplete, submitStep, engineActions, results, sector])
+  }, [phase, stepIndex, currentStep, currentSteps, isStepComplete, submitStep, engineActions, draftResults, sector])
 
   const goPrev = useCallback(() => {
     if (phase.key === 'intro') return
@@ -1126,7 +1229,12 @@ function DiagnosticGuideContent() {
 
                   {/* Fields */}
                   <div className="space-y-5">
-                    {currentStep.fields.map((field) => (
+                    {currentStep.fields
+                      .filter((field) => {
+                        if (!field.showWhen) return true
+                        return getFieldValue(currentStep.id, field.showWhen.fieldId) === field.showWhen.value
+                      })
+                      .map((field) => (
                       <div key={field.id}>
                         <label
                           htmlFor={`field-${currentStep.id}-${field.id}`}
@@ -1134,20 +1242,49 @@ function DiagnosticGuideContent() {
                         >
                           {field.label}
                         </label>
+                        {field.question && (
+                          <p className="text-xs text-gray-500 mb-2">{field.question}</p>
+                        )}
                         <div className="relative">
-                          <input
-                            id={`field-${currentStep.id}-${field.id}`}
-                            type="number"
-                            inputMode="decimal"
-                            value={getFieldValue(currentStep.id, field.id)}
-                            onChange={(e) => setFieldValue(currentStep.id, field.id, e.target.value)}
-                            placeholder={field.placeholder}
-                            aria-describedby={field.help ? `help-${currentStep.id}-${field.id}` : undefined}
-                            className="w-full px-4 py-3.5 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-600 focus:border-gray-400 focus:ring-2 focus:ring-gray-400/30 outline-none transition-all text-base tabular-nums"
-                          />
-                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 font-medium" aria-hidden="true">
-                            {field.suffix}
-                          </span>
+                          {field.type === 'toggle' ? (
+                            <div className="flex items-center gap-3">
+                              {(field.options || []).map((option) => {
+                                const active = getFieldValue(currentStep.id, field.id) === option.value
+                                return (
+                                  <button
+                                    key={option.value}
+                                    type="button"
+                                    onClick={() => setFieldValue(currentStep.id, field.id, option.value)}
+                                    className={`px-4 py-2 rounded-lg text-sm border transition-colors ${
+                                      active
+                                        ? 'bg-white text-slate-950 border-white'
+                                        : 'bg-gray-900/50 text-gray-400 border-gray-700 hover:border-gray-500'
+                                    }`}
+                                  >
+                                    {option.label}
+                                  </button>
+                                )
+                              })}
+                            </div>
+                          ) : (
+                            <>
+                              <input
+                                id={`field-${currentStep.id}-${field.id}`}
+                                type="number"
+                                inputMode="decimal"
+                                value={getFieldValue(currentStep.id, field.id)}
+                                onChange={(e) => setFieldValue(currentStep.id, field.id, e.target.value)}
+                                placeholder={field.placeholder}
+                                aria-describedby={field.help ? `help-${currentStep.id}-${field.id}` : undefined}
+                                className="w-full px-4 py-3.5 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-600 focus:border-gray-400 focus:ring-2 focus:ring-gray-400/30 outline-none transition-all text-base tabular-nums"
+                              />
+                              {field.suffix && (
+                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 font-medium" aria-hidden="true">
+                                  {field.suffix}
+                                </span>
+                              )}
+                            </>
+                          )}
                         </div>
                         {field.help && (
                           <p id={`help-${currentStep.id}-${field.id}`} className="text-[11px] text-gray-600 mt-1.5">{field.help}</p>
@@ -1284,17 +1421,15 @@ function DiagnosticGuideContent() {
                     {/* BFR × Seuil */}
                     {results.bfr && results['seuil-rentabilite'] && (
                       <div className={`px-4 py-3.5 rounded-lg border ${
-                        results.bfr.inputs.ca && results.bfr.inputs.ca > 0 &&
-                        Math.round((results.bfr.value / results.bfr.inputs.ca) * 365) > bench.bfrJoursMedian &&
-                        (results['seuil-rentabilite'].inputs.tauxMarge || 0) < bench.margeFaible
+                        (results.bfr.inputs.bfrJours || 0) > 45 &&
+                        (results['seuil-rentabilite'].inputs.margeBrute || 0) < 30
                           ? 'bg-red-500/5 border-red-500/20'
                           : 'bg-gray-800/30 border-gray-700/50'
                       }`}>
                         <div className="flex items-center justify-between mb-1.5">
                           <p className="text-xs font-semibold text-gray-300">BFR × Taux de marge</p>
-                          {results.bfr.inputs.ca && results.bfr.inputs.ca > 0 &&
-                           Math.round((results.bfr.value / results.bfr.inputs.ca) * 365) > bench.bfrJoursMedian &&
-                           (results['seuil-rentabilite'].inputs.tauxMarge || 0) < bench.margeFaible ? (
+                          {(results.bfr.inputs.bfrJours || 0) > 45 &&
+                           (results['seuil-rentabilite'].inputs.margeBrute || 0) < 30 ? (
                             <span className="text-[10px] font-semibold text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full">Fragilite structurelle</span>
                           ) : (
                             <span className="text-[10px] font-semibold text-gray-500 bg-gray-700/50 px-2 py-0.5 rounded-full">Maitrise</span>
@@ -1302,48 +1437,45 @@ function DiagnosticGuideContent() {
                         </div>
                         <p className="text-[11px] text-gray-500 leading-relaxed">
                           {(() => {
-                            const bfrJ = results.bfr.inputs.ca && results.bfr.inputs.ca > 0
-                              ? Math.round((results.bfr.value / results.bfr.inputs.ca) * 365)
-                              : null
-                            const tm = results['seuil-rentabilite'].inputs.tauxMarge || 0
-                            if (bfrJ && bfrJ > bench.bfrJoursMedian && tm < bench.margeFaible)
-                              return `BFR a ${bfrJ}j de CA (mediane ${bench.bfrJoursMedian}j) avec un taux de marge de ${tm}% (seuil critique ${bench.margeFaible}%) — le cycle d'exploitation absorbe plus de cash que la marge ne peut en generer.`
+                            const bfrJ = results.bfr.inputs.bfrJours || 0
+                            const tm = results['seuil-rentabilite'].inputs.margeBrute || 0
+                            if (bfrJ > 45 && tm < 30)
+                              return `BFR a ${bfrJ}j avec une marge brute de ${tm}% — pression croisee elevee sur votre tresorerie.`
                             return `BFR et taux de marge dans des niveaux compatibles — pas de fragilite croisee detectee.`
                           })()}
                         </p>
                       </div>
                     )}
 
-                    {/* Burn rate × CA */}
-                    {results['burn-rate'] && (results.bfr?.inputs.ca || results.dso?.inputs.ca) && (
+                    {/* Concentration client */}
+                    {results.gearing?.inputs.concentrationClient !== undefined && (
                       <div className={`px-4 py-3.5 rounded-lg border ${
                         (() => {
-                          const ca = results.bfr?.inputs.ca || results.dso?.inputs.ca || 0
-                          const pct = ca > 0 ? (results['burn-rate'].value / (ca / 12)) * 100 : 0
-                          return pct > 90 ? 'bg-red-500/5 border-red-500/20' : 'bg-gray-800/30 border-gray-700/50'
+                          const concentration = results.gearing?.inputs.concentrationClient || 0
+                          if (concentration > 60) return 'bg-red-500/5 border-red-500/20'
+                          if (concentration > 40) return 'bg-amber-500/5 border-amber-500/20'
+                          return 'bg-emerald-500/5 border-emerald-500/20'
                         })()
                       }`}>
                         <div className="flex items-center justify-between mb-1.5">
-                          <p className="text-xs font-semibold text-gray-300">Burn Rate × CA mensuel</p>
+                          <p className="text-xs font-semibold text-gray-300">Concentration client</p>
                           {(() => {
-                            const ca = results.bfr?.inputs.ca || results.dso?.inputs.ca || 0
-                            const pct = ca > 0 ? Math.round((results['burn-rate'].value / (ca / 12)) * 100) : 0
-                            return pct > 90 ? (
-                              <span className="text-[10px] font-semibold text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full">Structure deficitaire</span>
-                            ) : pct > 70 ? (
-                              <span className="text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full">Tension</span>
+                            const concentration = results.gearing?.inputs.concentrationClient || 0
+                            return concentration > 60 ? (
+                              <span className="text-[10px] font-semibold text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full">Critique</span>
+                            ) : concentration > 40 ? (
+                              <span className="text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full">Vigilance</span>
                             ) : (
-                              <span className="text-[10px] font-semibold text-gray-500 bg-gray-700/50 px-2 py-0.5 rounded-full">Maitrise</span>
+                              <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Maitrise</span>
                             )
                           })()}
                         </div>
                         <p className="text-[11px] text-gray-500 leading-relaxed">
                           {(() => {
-                            const ca = results.bfr?.inputs.ca || results.dso?.inputs.ca || 0
-                            const pct = ca > 0 ? Math.round((results['burn-rate'].value / (ca / 12)) * 100) : 0
-                            if (pct > 90) return `Consommation mensuelle a ${pct}% du CA — les charges depassent la capacite de generation, runway limite.`
-                            if (pct > 70) return `Consommation mensuelle a ${pct}% du CA — peu de marge de manoeuvre en cas d'aleas.`
-                            return `Consommation mensuelle a ${pct}% du CA — niveau maitrise.`
+                            const concentration = results.gearing?.inputs.concentrationClient || 0
+                            if (concentration > 60) return '🔴 Risque structurel critique — dépendance client excessive'
+                            if (concentration > 40) return '🟡 Dépendance client élevée — diversification recommandée'
+                            return '🟢 Concentration client maîtrisée'
                           })()}
                         </p>
                       </div>

@@ -230,43 +230,31 @@ export const LEVEL_CONFIG: Record<DiagnosticScore['level'], LevelConfig> = {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function scoreDSO(value: number, bench: SectorBenchmark): number {
-  if (value <= bench.dsoGood) return 10
-  if (value <= bench.dsoMedian) return 7
-  if (value <= bench.dsoBad) return 4
+  if (value <= 30) return 10
+  if (value <= 45) return 7
+  if (value <= 60) return 4
   return 1
 }
 
 export function scoreBFR(value: number, ca: number, bench: SectorBenchmark): number {
-  if (value < 0) return 10
-  if (ca > 0) {
-    const j = Math.round((value / ca) * 365)
-    if (j <= bench.bfrJoursBon) return 10
-    if (j <= bench.bfrJoursMedian) return 7
-    if (j <= bench.bfrJoursBad) return 4
-    return 1
-  }
-  return 3
+  if (value <= 15) return 10
+  if (value <= 30) return 7
+  if (value <= 45) return 4
+  return 1
 }
 
 export function scoreBurnRate(value: number, caMensuel: number): number {
-  if (caMensuel > 0) {
-    const pct = (value / caMensuel) * 100
-    if (pct < 30) return 5
-    if (pct < 60) return 3
-    if (pct < 90) return 1
-    return 0
-  }
-  if (value < 5_000) return 5
-  if (value < 15_000) return 3
-  if (value < 50_000) return 1
+  if (value >= 6) return 5
+  if (value >= 3) return 3
+  if (value >= 1) return 1
   return 0
 }
 
 export function scoreMarge(value: number, bench: SectorBenchmark): number {
-  if (value >= bench.margeBon * 1.3) return 8
-  if (value >= bench.margeBon) return 6
-  if (value >= bench.margeMedian) return 4
-  if (value >= bench.margeFaible) return 2
+  if (value >= 55) return 8
+  if (value >= 40) return 6
+  if (value >= 30) return 4
+  if (value >= 20) return 2
   return 1
 }
 
@@ -279,10 +267,10 @@ export function scoreROI(value: number): number {
 }
 
 export function scoreSeuil(tauxMarge: number, bench: SectorBenchmark): number {
-  if (tauxMarge >= bench.margeBon) return 6
-  if (tauxMarge >= bench.margeMedian) return 4
-  if (tauxMarge >= bench.margeFaible) return 2
-  return 1
+  if (tauxMarge >= 30) return 6
+  if (tauxMarge >= 15) return 4
+  if (tauxMarge >= 0) return 2
+  return 0
 }
 
 export function scoreEBITDA(ebitdaValue: number, caAnnuel: number | null, bench: SectorBenchmark): number {
@@ -297,10 +285,9 @@ export function scoreEBITDA(ebitdaValue: number, caAnnuel: number | null, bench:
 }
 
 export function scoreGearing(value: number, bench: SectorBenchmark): number {
-  if (value <= 0) return 8
-  if (value <= bench.gearingBon) return 7
-  if (value <= bench.gearingMedian) return 5
-  if (value <= bench.gearingCritique) return 2
+  if (value <= 1) return 8
+  if (value <= 2) return 6
+  if (value <= 3) return 3
   return 0
 }
 
@@ -318,21 +305,23 @@ export function scoreCACLTV(value: number): number {
 export function estimateCA(
   get: (t: CalculatorType) => Calculation | undefined,
 ): number | null {
+  const dsoRaw = get('dso')
   const bfrRaw = get('bfr')
   const seuilRaw = get('seuil-rentabilite')
-  return bfrRaw?.inputs?.ca
-    ? bfrRaw.inputs.ca
-    : seuilRaw?.inputs?.chargesFixes && seuilRaw?.inputs?.tauxMarge
-    ? Math.round(seuilRaw.inputs.chargesFixes / (seuilRaw.inputs.tauxMarge / 100))
+  return dsoRaw?.inputs?.caAnnuel
+    ? dsoRaw.inputs.caAnnuel
+    : bfrRaw?.inputs?.caAnnuel
+    ? bfrRaw.inputs.caAnnuel
+    : seuilRaw?.inputs?.caAnnuel
+    ? seuilRaw.inputs.caAnnuel
     : null
 }
 
 export function estimateCAFromResults(results: WizardResults): number | null {
-  if (results.bfr?.inputs.ca && results.bfr.inputs.ca > 0) return results.bfr.inputs.ca
-  if (results.dso?.inputs.ca && results.dso.inputs.ca > 0) return results.dso.inputs.ca
-  if (results['seuil-rentabilite']?.inputs.chargesFixes && results['seuil-rentabilite']?.inputs.tauxMarge) {
-    return Math.round(results['seuil-rentabilite'].inputs.chargesFixes / (results['seuil-rentabilite'].inputs.tauxMarge / 100))
-  }
+  if (results.company?.inputs.caAnnuel && results.company.inputs.caAnnuel > 0) return results.company.inputs.caAnnuel
+  if (results.dso?.inputs.caAnnuel && results.dso.inputs.caAnnuel > 0) return results.dso.inputs.caAnnuel
+  if (results.bfr?.inputs.caAnnuel && results.bfr.inputs.caAnnuel > 0) return results.bfr.inputs.caAnnuel
+  if (results['seuil-rentabilite']?.inputs.caAnnuel && results['seuil-rentabilite'].inputs.caAnnuel > 0) return results['seuil-rentabilite'].inputs.caAnnuel
   return null
 }
 
@@ -346,135 +335,143 @@ export function computeDiagnosticScore(
 ): DiagnosticScore {
   const get = (t: CalculatorType) => history.find((c) => c.type === t)
   const bench = SECTOR_BENCHMARKS[sector]
-  const caAnnuel = estimateCA(get)
-  const caMensuel = caAnnuel ? caAnnuel / 12 : null
 
-  // --- Pilier CASH (25 pts) ---
   const dso = get('dso')
   const bfr = get('bfr')
-  const burnRate = get('burn-rate')
+  const marge = get('marge')
+  const seuil = get('seuil-rentabilite')
+  const gearing = get('gearing')
+
+  const caAnnuel =
+    dso?.inputs?.caAnnuel ||
+    bfr?.inputs?.caAnnuel ||
+    seuil?.inputs?.caAnnuel ||
+    marge?.inputs?.caAnnuel ||
+    gearing?.inputs?.caAnnuel ||
+    null
+
+  const joursClients = dso?.inputs?.joursClients ?? dso?.value ?? 0
+  const joursFournisseurs = dso?.inputs?.joursFournisseurs ?? 0
+  const bfrJours = bfr?.inputs?.bfrJours ?? (joursClients - joursFournisseurs)
+  const margeBrute = seuil?.inputs?.margeBrute ?? marge?.value ?? 0
+  const chargesFixesMensuelles = seuil?.inputs?.chargesFixesMensuelles ?? 0
+  const soldeBancaire = dso?.inputs?.soldeBancaire ?? 0
+  const runwayMonths = soldeBancaire > 0 && chargesFixesMensuelles > 0 ? soldeBancaire / chargesFixesMensuelles : null
+
+  const concentrationClient = gearing?.inputs?.concentrationClient ?? 0
+  const nombreClients = gearing?.inputs?.nombreClients ?? 0
+  const detteBancaire = gearing?.inputs?.detteBancaire ?? 0
+
   const cashCalcs: { type: CalculatorType; done: boolean }[] = [
     { type: 'dso', done: !!dso },
-    { type: 'bfr', done: !!bfr },
-    { type: 'burn-rate', done: !!burnRate },
+    { type: 'bfr', done: !!bfr || !!dso },
+    { type: 'seuil-rentabilite', done: runwayMonths !== null },
   ]
-  const cashHasData = dso || bfr || burnRate
+
   let cashScore: number | null = null
-  if (cashHasData) {
+  if (dso || bfr || runwayMonths !== null) {
     let pts = 0
     let maxPossible = 0
-    if (dso) { maxPossible += 10; pts += scoreDSO(dso.value, bench) }
-    if (bfr) { maxPossible += 10; pts += scoreBFR(bfr.value, bfr.inputs?.ca ?? 0, bench) }
-    if (burnRate) { maxPossible += 5; pts += scoreBurnRate(burnRate.value, caMensuel ?? 0) }
+    if (dso || joursClients > 0) {
+      maxPossible += 10
+      pts += scoreDSO(joursClients, bench)
+    }
+    if ((bfr || dso) && Number.isFinite(bfrJours)) {
+      maxPossible += 10
+      pts += scoreBFR(bfrJours, 0, bench)
+    }
+    if (runwayMonths !== null) {
+      maxPossible += 5
+      pts += scoreBurnRate(runwayMonths, 0)
+    }
     cashScore = maxPossible > 0 ? Math.round((pts / maxPossible) * 25) : null
   }
 
-  // --- Pilier MARGIN (25 pts) ---
-  const marge = get('marge')
-  const ebitda = get('ebitda')
-  const roi = get('roi')
-  const seuil = get('seuil-rentabilite')
   const marginCalcs: { type: CalculatorType; done: boolean }[] = [
-    { type: 'marge', done: !!marge },
-    { type: 'roi', done: !!roi },
+    { type: 'marge', done: !!marge || margeBrute > 0 },
     { type: 'seuil-rentabilite', done: !!seuil },
-    { type: 'ebitda', done: !!ebitda },
   ]
-  const marginHasData = marge || roi || seuil || ebitda
+
   let marginScore: number | null = null
-  if (marginHasData) {
+  if (margeBrute > 0 || !!seuil) {
     let pts = 0
     let maxPossible = 0
-    if (marge) { maxPossible += 8; pts += scoreMarge(marge.value, bench) }
-    if (roi) { maxPossible += 7; pts += scoreROI(roi.value) }
-    if (seuil) { maxPossible += 6; pts += scoreSeuil(seuil.inputs?.tauxMarge ?? 0, bench) }
-    if (ebitda) { maxPossible += 4; pts += scoreEBITDA(ebitda.value, caAnnuel, bench) }
+    if (margeBrute > 0) {
+      maxPossible += 8
+      pts += scoreMarge(margeBrute, bench)
+    }
+    if (seuil && caAnnuel && caAnnuel > 0) {
+      const margeSecurite = ((caAnnuel - seuil.value) / caAnnuel) * 100
+      maxPossible += 6
+      pts += scoreSeuil(margeSecurite, bench)
+    }
     marginScore = maxPossible > 0 ? Math.round((pts / maxPossible) * 25) : null
   }
 
-  // --- Pilier RÉSILIENCE (25 pts) ---
-  const cacLtv = get('cac-ltv')
-  const valorisation = get('valorisation')
-  const gearing = get('gearing')
   const resilienceCalcs: { type: CalculatorType; done: boolean }[] = [
-    { type: 'cac-ltv', done: !!cacLtv },
-    { type: 'valorisation', done: !!valorisation },
     { type: 'gearing', done: !!gearing },
+    { type: 'marge', done: margeBrute > 0 },
   ]
-  const hasDerivedResilience = (dso && bfr) || (marge && (ebitda || seuil))
-  const resilienceHasData = cacLtv || valorisation || gearing || hasDerivedResilience
+
   let resilienceScore: number | null = null
-  if (resilienceHasData) {
+  if (concentrationClient > 0 || nombreClients > 0 || detteBancaire > 0) {
     let pts = 0
     let maxPossible = 0
-    if (cacLtv) { maxPossible += 10; pts += scoreCACLTV(cacLtv.value) }
-    if (valorisation) {
+
+    if (concentrationClient > 0) {
+      maxPossible += 10
+      if (concentrationClient <= 20) pts += 10
+      else if (concentrationClient <= 40) pts += 7
+      else if (concentrationClient <= 60) pts += 4
+      else pts += 1
+    }
+
+    if (nombreClients > 0) {
       maxPossible += 8
-      if (valorisation.value > 0 && caAnnuel && caAnnuel > 0) {
-        const multCA = valorisation.value / caAnnuel
-        pts += multCA >= 2 ? 8 : multCA >= 1 ? 6 : multCA >= 0.5 ? 3 : 1
-      } else pts += valorisation.value > 0 ? 5 : 1
+      if (nombreClients >= 20) pts += 8
+      else if (nombreClients >= 10) pts += 6
+      else if (nombreClients >= 5) pts += 4
+      else pts += 2
     }
-    if (hasDerivedResilience) {
-      maxPossible += 7
-      let structPts = 7
-      if (dso && dso.value > bench.dsoBad) structPts -= 2
-      else if (dso && dso.value > bench.dsoMedian) structPts -= 1
-      if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
-        const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
-        if (joursCA > bench.bfrJoursBad) structPts -= 2
-        else if (joursCA > bench.bfrJoursMedian) structPts -= 1
-      }
-      if (ebitda && ebitda.value > 0) structPts += 1
-      if (marge) {
-        if (marge.value >= bench.margeBon) structPts += 1
-        else if (marge.value < bench.margeFaible) structPts -= 1
-      }
-      pts += Math.max(0, Math.min(7, structPts))
+
+    if (detteBancaire > 0 && caAnnuel && caAnnuel > 0 && margeBrute > 0) {
+      const gearingValue = detteBancaire / (caAnnuel * (margeBrute / 100))
+      maxPossible += 8
+      pts += scoreGearing(gearingValue, bench)
     }
-    if (gearing) { maxPossible += 8; pts += scoreGearing(gearing.value, bench) }
+
     resilienceScore = maxPossible > 0 ? Math.round((pts / maxPossible) * 25) : null
   }
 
-  // --- Pilier RISQUES (25 pts) ---
   const riskCalcs: { type: CalculatorType; done: boolean }[] = [
     { type: 'dso', done: !!dso },
-    { type: 'marge', done: !!marge },
+    { type: 'marge', done: margeBrute > 0 },
     { type: 'seuil-rentabilite', done: !!seuil },
   ]
-  const riskHasData = (dso || bfr) && (marge || seuil)
+
+  const riskHasData = (dso || bfr) && (margeBrute > 0 || seuil)
   let riskScore: number | null = null
   if (riskHasData) {
     let pts = 25
-    if (dso && dso.value > bench.dsoBad) pts -= 5
-    else if (dso && dso.value > bench.dsoMedian) pts -= 2
-    if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
-      const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
-      if (joursCA > bench.bfrJoursBad) pts -= 6
-      else if (joursCA > bench.bfrJoursMedian) pts -= 3
-    }
-    if (marge && marge.value < bench.margeFaible) pts -= 5
-    else if (marge && marge.value < bench.margeMedian) pts -= 2
-    if (seuil) {
-      const tm = seuil.inputs?.tauxMarge
-      if (tm && tm < bench.margeFaible * 0.7) pts -= 6
-      else if (tm && tm < bench.margeFaible) pts -= 3
-    }
-    if (burnRate && caMensuel && caMensuel > 0) {
-      const burnPct = (burnRate.value / caMensuel) * 100
-      if (burnPct > 90) pts -= 5
-      else if (burnPct > 70) pts -= 2
-    }
-    if (dso && dso.value > bench.dsoMedian && marge && marge.value < bench.margeMedian) pts -= 3
-    if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0 && seuil) {
-      const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
-      const tm = seuil.inputs?.tauxMarge
-      if (joursCA > bench.bfrJoursMedian && tm && tm < bench.margeFaible) pts -= 2
-    }
+
+    if (joursClients > bench.dsoBad) pts -= 5
+    else if (joursClients > bench.dsoMedian) pts -= 2
+
+    if (bfrJours > 45) pts -= 6
+    else if (bfrJours > 30) pts -= 3
+
+    if (margeBrute < 20) pts -= 5
+    else if (margeBrute < 30) pts -= 2
+
+    if (joursClients > bench.dsoMedian && margeBrute < bench.margeMedian) pts -= 3
+    if (bfrJours > 45 && margeBrute < 30) pts -= 5
+
+    if (concentrationClient > 60 && nombreClients < 5) pts -= 8
+    else if (concentrationClient > 40) pts -= 4
+
     riskScore = Math.max(0, Math.min(25, pts))
   }
 
-  // --- Assemblage ---
   const pillars: Record<PillarKey, PillarResult> = {
     cash: {
       score: cashScore, max: 25, calculators: cashCalcs,
@@ -532,64 +529,86 @@ export function computeLiveScores(
     cash: null, margin: null, resilience: null, risk: null,
   }
 
+  const caAnnuel =
+    results.company?.inputs.caAnnuel ||
+    results.dso?.inputs.caAnnuel ||
+    results.bfr?.inputs.caAnnuel ||
+    results['seuil-rentabilite']?.inputs.caAnnuel ||
+    null
+
+  const joursClients = results.dso?.inputs.joursClients ?? results.dso?.value ?? 0
+  const joursFournisseurs = results.dso?.inputs.joursFournisseurs ?? 0
+  const bfrJours = results.bfr?.inputs.bfrJours ?? (joursClients - joursFournisseurs)
+  const margeBrute = results['seuil-rentabilite']?.inputs.margeBrute ?? results.marge?.value ?? 0
+  const chargesFixesMensuelles = results['seuil-rentabilite']?.inputs.chargesFixesMensuelles ?? 0
+  const soldeBancaire = results.dso?.inputs.soldeBancaire ?? 0
+
+  const concentrationClient = results.gearing?.inputs.concentrationClient ?? 0
+  const nombreClients = results.gearing?.inputs.nombreClients ?? 0
+  const detteBancaire = results.gearing?.inputs.detteBancaire ?? 0
+
   // Cash
   let cashPts = 0, cashMax = 0
-  if (results.dso) { cashMax += 10; cashPts += scoreDSO(results.dso.value, bench) }
-  if (results.bfr) { cashMax += 10; cashPts += scoreBFR(results.bfr.value, results.bfr.inputs.ca || 0, bench) }
-  if (results['burn-rate']) {
+  if (joursClients > 0) { cashMax += 10; cashPts += scoreDSO(joursClients, bench) }
+  if (results.bfr || results.dso) { cashMax += 10; cashPts += scoreBFR(bfrJours, 0, bench) }
+  if (soldeBancaire > 0 && chargesFixesMensuelles > 0) {
     cashMax += 5
-    const ca = results.bfr?.inputs.ca || results.dso?.inputs.ca || 0
-    cashPts += scoreBurnRate(results['burn-rate'].value, ca / 12)
+    cashPts += scoreBurnRate(soldeBancaire / chargesFixesMensuelles, 0)
   }
   if (cashMax > 0) scores.cash = Math.round((cashPts / cashMax) * 25)
 
   // Margin
   let marginPts = 0, marginMax = 0
-  if (results.marge) { marginMax += 8; marginPts += scoreMarge(results.marge.value, bench) }
-  if (results['seuil-rentabilite']) { marginMax += 6; marginPts += scoreSeuil(results['seuil-rentabilite'].inputs.tauxMarge || 0, bench) }
-  if (results.roi) { marginMax += 7; marginPts += scoreROI(results.roi.value) }
+  if (margeBrute > 0) { marginMax += 8; marginPts += scoreMarge(margeBrute, bench) }
+  if (results['seuil-rentabilite'] && caAnnuel && caAnnuel > 0) {
+    const seuilRentabilite = results['seuil-rentabilite'].value
+    const margeSecurite = ((caAnnuel - seuilRentabilite) / caAnnuel) * 100
+    marginMax += 6
+    marginPts += scoreSeuil(margeSecurite, bench)
+  }
   if (marginMax > 0) scores.margin = Math.round((marginPts / marginMax) * 25)
 
   // Resilience
   let resPts = 0, resMax = 0
-  if (results.ebitda) {
-    const ca = results.ebitda.inputs.ca || 0
-    if (ca > 0) { resMax += 4; resPts += scoreEBITDA(results.ebitda.value, ca, bench) }
+  if (concentrationClient > 0) {
+    resMax += 10
+    if (concentrationClient <= 20) resPts += 10
+    else if (concentrationClient <= 40) resPts += 7
+    else if (concentrationClient <= 60) resPts += 4
+    else resPts += 1
   }
-  if (results['cac-ltv']) { resMax += 10; resPts += scoreCACLTV(results['cac-ltv'].value) }
-  if (results.gearing) { resMax += 8; resPts += scoreGearing(results.gearing.value, bench) }
-  // derived resilience
-  if ((results.dso || results.bfr) && (results.marge || results.ebitda)) {
-    resMax += 7
-    let sp = 7
-    if (results.dso && results.dso.value > bench.dsoBad) sp -= 2
-    else if (results.dso && results.dso.value > bench.dsoMedian) sp -= 1
-    if (results.marge && results.marge.value >= bench.margeBon) sp += 1
-    else if (results.marge && results.marge.value < bench.margeFaible) sp -= 1
-    resPts += Math.max(0, Math.min(7, sp))
+  if (nombreClients > 0) {
+    resMax += 8
+    if (nombreClients >= 20) resPts += 8
+    else if (nombreClients >= 10) resPts += 6
+    else if (nombreClients >= 5) resPts += 4
+    else resPts += 2
+  }
+  if (detteBancaire > 0 && caAnnuel && caAnnuel > 0 && margeBrute > 0) {
+    const gearingValue = detteBancaire / (caAnnuel * (margeBrute / 100))
+    resMax += 8
+    resPts += scoreGearing(gearingValue, bench)
   }
   if (resMax > 0) scores.resilience = Math.round((resPts / resMax) * 25)
 
   // Risk
-  if ((results.dso || results.bfr) && (results.marge || results['seuil-rentabilite'])) {
+  if ((results.dso || results.bfr) && (margeBrute > 0 || results['seuil-rentabilite'])) {
     let pts = 25
-    if (results.dso && results.dso.value > bench.dsoBad) pts -= 5
-    else if (results.dso && results.dso.value > bench.dsoMedian) pts -= 2
-    if (results.bfr && results.bfr.inputs.ca && results.bfr.inputs.ca > 0) {
-      const j = Math.round((results.bfr.value / results.bfr.inputs.ca) * 365)
-      if (j > bench.bfrJoursBad) pts -= 6
-      else if (j > bench.bfrJoursMedian) pts -= 3
-    }
-    if (results.marge && results.marge.value < bench.margeFaible) pts -= 5
-    else if (results.marge && results.marge.value < bench.margeMedian) pts -= 2
-    if (results['seuil-rentabilite']) {
-      const tm = results['seuil-rentabilite'].inputs.tauxMarge
-      if (tm && tm < bench.margeFaible * 0.7) pts -= 6
-      else if (tm && tm < bench.margeFaible) pts -= 3
-    }
-    if (results.dso && results.dso.value > bench.dsoMedian && results.marge && results.marge.value < bench.margeMedian) pts -= 3
-    if (results.gearing && results.gearing.value > bench.gearingCritique) pts -= 4
-    else if (results.gearing && results.gearing.value > bench.gearingMedian) pts -= 2
+    if (joursClients > bench.dsoBad) pts -= 5
+    else if (joursClients > bench.dsoMedian) pts -= 2
+
+    if (bfrJours > 45) pts -= 6
+    else if (bfrJours > 30) pts -= 3
+
+    if (margeBrute < 20) pts -= 5
+    else if (margeBrute < 30) pts -= 2
+
+    if (joursClients > bench.dsoMedian && margeBrute < bench.margeMedian) pts -= 3
+    if (bfrJours > 45 && margeBrute < 30) pts -= 5
+
+    if (concentrationClient > 60 && nombreClients < 5) pts -= 8
+    else if (concentrationClient > 40) pts -= 4
+
     scores.risk = Math.max(0, Math.min(25, pts))
   }
 
