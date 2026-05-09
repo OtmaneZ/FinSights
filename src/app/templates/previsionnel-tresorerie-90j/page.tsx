@@ -675,7 +675,7 @@ export default function TemplateExcelTresoreriePage() {
 
                         <p className="text-sm mt-8 opacity-75">
                             En téléchargeant, vous acceptez de recevoir des emails utiles sur le pilotage financier PME 
-                            (désabonnement en 1 clic). Consultez notre <Link href="/legal/politique-confidentialite" className="underline">politique de confidentialité</Link>.
+                            (désabonnement en 1 clic). Consultez notre <Link href="/politique-confidentialite" className="underline">politique de confidentialité</Link>.
                         </p>
                     </motion.div>
                 </div>
