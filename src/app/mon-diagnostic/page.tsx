@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useEffect, useState, useCallback } from 'react'
+import { Suspense, useEffect, useState, useCallback, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Header from '@/components/Header'
@@ -27,6 +27,7 @@ import {
 } from '@/lib/scoring/diagnosticScore'
 import { generateDiagnosticPDF } from '@/lib/pdf/generateDiagnosticPDF'
 import ScorePaywall from '@/components/diagnostic/ScorePaywall'
+import { FreePreviewReminderBanner } from '@/components/diagnostic/FreePreviewReminderBanner'
 import {
   TrendingUp,
   DollarSign,
@@ -243,6 +244,30 @@ function MonDiagnosticContent() {
   const [paywallUnlocked, setPaywallUnlocked] = useState(false)
   const [generatingPDF, setGeneratingPDF] = useState(false)
 
+  const [hasDownloadedFreeReport, setHasDownloadedFreeReport] = useState(false)
+  const [freePreviewBannerDismissed, setFreePreviewBannerDismissed] = useState(false)
+  const [freePreviewBannerVisible, setFreePreviewBannerVisible] = useState(false)
+  const freePreviewBannerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (freePreviewBannerTimerRef.current) clearTimeout(freePreviewBannerTimerRef.current)
+    }
+  }, [])
+
+  const scrollToScorisPaywall = useCallback(() => {
+    document.getElementById('scoris-paywall')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [])
+
+  const dismissFreePreviewBanner = useCallback(() => {
+    setFreePreviewBannerDismissed(true)
+    setFreePreviewBannerVisible(false)
+    if (freePreviewBannerTimerRef.current) {
+      clearTimeout(freePreviewBannerTimerRef.current)
+      freePreviewBannerTimerRef.current = null
+    }
+  }, [])
+
   const handleDownloadPDF = useCallback(async (opts?: { silent?: boolean; isPremium?: boolean }) => {
     if (generatingPDF) return
     const silent = opts?.silent ?? false
@@ -264,12 +289,23 @@ function MonDiagnosticContent() {
         totalCalculators: TOTAL_CALCULATORS,
         isPremium,
       })
+      if (opts?.isPremium === false) {
+        setHasDownloadedFreeReport(true)
+        if (!freePreviewBannerDismissed) {
+          setFreePreviewBannerVisible(true)
+          if (freePreviewBannerTimerRef.current) clearTimeout(freePreviewBannerTimerRef.current)
+          freePreviewBannerTimerRef.current = setTimeout(() => {
+            setFreePreviewBannerVisible(false)
+            freePreviewBannerTimerRef.current = null
+          }, 10000)
+        }
+      }
     } catch (err) {
       if (!silent) console.error('PDF generation failed:', err)
     } finally {
       setGeneratingPDF(false)
     }
-  }, [generatingPDF, history, sector, fecMeta, completedTypes])
+  }, [generatingPDF, history, sector, fecMeta, completedTypes, freePreviewBannerDismissed])
 
   // Détection ?success=true → débloquer + auto-générer PDF (version complète payante)
   useEffect(() => {
@@ -936,7 +972,12 @@ function MonDiagnosticContent() {
           {/* ── Paywall SCORIS 49€ ── */}
           {!paywallUnlocked && diagnostic.total !== null && (
             <FadeIn className="mb-12">
-              <ScorePaywall score={diagnostic.total} sector={sector} />
+              <ScorePaywall
+                score={diagnostic.total}
+                sector={sector}
+                onPreviewDownload={() => handleDownloadPDF({ isPremium: false })}
+                previewLoading={generatingPDF}
+              />
             </FadeIn>
           )}
 
@@ -1273,6 +1314,14 @@ function MonDiagnosticContent() {
           <MethodologySection />
         </div>
       </section>
+
+      <FreePreviewReminderBanner
+        visible={
+          hasDownloadedFreeReport && freePreviewBannerVisible && !freePreviewBannerDismissed
+        }
+        onDismiss={dismissFreePreviewBanner}
+        onUnlock={scrollToScorisPaywall}
+      />
 
       <Footer />
     </div>

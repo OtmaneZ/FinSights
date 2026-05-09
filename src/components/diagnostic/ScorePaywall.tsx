@@ -23,6 +23,10 @@ import { Lock, Mail, FileText, Sparkles, ArrowRight, CheckCircle2 } from 'lucide
 export interface ScorePaywallProps {
   score: number | null
   sector: string
+  /** Aperçu PDF gratuit (sections verrouillées) — ex. handleDownloadPDF({ isPremium: false }) */
+  onPreviewDownload?: () => void | Promise<void>
+  /** Affiche un état chargement sur le lien aperçu */
+  previewLoading?: boolean
 }
 
 const BULLET_POINTS = [
@@ -32,7 +36,12 @@ const BULLET_POINTS = [
   'Format consulting A4 — 5 pages, prêt à présenter à votre banque ou associés',
 ]
 
-export default function ScorePaywall({ score, sector }: ScorePaywallProps) {
+export default function ScorePaywall({
+  score,
+  sector,
+  onPreviewDownload,
+  previewLoading = false,
+}: ScorePaywallProps) {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -119,7 +128,10 @@ export default function ScorePaywall({ score, sector }: ScorePaywallProps) {
 
   // ── Composant principal ──────────────────────────────────────────────────
   return (
-    <div className="relative rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
+    <div
+      id="scoris-paywall"
+      className="relative rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-hidden scroll-mt-24"
+    >
       {/* Halo décoratif */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -233,6 +245,19 @@ export default function ScorePaywall({ score, sector }: ScorePaywallProps) {
                     </span>
                   ))}
                 </div>
+
+                {onPreviewDownload && (
+                  <div className="pt-3 text-center border-t border-white/10 mt-3">
+                    <button
+                      type="button"
+                      onClick={() => void onPreviewDownload()}
+                      disabled={previewLoading || loading}
+                      className="text-[11px] text-gray-500 hover:text-gray-400 underline-offset-2 hover:underline disabled:opacity-50 disabled:no-underline transition-colors"
+                    >
+                      {previewLoading ? 'Génération de l’aperçu…' : 'Voir l\'aperçu gratuit (sections clés verrouillées) →'}
+                    </button>
+                  </div>
+                )}
               </form>
             </div>
           </div>

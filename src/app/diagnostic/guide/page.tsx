@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useState, useEffect, useMemo, useCallback } from 'react'
+import { Suspense, useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -29,7 +29,10 @@ import {
   computeLiveScores,
   computeSynthesis,
   getContextualCTA,
+  computeDiagnosticScore,
+  computeInsights,
 } from '@/lib/scoring/diagnosticScore'
+import { generateDiagnosticPDF } from '@/lib/pdf/generateDiagnosticPDF'
 import { useScorisEngine } from '@/hooks/useScorisEngine'
 import { SectorComparisonGrid } from '@/components/diagnostic/SectorComparisonBadge'
 import { WhatIfSlider } from '@/components/diagnostic/WhatIfSlider'
@@ -40,6 +43,9 @@ import type { FECExtractedData, FECWizardData } from '@/lib/scoris/fecParser'
 import type { AnalysisStep } from '@/lib/scoris/types'
 import { ANALYSIS_STEP_LABELS } from '@/lib/scoris/types'
 import ScorePaywall from '@/components/diagnostic/ScorePaywall'
+import { FreePreviewReminderBanner } from '@/components/diagnostic/FreePreviewReminderBanner'
+
+const TOTAL_CALCULATORS = 10
 
 // ---------------------------------------------------------------------------
 // DiagnosticEmailCapture — email opt-in + newsletter (rendered inside guide)
@@ -461,7 +467,7 @@ function getWizardFieldHint(stepId: string, fieldId: string, bench: SectorBenchm
 // ---------------------------------------------------------------------------
 
 function DiagnosticGuideContent() {
-  const { saveCalculation } = useCalculatorHistory()
+  const { saveCalculation, history, completedTypes } = useCalculatorHistory()
   const [mounted, setMounted] = useState(false)
   const [sector, setSector] = useState<SectorKey>('autre')
   const [phaseIndex, setPhaseIndex] = useState(0)
@@ -472,6 +478,81 @@ function DiagnosticGuideContent() {
   const [emailCapturedAfterCash, setEmailCapturedAfterCash] = useState(false)
   const [introMode, setIntroMode] = useState<'choose' | 'fec'>('choose') // 'choose' = Option A/B, 'fec' = FEC dropzone expanded
   const [paywallUnlocked, setPaywallUnlocked] = useState(false)
+
+  const [fecMeta, setFecMeta] = useState<{
+    source: string
+    fileName: string
+    nbEcritures: number
+    dateDebut: string
+    dateFin: string
+    dataQuality: number
+  } | null>(null)
+
+  const [hasDownloadedFreeReport, setHasDownloadedFreeReport] = useState(false)
+  const [freePreviewBannerDismissed, setFreePreviewBannerDismissed] = useState(false)
+  const [freePreviewBannerVisible, setFreePreviewBannerVisible] = useState(false)
+  const [generatingPreviewPdf, setGeneratingPreviewPdf] = useState(false)
+  const freePreviewBannerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (freePreviewBannerTimerRef.current) clearTimeout(freePreviewBannerTimerRef.current)
+    }
+  }, [])
+
+  const scrollToScorisPaywall = useCallback(() => {
+    document.getElementById('scoris-paywall')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [])
+
+  const dismissFreePreviewBanner = useCallback(() => {
+    setFreePreviewBannerDismissed(true)
+    setFreePreviewBannerVisible(false)
+    if (freePreviewBannerTimerRef.current) {
+      clearTimeout(freePreviewBannerTimerRef.current)
+      freePreviewBannerTimerRef.current = null
+    }
+  }, [])
+
+  const handleFreePreviewPDF = useCallback(async () => {
+    if (generatingPreviewPdf) return
+    setGeneratingPreviewPdf(true)
+    try {
+      const diagSnap = computeDiagnosticScore(history, sector)
+      const insightsSnap = computeInsights(diagSnap, history, sector)
+      await generateDiagnosticPDF({
+        diagnostic: diagSnap,
+        insights: insightsSnap,
+        sector,
+        history,
+        companyName: fecMeta?.fileName?.replace(/\.[^.]+$/, '') || undefined,
+        fileName: fecMeta?.fileName || undefined,
+        fecMeta: fecMeta || undefined,
+        completedCount: completedTypes().length,
+        totalCalculators: TOTAL_CALCULATORS,
+        isPremium: false,
+      })
+      setHasDownloadedFreeReport(true)
+      if (!freePreviewBannerDismissed) {
+        setFreePreviewBannerVisible(true)
+        if (freePreviewBannerTimerRef.current) clearTimeout(freePreviewBannerTimerRef.current)
+        freePreviewBannerTimerRef.current = setTimeout(() => {
+          setFreePreviewBannerVisible(false)
+          freePreviewBannerTimerRef.current = null
+        }, 10000)
+      }
+    } catch (err) {
+      console.error('[guide] Aperçu PDF gratuit:', err)
+    } finally {
+      setGeneratingPreviewPdf(false)
+    }
+  }, [
+    generatingPreviewPdf,
+    history,
+    sector,
+    fecMeta,
+    completedTypes,
+    freePreviewBannerDismissed,
+  ])
 
   // Detect Stripe success redirect and verify payment server-side
   const searchParams = useSearchParams()
@@ -503,6 +584,12 @@ function DiagnosticGuideContent() {
     setMounted(true)
     const saved = localStorage.getItem('finsight_sector') as SectorKey | null
     if (saved && saved in SECTOR_BENCHMARKS) setSector(saved)
+    try {
+      const raw = localStorage.getItem('finsight_fec_meta')
+      if (raw) setFecMeta(JSON.parse(raw))
+    } catch {
+      /* ignore */
+    }
   }, [])
 
   const bench = SECTOR_BENCHMARKS[sector]
@@ -1680,6 +1767,8 @@ function DiagnosticGuideContent() {
                       <ScorePaywall
                         score={totalScore}
                         sector={sector}
+                        onPreviewDownload={handleFreePreviewPDF}
+                        previewLoading={generatingPreviewPdf}
                       />
                     </div>
                   )}
@@ -1972,6 +2061,14 @@ function DiagnosticGuideContent() {
           </AnimatePresence>
         </main>
       </div>
+
+      <FreePreviewReminderBanner
+        visible={
+          hasDownloadedFreeReport && freePreviewBannerVisible && !freePreviewBannerDismissed
+        }
+        onDismiss={dismissFreePreviewBanner}
+        onUnlock={scrollToScorisPaywall}
+      />
 
       {/* ── Mobile score bar ── */}
       <div className="lg:hidden fixed bottom-0 inset-x-0 bg-slate-950/95 backdrop-blur-sm border-t border-gray-800/50 px-4 py-3 z-40">
