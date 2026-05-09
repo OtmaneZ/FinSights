@@ -1,14 +1,16 @@
 /**
  * DIAGNOSTIC PDF GENERATOR — Executive Edition v2.0
  *
- * Generates a 5-page A4 portrait consulting-grade report.
+ * Generates a 7-page A4 portrait consulting-grade report.
  * Pure jsPDF — no DOM capture, no html2canvas dependency.
  *
  * Page 1: Cover
  * Page 2: Executive Summary (score + pillars + signaux clés)
- * Page 3: Priorités d'action (result-oriented) + Cash Impact Pareto
- * Page 4: Comparaison sectorielle (real values) + Synthèse de Solvabilité
- * Page 5: Méthodologie + Legal disclaimer
+ * Page 3: Analyse narrative par pilier (Opus)
+ * Page 4: Priorités d'action (result-oriented) + Cash Impact Pareto
+ * Page 5: Pack banquier (Q/R)
+ * Page 6: Comparaison sectorielle + Radars J+30
+ * Page 7: Méthodologie + Legal disclaimer
  *
  * Design: Big Four audit aesthetic — navy/white, minimal, impactful.
  * Footer: "Document confidentiel" + "Powered by SCORIS™ v1" on every page.
@@ -213,7 +215,6 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   const bfr = get('bfr')
   const marge = get('marge')
   const ebitda = get('ebitda')
-  const seuil = get('seuil-rentabilite')
   const caAnnuel = estimateCA((t: CalculatorType) => get(t))
 
   // Pre-compute cash impact
@@ -451,38 +452,139 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
 
   footer()
 
+  // Prepare Opus enriched blocks with robust local fallback
+  const narrativeParPilier = opusPlan?.narrativeParPilier ?? {
+    cash: data.insights.forces[0] ?? 'Le pilier CASH nécessite une lecture complémentaire avec vos flux d\'encaissement et décaissement.',
+    margin: data.insights.vulnerabilites[0] ?? 'Le pilier MARGIN doit être consolidé par un suivi de la marge et des coûts variables.',
+    resilience: data.insights.priorite ?? 'Le pilier RÉSILIENCE demande un renforcement progressif des marges de manœuvre.',
+    risques: data.insights.vulnerabilites[1] ?? 'Le pilier RISQUES est piloté via la surveillance des signaux croisés.',
+  }
+
+  const weakestPillars = Object.entries(data.diagnostic.pillars)
+    .sort(([, a], [, b]) => (a.score ?? 99) - (b.score ?? 99))
+    .map(([k]) => k)
+
+  const packBanquier = opusPlan?.packBanquier?.length
+    ? opusPlan.packBanquier
+    : [
+        {
+          question: 'Quelle est votre trajectoire de trésorerie sur les 90 prochains jours ?',
+          reponse: `Nous pilotons un plan trimestriel avec un suivi des écarts au benchmark ${bench.label}.`,
+        },
+        {
+          question: 'Quels leviers activez-vous pour sécuriser la rentabilité ?',
+          reponse: `Nos actions priorisent la marge opérationnelle et la discipline de coûts sur les postes les plus volatils.`,
+        },
+        {
+          question: 'Quels indicateurs vous alerteront en premier en cas de dérive ?',
+          reponse: 'Nous suivons DSO, BFR, marge et score de risque avec déclenchement d’actions correctives immédiates.',
+        },
+      ]
+
+  const radarFallback: Array<{ signal: string; seuil: string; action: string }> = weakestPillars.slice(0, 2).map((pillar) => {
+    if (pillar === 'cash') {
+      return {
+        signal: 'Ralentissement des encaissements clients',
+        seuil: `Si DSO > ${bench.dsoMedian + 10}j`,
+        action: 'Renforcer les relances et contractualiser des acomptes sous 7 jours.',
+      }
+    }
+    if (pillar === 'margin') {
+      return {
+        signal: 'Dégradation de la marge brute',
+        seuil: `Si marge < ${Math.max(0, bench.margeMedian - 5)}%`,
+        action: 'Réviser prix/mix offre et réduire les coûts variables non essentiels.',
+      }
+    }
+    return {
+      signal: 'Accumulation de signaux de risque',
+      seuil: 'Si score pilier < 12/25',
+      action: 'Déclencher un plan de stabilisation hebdomadaire et prioriser le cash.',
+    }
+  })
+  const radarsJ30 = opusPlan?.radarsJ30?.length ? opusPlan.radarsJ30 : radarFallback
+
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 3 — PRIORITÉS D'ACTION (result-oriented, no vuln repeats)
+  // PAGE 3 — ANALYSE PAR PILIER
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
   pageNum = 3
   addPageHeader(pdf, M)
   y = M + 18
 
+  y = sectionTitle(pdf, 'ANALYSE PAR PILIER', M, y)
+
+  const pillarNarratives: Array<{ key: keyof DiagnosticScore['pillars']; label: string; text: string }> = [
+    { key: 'cash', label: 'CASH', text: narrativeParPilier.cash },
+    { key: 'margin', label: 'MARGIN', text: narrativeParPilier.margin },
+    { key: 'resilience', label: 'RÉSILIENCE', text: narrativeParPilier.resilience },
+    { key: 'risk', label: 'RISQUES', text: narrativeParPilier.risques },
+  ]
+
+  pillarNarratives.forEach((item, idx) => {
+    y = ensureSpace(pdf, y, 36, M, H, FOOTER_H, footer)
+    const pillar = data.diagnostic.pillars[item.key]
+    const score = pillar.score ?? 0
+    const levelColor: RGB = score >= 18 ? C.green : score >= 12 ? C.amber : C.red
+
+    pdf.setFillColor(...rgb(C.white))
+    pdf.roundedRect(M, y, CW, 30, 2, 2, 'F')
+    pdf.setDrawColor(...rgb(C.border))
+    pdf.roundedRect(M, y, CW, 30, 2, 2, 'S')
+
+    pdf.setFontSize(8)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.navy))
+    pdf.text(item.label, M + 5, y + 7)
+    pdf.setTextColor(...rgb(levelColor))
+    pdf.text(`${score}/25`, M + CW - 5, y + 7, { align: 'right' })
+
+    // Positionnement vs médiane de référence (12.5/25)
+    const barX = M + 5
+    const barY = y + 10
+    const barW = CW - 10
+    pdf.setFillColor(...rgb(C.bg))
+    pdf.roundedRect(barX, barY, barW, 3.5, 1, 1, 'F')
+    pdf.setFillColor(...rgb(levelColor))
+    pdf.roundedRect(barX, barY, barW * Math.min(score / 25, 1), 3.5, 1, 1, 'F')
+    pdf.setDrawColor(...rgb(C.light))
+    const medianX = barX + barW * 0.5
+    pdf.line(medianX, barY - 0.5, medianX, barY + 4)
+
+    pdf.setFontSize(7.5)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.text))
+    wrapText(pdf, item.text, CW - 10).slice(0, 4).forEach((line, li) => {
+      pdf.text(line, M + 5, y + 19 + li * 3.8)
+    })
+
+    y += 34
+    if (idx < pillarNarratives.length - 1) {
+      pdf.setDrawColor(...rgb(C.border))
+      pdf.line(M, y - 2, M + CW, y - 2)
+    }
+  })
+
+  footer()
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PAGE 4 — PRIORITÉS D'ACTION (result-oriented, no vuln repeats)
+  // ═══════════════════════════════════════════════════════════════════════════
+  pdf.addPage()
+  pageNum = 4
+  addPageHeader(pdf, M)
+  y = M + 18
+
   y = sectionTitle(pdf, 'PRIORITES D\'ACTION', M, y)
 
-  // Build 3 result-oriented priority items
-  // Source : Opus si disponible, fallback SCORIS sinon
   type PriorityItem = { title: string; detail: string; urgency: 'critique' | 'haute' | 'moyenne' }
   let priorities: PriorityItem[]
 
   if (opusPlan && opusPlan.priorities.length === 3) {
-    // ✅ Recommandations Opus — personnalisées secteur + chiffres réels
-    priorities = opusPlan.priorities.map((p: OpusPriority) => ({
-      title: p.title,
-      detail: p.detail,
-      urgency: p.urgency,
-    }))
+    priorities = opusPlan.priorities.map((p: OpusPriority) => ({ title: p.title, detail: p.detail, urgency: p.urgency }))
   } else {
-    // Fallback SCORIS déterministe
     priorities = []
-    if (data.insights.priorite) {
-      priorities.push({
-        title: 'Levier cash prioritaire',
-        detail: data.insights.priorite,
-        urgency: 'critique',
-      })
-    }
+    if (data.insights.priorite) priorities.push({ title: 'Levier cash prioritaire', detail: data.insights.priorite, urgency: 'critique' })
     priorities.push({
       title: 'Restructuration du poste clients',
       detail: 'Implementer une politique de facturation avec acomptes systematiques de 30% pour reduire l\'exposition au risque. Objectif : securiser le flux d\'encaissements et diminuer le DSO de 15 a 25 jours.',
@@ -497,99 +599,79 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
 
   priorities.slice(0, 3).forEach((prio, idx) => {
     y = ensureSpace(pdf, y, 40, M, H, FOOTER_H, footer)
-
     const cardH = 32
     pdf.setFillColor(...rgb(C.bg))
     pdf.roundedRect(M, y, CW, cardH, 2, 2, 'F')
     pdf.setDrawColor(...rgb(C.border))
-    pdf.setLineWidth(0.3)
     pdf.roundedRect(M, y, CW, cardH, 2, 2, 'S')
-
     const badgeColor: RGB = prio.urgency === 'critique' ? C.red : prio.urgency === 'haute' ? C.amber : C.accent
     pdf.setFillColor(...rgb(badgeColor))
     pdf.roundedRect(M + 5, y + 4, 18, 18, 2, 2, 'F')
-    pdf.setFontSize(12)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.white))
-    pdf.text(`#${idx + 1}`, M + 8.5, y + 16)
-
-    pdf.setFontSize(9)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.navy))
-    pdf.text(clean(prio.title), M + 30, y + 10)
-
-    pdf.setFontSize(8)
-    pdf.setFont('helvetica', 'normal')
-    pdf.setTextColor(...rgb(C.text))
-    wrapText(pdf, prio.detail, CW - 38).slice(0, 3).forEach((line, li) => {
-      pdf.text(line, M + 30, y + 16 + li * 4)
-    })
-
+    pdf.setFontSize(12); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.white)); pdf.text(`#${idx + 1}`, M + 8.5, y + 16)
+    pdf.setFontSize(9); pdf.setTextColor(...rgb(C.navy)); pdf.text(clean(prio.title), M + 30, y + 10)
+    pdf.setFontSize(8); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(...rgb(C.text))
+    wrapText(pdf, prio.detail, CW - 38).slice(0, 3).forEach((line, li) => pdf.text(line, M + 30, y + 16 + li * 4))
     y += cardH + 6
   })
 
-  // ── Cash Impact Pareto — encadré redesigné ──
   y = ensureSpace(pdf, y, 65, M, H, FOOTER_H, footer)
   y += 5
-
   y = sectionTitle(pdf, 'IMPACT CASH — LEVIER PARETO', M, y)
 
   const paretoH = 50
-  // Light grey background
   pdf.setFillColor(...rgb(C.bgWarm))
   pdf.roundedRect(M, y, CW, paretoH, 3, 3, 'F')
-  // Thick navy-blue left border (2.5mm)
   pdf.setFillColor(...rgb(C.navy))
   pdf.rect(M, y, 2.5, paretoH, 'F')
-
   const ppx = M + 10
-
   if (cashImpactAmount > 0) {
-    pdf.setFontSize(22)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.navy))
-    pdf.text(clean(`${fmt(cashImpactAmount)} EUR`), ppx, y + 14)
-
-    pdf.setFontSize(8)
-    pdf.setFont('helvetica', 'normal')
-    pdf.setTextColor(...rgb(C.text))
-    pdf.text(`${cashGapJours}j de DSO au-dessus de la mediane sectorielle (${bench.dsoMedian}j)`, ppx, y + 24)
-
-    pdf.setFontSize(9)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.accent))
-    pdf.text('Impact immediat sur le disponible bancaire', ppx, y + 34)
-
-    pdf.setFontSize(7.5)
-    pdf.setFont('helvetica', 'normal')
-    pdf.setTextColor(...rgb(C.muted))
-    pdf.text('Reserve de cash mobilisable par simple optimisation du recouvrement clients.', ppx, y + 42)
+    pdf.setFontSize(22); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.navy)); pdf.text(clean(`${fmt(cashImpactAmount)} EUR`), ppx, y + 14)
+    pdf.setFontSize(8); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(...rgb(C.text)); pdf.text(`${cashGapJours}j de DSO au-dessus de la mediane sectorielle (${bench.dsoMedian}j)`, ppx, y + 24)
+    pdf.setFontSize(9); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.accent)); pdf.text('Impact immediat sur le disponible bancaire', ppx, y + 34)
+    pdf.setFontSize(7.5); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(...rgb(C.muted)); pdf.text('Reserve de cash mobilisable par simple optimisation du recouvrement clients.', ppx, y + 42)
   } else {
-    pdf.setFontSize(10)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.navy))
-    pdf.text('DSO aligne sur la mediane sectorielle', ppx, y + 14)
-
-    pdf.setFontSize(8)
-    pdf.setFont('helvetica', 'normal')
-    pdf.setTextColor(...rgb(C.text))
-    pdf.text('Pas de cash immobilise identifie sur le poste clients. Bonne maitrise du cycle.', ppx, y + 24)
-
-    pdf.setFontSize(9)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.accent))
-    pdf.text('Impact immediat sur le disponible bancaire : aucun levier DSO supplementaire', ppx, y + 34)
+    pdf.setFontSize(10); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.navy)); pdf.text('DSO aligne sur la mediane sectorielle', ppx, y + 14)
+    pdf.setFontSize(8); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(...rgb(C.text)); pdf.text('Pas de cash immobilise identifie sur le poste clients. Bonne maitrise du cycle.', ppx, y + 24)
+    pdf.setFontSize(9); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.accent)); pdf.text('Impact immediat sur le disponible bancaire : aucun levier DSO supplementaire', ppx, y + 34)
   }
-
-  y += paretoH + 5
 
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 4 — COMPARAISON SECTORIELLE + NOTE DE SOLVABILITÉ
+  // PAGE 5 — PACK BANQUIER
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 4
+  pageNum = 5
+  addPageHeader(pdf, M)
+  y = M + 18
+
+  y = sectionTitle(pdf, 'PREPAREZ VOTRE RENDEZ-VOUS BANCAIRE', M, y)
+  pdf.setFontSize(8)
+  pdf.setTextColor(...rgb(C.muted))
+  pdf.text('5 questions que votre banquier va poser — et vos réponses préparées', M, y)
+  y += 8
+
+  packBanquier.slice(0, 5).forEach((qa, idx) => {
+    y = ensureSpace(pdf, y, 24, M, H, FOOTER_H, footer)
+    pdf.setFontSize(8.5)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setTextColor(...rgb(C.navy))
+    pdf.text(`${idx + 1}. ${clean(qa.question)}`, M, y)
+    y += 5
+    pdf.setFontSize(8)
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(...rgb(C.text))
+    wrapText(pdf, qa.reponse, CW).forEach((line) => { pdf.text(line, M + 2, y); y += 4 })
+    y += 3
+  })
+
+  footer()
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PAGE 6 — COMPARAISON SECTORIELLE + RADARS J+30
+  // ═══════════════════════════════════════════════════════════════════════════
+  pdf.addPage()
+  pageNum = 6
   addPageHeader(pdf, M)
   y = M + 18
 
@@ -675,105 +757,31 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   pdf.text(`Secteur : ${bench.label} — Sources : Banque de France, INSEE, Altares (2024)`, M, y)
   y += 15
 
-  // ── NOTE DE SOLVABILITÉ ──
-  y = ensureSpace(pdf, y, 120, M, H, FOOTER_H, footer)
-  y = sectionTitle(pdf, 'SYNTHESE DE SOLVABILITE & CAPACITE DE FINANCEMENT', M, y)
-
-  pdf.setFontSize(7.5)
-  pdf.setFont('helvetica', 'italic')
-  pdf.setTextColor(...rgb(C.muted))
-  pdf.text('Indicateurs cles de creditworthiness — a destination des partenaires financiers', M, y)
   y += 10
-
-  interface BankerKPI { label: string; value: string; sublabel: string; detail: string; color: RGB }
-  const kpis: BankerKPI[] = []
-
-  // KPI 1: Capacité d'Autofinancement (EBITDA)
-  if (ebitda && caAnnuel && caAnnuel > 0) {
-    const pct = Math.round((ebitda.value / caAnnuel) * 100)
-    const topLabel = pct >= bench.ebitdaMedian * 2 ? 'Top 5% sectoriel'
-      : pct >= bench.ebitdaMedian * 1.5 ? 'Top 15% sectoriel'
-      : pct >= bench.ebitdaMedian ? 'Au-dessus de la mediane' : 'Sous la mediane sectorielle'
-    const profile = pct >= bench.ebitdaMedian * 1.5
-      ? 'Profil de rentabilite exceptionnel'
-      : pct >= bench.ebitdaMedian ? 'Profil de rentabilite solide' : 'Profil de rentabilite a renforcer'
-    kpis.push({ label: 'Capacite d\'Autofinancement (EBITDA)', value: `${pct}%`, sublabel: topLabel, detail: profile, color: pct >= bench.ebitdaMedian ? C.green : C.amber })
-  } else {
-    kpis.push({ label: 'Capacite d\'Autofinancement (EBITDA)', value: '--', sublabel: 'Donnee non disponible', detail: 'Completez EBITDA et CA pour activer cet indicateur.', color: C.light })
-  }
-
-  // KPI 2: Marge de sécurité
-  if (seuil && caAnnuel && caAnnuel > 0) {
-    const ms = caAnnuel - seuil.value
-    const pct = Math.round((ms / caAnnuel) * 100)
-    kpis.push({
-      label: 'Marge de Securite',
-      value: `${pct}%`,
-      sublabel: ms > 0 ? `L'entreprise peut absorber une baisse de CA de ${fmt(ms)} EUR` : 'CA sous le seuil de rentabilite',
-      detail: ms > 0 ? 'avant d\'atteindre son seuil de rentabilite.' : 'Situation deficitaire — intervention urgente recommandee.',
-      color: pct >= 30 ? C.green : pct >= 10 ? C.amber : C.red,
-    })
-  } else {
-    kpis.push({ label: 'Marge de Securite', value: '--', sublabel: 'Donnee non disponible', detail: 'Completez le seuil de rentabilite pour activer.', color: C.light })
-  }
-
-  // KPI 3: Garantie de liquidité
-  if (cashImpactAmount > 0) {
-    kpis.push({ label: 'Garantie de Liquidite', value: `${fmt(cashImpactAmount)} EUR`, sublabel: 'Reserve de cash mobilisable', detail: 'par simple optimisation du recouvrement clients.', color: C.accent })
-  } else if (dso && caAnnuel) {
-    kpis.push({ label: 'Garantie de Liquidite', value: 'Optimal', sublabel: 'DSO aligne sur la mediane', detail: 'Pas de cash immobilise supplementaire identifie.', color: C.green })
-  } else {
-    kpis.push({ label: 'Garantie de Liquidite', value: '--', sublabel: 'Donnee non disponible', detail: 'Completez DSO et CA pour activer.', color: C.light })
-  }
-
-  const kpiH = 28
-  kpis.forEach((kpi) => {
-    y = ensureSpace(pdf, y, kpiH + 6, M, H, FOOTER_H, footer)
-
+  y = sectionTitle(pdf, 'SIGNAUX A SURVEILLER — 30 PROCHAINS JOURS', M, y)
+  radarsJ30.slice(0, 3).forEach((radar, i) => {
+    y = ensureSpace(pdf, y, 24, M, H, FOOTER_H, footer)
+    const isCrit = /critique|>\s*\d+/i.test(radar.seuil)
+    const color = isCrit ? C.red : C.amber
     pdf.setFillColor(...rgb(C.white))
-    pdf.roundedRect(M, y, CW, kpiH, 2, 2, 'F')
+    pdf.roundedRect(M, y, CW, 20, 2, 2, 'F')
     pdf.setDrawColor(...rgb(C.border))
-    pdf.setLineWidth(0.3)
-    pdf.roundedRect(M, y, CW, kpiH, 2, 2, 'S')
-
-    // Left accent bar
-    pdf.setFillColor(...rgb(kpi.color))
-    pdf.rect(M, y, 2, kpiH, 'F')
-
-    // Label
-    pdf.setFontSize(7.5)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.muted))
-    pdf.text(clean(kpi.label).toUpperCase(), M + 8, y + 7)
-
-    // Value
-    pdf.setFontSize(16)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(kpi.color))
-    pdf.text(clean(kpi.value), M + 8, y + 18)
-
-    // Sublabel + detail
-    pdf.setFontSize(8)
-    pdf.setFont('helvetica', 'normal')
-    pdf.setTextColor(...rgb(C.dark))
-    const subs = wrapText(pdf, kpi.sublabel, 85)
-    subs.forEach((l, li) => { pdf.text(l, M + 70, y + 10 + li * 4) })
-
-    pdf.setFontSize(7)
-    pdf.setTextColor(...rgb(C.muted))
-    const dets = wrapText(pdf, kpi.detail, 85)
-    dets.forEach((l, li) => { pdf.text(l, M + 70, y + 10 + subs.length * 4 + 2 + li * 3.5) })
-
-    y += kpiH + 5
+    pdf.roundedRect(M, y, CW, 20, 2, 2, 'S')
+    pdf.setFillColor(...rgb(color))
+    pdf.rect(M, y, 2, 20, 'F')
+    pdf.setFontSize(8.5); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...rgb(C.navy)); pdf.text(`${i + 1}. ${clean(radar.signal)}`, M + 5, y + 7)
+    pdf.setFontSize(7.5); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(...rgb(C.muted)); pdf.text(`Seuil : ${clean(radar.seuil)}`, M + 5, y + 12)
+    pdf.setTextColor(...rgb(C.text)); pdf.text(clean(radar.action), M + 5, y + 17)
+    y += 24
   })
 
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 5 — MÉTHODOLOGIE + LEGAL
+  // PAGE 7 — MÉTHODOLOGIE + LEGAL
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 5
+  pageNum = 7
   addPageHeader(pdf, M)
   y = M + 18
 
