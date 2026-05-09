@@ -28,7 +28,6 @@ import {
   SECTOR_BENCHMARKS,
   computeLiveScores,
   computeSynthesis,
-  getBenchmarkHint,
   getContextualCTA,
 } from '@/lib/scoring/diagnosticScore'
 import { useScorisEngine } from '@/hooks/useScorisEngine'
@@ -441,6 +440,20 @@ function formatResult(value: number, unit: string): string {
   if (unit === 'jours') return `${value} jours`
   if (unit === 'x') return `${value}x`
   return `${value}`
+}
+
+function getWizardFieldHint(stepId: string, fieldId: string, bench: SectorBenchmark): string | null {
+  if (stepId === 'dso') {
+    if (fieldId === 'joursClients') return `Médiane ${bench.label} : ${bench.dsoMedian}j · Seuil critique : ${bench.dsoBad}j`
+    if (fieldId === 'soldeBancaire') return 'Approximatif — votre relevé bancaire ce matin'
+    return null
+  }
+  if (stepId === 'gearing') {
+    if (fieldId === 'concentrationClient') return 'Seuil vigilance : 40% · Seuil critique : 60%'
+    if (fieldId === 'nombreClients') return 'Plus vous avez de clients, moins vous êtes exposé'
+    return null
+  }
+  return null
 }
 
 // ---------------------------------------------------------------------------
@@ -1289,18 +1302,14 @@ function DiagnosticGuideContent() {
                         {field.help && (
                           <p id={`help-${currentStep.id}-${field.id}`} className="text-[11px] text-gray-600 mt-1.5">{field.help}</p>
                         )}
-                        {/* Benchmark hint — sector-specific reference under each field */}
+                        {/* Field hint */}
                         {(() => {
-                          const hint = getBenchmarkHint(currentStep.id, bench)
+                          const hint = getWizardFieldHint(currentStep.id, field.id, bench)
                           if (!hint) return null
                           return (
                             <div className="flex items-center gap-2 mt-2 text-[11px] text-gray-500">
                               <Activity className="w-3 h-3 text-gray-600 shrink-0" />
-                              <span>
-                                {hint.label} : <span className="text-gray-400 font-medium">{hint.median}</span>
-                                <span className="mx-1.5 text-gray-700">·</span>
-                                <span className="text-amber-500/70">{hint.critical}</span>
-                              </span>
+                              <span>{hint}</span>
                             </div>
                           )
                         })()}
