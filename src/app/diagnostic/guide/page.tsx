@@ -878,7 +878,7 @@ function DiagnosticGuideContent() {
   // Total steps for progress
   const allSteps = WIZARD_STEPS
   const completedStepCount = Object.keys(results).length + skippedSteps.size
-  const progressPct = Math.round((completedStepCount / allSteps.length) * 100)
+  const progressPct = Math.min(100, Math.round((completedStepCount / allSteps.length) * 100))
 
   return (
     <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col">
