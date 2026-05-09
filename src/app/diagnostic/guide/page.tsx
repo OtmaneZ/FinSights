@@ -464,10 +464,27 @@ function DiagnosticGuideContent() {
   const [introMode, setIntroMode] = useState<'choose' | 'fec'>('choose') // 'choose' = Option A/B, 'fec' = FEC dropzone expanded
   const [paywallUnlocked, setPaywallUnlocked] = useState(false)
 
-  // Detect Stripe success redirect (?success=true)
+  // Detect Stripe success redirect and verify payment server-side
   const searchParams = useSearchParams()
   useEffect(() => {
-    if (searchParams?.get('success') === 'true') setPaywallUnlocked(true)
+    const success = searchParams?.get('success') === 'true'
+    const sessionId = searchParams?.get('session_id')
+    if (!success || !sessionId) return
+
+    const verifySession = async () => {
+      try {
+        const res = await fetch(`/api/stripe/verify-session?session_id=${encodeURIComponent(sessionId)}`)
+        if (!res.ok) return
+        const data = await res.json()
+        if (data?.verified === true) {
+          setPaywallUnlocked(true)
+        }
+      } catch {
+        // No unlock on verification failure
+      }
+    }
+
+    void verifySession()
   }, [searchParams])
 
   // SCORIS engine — drives IDLE → ANALYZING → SUCCESS micro-latency
