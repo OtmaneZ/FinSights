@@ -652,7 +652,7 @@ export class FinancialPDFExporter {
                 { id: 'expense-breakdown-chart', title: 'Structure des Dépenses' },
                 { id: 'margin-evolution-chart', title: 'Évolution de la Marge Nette' },
                 { id: 'cashflow-evolution-chart', title: 'Évolution du Cash Flow' },
-                { id: 'top-clients-chart', title: 'Concentration Commerciale — Top 5' },
+                { id: 'top-clients-chart', title: 'Concentration Commerciale - Top 5' },
                 { id: 'outstanding-invoices-chart', title: 'Créances Prioritaires' },
                 { id: 'payment-status-chart', title: 'Cycle d\'Encaissement' },
             ];

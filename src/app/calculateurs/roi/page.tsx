@@ -193,7 +193,7 @@ export default function CalculateurROI() {
             summary: [
                 { label: 'ROI', value: `${roi >= 0 ? '+' : ''}${roi}%` },
                 { label: 'Payback', value: payback < 999 ? `${payback} mois` : '∞' },
-                { label: 'Gain net', value: `${gainNet !== null && gainNet >= 0 ? '+' : ''}${gainNet?.toLocaleString('fr-FR') ?? '—'} €` },
+                { label: 'Gain net', value: `${gainNet !== null && gainNet >= 0 ? '+' : ''}${gainNet?.toLocaleString('fr-FR') ?? '-'} €` },
             ],
         }
     }, [roi, payback, gainNet, interpretation])
@@ -451,7 +451,7 @@ export default function CalculateurROI() {
                                             </div>
                                             <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-200">
                                                 <p className="font-semibold text-indigo-800 mb-1">Payback (mois)</p>
-                                                <p className="text-sm text-slate-700">Mesure la <strong>vitesse de retour</strong>. Répond à : &laquo; quand récupère-t-on la mise ? &raquo; Crucial pour les PME à trésorerie tendue — un bon ROI à 5 ans peut créer une tension cash à 18 mois.</p>
+                                                <p className="text-sm text-slate-700">Mesure la <strong>vitesse de retour</strong>. Répond à : &laquo; quand récupère-t-on la mise ? &raquo; Crucial pour les PME à trésorerie tendue - un bon ROI à 5 ans peut créer une tension cash à 18 mois.</p>
                                             </div>
                                         </div>
                                         <p className="text-sm text-slate-600 mt-3 italic">
@@ -862,7 +862,7 @@ export default function CalculateurROI() {
                                     },
                                     {
                                         q: "Quel est un bon ROI pour une PME ?",
-                                        a: "Il n'existe pas de ROI universel 'bon' ou 'mauvais' — tout dépend du type de projet et du risque. Pour un projet IT ou SaaS, visez 30 à 100% avec un payback sous 18 mois. Pour un équipement industriel, 15 à 30% avec un payback de 24 à 60 mois est standard. Pour du marketing, un ratio 3:1 minimum (100% de ROI) est la règle. En pratique, votre ROI doit toujours dépasser le coût de votre dette plus une prime de risque."
+                                        a: "Il n'existe pas de ROI universel 'bon' ou 'mauvais' - tout dépend du type de projet et du risque. Pour un projet IT ou SaaS, visez 30 à 100% avec un payback sous 18 mois. Pour un équipement industriel, 15 à 30% avec un payback de 24 à 60 mois est standard. Pour du marketing, un ratio 3:1 minimum (100% de ROI) est la règle. En pratique, votre ROI doit toujours dépasser le coût de votre dette plus une prime de risque."
                                     },
                                     {
                                         q: "ROI et délai de récupération : quelle différence ?",
@@ -883,7 +883,7 @@ export default function CalculateurROI() {
                     </div>
                 </section>
 
-                {/* CTA Score FinSight — Boucle retour */}
+                {/* CTA Score FinSight - Boucle retour */}
                 <section className="py-12 bg-slate-50">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="max-w-xl mx-auto text-center">

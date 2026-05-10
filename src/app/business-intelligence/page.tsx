@@ -84,7 +84,7 @@ export default function BusinessIntelligencePage() {
             <section className="py-16 border-b border-gray-200 bg-slate-50">
                 <div className="max-w-[840px] mx-auto px-6">
                     <h2 className="text-2xl font-bold text-gray-900 mb-1.5 pb-3 relative">
-                        Cas client — Groupe multi-sites (anonymisé)
+                        Cas client - Groupe multi-sites (anonymisé)
                         <span className="absolute bottom-0 left-0 w-9 h-0.5 bg-slate-800" />
                     </h2>
 
@@ -108,7 +108,7 @@ export default function BusinessIntelligencePage() {
                                 ].map((item, i) => (
                                     <li
                                         key={i}
-                                        className="text-[0.85rem] text-gray-600 leading-snug pl-3.5 relative before:content-['—'] before:absolute before:left-0 before:text-gray-300"
+                                        className="text-[0.85rem] text-gray-600 leading-snug pl-3.5 relative before:content-['-'] before:absolute before:left-0 before:text-gray-300"
                                     >
                                         {item}
                                     </li>
@@ -130,7 +130,7 @@ export default function BusinessIntelligencePage() {
                                 ].map((item, i) => (
                                     <li
                                         key={i}
-                                        className="text-[0.85rem] text-gray-600 leading-snug pl-3.5 relative before:content-['—'] before:absolute before:left-0 before:text-gray-300"
+                                        className="text-[0.85rem] text-gray-600 leading-snug pl-3.5 relative before:content-['-'] before:absolute before:left-0 before:text-gray-300"
                                     >
                                         {item}
                                     </li>
@@ -362,7 +362,7 @@ export default function BusinessIntelligencePage() {
                                     'Évaluation des risques de consolidation',
                                     'Feuille de route priorisée avec ROI estimé',
                                 ].map((item, i) => (
-                                    <li key={i} className="text-[0.8rem] text-gray-500 leading-snug pl-3.5 relative before:content-['—'] before:absolute before:left-0 before:text-gray-300 before:text-[0.7rem]">
+                                    <li key={i} className="text-[0.8rem] text-gray-500 leading-snug pl-3.5 relative before:content-['-'] before:absolute before:left-0 before:text-gray-300 before:text-[0.7rem]">
                                         {item}
                                     </li>
                                 ))}
@@ -387,7 +387,7 @@ export default function BusinessIntelligencePage() {
                                     'Tests de cohérence analytique',
                                     'Validation DAF sur période de référence',
                                 ].map((item, i) => (
-                                    <li key={i} className="text-[0.8rem] text-gray-500 leading-snug pl-3.5 relative before:content-['—'] before:absolute before:left-0 before:text-gray-300 before:text-[0.7rem]">
+                                    <li key={i} className="text-[0.8rem] text-gray-500 leading-snug pl-3.5 relative before:content-['-'] before:absolute before:left-0 before:text-gray-300 before:text-[0.7rem]">
                                         {item}
                                     </li>
                                 ))}
@@ -412,7 +412,7 @@ export default function BusinessIntelligencePage() {
                                     'Monitoring des flux et alertes anomalies',
                                     'Gain temps CDG : 70 % du temps mensuel',
                                 ].map((item, i) => (
-                                    <li key={i} className="text-[0.8rem] text-gray-500 leading-snug pl-3.5 relative before:content-['—'] before:absolute before:left-0 before:text-gray-300 before:text-[0.7rem]">
+                                    <li key={i} className="text-[0.8rem] text-gray-500 leading-snug pl-3.5 relative before:content-['-'] before:absolute before:left-0 before:text-gray-300 before:text-[0.7rem]">
                                         {item}
                                     </li>
                                 ))}
@@ -437,7 +437,7 @@ export default function BusinessIntelligencePage() {
                                     'Documentation métier complète',
                                     'Autonomie garantie post-mission',
                                 ].map((item, i) => (
-                                    <li key={i} className="text-[0.8rem] text-gray-500 leading-snug pl-3.5 relative before:content-['—'] before:absolute before:left-0 before:text-gray-300 before:text-[0.7rem]">
+                                    <li key={i} className="text-[0.8rem] text-gray-500 leading-snug pl-3.5 relative before:content-['-'] before:absolute before:left-0 before:text-gray-300 before:text-[0.7rem]">
                                         {item}
                                     </li>
                                 ))}
@@ -450,7 +450,7 @@ export default function BusinessIntelligencePage() {
                 </div>
             </section>
 
-            {/* ─── GALERIE / EXEMPLES — SVG inline réalistes ─── */}
+            {/* ─── GALERIE / EXEMPLES - SVG inline réalistes ─── */}
             <section className="py-16 border-b border-gray-200">
                 <div className="max-w-[840px] mx-auto px-6">
                     <h2 className="text-2xl font-bold text-gray-900 mb-1.5 pb-3 relative">
@@ -464,16 +464,16 @@ export default function BusinessIntelligencePage() {
 
                     <div className="space-y-6">
 
-                        {/* ═══ 1. DASHBOARD OVERVIEW — Full width ═══ */}
+                        {/* ═══ 1. DASHBOARD OVERVIEW - Full width ═══ */}
                         <div className="svg-container w-full bg-[#1b2a3d] rounded border border-gray-700 overflow-hidden">
                             {/* Title bar */}
                             <div className="flex items-center justify-between px-4 py-2 bg-[#14202e] border-b border-gray-700">
                                 <div className="flex items-center gap-2">
                                     <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                                    <span className="text-[0.7rem] font-semibold text-gray-300 tracking-wide">REPORTING CONSOLIDÉ — GROUPE</span>
+                                    <span className="text-[0.7rem] font-semibold text-gray-300 tracking-wide">REPORTING CONSOLIDÉ - GROUPE</span>
                                 </div>
                                 <div className="flex items-center gap-3 text-[0.6rem] text-gray-500">
-                                    <span>Période : Jan — Déc 2025</span>
+                                    <span>Période : Jan - Déc 2025</span>
                                     <span className="px-1.5 py-0.5 bg-green-900/40 text-green-400 rounded text-[0.55rem] font-semibold">LIVE</span>
                                     <span className="px-1.5 py-0.5 bg-blue-900/30 text-blue-400 rounded text-[0.55rem] italic">Extrait anonymisé</span>
                                 </div>
@@ -539,11 +539,11 @@ export default function BusinessIntelligencePage() {
                             {/* Bottom bar */}
                             <div className="flex items-center justify-between px-4 py-2 border-t border-gray-700/50 text-[0.55rem] text-gray-600">
                                 <span>8 entités consolidées | Dernière actualisation : 17/02/2026 08:15</span>
-                                <span>Power BI Service — Scheduled Refresh</span>
+                                <span>Power BI Service - Scheduled Refresh</span>
                             </div>
                         </div>
 
-                        {/* ═══ 2 & 3. KPI FINANCE + AUTOMATISATION — Side by side ═══ */}
+                        {/* ═══ 2 & 3. KPI FINANCE + AUTOMATISATION - Side by side ═══ */}
                         <div className="grid md:grid-cols-2 gap-6">
 
                             {/* 2. KPI FINANCE */}
@@ -579,7 +579,7 @@ export default function BusinessIntelligencePage() {
                                 </div>
                             </div>
 
-                            {/* 3. AUTOMATISATION FLUX — Pipeline */}
+                            {/* 3. AUTOMATISATION FLUX - Pipeline */}
                             <div className="bg-white rounded border border-gray-200 overflow-hidden">
                                 <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 border-b border-gray-200">
                                     <div className="w-2 h-2 rounded-full bg-green-500/80" />
@@ -658,7 +658,7 @@ export default function BusinessIntelligencePage() {
                             </div>
                         </div>
 
-                        {/* ═══ 4 & 5. MODÈLE ÉTOILE + REPORTING OPS — Side by side ═══ */}
+                        {/* ═══ 4 & 5. MODÈLE ÉTOILE + REPORTING OPS - Side by side ═══ */}
                         <div className="grid md:grid-cols-2 gap-6">
 
                             {/* 4. MODÈLE EN ÉTOILE */}
@@ -742,14 +742,14 @@ export default function BusinessIntelligencePage() {
                                     </div>
                                     {/* Table rows */}
                                     {[
-                                        { site: 'Paris — Bastille',     ca: '312K€', marge: '74.3%', perf: 112, color: '#22c55e' },
-                                        { site: 'Lyon — Part-Dieu',     ca: '287K€', marge: '68.1%', perf: 103, color: '#22c55e' },
-                                        { site: 'Marseille — Prado',    ca: '245K€', marge: '57.9%', perf: 91,  color: '#eab308' },
-                                        { site: 'Bordeaux — Centre',    ca: '198K€', marge: '41.2%', perf: 74,  color: '#f97316' },
-                                        { site: 'Toulouse — Capitole',  ca: '176K€', marge: '63.4%', perf: 88,  color: '#eab308' },
-                                        { site: 'Nantes — Commerce',    ca: '112K€', marge: '12.8%', perf: 38,  color: '#ef4444' },
-                                        { site: 'Lille — Grand Place',  ca: '98K€',  marge: '−4.1%', perf: 18,  color: '#dc2626' },
-                                        { site: 'Strasbourg — Kléber',  ca: '141K€', marge: '69.7%', perf: 96,  color: '#eab308' },
+                                        { site: 'Paris - Bastille',     ca: '312K€', marge: '74.3%', perf: 112, color: '#22c55e' },
+                                        { site: 'Lyon - Part-Dieu',     ca: '287K€', marge: '68.1%', perf: 103, color: '#22c55e' },
+                                        { site: 'Marseille - Prado',    ca: '245K€', marge: '57.9%', perf: 91,  color: '#eab308' },
+                                        { site: 'Bordeaux - Centre',    ca: '198K€', marge: '41.2%', perf: 74,  color: '#f97316' },
+                                        { site: 'Toulouse - Capitole',  ca: '176K€', marge: '63.4%', perf: 88,  color: '#eab308' },
+                                        { site: 'Nantes - Commerce',    ca: '112K€', marge: '12.8%', perf: 38,  color: '#ef4444' },
+                                        { site: 'Lille - Grand Place',  ca: '98K€',  marge: '−4.1%', perf: 18,  color: '#dc2626' },
+                                        { site: 'Strasbourg - Kléber',  ca: '141K€', marge: '69.7%', perf: 96,  color: '#eab308' },
                                     ].map((row, i) => (
                                         <div key={i} className={`grid grid-cols-[1.2fr_0.8fr_0.8fr_1fr] gap-1 items-center px-2 py-1.5 rounded ${i % 2 === 0 ? 'bg-white/[0.02]' : ''}`}>
                                             <span className="text-[0.7rem] text-gray-300 font-medium truncate">{row.site}</span>
@@ -786,7 +786,7 @@ export default function BusinessIntelligencePage() {
                 </div>
             </section>
 
-            {/* ─── ARCHITECTURES IT — 3 scénarios ─── */}
+            {/* ─── ARCHITECTURES IT - 3 scénarios ─── */}
             <section className="py-16 border-b border-gray-200 bg-gray-50/60">
                 <div className="max-w-[840px] mx-auto px-6">
                     <h2 className="text-2xl font-bold text-gray-900 mb-1.5 pb-3 relative">
@@ -964,7 +964,7 @@ export default function BusinessIntelligencePage() {
                         Gratuit. Sans engagement. Réponse sous 24h.
                     </p>
 
-                    {/* CTA diagnostic — qualifier le besoin avant la mission BI */}
+                    {/* CTA diagnostic - qualifier le besoin avant la mission BI */}
                     <div className="mt-10 pt-10 border-t border-gray-200">
                         <p className="text-sm text-gray-400 mb-3">
                             Pas encore sûr de vos enjeux prioritaires ?
@@ -974,7 +974,7 @@ export default function BusinessIntelligencePage() {
                             className="inline-flex items-center gap-2 px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded text-sm transition-all"
                         >
                             <Target className="w-4 h-4" />
-                            Obtenir le Score FinSight™ gratuit — 7 min
+                            Obtenir le Score FinSight™ gratuit - 7 min
                         </Link>
                         <p className="text-xs text-gray-400 mt-2">
                             Score 0–100 · 4 piliers · Sans inscription

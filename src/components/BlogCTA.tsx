@@ -10,7 +10,7 @@ interface BlogCTAProps {
 }
 
 export default function BlogCTA({ variant = 'platform', className = '' }: BlogCTAProps) {
-    // Variant 'daf' — Transition cabinet structurée
+    // Variant 'daf' - Transition cabinet structurée
     if (variant === 'daf') {
         return (
             <motion.div
@@ -122,7 +122,7 @@ export default function BlogCTA({ variant = 'platform', className = '' }: BlogCT
         )
     }
 
-    // Variant 'platform' (default) — Orienté diagnostic dirigeant
+    // Variant 'platform' (default) - Orienté diagnostic dirigeant
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -142,7 +142,7 @@ export default function BlogCTA({ variant = 'platform', className = '' }: BlogCT
                         Perdez-vous de l&apos;argent sans le voir ?
                     </h3>
                     <p className="mb-4 text-lg text-text-secondary">
-                        DSO au-dessus de la médiane, BFR qui dérive, marges qui s&apos;érodent — 
+                        DSO au-dessus de la médiane, BFR qui dérive, marges qui s&apos;érodent - 
                         le diagnostic FinSight identifie vos fuites de cash en 5 minutes.
                     </p>
                     <div className="flex flex-wrap gap-3">

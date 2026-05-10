@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
-// Public base URL of the Vercel Blob store (no API call needed — deterministic)
+// Public base URL of the Vercel Blob store (no API call needed - deterministic)
 const BLOB_BASE = 'https://vta1eeblg62qjixo.public.blob.vercel-storage.com'
 
 // ---------------------------------------------------------------------------
@@ -74,7 +74,7 @@ export default async function RapportPage({
   } | null = null
 
   try {
-    // Direct fetch — URL is deterministic, no Advanced Blob Operation needed
+    // Direct fetch - URL is deterministic, no Advanced Blob Operation needed
     const blobUrl = `${BLOB_BASE}/reports/${params.token}.json`
     const res = await fetch(blobUrl, { next: { revalidate: 0 } })
     if (!res.ok) notFound()
@@ -101,7 +101,7 @@ export default async function RapportPage({
     )
   }
 
-  // Increment view count (fire-and-forget — no-op in blob storage, skip)
+  // Increment view count (fire-and-forget - no-op in blob storage, skip)
 
   const pillarScores = report.pillarScores as PillarScores
   const synthesis = report.synthesis as Synthesis
@@ -186,7 +186,7 @@ export default async function RapportPage({
                       </div>
                     </div>
                     <p className="text-xl font-bold" style={{ color: bar.color }}>
-                      {s !== null ? `${s}/25` : '—'}
+                      {s !== null ? `${s}/25` : '-'}
                     </p>
                   </div>
                   {/* Progress bar */}
@@ -257,7 +257,7 @@ export default async function RapportPage({
           <p className="text-[11px] font-semibold tracking-[0.14em] text-slate-500 uppercase mb-3">Prochaine étape</p>
           <h2 className="text-xl font-bold text-white mb-2">Transformer ce diagnostic en plan d'action</h2>
           <p className="text-sm text-slate-400 mb-6 max-w-md mx-auto">
-            Échange stratégique 30 min — analyse de vos priorités, identification des leviers, plan d'action personnalisé. Confidentiel, sans engagement.
+            Échange stratégique 30 min - analyse de vos priorités, identification des leviers, plan d'action personnalisé. Confidentiel, sans engagement.
           </p>
           <a
             href="https://calendly.com/zineinsight"
@@ -293,7 +293,7 @@ export default async function RapportPage({
 export async function generateMetadata({ params }: { params: { token: string } }) {
   return {
     title: 'Rapport Score FinSight™ | Diagnostic Financier',
-    description: 'Votre rapport de diagnostic financier personnalisé — Score FinSight™, analyse par pilier, priorités d\'action.',
+    description: 'Votre rapport de diagnostic financier personnalisé - Score FinSight™, analyse par pilier, priorités d\'action.',
     robots: 'noindex, nofollow', // Rapport privé
   }
 }

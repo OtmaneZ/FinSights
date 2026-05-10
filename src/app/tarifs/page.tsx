@@ -29,7 +29,7 @@ import {
 } from '@/config/social-proof'
 
 /* ──────────────────────────────────────────────────────
-   FAQ Data — tarifs-specific (not duplicated from /consulting)
+   FAQ Data - tarifs-specific (not duplicated from /consulting)
    ────────────────────────────────────────────────────── */
 const faqItems = [
     {
@@ -55,7 +55,7 @@ const faqItems = [
     {
         question: 'Quelle est la différence avec un cabinet de conseil traditionnel ?',
         answer:
-            'FinSight combine l\'expertise financière terrain avec une stack data concrète (Score FinSight™, Power BI, SQL, Python, benchmarks Banque de France). Vous obtenez des livrables actionnables avec des données chiffrées et des flux automatisés — pas simplement des recommandations PowerPoint.',
+            'FinSight combine l\'expertise financière terrain avec une stack data concrète (Score FinSight™, Power BI, SQL, Python, benchmarks Banque de France). Vous obtenez des livrables actionnables avec des données chiffrées et des flux automatisés - pas simplement des recommandations PowerPoint.',
     },
     {
         question: 'Comment se déroule la première étape ?',
@@ -74,7 +74,7 @@ export default function TarifsPage() {
     const offersSchema = {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
-        name: 'FinSight — Pilotage Financier & Data',
+        name: 'FinSight - Pilotage Financier & Data',
         url: 'https://finsight.zineinsight.com/tarifs',
         description:
             'Expert Finance & Data pour PME : diagnostic financier par la data, structuration Power BI, score propriétaire et systèmes décisionnels.',
@@ -151,7 +151,7 @@ export default function TarifsPage() {
             <Header />
 
             {/* ============================================
-                HERO — Clarté sur les tarifs
+                HERO - Clarté sur les tarifs
                ============================================ */}
             <section className="pt-20 pb-16 bg-gradient-to-b from-slate-50 to-white">
                 <div className="max-w-5xl mx-auto px-6 lg:px-12 text-center">
@@ -193,7 +193,7 @@ export default function TarifsPage() {
                 </div>
             </section>
 
-            {/* Self-serve — accès immédiat */}
+            {/* Self-serve - accès immédiat */}
             <section className="py-16 lg:py-20 bg-slate-50 border-y border-slate-100">
                 <div className="max-w-7xl mx-auto px-6 lg:px-12">
                     <motion.div
@@ -273,7 +273,7 @@ export default function TarifsPage() {
                             </div>
                             <h3 className="text-2xl font-bold text-slate-900 mb-2 pr-24">Score FinSight™</h3>
                             <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                                Diagnostic complet 4 piliers — Cash, Marges, Résilience, Risques.
+                                Diagnostic complet 4 piliers - Cash, Marges, Résilience, Risques.
                                 Recommandations IA, rapport 6 pages, résultat en 7 minutes.
                             </p>
                             <ul className="space-y-2.5 mb-8 flex-1">
@@ -315,7 +315,7 @@ export default function TarifsPage() {
             </section>
 
             {/* ============================================
-                OFFRES — 3 niveaux de structuration
+                OFFRES - 3 niveaux de structuration
                ============================================ */}
             <section className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -370,7 +370,7 @@ export default function TarifsPage() {
                             </a>
                         </motion.div>
 
-                        {/* ── Audit Complet — Featured ── */}
+                        {/* ── Audit Complet - Featured ── */}
                         <motion.div
                             id="audit"
                             initial={{ opacity: 0, y: 20 }}
@@ -476,12 +476,12 @@ export default function TarifsPage() {
             </section>
 
             {/* ============================================
-                TEMOIGNAGES — Social proof post-offres
+                TEMOIGNAGES - Social proof post-offres
                ============================================ */}
             <TestimonialsSection background="slate" showAggregate={true} />
 
             {/* ============================================
-                COMPARATIF — Tableau simple 
+                COMPARATIF - Tableau simple 
                ============================================ */}
             <section className="py-16 bg-slate-50">
                 <div className="max-w-5xl mx-auto px-6 lg:px-12">
@@ -539,21 +539,21 @@ export default function TarifsPage() {
                                             {row.d ? (
                                                 <Check className="w-5 h-5 text-emerald-500 mx-auto" />
                                             ) : (
-                                                <span className="text-slate-300">—</span>
+                                                <span className="text-slate-300">-</span>
                                             )}
                                         </td>
                                         <td className="p-4 text-center bg-accent-primary/5">
                                             {row.a ? (
                                                 <Check className="w-5 h-5 text-accent-primary mx-auto" />
                                             ) : (
-                                                <span className="text-slate-300">—</span>
+                                                <span className="text-slate-300">-</span>
                                             )}
                                         </td>
                                         <td className="p-4 text-center">
                                             {row.s ? (
                                                 <Check className="w-5 h-5 text-emerald-500 mx-auto" />
                                             ) : (
-                                                <span className="text-slate-300">—</span>
+                                                <span className="text-slate-300">-</span>
                                             )}
                                         </td>
                                     </tr>
@@ -565,7 +565,7 @@ export default function TarifsPage() {
             </section>
 
             {/* ============================================
-                QUALIFICATION — Score FinSight™ avant achat
+                QUALIFICATION - Score FinSight™ avant achat
                ============================================ */}
             <section className="py-16 bg-white">
                 <div className="max-w-3xl mx-auto px-6 lg:px-12">
@@ -580,7 +580,7 @@ export default function TarifsPage() {
                             Pas encore sûr ?
                         </span>
                         <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                            Commencez par le diagnostic en ligne — 7 min
+                            Commencez par le diagnostic en ligne - 7 min
                         </h2>
                         <p className="text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto">
                             Obtenez votre Score FinSight™ (0→100) sur les 4 piliers CASH, MARGES, RÉSILIENCE, RISQUES.
@@ -660,7 +660,7 @@ export default function TarifsPage() {
             </section>
 
             {/* ============================================
-                FAQ — Tarifs-specific
+                FAQ - Tarifs-specific
                ============================================ */}
             <section className="py-20 bg-white">
                 <div className="max-w-4xl mx-auto px-6 lg:px-12">
@@ -708,7 +708,7 @@ export default function TarifsPage() {
             </section>
 
             {/* ============================================
-                CTA FINAL — Premium
+                CTA FINAL - Premium
                ============================================ */}
             <section className="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -730,7 +730,7 @@ export default function TarifsPage() {
                             <span className="text-accent-primary">pilotage financier</span>&nbsp;?
                         </h2>
                         <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-                            Échangeons 30 minutes sur vos enjeux — sans engagement.
+                            Échangeons 30 minutes sur vos enjeux - sans engagement.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -767,7 +767,7 @@ export default function TarifsPage() {
             </section>
 
             {/* ============================================
-                MAILLAGE — Liens stratégiques
+                MAILLAGE - Liens stratégiques
                ============================================ */}
             <section className="py-12 bg-white border-t border-slate-100">
                 <div className="max-w-5xl mx-auto px-6 lg:px-12">

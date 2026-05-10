@@ -35,7 +35,7 @@ import Footer from './Footer'
 import ExitIntentPopup from './ExitIntentPopup'
 
 // ---------------------------------------------------------------------------
-// Radar chart data — illustration PME Services 7M€ (avant / après)
+// Radar chart data - illustration PME Services 7M€ (avant / après)
 // ---------------------------------------------------------------------------
 const RADAR_EXAMPLE_BEFORE = [
     { pillar: 'CASH', score: 10, fullMark: 25 },
@@ -144,7 +144,7 @@ export default function ScoreMethodologyPage() {
                                 title="Bientôt disponible"
                             >
                                 <FileText className="w-5 h-5" />
-                                Exemple de rapport — à venir
+                                Exemple de rapport - à venir
                             </span>
                         </div>
                     </motion.div>
@@ -261,7 +261,7 @@ export default function ScoreMethodologyPage() {
                 </div>
             </section>
 
-            {/* RADAR CHART — Visualisation des 4 piliers */}
+            {/* RADAR CHART - Visualisation des 4 piliers */}
             <section className="py-20 bg-slate-50">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
@@ -276,7 +276,7 @@ export default function ScoreMethodologyPage() {
                         </h2>
                         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
                             Le radar des 4 piliers identifie instantanément les zones de force et les axes de vigilance.
-                            Exemple : PME Services, 7&nbsp;M€ de CA — avant et après structuration.
+                            Exemple : PME Services, 7&nbsp;M€ de CA - avant et après structuration.
                         </p>
                     </motion.div>
 
@@ -342,7 +342,7 @@ export default function ScoreMethodologyPage() {
                 </div>
             </section>
 
-            {/* EXEMPLE CONCRET — Avant / Après */}
+            {/* EXEMPLE CONCRET - Avant / Après */}
             <section className="py-20 bg-white">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
@@ -376,7 +376,7 @@ export default function ScoreMethodologyPage() {
                             <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100">
                                 <div>
                                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">PME Services · 7M€ CA</p>
-                                    <p className="text-slate-900 font-semibold">Diagnostic FinSight™ — Illustration</p>
+                                    <p className="text-slate-900 font-semibold">Diagnostic FinSight™ - Illustration</p>
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <div className="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center">
@@ -407,7 +407,7 @@ export default function ScoreMethodologyPage() {
 
                             {/* Plan d'action */}
                             <div className="px-8 py-6 bg-slate-900">
-                                <p className="text-xs font-semibold text-accent-primary uppercase tracking-wider mb-4">Plan d&apos;action — 3 leviers prioritaires</p>
+                                <p className="text-xs font-semibold text-accent-primary uppercase tracking-wider mb-4">Plan d&apos;action - 3 leviers prioritaires</p>
                                 <div className="grid sm:grid-cols-3 gap-4">
                                     {[
                                         { n: '1', action: 'Réduire le DSO de 10 jours', impact: '+192k€ de trésorerie libérée' },
@@ -438,7 +438,7 @@ export default function ScoreMethodologyPage() {
                                 <Info className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
                                 <p className="text-sm text-slate-600">
                                     <span className="font-medium text-slate-800">Ce score ne remplace pas un audit légal.</span>{' '}
-                                    Il sert à piloter, anticiper et prioriser — pas à certifier des comptes.
+                                    Il sert à piloter, anticiper et prioriser - pas à certifier des comptes.
                                 </p>
                             </div>
                             <div className="flex items-start gap-3 flex-1 bg-white rounded-xl px-5 py-4 border border-slate-200">
@@ -467,7 +467,7 @@ export default function ScoreMethodologyPage() {
                         >
                             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
                                 <DollarSign className="w-4 h-4 text-accent-primary" />
-                                <span className="text-sm text-white/90 font-medium">Pilier 1 — 25 points</span>
+                                <span className="text-sm text-white/90 font-medium">Pilier 1 - 25 points</span>
                             </div>
 
                             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
@@ -489,7 +489,7 @@ export default function ScoreMethodologyPage() {
                                         <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                                     </div>
                                     <p className="text-slate-300">
-                                        <span className="text-white font-medium">Runway</span> — Nombre de mois de trésorerie disponible (15 pts max)
+                                        <span className="text-white font-medium">Runway</span> - Nombre de mois de trésorerie disponible (15 pts max)
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
@@ -497,7 +497,7 @@ export default function ScoreMethodologyPage() {
                                         <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                                     </div>
                                     <p className="text-slate-300">
-                                        <span className="text-white font-medium">Cash Flow Net</span> — Entrées moins sorties sur la période (5 pts max)
+                                        <span className="text-white font-medium">Cash Flow Net</span> - Entrées moins sorties sur la période (5 pts max)
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
@@ -505,7 +505,7 @@ export default function ScoreMethodologyPage() {
                                         <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                                     </div>
                                     <p className="text-slate-300">
-                                        <span className="text-white font-medium">DSO</span> — Délai moyen de paiement clients (5 pts max)
+                                        <span className="text-white font-medium">DSO</span> - Délai moyen de paiement clients (5 pts max)
                                     </p>
                                 </div>
                             </div>
@@ -720,7 +720,7 @@ export default function ScoreMethodologyPage() {
                         >
                             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 mb-6">
                                 <TrendingUp className="w-4 h-4 text-emerald-600" />
-                                <span className="text-sm text-slate-700 font-medium">Pilier 2 — 25 points</span>
+                                <span className="text-sm text-slate-700 font-medium">Pilier 2 - 25 points</span>
                             </div>
 
                             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
@@ -742,7 +742,7 @@ export default function ScoreMethodologyPage() {
                                         <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                                     </div>
                                     <p className="text-slate-600">
-                                        <span className="text-slate-900 font-medium">Marge Nette</span> — Ratio résultat net / chiffre d'affaires (15 pts max)
+                                        <span className="text-slate-900 font-medium">Marge Nette</span> - Ratio résultat net / chiffre d'affaires (15 pts max)
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
@@ -750,7 +750,7 @@ export default function ScoreMethodologyPage() {
                                         <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                                     </div>
                                     <p className="text-slate-600">
-                                        <span className="text-slate-900 font-medium">Croissance CA</span> — Évolution du chiffre d'affaires (5 pts max)
+                                        <span className="text-slate-900 font-medium">Croissance CA</span> - Évolution du chiffre d'affaires (5 pts max)
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
@@ -758,7 +758,7 @@ export default function ScoreMethodologyPage() {
                                         <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                                     </div>
                                     <p className="text-slate-600">
-                                        <span className="text-slate-900 font-medium">Contrôle des Charges</span> — Maîtrise des coûts opérationnels (5 pts max)
+                                        <span className="text-slate-900 font-medium">Contrôle des Charges</span> - Maîtrise des coûts opérationnels (5 pts max)
                                     </p>
                                 </div>
                             </div>
@@ -782,7 +782,7 @@ export default function ScoreMethodologyPage() {
                         >
                             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
                                 <Shield className="w-4 h-4 text-purple-400" />
-                                <span className="text-sm text-white/90 font-medium">Pilier 3 — 25 points</span>
+                                <span className="text-sm text-white/90 font-medium">Pilier 3 - 25 points</span>
                             </div>
 
                             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
@@ -804,7 +804,7 @@ export default function ScoreMethodologyPage() {
                                         <CheckCircle2 className="w-4 h-4 text-purple-400" />
                                     </div>
                                     <p className="text-slate-300">
-                                        <span className="text-white font-medium">Charges Fixes</span> — Ratio charges fixes / CA (10 pts max)
+                                        <span className="text-white font-medium">Charges Fixes</span> - Ratio charges fixes / CA (10 pts max)
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
@@ -812,7 +812,7 @@ export default function ScoreMethodologyPage() {
                                         <CheckCircle2 className="w-4 h-4 text-purple-400" />
                                     </div>
                                     <p className="text-slate-300">
-                                        <span className="text-white font-medium">Dépendance Client</span> — Part du CA du top client (10 pts max)
+                                        <span className="text-white font-medium">Dépendance Client</span> - Part du CA du top client (10 pts max)
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
@@ -820,7 +820,7 @@ export default function ScoreMethodologyPage() {
                                         <CheckCircle2 className="w-4 h-4 text-purple-400" />
                                     </div>
                                     <p className="text-slate-300">
-                                        <span className="text-white font-medium">Diversité</span> — Nombre de catégories d'activité (5 pts max)
+                                        <span className="text-white font-medium">Diversité</span> - Nombre de catégories d'activité (5 pts max)
                                     </p>
                                 </div>
                             </div>
@@ -1011,7 +1011,7 @@ export default function ScoreMethodologyPage() {
                         >
                             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 mb-6">
                                 <AlertTriangle className="w-4 h-4 text-orange-600" />
-                                <span className="text-sm text-slate-700 font-medium">Pilier 4 — 25 points</span>
+                                <span className="text-sm text-slate-700 font-medium">Pilier 4 - 25 points</span>
                             </div>
 
                             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
@@ -1033,7 +1033,7 @@ export default function ScoreMethodologyPage() {
                                         <Eye className="w-4 h-4 text-orange-600" />
                                     </div>
                                     <p className="text-slate-600">
-                                        <span className="text-slate-900 font-medium">Z-Score</span> — Détecte les montants aberrants
+                                        <span className="text-slate-900 font-medium">Z-Score</span> - Détecte les montants aberrants
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
@@ -1041,7 +1041,7 @@ export default function ScoreMethodologyPage() {
                                         <Layers className="w-4 h-4 text-orange-600" />
                                     </div>
                                     <p className="text-slate-600">
-                                        <span className="text-slate-900 font-medium">IQR</span> — Identifie les outliers statistiques
+                                        <span className="text-slate-900 font-medium">IQR</span> - Identifie les outliers statistiques
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
@@ -1049,7 +1049,7 @@ export default function ScoreMethodologyPage() {
                                         <Target className="w-4 h-4 text-orange-600" />
                                     </div>
                                     <p className="text-slate-600">
-                                        <span className="text-slate-900 font-medium">Patterns temporels</span> — Repère les ruptures de tendance
+                                        <span className="text-slate-900 font-medium">Patterns temporels</span> - Repère les ruptures de tendance
                                     </p>
                                 </div>
                             </div>

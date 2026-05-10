@@ -6,11 +6,11 @@ import Footer from "@/components/Footer";
 import { FINANCIAL_GLOSSARY, FinancialGlossaryEntry } from "@/lib/financialGlossary";
 
 export const metadata: Metadata = {
-  title: "Glossaire Finance PME 2026 — 50 définitions essentielles | FinSight",
+  title: "Glossaire Finance PME 2026 - 50 définitions essentielles | FinSight",
   description:
     "DSO, BFR, EBITDA, WACC, EVA, covenant… 50 définitions claires avec formules et benchmarks pour dirigeants PME.",
   openGraph: {
-    title: "Glossaire Finance PME 2026 — 50 définitions essentielles",
+    title: "Glossaire Finance PME 2026 - 50 définitions essentielles",
     description:
       "DSO, BFR, EBITDA, WACC, EVA, covenant… 50 définitions claires avec formules et benchmarks pour dirigeants PME.",
   },
@@ -169,7 +169,7 @@ export default function GlossairePage() {
             </h1>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
               {totalTerms} définitions essentielles avec formules, benchmarks et
-              interprétations concrètes — conçues pour les dirigeants, pas pour
+              interprétations concrètes - conçues pour les dirigeants, pas pour
               les comptables.
             </p>
           </div>
@@ -239,7 +239,7 @@ export default function GlossairePage() {
               Vous voulez aller plus loin que les définitions ?
             </h2>
             <p className="text-slate-300 text-lg mb-8 leading-relaxed">
-              Score FinSight™ — diagnostic 4 piliers sur vos données réelles.
+              Score FinSight™ - diagnostic 4 piliers sur vos données réelles.
               Trésorerie, rentabilité, activité, financement : obtenez une
               lecture instantanée de la santé financière de votre entreprise.
             </p>

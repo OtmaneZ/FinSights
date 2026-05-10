@@ -11,7 +11,7 @@ function trackGA4Event(eventName: string, params: Record<string, string | number
 }
 
 interface CalcEmailCaptureProps {
-  /** Calculator type — used for GA4 label */
+  /** Calculator type - used for GA4 label */
   context: 'dso' | 'bfr' | 'marge' | 'seuil-rentabilite' | 'roi'
   /** Calculated value to display inline */
   contextValue: number | null

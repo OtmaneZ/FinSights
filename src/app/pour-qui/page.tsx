@@ -47,7 +47,7 @@ export default function PourQuiPage() {
                 { label: 'Score', value: '0–100' }
             ],
             cta: {
-                primary: 'Diagnostic FinSight™ — 2 490€',
+                primary: 'Diagnostic FinSight™ - 2 490€',
                 secondary: 'Réserver un échange stratégique',
                 link: '/consulting'
             },
@@ -82,7 +82,7 @@ export default function PourQuiPage() {
                 { label: 'Dashboard', value: 'Clé en main' }
             ],
             cta: {
-                primary: 'Audit Complet — 6 990€',
+                primary: 'Audit Complet - 6 990€',
                 secondary: 'Réserver un échange stratégique',
                 link: '/consulting'
             },
@@ -117,7 +117,7 @@ export default function PourQuiPage() {
                 { label: 'Support', value: '3 mois' }
             ],
             cta: {
-                primary: 'Decision System — 12 500€',
+                primary: 'Decision System - 12 500€',
                 secondary: 'Réserver un échange stratégique',
                 link: '/consulting'
             },
@@ -231,7 +231,7 @@ export default function PourQuiPage() {
                             {/* Testimonial */}
                             <div className="mb-8 p-6 bg-accent-primary-subtle border-l-4 border-accent-primary rounded-lg">
                                 <p className="text-sm italic text-secondary mb-2">"{persona.testimonial.quote}"</p>
-                                <p className="text-xs text-tertiary font-semibold">— {persona.testimonial.author}</p>
+                                <p className="text-xs text-tertiary font-semibold">- {persona.testimonial.author}</p>
                             </div>
 
                             {/* CTAs */}

@@ -74,10 +74,10 @@ export async function POST(req: NextRequest) {
 
     // Build pillar summary for email
     const pillarRows = [
-      { label: 'CASH — Trésorerie', score: pillarScores.cash },
-      { label: 'MARGIN — Rentabilité', score: pillarScores.margin },
-      { label: 'RESILIENCE — Stabilité', score: pillarScores.resilience },
-      { label: 'RISQUES — Anomalies', score: pillarScores.risk },
+      { label: 'CASH - Trésorerie', score: pillarScores.cash },
+      { label: 'MARGIN - Rentabilité', score: pillarScores.margin },
+      { label: 'RESILIENCE - Stabilité', score: pillarScores.resilience },
+      { label: 'RISQUES - Anomalies', score: pillarScores.risk },
     ]
       .filter((p) => p.score !== null && p.score !== undefined)
       .map(
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
       from: FROM_EMAIL,
       replyTo: REPLY_TO_EMAIL,
       to: [cleanEmail],
-      subject: `Votre rapport Score FinSight™ ${totalScore}/100 — ${level}`,
+      subject: `Votre rapport Score FinSight™ ${totalScore}/100 - ${level}`,
       html: `<!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -238,7 +238,7 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       console.error('[diagnostic/report] Resend error:', error)
-      // Don't fail the request — report is saved, email can be retried
+      // Don't fail the request - report is saved, email can be retried
     }
 
     return NextResponse.json({ success: true, token, reportUrl }, { status: 200 })

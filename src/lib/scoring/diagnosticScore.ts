@@ -1,5 +1,5 @@
 /**
- * SCORE FINSIGHT™ — DIAGNOSTIC DÉCLARATIF (0-100)
+ * SCORE FINSIGHT™ - DIAGNOSTIC DÉCLARATIF (0-100)
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  * Module unifié consommé par :
  *   - /mon-diagnostic  (dashboard agrégateur, lit localStorage)
@@ -48,7 +48,7 @@ export interface SectorBenchmark {
   bfrJoursBad: number
   // Taux EBITDA/CA médian (%)
   ebitdaMedian: number
-  // Ratio dette nette / EBITDA — seuils sectoriels
+  // Ratio dette nette / EBITDA - seuils sectoriels
   gearingMedian: number
   gearingBon: number
   gearingCritique: number
@@ -67,7 +67,7 @@ export interface PillarResult {
   bgColor: string
 }
 
-/** Valeurs saisies dans le wizard (numériques ou texte — questions stratégiques). */
+/** Valeurs saisies dans le wizard (numériques ou texte - questions stratégiques). */
 export type WizardInputValue = number | string
 
 export type ScorisLevel = 'standard' | 'strategique'
@@ -75,7 +75,7 @@ export type ScorisLevel = 'standard' | 'strategique'
 export interface ZScoreZoneResult {
   zone: 'danger' | 'grise' | 'saine'
   label: string
-  /** Couleur sémantique UI — indicateur Altman distinct du score /100 */
+  /** Couleur sémantique UI - indicateur Altman distinct du score /100 */
   color: 'red' | 'orange' | 'green'
 }
 
@@ -109,7 +109,7 @@ export interface SynthesisResult {
   vulnerabilites: string[]
   priorite: string
   cashImpact: string | null
-  /** 3 leviers chiffrés — nouveau */
+  /** 3 leviers chiffrés - nouveau */
   levers: SynthesisLever[]
 }
 
@@ -131,7 +131,7 @@ export interface LevelConfig {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// BENCHMARKS SECTORIELS — Sources : Banque de France 2024, INSEE, Altares
+// BENCHMARKS SECTORIELS - Sources : Banque de France 2024, INSEE, Altares
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
@@ -194,7 +194,7 @@ export const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// LEVEL CONFIG — couleurs et labels par niveau de score
+// LEVEL CONFIG - couleurs et labels par niveau de score
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export const LEVEL_CONFIG: Record<DiagnosticScore['level'], LevelConfig> = {
@@ -241,7 +241,7 @@ export const LEVEL_CONFIG: Record<DiagnosticScore['level'], LevelConfig> = {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// SCORING HELPERS — fonctions unitaires réutilisables
+// SCORING HELPERS - fonctions unitaires réutilisables
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function scoreDSO(value: number, bench: SectorBenchmark): number {
@@ -314,7 +314,7 @@ export function scoreCACLTV(value: number): number {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// estimateCA — déduit le CA annuel depuis les données disponibles
+// estimateCA - déduit le CA annuel depuis les données disponibles
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function estimateCA(
@@ -366,7 +366,7 @@ export function countWords(text: string): number {
 }
 
 /**
- * Z-Score Altman (approximation déclarative — indicateur séparé du score SCORIS /100).
+ * Z-Score Altman (approximation déclarative - indicateur séparé du score SCORIS /100).
  * X2 = 0 car le résultat non réinvesti n'est pas saisi.
  */
 export function computeZScore(
@@ -505,7 +505,7 @@ export function enrichDiagnosticWithZScore(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// computeDiagnosticScore — depuis localStorage history (pour /mon-diagnostic)
+// computeDiagnosticScore - depuis localStorage history (pour /mon-diagnostic)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function computeDiagnosticScore(
@@ -697,7 +697,7 @@ export function computeDiagnosticScore(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// computeLiveScores — pour le wizard (sidebar live-update)
+// computeLiveScores - pour le wizard (sidebar live-update)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function computeLiveScores(
@@ -790,7 +790,7 @@ export function computeLiveScores(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// computeInsights — pour /mon-diagnostic (depuis localStorage)
+// computeInsights - pour /mon-diagnostic (depuis localStorage)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function computeInsights(
@@ -815,60 +815,60 @@ export function computeInsights(
 
   // ── Forces
   if (dso && dso.value <= bench.dsoGood)
-    forces.push(`DSO de ${dso.value}j — encaissements rapides vs médiane sectorielle de ${bench.dsoMedian}j`)
+    forces.push(`DSO de ${dso.value}j - encaissements rapides vs médiane sectorielle de ${bench.dsoMedian}j`)
   if (bfr && bfr.value < 0)
-    forces.push('BFR négatif — votre activité génère de la trésorerie avant de payer vos fournisseurs')
+    forces.push('BFR négatif - votre activité génère de la trésorerie avant de payer vos fournisseurs')
   else if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
     const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
     if (joursCA <= bench.bfrJoursBon)
-      forces.push(`BFR de ${joursCA}j de CA — maîtrisé vs médiane ${bench.bfrJoursMedian}j dans votre secteur`)
+      forces.push(`BFR de ${joursCA}j de CA - maîtrisé vs médiane ${bench.bfrJoursMedian}j dans votre secteur`)
   }
   if (marge && marge.value >= bench.margeBon)
-    forces.push(`Taux de marge de ${marge.value}% — au-dessus de la médiane sectorielle (${bench.margeMedian}%)`)
+    forces.push(`Taux de marge de ${marge.value}% - au-dessus de la médiane sectorielle (${bench.margeMedian}%)`)
   if (ebitda && caAnnuel && caAnnuel > 0) {
     const ebitdaPct = Math.round((ebitda.value / caAnnuel) * 100)
     if (ebitdaPct >= bench.ebitdaMedian)
-      forces.push(`EBITDA à ${ebitdaPct}% du CA — coussin de rentabilité solide vs ${bench.ebitdaMedian}% médian`)
+      forces.push(`EBITDA à ${ebitdaPct}% du CA - coussin de rentabilité solide vs ${bench.ebitdaMedian}% médian`)
   }
   if (cacLtv && cacLtv.value >= 3)
-    forces.push(`Ratio LTV/CAC de ${cacLtv.value.toFixed(1)}x — acquisition client très rentable`)
+    forces.push(`Ratio LTV/CAC de ${cacLtv.value.toFixed(1)}x - acquisition client très rentable`)
   if (burnRate && caAnnuel) {
     const burnPct = Math.round((burnRate.value / (caAnnuel / 12)) * 100)
     if (burnPct < 30)
-      forces.push(`Burn Rate à ${burnPct}% du CA mensuel — consommation de cash très maîtrisée`)
+      forces.push(`Burn Rate à ${burnPct}% du CA mensuel - consommation de cash très maîtrisée`)
   }
   if (diagnostic.pillars.cash.score !== null && diagnostic.pillars.cash.score >= 20)
-    forces.push('Pilier CASH solide — trésorerie saine sur l\'ensemble des indicateurs')
+    forces.push('Pilier CASH solide - trésorerie saine sur l\'ensemble des indicateurs')
   if (diagnostic.pillars.margin.score !== null && diagnostic.pillars.margin.score >= 20)
-    forces.push('Rentabilité opérationnelle forte — structure de coûts efficiente')
+    forces.push('Rentabilité opérationnelle forte - structure de coûts efficiente')
 
   // ── Vulnérabilités
   if (dso && dso.value > bench.dsoBad)
-    vulnerabilites.push(`DSO de ${dso.value}j — dépasse le seuil critique sectoriel (${bench.dsoBad}j) : risque de tension cash`)
+    vulnerabilites.push(`DSO de ${dso.value}j - dépasse le seuil critique sectoriel (${bench.dsoBad}j) : risque de tension cash`)
   else if (dso && dso.value > bench.dsoMedian)
-    vulnerabilites.push(`DSO de ${dso.value}j — au-dessus de la médiane (${bench.dsoMedian}j) : créances qui s'allongent`)
+    vulnerabilites.push(`DSO de ${dso.value}j - au-dessus de la médiane (${bench.dsoMedian}j) : créances qui s'allongent`)
   if (bfr && bfr.inputs?.ca && bfr.inputs.ca > 0) {
     const joursCA = Math.round((bfr.value / bfr.inputs.ca) * 365)
     if (joursCA > bench.bfrJoursBad)
-      vulnerabilites.push(`BFR de ${joursCA}j de CA — nettement au-dessus du seuil sectoriel (${bench.bfrJoursBad}j) : exposition aux aléas`)
+      vulnerabilites.push(`BFR de ${joursCA}j de CA - nettement au-dessus du seuil sectoriel (${bench.bfrJoursBad}j) : exposition aux aléas`)
     else if (joursCA > bench.bfrJoursMedian)
-      vulnerabilites.push(`BFR de ${joursCA}j de CA — dépasse la médiane sectorielle (${bench.bfrJoursMedian}j)`)
+      vulnerabilites.push(`BFR de ${joursCA}j de CA - dépasse la médiane sectorielle (${bench.bfrJoursMedian}j)`)
   }
   if (marge && marge.value < bench.margeFaible)
-    vulnerabilites.push(`Taux de marge de ${marge.value}% — sous le seuil critique (${bench.margeFaible}%) : structure de coûts à revoir`)
+    vulnerabilites.push(`Taux de marge de ${marge.value}% - sous le seuil critique (${bench.margeFaible}%) : structure de coûts à revoir`)
   else if (marge && marge.value < bench.margeMedian)
-    vulnerabilites.push(`Taux de marge de ${marge.value}% — sous la médiane sectorielle (${bench.margeMedian}%)`)
+    vulnerabilites.push(`Taux de marge de ${marge.value}% - sous la médiane sectorielle (${bench.margeMedian}%)`)
   if (burnRate && caAnnuel) {
     const burnPct = Math.round((burnRate.value / (caAnnuel / 12)) * 100)
     if (burnPct > 90)
-      vulnerabilites.push(`Burn Rate à ${burnPct}% du CA mensuel — structure déficitaire : runway limité`)
+      vulnerabilites.push(`Burn Rate à ${burnPct}% du CA mensuel - structure déficitaire : runway limité`)
     else if (burnPct > 70)
-      vulnerabilites.push(`Burn Rate à ${burnPct}% du CA mensuel — peu de marge de manœuvre`)
+      vulnerabilites.push(`Burn Rate à ${burnPct}% du CA mensuel - peu de marge de manœuvre`)
   }
   if (dso && dso.value > bench.dsoMedian && marge && marge.value < bench.margeMedian)
-    vulnerabilites.push('Double pression cash : délais clients longs + marge sous la médiane — risque structurel')
+    vulnerabilites.push('Double pression cash : délais clients longs + marge sous la médiane - risque structurel')
   if (diagnostic.pillars.risk.score !== null && diagnostic.pillars.risk.score < 12)
-    vulnerabilites.push('Plusieurs signaux de risque croisés détectés — combinaison défavorable d\'indicateurs')
+    vulnerabilites.push('Plusieurs signaux de risque croisés détectés - combinaison défavorable d\'indicateurs')
 
   // ── Priorité
   let priorite = ''
@@ -879,19 +879,19 @@ export function computeInsights(
   if (dso && dso.value > bench.dsoBad && caAnnuel) {
     const gapJours = dso.value - bench.dsoMedian
     const impact = Math.round((gapJours / 365) * caAnnuel)
-    priorite = `Réduire le DSO de ${gapJours}j pour libérer ${impact.toLocaleString('fr-FR')} € de trésorerie — c'est votre levier cash #1`
+    priorite = `Réduire le DSO de ${gapJours}j pour libérer ${impact.toLocaleString('fr-FR')} € de trésorerie - c'est votre levier cash #1`
   } else if (marge && marge.value < bench.margeFaible) {
-    priorite = `Améliorer la structure de coûts : votre marge de ${marge.value}% est sous le seuil critique (${bench.margeFaible}%) — revoir les achats ou la tarification`
+    priorite = `Améliorer la structure de coûts : votre marge de ${marge.value}% est sous le seuil critique (${bench.margeFaible}%) - revoir les achats ou la tarification`
   } else if (burnRate && caAnnuel && (burnRate.value / (caAnnuel / 12)) > 0.7) {
-    priorite = `Réduire le Burn Rate : votre consommation mensuelle représente ${Math.round((burnRate.value / (caAnnuel / 12)) * 100)}% du CA — identifier les charges compressibles en priorité`
+    priorite = `Réduire le Burn Rate : votre consommation mensuelle représente ${Math.round((burnRate.value / (caAnnuel / 12)) * 100)}% du CA - identifier les charges compressibles en priorité`
   } else if (cashScore !== null && cashScore < 12) {
-    priorite = 'Renforcer la trésorerie en priorité : le pilier CASH est votre point de fragilité majeur — agir sur DSO et BFR'
+    priorite = 'Renforcer la trésorerie en priorité : le pilier CASH est votre point de fragilité majeur - agir sur DSO et BFR'
   } else if (marginScoreVal !== null && marginScoreVal < 12) {
-    priorite = 'Améliorer la rentabilité : le pilier MARGIN est sous les standards du secteur — revoir la structure de coûts et la tarification'
+    priorite = 'Améliorer la rentabilité : le pilier MARGIN est sous les standards du secteur - revoir la structure de coûts et la tarification'
   } else if (riskScoreVal !== null && riskScoreVal < 15) {
     priorite = 'Adresser les signaux de risque croisés : plusieurs indicateurs combinés indiquent une fragilité structurelle à corriger avant qu\'elle s\'aggrave'
   } else if (forces.length > vulnerabilites.length) {
-    priorite = 'Votre diagnostic est globalement solide — capitaliser sur les forces identifiées et surveiller les indicateurs à la marge'
+    priorite = 'Votre diagnostic est globalement solide - capitaliser sur les forces identifiées et surveiller les indicateurs à la marge'
   } else {
     priorite = 'Compléter le diagnostic avec les indicateurs manquants pour identifier la priorité avec précision'
   }
@@ -916,7 +916,7 @@ export function computeInsights(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// computeSynthesis — pour /diagnostic/guide (wizard) — 3 LEVIERS
+// computeSynthesis - pour /diagnostic/guide (wizard) - 3 LEVIERS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function computeSynthesis(
@@ -943,26 +943,26 @@ export function computeSynthesis(
 
   if (results.dso) {
     if (results.dso.value <= bench.dsoGood)
-      forces.push(`DSO de ${results.dso.value}j — encaissements rapides vs médiane sectorielle ${bench.dsoMedian}j`)
+      forces.push(`DSO de ${results.dso.value}j - encaissements rapides vs médiane sectorielle ${bench.dsoMedian}j`)
     else if (results.dso.value > bench.dsoBad)
-      vulnerabilites.push(`DSO de ${results.dso.value}j — dépasse le seuil critique sectoriel (${bench.dsoBad}j)`)
+      vulnerabilites.push(`DSO de ${results.dso.value}j - dépasse le seuil critique sectoriel (${bench.dsoBad}j)`)
     else if (results.dso.value > bench.dsoMedian)
-      vulnerabilites.push(`DSO de ${results.dso.value}j — au-dessus de la médiane sectorielle (${bench.dsoMedian}j)`)
+      vulnerabilites.push(`DSO de ${results.dso.value}j - au-dessus de la médiane sectorielle (${bench.dsoMedian}j)`)
   }
 
   if (results.bfr) {
-    if (results.bfr.value < 0) forces.push('BFR négatif — l\'activité génère de la trésorerie en amont')
+    if (results.bfr.value < 0) forces.push('BFR négatif - l\'activité génère de la trésorerie en amont')
     else if (bfrDenominatorCA(results.bfr.inputs) > 0) {
       const caD = bfrDenominatorCA(results.bfr.inputs)
       const j = Math.round((results.bfr.value / caD) * 365)
-      if (j <= bench.bfrJoursBon) forces.push(`BFR de ${j}j de CA — maîtrisé vs médiane ${bench.bfrJoursMedian}j`)
-      else if (j > bench.bfrJoursBad) vulnerabilites.push(`BFR de ${j}j de CA — au-dessus du seuil sectoriel (${bench.bfrJoursBad}j)`)
+      if (j <= bench.bfrJoursBon) forces.push(`BFR de ${j}j de CA - maîtrisé vs médiane ${bench.bfrJoursMedian}j`)
+      else if (j > bench.bfrJoursBad) vulnerabilites.push(`BFR de ${j}j de CA - au-dessus du seuil sectoriel (${bench.bfrJoursBad}j)`)
     }
   }
 
   if (results.marge) {
-    if (results.marge.value >= bench.margeBon) forces.push(`Taux de marge de ${results.marge.value}% — au-dessus du benchmark sectoriel (${bench.margeMedian}%)`)
-    else if (results.marge.value < bench.margeFaible) vulnerabilites.push(`Taux de marge de ${results.marge.value}% — sous le seuil critique (${bench.margeFaible}%)`)
+    if (results.marge.value >= bench.margeBon) forces.push(`Taux de marge de ${results.marge.value}% - au-dessus du benchmark sectoriel (${bench.margeMedian}%)`)
+    else if (results.marge.value < bench.margeFaible) vulnerabilites.push(`Taux de marge de ${results.marge.value}% - sous le seuil critique (${bench.margeFaible}%)`)
   }
 
   if (results.dso && results.dso.value > bench.dsoMedian && results.marge && results.marge.value < bench.margeMedian)
@@ -970,14 +970,14 @@ export function computeSynthesis(
 
   if (results.gearing) {
     if (results.gearing.value <= bench.gearingBon)
-      forces.push(`Endettement maîtrisé (${results.gearing.value}x EBITDA) — sous la médiane sectorielle ${bench.gearingMedian}x`)
+      forces.push(`Endettement maîtrisé (${results.gearing.value}x EBITDA) - sous la médiane sectorielle ${bench.gearingMedian}x`)
     else if (results.gearing.value > bench.gearingCritique)
-      vulnerabilites.push(`Endettement critique (${results.gearing.value}x EBITDA) — au-dessus du seuil sectoriel ${bench.gearingCritique}x`)
+      vulnerabilites.push(`Endettement critique (${results.gearing.value}x EBITDA) - au-dessus du seuil sectoriel ${bench.gearingCritique}x`)
     else if (results.gearing.value > bench.gearingMedian)
-      vulnerabilites.push(`Endettement en zone de vigilance (${results.gearing.value}x EBITDA) — médiane sectorielle ${bench.gearingMedian}x`)
+      vulnerabilites.push(`Endettement en zone de vigilance (${results.gearing.value}x EBITDA) - médiane sectorielle ${bench.gearingMedian}x`)
   }
 
-  if (scores.cash !== null && scores.cash >= 20) forces.push('Pilier CASH solide — trésorerie saine')
+  if (scores.cash !== null && scores.cash >= 20) forces.push('Pilier CASH solide - trésorerie saine')
   if (scores.margin !== null && scores.margin >= 20) forces.push('Rentabilité opérationnelle forte')
 
   // Priorité
@@ -990,13 +990,13 @@ export function computeSynthesis(
   } else if (results.marge && results.marge.value < bench.margeFaible) {
     priorite = `Revoir la structure de coûts : marge de ${results.marge.value}% sous le seuil critique (${bench.margeFaible}%)`
   } else if (results.gearing && results.gearing.value > bench.gearingCritique) {
-    priorite = `Réduire l'endettement net (${results.gearing.value}x EBITDA) — seuil sectoriel dépassé (${bench.gearingCritique}x)`
+    priorite = `Réduire l'endettement net (${results.gearing.value}x EBITDA) - seuil sectoriel dépassé (${bench.gearingCritique}x)`
   } else if (scores.cash !== null && scores.cash < 12) {
-    priorite = 'Renforcer la trésorerie en priorité — pilier CASH fragile'
+    priorite = 'Renforcer la trésorerie en priorité - pilier CASH fragile'
   } else if (scores.margin !== null && scores.margin < 12) {
-    priorite = 'Améliorer la rentabilité — pilier MARGIN sous les standards sectoriels'
+    priorite = 'Améliorer la rentabilité - pilier MARGIN sous les standards sectoriels'
   } else if (forces.length > vulnerabilites.length) {
-    priorite = 'Diagnostic globalement solide — capitaliser sur les forces identifiées'
+    priorite = 'Diagnostic globalement solide - capitaliser sur les forces identifiées'
   } else {
     priorite = 'Compléter le diagnostic pour identifier la priorité avec précision'
   }
@@ -1095,7 +1095,7 @@ export function computeSynthesis(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// getBenchmarkHint — inline benchmark pour chaque champ du wizard
+// getBenchmarkHint - inline benchmark pour chaque champ du wizard
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export interface BenchmarkHint {
@@ -1155,7 +1155,7 @@ export function getBenchmarkHint(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// getContextualCTA — CTA adapté selon le score
+// getContextualCTA - CTA adapté selon le score
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export interface ContextualCTA {
@@ -1187,7 +1187,7 @@ export function getContextualCTA(score: number | null): ContextualCTA {
   }
   return {
     label: 'Optimisation des leviers',
-    sublabel: 'Plan sur mesure pour maximiser votre score — croissance et optimisation',
+    sublabel: 'Plan sur mesure pour maximiser votre score - croissance et optimisation',
     price: 'Sur mesure',
     href: 'https://calendly.com/zineinsight',
     urgency: 'low',

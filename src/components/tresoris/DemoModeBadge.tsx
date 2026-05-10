@@ -201,7 +201,7 @@ export default function DemoModeBadge({
                 
                 {/* Sublabel for larger sizes */}
                 {size === 'lg' && config.sublabel && (
-                    <span className="opacity-70">— {config.sublabel}</span>
+                    <span className="opacity-70">- {config.sublabel}</span>
                 )}
             </motion.div>
             

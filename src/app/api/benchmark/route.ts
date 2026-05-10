@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server'
 
-/** URL du backend FastAPI — définie via variable d'environnement Railway */
+/** URL du backend FastAPI - définie via variable d'environnement Railway */
 const BACKEND_URL = process.env.BACKEND_URL
 
 /**
- * GET /api/benchmark — liste les secteurs disponibles.
+ * GET /api/benchmark - liste les secteurs disponibles.
  *
  * Stratégie :
  *  1. Appel au backend FastAPI GET /api/v1/benchmark/sectors (source de vérité)
  *  2. Si le backend est injoignable → fallback sur FIBEN_SECTORS_FALLBACK
  *
- * La page /debug-view n'utilise PAS cette route — elle appelle RAILWAY_API directement.
+ * La page /debug-view n'utilise PAS cette route - elle appelle RAILWAY_API directement.
  * Cette route est utilisée uniquement par la page standalone /benchmark.
  */
 export async function GET() {
@@ -18,7 +18,7 @@ export async function GET() {
   if (BACKEND_URL) {
     try {
       const res = await fetch(`${BACKEND_URL}/api/v1/benchmark/sectors`, {
-        next: { revalidate: 3600 }, // cache 1h — les secteurs changent très rarement
+        next: { revalidate: 3600 }, // cache 1h - les secteurs changent très rarement
       })
       if (res.ok) {
         const data = await res.json()
@@ -30,12 +30,12 @@ export async function GET() {
     } catch { /* fallback ci-dessous */ }
   }
 
-  // Fallback statique — dernière synchronisation avec EMBEDDED_DATA du backend
+  // Fallback statique - dernière synchronisation avec EMBEDDED_DATA du backend
   // ⚠️ Mettre à jour ce fallback quand sector_benchmark.py change
   return NextResponse.json({ sectors: FIBEN_SECTORS_FALLBACK })
 }
 
-/** Fallback statique — 1 code NAF représentatif par division FIBEN (69 divisions) */
+/** Fallback statique - 1 code NAF représentatif par division FIBEN (69 divisions) */
 const FIBEN_SECTORS_FALLBACK = [
   { naf_code: '01.11Z', label: 'Culture de céréales', sample_size: 245 },
   { naf_code: '02.10Z', label: 'Sylviculture', sample_size: 328 },
@@ -108,7 +108,7 @@ const FIBEN_SECTORS_FALLBACK = [
   { naf_code: '96.01A', label: 'Blanchisserie-teinturerie de gros', sample_size: 832 },
 ]
 
-/** POST /api/benchmark — proxy vers le backend FastAPI */
+/** POST /api/benchmark - proxy vers le backend FastAPI */
 export async function POST(request: Request) {
   if (!BACKEND_URL) {
     return NextResponse.json(

@@ -24,7 +24,7 @@ export default function DiagnosticReturnBanner({ show }: { show: boolean }) {
                             Résultat ajouté au Score FinSight™
                         </p>
                         <p className="text-xs text-gray-500 mt-0.5">
-                            Consulter le tableau de bord complet — piliers, forces, priorités d'action
+                            Consulter le tableau de bord complet - piliers, forces, priorités d'action
                         </p>
                     </div>
                 </div>

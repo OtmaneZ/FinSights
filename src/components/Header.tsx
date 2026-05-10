@@ -160,7 +160,7 @@ export default function Header() {
                         Tarifs
                     </Link>
 
-                    {/* Ressources — hover to open */}
+                    {/* Ressources - hover to open */}
                     <div
                         className="relative"
                         ref={resourcesRef}
@@ -180,7 +180,7 @@ export default function Header() {
                             >
                                 <div className="bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden w-[560px]">
                                     <div className="grid grid-cols-2 gap-0">
-                                        {/* Colonne gauche — Outils */}
+                                        {/* Colonne gauche - Outils */}
                                         <div className="p-5 border-r border-gray-100">
                                             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">Outils gratuits</p>
                                             <div className="space-y-1">
@@ -224,7 +224,7 @@ export default function Header() {
                                             </div>
                                         </div>
 
-                                        {/* Colonne droite — Contenu */}
+                                        {/* Colonne droite - Contenu */}
                                         <div className="p-5">
                                             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">Contenu & guides</p>
                                             <div className="space-y-1">
@@ -270,7 +270,7 @@ export default function Header() {
                     </Link>
                 </nav>
 
-                {/* Right — burger (mobile) + CTA + Auth */}
+                {/* Right - burger (mobile) + CTA + Auth */}
                 <div className="flex items-center gap-2 md:gap-3">
                     <button
                         type="button"

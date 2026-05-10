@@ -1,5 +1,5 @@
 /**
- * FinSight AI Assistant — Article Matching (RAG-lite)
+ * FinSight AI Assistant - Article Matching (RAG-lite)
  *
  * Matching local : pas de vector DB, pas d'embedding.
  * On indexe les articles du blog + fondamentaux par mots-clés,

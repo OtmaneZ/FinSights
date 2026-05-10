@@ -1,5 +1,5 @@
 /**
- * Social Proof Configuration — Source unique de vérité
+ * Social Proof Configuration - Source unique de vérité
  *
  * IMPORTANT Schema.org / Google Rich Results :
  *  - `AGGREGATE_REVIEW_COUNT` doit correspondre exactement au nombre
@@ -25,7 +25,7 @@ export const BEST_RATING = '5'
 /** Note min sur l'échelle */
 export const WORST_RATING = '1'
 
-// ── Page /consulting — périmètre missions DAF uniquement ────────────────────
+// ── Page /consulting - périmètre missions DAF uniquement ────────────────────
 /** Note spécifique aux missions de conseil DAF externalisé */
 export const CONSULTING_RATING_VALUE = '4.8'
 

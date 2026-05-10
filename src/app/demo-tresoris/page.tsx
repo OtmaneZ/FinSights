@@ -331,7 +331,7 @@ export default function DemoTresorisPage() {
 // [VEILLE]               <div className="flex items-center gap-3">
 // [VEILLE]                 <span className="hidden md:flex items-center text-sm text-emerald-100 bg-white/10 px-3 py-1.5 rounded-full">
 // [VEILLE]                   <span className="w-2 h-2 bg-green-300 rounded-full mr-2 animate-pulse" />
-// [VEILLE]                   NovaTech Solutions — Scale-up SaaS
+// [VEILLE]                   NovaTech Solutions - Scale-up SaaS
 // [VEILLE]                 </span>
 // [VEILLE]               </div>
 // [VEILLE]             </div>

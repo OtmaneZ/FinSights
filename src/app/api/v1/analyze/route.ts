@@ -1,7 +1,7 @@
 /**
  * API Route: POST /api/v1/analyze
  *
- * SCORIS Analysis Endpoint — orchestrates the full scoring + causal + benchmark
+ * SCORIS Analysis Endpoint - orchestrates the full scoring + causal + benchmark
  * + simulation pipeline, returning a ScorisOutput contract.
  *
  * This route is the server-side equivalent of the client-side runAnalysis().
@@ -11,7 +11,7 @@
  *   3. We have a stable REST contract (/api/v1/analyze) for the frontend to call
  *      instead of doing everything client-side
  *
- * Authentication: API key via x-api-key header (soft — demo mode if absent).
+ * Authentication: API key via x-api-key header (soft - demo mode if absent).
  *
  * GET  → Self-documenting JSON (schema, examples)
  * POST → Run analysis pipeline
@@ -83,7 +83,7 @@ function validateRequest(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// GET — self-documenting schema
+// GET - self-documenting schema
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export async function GET() {
@@ -91,7 +91,7 @@ export async function GET() {
     endpoint: '/api/v1/analyze',
     method: 'POST',
     description:
-      'SCORIS Analysis Pipeline — computes Score FinSight™, causal insights, sector benchmarks, and What-If simulations.',
+      'SCORIS Analysis Pipeline - computes Score FinSight™, causal insights, sector benchmarks, and What-If simulations.',
     authentication: 'x-api-key header (optional in demo mode)',
     request: {
       sector: {
@@ -139,7 +139,7 @@ export async function GET() {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// POST — run SCORIS analysis
+// POST - run SCORIS analysis
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export async function POST(req: NextRequest) {

@@ -312,7 +312,7 @@ export default function TresorisAgentUI({ className = '' }: TresorisAgentUIProps
                                     </div>
                                     Agent Autonome TRESORIS
                                     <span className="text-sm font-normal text-slate-500 ml-2">
-                                        v3.0 — Auto-Scan
+                                        v3.0 - Auto-Scan
                                     </span>
                                 </h2>
                                 

@@ -250,7 +250,7 @@ export function describeUserVsBenchmark(
   if (calculatorType === 'dso' && typeof result.dso === 'number') {
     const dso = result.dso
     const pos =
-      dso <= 45 ? 'proche / favorable vs services (médiane indicative 45j)' : dso <= 60 ? 'zone intermédiaire' : 'au-delà des médianes indicatives — priorité encaissement'
+      dso <= 45 ? 'proche / favorable vs services (médiane indicative 45j)' : dso <= 60 ? 'zone intermédiaire' : 'au-delà des médianes indicatives - priorité encaissement'
     return `Votre DSO (${dso} j) : ${pos}.`
   }
   if (calculatorType === 'ebitda' && typeof result.margeEbitdaPct === 'number') {

@@ -58,7 +58,7 @@ export default function DashisPage() {
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-primary/20 backdrop-blur-sm border border-accent-primary/30 mb-8">
                 <BarChart3 className="w-4 h-4 text-accent-primary" />
                 <span className="text-sm text-white/90 font-medium">
-                  Agent IA — Vision 360°
+                  Agent IA - Vision 360°
                 </span>
               </div>
 

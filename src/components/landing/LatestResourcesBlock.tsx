@@ -18,7 +18,7 @@ const BLOCKS = [
   },
   {
     title: 'Fondamentaux',
-    description: 'Cash, marges, résilience — les bases',
+    description: 'Cash, marges, résilience - les bases',
     cta: 'Voir les fondamentaux →',
     href: '/fondamentaux',
   },

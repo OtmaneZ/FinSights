@@ -40,12 +40,12 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
     // ═══════════════════════════════════════════════
-    // NOTES STRATÉGIQUES — Analyse & Positionnement DAF
+    // NOTES STRATÉGIQUES - Analyse & Positionnement DAF
     // ═══════════════════════════════════════════════
     {
         slug: 'pge-dso-double-pression-tresorerie-2026',
         title: 'Remboursement PGE + DSO qui s\'allonge : le double étau de trésorerie des PME en 2026',
-        description: 'Deux pressions distinctes s\'exercent simultanément sur la trésorerie des PME françaises. L\'une vient de l\'intérieur — les PGE arrivent à échéance. L\'autre vient de l\'extérieur — les clients paient de plus en plus tard.',
+        description: 'Deux pressions distinctes s\'exercent simultanément sur la trésorerie des PME françaises. L\'une vient de l\'intérieur - les PGE arrivent à échéance. L\'autre vient de l\'extérieur - les clients paient de plus en plus tard.',
         date: '10 mai 2026',
         readTime: '8 min',
         category: 'Note Stratégique',
@@ -144,7 +144,7 @@ const blogPosts: BlogPost[] = [
         type: 'strategique'
     },
     // ═══════════════════════════════════════════════
-    // ÉTUDES DE CAS — Conversion par la preuve
+    // ÉTUDES DE CAS - Conversion par la preuve
     // ═══════════════════════════════════════════════
     {
         slug: 'pme-b2b-6m-240k-cash-libere-4-mois',
@@ -180,7 +180,7 @@ const blogPosts: BlogPost[] = [
         type: 'strategique'
     },
     // ═══════════════════════════════════════════════
-    // ARTICLES OPÉRATIONNELS — Socle SEO
+    // ARTICLES OPÉRATIONNELS - Socle SEO
     // ═══════════════════════════════════════════════
     {
         slug: 'dashboard-financier-mort-agents-ia-2026',
@@ -859,7 +859,7 @@ export default function BlogPage() {
                         </h2>
 
                         <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                            DSO au-dessus de la médiane, BFR qui dérive, marges qui s&apos;érodent sans que personne ne le voie — un diagnostic structuré identifie les fuites de cash avant qu&apos;elles ne deviennent critiques.
+                            DSO au-dessus de la médiane, BFR qui dérive, marges qui s&apos;érodent sans que personne ne le voie - un diagnostic structuré identifie les fuites de cash avant qu&apos;elles ne deviennent critiques.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

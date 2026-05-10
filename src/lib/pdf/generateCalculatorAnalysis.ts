@@ -1,6 +1,6 @@
 /**
  * Analyse narrative premium pour rapports calculateur (Claude via OpenRouter).
- * En cas d'échec : null — le PDF retombe sur le contenu statique existant.
+ * En cas d'échec : null - le PDF retombe sur le contenu statique existant.
  */
 
 import OpenAI from 'openai'
@@ -63,9 +63,9 @@ ${JSON.stringify(result, null, 2)}
 
 Génère une analyse financière complète en JSON avec exactement ces clés :
 {
-  "diagnosticNarratif": "2-3 paragraphes — pourquoi ce résultat est bon/moyen/critique pour ce profil spécifique, causes probables, impact cash",
-  "coutInaction": "1 paragraphe — ce que coûte concrètement chaque mois de ne rien changer, chiffré à partir des données réelles",
-  "benchmarkContextualise": "2 paragraphes — positionnement vs PME françaises du même secteur si disponible, avec narration",
+  "diagnosticNarratif": "2-3 paragraphes - pourquoi ce résultat est bon/moyen/critique pour ce profil spécifique, causes probables, impact cash",
+  "coutInaction": "1 paragraphe - ce que coûte concrètement chaque mois de ne rien changer, chiffré à partir des données réelles",
+  "benchmarkContextualise": "2 paragraphes - positionnement vs PME françaises du même secteur si disponible, avec narration",
   "planAction": [
     {
       "priorite": 1,
@@ -74,8 +74,8 @@ Génère une analyse financière complète en JSON avec exactement ces clés :
       "impact": "impact chiffré ou estimé"
     }
   ],
-  "signalAlerte": "1 paragraphe — le risque principal à surveiller spécifique à ce profil et ces chiffres",
-  "prochaineEtape": "1 paragraphe — pourquoi cet indicateur est probablement un symptôme d'un déséquilibre plus large, et comment le Score FinSight™ complet (diagnostic 4 piliers) permet d'identifier les autres leviers. Ton incitatif, pas commercial."
+  "signalAlerte": "1 paragraphe - le risque principal à surveiller spécifique à ce profil et ces chiffres",
+  "prochaineEtape": "1 paragraphe - pourquoi cet indicateur est probablement un symptôme d'un déséquilibre plus large, et comment le Score FinSight™ complet (diagnostic 4 piliers) permet d'identifier les autres leviers. Ton incitatif, pas commercial."
 }
 
 Contraintes pour "planAction" : exactement 5 objets, priorité 1 à 5, horizons répartis parmi "30j", "90j", "6mois" (au moins une valeur différente si pertinent).
@@ -167,7 +167,7 @@ export async function generateCalculatorAnalysis({
   try {
     const client = getOpenRouterClient()
     if (!client) {
-      logger.warn('[generateCalculatorAnalysis] OPENAI_API_KEY absente — analyse IA ignorée')
+      logger.warn('[generateCalculatorAnalysis] OPENAI_API_KEY absente - analyse IA ignorée')
       return null
     }
 

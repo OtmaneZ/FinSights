@@ -116,7 +116,7 @@ function mcRgb(c: readonly [number, number, number]): [number, number, number] {
   return c as unknown as [number, number, number]
 }
 
-/** Pages premium 2–3 — style McKinsey + analyse Claude */
+/** Pages premium 2–3 - style McKinsey + analyse Claude */
 function appendPremiumAnalysisMcKinseyPages(
   pdf: jsPDF,
   analysis: CalculatorAnalysis,
@@ -137,7 +137,7 @@ function appendPremiumAnalysisMcKinseyPages(
     pdf.text(`p. ${n} · finsight.zineinsight.com`, M, H - 10)
     pdf.setFontSize(7.5)
     pdf.setTextColor(...mcRgb(MC.muted))
-    pdf.text('FinSight™ Rapport Premium — Document indicatif (non audité)', M, H - 6)
+    pdf.text('FinSight™ Rapport Premium - Document indicatif (non audité)', M, H - 6)
   }
 
   const openSheet = (): number => {
@@ -147,7 +147,7 @@ function appendPremiumAnalysisMcKinseyPages(
     pdf.setFont('helvetica', 'normal')
     pdf.setFontSize(7)
     pdf.setTextColor(...mcRgb(MC.headGrey))
-    pdf.text('RAPPORT PREMIUM FINSIGHT™ — CONFIDENTIEL', M, 11)
+    pdf.text('RAPPORT PREMIUM FINSIGHT™ - CONFIDENTIEL', M, 11)
     pdf.setFontSize(8.5)
     pdf.setTextColor(...mcRgb(C.muted))
     pdf.text(`${calculatorTitle} · ${emailClean}`, M, 17)
@@ -353,7 +353,7 @@ export function generateCalculatorPDF(params: GenerateCalculatorPDFParams): stri
   pdf.setFont('helvetica', 'bold')
   pdf.setTextColor(...rgb(C.navy))
   pdf.setFontSize(16)
-  pdf.text(`Rapport FinSight™ — ${title}`, M, 22)
+  pdf.text(`Rapport FinSight™ - ${title}`, M, 22)
 
   if (params.isPremium) {
     pdf.setFont('helvetica', 'bold')
@@ -475,7 +475,7 @@ export function generateCalculatorPDF(params: GenerateCalculatorPDFParams): stri
   pdf.setFont('helvetica', 'normal')
   pdf.setFontSize(8)
   pdf.setTextColor(...rgb(C.muted))
-  pdf.text('FinSight by ZineInsight — finsight.zineinsight.com', M, footerY + 2)
+  pdf.text('FinSight by ZineInsight - finsight.zineinsight.com', M, footerY + 2)
 
   if (params.isPremium) {
     if (params.analysis) {
@@ -509,11 +509,11 @@ export function generateCalculatorPDF(params: GenerateCalculatorPDFParams): stri
       pdf.setFontSize(7.5)
       pdf.setTextColor(...rgb(C.muted))
       pdf.setFont('helvetica', 'normal')
-      pdf.text('FinSight™ Rapport Premium — Document indicatif (non audité)', M, fy)
+      pdf.text('FinSight™ Rapport Premium - Document indicatif (non audité)', M, fy)
       pdf.text(pageLabel, W - M, fy, { align: 'right' })
     }
 
-    // —— Page 2 : Plan d’action 90 jours ——
+    // -- Page 2 : Plan d’action 90 jours --
     pdf.addPage()
     addPremiumPageHeader('Plan d’action 90 jours')
     let y2 = 40
@@ -547,7 +547,7 @@ export function generateCalculatorPDF(params: GenerateCalculatorPDFParams): stri
     }
     addPremiumFooter('Page 2 / 3')
 
-    // —— Page 3 : Benchmark sectoriel ——
+    // -- Page 3 : Benchmark sectoriel --
     pdf.addPage()
     addPremiumPageHeader('Benchmark sectoriel')
     let y3 = 40

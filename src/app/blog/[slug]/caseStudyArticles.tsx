@@ -1,5 +1,5 @@
 /**
- * ÉTUDES DE CAS — Conversion par la preuve
+ * ÉTUDES DE CAS - Conversion par la preuve
  * 
  * Ton : cabinet, chiffres précis, avant/après.
  * Format : contexte → diagnostic → actions → résultats → enseignement.
@@ -75,7 +75,7 @@ export const caseStudyArticles: Record<string, {
 }> = {
 
     // ═══════════════════════════════════════════════════════════
-    // ÉTUDE 1 — PME B2B 6M€ → 240k€ de cash libéré en 4 mois
+    // ÉTUDE 1 - PME B2B 6M€ → 240k€ de cash libéré en 4 mois
     // ═══════════════════════════════════════════════════════════
     'pme-b2b-6m-240k-cash-libere-4-mois': {
         slug: 'pme-b2b-6m-240k-cash-libere-4-mois',
@@ -104,7 +104,7 @@ export const caseStudyArticles: Record<string, {
                     <p className="font-semibold text-amber-800 mb-2">Signal d&apos;alerte ignoré</p>
                     <p className="text-amber-700">
                         Quand un dirigeant injecte du cash personnel dans une entreprise rentable, 
-                        le problème n&apos;est pas la rentabilité — c&apos;est la structure du BFR.
+                        le problème n&apos;est pas la rentabilité - c&apos;est la structure du BFR.
                     </p>
                 </div>
 
@@ -142,7 +142,7 @@ export const caseStudyArticles: Record<string, {
                             <tr>
                                 <td className="py-3 px-4 font-medium">Créances &gt;60 jours</td>
                                 <td className="text-right py-3 px-4 text-red-600 font-bold">340k€</td>
-                                <td className="text-right py-3 px-4">—</td>
+                                <td className="text-right py-3 px-4">-</td>
                                 <td className="text-right py-3 px-4 text-red-600">23% du CA annuel encaissable</td>
                             </tr>
                         </tbody>
@@ -155,20 +155,20 @@ export const caseStudyArticles: Record<string, {
                     Pendant ce temps, les salaires, le loyer, les charges tombent chaque mois.
                 </p>
 
-                <h2 className="font-serif">Phase 1 (Mois 1) — Cartographie et segmentation créances</h2>
+                <h2 className="font-serif">Phase 1 (Mois 1) - Cartographie et segmentation créances</h2>
                 <p>Première action : cartographier les créances par client, par ancienneté, par montant.</p>
                 <ul>
-                    <li><strong>Top 5 clients</strong> = 62% des créances &gt;60 jours. Pas un problème systémique — un problème concentré.</li>
+                    <li><strong>Top 5 clients</strong> = 62% des créances &gt;60 jours. Pas un problème systémique - un problème concentré.</li>
                     <li><strong>2 clients sur 5</strong> payaient à 90+ jours par habitude, pas par difficulté. Aucune relance structurée n&apos;existait.</li>
-                    <li><strong>1 client</strong> (18% du CA) imposait un délai contractuel de 75 jours — jamais renégocié depuis 4 ans.</li>
+                    <li><strong>1 client</strong> (18% du CA) imposait un délai contractuel de 75 jours - jamais renégocié depuis 4 ans.</li>
                 </ul>
 
-                <h2 className="font-serif">Phase 2 (Mois 2-3) — Actions correctives</h2>
+                <h2 className="font-serif">Phase 2 (Mois 2-3) - Actions correctives</h2>
                 <h3>Processus de facturation</h3>
                 <ul>
                     <li>Facturation à J+1 de la livraison (vs J+7 en moyenne avant).</li>
                     <li>Relance automatique à J+30, J+45, J+55.</li>
-                    <li>Appel téléphonique systématique à J+50 (pas un mail — un appel).</li>
+                    <li>Appel téléphonique systématique à J+50 (pas un mail - un appel).</li>
                 </ul>
 
                 <h3>Renégociation ciblée</h3>
@@ -183,7 +183,7 @@ export const caseStudyArticles: Record<string, {
                     <li>Pénalités de retard activées (pas appliquées systématiquement, mais mentionnées dans les CGV et rappelées en relance).</li>
                 </ul>
 
-                <h2 className="font-serif">Phase 3 (Mois 4) — Optimisation fournisseurs</h2>
+                <h2 className="font-serif">Phase 3 (Mois 4) - Optimisation fournisseurs</h2>
                 <p>
                     En parallèle, renégociation des délais fournisseurs. L&apos;entreprise payait à 25 jours en moyenne. 
                     Passage à 40 jours sur les 3 principaux fournisseurs (70% des achats), 
@@ -241,7 +241,7 @@ export const caseStudyArticles: Record<string, {
 
                 <h2 className="font-serif">Ce que cette mission enseigne</h2>
                 <p>
-                    <strong>Le cash n&apos;est pas un résultat — c&apos;est une discipline.</strong> Cette PME 
+                    <strong>Le cash n&apos;est pas un résultat - c&apos;est une discipline.</strong> Cette PME 
                     n&apos;avait pas un problème de rentabilité. Elle avait un problème de structure : 
                     elle encaissait trop tard et payait trop tôt.
                 </p>
@@ -262,7 +262,7 @@ export const caseStudyArticles: Record<string, {
     },
 
     // ═══════════════════════════════════════════════════════════
-    // ÉTUDE 2 — DSO de 62 à 41 jours sans casser la relation
+    // ÉTUDE 2 - DSO de 62 à 41 jours sans casser la relation
     // ═══════════════════════════════════════════════════════════
     'reduire-dso-62-41-jours-relation-client': {
         slug: 'reduire-dso-62-41-jours-relation-client',
@@ -337,7 +337,7 @@ export const caseStudyArticles: Record<string, {
                     et représentent 45% du CA.
                 </p>
 
-                <h2 className="font-serif">Levier 1 — Segmentation du process de relance</h2>
+                <h2 className="font-serif">Levier 1 - Segmentation du process de relance</h2>
                 <p>
                     Chaque segment a désormais un circuit de relance distinct :
                 </p>
@@ -357,14 +357,14 @@ export const caseStudyArticles: Record<string, {
                     </p>
                 </div>
 
-                <h2 className="font-serif">Levier 2 — Facturation à la livraison</h2>
+                <h2 className="font-serif">Levier 2 - Facturation à la livraison</h2>
                 <ul>
                     <li>Facturation passée de J+5 à J+0 (jour de livraison/validation).</li>
                     <li>Gain mécanique : <strong>5 jours de DSO</strong> supprimés sans aucune négociation.</li>
                     <li>Mise en place d&apos;acomptes de 30% sur les nouveaux contrats ETI (&gt;50k€).</li>
                 </ul>
 
-                <h2 className="font-serif">Levier 3 — Conditions contractuelles</h2>
+                <h2 className="font-serif">Levier 3 - Conditions contractuelles</h2>
                 <ul>
                     <li>Renégociation du client ETI principal : passage de &laquo; 60 jours fin de mois &raquo; à &laquo; 45 jours nets &raquo;, en échange d&apos;un prix bloqué 12 mois.</li>
                     <li>Introduction d&apos;un escompte de 2% pour paiement à 10 jours sur les contrats récurrents.</li>
@@ -400,7 +400,7 @@ export const caseStudyArticles: Record<string, {
                             </tr>
                             <tr>
                                 <td className="py-3 px-4 font-medium">Cash libéré</td>
-                                <td className="text-right py-3 px-4">—</td>
+                                <td className="text-right py-3 px-4">-</td>
                                 <td className="text-right py-3 px-4 text-emerald-600 font-bold">+175k€</td>
                             </tr>
                         </tbody>
@@ -409,7 +409,7 @@ export const caseStudyArticles: Record<string, {
 
                 <p>
                     <strong>Aucun client perdu.</strong> Un client ETI a même augmenté son budget 
-                    après la renégociation — la clarté des conditions a renforcé la confiance.
+                    après la renégociation - la clarté des conditions a renforcé la confiance.
                 </p>
 
                 <h2 className="font-serif">Ce que cette mission enseigne</h2>
@@ -434,7 +434,7 @@ export const caseStudyArticles: Record<string, {
     },
 
     // ═══════════════════════════════════════════════════════════
-    // ÉTUDE 3 — PME 8M€ et risque de dépendance sous-estimé
+    // ÉTUDE 3 - PME 8M€ et risque de dépendance sous-estimé
     // ═══════════════════════════════════════════════════════════
     'pme-8m-risque-dependance-sous-estime': {
         slug: 'pme-8m-risque-dependance-sous-estime',
@@ -445,7 +445,7 @@ export const caseStudyArticles: Record<string, {
         metaDescription: 'PME industrielle, 8M€ de CA. Un client à 38% du chiffre. Marge correcte, dirigeant serein. Analyse structurelle : le risque était systémique.',
         content: (
             <>
-                <h2 className="font-serif">Contexte : une PME qui va bien — en apparence</h2>
+                <h2 className="font-serif">Contexte : une PME qui va bien - en apparence</h2>
                 <p>
                     PME industrielle, sous-traitance technique, <strong>8,1M€ de CA</strong>, 
                     28 collaborateurs. Marge brute à 35%, résultat net à 5,2%.
@@ -505,7 +505,7 @@ export const caseStudyArticles: Record<string, {
                     <ul className="text-red-700 space-y-1">
                         <li><strong>Dépendance :</strong> 38% du CA sur un seul client. Le seuil d&apos;alerte est à 20%.</li>
                         <li><strong>Marge dégradée :</strong> le client A génère la marge la plus faible (22% vs 44% sur les autres). Il utilise son poids pour négocier les prix.</li>
-                        <li><strong>Concentration sectorielle :</strong> le client A est dans l&apos;automobile — un secteur en mutation structurelle.</li>
+                        <li><strong>Concentration sectorielle :</strong> le client A est dans l&apos;automobile - un secteur en mutation structurelle.</li>
                     </ul>
                 </div>
 
@@ -579,7 +579,7 @@ export const caseStudyArticles: Record<string, {
                             </tr>
                             <tr>
                                 <td className="py-3 px-4 font-medium">Nouveaux clients signés</td>
-                                <td className="text-right py-3 px-4">—</td>
+                                <td className="text-right py-3 px-4">-</td>
                                 <td className="text-right py-3 px-4 text-emerald-600 font-bold">4 (dont 2 aéronautique)</td>
                             </tr>
                         </tbody>
@@ -599,7 +599,7 @@ export const caseStudyArticles: Record<string, {
                 <p>
                     Ce dirigeant a demandé un reporting. Il a obtenu un diagnostic de survie 
                     qui a réorienté toute sa stratégie commerciale. La banque a financé 
-                    l&apos;investissement — <strong>parce que le risque avait été identifié et traité</strong>.
+                    l&apos;investissement - <strong>parce que le risque avait été identifié et traité</strong>.
                 </p>
 
                 <TransitionCaseStudy

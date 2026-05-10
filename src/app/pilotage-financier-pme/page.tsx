@@ -25,7 +25,7 @@ export const metadata: Metadata = {
                 url: 'https://finsight.zineinsight.com/images/og-default.png',
                 width: 1200,
                 height: 630,
-                alt: 'Guide pilotage financier PME — FinSight',
+                alt: 'Guide pilotage financier PME - FinSight',
             },
         ],
         publishedTime: '2026-02-22',
@@ -100,7 +100,7 @@ const faqSchema = {
             name: 'À partir de quel chiffre d\'affaires structurer un pilotage financier PME ?',
             acceptedAnswer: {
                 '@type': 'Answer',
-                text: "Le seuil de déclenchement ne dépend pas uniquement du chiffre d'affaires. Dès que l'entreprise connaît des tensions de trésorerie récurrentes, une croissance supérieure à 20 % par an, ou une diversification d'activités, un pilotage financier structuré devient nécessaire — même en dessous de 2 M€ de CA.",
+                text: "Le seuil de déclenchement ne dépend pas uniquement du chiffre d'affaires. Dès que l'entreprise connaît des tensions de trésorerie récurrentes, une croissance supérieure à 20 % par an, ou une diversification d'activités, un pilotage financier structuré devient nécessaire - même en dessous de 2 M€ de CA.",
             },
         },
         {
@@ -494,7 +494,7 @@ export default function PilotageFinancierPME() {
                             </p>
                         </div>
 
-                        {/* MICRO-CTA — après section 2 */}
+                        {/* MICRO-CTA - après section 2 */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-gray-200">
                             <p className="text-sm text-gray-500">
                                 Mesurer votre exposition au risque de trésorerie :
@@ -516,7 +516,7 @@ export default function PilotageFinancierPME() {
                             </div>
                         </div>
 
-                        {/* CTA directionnel — trésorerie 90 jours */}
+                        {/* CTA directionnel - trésorerie 90 jours */}
                         <div className="mt-6 p-6 bg-slate-950 rounded-xl">
                             <p className="text-white font-serif text-lg leading-snug mb-1">
                                 Si votre position de tr&eacute;sorerie &agrave; 90&nbsp;jours n&apos;est pas connue aujourd&apos;hui,
@@ -755,7 +755,7 @@ export default function PilotageFinancierPME() {
                     </div>
                 </section>
 
-                {/* MICRO-CTA — après section 3 */}
+                {/* MICRO-CTA - après section 3 */}
                 <div className="my-4 mb-20 flex items-center justify-between gap-6 px-8 py-6 bg-gray-50 border border-gray-200 rounded-xl">
                     <p className="text-gray-700 text-[15px] leading-snug">
                         Votre pilotage couvre-t-il ces quatre dimensions ?
@@ -859,7 +859,7 @@ export default function PilotageFinancierPME() {
                     </div>
                 </section>
 
-                {/* SECTION 5 — ERREURS FRÉQUENTES */}
+                {/* SECTION 5 - ERREURS FRÉQUENTES */}
                 <section id="erreurs-frequentes" className="mb-20">
                     <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mb-4">
                         5. Les 5 erreurs fr&eacute;quentes du pilotage financier PME
@@ -1182,7 +1182,7 @@ export default function PilotageFinancierPME() {
                             </table>
                         </div>
 
-                        {/* MICRO-CTA — après section 6 */}
+                        {/* MICRO-CTA - après section 6 */}
                         <div className="flex items-center justify-between gap-6 px-8 py-6 bg-slate-950 rounded-xl">
                             <p className="text-gray-300 text-[15px] leading-snug">
                                 Vous vous reconnaissez dans ces signaux ?
@@ -1216,7 +1216,7 @@ export default function PilotageFinancierPME() {
                     </div>
                 </div>
 
-                {/* RETOURS D'EXPÉRIENCE — Social Proof */}
+                {/* RETOURS D'EXPÉRIENCE - Social Proof */}
                 <div className="mb-20 not-prose">
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-8">Retours d&apos;exp&eacute;rience</p>
                     <div className="grid md:grid-cols-2 gap-8">
@@ -1228,7 +1228,7 @@ export default function PilotageFinancierPME() {
                             </p>
                             <footer className="not-italic">
                                 <p className="text-sm font-medium text-gray-900">Jean&nbsp;D.</p>
-                                <p className="text-xs text-gray-500">CEO, PME Services — 8&nbsp;M&euro; de CA</p>
+                                <p className="text-xs text-gray-500">CEO, PME Services - 8&nbsp;M&euro; de CA</p>
                                 <p className="text-xs font-medium text-emerald-600 mt-1">+180&nbsp;k&euro; de tr&eacute;sorerie lib&eacute;r&eacute;e</p>
                             </footer>
                         </blockquote>
@@ -1252,11 +1252,11 @@ export default function PilotageFinancierPME() {
                         Framework propri&eacute;taire
                     </span>
                     <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mb-4">
-                        8. Architecture FinSight&trade; — Le standard du pilotage pr&eacute;dictif PME
+                        8. Architecture FinSight&trade; - Le standard du pilotage pr&eacute;dictif PME
                     </h2>
                     <p className="text-gray-500 text-[15px] mb-10 leading-relaxed max-w-2xl">
                         Un DAF classique produit des rapports. L&apos;Architecture FinSight&trade; produit
-                        de l&apos;anticipation. La diff&eacute;rence n&apos;est pas de degr&eacute; — elle est de nature.
+                        de l&apos;anticipation. La diff&eacute;rence n&apos;est pas de degr&eacute; - elle est de nature.
                     </p>
 
                     <div className="space-y-5 text-gray-600 leading-relaxed text-[17px]">
@@ -1272,7 +1272,7 @@ export default function PilotageFinancierPME() {
                                     <p className="text-[15px] text-gray-600 leading-relaxed mb-3">
                                         Le <Link href="/methodologie" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">Score FinSight&trade;</Link> (0–100)
                                         quantifie la sant&eacute; financi&egrave;re sur 4 piliers. Il ne d&eacute;crit pas
-                                        l&apos;&eacute;tat de l&apos;entreprise — il hiérarchise les leviers et chiffre
+                                        l&apos;&eacute;tat de l&apos;entreprise - il hiérarchise les leviers et chiffre
                                         leur impact potentiel. Le{' '}
                                         <Link href="/diagnostic/guide" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
                                             diagnostic
@@ -1313,7 +1313,7 @@ export default function PilotageFinancierPME() {
                                         surveille la tr&eacute;sorerie &agrave; 90 jours en continu.{' '}
                                         <Link href="/agents/dashis" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">DASHIS</Link>{' '}
                                         consolide les KPI de gouvernance financi&egrave;re en temps r&eacute;el.
-                                        Le dirigeant ne g&egrave;re plus l&apos;urgence — il arbitre l&apos;anticipation.
+                                        Le dirigeant ne g&egrave;re plus l&apos;urgence - il arbitre l&apos;anticipation.
                                     </p>
                                     <p className="text-xs text-gray-400">Livrable : alertes pr&eacute;dictives + reporting mensuel automatis&eacute;</p>
                                 </div>
@@ -1333,7 +1333,7 @@ export default function PilotageFinancierPME() {
                                 </Link>
                             </div>
                             <div className="p-5 bg-gray-50 border border-gray-200 rounded-lg">
-                                <p className="font-medium text-gray-900 text-sm mb-1">TRESORIS — Agent tr&eacute;sorerie</p>
+                                <p className="font-medium text-gray-900 text-sm mb-1">TRESORIS - Agent tr&eacute;sorerie</p>
                                 <p className="text-gray-600 text-sm leading-snug">
                                     Surveillance automatis&eacute;e de la position de cash &agrave; 90 jours.
                                     L&apos;alerte pr&eacute;c&egrave;de la rupture. Toujours.
@@ -1343,10 +1343,10 @@ export default function PilotageFinancierPME() {
                                 </Link>
                             </div>
                             <div className="p-5 bg-gray-50 border border-gray-200 rounded-lg">
-                                <p className="font-medium text-gray-900 text-sm mb-1">DASHIS — Tableau de bord temps r&eacute;el</p>
+                                <p className="font-medium text-gray-900 text-sm mb-1">DASHIS - Tableau de bord temps r&eacute;el</p>
                                 <p className="text-gray-600 text-sm leading-snug">
                                     Consolidation des KPI de pilotage. Donn&eacute;es lisibles, fiables,
-                                    actionnables — sans tableur.
+                                    actionnables - sans tableur.
                                 </p>
                             </div>
                             <div className="p-5 bg-gray-50 border border-gray-200 rounded-lg">
@@ -1527,7 +1527,7 @@ export default function PilotageFinancierPME() {
                         >
                             <p className="text-sm text-gray-500 mb-2">Outil interactif</p>
                             <p className="font-medium text-gray-900 group-hover:text-gray-600 transition-colors">
-                                Mon Diagnostic FinSight&trade; — tableau de bord 0&ndash;100
+                                Mon Diagnostic FinSight&trade; - tableau de bord 0&ndash;100
                             </p>
                         </Link>
                         <Link
@@ -1536,7 +1536,7 @@ export default function PilotageFinancierPME() {
                         >
                             <p className="text-sm text-gray-500 mb-2">Diagnostic guid&eacute;</p>
                             <p className="font-medium text-gray-900 group-hover:text-gray-600 transition-colors">
-                                Protocole en 4 piliers — 7 minutes pour &eacute;valuer votre PME
+                                Protocole en 4 piliers - 7 minutes pour &eacute;valuer votre PME
                             </p>
                         </Link>
                         <Link
@@ -1579,7 +1579,7 @@ export default function PilotageFinancierPME() {
                 </section>
             </div>
 
-            {/* BIO AUTEUR — E-E-A-T */}
+            {/* BIO AUTEUR - E-E-A-T */}
             <div className="max-w-4xl mx-auto px-6 py-12">
                 <div className="flex items-start gap-5 p-6 bg-gray-50 border border-gray-200 rounded-xl">
                     <div className="w-12 h-12 rounded-full bg-slate-950 flex items-center justify-center flex-shrink-0 text-white font-serif font-medium text-lg">

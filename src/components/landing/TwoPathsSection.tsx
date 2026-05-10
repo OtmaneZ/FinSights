@@ -100,7 +100,7 @@ export default function TwoPathsSection() {
                                     Outils gratuits FinSight
                                 </h3>
                                 <p className="text-gray-600 text-sm">
-                                    Calculateurs, diagnostic Score, dashboards — en autonomie, sans inscription
+                                    Calculateurs, diagnostic Score, dashboards - en autonomie, sans inscription
                                 </p>
                             </div>
                         </div>

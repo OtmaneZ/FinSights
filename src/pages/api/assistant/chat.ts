@@ -11,7 +11,7 @@ import type { Calculation } from '@/hooks/useCalculatorHistory'
 interface AssistantRequest {
   message: string
   currentPage: string
-  /** Full calculator history (raw Calculation[]) — enriched server-side */
+  /** Full calculator history (raw Calculation[]) - enriched server-side */
   calculatorHistory?: Calculation[]
   conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>
 }

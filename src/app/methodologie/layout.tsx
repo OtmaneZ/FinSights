@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 }
 
 // ---------------------------------------------------------------------------
-// JSON-LD Structured Data — FAQPage schema
+// JSON-LD Structured Data - FAQPage schema
 // ---------------------------------------------------------------------------
 const faqJsonLd = {
     '@context': 'https://schema.org',
@@ -83,7 +83,7 @@ const faqJsonLd = {
             name: 'Quels sont les 4 piliers du Score FinSight™ ?',
             acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Le Score FinSight™ évalue la santé financière sur 4 piliers, chacun noté sur 25 points : CASH (trésorerie et liquidité — DSO, BFR, burn rate), MARGIN (rentabilité — marge brute, seuil de rentabilité, ROI, EBITDA), RESILIENCE (stabilité structurelle — endettement, LTV/CAC, valorisation), et RISK (anomalies croisées — signaux de fragilité combinés).'
+                text: 'Le Score FinSight™ évalue la santé financière sur 4 piliers, chacun noté sur 25 points : CASH (trésorerie et liquidité - DSO, BFR, burn rate), MARGIN (rentabilité - marge brute, seuil de rentabilité, ROI, EBITDA), RESILIENCE (stabilité structurelle - endettement, LTV/CAC, valorisation), et RISK (anomalies croisées - signaux de fragilité combinés).'
             }
         }
     ]

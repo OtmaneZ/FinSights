@@ -457,7 +457,7 @@ export default function CalculateurDSO() {
                                             <Link href="/diagnostic/guide" className="text-accent-primary hover:underline font-medium">
                                                 diagnostic DSO complet
                                             </Link>
-                                            {' '}— ou découvrez comment le DSO s'intègre dans votre{' '}
+                                            {' '}- ou découvrez comment le DSO s'intègre dans votre{' '}
                                             <Link href="/pilotage-financier-pme" className="text-accent-primary hover:underline font-medium">
                                                 tableau de bord de pilotage financier
                                             </Link>.
@@ -965,7 +965,7 @@ export default function CalculateurDSO() {
                                     </div>
                                 </motion.div>
 
-                                {/* CTA Score FinSight — Boucle retour */}
+                                {/* CTA Score FinSight - Boucle retour */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}

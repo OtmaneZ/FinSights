@@ -1,8 +1,8 @@
 /**
- * OPUS ENGINE — Claude Opus integration for SCORIS
+ * OPUS ENGINE - Claude Opus integration for SCORIS
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
- * SERVER-SIDE ONLY — never import from client components.
+ * SERVER-SIDE ONLY - never import from client components.
  *
  * Provides:
  *   - callOpus()          → Full RecommendationPlan from ScoreContext
@@ -64,7 +64,7 @@ export interface ScoreContext {
   vulnerabilites: string[]
   /** Priorité texte du moteur SCORIS (fallback P1) */
   prioriteScorisFallback?: string
-  /** Données SCORIS Stratégique (wizard + Z-Score) — uniquement si parcours stratégique */
+  /** Données SCORIS Stratégique (wizard + Z-Score) - uniquement si parcours stratégique */
   strategique?: StrategiqueContextPayload
 }
 
@@ -85,16 +85,16 @@ export interface OpusActionStep {
 }
 
 export interface RecommendationPlan {
-  /** 80–120 mots, prose DAF senior — utilisé dans PDF (synthèse executive) et wizard */
+  /** 80–120 mots, prose DAF senior - utilisé dans PDF (synthèse executive) et wizard */
   executiveSummary: string
-  /** Narration courte par pilier — utilisée dans le PDF page "Analyse par pilier" */
+  /** Narration courte par pilier - utilisée dans le PDF page "Analyse par pilier" */
   narrativeParPilier: {
     cash: string
     margin: string
     resilience: string
     risques: string
   }
-  /** 3 priorités contextualisées secteur + chiffres réels — PDF priorités d'action */
+  /** 3 priorités contextualisées secteur + chiffres réels - PDF priorités d'action */
   priorities: OpusPriority[]
   /** 5 questions/réponses préparées pour un rendez-vous bancaire */
   packBanquier: Array<{
@@ -107,9 +107,9 @@ export interface RecommendationPlan {
     seuil: string
     action: string
   }>
-  /** 4–6 actions semaine par semaine — optionnel, pour future feature */
+  /** 4–6 actions semaine par semaine - optionnel, pour future feature */
   actionPlan90j: OpusActionStep[]
-  /** Blocs enrichis — SCORIS Stratégique uniquement */
+  /** Blocs enrichis - SCORIS Stratégique uniquement */
   analyseStrategique?: {
     swotStructure: {
       forces: string[]
@@ -135,7 +135,7 @@ export interface RecommendationPlan {
 
 const OPUS_REDACTION_STYLE = `STYLE RÉDACTIONNEL (obligatoire pour toute prose générée) :
 Style : DAF humain. Phrases courtes. Verbes d'action. Chiffres concrets.
-Interdit : métaphores, superlatifs, constructions « double X + Y », tirets em (—), points d'exclamation, adjectifs dramatisants (critique, structurel, hémorragie, asphyxie, étau).
+Interdit : métaphores, superlatifs, constructions « double X + Y », tirets em (-), points d'exclamation, adjectifs dramatisants (critique, structurel, hémorragie, asphyxie, étau).
 Format cible : « Vos clients paient en 75 jours. La norme secteur est 45j. Vous immobilisez 14k€ inutilement. Action : relance systématique dès J+30. »`
 
 const OPUS_SYSTEM_PROMPT = `Tu es un Directeur Administratif et Financier senior avec 20 ans d'expérience en accompagnement de PME françaises (CA 500k€ à 15M€). Tu interviens en mission DAF externalisé court terme.
@@ -151,9 +151,9 @@ TON RÔLE :
 RÈGLES ABSOLUES :
 1. Ne jamais inventer de chiffres absents du contexte fourni
 2. Toujours citer l'indicateur source (ex: "DSO de 67j vs médiane sectorielle 45j")
-3. Différencier selon le secteur — les leviers BTP ≠ SaaS ≠ Commerce ≠ CHR
+3. Différencier selon le secteur - les leviers BTP ≠ SaaS ≠ Commerce ≠ CHR
 4. Rester sous 150 mots par recommandation
-5. Format JSON strict — aucun commentaire, aucun texte hors du bloc JSON
+5. Format JSON strict - aucun commentaire, aucun texte hors du bloc JSON
 6. L'executiveSummary est de la prose fluide (pas de bullet points, pas de tirets)
 7. narrativeParPilier : 3-4 lignes par pilier, ton DAF senior direct, expliquer POURQUOI le score avec les vrais chiffres du contexte
 8. packBanquier : questions réalistes de banquier PME (BNP/CIC/CA), réponses préparées avec les vrais indicateurs du diagnostic
@@ -162,7 +162,7 @@ RÈGLES ABSOLUES :
 REGISTRE : professionnel, direct, sans jargon inutile. Tu t'adresses à un dirigeant occupé, pas à un analyste.`
 
 const OPUS_STRATEGIC_MODE_APPEND = `MODE STRATÉGIQUE SCORIS :
-En mode Stratégique, tu intègres l'analyse SWOT déclarée et le Z-Score Altman dans tes recommandations. Le SWOT n'est pas un simple résumé — c'est du contexte dirigeant qui enrichit l'analyse chiffrée.
+En mode Stratégique, tu intègres l'analyse SWOT déclarée et le Z-Score Altman dans tes recommandations. Le SWOT n'est pas un simple résumé - c'est du contexte dirigeant qui enrichit l'analyse chiffrée.
 Tu complètes obligatoirement le bloc JSON "analyseStrategique" : quadrants SWOT structurés, interprétation du Z-Score en prose, fourchette de valorisation cohérente si des bases de rentabilité sont fournies, et recommandations de financement adaptées au profil et à l'objectif 12 mois.`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -177,7 +177,7 @@ function strategicZoneExplanation(z: 'danger' | 'grise' | 'saine'): string {
 
 function buildStrategicContextBlock(s: NonNullable<ScoreContext['strategique']>): string {
   return `ANALYSE STRATÉGIQUE COMPLÉMENTAIRE :
-Z-Score Altman : ${s.zScore.toFixed(2)} — ${strategicZoneExplanation(s.zZone)}
+Z-Score Altman : ${s.zScore.toFixed(2)} - ${strategicZoneExplanation(s.zZone)}
   → Zone danger (<1.23) : risque de défaillance élevé à 24 mois
   → Zone grise (1.23-2.9) : situation à surveiller
   → Zone saine (>2.9) : structure financière solide
@@ -207,9 +207,9 @@ function buildAnalyseStrategiqueJsonBlock(): string {
     "valorisationFourchette": {
       "basse": <nombre €, 0 si non estimable>,
       "haute": <nombre €, 0 si non estimable>,
-      "methode": "<ex: Multiple EBITDA sectoriel — ou Non estimable si pas d'EBITDA>"
+      "methode": "<ex: Multiple EBITDA sectoriel - ou Non estimable si pas d'EBITDA>"
     },
-    "recommendationFinancement": "<affacturage, BPI, crédit MT, médiation — adapté au profil et à l'objectif>"
+    "recommendationFinancement": "<affacturage, BPI, crédit MT, médiation - adapté au profil et à l'objectif>"
   }`
 }
 
@@ -235,7 +235,7 @@ function buildOpusPrompt(ctx: ScoreContext): string {
     ind.cacLtv != null ? `- Ratio LTV/CAC : ${ind.cacLtv.toFixed(1)}x` : null,
   ].filter(Boolean).join('\n')
 
-  return `DIAGNOSTIC FINSIGHT™ — ${ctx.companyName || 'Entreprise analysée'}
+  return `DIAGNOSTIC FINSIGHT™ - ${ctx.companyName || 'Entreprise analysée'}
 Secteur : ${bench.label} | Score global SCORIS : ${ctx.score}/100
 Répartition : Trésorerie ${ctx.pillars.cash}/25 | Rentabilité ${ctx.pillars.margin}/25 | Résilience ${ctx.pillars.resilience}/25 | Risques ${ctx.pillars.risk}/25
 CA annuel estimé : ${ctx.caAnnuel ? `${Math.round(ctx.caAnnuel / 1000)} k€` : 'non renseigné'}
@@ -252,7 +252,7 @@ ${ctx.strategique ? `\n\n${buildStrategicContextBlock(ctx.strategique)}\n` : ''}
 
 Génère un objet JSON avec exactement ces champs :
 {
-  "executiveSummary": "<80-120 mots de prose, ton DAF senior, pas de bullet points — synthèse de la situation + point de blocage principal + recommandation directrice>",
+  "executiveSummary": "<80-120 mots de prose, ton DAF senior, pas de bullet points - synthèse de la situation + point de blocage principal + recommandation directrice>",
   "narrativeParPilier": {
     "cash": "<3-4 lignes max, pourquoi ce score cash et impact concret>",
     "margin": "<3-4 lignes max, pourquoi ce score margin et impact concret>",
@@ -356,7 +356,7 @@ function buildStrategicAnalyseFallback(ctx: ScoreContext): NonNullable<Recommend
   const e = ctx.indicators.ebitdaPct
   let basse = 0
   let haute = 0
-  let methode = 'Non estimable — renseigner EBITDA / CA pour une fourchette'
+  let methode = 'Non estimable - renseigner EBITDA / CA pour une fourchette'
   if (ca > 0 && e != null && e > 0) {
     const ebitdaEur = ca * (e / 100)
     basse = Math.round(ebitdaEur * 4)
@@ -371,7 +371,7 @@ function buildStrategicAnalyseFallback(ctx: ScoreContext): NonNullable<Recommend
       'Priorité : plafond de trésorerie, report d’échéances, factoring/affacturage, BPI en garantie d’escompte ; limiter les investissements non critiques.'
   } else if (s.objectif12mois.includes('levée') || s.objectif12mois.includes('crédit')) {
     recommendationFinancement =
-      'Préparer un dossier crédit moyen/long terme : business plan, sensibilité tréso, covenants — coupler banque et dispositifs BPI selon elgibilité.'
+      'Préparer un dossier crédit moyen/long terme : business plan, sensibilité tréso, covenants - coupler banque et dispositifs BPI selon elgibilité.'
   }
 
   return {
@@ -380,7 +380,7 @@ function buildStrategicAnalyseFallback(ctx: ScoreContext): NonNullable<Recommend
         ...forcesFin.map((x) => `Financier : ${x}`),
         s.swotForce.trim() ? `Dirigeant : ${s.swotForce}` : '',
       ].filter(Boolean),
-      faiblesses: faiblesFin.length > 0 ? faiblesFin.map((x) => `Financier : ${x}`) : ['Données partielles — compléter le diagnostic pour affiner'],
+      faiblesses: faiblesFin.length > 0 ? faiblesFin.map((x) => `Financier : ${x}`) : ['Données partielles - compléter le diagnostic pour affiner'],
       opportunites: opportunites.slice(0, 6),
       menaces: menaces.slice(0, 6),
     },
@@ -436,7 +436,7 @@ function mergeAnalyseStrategiqueFromOpus(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// callOpus() — fonction principale
+// callOpus() - fonction principale
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export async function callOpus(
@@ -466,7 +466,7 @@ export async function callOpus(
 
       const raw = completion.choices[0]?.message?.content ?? ''
 
-      // Extraire le JSON — Opus peut wrapper dans ```json ... ```
+      // Extraire le JSON - Opus peut wrapper dans ```json ... ```
       const jsonMatch = raw.match(/```(?:json)?\s*([\s\S]*?)```/)
       const jsonStr = jsonMatch ? jsonMatch[1].trim() : raw.trim()
 
@@ -518,7 +518,7 @@ export async function callOpus(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// callOpusSummary() — version allégée (exec summary uniquement)
+// callOpusSummary() - version allégée (exec summary uniquement)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export async function callOpusSummary(context: ScoreContext): Promise<string> {
@@ -567,7 +567,7 @@ Menace déclarée : ${context.strategique.swotMenace}`
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// FALLBACKS déterministes — garantissent que le PDF est toujours générable
+// FALLBACKS déterministes - garantissent que le PDF est toujours générable
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function buildFallbackPlan(ctx: ScoreContext): RecommendationPlan {
@@ -579,9 +579,9 @@ export function buildFallbackPlan(ctx: ScoreContext): RecommendationPlan {
   const p1Detail =
     ctx.prioriteScorisFallback ||
     (worstPillar === 'cash'
-      ? `Le pilier Trésorerie (${ctx.pillars.cash}/25) est le point de friction prioritaire. ${ind.dso != null ? `Le DSO de ${ind.dso}j dépasse la médiane sectorielle de ${ind.dsoMedian}j — optimiser le recouvrement est l'action à impact le plus rapide.` : 'Sécuriser les encaissements et réduire l\'exposition créances.'}`
+      ? `Le pilier Trésorerie (${ctx.pillars.cash}/25) est le point de friction prioritaire. ${ind.dso != null ? `Le DSO de ${ind.dso}j dépasse la médiane sectorielle de ${ind.dsoMedian}j - optimiser le recouvrement est l'action à impact le plus rapide.` : 'Sécuriser les encaissements et réduire l\'exposition créances.'}`
       : worstPillar === 'margin'
-      ? `Le pilier Rentabilité (${ctx.pillars.margin}/25) nécessite une intervention. ${ind.marge != null ? `La marge de ${ind.marge}% est en dessous de la médiane sectorielle (${ind.margeMedian}%) — réviser la grille tarifaire ou réduire les charges variables.` : 'Analyser la structure des coûts et identifier les postes optimisables.'}`
+      ? `Le pilier Rentabilité (${ctx.pillars.margin}/25) nécessite une intervention. ${ind.marge != null ? `La marge de ${ind.marge}% est en dessous de la médiane sectorielle (${ind.margeMedian}%) - réviser la grille tarifaire ou réduire les charges variables.` : 'Analyser la structure des coûts et identifier les postes optimisables.'}`
       : `Le pilier ${worstPillar} (${(ctx.pillars as Record<string, number>)[worstPillar]}/25) concentre les actions prioritaires. Consulter le détail des indicateurs pour les actions spécifiques.`)
 
   const weakestPillars = Object.entries(ctx.pillars)

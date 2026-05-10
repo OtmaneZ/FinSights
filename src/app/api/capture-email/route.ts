@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
       from: FROM_EMAIL,
       replyTo: REPLY_TO_EMAIL,
       to: [cleanEmail],
-      subject: `Votre rapport ${calcName} — FinSight™`,
+      subject: `Votre rapport ${calcName} - FinSight™`,
       html,
       attachments: [
         {

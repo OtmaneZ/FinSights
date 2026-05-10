@@ -34,7 +34,7 @@ export const metadata: Metadata = {
                 url: 'https://finsight.zineinsight.com/images/og-default.png',
                 width: 1200,
                 height: 630,
-                alt: 'Guide pilotage financier PME — FinSight',
+                alt: 'Guide pilotage financier PME - FinSight',
             },
         ],
         publishedTime: '2026-02-22',

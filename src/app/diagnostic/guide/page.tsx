@@ -53,7 +53,7 @@ import { FreePreviewReminderBanner } from '@/components/diagnostic/FreePreviewRe
 const TOTAL_CALCULATORS = 10
 
 // ---------------------------------------------------------------------------
-// DiagnosticEmailCapture — email opt-in + newsletter (rendered inside guide)
+// DiagnosticEmailCapture - email opt-in + newsletter (rendered inside guide)
 // ---------------------------------------------------------------------------
 interface DiagnosticEmailCaptureProps {
   totalScore: number
@@ -178,7 +178,7 @@ function DiagnosticEmailCapture({ totalScore, sector, pillarScores, synthesis, r
             className="mt-0.5 accent-white flex-shrink-0"
           />
           <span className="text-[11px] text-gray-500 group-hover:text-gray-400 leading-relaxed transition-colors">
-            Je souhaite recevoir le Flash Finance Hebdo — conseils DAF, benchmarks PME, cas pratiques.
+            Je souhaite recevoir le Flash Finance Hebdo - conseils DAF, benchmarks PME, cas pratiques.
             Désinscription à tout moment. Données protégées conformément au{' '}
             <a href="/politique-confidentialite" className="underline hover:text-gray-300">RGPD</a>.
           </span>
@@ -258,7 +258,7 @@ const WIZARD_STEPS: WizardStep[] = [
         question: 'Quel est votre chiffre d\'affaires annuel ?',
         placeholder: 'Ex: 850 000',
         suffix: '€ / an',
-        help: 'Une estimation suffit — votre dernier bilan ou votre intuition',
+        help: 'Une estimation suffit - votre dernier bilan ou votre intuition',
         required: true,
       },
     ],
@@ -292,7 +292,7 @@ const WIZARD_STEPS: WizardStep[] = [
         id: 'soldeBancaire',
         label: 'Solde bancaire',
         question: 'Quel est votre solde bancaire ce matin ?',
-        placeholder: 'Approximatif — votre relevé bancaire',
+        placeholder: 'Approximatif - votre relevé bancaire',
         suffix: '€',
         required: false,
       },
@@ -404,7 +404,7 @@ const STRATEGIC_WIZARD_STEPS: WizardStep[] = [
         question: 'Quelle est la valeur approximative de vos actifs ?',
         placeholder: 'Ex: 450 000',
         suffix: '€',
-        help: 'Immobilisations + stocks + créances + trésorerie — disponible sur votre bilan',
+        help: 'Immobilisations + stocks + créances + trésorerie - disponible sur votre bilan',
         required: true,
       },
     ],
@@ -423,7 +423,7 @@ const STRATEGIC_WIZARD_STEPS: WizardStep[] = [
         question: 'Quel est le montant de vos capitaux propres ?',
         placeholder: 'Ex: 120 000',
         suffix: '€',
-        help: "Ligne 'Capitaux propres' de votre bilan — peut être négatif",
+        help: "Ligne 'Capitaux propres' de votre bilan - peut être négatif",
         required: true,
       },
     ],
@@ -432,7 +432,7 @@ const STRATEGIC_WIZARD_STEPS: WizardStep[] = [
   {
     id: 'strategic-swot-force',
     title: 'Avantage concurrentiel',
-    subtitle: 'Analyse SWOT — lecture IA du rapport stratégique.',
+    subtitle: 'Analyse SWOT - lecture IA du rapport stratégique.',
     pillar: 'risk',
     strategicTag: 'SWOT',
     fields: [
@@ -456,7 +456,7 @@ const STRATEGIC_WIZARD_STEPS: WizardStep[] = [
   {
     id: 'strategic-swot-menace',
     title: 'Menace externe',
-    subtitle: 'Analyse SWOT — contexte marché.',
+    subtitle: 'Analyse SWOT - contexte marché.',
     pillar: 'risk',
     strategicTag: 'SWOT',
     fields: [
@@ -480,7 +480,7 @@ const STRATEGIC_WIZARD_STEPS: WizardStep[] = [
   {
     id: 'strategic-objectif',
     title: 'Horizon 12 mois',
-    subtitle: 'Alignement stratégique — Porter & valorisation.',
+    subtitle: 'Alignement stratégique - Porter & valorisation.',
     pillar: 'risk',
     strategicTag: 'STRATÉGIE',
     fields: [
@@ -529,37 +529,37 @@ const PHASES: Phase[] = [
   {
     key: 'cash',
     pillar: 'cash',
-    title: 'Pilier I — Tresorerie et Liquidite',
+    title: 'Pilier I - Tresorerie et Liquidite',
     subtitle: 'Positionnement de votre cycle de tresorerie par rapport aux medianes sectorielles.',
   },
   {
     key: 'margin',
     pillar: 'margin',
-    title: 'Pilier II — Rentabilite et Performance',
+    title: 'Pilier II - Rentabilite et Performance',
     subtitle: 'Structure de couts, seuil de rentabilite et retour sur investissement.',
   },
   {
     key: 'resilience',
     pillar: 'resilience',
-    title: 'Pilier III — Stabilite Structurelle',
+    title: 'Pilier III - Stabilite Structurelle',
     subtitle: 'Capacite beneficiaire et perennite du modele economique.',
   },
   {
     key: 'strategic',
     title: 'SCORIS Stratégique',
     subtitle:
-      'Z-Score Altman, lecture SWOT et objectifs — quelques étapes supplémentaires avant la synthèse.',
+      'Z-Score Altman, lecture SWOT et objectifs - quelques étapes supplémentaires avant la synthèse.',
   },
   {
     key: 'risk',
     pillar: 'risk',
-    title: 'Pilier IV — Croisements critiques',
+    title: 'Pilier IV - Croisements critiques',
     subtitle: 'Detection des combinaisons de fragilite entre vos indicateurs.',
   },
   {
     key: 'synthesis',
     title: 'Lecture strategique',
-    subtitle: 'Synthese de votre diagnostic — forces, vulnerabilites, priorite d\'action.',
+    subtitle: 'Synthese de votre diagnostic - forces, vulnerabilites, priorite d\'action.',
   },
 ]
 
@@ -578,7 +578,7 @@ function formatResult(value: number, unit: string): string {
 function getWizardFieldHint(stepId: string, fieldId: string, bench: SectorBenchmark): string | null {
   if (stepId === 'dso') {
     if (fieldId === 'joursClients') return `Médiane ${bench.label} : ${bench.dsoMedian}j · Seuil critique : ${bench.dsoBad}j`
-    if (fieldId === 'soldeBancaire') return 'Approximatif — votre relevé bancaire ce matin'
+    if (fieldId === 'soldeBancaire') return 'Approximatif - votre relevé bancaire ce matin'
     return null
   }
   if (stepId === 'gearing') {
@@ -664,7 +664,7 @@ function DiagnosticGuideContent() {
     void verifySession()
   }, [searchParams])
 
-  // SCORIS engine — drives IDLE → ANALYZING → SUCCESS micro-latency
+  // SCORIS engine - drives IDLE → ANALYZING → SUCCESS micro-latency
   const [engineState, engineActions] = useScorisEngine()
 
   useEffect(() => {
@@ -1034,7 +1034,7 @@ function DiagnosticGuideContent() {
         ),
         timestamp: new Date().toISOString(),
       }))
-    } catch { /* localStorage full — non-blocking */ }
+    } catch { /* localStorage full - non-blocking */ }
 
     const synthesisIdx = PHASES.findIndex((p) => p.key === 'synthesis')
     const strategicIdx = PHASES.findIndex((p) => p.key === 'strategic')
@@ -1067,7 +1067,7 @@ function DiagnosticGuideContent() {
 
     if (phase.key === 'synthesis') return
 
-    // Risk phase has no form steps — go directly to next phase
+    // Risk phase has no form steps - go directly to next phase
     if (phase.key === 'risk') {
       setStepIndex(null)
       setPhaseIndex((p) => Math.min(p + 1, PHASES.length - 1))
@@ -1396,7 +1396,7 @@ function DiagnosticGuideContent() {
                   <div className="border-l border-gray-700 pl-4 text-left max-w-md mx-auto mb-4">
                     <p className="text-sm text-gray-500 leading-relaxed">
                       Ce protocole structure la premiere phase de notre intervention DAF externalisee.
-                      Il repose sur la methode FinSight — quatre piliers, neuf indicateurs,
+                      Il repose sur la methode FinSight - quatre piliers, neuf indicateurs,
                       chaque ratio positionne face aux medianes sectorielles reelles.
                     </p>
                   </div>
@@ -1414,7 +1414,7 @@ function DiagnosticGuideContent() {
                     <span className="w-px h-3 bg-gray-800 hidden sm:block" aria-hidden="true" />
                     <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
                       <svg className="w-3.5 h-3.5 text-gray-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                      RGPD — 0 donnée transmise
+                      RGPD - 0 donnée transmise
                     </span>
                   </div>
 
@@ -1452,7 +1452,7 @@ function DiagnosticGuideContent() {
                         className="max-w-lg mx-auto"
                       >
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          {/* Option A — Saisie manuelle */}
+                          {/* Option A - Saisie manuelle */}
                           <button
                             onClick={goNext}
                             className="group relative text-left px-5 py-5 rounded-xl border border-gray-700 bg-slate-900/50 hover:border-gray-500 hover:bg-slate-800/60 transition-all duration-200"
@@ -1470,7 +1470,7 @@ function DiagnosticGuideContent() {
                             <ArrowRight className="absolute top-5 right-4 w-4 h-4 text-gray-700 group-hover:text-gray-400 group-hover:translate-x-0.5 transition-all" />
                           </button>
 
-                          {/* Option B — FEC Upload */}
+                          {/* Option B - FEC Upload */}
                           <button
                             onClick={() => setIntroMode('fec')}
                             className="group relative text-left px-5 py-5 rounded-xl border border-blue-500/20 bg-blue-500/5 hover:border-blue-400/30 hover:bg-blue-500/10 transition-all duration-200"
@@ -1561,7 +1561,7 @@ function DiagnosticGuideContent() {
                     {phase.subtitle}
                   </p>
 
-                  {/* Email capture — shown once on Margin transition (Cash pillar just completed) */}
+                  {/* Email capture - shown once on Margin transition (Cash pillar just completed) */}
                   {phase.key === 'margin' && !emailCapturedAfterCash && liveScores.cash !== null && (
                     <div className="mb-10 mx-auto max-w-md">
                       <div className="rounded-xl border border-blue-500/20 bg-blue-950/30 backdrop-blur p-5">
@@ -1573,7 +1573,7 @@ function DiagnosticGuideContent() {
                         </div>
                         <p className="text-[11px] text-gray-400 mb-4 leading-relaxed">
                           Recevez votre rapport complet par email à la fin du diagnostic
-                          — avec les recommandations personnalisées par secteur.
+                          - avec les recommandations personnalisées par secteur.
                         </p>
                         <DiagnosticEmailCapture
                           totalScore={liveScores.cash}
@@ -1626,21 +1626,21 @@ function DiagnosticGuideContent() {
                               : 'text-emerald-400'
                         }`}
                       >
-                        {currentStep.strategicTag} — {stepIndex + 1}/{currentSteps.length}
+                        {currentStep.strategicTag} - {stepIndex + 1}/{currentSteps.length}
                       </span>
                     ) : (
                       (() => {
                         const pillarMeta = PILLARS.find((p) => p.key === phase.pillar)!
                         return (
                           <span className={`text-[10px] font-semibold tracking-[0.15em] uppercase ${pillarMeta.color}`}>
-                            {pillarMeta.label} — {stepIndex + 1}/{currentSteps.length}
+                            {pillarMeta.label} - {stepIndex + 1}/{currentSteps.length}
                           </span>
                         )
                       })()
                     )}
                     {currentStep.optional && (
                       <span className="text-[10px] text-amber-400 border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 rounded-full font-medium">
-                        Optionnel — vous pouvez passer
+                        Optionnel - vous pouvez passer
                       </span>
                     )}
                   </div>
@@ -1864,8 +1864,8 @@ function DiagnosticGuideContent() {
                         </div>
                         <p className="text-[11px] text-gray-500 leading-relaxed">
                           {results.dso.value > bench.dsoMedian && results.marge.value < bench.margeMedian
-                            ? `DSO ${results.dso.value}j au-dessus de la mediane (${bench.dsoMedian}j) et marge ${results.marge.value}% sous la mediane (${bench.margeMedian}%) — encaissements lents sur marge faible, double pression sur le cash.`
-                            : `DSO ${results.dso.value}j et marge ${results.marge.value}% — pas de pression croisee detectee.`
+                            ? `DSO ${results.dso.value}j au-dessus de la mediane (${bench.dsoMedian}j) et marge ${results.marge.value}% sous la mediane (${bench.margeMedian}%) - encaissements lents sur marge faible, double pression sur le cash.`
+                            : `DSO ${results.dso.value}j et marge ${results.marge.value}% - pas de pression croisee detectee.`
                           }
                         </p>
                       </div>
@@ -1893,8 +1893,8 @@ function DiagnosticGuideContent() {
                             const bfrJ = Number(results.bfr.inputs.bfrJours ?? 0)
                             const tm = Number(results['seuil-rentabilite'].inputs.margeBrute ?? 0)
                             if (bfrJ > 45 && tm < 30)
-                              return `BFR a ${bfrJ}j avec une marge brute de ${tm}% — pression croisee elevee sur votre tresorerie.`
-                            return `BFR et taux de marge dans des niveaux compatibles — pas de fragilite croisee detectee.`
+                              return `BFR a ${bfrJ}j avec une marge brute de ${tm}% - pression croisee elevee sur votre tresorerie.`
+                            return `BFR et taux de marge dans des niveaux compatibles - pas de fragilite croisee detectee.`
                           })()}
                         </p>
                       </div>
@@ -1926,8 +1926,8 @@ function DiagnosticGuideContent() {
                         <p className="text-[11px] text-gray-500 leading-relaxed">
                           {(() => {
                             const concentration = Number(results.gearing?.inputs.concentrationClient ?? 0)
-                            if (concentration > 60) return '🔴 Risque structurel critique — dépendance client excessive'
-                            if (concentration > 40) return '🟡 Dépendance client élevée — diversification recommandée'
+                            if (concentration > 60) return '🔴 Risque structurel critique - dépendance client excessive'
+                            if (concentration > 40) return '🟡 Dépendance client élevée - diversification recommandée'
                             return '🟢 Concentration client maîtrisée'
                           })()}
                         </p>
@@ -1990,7 +1990,7 @@ function DiagnosticGuideContent() {
               </motion.div>
             )}
 
-            {/* ── SYNTHESIS — ANALYZING OVERLAY (micro-latency) ── */}
+            {/* ── SYNTHESIS - ANALYZING OVERLAY (micro-latency) ── */}
             {phase.key === 'synthesis' && engineState.status === 'analyzing' && (
               <motion.div
                 key="analyzing"
@@ -2074,7 +2074,7 @@ function DiagnosticGuideContent() {
                     Resultat consolide de votre diagnostic
                   </p>
 
-                  {/* Executive Summary — DAF Virtuel typing animation */}
+                  {/* Executive Summary - DAF Virtuel typing animation */}
                   {engineState.report?.executiveSummary && (
                     <ExecutiveSummary
                       text={engineState.report.executiveSummary}
@@ -2114,7 +2114,7 @@ function DiagnosticGuideContent() {
                     </div>
                   </div>
 
-                  {/* Z-Score Altman — indicateur séparé du score /100 (SCORIS Stratégique) */}
+                  {/* Z-Score Altman - indicateur séparé du score /100 (SCORIS Stratégique) */}
                   {scorisLevel === 'strategique' && zScoreResult && (
                     <div
                       className={`mb-10 px-5 py-5 rounded-xl border ${
@@ -2145,7 +2145,7 @@ function DiagnosticGuideContent() {
                         </span>
                       </div>
                       <p className="text-xs text-gray-500 leading-relaxed">
-                        Indicateur de risque de défaillance — distinct du Score FinSight™ 4 piliers.
+                        Indicateur de risque de défaillance - distinct du Score FinSight™ 4 piliers.
                       </p>
                     </div>
                   )}
@@ -2157,7 +2157,7 @@ function DiagnosticGuideContent() {
                     </div>
                   )}
 
-                  {/* ── SCORIS Paywall — piliers floutés si non payé ── */}
+                  {/* ── SCORIS Paywall - piliers floutés si non payé ── */}
                   {!paywallUnlocked && (
                     <div className="mb-10">
                       <ScorePaywall
@@ -2188,7 +2188,7 @@ function DiagnosticGuideContent() {
                     </div>
                   )}
 
-                  {/* Vulnerabilites — blurred behind paywall */}
+                  {/* Vulnerabilites - blurred behind paywall */}
                   {!paywallUnlocked && synthesis.forces.length > 0 && (
                     <div className="mb-8 select-none pointer-events-none" style={{ filter: 'blur(6px)', opacity: 0.4 }}>
                       <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">Forces identifiees</p>
@@ -2241,7 +2241,7 @@ function DiagnosticGuideContent() {
                     </div>
                   )}
 
-                  {/* Sector Comparison — benchmark positioning */}
+                  {/* Sector Comparison - benchmark positioning */}
                   {engineState.report && engineState.report.sectorComparisons.length > 0 && (
                     <div className="mb-10 px-5 py-5 bg-white/[0.02] border border-white/10 rounded-lg">
                       <SectorComparisonGrid comparisons={engineState.report.sectorComparisons} />
@@ -2270,7 +2270,7 @@ function DiagnosticGuideContent() {
                     </div>
                   )}
 
-                  {/* Causal Insights — cross-pillar causal chains */}
+                  {/* Causal Insights - cross-pillar causal chains */}
                   {engineState.report && engineState.report.causalInsights.length > 0 && (
                     <div className="mb-10">
                       <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">
@@ -2307,7 +2307,7 @@ function DiagnosticGuideContent() {
                     </div>
                   )}
 
-                  {/* Levers — actionable recommendations */}
+                  {/* Levers - actionable recommendations */}
                   {synthesis.levers && synthesis.levers.length > 0 && (
                     <div className={`mb-10 transition-all duration-300 ${!paywallUnlocked ? 'select-none pointer-events-none' : ''}`} style={!paywallUnlocked ? { filter: 'blur(6px)', opacity: 0.4 } : undefined}>
                       <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-3">
@@ -2342,12 +2342,12 @@ function DiagnosticGuideContent() {
                       </p>
                       <p className="text-sm text-gray-300 leading-relaxed">
                         {synthesis.total >= 75
-                          ? 'Votre structure financiere est saine. Les fondamentaux sont en place pour absorber un aleas ou financer une phase de croissance. L\'enjeu n\'est plus la survie — c\'est l\'optimisation des leviers existants.'
+                          ? 'Votre structure financiere est saine. Les fondamentaux sont en place pour absorber un aleas ou financer une phase de croissance. L\'enjeu n\'est plus la survie - c\'est l\'optimisation des leviers existants.'
                           : synthesis.total >= 55
                           ? 'Les indicateurs sont globalement positifs, mais certaines zones meritent une attention structurelle. Sans correction, un retournement de cycle ou un retard client majeur pourrait mettre la tresorerie sous tension a 6 mois.'
                           : synthesis.total >= 35
                           ? 'Plusieurs indicateurs signalent des fragilites croisees. Si rien n\'est fait, la trajectoire cash a 6 mois est sous tension. L\'enjeu est d\'identifier les 2-3 leviers a activer en priorite avant que les effets ne se cumulent.'
-                          : 'Le diagnostic revele des tensions structurelles sur plusieurs piliers. Sans intervention rapide, le cumul des pressions — delais, marge, BFR — reduit significativement la marge de manoeuvre. Un plan d\'action priorise est necessaire dans les 30 jours.'
+                          : 'Le diagnostic revele des tensions structurelles sur plusieurs piliers. Sans intervention rapide, le cumul des pressions - delais, marge, BFR - reduit significativement la marge de manoeuvre. Un plan d\'action priorise est necessaire dans les 30 jours.'
                         }
                       </p>
                     </div>
@@ -2369,7 +2369,7 @@ function DiagnosticGuideContent() {
                     </p>
                   </div>
 
-                  {/* CTAs — mission first, outil second */}
+                  {/* CTAs - mission first, outil second */}
                   <div className="space-y-3">
 
                     {/* Opt-in rapport email + Flash Finance Hebdo */}
@@ -2381,7 +2381,7 @@ function DiagnosticGuideContent() {
                       results={results}
                     />
 
-                    {/* Contextual CTA — adapté selon le score */}
+                    {/* Contextual CTA - adapté selon le score */}
                     {(() => {
                       const cta = getContextualCTA(totalScore)
                       return (
@@ -2431,8 +2431,8 @@ function DiagnosticGuideContent() {
                       className="group flex items-center justify-between w-full px-6 py-3 bg-transparent border border-gray-800/50 rounded-lg hover:border-gray-700 transition-all"
                     >
                       <div>
-                        <p className="text-xs font-medium text-gray-400">Score sauvegardé — consulter le tableau de bord complet</p>
-                        <p className="text-[11px] text-gray-600 mt-0.5">Piliers détaillés, historique, analyses manquantes — accessible à tout moment</p>
+                        <p className="text-xs font-medium text-gray-400">Score sauvegardé - consulter le tableau de bord complet</p>
+                        <p className="text-[11px] text-gray-600 mt-0.5">Piliers détaillés, historique, analyses manquantes - accessible à tout moment</p>
                       </div>
                       <ArrowRight className="w-3.5 h-3.5 text-gray-600 group-hover:text-gray-400 transition-colors flex-shrink-0" />
                     </Link>

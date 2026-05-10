@@ -3151,7 +3151,7 @@ export function BlogArticlePageClient({ slug }: { slug: string }) {
                             {article.content}
                         </div>
 
-                        {/* CTA en fin d'article — adapté selon catégorie */}
+                        {/* CTA en fin d'article - adapté selon catégorie */}
                         {(article.category === 'Note Stratégique' || article.category === 'Étude de cas') ? (
                             <div className="mt-16 p-8 rounded-xl bg-slate-800/50 border border-slate-700">
                                 <div className="flex items-start gap-4 mb-6">
@@ -3198,7 +3198,7 @@ export function BlogArticlePageClient({ slug }: { slug: string }) {
                                     Perdez-vous de l&apos;argent sans le voir ?
                                 </h3>
                                 <p className="text-slate-300 mb-6">
-                                    DSO au-dessus de la médiane, BFR qui dérive, marges qui s&apos;érodent —
+                                    DSO au-dessus de la médiane, BFR qui dérive, marges qui s&apos;érodent -
                                     le diagnostic FinSight identifie vos fuites de cash en 5 minutes.
                                 </p>
                                 <div className="flex flex-wrap gap-4">

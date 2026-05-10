@@ -398,7 +398,7 @@ function MonDiagnosticContent() {
 
             <FadeIn delay={0.4}>
               <p className="text-sm text-gray-500 max-w-lg mx-auto mt-4 border-l border-gray-700 pl-4 text-left">
-                Trésorerie · Rentabilité · Résilience · Risques — chaque pilier noté
+                Trésorerie · Rentabilité · Résilience · Risques - chaque pilier noté
                 sur 25, construit à partir de vos données réelles.
               </p>
             </FadeIn>
@@ -467,7 +467,7 @@ function MonDiagnosticContent() {
                       <p className="text-sm font-bold text-gray-900 tracking-wide">{p.label}</p>
                       <p className="text-xs text-gray-500 mt-1">{p.sublabel}</p>
                       <div className="mt-4 pt-4 border-t border-gray-100">
-                        <span className="font-serif text-2xl font-medium text-gray-300">—</span>
+                        <span className="font-serif text-2xl font-medium text-gray-300">-</span>
                         <span className="text-xs text-gray-400 ml-1">/ 25</span>
                       </div>
                     </div>
@@ -491,7 +491,7 @@ function MonDiagnosticContent() {
             </FadeIn>
 
             <StaggerContainer className="grid md:grid-cols-2 gap-5 mt-2" staggerDelay={0.15}>
-              {/* Parcours A — FEC Expert */}
+              {/* Parcours A - FEC Expert */}
               <StaggerItem>
                 <div className="relative bg-white rounded-xl p-7 border border-blue-200 hover:border-blue-300 hover:shadow-md transition-all duration-300">
                   <div className="absolute -top-2.5 right-5">
@@ -511,7 +511,7 @@ function MonDiagnosticContent() {
                       <p className="text-sm font-semibold text-blue-600 mb-2">Import FEC automatique</p>
                       <p className="text-sm text-gray-500 leading-relaxed mb-3">
                         Glissez votre Fichier des Écritures Comptables. Le moteur extrait automatiquement
-                        CA, DSO, BFR, marges et charges — diagnostic instantané.
+                        CA, DSO, BFR, marges et charges - diagnostic instantané.
                       </p>
                       <div className="space-y-1.5 mb-4">
                         {['CA et charges extraits automatiquement', 'DSO, BFR, marge calculés en temps réel', 'Données comptables certifiées (source audit)'].map((item) => (
@@ -533,13 +533,13 @@ function MonDiagnosticContent() {
                   <div className="mt-4 pt-3 border-t border-blue-100 flex items-center gap-1.5">
                     <Shield className="w-3 h-3 text-emerald-500" />
                     <span className="text-[10px] text-emerald-600 font-medium">
-                      Parsing 100% local — votre FEC n'est jamais stocké sur nos serveurs
+                      Parsing 100% local - votre FEC n'est jamais stocké sur nos serveurs
                     </span>
                   </div>
                 </div>
               </StaggerItem>
 
-              {/* Parcours B — Manuel */}
+              {/* Parcours B - Manuel */}
               <StaggerItem>
                 <div className="bg-white rounded-xl p-7 border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-300">
                   <div className="flex items-start gap-4">
@@ -579,7 +579,7 @@ function MonDiagnosticContent() {
 
             <FadeIn delay={0.4} className="mt-5 text-center">
               <p className="text-xs text-gray-400 italic">
-                Vos données restent dans votre navigateur — rien n'est envoyé à un serveur.
+                Vos données restent dans votre navigateur - rien n'est envoyé à un serveur.
               </p>
             </FadeIn>
           </div>
@@ -597,7 +597,7 @@ function MonDiagnosticContent() {
                   Démarrer votre diagnostic
                 </h2>
                 <p className="text-gray-500 leading-relaxed max-w-lg mx-auto mb-8">
-                  Un parcours guidé en 4 piliers — trésorerie, rentabilité,
+                  Un parcours guidé en 4 piliers - trésorerie, rentabilité,
                   résilience, risques. Import FEC ou saisie manuelle.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -698,7 +698,7 @@ function MonDiagnosticContent() {
                 </div>
                 {diagnostic.total !== null ? (
                   diagnostic.confidence === 'faible' ? (
-                    // 1 pilier — fourchette large ±12
+                    // 1 pilier - fourchette large ±12
                     <div>
                       <div className="flex items-baseline gap-1">
                         <span className={`font-serif text-4xl font-medium ${levelCfg.color}`}>
@@ -712,7 +712,7 @@ function MonDiagnosticContent() {
                       <p className="text-[11px] text-gray-400 mt-1">Fourchette estimée · Basé sur 1/4 piliers</p>
                     </div>
                   ) : diagnostic.confidence === 'moyenne' ? (
-                    // 2–3 piliers — fourchette ±7
+                    // 2–3 piliers - fourchette ±7
                     <div>
                       <div className="flex items-baseline gap-1">
                         <span className={`font-serif text-4xl font-medium ${levelCfg.color}`}>
@@ -726,7 +726,7 @@ function MonDiagnosticContent() {
                       <p className="text-[11px] text-gray-400 mt-1">Fourchette estimée · {diagnostic.completedPillars}/4 piliers</p>
                     </div>
                   ) : (
-                    // 4 piliers — score exact
+                    // 4 piliers - score exact
                     <div className="flex items-baseline gap-2">
                       <span className={`font-serif text-5xl font-medium ${levelCfg.color}`}>
                         {diagnostic.total}
@@ -736,7 +736,7 @@ function MonDiagnosticContent() {
                   )
                 ) : (
                   <div className="flex items-baseline gap-2">
-                    <span className="font-serif text-5xl font-medium text-gray-300">—</span>
+                    <span className="font-serif text-5xl font-medium text-gray-300">-</span>
                     <span className="text-lg text-gray-400 font-medium">/ 100</span>
                   </div>
                 )}
@@ -747,7 +747,7 @@ function MonDiagnosticContent() {
                   <p className="text-[11px] text-gray-400 mt-2 leading-relaxed">
                     {diagnostic.confidence === 'faible'
                       ? 'Ajoutez 1–2 analyses pour affiner la fourchette.'
-                      : `Basé sur ${diagnostic.completedPillars}/4 piliers — score extrapolé.`}
+                      : `Basé sur ${diagnostic.completedPillars}/4 piliers - score extrapolé.`}
                   </p>
                 )}
               </div>
@@ -958,7 +958,7 @@ function MonDiagnosticContent() {
                         Prochaine analyse recommandée
                       </p>
                       <p className="text-xs text-gray-500">
-                        {CALCULATOR_META[nextCalc].fullLabel} — {CALCULATOR_META[nextCalc].description}
+                        {CALCULATOR_META[nextCalc].fullLabel} - {CALCULATOR_META[nextCalc].description}
                       </p>
                     </div>
                   </div>
@@ -1025,7 +1025,7 @@ function MonDiagnosticContent() {
             </h2>
           </FadeIn>
 
-          {/* Blur wrapper — actif si paywall non débloqué */}
+          {/* Blur wrapper - actif si paywall non débloqué */}
           <div className={`relative transition-all duration-500 ${!paywallUnlocked && diagnostic.total !== null ? 'pointer-events-none select-none' : ''}`}>
             {!paywallUnlocked && diagnostic.total !== null && (
               <div className="absolute inset-0 z-10 backdrop-blur-sm bg-white/30 rounded-2xl flex items-center justify-center">
@@ -1068,7 +1068,7 @@ function MonDiagnosticContent() {
                       </span>
                     </p>
                     <p className="text-xs text-gray-500 mt-0.5">
-                      Importez votre Fichier d&apos;Écritures Comptables — extraction automatique par SCORIS™
+                      Importez votre Fichier d&apos;Écritures Comptables - extraction automatique par SCORIS™
                     </p>
                   </div>
                 </div>
@@ -1091,7 +1091,7 @@ function MonDiagnosticContent() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-gray-900">Refaire le diagnostic guidé</p>
-                    <p className="text-xs text-gray-500 mt-0.5">Parcours structuré en 4 piliers — environ 7 minutes</p>
+                    <p className="text-xs text-gray-500 mt-0.5">Parcours structuré en 4 piliers - environ 7 minutes</p>
                   </div>
                 </div>
                 <Link
@@ -1143,7 +1143,7 @@ function MonDiagnosticContent() {
             )}
 
             <div className="grid md:grid-cols-2 gap-6">
-              {/* Contextual CTA — adapté au score */}
+              {/* Contextual CTA - adapté au score */}
               {(() => {
                 const cta = getContextualCTA(diagnostic.total)
                 return (
@@ -1295,7 +1295,7 @@ function MonDiagnosticContent() {
                 return (
                   <FadeIn key={key}>
                     <p className={`text-xs font-bold uppercase tracking-widest mb-3 ${pillar.color}`}>
-                      {pillar.label} — {pillar.sublabel}
+                      {pillar.label} - {pillar.sublabel}
                     </p>
                     <div className="grid md:grid-cols-3 gap-3">
                       {missing.map(({ type }) => {
@@ -1416,7 +1416,7 @@ function PillarCard({ pillar, pillarKey }: { pillar: PillarResult; pillarKey: Pi
         </>
       ) : (
         <>
-          <p className="font-serif text-3xl font-medium text-gray-300 mb-3">—/25</p>
+          <p className="font-serif text-3xl font-medium text-gray-300 mb-3">-/25</p>
           <p className="text-xs text-gray-400">Données insuffisantes</p>
         </>
       )}
@@ -1425,7 +1425,7 @@ function PillarCard({ pillar, pillarKey }: { pillar: PillarResult; pillarKey: Pi
 }
 
 // ---------------------------------------------------------------------------
-// Methodology Section — collapsible accordion, McKinsey-style
+// Methodology Section - collapsible accordion, McKinsey-style
 // ---------------------------------------------------------------------------
 
 const METHODOLOGY_ITEMS = [
@@ -1435,16 +1435,16 @@ const METHODOLOGY_ITEMS = [
     title: 'Les 4 piliers du Score FinSight™',
     content: `Le Score FinSight™ (0–100) repose sur 4 piliers indépendants, chacun noté sur 25 points :
 
-**CASH — Trésorerie et Liquidité (25 pts)**
-Évalue la capacité à générer et préserver du cash. Indicateurs : DSO (délai clients), BFR (besoin en fonds de roulement en jours de CA), Burn Rate (en % du CA mensuel estimé). Tous les seuils sont relatifs aux benchmarks sectoriels — un DSO de 65 jours est normal en BTP, critique en CHR.
+**CASH - Trésorerie et Liquidité (25 pts)**
+Évalue la capacité à générer et préserver du cash. Indicateurs : DSO (délai clients), BFR (besoin en fonds de roulement en jours de CA), Burn Rate (en % du CA mensuel estimé). Tous les seuils sont relatifs aux benchmarks sectoriels - un DSO de 65 jours est normal en BTP, critique en CHR.
 
-**MARGIN — Rentabilité et Croissance (25 pts)**
+**MARGIN - Rentabilité et Croissance (25 pts)**
 Mesure la performance opérationnelle. Indicateurs : Taux de marge (comparé à la médiane sectorielle), ROI, Taux de marge au seuil de rentabilité, EBITDA en % du CA. Le ratio EBITDA/CA est positionné par rapport au médian sectoriel (source : Banque de France).
 
-**RÉSILIENCE — Stabilité Structurelle (25 pts)**
+**RÉSILIENCE - Stabilité Structurelle (25 pts)**
 Évalue la solidité du modèle à moyen terme via trois sous-scores : ratio LTV/CAC (pertinent SaaS), valorisation rapportée au CA, et résilience structurelle dérivée (croisement DSO, BFR, marge, EBITDA). Ce dernier indicateur est calculable pour toutes les PME, même sans données de valorisation.
 
-**RISQUES — Anomalies et Croisements (25 pts)**
+**RISQUES - Anomalies et Croisements (25 pts)**
 Détecte les combinaisons de fragilité par logique déductive (départ à 25, déductions des risques identifiés). Signaux croisés : DSO > médiane sectorielle ET marge < médiane = double pression cash (−3 pts) ; BFR > médiane ET taux de marge tendu = fragilité structurelle (−2 pts) ; Burn Rate > 90% CA mensuel = structure déficitaire (−5 pts).`,
   },
   {
@@ -1454,9 +1454,9 @@ Détecte les combinaisons de fragilité par logique déductive (départ à 25, d
     content: `Chaque indicateur est comparé aux médianes sectorielles françaises pour une interprétation contextualisée, pas à des seuils universels arbitraires.
 
 **Sources des référentiels (2024)**
-- Banque de France — Statistiques d'entreprises par secteur NAF (DSO médian, BFR/CA, EBITDA%)
-- INSEE — Comptes des entreprises par secteur
-- Altares — Comportements de paiement inter-entreprises (DSO, délais)
+- Banque de France - Statistiques d'entreprises par secteur NAF (DSO médian, BFR/CA, EBITDA%)
+- INSEE - Comptes des entreprises par secteur
+- Altares - Comportements de paiement inter-entreprises (DSO, délais)
 
 **7 secteurs couverts**
 | Secteur | DSO médian | Marge médiane | BFR (jours CA) | EBITDA médian |
@@ -1479,7 +1479,7 @@ Top quartile (>1,3× médiane) · Au-dessus médiane · Dans la médiane · Sous
     content: `**Moteurs d'analyse propriétaires**
 L'analyse est pilotée par notre suite de moteurs IA propriétaires : **SCORIS™** (scoring multi-pilier et orchestration), **TRESORIS™** (analyse causale de trésorerie et détection d'anomalies), et **DASHIS™** (simulations What-If et projections dynamiques). Ces moteurs fonctionnent en cascade pour produire un diagnostic structuré de qualité institutionnelle.
 
-**Import FEC — Extraction automatique**
+**Import FEC - Extraction automatique**
 Lorsqu'un Fichier des Écritures Comptables (FEC) est importé, SCORIS™ extrait automatiquement les indicateurs financiers (CA, charges, marges, BFR, DSO…) par analyse des comptes du PCG. Le parsing est 100% local (navigateur) et prend moins de 30 secondes.
 
 **Seuils relatifs, non absolus**
@@ -1536,7 +1536,7 @@ function MethodologySection() {
           <div>
             <h2 className="font-serif text-2xl font-medium text-gray-900">Méthodologie et transparence</h2>
             <p className="text-sm text-gray-500 mt-0.5">
-              Comment fonctionne le Score FinSight™ — sources, calcul et confidentialité
+              Comment fonctionne le Score FinSight™ - sources, calcul et confidentialité
             </p>
           </div>
         </div>

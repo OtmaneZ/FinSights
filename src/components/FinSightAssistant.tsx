@@ -71,7 +71,7 @@ export default function FinSightAssistant() {
     }
   }, [])
 
-  // Build context for API calls — sends full calculation data for server-side enrichment
+  // Build context for API calls - sends full calculation data for server-side enrichment
   const buildContext = useCallback(() => {
     return {
       currentPage: pathname || '/',

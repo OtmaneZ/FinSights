@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Fondamentaux Finance PME | Bilan, Résultat, Cash Flow — FinSight',
+    title: 'Fondamentaux Finance PME | Bilan, Résultat, Cash Flow - FinSight',
     description: 'Maîtrisez les fondamentaux financiers de votre PME : lire un bilan, comprendre le compte de résultat, gérer le cash flow, analyser les ratios clés. Guides pratiques gratuits.',
     keywords: [
         'fondamentaux finance pme',

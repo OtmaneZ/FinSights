@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Ratios Financiers PME | Formules & Benchmarks - FinSight',
-        description: 'Les ratios clés : liquidité, rentabilité, endettement, activité — avec benchmarks.',
+        description: 'Les ratios clés : liquidité, rentabilité, endettement, activité - avec benchmarks.',
         images: ['https://finsight.zineinsight.com/images/og-default.png']
     },
     alternates: {

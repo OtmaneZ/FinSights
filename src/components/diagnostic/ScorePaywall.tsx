@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * ScorePaywall — Composant paywall SCORIS 49€
+ * ScorePaywall - Composant paywall SCORIS 49€
  * ─────────────────────────────────────────────────────────────────────────
  *
  * Affiche le bloc de conversion entre le score global et les 4 piliers.
@@ -12,9 +12,9 @@
  *   - État loading / erreur
  *
  * Props :
- *   score    — Score global pour affichage contextualisé
- *   sector   — Secteur pour metadata Stripe
- *   onUnlock — Callback appelé si ?success=true dans l'URL (déjà payé)
+ *   score    - Score global pour affichage contextualisé
+ *   sector   - Secteur pour metadata Stripe
+ *   onUnlock - Callback appelé si ?success=true dans l'URL (déjà payé)
  */
 
 import { useState } from 'react'
@@ -24,9 +24,9 @@ import type { ScorisLevel } from '@/lib/scoring/diagnosticScore'
 export interface ScorePaywallProps {
   score: number | null
   sector: string
-  /** Niveau SCORIS choisi — détermine le prix Stripe et le libellé */
+  /** Niveau SCORIS choisi - détermine le prix Stripe et le libellé */
   scorisLevel?: ScorisLevel
-  /** Aperçu PDF gratuit (sections verrouillées) — ex. handleDownloadPDF({ isPremium: false }) */
+  /** Aperçu PDF gratuit (sections verrouillées) - ex. handleDownloadPDF({ isPremium: false }) */
   onPreviewDownload?: () => void | Promise<void>
   /** Affiche un état chargement sur le lien aperçu */
   previewLoading?: boolean
@@ -35,18 +35,18 @@ export interface ScorePaywallProps {
 }
 
 const BULLET_POINTS_STANDARD = [
-  'Score détaillé par pilier — Trésorerie, Rentabilité, Résilience, Risques',
-  'Plan d\'action 90 jours — 3 priorités calibrées sur vos chiffres réels',
-  'Synthèse rédigée par IA — ton DAF senior, benchmarks sectoriels BdF 2024',
-  'Format consulting A4 — 8 pages, prêt à présenter à votre banque ou associés',
+  'Score détaillé par pilier - Trésorerie, Rentabilité, Résilience, Risques',
+  'Plan d\'action 90 jours - 3 priorités calibrées sur vos chiffres réels',
+  'Synthèse rédigée par IA - ton DAF senior, benchmarks sectoriels BdF 2024',
+  'Format consulting A4 - 8 pages, prêt à présenter à votre banque ou associés',
 ]
 
 const BULLET_POINTS_STRATEGIQUE = [
-  'Tout le rapport SCORIS Standard — 4 piliers, plan 90 jours, benchmarks BdF 2024',
-  'Z-Score Altman — zone de risque de défaillance (distinct du score /100)',
-  'Analyse SWOT par IA — forces / menaces à partir de vos réponses',
-  'Valorisation & Porter simplifié — lecture stratégique enrichie',
-  'Format consulting A4 étendu — 12 pages, pack banquier & dirigeant',
+  'Tout le rapport SCORIS Standard - 4 piliers, plan 90 jours, benchmarks BdF 2024',
+  'Z-Score Altman - zone de risque de défaillance (distinct du score /100)',
+  'Analyse SWOT par IA - forces / menaces à partir de vos réponses',
+  'Valorisation & Porter simplifié - lecture stratégique enrichie',
+  'Format consulting A4 étendu - 12 pages, pack banquier & dirigeant',
 ]
 
 export default function ScorePaywall({
@@ -102,7 +102,7 @@ export default function ScorePaywall({
     }
   }
 
-  // TODO: REMETTRE STRIPE — rétablir la redirection Checkout à la place du téléchargement test (handleTestPremiumDownload + onPremiumDownload)
+  // TODO: REMETTRE STRIPE - rétablir la redirection Checkout à la place du téléchargement test (handleTestPremiumDownload + onPremiumDownload)
   // const checkoutRes = await fetch('/api/stripe/checkout', {
   //   method: 'POST',
   //   headers: { 'Content-Type': 'application/json' },
@@ -154,7 +154,7 @@ export default function ScorePaywall({
 
       <div className="relative p-8 lg:p-10">
         <p className="text-[11px] text-amber-300/90 bg-amber-500/10 border border-amber-500/25 rounded-lg px-3 py-2 mb-5 text-center tracking-wide">
-          Mode test — paiement désactivé
+          Mode test - paiement désactivé
         </p>
         {/* Badge */}
         <div className="flex items-center gap-2 mb-6">
@@ -167,7 +167,7 @@ export default function ScorePaywall({
         </div>
 
         <div className="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start">
-          {/* Colonne gauche — pitch */}
+          {/* Colonne gauche - pitch */}
           <div>
             <h2 className="font-serif text-2xl lg:text-3xl font-medium text-white leading-tight mb-4">
               Votre score détaillé
@@ -198,7 +198,7 @@ export default function ScorePaywall({
             </div>
           </div>
 
-          {/* Colonne droite — formulaire */}
+          {/* Colonne droite - formulaire */}
           <div className="mt-8 lg:mt-0">
             <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur">
               {/* Prix */}
@@ -242,7 +242,7 @@ export default function ScorePaywall({
                   </p>
                 )}
 
-                {/* CTA — weekend test : téléchargement premium sans Stripe */}
+                {/* CTA - weekend test : téléchargement premium sans Stripe */}
                 <button
                   type="submit"
                   disabled={loading || previewLoading}

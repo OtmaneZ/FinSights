@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * FECDropzone — Premium drag & drop FEC file upload with auto-fill magic
+ * FECDropzone - Premium drag & drop FEC file upload with auto-fill magic
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
  * RGPD by Design : parsing 100% client-side, aucune donnée transmise.
@@ -51,7 +51,7 @@ type DropzoneState =
   | 'idle'        // Waiting for file
   | 'validating'  // Quick header check
   | 'parsing'     // Full FEC parse in progress
-  | 'analyzing'   // Labor illusion — staged messages after parse
+  | 'analyzing'   // Labor illusion - staged messages after parse
   | 'preview'     // Parsed data recap shown
   | 'error'       // Validation / parse error
 
@@ -84,7 +84,7 @@ const INDICATOR_META: {
 ]
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// LABOR ILLUSION — staged analysis messages
+// LABOR ILLUSION - staged analysis messages
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const ANALYSIS_STAGES = [
@@ -170,7 +170,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
       return
     }
 
-    // Step 3: Labor illusion — staged analysis messages (3-4 seconds)
+    // Step 3: Labor illusion - staged analysis messages (3-4 seconds)
     setState('analyzing')
     setAnalysisProgress(0)
     setAnalysisMessage(ANALYSIS_STAGES[0].message)
@@ -274,7 +274,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
                 <div className="flex flex-col items-center gap-3">
                   <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
                   <p className="text-sm text-gray-400">
-                    {isExcel ? 'Fichier Excel détecté — Conversion en cours…' : 'Vérification du fichier…'}
+                    {isExcel ? 'Fichier Excel détecté - Conversion en cours…' : 'Vérification du fichier…'}
                   </p>
                 </div>
               ) : (
@@ -351,7 +351,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
           </motion.div>
         )}
 
-        {/* ════════════ ANALYZING — LABOR ILLUSION ════════════ */}
+        {/* ════════════ ANALYZING - LABOR ILLUSION ════════════ */}
         {state === 'analyzing' && (
           <motion.div
             key="analyzing"
@@ -450,7 +450,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
                           <ind.icon className="w-3 h-3 text-gray-600" />
                           <span className="text-[10px] font-medium text-gray-600">{ind.label}</span>
                         </div>
-                        <p className="text-xs text-gray-700">—</p>
+                        <p className="text-xs text-gray-700">-</p>
                       </div>
                     )
                   }
@@ -472,7 +472,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
                   )
                 })}
 
-                {/* Gearing — special treatment (nullable) */}
+                {/* Gearing - special treatment (nullable) */}
                 {result.wizard.gearing && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -508,7 +508,7 @@ export function FECDropzone({ onDataReady, onSwitchToManual, className = '' }: F
                     <span className="font-semibold">CA détecté : {result.extracted.ca.toLocaleString('fr-FR')} €</span>
                     {result.extracted.facteurAnnualisation > 1 && (
                       <span className="text-blue-400/60">
-                        {' '}(annualisé — exercice de {result.extracted.moisExercice} mois)
+                        {' '}(annualisé - exercice de {result.extracted.moisExercice} mois)
                       </span>
                     )}
                   </p>

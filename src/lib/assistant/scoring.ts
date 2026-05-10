@@ -1,5 +1,5 @@
 /**
- * FinSight AI Assistant — Scoring & Enrichment Engine
+ * FinSight AI Assistant - Scoring & Enrichment Engine
  *
  * Pipeline Architecture:
  *   1. Raw user data (calculator history) → Scoring
@@ -83,7 +83,7 @@ const ALL_CALCULATORS: CalculatorType[] = [
 ]
 
 // ---------------------------------------------------------------------------
-// Core Scoring — extracted & enhanced from mon-diagnostic/page.tsx
+// Core Scoring - extracted & enhanced from mon-diagnostic/page.tsx
 // ---------------------------------------------------------------------------
 
 export function computeDiagnosticScore(history: Calculation[]): DiagnosticScore {
@@ -222,7 +222,7 @@ export function computeDiagnosticScore(history: Calculation[]): DiagnosticScore 
     }
   }
 
-  // --- Pilier RISK (25 pts) — cross-analysis ---
+  // --- Pilier RISK (25 pts) - cross-analysis ---
   const riskHasData = (dso || bfr) && (marge || seuil)
 
   let riskScore: number | null = null
@@ -259,7 +259,7 @@ export function computeDiagnosticScore(history: Calculation[]): DiagnosticScore 
   const pillars: Record<PillarKey, PillarScore> = {
     cash: {
       key: 'cash',
-      label: 'CASH — Trésorerie et Liquidité',
+      label: 'CASH - Trésorerie et Liquidité',
       score: cashScore,
       max: 25,
       level: cashLevel,
@@ -267,7 +267,7 @@ export function computeDiagnosticScore(history: Calculation[]): DiagnosticScore 
     },
     margin: {
       key: 'margin',
-      label: 'MARGIN — Rentabilité et Croissance',
+      label: 'MARGIN - Rentabilité et Croissance',
       score: marginScore,
       max: 25,
       level: marginLevel,
@@ -275,7 +275,7 @@ export function computeDiagnosticScore(history: Calculation[]): DiagnosticScore 
     },
     resilience: {
       key: 'resilience',
-      label: 'RESILIENCE — Stabilité et Diversification',
+      label: 'RESILIENCE - Stabilité et Diversification',
       score: resilienceScore,
       max: 25,
       level: resilienceLevel,
@@ -283,7 +283,7 @@ export function computeDiagnosticScore(history: Calculation[]): DiagnosticScore 
     },
     risk: {
       key: 'risk',
-      label: 'RISK — Anomalies et Volatilité',
+      label: 'RISK - Anomalies et Volatilité',
       score: riskScore,
       max: 25,
       level: riskLevel,
@@ -315,7 +315,7 @@ export function computeDiagnosticScore(history: Calculation[]): DiagnosticScore 
 }
 
 // ---------------------------------------------------------------------------
-// Benchmark Evaluation — run all available metrics
+// Benchmark Evaluation - run all available metrics
 // ---------------------------------------------------------------------------
 
 function evaluateAllBenchmarks(
@@ -365,7 +365,7 @@ function evaluateAllBenchmarks(
 }
 
 // ---------------------------------------------------------------------------
-// Alert Generation — pre-computed, context-aware
+// Alert Generation - pre-computed, context-aware
 // ---------------------------------------------------------------------------
 
 function generateAlerts(
@@ -392,7 +392,7 @@ function generateAlerts(
       pillar: 'cash',
       metric: 'DSO',
       title: 'Délai de paiement clients excessif',
-      description: `DSO de ${dso.value} jours — chaque jour de retard immobilise du cash inutilement.`,
+      description: `DSO de ${dso.value} jours - chaque jour de retard immobilise du cash inutilement.`,
       impact: cashImpact
         ? `Environ ${cashImpact.toLocaleString('fr-FR')} € immobilisés par le dépassement vs la cible de 45 jours.`
         : undefined,
@@ -411,7 +411,7 @@ function generateAlerts(
         pillar: 'cash',
         metric: 'BFR',
         title: 'Besoin en fonds de roulement élevé',
-        description: `BFR de ${joursCA} jours de CA — le cycle d'exploitation immobilise trop de capital.`,
+        description: `BFR de ${joursCA} jours de CA - le cycle d'exploitation immobilise trop de capital.`,
         impact: `${bfr.value.toLocaleString('fr-FR')} € bloqués dans le cycle d'exploitation.`,
         action: 'Réduire les délais clients (DSO), négocier des délais fournisseurs plus longs, optimiser la rotation des stocks.',
         calculatorLink: '/calculateurs/bfr',
@@ -427,7 +427,7 @@ function generateAlerts(
       pillar: 'margin',
       metric: 'Marge',
       title: 'Marge insuffisante',
-      description: `Marge de ${marge.value}% — le moindre aléa peut mettre l'entreprise en difficulté.`,
+      description: `Marge de ${marge.value}% - le moindre aléa peut mettre l'entreprise en difficulté.`,
       action: 'Revoir la politique tarifaire, analyser les postes de charges les plus élevés, identifier les produits/services non rentables.',
       calculatorLink: '/calculateurs/marge',
       articleSlugs: ['marge-nette-vs-brute', '5-kpis-financiers-pme'],
@@ -443,7 +443,7 @@ function generateAlerts(
       pillar: 'cash',
       metric: 'DSO',
       title: 'Délai de paiement clients à surveiller',
-      description: `DSO de ${dso.value} jours — au-dessus de la médiane sectorielle pour la plupart des secteurs.`,
+      description: `DSO de ${dso.value} jours - au-dessus de la médiane sectorielle pour la plupart des secteurs.`,
       action: 'Renforcer le processus de relance et envisager des conditions de paiement plus strictes pour les nouveaux clients.',
       calculatorLink: '/calculateurs/dso',
       articleSlugs: ['calcul-dso-formule-2025', 'dso-vs-dpo-optimiser-tresorerie'],
@@ -457,7 +457,7 @@ function generateAlerts(
       pillar: 'margin',
       metric: 'Marge',
       title: 'Marge à optimiser',
-      description: `Marge de ${marge.value}% — une marge sous les 25% limite la capacité d'investissement.`,
+      description: `Marge de ${marge.value}% - une marge sous les 25% limite la capacité d'investissement.`,
       action: 'Analyser le mix produit/service pour identifier les leviers de marge les plus rapides.',
       calculatorLink: '/calculateurs/marge',
       articleSlugs: ['marge-nette-vs-brute'],
@@ -471,7 +471,7 @@ function generateAlerts(
       pillar: 'risk',
       metric: 'Croisé DSO/Marge',
       title: 'Double risque : trésorerie tendue et marge faible',
-      description: `DSO ${dso.value}j + marge ${marge.value}% — la combinaison met la trésorerie sous forte pression.`,
+      description: `DSO ${dso.value}j + marge ${marge.value}% - la combinaison met la trésorerie sous forte pression.`,
       impact: 'Le retard de paiement des clients consomme une part disproportionnée de la marge disponible.',
       action: 'Priorité absolue : sécuriser le cash (relances, affacturage) tout en travaillant la structure de coûts.',
       articleSlugs: ['probleme-tresorerie-pme-10-signes', 'tresorerie-pme-5-erreurs-eviter', '5-erreurs-tresorerie-pme'],
@@ -486,7 +486,7 @@ function generateAlerts(
       pillar: 'resilience',
       metric: 'LTV/CAC',
       title: cacLtv.value < 1 ? 'Acquisition clients non rentable' : 'Ratio LTV/CAC à améliorer',
-      description: `Ratio LTV/CAC de ${cacLtv.value}x — ${cacLtv.value < 1 ? 'chaque client coûte plus qu\'il ne rapporte' : 'la rentabilité de l\'acquisition est fragile'}.`,
+      description: `Ratio LTV/CAC de ${cacLtv.value}x - ${cacLtv.value < 1 ? 'chaque client coûte plus qu\'il ne rapporte' : 'la rentabilité de l\'acquisition est fragile'}.`,
       action: cacLtv.value < 1
         ? 'Revoir urgemment les canaux d\'acquisition et la proposition de valeur. Le modèle actuel n\'est pas soutenable.'
         : 'Optimiser le coût d\'acquisition (ciblage, canaux) et travailler la rétention pour augmenter la LTV.',
@@ -519,7 +519,7 @@ function generateAlerts(
         metric: b.metric,
         title: `Performance supérieure : ${b.metric.toUpperCase()}`,
         description: b.interpretation,
-        action: 'Position de force — capitaliser sur cet avantage concurrentiel.',
+        action: 'Position de force - capitaliser sur cet avantage concurrentiel.',
       })
     }
   }
@@ -528,7 +528,7 @@ function generateAlerts(
 }
 
 // ---------------------------------------------------------------------------
-// Summary Builder — structured text for system prompt
+// Summary Builder - structured text for system prompt
 // ---------------------------------------------------------------------------
 
 function buildSummary(
@@ -586,7 +586,7 @@ function buildSummary(
     lines.push('')
     lines.push('POINTS DE VIGILANCE :')
     for (const a of warnings) {
-      lines.push(`- [${a.metric}] ${a.title} — ${a.description}`)
+      lines.push(`- [${a.metric}] ${a.title} - ${a.description}`)
     }
   }
 
@@ -600,7 +600,7 @@ function buildSummary(
 }
 
 // ---------------------------------------------------------------------------
-// Main Enrichment Pipeline — entry point
+// Main Enrichment Pipeline - entry point
 // ---------------------------------------------------------------------------
 
 /**

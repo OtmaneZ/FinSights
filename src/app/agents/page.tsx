@@ -352,7 +352,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-300">
-                    <span className="text-white font-medium">7 KPIs en temps réel</span> — CA, Marge Brute/Nette, Cash, DSO, BFR, Charges
+                    <span className="text-white font-medium">7 KPIs en temps réel</span> - CA, Marge Brute/Nette, Cash, DSO, BFR, Charges
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -360,7 +360,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-300">
-                    <span className="text-white font-medium">Score FinSight™ 0-100</span> — Benchmark sectoriel automatique (Xerfi, BdF)
+                    <span className="text-white font-medium">Score FinSight™ 0-100</span> - Benchmark sectoriel automatique (Xerfi, BdF)
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -368,7 +368,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-300">
-                    <span className="text-white font-medium">Copilot IA GPT-4</span> — Posez vos questions en langage naturel
+                    <span className="text-white font-medium">Copilot IA GPT-4</span> - Posez vos questions en langage naturel
                   </p>
                 </div>
               </div>
@@ -392,7 +392,7 @@ export default function AgentsPage() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <Sparkles className="w-5 h-5 text-accent-primary" />
-                <span className="text-white font-semibold">Dashboard DASHIS — Analyse instantanée</span>
+                <span className="text-white font-semibold">Dashboard DASHIS - Analyse instantanée</span>
               </div>
               
               <div className="space-y-4 text-sm">
@@ -493,7 +493,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-600">
-                    <span className="text-slate-900 font-medium">Prévisions 4/8/13 semaines</span> — Anticipez les tensions de trésorerie
+                    <span className="text-slate-900 font-medium">Prévisions 4/8/13 semaines</span> - Anticipez les tensions de trésorerie
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -501,7 +501,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-600">
-                    <span className="text-slate-900 font-medium">26 situations surveillées</span> — Tri automatique en Certain / Incertain / Critique
+                    <span className="text-slate-900 font-medium">26 situations surveillées</span> - Tri automatique en Certain / Incertain / Critique
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -509,7 +509,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-600">
-                    <span className="text-slate-900 font-medium">3 actions prioritaires</span> — Recommandations chiffrées avec deadline
+                    <span className="text-slate-900 font-medium">3 actions prioritaires</span> - Recommandations chiffrées avec deadline
                   </p>
                 </div>
               </div>
@@ -525,7 +525,7 @@ export default function AgentsPage() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <AlertTriangle className="w-5 h-5 text-amber-600" />
-                <span className="text-slate-900 font-semibold">Alerte TRESORIS — 23 janvier 2026</span>
+                <span className="text-slate-900 font-semibold">Alerte TRESORIS - 23 janvier 2026</span>
               </div>
               
               <div className="space-y-4 text-sm">
@@ -604,7 +604,7 @@ export default function AgentsPage() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <BarChart3 className="w-5 h-5 text-white" />
-                <span className="text-white font-semibold">Analyse MARGIS — 23 janvier 2026</span>
+                <span className="text-white font-semibold">Analyse MARGIS - 23 janvier 2026</span>
               </div>
               
               <div className="space-y-4 text-sm">
@@ -674,7 +674,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-300">
-                    <span className="text-white font-medium">Heatmap rentabilité</span> — Vue produit × client instantanée
+                    <span className="text-white font-medium">Heatmap rentabilité</span> - Vue produit × client instantanée
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -682,7 +682,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-300">
-                    <span className="text-white font-medium">Top 10 vs. Top 5</span> — Clients rentables vs. destructeurs identifiés
+                    <span className="text-white font-medium">Top 10 vs. Top 5</span> - Clients rentables vs. destructeurs identifiés
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -690,7 +690,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-300">
-                    <span className="text-white font-medium">Scénarios de réallocation</span> — Optimisez vos ressources
+                    <span className="text-white font-medium">Scénarios de réallocation</span> - Optimisez vos ressources
                   </p>
                 </div>
               </div>
@@ -736,7 +736,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-600">
-                    <span className="text-slate-900 font-medium">Comparaison 3-5 scénarios</span> — Optimiste, réaliste, pessimiste
+                    <span className="text-slate-900 font-medium">Comparaison 3-5 scénarios</span> - Optimiste, réaliste, pessimiste
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -744,7 +744,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-600">
-                    <span className="text-slate-900 font-medium">Impact simulé sur 12-24 mois</span> — Trésorerie, rentabilité, runway
+                    <span className="text-slate-900 font-medium">Impact simulé sur 12-24 mois</span> - Trésorerie, rentabilité, runway
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -752,7 +752,7 @@ export default function AgentsPage() {
                     <CheckCircle2 className="w-4 h-4 text-accent-primary" />
                   </div>
                   <p className="text-slate-600">
-                    <span className="text-slate-900 font-medium">Recommandation optimale</span> — Selon votre objectif (croissance, stabilité)
+                    <span className="text-slate-900 font-medium">Recommandation optimale</span> - Selon votre objectif (croissance, stabilité)
                   </p>
                 </div>
               </div>
@@ -768,7 +768,7 @@ export default function AgentsPage() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <LineChart className="w-5 h-5 text-accent-primary" />
-                <span className="text-slate-900 font-semibold">Simulation SCENARIS — Recrutement 2026</span>
+                <span className="text-slate-900 font-semibold">Simulation SCENARIS - Recrutement 2026</span>
               </div>
               
               <p className="text-slate-600 mb-4">Question : Recruter 2 ou 3 commerciaux en T1 ?</p>
@@ -805,7 +805,7 @@ export default function AgentsPage() {
               <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
                 <p className="text-emerald-600 text-sm font-medium flex items-center gap-2">
                   <Target className="w-4 h-4" />
-                  Recommandation : Scénario 3 — Runway &gt;30j en permanence
+                  Recommandation : Scénario 3 - Runway &gt;30j en permanence
                 </p>
               </div>
             </motion.div>

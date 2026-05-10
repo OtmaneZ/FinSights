@@ -10,7 +10,7 @@ const faqSchema = {
       name: 'Comment FinSight structure le pilotage financier d\'une PME ?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "FinSight connecte vos données comptables et opérationnelles (ERP, exports, Excel) pour construire un pilotage fiable via Power BI, SQL et Python. Le Score FinSight™ (0-100) évalue 4 piliers — Cash, Marges, Résilience, Risques — pour vous donner une vision claire à 90 jours.",
+        text: "FinSight connecte vos données comptables et opérationnelles (ERP, exports, Excel) pour construire un pilotage fiable via Power BI, SQL et Python. Le Score FinSight™ (0-100) évalue 4 piliers - Cash, Marges, Résilience, Risques - pour vous donner une vision claire à 90 jours.",
       },
     },
     {
@@ -35,7 +35,7 @@ const faqSchema = {
 const aggregateRatingSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'FinSight — Pilotage Financier par la Data',
+  name: 'FinSight - Pilotage Financier par la Data',
   url: 'https://finsight.zineinsight.com',
   aggregateRating: {
     '@type': 'AggregateRating',

@@ -29,7 +29,7 @@ export const TemplateDownloadEmail = ({
 }: TemplateDownloadEmailProps) => (
   <Html>
     <Head />
-    <Preview>Votre template Excel {templateName} — FinSight</Preview>
+    <Preview>Votre template Excel {templateName} - FinSight</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={logoSection}>
@@ -69,7 +69,7 @@ export const TemplateDownloadEmail = ({
         </Text>
 
         <Text style={footer}>
-          FinSight™ —{' '}
+          FinSight™ -{' '}
           <Link href="https://finsight.zineinsight.com" style={link}>
             finsight.zineinsight.com
           </Link>

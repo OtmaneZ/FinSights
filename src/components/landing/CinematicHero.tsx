@@ -10,7 +10,7 @@ export default function CinematicHero() {
     const video = videoRef.current
     if (!video) return
     video.play().catch(() => {
-      // Autoplay blocked — content stays fully visible
+      // Autoplay blocked - content stays fully visible
     })
   }, [])
 
@@ -88,7 +88,7 @@ export default function CinematicHero() {
           ))}
         </div>
 
-        {/* CTAs — même poids visuel */}
+        {/* CTAs - même poids visuel */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 mb-10 w-full max-w-2xl mx-auto">
           <a
             href="#calculateurs"

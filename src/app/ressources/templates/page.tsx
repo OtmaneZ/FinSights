@@ -21,7 +21,7 @@ export default function TemplatesPage() {
         <div className="min-h-screen bg-white text-gray-900 font-sans">
             <Header />
 
-            {/* ── Section 1 — Hero (bg-white) ── */}
+            {/* ── Section 1 - Hero (bg-white) ── */}
             <section className="bg-white pt-20 pb-16">
                 <div className="max-w-4xl mx-auto px-6 text-center">
                     <FadeIn direction="up" duration={0.6}>
@@ -47,7 +47,7 @@ export default function TemplatesPage() {
                 </div>
             </section>
 
-            {/* ── Section 2 — Feature blocks (bg-gray-50) ── */}
+            {/* ── Section 2 - Feature blocks (bg-gray-50) ── */}
             <section className="bg-gray-50 py-14">
                 <div className="max-w-5xl mx-auto px-6">
                     <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -88,7 +88,7 @@ export default function TemplatesPage() {
                 </div>
             </section>
 
-            {/* ── Section 3 — Templates Grid (bg-white) ── */}
+            {/* ── Section 3 - Templates Grid (bg-white) ── */}
             <section className="bg-white py-20">
                 <div className="max-w-6xl mx-auto px-6">
                     <FadeIn className="text-center mb-12">
@@ -103,12 +103,12 @@ export default function TemplatesPage() {
                         </p>
                     </FadeIn>
 
-                    {/* Templates Grid — capture email avant envoi du xlsx */}
+                    {/* Templates Grid - capture email avant envoi du xlsx */}
                     <TemplatesResourceCards />
                 </div>
             </section>
 
-            {/* ── Section 4 — Prévisionnel 90j (bg-gray-50) ── */}
+            {/* ── Section 4 - Prévisionnel 90j (bg-gray-50) ── */}
             <section className="bg-gray-50 py-14">
                 <div className="max-w-5xl mx-auto px-6">
                     <FadeIn>
@@ -149,7 +149,7 @@ export default function TemplatesPage() {
                 </div>
             </section>
 
-            {/* ── Section 5 — FAQ (bg-white) ── */}
+            {/* ── Section 5 - FAQ (bg-white) ── */}
             <section className="bg-white py-20">
                 <div className="max-w-3xl mx-auto px-6">
                     <FadeIn className="text-center mb-12">

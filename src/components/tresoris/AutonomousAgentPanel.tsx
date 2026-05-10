@@ -297,7 +297,7 @@ export default function AutonomousAgentPanel({
     
     return (
         <>
-            {/* [VEILLE] Panneau agent autonome — UI conservée, appels réseau / timers désactivés ci-dessus */}
+            {/* [VEILLE] Panneau agent autonome - UI conservée, appels réseau / timers désactivés ci-dessus */}
             <div className={`bg-surface-elevated rounded-xl border border-border-subtle overflow-hidden ${className}`}>
             {/* Header */}
             <div className="px-5 py-4 border-b border-border-subtle bg-gradient-to-r from-slate-50 to-white">
@@ -467,7 +467,7 @@ export default function AutonomousAgentPanel({
                             ? formatUptime(status.uptime_seconds) 
                             : (status?.uptime_seconds || 0) > 0 
                                 ? formatUptime(status?.uptime_seconds || 0)
-                                : '—'
+                                : '-'
                         }
                     </div>
                     {!status?.running && (status?.uptime_seconds || 0) > 0 && (

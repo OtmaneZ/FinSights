@@ -82,7 +82,7 @@ export default function ArticlePage() {
                 <div className="prose prose-lg max-w-none space-y-8 text-slate-700 leading-relaxed">
 
                     <p>
-                        Ce que j&apos;observe depuis quelques mois, c&apos;est une configuration particulièrement vicieuse : deux pressions distinctes qui s&apos;exercent simultanément sur la trésorerie des PME françaises. L&apos;une vient de l&apos;intérieur — les PGE arrivent à échéance. L&apos;autre vient de l&apos;extérieur — les clients paient de plus en plus tard. Séparément, chacune est gérable. Ensemble, elles forment un étau.
+                        Ce que j&apos;observe depuis quelques mois, c&apos;est une configuration particulièrement vicieuse : deux pressions distinctes qui s&apos;exercent simultanément sur la trésorerie des PME françaises. L&apos;une vient de l&apos;intérieur - les PGE arrivent à échéance. L&apos;autre vient de l&apos;extérieur - les clients paient de plus en plus tard. Séparément, chacune est gérable. Ensemble, elles forment un étau.
                     </p>
 
                     {/* Section 1 */}
@@ -108,7 +108,7 @@ export default function ArticlePage() {
                     </div>
 
                     <p>
-                        La Banque de France projette un retard de paiement moyen à 13 jours en 2026, contre 11,9 jours fin 2023. Ce n&apos;est pas une dégradation marginale — c&apos;est une tendance structurelle qui s&apos;installe. Et le robinet court terme se referme exactement au moment où on en aurait besoin.
+                        La Banque de France projette un retard de paiement moyen à 13 jours en 2026, contre 11,9 jours fin 2023. Ce n&apos;est pas une dégradation marginale - c&apos;est une tendance structurelle qui s&apos;installe. Et le robinet court terme se referme exactement au moment où on en aurait besoin.
                     </p>
 
                     {/* Section 2 */}
@@ -132,7 +132,7 @@ export default function ArticlePage() {
                             </div>
                             <div>
                                 <p className="font-semibold text-slate-900 mb-1">DSO qui s&apos;allonge</p>
-                                <p className="text-slate-600 text-sm">Sur 1 M€ de CA annuel, passer de 45 à 65 jours de DSO, c&apos;est <strong>55 000 € de cash supplémentaire immobilisé</strong> en permanence dans les créances clients. Ce cash n&apos;est pas perdu — il reviendra. Mais il n&apos;est pas disponible maintenant.</p>
+                                <p className="text-slate-600 text-sm">Sur 1 M€ de CA annuel, passer de 45 à 65 jours de DSO, c&apos;est <strong>55 000 € de cash supplémentaire immobilisé</strong> en permanence dans les créances clients. Ce cash n&apos;est pas perdu - il reviendra. Mais il n&apos;est pas disponible maintenant.</p>
                             </div>
                         </div>
                         <div className="flex gap-4 p-5 bg-slate-50 rounded-xl border border-slate-200">
@@ -159,11 +159,11 @@ export default function ArticlePage() {
                     </p>
 
                     <p>
-                        <strong>Le deuxième pattern : on confond le symptôme et la cause.</strong> Un DSO à 65 jours sur un secteur Services dont la médiane est à 48 jours, ce n&apos;est pas un problème de relance. C&apos;est souvent un problème de cycle de facturation — on facture en fin de mois au lieu de facturer à la livraison, on accorde des délais pour ne pas froisser un gros client, on laisse les avenants traîner. Le recouvrement ne résout pas ça.
+                        <strong>Le deuxième pattern : on confond le symptôme et la cause.</strong> Un DSO à 65 jours sur un secteur Services dont la médiane est à 48 jours, ce n&apos;est pas un problème de relance. C&apos;est souvent un problème de cycle de facturation - on facture en fin de mois au lieu de facturer à la livraison, on accorde des délais pour ne pas froisser un gros client, on laisse les avenants traîner. Le recouvrement ne résout pas ça.
                     </p>
 
                     <p>
-                        <strong>Le troisième pattern, et c&apos;est celui qui me préoccupe le plus : les PGE ont anesthésié la vigilance.</strong> Entre 2020 et 2022, beaucoup de PME ont traversé des situations difficiles avec de la liquidité artificielle. Aujourd&apos;hui cette liquidité disparaît, et elles se retrouvent face à leurs vraies conditions d&apos;exploitation — sans les réflexes qui vont avec.
+                        <strong>Le troisième pattern, et c&apos;est celui qui me préoccupe le plus : les PGE ont anesthésié la vigilance.</strong> Entre 2020 et 2022, beaucoup de PME ont traversé des situations difficiles avec de la liquidité artificielle. Aujourd&apos;hui cette liquidité disparaît, et elles se retrouvent face à leurs vraies conditions d&apos;exploitation - sans les réflexes qui vont avec.
                     </p>
 
                     {/* Section 4 */}
@@ -173,21 +173,21 @@ export default function ArticlePage() {
                         <div className="border-l-4 border-emerald-500 pl-6">
                             <p className="font-bold text-slate-900 text-lg mb-2">1. Mesurer avant d&apos;agir</p>
                             <p className="text-slate-600">
-                                Calculez votre DSO réel aujourd&apos;hui — pas celui de votre dernier bilan, celui de ce mois-ci. Croisez-le avec votre balance âgée : combien de jours de CA sont immobilisés dans vos créances ? Quel est votre burn net mensuel une fois le PGE inclus ? Ces trois chiffres vous donnent une image exacte de votre situation. Sans eux, vous pilotez à l&apos;aveugle.
+                                Calculez votre DSO réel aujourd&apos;hui - pas celui de votre dernier bilan, celui de ce mois-ci. Croisez-le avec votre balance âgée : combien de jours de CA sont immobilisés dans vos créances ? Quel est votre burn net mensuel une fois le PGE inclus ? Ces trois chiffres vous donnent une image exacte de votre situation. Sans eux, vous pilotez à l&apos;aveugle.
                             </p>
                         </div>
 
                         <div className="border-l-4 border-emerald-500 pl-6">
                             <p className="font-bold text-slate-900 text-lg mb-2">2. Reprendre la main sur le cycle de facturation</p>
                             <p className="text-slate-600">
-                                Chaque jour de retard à facturer devient un jour supplémentaire d&apos;attente. C&apos;est mécanique. Si vous facturez en fin de mois et que votre délai contractuel est 30 jours, vous attendez en réalité 45 à 60 jours en moyenne. Facturez à la livraison. Sur 1 M€ de CA, ramener le cycle de facturation de J+15 à J+0 libère environ <strong>40 000 € de cash — sans toucher à un seul client.</strong>
+                                Chaque jour de retard à facturer devient un jour supplémentaire d&apos;attente. C&apos;est mécanique. Si vous facturez en fin de mois et que votre délai contractuel est 30 jours, vous attendez en réalité 45 à 60 jours en moyenne. Facturez à la livraison. Sur 1 M€ de CA, ramener le cycle de facturation de J+15 à J+0 libère environ <strong>40 000 € de cash - sans toucher à un seul client.</strong>
                             </p>
                         </div>
 
                         <div className="border-l-4 border-emerald-500 pl-6">
                             <p className="font-bold text-slate-900 text-lg mb-2">3. Renégocier maintenant, pas en urgence</p>
                             <p className="text-slate-600">
-                                Si vous anticipez une tension de trésorerie dans les 3 mois qui viennent, c&apos;est maintenant qu&apos;il faut appeler votre banquier — pas quand le compte est dans le rouge. Les lignes de découvert se négocient en position de force. Un rééchelonnement de PGE se demande avant de rater une échéance. Passé ce point, les options changent de nature.
+                                Si vous anticipez une tension de trésorerie dans les 3 mois qui viennent, c&apos;est maintenant qu&apos;il faut appeler votre banquier - pas quand le compte est dans le rouge. Les lignes de découvert se négocient en position de force. Un rééchelonnement de PGE se demande avant de rater une échéance. Passé ce point, les options changent de nature.
                             </p>
                         </div>
                     </div>
@@ -196,7 +196,7 @@ export default function ArticlePage() {
                     <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">Ce que ça révèle au fond</h2>
 
                     <p>
-                        La double pression PGE + DSO n&apos;est pas une mauvaise période à traverser. C&apos;est un révélateur. Les PME qui s&apos;en sortent bien ne sont pas celles qui ont le plus de cash — ce sont celles qui pilotent leur cycle d&apos;exploitation avec précision : elles connaissent leur DSO hebdomadaire, leur BFR réel, leur runway. Elles ne découvrent pas leur situation de trésorerie dans les comptes du trimestre précédent.
+                        La double pression PGE + DSO n&apos;est pas une mauvaise période à traverser. C&apos;est un révélateur. Les PME qui s&apos;en sortent bien ne sont pas celles qui ont le plus de cash - ce sont celles qui pilotent leur cycle d&apos;exploitation avec précision : elles connaissent leur DSO hebdomadaire, leur BFR réel, leur runway. Elles ne découvrent pas leur situation de trésorerie dans les comptes du trimestre précédent.
                     </p>
 
                     <div className="bg-slate-900 rounded-xl p-6 my-8">
@@ -241,7 +241,7 @@ export default function ArticlePage() {
                         Votre trésorerie est sous pression ?
                     </h3>
                     <p className="text-slate-300 mb-6">
-                        Faites le diagnostic FinSight™ — DSO, BFR, runway et score de résilience cash en quelques minutes.
+                        Faites le diagnostic FinSight™ - DSO, BFR, runway et score de résilience cash en quelques minutes.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link

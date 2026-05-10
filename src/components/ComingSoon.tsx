@@ -11,7 +11,7 @@ export interface ComingSoonProps {
 }
 
 /**
- * Carte statique « Bientôt disponible » — utilisée en mode veille pour les démos agents.
+ * Carte statique « Bientôt disponible » - utilisée en mode veille pour les démos agents.
  */
 export default function ComingSoon({
   title,
@@ -43,7 +43,7 @@ export default function ComingSoon({
 export function ComingSoonTresoris() {
   return (
     <ComingSoon
-      title="Tresoris — Bientôt disponible"
+      title="Tresoris - Bientôt disponible"
       subtitle="L'agent IA de pilotage trésorerie arrive prochainement."
       ctaLabel="Présentation de l'agent"
       ctaHref="/agents/tresoris"
@@ -54,7 +54,7 @@ export function ComingSoonTresoris() {
 export function ComingSoonDashis() {
   return (
     <ComingSoon
-      title="Dashis — Bientôt disponible"
+      title="Dashis - Bientôt disponible"
       subtitle="L'agent IA d'analyse financière arrive prochainement."
       ctaLabel="Présentation de l'agent"
       ctaHref="/agents/dashis"

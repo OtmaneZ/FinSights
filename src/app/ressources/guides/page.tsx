@@ -153,7 +153,7 @@ export default function GuidesPage() {
                     </div>
                 </div>
 
-                {/* Section cible — Filtre d'audience */}
+                {/* Section cible - Filtre d'audience */}
                 <section className="mb-16">
                     <div className="surface rounded-xl p-8 border border-border-default">
                         <div className="flex items-start gap-4">
@@ -172,7 +172,7 @@ export default function GuidesPage() {
                     </div>
                 </section>
 
-                {/* Hiérarchie stratégique visible — 3 niveaux */}
+                {/* Hiérarchie stratégique visible - 3 niveaux */}
                 <section className="mb-16">
                     <h2 className="text-2xl font-bold mb-8 text-primary font-serif">Progression méthodologique</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -222,7 +222,7 @@ export default function GuidesPage() {
                     </div>
                 </section>
 
-                {/* Niveau 1 — Outils opérationnels */}
+                {/* Niveau 1 - Outils opérationnels */}
                 {level1Guides.length > 0 && (
                     <section className="mb-16">
                         <div className="flex items-center gap-3 mb-8">
@@ -277,7 +277,7 @@ export default function GuidesPage() {
                     </section>
                 )}
 
-                {/* Niveau 2 — Lecture stratégique */}
+                {/* Niveau 2 - Lecture stratégique */}
                 {level2Guides.length > 0 && (
                     <section className="mb-16">
                         <div className="flex items-center gap-3 mb-8">
@@ -332,7 +332,7 @@ export default function GuidesPage() {
                     </section>
                 )}
 
-                {/* Niveau 3 — Accompagnement DAF (Guide Signature) */}
+                {/* Niveau 3 - Accompagnement DAF (Guide Signature) */}
                 <section className="mb-20">
                     <div className="flex items-center gap-3 mb-8">
                         <span className="text-xs font-bold uppercase tracking-wider text-tertiary">Niveau 3</span>
@@ -386,7 +386,7 @@ export default function GuidesPage() {
                     </div>
                 </section>
 
-                {/* CTA Mission DAF — Repositionné */}
+                {/* CTA Mission DAF - Repositionné */}
                 <section className="mb-20">
                     <div className="surface rounded-xl p-12 border border-border-default">
                         <div className="max-w-3xl mx-auto text-center">

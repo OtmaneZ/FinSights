@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * GuideDownloadCTA — Call-to-action pour télécharger le guide PDF
+ * GuideDownloadCTA - Call-to-action pour télécharger le guide PDF
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
  * Affiché dans la synthesis du wizard diagnostic, après les levers d'action.
@@ -75,7 +75,7 @@ export function GuideDownloadCTA({ score, className = '' }: GuideDownloadCTAProp
       <div className={`px-5 py-6 bg-emerald-500/5 border border-emerald-500/20 rounded-lg text-center ${className}`}>
         <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
         <p className="text-sm font-semibold text-white mb-1">Guide envoyé ✓</p>
-        <p className="text-xs text-gray-400">Vérifiez votre boîte mail — le guide arrive dans les 2 minutes.</p>
+        <p className="text-xs text-gray-400">Vérifiez votre boîte mail - le guide arrive dans les 2 minutes.</p>
       </div>
     )
   }
@@ -89,10 +89,10 @@ export function GuideDownloadCTA({ score, className = '' }: GuideDownloadCTAProp
         </div>
         <div className="flex-1">
           <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.15em] mb-1">
-            Bonus — Guide gratuit PDF
+            Bonus - Guide gratuit PDF
           </p>
           <h4 className="text-sm font-semibold text-white leading-snug">
-            Optimisez votre Cash Flow — 7 leviers pour PME
+            Optimisez votre Cash Flow - 7 leviers pour PME
           </h4>
         </div>
       </div>
@@ -145,7 +145,7 @@ export function GuideDownloadCTA({ score, className = '' }: GuideDownloadCTAProp
 
       {/* Footer */}
       <p className="text-[10px] text-gray-600 mt-3 leading-relaxed">
-        Pas de spam — désabonnement en 1 clic. Conformément au RGPD.
+        Pas de spam - désabonnement en 1 clic. Conformément au RGPD.
       </p>
     </div>
   )

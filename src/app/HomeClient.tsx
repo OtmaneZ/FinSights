@@ -20,13 +20,13 @@ export default function HomeClient() {
     <div className="min-h-screen bg-white text-gray-900 font-sans">
       <Header />
 
-      {/* Section 1 — Hero */}
+      {/* Section 1 - Hero */}
       <CinematicHero />
 
-      {/* Section 2 — Grille calculateurs */}
+      {/* Section 2 - Grille calculateurs */}
       <CalculatorsHubGrid />
 
-      {/* Section 3 — Score FinSight™ */}
+      {/* Section 3 - Score FinSight™ */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-5xl mx-auto px-6">
           <FadeIn className="text-center mb-10 lg:mb-12">
@@ -34,10 +34,10 @@ export default function HomeClient() {
               DIAGNOSTIC COMPLET · 49€
             </span>
             <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mt-4 mb-5">
-              Score FinSight™ — votre santé financière en un chiffre
+              Score FinSight™ - votre santé financière en un chiffre
             </h2>
             <p className="text-gray-500 text-lg leading-relaxed max-w-2xl mx-auto">
-              Quatre piliers analysés — Cash, Marges, Résilience, Risques.
+              Quatre piliers analysés - Cash, Marges, Résilience, Risques.
               Diagnostic objectif, recommandations IA, rapport 6 pages.
             </p>
           </FadeIn>
@@ -78,10 +78,10 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Section 4 — Ressources */}
+      {/* Section 4 - Ressources */}
       <LatestResourcesBlock />
 
-      {/* Section 5 — Profil expert */}
+      {/* Section 5 - Profil expert */}
       <section className="py-32 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -145,7 +145,7 @@ export default function HomeClient() {
                   </p>
                   <p className="text-gray-500 text-sm mt-4 leading-relaxed">
                     Ma mission : connecter vos données comptables et
-                    opérationnelles pour construire un pilotage fiable — avec la
+                    opérationnelles pour construire un pilotage fiable - avec la
                     rigueur d&apos;un audit et une structuration data robuste.
                   </p>
                 </blockquote>
@@ -165,7 +165,7 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Section 6 — Offres consulting */}
+      {/* Section 6 - Offres consulting */}
       <section className="py-32 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <FadeIn className="text-center mb-16">
@@ -247,7 +247,7 @@ export default function HomeClient() {
                     Pilotage Augmenté
                   </h3>
                   <p className="text-gray-400 leading-relaxed text-sm">
-                    Monitoring continu de vos indicateurs critiques — automatisé et sécurisé.
+                    Monitoring continu de vos indicateurs critiques - automatisé et sécurisé.
                     Trésorerie, marges et scénarios surveillés en permanence.
                   </p>
                 </div>
@@ -255,15 +255,15 @@ export default function HomeClient() {
                 <ul className="space-y-3 mb-8 flex-1">
                   <li className="flex items-center gap-3 text-sm text-gray-300">
                     <div className="w-1.5 h-1.5 bg-accent-primary rounded-full flex-shrink-0" />
-                    <span><span className="text-white font-medium">TRESORIS</span> — Surveillance trésorerie</span>
+                    <span><span className="text-white font-medium">TRESORIS</span> - Surveillance trésorerie</span>
                   </li>
                   <li className="flex items-center gap-3 text-sm text-gray-300">
                     <div className="w-1.5 h-1.5 bg-accent-primary rounded-full flex-shrink-0" />
-                    <span><span className="text-white font-medium">MARGIS</span> — Rentabilité réelle</span>
+                    <span><span className="text-white font-medium">MARGIS</span> - Rentabilité réelle</span>
                   </li>
                   <li className="flex items-center gap-3 text-sm text-gray-300">
                     <div className="w-1.5 h-1.5 bg-accent-primary rounded-full flex-shrink-0" />
-                    <span><span className="text-white font-medium">SCENARIS</span> — Scénarios what-if</span>
+                    <span><span className="text-white font-medium">SCENARIS</span> - Scénarios what-if</span>
                   </li>
                 </ul>
 
@@ -285,7 +285,7 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Section 7 — Témoignages */}
+      {/* Section 7 - Témoignages */}
       <section className="py-32 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <FadeIn className="text-center mb-16">
@@ -362,7 +362,7 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Section 8 — CTA final */}
+      {/* Section 8 - CTA final */}
       <section className="py-36 bg-slate-950 relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
@@ -385,7 +385,7 @@ export default function HomeClient() {
 
           <FadeIn delay={0.2}>
             <p className="text-lg text-gray-400 mb-12 max-w-xl mx-auto leading-relaxed">
-              DSO, BFR, marges réelles, concentration client — un échange confidentiel
+              DSO, BFR, marges réelles, concentration client - un échange confidentiel
               pour identifier ce que vos tableaux de bord ne montrent pas.
             </p>
           </FadeIn>

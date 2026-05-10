@@ -9,7 +9,7 @@ import {
 } from '@/config/social-proof'
 
 /**
- * TestimonialsSection — Vrais avis missions DAF FinSight
+ * TestimonialsSection - Vrais avis missions DAF FinSight
  *
  * À NE PAS confondre avec Testimonials.tsx (cas d'usage SaaS / CFO Virtuel).
  * Ce composant présente des témoignages de dirigeants PME ayant réalisé
@@ -49,7 +49,7 @@ const testimonials = [
 ]
 
 interface TestimonialsSectionProps {
-    /** Thème sombre (bg-slate-50) ou blanc (bg-white) — défaut: slate-50 */
+    /** Thème sombre (bg-slate-50) ou blanc (bg-white) - défaut: slate-50 */
     background?: 'slate' | 'white'
     /** Afficher le compteur agrégé 4,8/5 · 47 avis */
     showAggregate?: boolean
@@ -77,7 +77,7 @@ export default function TestimonialsSection({
                                 {[1, 2, 3, 4].map((s) => (
                                     <Star key={s} className="w-5 h-5 fill-amber-400 text-amber-400" />
                                 ))}
-                                {/* 5e étoile 80% remplie — 4,8/5 */}
+                                {/* 5e étoile 80% remplie - 4,8/5 */}
                                 <svg width="20" height="20" viewBox="0 0 24 24" className="w-5 h-5" aria-hidden="true">
                                     <defs>
                                         <linearGradient id="star48-agg" x1="0" x2="1" y1="0" y2="0">

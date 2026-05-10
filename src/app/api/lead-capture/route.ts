@@ -40,10 +40,10 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
     }
   }
 
-  // exit_intent — Guide Cash Flow PDF
+  // exit_intent - Guide Cash Flow PDF
   if (source === 'exit_intent') {
     return {
-      subject: '📄 Votre guide PDF : Optimisez votre Cash Flow — 7 leviers pour PME',
+      subject: '📄 Votre guide PDF : Optimisez votre Cash Flow - 7 leviers pour PME',
       html: `
         <!DOCTYPE html>
         <html lang="fr">
@@ -65,7 +65,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
                       Votre guide est prêt à télécharger 📄
                     </h1>
                     <p style="margin:10px 0 0;color:#93c5fd;font-size:14px;">
-                      Optimisez votre Cash Flow — Guide complet pour PME
+                      Optimisez votre Cash Flow - Guide complet pour PME
                     </p>
                   </td>
                 </tr>
@@ -107,7 +107,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
                               ['⏱️', 'Benchmarks DSO / BFR par secteur (services, industrie, BTP, tech…)'],
                               ['⚡', '7 leviers actionnables pour réduire votre BFR et libérer du cash'],
                               ['📋', 'Template de suivi de trésorerie 12 semaines (version Excel disponible)'],
-                              ['🗺️', 'Plan d\'action en 7 étapes — roadmap 90 jours PME 2–20 M€'],
+                              ['🗺️', 'Plan d\'action en 7 étapes - roadmap 90 jours PME 2–20 M€'],
                             ].map(([icon, text]) => `
                             <tr>
                               <td style="padding:5px 0;vertical-align:top;width:28px;font-size:15px;">${icon}</td>
@@ -184,8 +184,8 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
 
   // calculator benchmarks
   const titles: Record<string, string> = {
-    calculator_dso: 'Votre benchmark DSO — Banque de France 2024',
-    calculator_bfr: 'Votre benchmark BFR — Banque de France 2024',
+    calculator_dso: 'Votre benchmark DSO - Banque de France 2024',
+    calculator_bfr: 'Votre benchmark BFR - Banque de France 2024',
   }
   const subject = titles[source] ?? 'Vos ressources FinSight'
 
@@ -212,7 +212,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
             </a>
           </div>
           <p>Et si vous voulez aller plus loin :</p>
-          <a href="https://calendly.com/zineinsight" style="color:#2563eb;">Échange stratégique 30 min — gratuit, sans engagement</a>
+          <a href="https://calendly.com/zineinsight" style="color:#2563eb;">Échange stratégique 30 min - gratuit, sans engagement</a>
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:30px 0;">
           <p style="font-size:12px;color:#666;text-align:center;">
             FinSight · otmane@zineinsight.com<br>

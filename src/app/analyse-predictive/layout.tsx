@@ -7,8 +7,8 @@ import {
 } from '@/config/social-proof'
 
 export const metadata: Metadata = {
-    title: 'FinSight Advanced : Avis & Test — Diagnostic PME en 7 min | Analyse Prédictive',
-    description: 'FinSight Advanced : avis honnête et test complet. Analyse financière prédictive pour PME 2–20 M€ — Score FinSight™ 0→100, 4 piliers, benchmarks Banque de France. Résultat en 7 minutes, 0 donnée transmise.',
+    title: 'FinSight Advanced : Avis & Test - Diagnostic PME en 7 min | Analyse Prédictive',
+    description: 'FinSight Advanced : avis honnête et test complet. Analyse financière prédictive pour PME 2–20 M€ - Score FinSight™ 0→100, 4 piliers, benchmarks Banque de France. Résultat en 7 minutes, 0 donnée transmise.',
     keywords: [
         'analyse financière prédictive finsight advanced avis',
         'finsight advanced test',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         'benchmark sectoriel banque de france',
     ],
     openGraph: {
-        title: 'FinSight Advanced : Avis & Test — Analyse Financière Prédictive PME',
+        title: 'FinSight Advanced : Avis & Test - Analyse Financière Prédictive PME',
         description: 'Score FinSight™ 0→100, 4 piliers (CASH, MARGIN, RÉSILIENCE, RISQUE), benchmarks sectoriels réels. Diagnostic complet en 7 minutes. Avis utilisateurs et méthodologie transparente.',
         url: 'https://finsight.zineinsight.com/analyse-predictive',
         siteName: 'FinSight',
@@ -31,13 +31,13 @@ export const metadata: Metadata = {
                 url: 'https://finsight.zineinsight.com/images/og-analyse-predictive.png',
                 width: 1200,
                 height: 630,
-                alt: 'FinSight Advanced — Analyse financière prédictive PME, avis et test',
+                alt: 'FinSight Advanced - Analyse financière prédictive PME, avis et test',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'FinSight Advanced : Avis & Test — Diagnostic PME en 7 min',
+        title: 'FinSight Advanced : Avis & Test - Diagnostic PME en 7 min',
         description: 'Score FinSight™ 0→100, analyse prédictive, benchmarks Banque de France 2024. Avis complet et test en conditions réelles.',
     },
     alternates: {
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
 }
 
 // ---------------------------------------------------------------------------
-// JSON-LD — Review + FAQPage schema
+// JSON-LD - Review + FAQPage schema
 // ---------------------------------------------------------------------------
 const reviewJsonLd = {
     '@context': 'https://schema.org',
@@ -59,7 +59,7 @@ const reviewJsonLd = {
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Web',
     url: 'https://finsight.zineinsight.com/diagnostic/guide',
-    description: 'Outil d\'analyse financière prédictive pour PME — Score FinSight™ sur 100, 4 piliers, benchmarks sectoriels Banque de France 2024.',
+    description: 'Outil d\'analyse financière prédictive pour PME - Score FinSight™ sur 100, 4 piliers, benchmarks sectoriels Banque de France 2024.',
     offers: {
         '@type': 'Offer',
         price: '0',
@@ -98,7 +98,7 @@ const faqJsonLd = {
             name: 'Qu\'est-ce que FinSight Advanced ?',
             acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'FinSight Advanced est un outil d\'analyse financière prédictive pour PME (2–20 M€). Il génère un Score FinSight™ de 0 à 100 en analysant 4 piliers financiers — CASH, MARGIN, RÉSILIENCE, RISQUE — comparés aux médianes sectorielles Banque de France 2024.',
+                text: 'FinSight Advanced est un outil d\'analyse financière prédictive pour PME (2–20 M€). Il génère un Score FinSight™ de 0 à 100 en analysant 4 piliers financiers - CASH, MARGIN, RÉSILIENCE, RISQUE - comparés aux médianes sectorielles Banque de France 2024.',
             },
         },
         {

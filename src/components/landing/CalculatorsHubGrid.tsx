@@ -25,43 +25,43 @@ type CalculatorItem = {
 const CALCULATORS: CalculatorItem[] = [
   {
     href: '/calculateurs/dso',
-    title: 'DSO — Délai client moyen',
+    title: 'DSO - Délai client moyen',
     subtitle: 'Encaissements, créances et délai d&apos;encaissement.',
     Icon: Clock,
   },
   {
     href: '/calculateurs/bfr',
-    title: 'BFR — Besoin en fonds de roulement',
-    subtitle: 'Stocks, créances, dettes — cycle et besoin de financement.',
+    title: 'BFR - Besoin en fonds de roulement',
+    subtitle: 'Stocks, créances, dettes - cycle et besoin de financement.',
     Icon: Wallet,
   },
   {
     href: '/calculateurs/marge',
-    title: 'Marge — Taux de marge brute',
+    title: 'Marge - Taux de marge brute',
     subtitle: 'Rentabilité directe et levier opérationnel.',
     Icon: Percent,
   },
   {
     href: '/calculateurs/roi',
-    title: 'ROI — Retour sur investissement',
+    title: 'ROI - Retour sur investissement',
     subtitle: 'Rentabilité projet et priorisation des investissements.',
     Icon: TrendingUp,
   },
   {
     href: '/calculateurs/ebitda',
-    title: 'EBITDA — Rentabilité opérationnelle',
+    title: 'EBITDA - Rentabilité opérationnelle',
     subtitle: 'Performance avant amortissements et charges financières.',
     Icon: BarChart3,
   },
   {
     href: '/calculateurs/burn-rate',
-    title: 'Burn rate — Consommation cash',
+    title: 'Burn rate - Consommation cash',
     subtitle: 'Runway et rythme de dépense du cash.',
     Icon: Flame,
   },
   {
     href: '/calculateurs/cac-ltv',
-    title: 'CAC / LTV — Acquisition client',
+    title: 'CAC / LTV - Acquisition client',
     subtitle: 'Coût d&apos;acquisition vs valeur vie client.',
     Icon: Users,
   },
@@ -132,7 +132,7 @@ export default function CalculatorsHubGrid() {
         <FadeIn delay={0.15} className="mt-12 lg:mt-14 text-center max-w-3xl mx-auto">
           <p className="text-sm text-gray-500 leading-relaxed">
             Besoin d&apos;un rapport approfondi ? Chaque calculateur propose un rapport
-            premium PDF avec analyse personnalisée et plan d&apos;action — 9€
+            premium PDF avec analyse personnalisée et plan d&apos;action - 9€
           </p>
         </FadeIn>
       </div>

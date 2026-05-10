@@ -9,7 +9,7 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-6 pt-20 pb-12">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
 
-                    {/* Col 1 — Brand */}
+                    {/* Col 1 - Brand */}
                     <div className="md:col-span-5">
                         <Link href="/" className="inline-flex items-center gap-3 mb-6">
                             <Image
@@ -24,8 +24,8 @@ export default function Footer() {
                         <p className="text-[15px] leading-relaxed max-w-md mb-8">
                             Expert Finance &amp; Data pour PME de 2 à 20&nbsp;M€.
                             Nous connectons vos données comptables et opérationnelles
-                            pour construire un pilotage fiable — trésorerie, marges,
-                            reporting — via Power BI, SQL et le Score FinSight™.
+                            pour construire un pilotage fiable - trésorerie, marges,
+                            reporting - via Power BI, SQL et le Score FinSight™.
                         </p>
                         <a
                             href="https://calendly.com/zineinsight"
@@ -37,7 +37,7 @@ export default function Footer() {
                         </a>
                     </div>
 
-                    {/* Col 2 — Services */}
+                    {/* Col 2 - Services */}
                     <div className="md:col-span-3">
                         <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-5">
                             Services
@@ -61,7 +61,7 @@ export default function Footer() {
                         </nav>
                     </div>
 
-                    {/* Col 3 — Ressources */}
+                    {/* Col 3 - Ressources */}
                     <div className="md:col-span-4">
                         <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-5">
                             Ressources

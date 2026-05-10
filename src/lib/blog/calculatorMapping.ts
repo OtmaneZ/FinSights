@@ -35,7 +35,7 @@ export const ARTICLE_CALCULATOR_MAP: Record<string, CalculatorRef> = {
     'calculer-bfr-excel-template-gratuit-2026': {
         slug: 'bfr',
         label: 'Calculateur BFR',
-        description: 'Calculez votre BFR instantanément — résultat et interprétation immédiats.',
+        description: 'Calculez votre BFR instantanément - résultat et interprétation immédiats.',
     },
     'bfr-negatif-bon-ou-mauvais': {
         slug: 'bfr',
@@ -92,13 +92,13 @@ export const ARTICLE_CALCULATOR_MAP: Record<string, CalculatorRef> = {
     'pourquoi-70-pme-sous-estiment-fragilite-cash': {
         slug: 'burn-rate',
         label: 'Calculateur Burn Rate',
-        description: "Calculez votre runway — combien de mois de trésorerie avez-vous ?",
+        description: "Calculez votre runway - combien de mois de trésorerie avez-vous ?",
     },
     // KPIs / GESTION
     '5-kpis-financiers-essentiels-pme': {
         slug: 'ebitda',
         label: 'Calculateur EBITDA',
-        description: "Calculez votre EBITDA — l'indicateur de référence pour les dirigeants PME.",
+        description: "Calculez votre EBITDA - l'indicateur de référence pour les dirigeants PME.",
     },
     'lire-bilan-compte-resultat-guide-pratique': {
         slug: 'marge',
@@ -119,7 +119,7 @@ export const ARTICLE_CALCULATOR_MAP: Record<string, CalculatorRef> = {
     'comment-reduire-dso-62-41-jours': {
         slug: 'dso',
         label: 'Calculateur DSO',
-        description: 'Calculez votre DSO actuel — point de départ de toute optimisation.',
+        description: 'Calculez votre DSO actuel - point de départ de toute optimisation.',
     },
     // CAC/LTV
     'top-7-kpis-financiers-startups-saas': {
@@ -137,7 +137,7 @@ export const ARTICLE_CALCULATOR_MAP: Record<string, CalculatorRef> = {
     'daf-externalise-pme-prix-tarifs-roi-2026': {
         slug: 'ebitda',
         label: 'Calculateur EBITDA',
-        description: "Calculez votre EBITDA — le premier indicateur qu'analyse un DAF.",
+        description: "Calculez votre EBITDA - le premier indicateur qu'analyse un DAF.",
     },
     'fractional-cfo-france-guide-complet-2026': {
         slug: 'ebitda',

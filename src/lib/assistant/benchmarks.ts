@@ -1,11 +1,11 @@
 /**
- * FinSight AI Assistant — Benchmarks Database
+ * FinSight AI Assistant - Benchmarks Database
  *
  * Référentiel sectoriel français (Banque de France, moyennes sectorielles 2025).
  * Chaque métrique possède des seuils P25/P50/P75 par secteur.
  *
  * Architecture: données statiques pré-calculées, aucun appel externe.
- * Le LLM ne calcule RIEN — il reçoit le diagnostic déjà qualifié.
+ * Le LLM ne calcule RIEN - il reçoit le diagnostic déjà qualifié.
  */
 
 // ---------------------------------------------------------------------------
@@ -22,9 +22,9 @@ export type Sector =
   | 'general'
 
 export interface SectorThresholds {
-  excellent: number  // P25 — top quartile
-  median: number     // P50 — médiane sectorielle
-  warning: number    // P75 — seuil de vigilance
+  excellent: number  // P25 - top quartile
+  median: number     // P50 - médiane sectorielle
+  warning: number    // P75 - seuil de vigilance
   critical: number   // Au-delà : zone critique
   unit: string
   direction: 'lower-is-better' | 'higher-is-better'
@@ -38,7 +38,7 @@ export interface BenchmarkMetric {
 }
 
 // ---------------------------------------------------------------------------
-// DSO — Days Sales Outstanding (jours)
+// DSO - Days Sales Outstanding (jours)
 // Source : Banque de France / Altares, Étude comportement de paiement 2024-2025
 // ---------------------------------------------------------------------------
 
@@ -107,7 +107,7 @@ const DSO_BENCHMARKS: BenchmarkMetric = {
 }
 
 // ---------------------------------------------------------------------------
-// BFR — Besoin en Fonds de Roulement (jours de CA)
+// BFR - Besoin en Fonds de Roulement (jours de CA)
 // Source : Banque de France, moyennes sectorielles 2025
 // ---------------------------------------------------------------------------
 
@@ -245,7 +245,7 @@ const MARGE_BENCHMARKS: BenchmarkMetric = {
 }
 
 // ---------------------------------------------------------------------------
-// ROI — Retour sur Investissement (%)
+// ROI - Retour sur Investissement (%)
 // ---------------------------------------------------------------------------
 
 const ROI_BENCHMARKS: BenchmarkMetric = {
@@ -341,7 +341,7 @@ const CAC_LTV_BENCHMARKS: BenchmarkMetric = {
 }
 
 // ---------------------------------------------------------------------------
-// Burn Rate — Runway (mois)
+// Burn Rate - Runway (mois)
 // ---------------------------------------------------------------------------
 
 const BURN_RATE_BENCHMARKS: BenchmarkMetric = {
@@ -489,15 +489,15 @@ function buildInterpretation(
 
   switch (level) {
     case 'excellent':
-      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} — performance top quartile (${sectorLabel}). Position concurrentielle forte.`
+      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} - performance top quartile (${sectorLabel}). Position concurrentielle forte.`
     case 'bon':
-      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} — supérieur à la médiane (${sectorLabel}). Bonne maîtrise.`
+      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} - supérieur à la médiane (${sectorLabel}). Bonne maîtrise.`
     case 'median':
-      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} — dans la moyenne sectorielle (${sectorLabel}). Des marges d'optimisation existent.`
+      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} - dans la moyenne sectorielle (${sectorLabel}). Des marges d'optimisation existent.`
     case 'vigilance':
-      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} — en-dessous de la moyenne sectorielle (${sectorLabel}). Analyse approfondie recommandée.`
+      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} - en-dessous de la moyenne sectorielle (${sectorLabel}). Analyse approfondie recommandée.`
     case 'critique':
-      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} — zone critique (${sectorLabel}). Action corrective prioritaire.`
+      return `${label} de ${value}${thresholds.unit === '%' ? '%' : ' ' + thresholds.unit} - zone critique (${sectorLabel}). Action corrective prioritaire.`
   }
 }
 

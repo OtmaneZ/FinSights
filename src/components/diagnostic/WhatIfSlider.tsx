@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * WhatIfSlider — Interactive What-If simulation panel
+ * WhatIfSlider - Interactive What-If simulation panel
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
  * 3 levers (charges, paiements, prix) that project their impact

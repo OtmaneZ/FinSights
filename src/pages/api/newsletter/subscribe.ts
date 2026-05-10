@@ -39,7 +39,7 @@ export default async function handler(
     }
 
     if (!isResendConfigured()) {
-        logger.error('❌ RESEND_API_KEY manquante ou invalide — newsletter désactivée');
+        logger.error('❌ RESEND_API_KEY manquante ou invalide - newsletter désactivée');
         return res.status(500).json({
             success: false,
             error: 'Newsletter service not configured',
@@ -60,7 +60,7 @@ export default async function handler(
         logger.debug(`📧 Inscription newsletter: ${email} (source: ${source})`);
 
         const emailTrim = email.trim().toLowerCase();
-        const adminLine = `Newsletter — Nouvel abonné : ${emailTrim}`;
+        const adminLine = `Newsletter - Nouvel abonné : ${emailTrim}`;
 
         const { data, error } = await sendUserEmailWithAdminNotify(
             {

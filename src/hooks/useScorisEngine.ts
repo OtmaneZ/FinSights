@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * useScorisEngine — React hook for the SCORIS analysis engine
+ * useScorisEngine - React hook for the SCORIS analysis engine
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
  * Exposes a clean FSM (IDLE → ANALYZING → SUCCESS | ERROR) to the wizard UI.
@@ -65,7 +65,7 @@ export function useScorisEngine(): [ScorisEngineState, ScorisEngineActions] {
   // Abort controller ref
   const abortRef = useRef<AbortController | null>(null)
 
-  // ── analyze() — run full pipeline ──────────────────────
+  // ── analyze() - run full pipeline ──────────────────────
   const analyze = useCallback(async (request: AnalyzeRequest): Promise<ScorisOutput | null> => {
     // Abort any in-flight analysis
     abortRef.current?.abort()
@@ -108,7 +108,7 @@ export function useScorisEngine(): [ScorisEngineState, ScorisEngineActions] {
       return output
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') {
-        // Graceful abort — reset to idle
+        // Graceful abort - reset to idle
         setStatus('idle')
         setCurrentStep(null)
         setProgress(0)
@@ -125,24 +125,24 @@ export function useScorisEngine(): [ScorisEngineState, ScorisEngineActions] {
     }
   }, [])
 
-  // ── simulate() — run one lever on existing report ──────
+  // ── simulate() - run one lever on existing report ──────
   const simulate = useCallback((leverId: string, value: number): SimulationVector | null => {
     if (!report) return null
 
     const lever = DEFAULT_SIMULATION_LEVERS.find((l) => l.id === leverId) as SimulationLever | undefined
     if (!lever) return null
 
-    // We need the original wizard results — extract from the analyze request context
+    // We need the original wizard results - extract from the analyze request context
     // For now, we can re-derive from the report's sector
     // In production, the request should be cached alongside the report
     // This is a simplified version that works with cached results
     const bench = SECTOR_BENCHMARKS[report.meta.sector]
 
-    // The report already has the score — use it
+    // The report already has the score - use it
     const vec = computeSimulationVector(
       lever,
       value,
-      {}, // Would need cached results — placeholder for now
+      {}, // Would need cached results - placeholder for now
       bench,
       report.score,
     )
@@ -159,7 +159,7 @@ export function useScorisEngine(): [ScorisEngineState, ScorisEngineActions] {
     return vec
   }, [report])
 
-  // ── reset() — back to idle ─────────────────────────────
+  // ── reset() - back to idle ─────────────────────────────
   const reset = useCallback(() => {
     abortRef.current?.abort()
     setStatus('idle')
@@ -171,7 +171,7 @@ export function useScorisEngine(): [ScorisEngineState, ScorisEngineActions] {
     try { localStorage.removeItem(CACHE_KEY) } catch { /* ignore */ }
   }, [])
 
-  // ── abort() — cancel in-flight ─────────────────────────
+  // ── abort() - cancel in-flight ─────────────────────────
   const abort = useCallback(() => {
     abortRef.current?.abort()
     // The analyze() catch handler will set status to 'idle'

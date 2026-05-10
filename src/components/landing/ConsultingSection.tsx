@@ -7,7 +7,7 @@ export default function ConsultingSection() {
             <div className="max-w-7xl mx-auto px-6">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl lg:text-4xl font-bold mb-3 text-gray-900">Allons plus loin ensemble</h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Du diagnostic express au dashboard IA sur-mesure — choisissez le format adapté à votre besoin.</p>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Du diagnostic express au dashboard IA sur-mesure - choisissez le format adapté à votre besoin.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

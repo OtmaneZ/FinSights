@@ -27,7 +27,7 @@ export const CalculatorReportEmail = ({
 }: CalculatorReportEmailProps) => (
   <Html>
     <Head />
-    <Preview>Votre rapport {calculatorName} — FinSight™</Preview>
+    <Preview>Votre rapport {calculatorName} - FinSight™</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={logoSection}>
@@ -73,7 +73,7 @@ export const CalculatorReportEmail = ({
         </Text>
 
         <Text style={footer}>
-          FinSight™ —{' '}
+          FinSight™ -{' '}
           <Link href="https://finsight.zineinsight.com" style={link}>
             finsight.zineinsight.com
           </Link>

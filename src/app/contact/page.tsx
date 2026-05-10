@@ -361,7 +361,7 @@ export default function ContactPage() {
                                 <p>
                                     Je ne me positionne pas comme un producteur de reporting ni comme un intégrateur d&apos;outils. 
                                     Je travaille au plus près du dirigeant, là où les chiffres doivent devenir compréhensibles, 
-                                    discutables et exploitables — avant qu&apos;ils ne s&apos;imposent sous forme de contraintes.
+                                    discutables et exploitables - avant qu&apos;ils ne s&apos;imposent sous forme de contraintes.
                                 </p>
                             </div>
 
@@ -446,7 +446,7 @@ export default function ContactPage() {
                             « Le problème n&apos;est pas le manque de données, mais le manque de décisions claires, prises au bon moment. »
                         </p>
                         <p className="text-text-secondary text-sm">
-                            — Ma conviction fondatrice
+                            - Ma conviction fondatrice
                         </p>
                     </motion.div>
 
@@ -478,7 +478,7 @@ export default function ContactPage() {
                                 </div>
                                 <h4 className="text-xl font-bold text-text-primary mb-3">Agents IA décisionnels</h4>
                                 <p className="text-text-secondary leading-relaxed">
-                                    Comme TRESORIS, utilisés comme outils de surveillance, d&apos;analyse et de simulation — 
+                                    Comme TRESORIS, utilisés comme outils de surveillance, d&apos;analyse et de simulation - 
                                     toujours sous contrôle humain.
                                 </p>
                             </div>

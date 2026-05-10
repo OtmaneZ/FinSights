@@ -8,7 +8,7 @@ export const metadata: Metadata = {
         canonical: 'https://finsight.zineinsight.com/calculateurs/burn-rate',
     },
     openGraph: {
-        title: 'Calculateur Burn Rate & Runway — Alerte Cash | FinSight',
+        title: 'Calculateur Burn Rate & Runway - Alerte Cash | FinSight',
         description: 'Anticipez votre rupture de trésorerie avec burn rate net + runway en mois.',
         url: 'https://finsight.zineinsight.com/calculateurs/burn-rate',
         type: 'website',

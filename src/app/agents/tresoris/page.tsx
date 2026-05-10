@@ -52,7 +52,7 @@ export default function TresorisPage() {
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
                 <Shield className="w-4 h-4 text-accent-primary" />
                 <span className="text-sm text-white/90 font-medium">
-                  Agent IA — Production Ready
+                  Agent IA - Production Ready
                 </span>
               </div>
 
@@ -256,7 +256,7 @@ export default function TresorisPage() {
               </motion.div>
 
               <p className="text-center text-slate-300 italic mt-6">
-                * Présentation réalisée devant la BPI — Chargement à la demande pour meilleure performance
+                * Présentation réalisée devant la BPI - Chargement à la demande pour meilleure performance
               </p>
 
               {/* Wording APRÈS la vidéo - Ce que TRESORIS est (et n'est pas) */}
@@ -1183,15 +1183,15 @@ export default function TresorisPage() {
                       <div className="space-y-2">
                         <div className="flex items-center gap-3 bg-white rounded-lg p-3 border border-slate-200">
                           <span className="px-2 py-1 bg-slate-900 text-white text-xs font-bold rounded">P1</span>
-                          <span className="text-sm text-slate-700">Action immédiate — Impact élevé</span>
+                          <span className="text-sm text-slate-700">Action immédiate - Impact élevé</span>
                         </div>
                         <div className="flex items-center gap-3 bg-white rounded-lg p-3 border border-slate-200">
                           <span className="px-2 py-1 bg-slate-700 text-white text-xs font-bold rounded">P2</span>
-                          <span className="text-sm text-slate-700">Action cette semaine — Impact modéré</span>
+                          <span className="text-sm text-slate-700">Action cette semaine - Impact modéré</span>
                         </div>
                         <div className="flex items-center gap-3 bg-white rounded-lg p-3 border border-slate-200">
                           <span className="px-2 py-1 bg-slate-500 text-white text-xs font-bold rounded">P3</span>
-                          <span className="text-sm text-slate-700">Action sous 2 semaines — Prévention</span>
+                          <span className="text-sm text-slate-700">Action sous 2 semaines - Prévention</span>
                         </div>
                       </div>
                     </div>

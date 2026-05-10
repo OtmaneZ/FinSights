@@ -11,7 +11,7 @@ export const resend = new Resend(apiKey)
 
 /**
  * Expéditeur par défaut : sous-domaine finsight.zineinsight.com
- * (à aligner avec un domaine « verified » dans le dashboard Resend — pas zineinsight.com racine sauf si configuré).
+ * (à aligner avec un domaine « verified » dans le dashboard Resend - pas zineinsight.com racine sauf si configuré).
  * Override : RESEND_FROM_EMAIL
  */
 export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'FinSight <noreply@finsight.zineinsight.com>'

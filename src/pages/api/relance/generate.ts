@@ -57,10 +57,10 @@ function buildFallbackRelance(req: RelanceRequest): { sujet: string; corps: stri
 
   const sujet =
     req.ton === 'mise-en-demeure'
-      ? `MISE EN DEMEURE — Facture ${req.refFacture || ''} — ${montantFormatted} — ${req.joursRetard} jours de retard`
+      ? `MISE EN DEMEURE - Facture ${req.refFacture || ''} - ${montantFormatted} - ${req.joursRetard} jours de retard`
       : req.ton === 'ferme'
-      ? `RELANCE — Facture ${req.refFacture || ''} impayée — ${montantFormatted}`
-      : `Rappel de règlement — Facture ${req.refFacture || ''} — ${montantFormatted}`
+      ? `RELANCE - Facture ${req.refFacture || ''} impayée - ${montantFormatted}`
+      : `Rappel de règlement - Facture ${req.refFacture || ''} - ${montantFormatted}`
 
   const corps = `Madame, Monsieur,
 
@@ -107,7 +107,7 @@ export default async function handler(
 
     // Pas de clé OpenRouter → fallback
     if (!process.env.OPENAI_API_KEY) {
-      logger.warn('[relance] OPENAI_API_KEY manquante — fallback déterministe')
+      logger.warn('[relance] OPENAI_API_KEY manquante - fallback déterministe')
       const fallback = buildFallbackRelance(body)
       return res.status(200).json({ success: true, ...fallback, source: 'fallback' })
     }
@@ -132,11 +132,11 @@ MENTION LÉGALE : ${body.mentionLegale ? 'Inclure une référence à l\'article 
 Génère uniquement un objet JSON avec deux champs :
 {
   "sujet": "<ligne objet de l'email, concise et professionnelle>",
-  "corps": "<corps complet de l'email, avec formule d'appel, contenu, formule de politesse — utiliser \\n pour les sauts de ligne>"
+  "corps": "<corps complet de l'email, avec formule d'appel, contenu, formule de politesse - utiliser \\n pour les sauts de ligne>"
 }
 
 Règles :
-- Pas de placeholders comme [Votre nom] — utiliser les vraies valeurs fournies
+- Pas de placeholders comme [Votre nom] - utiliser les vraies valeurs fournies
 - Formule d'appel : "Madame, Monsieur,"
 - Formule de politesse adaptée au ton
 - Corps entre 80 et 200 mots selon le ton

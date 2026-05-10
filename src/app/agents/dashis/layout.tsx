@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'DASHIS — Agent IA de Pilotage Financier Temps Réel | FinSight',
+    title: 'DASHIS - Agent IA de Pilotage Financier Temps Réel | FinSight',
     description: 'DASHIS analyse vos données financières en continu et génère des tableaux de bord automatiques. Alertes intelligentes, détection d\'anomalies, vision 360° de votre PME. Démo gratuite.',
     keywords: [
         'dashis agent ia',
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         'agent ia tableau de bord',
     ],
     openGraph: {
-        title: 'DASHIS — Agent IA Tableau de Bord Financier | FinSight',
+        title: 'DASHIS - Agent IA Tableau de Bord Financier | FinSight',
         description: 'Pilotage financier 24/7 : DASHIS génère vos tableaux de bord, détecte les anomalies et vous alerte en temps réel.',
         url: 'https://finsight.zineinsight.com/agents/dashis',
         siteName: 'FinSight',

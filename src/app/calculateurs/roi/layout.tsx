@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur ROI PME 2026 — Retour sur investissement | FinSight',
+    title: 'Calculateur ROI PME 2026 - Retour sur investissement | FinSight',
     description: 'Calculez votre ROI en 2 minutes. Benchmark sectoriel, interprétation et plan d\'action. Gratuit.',
     keywords: 'calculateur roi, retour sur investissement, calcul roi, roi formule, payback period, délai récupération investissement, rentabilité projet, roi pme, analyse investissement, roi professionnel 2026',
     openGraph: {

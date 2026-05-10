@@ -316,7 +316,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
     },
 
     // ========================================
-    // TRÉSORERIE — SUITE
+    // TRÉSORERIE - SUITE
     // ========================================
     DPO: {
         id: 'DPO',
@@ -473,7 +473,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'Ratio de Liquidité Réduite',
         shortName: 'Quick Ratio',
         category: 'tresorerie',
-        definition: 'Liquidité immédiate hors stocks — actifs les moins liquides. Plus prudent que le ratio général, élimine l\'hypothèse de vente rapide des stocks.',
+        definition: 'Liquidité immédiate hors stocks - actifs les moins liquides. Plus prudent que le ratio général, élimine l\'hypothèse de vente rapide des stocks.',
         formula: 'Ratio de Liquidité Réduite = (Actif circulant − Stocks) / Passif circulant',
         formulaExplanation: 'On retire les stocks car ils sont difficiles à convertir rapidement en cash sans décote',
         interpretation: {
@@ -559,14 +559,14 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
     },
 
     // ========================================
-    // RENTABILITÉ — SUITE
+    // RENTABILITÉ - SUITE
     // ========================================
     ROI: {
         id: 'ROI',
         title: 'ROI - Retour sur Investissement',
         shortName: 'Retour sur investissement',
         category: 'rentabilite',
-        definition: 'Rentabilité d\'un projet ou d\'un actif — mesure le gain généré pour chaque euro investi.',
+        definition: 'Rentabilité d\'un projet ou d\'un actif - mesure le gain généré pour chaque euro investi.',
         formula: 'ROI = (Gain − Coût) / Coût × 100',
         formulaExplanation: 'Gain = Revenus ou économies générés | Coût = Investissement initial total',
         interpretation: {
@@ -656,14 +656,14 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'Résultat Net',
         shortName: 'Bénéfice net',
         category: 'rentabilite',
-        definition: 'Bénéfice ou perte finale après déduction de toutes les charges — exploitation, financières, exceptionnelles et impôts. La ligne du bas du compte de résultat.',
+        definition: 'Bénéfice ou perte finale après déduction de toutes les charges - exploitation, financières, exceptionnelles et impôts. La ligne du bas du compte de résultat.',
         formula: 'Résultat Net = EBIT − Charges financières − Impôt sur les sociétés ± Résultat exceptionnel',
         formulaExplanation: 'Charges financières = intérêts d\'emprunts | IS = taux légal (25% en France en 2026)',
         interpretation: {
             excellent: '> 10% du CA → Très profitable',
             good: '5–10% du CA → Rentabilité solide',
             warning: '0–5% du CA → Rentabilité fragile',
-            critical: '< 0% → Perte nette — capitaux propres en diminution'
+            critical: '< 0% → Perte nette - capitaux propres en diminution'
         },
         benchmarks: [
             { sector: 'SaaS', min: '10%', median: '20%', max: '35%', unit: '% du CA' },
@@ -836,7 +836,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'EVA - Valeur Économique Ajoutée',
         shortName: 'Economic Value Added',
         category: 'rentabilite',
-        definition: 'Valeur économique créée au-delà du coût du capital. L\'indicateur ultime de création de valeur — une entreprise peut avoir un résultat net positif et détruire de la valeur si son ROCE < WACC.',
+        definition: 'Valeur économique créée au-delà du coût du capital. L\'indicateur ultime de création de valeur - une entreprise peut avoir un résultat net positif et détruire de la valeur si son ROCE < WACC.',
         formula: 'EVA = NOPAT − (WACC × Capital Investi)',
         formulaExplanation: 'NOPAT = Résultat opérationnel net d\'impôt (EBIT × (1−t)) | WACC = coût moyen pondéré du capital',
         interpretation: {
@@ -862,7 +862,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
     },
 
     // ========================================
-    // ACTIVITÉ — SUITE
+    // ACTIVITÉ - SUITE
     // ========================================
     CROISSANCE_CA: {
         id: 'CROISSANCE_CA',
@@ -876,7 +876,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
             excellent: '> 20% → Forte croissance, entreprise en développement',
             good: '10–20% → Croissance saine et soutenue',
             warning: '0–10% → Stagnation relative, surveiller la part de marché',
-            critical: '< 0% → Décroissance — analyser causes et pivoter si nécessaire'
+            critical: '< 0% → Décroissance - analyser causes et pivoter si nécessaire'
         },
         benchmarks: [
             { sector: 'Startup tech', min: '50%', median: '100%', max: '300%', unit: '%/an' },
@@ -1252,7 +1252,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         actionableInsights: [
             'Tout projet dont le ROI > WACC crée de la valeur pour les actionnaires',
             'Réduire le WACC : augmenter la part de dettes (moins chères) sans excès de levier',
-            'Le WACC est le taux d\'actualisation du DCF — il impacte directement la valorisation',
+            'Le WACC est le taux d\'actualisation du DCF - il impacte directement la valorisation',
             'En période de hausse des taux, le WACC augmente mécaniquement → valorisations baissent'
         ]
     },
@@ -1292,7 +1292,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'Covenant Bancaire',
         shortName: 'Clause contractuelle bancaire',
         category: 'financement',
-        definition: 'Clause contractuelle imposée par la banque dans un accord de crédit — ratio financier à respecter sous peine de remboursement anticipé du prêt.',
+        definition: 'Clause contractuelle imposée par la banque dans un accord de crédit - ratio financier à respecter sous peine de remboursement anticipé du prêt.',
         formula: 'Variable selon l\'accord (ex: Dette nette / EBITDA < 3×, Ratio de couverture > 2×)',
         formulaExplanation: 'Les covenants les plus courants portent sur le levier (Dette/EBITDA), la couverture des intérêts (EBIT/Intérêts) et les fonds propres minimum',
         interpretation: {
@@ -1307,7 +1307,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
             { sector: 'Covenant Fonds propres', min: '200k€', median: '500k€', max: '1M€', unit: 'minimum requis' },
             { sector: 'Fréquence de contrôle', min: 'Annuelle', median: 'Semestrielle', max: 'Trimestrielle', unit: '' }
         ],
-        example: 'Banque impose Dette/EBITDA < 3× — si EBITDA baisse à 200k€ et dettes à 700k€, levier = 3,5× → breach',
+        example: 'Banque impose Dette/EBITDA < 3× - si EBITDA baisse à 200k€ et dettes à 700k€, levier = 3,5× → breach',
         relatedKPIs: ['LEVIER_FINANCIER', 'RATIO_COUVERTURE_INTERETS', 'EBITDA'],
         actionableInsights: [
             'La violation d\'un covenant peut déclencher une mise en demeure même si l\'entreprise est solvable',
@@ -1322,7 +1322,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'Free Cash Flow',
         shortName: 'Cash disponible après investissements',
         category: 'financement',
-        definition: 'Cash disponible après financement de l\'activité et des investissements. Le vrai indicateur de génération de valeur — ce que l\'entreprise peut réellement distribuer ou réinvestir.',
+        definition: 'Cash disponible après financement de l\'activité et des investissements. Le vrai indicateur de génération de valeur - ce que l\'entreprise peut réellement distribuer ou réinvestir.',
         formula: 'FCF = EBITDA − Variation BFR − CAPEX − Impôts sur les Sociétés',
         formulaExplanation: 'CAPEX = dépenses d\'investissement (immobilisations) | Variation BFR = augmentation ou diminution du besoin en fonds de roulement',
         interpretation: {
@@ -1355,7 +1355,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'Multiple d\'EBITDA',
         shortName: 'Valorisation par EBITDA',
         category: 'valorisation',
-        definition: 'Méthode de valorisation par les comparables boursiers ou transactionnels — multiple appliqué à l\'EBITDA pour estimer la valeur d\'entreprise.',
+        definition: 'Méthode de valorisation par les comparables boursiers ou transactionnels - multiple appliqué à l\'EBITDA pour estimer la valeur d\'entreprise.',
         formula: 'Valeur d\'Entreprise = EBITDA × Multiple Sectoriel',
         formulaExplanation: 'Multiple = rapport Valeur Entreprise / EBITDA observé sur des transactions comparables',
         interpretation: {
@@ -1385,7 +1385,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'Multiple de CA',
         shortName: 'Valorisation par chiffre d\'affaires',
         category: 'valorisation',
-        definition: 'Valorisation rapide basée sur un multiple du chiffre d\'affaires — moins précise que le multiple EBITDA mais utilisée pour les entreprises non profitables ou à forte croissance.',
+        definition: 'Valorisation rapide basée sur un multiple du chiffre d\'affaires - moins précise que le multiple EBITDA mais utilisée pour les entreprises non profitables ou à forte croissance.',
         formula: 'Valeur d\'Entreprise = CA × Multiple Sectoriel',
         formulaExplanation: 'Multiple CA = Valeur Entreprise / CA (ou ARR pour SaaS)',
         interpretation: {
@@ -1415,7 +1415,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'DCF - Discounted Cash Flow',
         shortName: 'Actualisation des flux futurs',
         category: 'valorisation',
-        definition: 'Méthode de valorisation par actualisation des flux de trésorerie futurs. La méthode de référence des analystes financiers — valorise l\'entreprise selon sa capacité à générer du cash dans le futur.',
+        definition: 'Méthode de valorisation par actualisation des flux de trésorerie futurs. La méthode de référence des analystes financiers - valorise l\'entreprise selon sa capacité à générer du cash dans le futur.',
         formula: 'Valeur = Σ (FCF_n / (1+WACC)^n) + Valeur Terminale / (1+WACC)^N',
         formulaExplanation: 'FCF_n = free cash flow de l\'année n | WACC = taux d\'actualisation | Valeur terminale = FCF × (1+g) / (WACC−g)',
         interpretation: {
@@ -1434,7 +1434,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         relatedKPIs: ['FREE_CASH_FLOW', 'WACC', 'VALEUR_ENTREPRISE'],
         actionableInsights: [
             'Très sensible au WACC : +1pt de taux d\'actualisation = −10 à −15% de valeur',
-            'La valeur terminale représente 60–80% de la valeur totale — soigner les hypothèses',
+            'La valeur terminale représente 60–80% de la valeur totale - soigner les hypothèses',
             'Construire 3 scénarios (bear / base / bull) pour encadrer la valeur',
             'Le DCF est une conversation sur les hypothèses, pas une vérité absolue'
         ]
@@ -1445,7 +1445,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'Valeur d\'Entreprise (VE)',
         shortName: 'Enterprise Value',
         category: 'valorisation',
-        definition: 'Valeur totale de l\'entreprise indépendamment de sa structure financière — ce que paierait un acquéreur pour reprendre 100% de l\'activité, dette incluse.',
+        definition: 'Valeur totale de l\'entreprise indépendamment de sa structure financière - ce que paierait un acquéreur pour reprendre 100% de l\'activité, dette incluse.',
         formula: 'VE = Capitalisation Boursière + Dette Nette − Trésorerie',
         formulaExplanation: 'Pour PME non cotée : VE = estimation par multiple ou DCF | Dette nette = dettes financières − trésorerie disponible',
         interpretation: {
@@ -1505,7 +1505,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         title: 'Goodwill - Écart d\'Acquisition',
         shortName: 'Survaleur',
         category: 'valorisation',
-        definition: 'Valeur immatérielle payée lors d\'une acquisition au-delà de la valeur nette des actifs tangibles — reflète la marque, la clientèle, le savoir-faire et les synergies attendues.',
+        definition: 'Valeur immatérielle payée lors d\'une acquisition au-delà de la valeur nette des actifs tangibles - reflète la marque, la clientèle, le savoir-faire et les synergies attendues.',
         formula: 'Goodwill = Prix d\'Acquisition − Actif Net Réévalué',
         formulaExplanation: 'Actif net réévalué = Actif total à la juste valeur − Passif total à la juste valeur',
         interpretation: {
@@ -1553,7 +1553,7 @@ export const FINANCIAL_GLOSSARY: Record<string, FinancialGlossaryEntry> = {
         example: 'Valeur fonds propres 2M€, Résultat net 200k€ → PER = 2M / 200k = 10× les bénéfices',
         relatedKPIs: ['RESULTAT_NET', 'VALEUR_FONDS_PROPRES', 'ROE'],
         actionableInsights: [
-            'Un PER élevé = le marché parie sur la croissance future — il faut la délivrer',
+            'Un PER élevé = le marché parie sur la croissance future - il faut la délivrer',
             'Comparer le PER à celui du secteur, pas en absolu',
             'PER croissant avec résultat stable = hausse de la prime de valorisation',
             'Pour PME en cession, le PER est moins utilisé que le multiple d\'EBITDA'

@@ -1,7 +1,7 @@
 /**
  * API Route: POST /api/v1/score
  *
- * FinSight Score — Single endpoint for diagnostic scoring.
+ * FinSight Score - Single endpoint for diagnostic scoring.
  * Accepts either:
  *   (A) Declarative inputs (from calculators / guided wizard)
  *   (B) Raw financial data (for future TRESORIS / DASHIS integration)
@@ -28,7 +28,7 @@ import {
 import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
 
 // ---------------------------------------------------------------------------
-// Types — Request / Response
+// Types - Request / Response
 // ---------------------------------------------------------------------------
 
 interface ScoreRequestDeclarative {
@@ -135,7 +135,7 @@ function validateRequest(body: unknown): { ok: true; data: ScoreRequest } | { ok
 
 export async function POST(req: NextRequest) {
   try {
-    // Optional API key check (soft — demo mode if missing)
+    // Optional API key check (soft - demo mode if missing)
     const apiKey = req.headers.get('x-api-key')
     const expectedKey = process.env.FINSIGHT_API_KEY
     if (expectedKey && apiKey !== expectedKey) {
@@ -206,7 +206,7 @@ export async function POST(req: NextRequest) {
         },
       }
     } else {
-      // Wizard mode — uses computeLiveScores + computeSynthesis
+      // Wizard mode - uses computeLiveScores + computeSynthesis
       const results = data.results
       const liveScores = computeLiveScores(results, bench)
       const synthesis = computeSynthesis(results, liveScores, bench)
@@ -265,7 +265,7 @@ export async function POST(req: NextRequest) {
 }
 
 // ---------------------------------------------------------------------------
-// GET /api/v1/score — API documentation
+// GET /api/v1/score - API documentation
 // ---------------------------------------------------------------------------
 
 export async function GET() {
@@ -307,15 +307,15 @@ export async function GET() {
       response: {
         score: '{ total, level, confidence, pillars }',
         insights: '{ forces[], vulnerabilites[], priorite, cashImpactLabel }',
-        levers: '[ { id, label, detail, impact, type } ] — up to 3',
+        levers: '[ { id, label, detail, impact, type } ] - up to 3',
         cta: '{ label, sublabel, price, urgency }',
         meta: '{ sector, sectorLabel, calculatedAt, version, engine }',
       },
       sectors: Object.entries(SECTOR_BENCHMARKS).map(([k, v]) => ({ key: k, label: v.label })),
     },
     _links: {
-      tresoris: '/api/tresoris — Python engines (Monte-Carlo, causal analysis, etc.)',
-      dashis: 'Coming soon — TS agent orchestration',
+      tresoris: '/api/tresoris - Python engines (Monte-Carlo, causal analysis, etc.)',
+      dashis: 'Coming soon - TS agent orchestration',
     },
   })
 }

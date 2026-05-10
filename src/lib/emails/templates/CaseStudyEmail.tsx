@@ -86,7 +86,7 @@ export const CaseStudyEmail = ({
                             « Je gérais la trésorerie au jour le jour. Chaque début de mois,
                             c'était l'angoisse. Je découvrais les problèmes quand il était trop tard. »
                         </Text>
-                        <Text style={quoteName}>— Thomas Mercier, Dirigeant</Text>
+                        <Text style={quoteName}>- Thomas Mercier, Dirigeant</Text>
                     </Section>
 
                     {/* Solution section */}
@@ -167,7 +167,7 @@ export const CaseStudyEmail = ({
                             des décisions stratégiques (recrutement, investissement) en sachant
                             où j'en suis. Le ROI est évident : économie 20k€ + stress divisé par 10. »
                         </Text>
-                        <Text style={quoteName}>— Thomas Mercier, 60 jours après</Text>
+                        <Text style={quoteName}>- Thomas Mercier, 60 jours après</Text>
                     </Section>
 
                     {/* Key lessons */}

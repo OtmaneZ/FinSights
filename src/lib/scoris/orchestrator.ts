@@ -1,5 +1,5 @@
 /**
- * SCORIS — Analysis Orchestrator
+ * SCORIS - Analysis Orchestrator
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
  * Le cerveau central qui coordonne :
@@ -7,7 +7,7 @@
  *   2. L'analyse causale (cross-pillar causal insights)
  *   3. Le positionnement sectoriel (benchmark comparisons)
  *   4. Les simulations What-If (lever-based projections)
- *   5. L'enrichissement TRESORIS / DASHIS (futur — interface définie)
+ *   5. L'enrichissement TRESORIS / DASHIS (futur - interface définie)
  *
  * Suit le pattern AnalysisOrchestrator de DASHIS mais :
  *   - Ne dépend d'aucun import ML/AI lourd (SSR-safe)
@@ -90,7 +90,7 @@ const STEP_DELAY_MS = 180
 
 /**
  * Run the full SCORIS analysis pipeline.
- * Returns a ScorisOutput — the single JSON contract consumed by the frontend.
+ * Returns a ScorisOutput - the single JSON contract consumed by the frontend.
  */
 export async function runAnalysis(
   request: AnalyzeRequest,
@@ -238,7 +238,7 @@ export async function runAnalysis(
       )
     }
   } catch {
-    // Non-bloquant — wizard toujours fonctionnel sans clé OpenRouter
+    // Non-bloquant - wizard toujours fonctionnel sans clé OpenRouter
     executiveSummary = generateExecutiveSummary(
       score, synthesis, causalInsights, results, bench, tresorisEnrichment,
     )
@@ -282,7 +282,7 @@ export async function runAnalysis(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// BUILD DIAGNOSTIC SCORE — from wizard live scores
+// BUILD DIAGNOSTIC SCORE - from wizard live scores
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function buildDiagnosticScore(
@@ -356,7 +356,7 @@ function buildDiagnosticScore(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// SECTOR COMPARISONS — position each indicator vs benchmark
+// SECTOR COMPARISONS - position each indicator vs benchmark
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function computeSectorComparisons(
@@ -477,7 +477,7 @@ function positionForInverse(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// CAUSAL INSIGHTS — cross-pillar causal chains
+// CAUSAL INSIGHTS - cross-pillar causal chains
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function computeCausalInsights(
@@ -519,7 +519,7 @@ function computeCausalInsights(
         direction: 'negative',
         magnitude: gapJours > 20 ? 'critical' : gapJours > 10 ? 'high' : 'medium',
         description: estimatedImpact
-          ? `Immobilise ~${(estimatedImpact / 1000).toFixed(0)} k€ de trésorerie — ${gapJours}j au-dessus de la médiane sectorielle`
+          ? `Immobilise ~${(estimatedImpact / 1000).toFixed(0)} k€ de trésorerie - ${gapJours}j au-dessus de la médiane sectorielle`
           : `${gapJours}j de DSO excédentaire alourdissent le BFR`,
         estimatedEuros: estimatedImpact ?? undefined,
       },
@@ -667,7 +667,7 @@ function computeCausalInsights(
         impact: {
           direction: 'negative',
           magnitude: burnPct > 90 ? 'critical' : 'high',
-          description: `Consommation de ${burnPct}% du CA mensuel — runway limité, chaque impayé client représente un risque immédiat`,
+          description: `Consommation de ${burnPct}% du CA mensuel - runway limité, chaque impayé client représente un risque immédiat`,
           estimatedEuros: Math.round(results['burn-rate'].value - ca / 12 * 0.5),
         },
         confidence: 0.90,
@@ -684,7 +684,7 @@ function computeCausalInsights(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// SIMULATION — compute one What-If vector
+// SIMULATION - compute one What-If vector
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function computeSimulationVector(
@@ -830,7 +830,7 @@ function applyProjections(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// EXECUTIVE SUMMARY — DAF Virtuel paragraph (3 sentences)
+// EXECUTIVE SUMMARY - DAF Virtuel paragraph (3 sentences)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /**
@@ -856,7 +856,7 @@ function generateExecutiveSummary(
   // ── Sentence 1: État de santé ──
   if (total >= 75) {
     sentences.push(
-      `Votre structure financière affiche un Score FinSight™ de ${total}/100 — les fondamentaux sont solides avec ${score.completedPillars} piliers validés en confiance ${score.confidence}.`
+      `Votre structure financière affiche un Score FinSight™ de ${total}/100 - les fondamentaux sont solides avec ${score.completedPillars} piliers validés en confiance ${score.confidence}.`
     )
   } else if (total >= 55) {
     sentences.push(
@@ -864,11 +864,11 @@ function generateExecutiveSummary(
     )
   } else if (total >= 35) {
     sentences.push(
-      `Avec un Score FinSight™ de ${total}/100, votre entreprise navigue en zone de vigilance — plusieurs indicateurs croisés signalent des tensions sur la trésorerie et la rentabilité.`
+      `Avec un Score FinSight™ de ${total}/100, votre entreprise navigue en zone de vigilance - plusieurs indicateurs croisés signalent des tensions sur la trésorerie et la rentabilité.`
     )
   } else {
     sentences.push(
-      `Score FinSight™ de ${total}/100 — le diagnostic révèle des fragilités structurelles sur ${synthesis.vulnerabilites.length} axe${synthesis.vulnerabilites.length > 1 ? 's' : ''} qui exigent une intervention prioritaire.`
+      `Score FinSight™ de ${total}/100 - le diagnostic révèle des fragilités structurelles sur ${synthesis.vulnerabilites.length} axe${synthesis.vulnerabilites.length > 1 ? 's' : ''} qui exigent une intervention prioritaire.`
     )
   }
 
@@ -887,15 +887,15 @@ function generateExecutiveSummary(
   } else if (synthesis.vulnerabilites.length > 0) {
     sentences.push(`Principal point de friction : ${synthesis.vulnerabilites[0].charAt(0).toLowerCase() + synthesis.vulnerabilites[0].slice(1)}.`)
   } else {
-    sentences.push(`Aucun point de blocage critique détecté — votre structure est équilibrée sur l'ensemble des piliers.`)
+    sentences.push(`Aucun point de blocage critique détecté - votre structure est équilibrée sur l'ensemble des piliers.`)
   }
 
   // ── Sentence 3: Action recommandée avec impact € ──
   const topLever = synthesis.levers[0]
   if (topLever) {
-    sentences.push(`Action recommandée : ${topLever.label.charAt(0).toLowerCase() + topLever.label.slice(1)} — ${topLever.impact.charAt(0).toLowerCase() + topLever.impact.slice(1)}.`)
+    sentences.push(`Action recommandée : ${topLever.label.charAt(0).toLowerCase() + topLever.label.slice(1)} - ${topLever.impact.charAt(0).toLowerCase() + topLever.impact.slice(1)}.`)
   } else if (synthesis.cashImpact && ca) {
-    sentences.push(`Priorité immédiate : libérer le cash immobilisé — ${synthesis.cashImpact.charAt(0).toLowerCase() + synthesis.cashImpact.slice(1)}.`)
+    sentences.push(`Priorité immédiate : libérer le cash immobilisé - ${synthesis.cashImpact.charAt(0).toLowerCase() + synthesis.cashImpact.slice(1)}.`)
   } else {
     sentences.push(
       total >= 55
@@ -908,7 +908,7 @@ function generateExecutiveSummary(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// TRESORIS / DASHIS ENRICHMENT — fetch with mock fallback
+// TRESORIS / DASHIS ENRICHMENT - fetch with mock fallback
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /**
@@ -944,10 +944,10 @@ async function fetchTresorisWithFallback(
       return { ...data, source: 'live' as const }
     }
   } catch {
-    // TRESORIS unreachable — expected in dev/demo mode
+    // TRESORIS unreachable - expected in dev/demo mode
   }
 
-  // ── Mock fallback — generate realistic TRESORIS-style data ──
+  // ── Mock fallback - generate realistic TRESORIS-style data ──
   return buildTresorisMock(results, bench)
 }
 
@@ -978,17 +978,17 @@ function buildTresorisMock(
   // Early warnings
   const earlyWarnings: string[] = []
   if (dso > bench.dsoMedian) {
-    earlyWarnings.push(`DSO de ${dso}j supérieur à la médiane sectorielle (${bench.dsoMedian}j) — risque d'impayé élevé`)
+    earlyWarnings.push(`DSO de ${dso}j supérieur à la médiane sectorielle (${bench.dsoMedian}j) - risque d'impayé élevé`)
   }
   if (gearing > bench.gearingMedian) {
-    earlyWarnings.push(`Endettement de ${gearing}x EBITDA au-dessus du seuil sectoriel — capacité d'emprunt réduite`)
+    earlyWarnings.push(`Endettement de ${gearing}x EBITDA au-dessus du seuil sectoriel - capacité d'emprunt réduite`)
   }
   if (results['burn-rate']) {
     const ca = estimateCAFromResults(results)
     if (ca) {
       const burnPct = Math.round((results['burn-rate'].value / (ca / 12)) * 100)
       if (burnPct > 80) {
-        earlyWarnings.push(`Burn rate à ${burnPct}% du CA mensuel — runway critique`)
+        earlyWarnings.push(`Burn rate à ${burnPct}% du CA mensuel - runway critique`)
       }
     }
   }
@@ -1031,7 +1031,7 @@ function buildTresorisMock(
 async function fetchDashisWithFallback(
   results: WizardResults,
 ): Promise<DashisEnrichmentData> {
-  // DASHIS is in-process TS — for now, return mock
+  // DASHIS is in-process TS - for now, return mock
   // Future: import { AnalysisOrchestrator } from '@agent-daf/dashis'
   const findings: string[] = []
   const recommendations: string[] = []
@@ -1041,11 +1041,11 @@ async function fetchDashisWithFallback(
     recommendations.push('Mettre en place un suivi hebdomadaire des encaissements avec alertes automatiques')
   }
   if (results.ebitda && results.gearing) {
-    findings.push(`Ratio dette/EBITDA de ${results.gearing.value}x détecté — analyse de sensibilité recommandée`)
+    findings.push(`Ratio dette/EBITDA de ${results.gearing.value}x détecté - analyse de sensibilité recommandée`)
     recommendations.push('Simuler l\'impact d\'une variation de ±10% de l\'activité sur la capacité de remboursement')
   }
   if (findings.length === 0) {
-    findings.push('Données insuffisantes pour une analyse approfondie — compléter le diagnostic recommandé')
+    findings.push('Données insuffisantes pour une analyse approfondie - compléter le diagnostic recommandé')
     recommendations.push('Renseigner les calculateurs manquants pour débloquer l\'analyse DASHIS complète')
   }
 
@@ -1070,7 +1070,7 @@ function buildCTA(
 
   if (total < 35 || (hasWeakness && total < 50)) {
     return {
-      label: 'Audit Flash Trésorerie — 45 min',
+      label: 'Audit Flash Trésorerie - 45 min',
       sublabel: 'Un expert analyse vos données et identifie le plan d\'action en 48h',
       price: '290 €',
       urgency: 'high',
@@ -1079,7 +1079,7 @@ function buildCTA(
 
   if (total < 65 || hasWeakness) {
     return {
-      label: 'Coaching DAF — Plan d\'optimisation',
+      label: 'Coaching DAF - Plan d\'optimisation',
       sublabel: 'Recommandations chiffrées sur vos leviers de performance',
       price: '490 €',
       urgency: 'medium',

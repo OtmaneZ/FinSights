@@ -7,10 +7,10 @@ import RecommendedPath from '@/components/RecommendedPath'
 
 export const metadata: Metadata = {
     title: 'Pré-Diagnostic Financier PME : DSO, BFR, Marge, ROI | FinSight',
-    description: 'Évaluez vos indicateurs clés en quelques clics. Les mêmes outils que nous utilisons en mission DAF — DSO, BFR, Marge, ROI — avec benchmarks sectoriels et recommandations.',
+    description: 'Évaluez vos indicateurs clés en quelques clics. Les mêmes outils que nous utilisons en mission DAF - DSO, BFR, Marge, ROI - avec benchmarks sectoriels et recommandations.',
     keywords: 'diagnostic financier pme, analyse dso, analyse bfr, analyse marge, analyse roi, pré-diagnostic financier, indicateurs financiers pme, audit financier, pilotage financier',
     openGraph: {
-        title: 'Pré-Diagnostic Financier PME — DSO, BFR, Marge, ROI | FinSight',
+        title: 'Pré-Diagnostic Financier PME - DSO, BFR, Marge, ROI | FinSight',
         description: 'Évaluez vos indicateurs clés : DSO, BFR, Marge, ROI. Benchmarks sectoriels et recommandations d\'expert inclus.',
         type: 'website',
         url: 'https://finsight.zineinsight.com/calculateurs',
@@ -92,7 +92,7 @@ export default function CalculateursPage() {
                         
                         <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
                             Un échange stratégique de 30 minutes permet d'aller à l'essentiel :<br />
-                            <strong>cash, marges, risques cachés — et vos leviers d'action concrets.</strong>
+                            <strong>cash, marges, risques cachés - et vos leviers d'action concrets.</strong>
                         </p>
                     </div>
 

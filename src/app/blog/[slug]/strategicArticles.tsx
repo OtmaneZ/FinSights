@@ -1,8 +1,8 @@
 /**
- * NOTES STRATÉGIQUES — Analyse & Positionnement DAF
+ * NOTES STRATÉGIQUES - Analyse & Positionnement DAF
  * 
  * Ton : cabinet, pas formateur.
- * "Ce que ce ratio révèle" — jamais "Comment calculer".
+ * "Ce que ce ratio révèle" - jamais "Comment calculer".
  * Chaque article se termine par une transition DAF structurée :
  * 1. Priorité immédiate
  * 2. Risque structurel
@@ -85,7 +85,7 @@ export const strategicArticles: Record<string, {
 }> = {
 
     // ═══════════════════════════════════════════════════════════════
-    // ARTICLE 1 — DSO supérieur à la médiane sectorielle
+    // ARTICLE 1 - DSO supérieur à la médiane sectorielle
     // ═══════════════════════════════════════════════════════════════
     'dso-superieur-mediane-sectorielle-modele': {
         slug: 'dso-superieur-mediane-sectorielle-modele',
@@ -172,7 +172,7 @@ export const strategicArticles: Record<string, {
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ARTICLE 2 — BFR structurellement élevé
+    // ARTICLE 2 - BFR structurellement élevé
     // ═══════════════════════════════════════════════════════════════
     'bfr-structurellement-eleve-commercial-organisationnel': {
         slug: 'bfr-structurellement-eleve-commercial-organisationnel',
@@ -252,14 +252,14 @@ export const strategicArticles: Record<string, {
                 <TransitionDAF
                     priorite="Décomposer le BFR en ses 3 composantes (DSO, DIO, DPO) et identifier laquelle contribue le plus à l'écart sectoriel."
                     risque="Un BFR supérieur à 40 jours de CA dans les services ou 60 jours dans l'industrie signale un besoin de financement structurel non maîtrisé."
-                    arbitrage="Prioriser la réduction du composant le plus éloigné de la médiane sectorielle — c'est là que le gain de trésorerie sera le plus rapide."
+                    arbitrage="Prioriser la réduction du composant le plus éloigné de la médiane sectorielle - c'est là que le gain de trésorerie sera le plus rapide."
                 />
             </>
         )
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ARTICLE 3 — 70% des PME sous-estiment leur fragilité cash
+    // ARTICLE 3 - 70% des PME sous-estiment leur fragilité cash
     // ═══════════════════════════════════════════════════════════════
     'pme-sous-estiment-fragilite-cash': {
         slug: 'pme-sous-estiment-fragilite-cash',
@@ -332,14 +332,14 @@ export const strategicArticles: Record<string, {
                 <TransitionDAF
                     priorite="Construire un prévisionnel de trésorerie glissant 13 semaines et identifier les 3 premiers creux à risque."
                     risque="Une PME rentable sans visibilité cash à 90 jours est structurellement exposée à un accident de trésorerie."
-                    arbitrage="Avant tout investissement ou recrutement, valider l'impact sur le cash-flow des 3 prochains mois — pas seulement sur le compte de résultat."
+                    arbitrage="Avant tout investissement ou recrutement, valider l'impact sur le cash-flow des 3 prochains mois - pas seulement sur le compte de résultat."
                 />
             </>
         )
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ARTICLE 4 — Marge correcte, cash fragile
+    // ARTICLE 4 - Marge correcte, cash fragile
     // ═══════════════════════════════════════════════════════════════
     'marge-correcte-cash-fragile-piege-croissance': {
         slug: 'marge-correcte-cash-fragile-piege-croissance',
@@ -411,14 +411,14 @@ export const strategicArticles: Record<string, {
                 <TransitionDAF
                     priorite="Calculer le BFR incrémental par M€ de CA supplémentaire et vérifier si le financement est en place."
                     risque="Une PME en croissance >20% sans modélisation cash est en situation de fragilité latente, indépendamment de sa marge."
-                    arbitrage="Si le cash ne suit pas la croissance, la priorité est de sécuriser le financement du BFR — avant d'accélérer le commercial."
+                    arbitrage="Si le cash ne suit pas la croissance, la priorité est de sécuriser le financement du BFR - avant d'accélérer le commercial."
                 />
             </>
         )
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ARTICLE 5 — DAF externalisé vs expert-comptable
+    // ARTICLE 5 - DAF externalisé vs expert-comptable
     // ═══════════════════════════════════════════════════════════════
     'daf-externalise-vs-expert-comptable-confusion': {
         slug: 'daf-externalise-vs-expert-comptable-confusion',
@@ -460,7 +460,7 @@ export const strategicArticles: Record<string, {
                 <ul>
                     <li>Il n&apos;a pas accès aux projections commerciales pour modéliser le cash futur</li>
                     <li>Il n&apos;est pas mandaté pour arbitrer entre investissement et prudence</li>
-                    <li>Il ne challenge pas les décisions du dirigeant — ce n&apos;est pas son rôle</li>
+                    <li>Il ne challenge pas les décisions du dirigeant - ce n&apos;est pas son rôle</li>
                     <li>Il produit un bilan annuel, pas un pilotage mensuel</li>
                 </ul>
 
@@ -494,7 +494,7 @@ export const strategicArticles: Record<string, {
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ARTICLE 6 — À partir de quel CA faut-il un DAF
+    // ARTICLE 6 - À partir de quel CA faut-il un DAF
     // ═══════════════════════════════════════════════════════════════
     'a-partir-quel-ca-faut-il-un-daf': {
         slug: 'a-partir-quel-ca-faut-il-un-daf',
@@ -556,14 +556,14 @@ export const strategicArticles: Record<string, {
                 <TransitionDAF
                     priorite="Lister les 5 dernières décisions financières prises sans modélisation préalable et évaluer leur impact cash réel."
                     risque="Au-delà de 2M€ de CA avec plus de 30 jours de BFR, l'absence de pilotage financier structuré est un facteur de risque identifiable."
-                    arbitrage="Le coût d'un DAF externalisé (2-5k€/mois) est à comparer au coût des décisions mal calibrées — rarement inférieur à 50k€/an."
+                    arbitrage="Le coût d'un DAF externalisé (2-5k€/mois) est à comparer au coût des décisions mal calibrées - rarement inférieur à 50k€/an."
                 />
             </>
         )
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ARTICLE 7 — Les 4 priorités d'un DAF sur 90 jours
+    // ARTICLE 7 - Les 4 priorités d'un DAF sur 90 jours
     // ═══════════════════════════════════════════════════════════════
     '4-priorites-daf-90-jours': {
         slug: '4-priorites-daf-90-jours',
@@ -633,7 +633,7 @@ export const strategicArticles: Record<string, {
                 </ol>
 
                 <TransitionDAF
-                    priorite="Construire le prévisionnel cash 13 semaines — c'est le premier livrable, toujours."
+                    priorite="Construire le prévisionnel cash 13 semaines - c'est le premier livrable, toujours."
                     risque="Sans séquençage rigoureux, un mandat DAF se disperse. La trésorerie d'abord, la marge ensuite, la structure enfin."
                     arbitrage="Les 90 premiers jours définissent la crédibilité du DAF et la confiance du dirigeant. Chaque livrable doit être concret et chiffré."
                 />
@@ -642,7 +642,7 @@ export const strategicArticles: Record<string, {
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ARTICLE 8 — Ce qu'un vrai pilotage financier change
+    // ARTICLE 8 - Ce qu'un vrai pilotage financier change
     // ═══════════════════════════════════════════════════════════════
     'pilotage-financier-change-pme-5-20m': {
         slug: 'pilotage-financier-change-pme-5-20m',
@@ -712,7 +712,7 @@ export const strategicArticles: Record<string, {
 
                 <TransitionDAF
                     priorite="Identifier les 3 décisions des 12 derniers mois qui auraient été différentes avec une visibilité cash et marge structurée."
-                    risque="Une PME 5-20M€ sans pilotage financier mensuel opère en dessous de son potentiel de 10 à 20% — en cash, en marge et en qualité de décision."
+                    risque="Une PME 5-20M€ sans pilotage financier mensuel opère en dessous de son potentiel de 10 à 20% - en cash, en marge et en qualité de décision."
                     arbitrage="Le premier investissement à faire n'est pas un outil. C'est une méthodologie de pilotage. L'outil vient après."
                 />
             </>

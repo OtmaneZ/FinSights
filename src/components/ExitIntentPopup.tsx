@@ -6,7 +6,7 @@ import { X, FileText, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react'
 // Storage keys
 const STORAGE_KEY_DISMISSED = 'finsight_exit_popup_dismissed'
 const STORAGE_KEY_CONVERTED = 'finsight_exit_popup_converted'
-// Re-show after 30 days (ms) — never re-show if converted
+// Re-show after 30 days (ms) - never re-show if converted
 const DISMISS_COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000
 // Minimum time on page before the exit intent can fire (ms)
 const MIN_PAGE_TIME_MS = 20000
@@ -28,7 +28,7 @@ function isSuppressed(): boolean {
       if (elapsed < DISMISS_COOLDOWN_MS) return true
     }
   } catch {
-    // localStorage unavailable (private mode, etc.) — allow popup
+    // localStorage unavailable (private mode, etc.) - allow popup
   }
   return false
 }
@@ -159,7 +159,7 @@ export default function ExitIntentPopup() {
               <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-3" />
               <p className="font-semibold text-gray-900 mb-1">C&apos;est envoyé !</p>
               <p className="text-sm text-gray-500">
-                Vérifiez votre boîte mail — le guide arrive dans les 2 minutes.
+                Vérifiez votre boîte mail - le guide arrive dans les 2 minutes.
               </p>
             </div>
           ) : (
@@ -212,7 +212,7 @@ export default function ExitIntentPopup() {
 
                 <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
                   En soumettant ce formulaire, vous acceptez de recevoir le guide par email.
-                  Pas de spam — désabonnement en 1 clic. Conformément au{' '}
+                  Pas de spam - désabonnement en 1 clic. Conformément au{' '}
                   <a href="/politique-confidentialite" className="underline hover:text-gray-600">
                     RGPD
                   </a>

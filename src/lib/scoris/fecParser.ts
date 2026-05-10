@@ -1,15 +1,15 @@
 /**
- * FEC Parser — Client-side Fichier des Écritures Comptables analyzer
+ * FEC Parser - Client-side Fichier des Écritures Comptables analyzer
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
  * RGPD by Design : parsing exclusivement client-side via FileReader API.
  * Aucune donnée comptable ne transite par le serveur.
  *
  * Formats acceptés :
- *   - FEC DGFIP standard (.txt, .csv, .tsv) — séparateur tab, pipe, ou point-virgule
- *   - Excel (.xlsx) — lecture du premier onglet via SheetJS
+ *   - FEC DGFIP standard (.txt, .csv, .tsv) - séparateur tab, pipe, ou point-virgule
+ *   - Excel (.xlsx) - lecture du premier onglet via SheetJS
  *
- * Format FEC (DGFIP) — 18 colonnes obligatoires :
+ * Format FEC (DGFIP) - 18 colonnes obligatoires :
  *   JournalCode | JournalLib | EcritureNum | EcritureDate | CompteNum |
  *   CompteLib | CompAuxNum | CompAuxLib | PieceRef | PieceDate |
  *   EcritureLib | Debit | Credit | EcrtureLet | DateLet |
@@ -84,9 +84,9 @@ export interface FECExtractedData {
 
 /** Calculated indicators ready for wizard injection */
 export interface FECWizardData {
-  /** DSO — Délai de paiement clients */
+  /** DSO - Délai de paiement clients */
   dso: { value: number; inputs: { creances: number; ca: number } }
-  /** BFR — Besoin en fonds de roulement */
+  /** BFR - Besoin en fonds de roulement */
   bfr: { value: number; inputs: { stocks: number; creances: number; dettes: number; ca: number } }
   /** Marge brute (approximée) */
   marge: { value: number; inputs: { prixVente: number; coutRevient: number } }
@@ -119,10 +119,10 @@ export interface FECParseError {
 export type FECResult = FECParseResult | FECParseError
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// FEC COLUMN DEFINITIONS (DGFIP standard) — lazy matching with aliases
+// FEC COLUMN DEFINITIONS (DGFIP standard) - lazy matching with aliases
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/** Required FEC column names — case-insensitive matching */
+/** Required FEC column names - case-insensitive matching */
 const REQUIRED_COLUMNS = [
   'journalcode',
   'ecrituredate',
@@ -141,7 +141,7 @@ const OPTIONAL_COLUMNS = [
 ] as const
 
 /**
- * Lazy alias map — many accounting tools export variants of column names.
+ * Lazy alias map - many accounting tools export variants of column names.
  * Sage exports "CompteNumero", Cegid uses "NumCompte", etc.
  * Key = canonical name, Value = array of accepted aliases (all lowercase, no accents).
  */
@@ -162,7 +162,7 @@ const COLUMN_ALIASES: Record<string, string[]> = {
 // UTIL: Financial rounding (anti-float drift)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/** Round to 2 decimal places — avoids IEEE 754 drift in cumulative sums */
+/** Round to 2 decimal places - avoids IEEE 754 drift in cumulative sums */
 function round2(n: number): number {
   return Math.round((n + Number.EPSILON) * 100) / 100
 }
@@ -178,7 +178,7 @@ function normalize(s: string): string {
 
 /**
  * Parse a FEC file (txt or csv) and extract financial indicators.
- * 100% client-side — uses FileReader API.
+ * 100% client-side - uses FileReader API.
  *
  * @param file - File object from input or drag & drop
  * @param onProgress - Optional callback for progress tracking (0-100)
@@ -295,7 +295,7 @@ export async function parseFEC(
 
   onProgress?.(25)
 
-  // ── Parse rows — chunked async for large files ──
+  // ── Parse rows - chunked async for large files ──
   const rows: FECRow[] = []
   const totalLines = dataLines.length
   const CHUNK_SIZE = 2000
@@ -458,7 +458,7 @@ function buildColumnMap(headers: string[]): Record<string, number> {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// LINE PARSING — handles quoted fields
+// LINE PARSING - handles quoted fields
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function parseLine(line: string, separator: string): string[] {
@@ -508,7 +508,7 @@ function mapToFECRow(cols: string[], columnMap: Record<string, number>): FECRow 
       } else if (sens === 'C') {
         credit = montant
       }
-      // Sens missing or unknown — skip row silently
+      // Sens missing or unknown - skip row silently
     }
 
     return {
@@ -536,7 +536,7 @@ function parseAmount(raw: string | undefined): number {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// FINANCIAL AGGREGATION — PCG mapping
+// FINANCIAL AGGREGATION - PCG mapping
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function aggregateFinancials(rows: FECRow[], fileName: string): FECExtractedData {
@@ -567,26 +567,26 @@ function aggregateFinancials(rows: FECRow[], fileName: string): FECExtractedData
       if (row.ecritureDate > dateMax) dateMax = row.ecritureDate
     }
 
-    // ── CA: comptes 70x (ventes) — balance (crédits − débits)
+    // ── CA: comptes 70x (ventes) - balance (crédits − débits)
     // Débits = extournes de FAE, avoirs, régularisations
     if (num.startsWith('70')) {
       caCredits = round2(caCredits + row.credit)
       caDebits = round2(caDebits + row.debit)
     }
 
-    // ── Créances clients: comptes 411x — balance (débit − crédit)
+    // ── Créances clients: comptes 411x - balance (débit − crédit)
     if (num.startsWith('411')) {
       creancesDebit = round2(creancesDebit + row.debit)
       creancesCredit = round2(creancesCredit + row.credit)
     }
 
-    // ── Dettes fournisseurs: comptes 401x — balance (crédit − débit)
+    // ── Dettes fournisseurs: comptes 401x - balance (crédit − débit)
     if (num.startsWith('401')) {
       dettesFournDebit = round2(dettesFournDebit + row.debit)
       dettesFournCredit = round2(dettesFournCredit + row.credit)
     }
 
-    // ── Charges exploitation: classe 6 — net (débits − crédits avoirs)
+    // ── Charges exploitation: classe 6 - net (débits − crédits avoirs)
     if (num.startsWith('6')) {
       chargesDebit = round2(chargesDebit + row.debit)
       chargesCredit = round2(chargesCredit + row.credit)
@@ -711,12 +711,12 @@ function computeWizardData(data: FECExtractedData): {
 
   if (data.facteurAnnualisation > 1) {
     warnings.push(
-      `Exercice de ${data.moisExercice} mois détecté — CA et charges annualisés (×${data.facteurAnnualisation.toFixed(1)})`,
+      `Exercice de ${data.moisExercice} mois détecté - CA et charges annualisés (×${data.facteurAnnualisation.toFixed(1)})`,
     )
   }
 
   if (data.ca === 0) {
-    warnings.push('Aucun chiffre d\'affaires détecté (comptes 70x) — vérifiez le fichier')
+    warnings.push('Aucun chiffre d\'affaires détecté (comptes 70x) - vérifiez le fichier')
   }
 
   return {
@@ -744,7 +744,7 @@ function formatFECDate(yyyymmdd: string): string {
 }
 
 /**
- * Compute months between two YYYYMMDD dates — day-level precision.
+ * Compute months between two YYYYMMDD dates - day-level precision.
  * Uses actual Date difference for accuracy (handles Feb, leap years, etc.).
  * Returns at least 1 month, capped at 24.
  */
@@ -774,7 +774,7 @@ function computeMonthsBetween(dateMin: string, dateMax: string): number {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// UI THREAD YIELD — critical for large file parsing
+// UI THREAD YIELD - critical for large file parsing
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /** Yield control back to the browser's event loop so the UI stays responsive. */
@@ -783,7 +783,7 @@ function yieldToUI(): Promise<void> {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// VALIDATION HELPER — Quick check if a file looks like a valid FEC
+// VALIDATION HELPER - Quick check if a file looks like a valid FEC
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /**

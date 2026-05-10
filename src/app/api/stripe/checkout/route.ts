@@ -71,8 +71,8 @@ export async function POST(req: NextRequest) {
                             unit_amount: fallbackAmount,
                             product_data: {
                                 name: isStrategic
-                                    ? 'Rapport SCORIS Stratégique™ — Diagnostic & Z-Score'
-                                    : 'Rapport SCORIS™ — Diagnostic financier personnalisé',
+                                    ? 'Rapport SCORIS Stratégique™ - Diagnostic & Z-Score'
+                                    : 'Rapport SCORIS™ - Diagnostic financier personnalisé',
                                 description: isStrategic
                                     ? 'Score 4 piliers · Z-Score Altman · SWOT IA · Valorisation · PDF consulting'
                                     : 'Score détaillé · 4 piliers · Plan d\'action 90j · PDF consulting A4 · Généré par IA',

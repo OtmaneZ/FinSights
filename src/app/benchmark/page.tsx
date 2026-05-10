@@ -278,7 +278,7 @@ export default function BenchmarkPage() {
           </p>
           <div className="mt-2 flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-md px-3 py-1.5 w-fit">
             <CheckCircle2 className="w-3.5 h-3.5" />
-            Données certifiées — Banque de France FIBEN 2024 (publiées novembre 2025)
+            Données certifiées - Banque de France FIBEN 2024 (publiées novembre 2025)
           </div>
         </div>
 

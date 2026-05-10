@@ -203,7 +203,7 @@ export async function POST(req: NextRequest) {
         html = built.html
       }
 
-      const adminSubject = `📥 Nouveau lead — ${templateName} — ${email}`
+      const adminSubject = `📥 Nouveau lead - ${templateName} - ${email}`
 
       const adminBodyLines = [
         'Nouveau lead FinSight',
@@ -212,8 +212,8 @@ export async function POST(req: NextRequest) {
         `Email : ${email}`,
         `Prénom : ${firstName}`,
         `Source : ${source}`,
-        attachment ? `Pièce jointe : ${attachment.filename}` : 'Pièce jointe : —',
-        leadId ? `ID lead : ${leadId}` : 'ID lead : —',
+        attachment ? `Pièce jointe : ${attachment.filename}` : 'Pièce jointe : -',
+        leadId ? `ID lead : ${leadId}` : 'ID lead : -',
       ]
       const adminBody = adminBodyLines.join('\n')
 
@@ -240,7 +240,7 @@ export async function POST(req: NextRequest) {
       logger.error('❌ Envoi email lead (exception):', err)
     }
   } else {
-    logger.warn('⚠️ RESEND_API_KEY absente ou placeholder — email lead non envoyé')
+    logger.warn('⚠️ RESEND_API_KEY absente ou placeholder - email lead non envoyé')
   }
 
   return NextResponse.json({ success: true, leadId }, { status: 200 })

@@ -94,7 +94,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
-  // Calculators — Pré-diagnostic stratégique
+  // Calculators - Pré-diagnostic stratégique
   const calculators: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/calculateurs`,
@@ -172,7 +172,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  // Fondamentaux finance — guides pédagogiques
+  // Fondamentaux finance - guides pédagogiques
   const fondamentauxPages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/fondamentaux`,
@@ -212,7 +212,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  // Agents IA — pages individuelles
+  // Agents IA - pages individuelles
   const agentPages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/agents/dashis`,

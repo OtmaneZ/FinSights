@@ -106,7 +106,7 @@ async function handleCalculatorPremiumCheckout(session: Stripe.Checkout.Session)
     const pdfBuffer = Buffer.from(pdfBase64, 'base64');
     const fileName = `FinSight_Premium_${calculatorType}_${new Date().toISOString().slice(0, 10)}.pdf`;
 
-    const subject = `Votre Rapport Premium FinSight™ — ${calculatorType}`;
+    const subject = `Votre Rapport Premium FinSight™ - ${calculatorType}`;
 
     const html = `<!DOCTYPE html>
 <html lang="fr"><head><meta charset="utf-8"></head>
@@ -184,7 +184,7 @@ export async function POST(req: NextRequest) {
     try {
         switch (event.type) {
             // ============================================
-            // CHECKOUT COMPLETED — SCORIS rapport (one-time 49€)
+            // CHECKOUT COMPLETED - SCORIS rapport (one-time 49€)
             // ============================================
             case 'checkout.session.completed': {
                 const session = event.data.object as Stripe.Checkout.Session;
@@ -246,17 +246,17 @@ export async function POST(req: NextRequest) {
 
                             const rapportName = isStrategicProduct ? 'SCORIS Stratégique™' : 'SCORIS™';
                             const prixTag = isStrategicProduct ? '99€' : '49€';
-                            const adminLine = `💰 Nouveau paiement ${rapportName} — ${emailNorm} — ${prixTag}`;
+                            const adminLine = `💰 Nouveau paiement ${rapportName} - ${emailNorm} - ${prixTag}`;
                             const mailIntro = isStrategicProduct
-                                ? `Merci pour votre confiance. Votre rapport ${rapportName} inclut le diagnostic 4 piliers, le plan d'action 90 jours, le Z-Score Altman, l'analyse SWOT enrichie et une estimation indicative — synthèse IA calibrée sur les médianes de votre secteur.`
+                                ? `Merci pour votre confiance. Votre rapport ${rapportName} inclut le diagnostic 4 piliers, le plan d'action 90 jours, le Z-Score Altman, l'analyse SWOT enrichie et une estimation indicative - synthèse IA calibrée sur les médianes de votre secteur.`
                                 : `Merci pour votre confiance. Votre rapport SCORIS™ personnalisé a été généré avec votre score détaillé, les 4 piliers financiers, le plan d'action 90 jours et une synthèse IA calibrée sur les médianes de votre secteur.`;
                             const { error } = await sendUserEmailWithAdminNotify(
                                 {
                                     from: FROM_EMAIL,
                                     replyTo: REPLY_TO_EMAIL,
                                     to: [emailNorm],
-                                    subject: `Votre rapport ${rapportName} est prêt — Score ${score ?? '—'}/100`,
-                                    html: `<!DOCTYPE html><html lang="fr"><body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,sans-serif;"><div style="max-width:600px;margin:40px auto;background:#fff;border-radius:16px;border:1px solid #e2e8f0;overflow:hidden;"><div style="background:#0f172a;padding:32px 40px;"><p style="margin:0;font-size:11px;font-weight:700;letter-spacing:3px;color:#64748b;text-transform:uppercase;">FinSight · ${rapportName}</p><h1 style="margin:12px 0 0;font-size:24px;font-weight:600;color:#fff;">Votre rapport est prêt</h1></div><div style="background:#f1f5f9;padding:24px 40px;border-bottom:1px solid #e2e8f0;"><span style="font-size:48px;font-weight:600;color:#0052cc;font-family:Georgia,serif;">${score ?? '—'}</span><span style="font-size:20px;color:#94a3b8;"> / 100</span><p style="margin:4px 0 0;font-size:13px;font-weight:600;color:#64748b;">${levelLabel}</p></div><div style="padding:32px 40px;"><p style="margin:0 0 24px;font-size:15px;color:#334155;line-height:1.6;">${mailIntro}</p><a href="${downloadUrl}" style="display:inline-block;padding:14px 28px;background:#0f172a;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;">Télécharger mon rapport PDF →</a><p style="margin:24px 0 0;font-size:12px;color:#94a3b8;">En cas de problème, répondez directement à cet email.</p></div><div style="padding:20px 40px;border-top:1px solid #e2e8f0;background:#f8fafc;"><p style="margin:0;font-size:11px;color:#94a3b8;">FinSight · ${rapportName} — <a href="${appUrl}" style="color:#94a3b8;">finsight.zineinsight.com</a></p></div></div></body></html>`,
+                                    subject: `Votre rapport ${rapportName} est prêt - Score ${score ?? '-'}/100`,
+                                    html: `<!DOCTYPE html><html lang="fr"><body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,sans-serif;"><div style="max-width:600px;margin:40px auto;background:#fff;border-radius:16px;border:1px solid #e2e8f0;overflow:hidden;"><div style="background:#0f172a;padding:32px 40px;"><p style="margin:0;font-size:11px;font-weight:700;letter-spacing:3px;color:#64748b;text-transform:uppercase;">FinSight · ${rapportName}</p><h1 style="margin:12px 0 0;font-size:24px;font-weight:600;color:#fff;">Votre rapport est prêt</h1></div><div style="background:#f1f5f9;padding:24px 40px;border-bottom:1px solid #e2e8f0;"><span style="font-size:48px;font-weight:600;color:#0052cc;font-family:Georgia,serif;">${score ?? '-'}</span><span style="font-size:20px;color:#94a3b8;"> / 100</span><p style="margin:4px 0 0;font-size:13px;font-weight:600;color:#64748b;">${levelLabel}</p></div><div style="padding:32px 40px;"><p style="margin:0 0 24px;font-size:15px;color:#334155;line-height:1.6;">${mailIntro}</p><a href="${downloadUrl}" style="display:inline-block;padding:14px 28px;background:#0f172a;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;">Télécharger mon rapport PDF →</a><p style="margin:24px 0 0;font-size:12px;color:#94a3b8;">En cas de problème, répondez directement à cet email.</p></div><div style="padding:20px 40px;border-top:1px solid #e2e8f0;background:#f8fafc;"><p style="margin:0;font-size:11px;color:#94a3b8;">FinSight · ${rapportName} - <a href="${appUrl}" style="color:#94a3b8;">finsight.zineinsight.com</a></p></div></div></body></html>`,
                                 },
                                 adminLine,
                                 adminLine,
@@ -271,7 +271,7 @@ export async function POST(req: NextRequest) {
                                 }).catch(() => null);
                             }
                         } else if (emailNorm && !isResendConfigured()) {
-                            logger.warn('⚠️ RESEND non configuré — email SCORIS non envoyé pour', emailNorm);
+                            logger.warn('⚠️ RESEND non configuré - email SCORIS non envoyé pour', emailNorm);
                         }
                     } catch (err) {
                         logger.error('[webhook] Erreur post-paiement SCORIS:', err);

@@ -23,7 +23,7 @@ const TESTIMONIALS = [
     {
         quote: "Le diagnostic a mis le doigt sur 180 k\u20AC de cash immobilis\u00E9 dans nos cr\u00E9ances. R\u00E9sultat en 7 minutes, sans fioriture. Exactement ce qu\u2019on attendait d\u2019un outil DAF.",
         author: 'Jean D.',
-        role: 'CEO, PME distribution — 8 M€ CA',
+        role: 'CEO, PME distribution - 8 M€ CA',
         rating: 5,
         before: 44,
         after: 79,
@@ -31,7 +31,7 @@ const TESTIMONIALS = [
     {
         quote: "Enfin un outil qui positionne nos ratios par rapport aux vrais benchmarks sectoriels. Le Score R\u00C9SILIENCE a identifi\u00E9 notre endettement trop \u00E9lev\u00E9 bien avant notre banquier.",
         author: 'Directrice Administrative',
-        role: 'PME industrie — 12 M€ CA',
+        role: 'PME industrie - 12 M€ CA',
         rating: 5,
         before: 51,
         after: 83,
@@ -39,7 +39,7 @@ const TESTIMONIALS = [
     {
         quote: "J\u2019utilisais Excel depuis 10 ans. FinSight m\u2019a montr\u00E9 en 7 minutes que mon BFR repr\u00E9sentait 94 jours de CA \u2014 un signal que je n\u2019avais jamais formalis\u00E9.",
         author: 'Directeur Général',
-        role: 'PME services B2B — 5 M€ CA',
+        role: 'PME services B2B - 5 M€ CA',
         rating: 5,
         before: 38,
         after: 74,
@@ -55,7 +55,7 @@ const PILLAR_DETAILS = [
         color: 'text-blue-600',
         bg: 'bg-blue-50',
         border: 'border-blue-200',
-        title: 'Pilier CASH — Liquidité & Trésorerie',
+        title: 'Pilier CASH - Liquidité & Trésorerie',
         indicators: ['DSO (délai de paiement clients)', 'BFR en jours de CA', 'Couverture de trésorerie'],
         insight: 'Identifie le cash immobilisé et les risques de tension à 90 jours.',
     },
@@ -64,7 +64,7 @@ const PILLAR_DETAILS = [
         color: 'text-emerald-600',
         bg: 'bg-emerald-50',
         border: 'border-emerald-200',
-        title: 'Pilier MARGIN — Rentabilité',
+        title: 'Pilier MARGIN - Rentabilité',
         indicators: ['Taux de marge brute', 'EBITDA margin', 'Seuil de rentabilité'],
         insight: 'Mesure la capacité bénéficiaire réelle et la distance au point mort.',
     },
@@ -73,7 +73,7 @@ const PILLAR_DETAILS = [
         color: 'text-amber-600',
         bg: 'bg-amber-50',
         border: 'border-amber-200',
-        title: 'Pilier RÉSILIENCE — Solidité Financière',
+        title: 'Pilier RÉSILIENCE - Solidité Financière',
         indicators: ["Ratio d\u2019endettement (dette/EBITDA)", "Couverture des int\u00E9r\u00EAts", "Capacit\u00E9 de remboursement"],
         insight: 'Évalue la robustesse face aux chocs de marché et aux hausses de taux.',
     },
@@ -82,7 +82,7 @@ const PILLAR_DETAILS = [
         color: 'text-purple-600',
         bg: 'bg-purple-50',
         border: 'border-purple-200',
-        title: 'Pilier RISQUE — Exposition',
+        title: 'Pilier RISQUE - Exposition',
         indicators: ['Concentration clients (top 3)', 'Volatilité du CA', 'Score risque global'],
         insight: 'Quantifie la dépendance aux clients stratégiques et la fragilité commerciale.',
     },
@@ -102,11 +102,11 @@ export default function AnalysePredictivePage() {
                                 Analyse Financière Prédictive · Avis &amp; Test
                             </p>
                             <h1 className="font-serif text-4xl lg:text-5xl font-medium leading-tight tracking-tight text-white mb-6 max-w-3xl mx-auto">
-                                FinSight Advanced — le diagnostic financier PME en 7 minutes
+                                FinSight Advanced - le diagnostic financier PME en 7 minutes
                             </h1>
                             <p className="text-lg text-gray-400 leading-relaxed mb-4 max-w-2xl mx-auto">
                                 Score FinSight™ de 0 à 100, 4 piliers, benchmarks sectoriels réels (Banque de France 2024).
-                                Un avis honnête sur ce que l'outil fait — et ce qu'il ne fait pas.
+                                Un avis honnête sur ce que l'outil fait - et ce qu'il ne fait pas.
                             </p>
 
                             {/* Trust bar */}
@@ -123,7 +123,7 @@ export default function AnalysePredictivePage() {
                                 <span className="w-px h-3 bg-gray-800" aria-hidden="true" />
                                 <span className="flex items-center gap-1.5 text-[12px] text-gray-500">
                                     <Lock className="w-3.5 h-3.5 text-gray-600" aria-hidden="true" />
-                                    RGPD — 0 donnée transmise
+                                    RGPD - 0 donnée transmise
                                 </span>
                                 <span className="w-px h-3 bg-gray-800" aria-hidden="true" />
                                 <span className="flex items-center gap-1.5 text-[12px] text-gray-500">
@@ -159,8 +159,8 @@ export default function AnalysePredictivePage() {
                         </p>
                         <div className="grid md:grid-cols-3 gap-6">
                             {[
-                                { icon: <Clock className="w-5 h-5" />, title: '7 minutes', desc: 'Pour un diagnostic complet — pas une simplification.' },
-                                { icon: <TrendingUp className="w-5 h-5" />, title: '4 piliers', desc: 'CASH, MARGIN, RÉSILIENCE, RISQUE — les fondamentaux du PCG.' },
+                                { icon: <Clock className="w-5 h-5" />, title: '7 minutes', desc: 'Pour un diagnostic complet - pas une simplification.' },
+                                { icon: <TrendingUp className="w-5 h-5" />, title: '4 piliers', desc: 'CASH, MARGIN, RÉSILIENCE, RISQUE - les fondamentaux du PCG.' },
                                 { icon: <Target className="w-5 h-5" />, title: 'Benchmark réel', desc: "M\u00E9dianes Banque de France 2024 par secteur d\u2019activit\u00E9." },
                             ].map((item) => (
                                 <div key={item.title} className="p-6 bg-slate-50 rounded-xl border border-slate-200 text-center">
@@ -179,7 +179,7 @@ export default function AnalysePredictivePage() {
                 <section className="py-16 bg-slate-50">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
                         <h2 className="text-3xl font-bold text-slate-900 mb-3 text-center">
-                            Score FinSight™ — avant / après optimisation
+                            Score FinSight™ - avant / après optimisation
                         </h2>
                         <p className="text-slate-600 text-center mb-10">
                             Exemple réel : PME distribution 8 M€, 90 jours d'accompagnement DAF externalisé.
@@ -206,7 +206,7 @@ export default function AnalysePredictivePage() {
                                             aria-valuenow={p.after}
                                             aria-valuemin={0}
                                             aria-valuemax={100}
-                                            aria-label={`${p.label} — score après : ${p.after}/100`}
+                                            aria-label={`${p.label} - score après : ${p.after}/100`}
                                         />
                                     </div>
                                 </div>
@@ -220,7 +220,7 @@ export default function AnalysePredictivePage() {
                 <section className="py-16 bg-white">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
                         <h2 className="text-3xl font-bold text-slate-900 mb-3 text-center">
-                            Ce que l'outil analyse — les 4 piliers
+                            Ce que l'outil analyse - les 4 piliers
                         </h2>
                         <p className="text-slate-600 text-center mb-10 max-w-2xl mx-auto">
                             Chaque pilier regroupe 2 à 3 indicateurs clés, positionnés face aux médianes sectorielles réelles.
@@ -287,16 +287,16 @@ export default function AnalysePredictivePage() {
                     </div>
                 </section>
 
-                {/* ── HONEST REVIEW — what it does NOT do ── */}
+                {/* ── HONEST REVIEW - what it does NOT do ── */}
                 <section className="py-16 bg-white">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
                         <h2 className="text-3xl font-bold text-slate-900 mb-6 text-center">
-                            Avis honnête — ce que FinSight Advanced ne fait pas
+                            Avis honnête - ce que FinSight Advanced ne fait pas
                         </h2>
                         <div className="space-y-4">
                             {[
                                 { label: 'Remplace un expert-comptable', no: true, note: "Il identifie les signaux d\u2019alerte \u2014 l\u2019interpr\u00E9tation approfondie reste humaine." },
-                                { label: 'Analyse vos pièces comptables', no: true, note: 'Vous saisissez 9 chiffres clés — pas de connexion à votre logiciel comptable.' },
+                                { label: 'Analyse vos pièces comptables', no: true, note: 'Vous saisissez 9 chiffres clés - pas de connexion à votre logiciel comptable.' },
                                 { label: 'Transmet vos données', no: true, note: 'Tout reste dans votre navigateur. Aucun serveur ne stocke vos données.' },
                                 { label: 'Positionne vos ratios face à votre secteur', no: false, note: '7 secteurs disponibles avec médianes Banque de France 2024.' },
                                 { label: 'Identifie les 2–3 leviers prioritaires', no: false, note: 'Chaque pilier génère une recommandation actionnable.' },

@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * SectorComparisonBadge — Visual benchmark positioning indicator
+ * SectorComparisonBadge - Visual benchmark positioning indicator
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
  * Shows a horizontal bar with color zones (critique → excellent) and
@@ -165,7 +165,7 @@ export function SectorComparisonBadge({
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// MULTIPLE COMPARISONS — render a grid
+// MULTIPLE COMPARISONS - render a grid
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 interface SectorComparisonGridProps {
