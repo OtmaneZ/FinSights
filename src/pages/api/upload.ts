@@ -21,6 +21,7 @@ export const config = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    /* [VEILLE]
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -452,4 +453,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             details: error instanceof Error ? error.message : 'Erreur inconnue'
         });
     }
+    */
+
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    return res.status(503).json({
+        message: 'Dashis est en cours de développement. Disponible prochainement.',
+    });
 }

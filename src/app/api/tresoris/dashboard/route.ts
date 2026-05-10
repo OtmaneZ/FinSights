@@ -8,6 +8,7 @@ import type { DashboardData } from '@/components/tresoris/types'
  * clients à risque, alertes et actions recommandées.
  */
 export async function GET() {
+    /* [VEILLE]
     try {
         // Données démo réalistes pour NovaTech Solutions (Scale-up SaaS)
         const dashboard: DashboardData = {
@@ -150,4 +151,9 @@ export async function GET() {
             { status: 500 }
         )
     }
+    */
+    return NextResponse.json(
+        { message: 'Tresoris est en cours de développement. Disponible prochainement.' },
+        { status: 503 }
+    )
 }

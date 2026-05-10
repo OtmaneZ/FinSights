@@ -64,6 +64,7 @@ interface AIAnalysisResult {
 }
 
 export async function POST(request: NextRequest) {
+    /* [VEILLE]
     try {
         const body: AnalyzeRequest = await request.json()
         const { client_name, amount, days_overdue, context } = body
@@ -183,6 +184,12 @@ Retourne JSON avec structure :
             error: error instanceof Error ? error.message : 'Unknown error'
         })
     }
+    */
+
+    return NextResponse.json(
+        { message: 'Tresoris est en cours de développement. Disponible prochainement.' },
+        { status: 503 }
+    )
 }
 
 // Fallback rule-based (comme avant, mais structuré comme l'IA)

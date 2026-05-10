@@ -26,6 +26,7 @@ const DEMO_CONTEXT: TriggerContext = {
 }
 
 export async function POST() {
+    /* [VEILLE]
     try {
         const status = getAgentStatus()
         
@@ -88,4 +89,9 @@ export async function POST() {
             { status: 500 }
         )
     }
+    */
+    return NextResponse.json(
+        { message: 'Tresoris est en cours de développement. Disponible prochainement.' },
+        { status: 503 }
+    )
 }

@@ -19,6 +19,7 @@ import {
  * si un trigger d'analyse doit être déclenché.
  */
 export async function POST(request: NextRequest) {
+    /* [VEILLE]
     try {
         const body: SimulationRequest = await request.json()
         const { client_name, amount, days_overdue } = body
@@ -198,4 +199,9 @@ export async function POST(request: NextRequest) {
             { status: 500 }
         )
     }
+    */
+    return NextResponse.json(
+        { message: 'Tresoris est en cours de développement. Disponible prochainement.' },
+        { status: 503 }
+    )
 }

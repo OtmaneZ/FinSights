@@ -13,6 +13,7 @@ import { NextResponse } from 'next/server'
 import { startAgent, getAgentStatus, addLog, resetAgentState } from '@/lib/tresoris/agent-state'
 
 export async function POST() {
+    /* [VEILLE]
     try {
         // Check if agent is already running - if so, reset and restart
         const currentStatus = getAgentStatus()
@@ -55,4 +56,9 @@ export async function POST() {
             { status: 500 }
         )
     }
+    */
+    return NextResponse.json(
+        { message: 'Tresoris est en cours de développement. Disponible prochainement.' },
+        { status: 503 }
+    )
 }
