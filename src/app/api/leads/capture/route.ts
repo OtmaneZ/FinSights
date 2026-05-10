@@ -10,6 +10,7 @@ import {
   REPLY_TO_EMAIL,
 } from '@/lib/emails/resend'
 import { TemplateDownloadEmail } from '@/lib/emails/templates/TemplateDownloadEmail'
+import { sanitizeResendTagEntries } from '@/lib/emails/sanitizeResendTag'
 import { logger } from '@/lib/logger'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://finsight.zineinsight.com'
@@ -224,10 +225,10 @@ export async function POST(req: NextRequest) {
           subject,
           html,
           ...(attachment ? { attachments: [attachment] } : {}),
-          tags: [
+          tags: sanitizeResendTagEntries([
             { name: 'source', value: source },
             { name: 'template_name', value: templateName },
-          ],
+          ]),
         },
         adminSubject,
         adminBody,

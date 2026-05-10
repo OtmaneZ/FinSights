@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { resend, FROM_EMAIL, REPLY_TO_EMAIL } from '@/lib/emails/resend'
+import { sanitizeResendTagEntries } from '@/lib/emails/sanitizeResendTag'
 
 // Simple email validation
 function isValidEmail(email: string): boolean {
@@ -242,11 +243,11 @@ export async function POST(req: NextRequest) {
         to: [cleanEmail],
         subject,
         html,
-        tags: [
+        tags: sanitizeResendTagEntries([
           { name: 'source', value: source || 'unknown' },
           { name: 'lead_magnet', value: leadMagnet || 'none' },
           { name: 'newsletter_opt_in', value: newsletterOptIn ? 'true' : 'false' },
-        ],
+        ]),
       })
 
       if (error) {

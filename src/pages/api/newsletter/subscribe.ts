@@ -12,6 +12,7 @@ import {
     FROM_EMAIL,
     REPLY_TO_EMAIL,
 } from '@/lib/emails/resend';
+import { sanitizeResendTagEntries } from '@/lib/emails/sanitizeResendTag';
 import { logger } from '@/lib/logger';
 
 export interface SubscribeRequest {
@@ -123,10 +124,10 @@ export default async function handler(
                 </body>
                 </html>
             `,
-                tags: [
+                tags: sanitizeResendTagEntries([
                     { name: 'type', value: 'newsletter_welcome' },
-                    { name: 'source', value: source },
-                ],
+                    { name: 'source', value: source ?? '' },
+                ]),
             },
             adminLine,
             adminLine,

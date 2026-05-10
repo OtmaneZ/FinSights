@@ -10,6 +10,7 @@ import CaseStudyEmail from './templates/CaseStudyEmail'
 import AlertSignalsEmail from './templates/AlertSignalsEmail'
 import DAFOfferEmail from './templates/DAFOfferEmail'
 import { logger } from '@/lib/logger';
+import { sanitizeResendTagEntries } from '@/lib/emails/sanitizeResendTag';
 
 /**
  * Email service for FinSight
@@ -221,10 +222,10 @@ export async function sendTemplateWelcomeEmail(params: {
             replyTo: REPLY_TO_EMAIL,
             subject: `🎉 Votre template ${params.templateName} est prêt + 3 bonus exclusifs`,
             html: emailHtml,
-            tags: [
+            tags: sanitizeResendTagEntries([
                 { name: 'email_type', value: 'nurturing_j0' },
                 { name: 'template', value: params.templateName },
-            ],
+            ]),
         })
 
         if (error) {
@@ -264,10 +265,10 @@ export async function sendTutorialEmail(params: {
             replyTo: REPLY_TO_EMAIL,
             subject: `🎬 Tutoriel : Maîtrisez votre ${params.templateName} (3 min)`,
             html: emailHtml,
-            tags: [
+            tags: sanitizeResendTagEntries([
                 { name: 'email_type', value: 'nurturing_j2' },
                 { name: 'template', value: params.templateName },
-            ],
+            ]),
         })
 
         if (error) {
@@ -305,10 +306,10 @@ export async function sendCaseStudyEmail(params: {
             replyTo: REPLY_TO_EMAIL,
             subject: '💼 Cas client : PME Services 8M€ - De 30j de visibilité à 120j en 60 jours',
             html: emailHtml,
-            tags: [
+            tags: sanitizeResendTagEntries([
                 { name: 'email_type', value: 'nurturing_j5' },
                 { name: 'content_type', value: 'case_study' },
-            ],
+            ]),
         })
 
         if (error) {
@@ -344,10 +345,10 @@ export async function sendAlertSignalsEmail(params: {
             replyTo: REPLY_TO_EMAIL,
             subject: '🚨 3 signaux d\'alerte trésorerie que vous devez surveiller maintenant',
             html: emailHtml,
-            tags: [
+            tags: sanitizeResendTagEntries([
                 { name: 'email_type', value: 'nurturing_j10' },
                 { name: 'content_type', value: 'alert_signals' },
-            ],
+            ]),
         })
 
         if (error) {
@@ -383,10 +384,10 @@ export async function sendDAFOfferEmail(params: {
             replyTo: REPLY_TO_EMAIL,
             subject: '💼 DAF Externalisé : Les 3 formules adaptées aux PME/ETI (tarifs transparents)',
             html: emailHtml,
-            tags: [
+            tags: sanitizeResendTagEntries([
                 { name: 'email_type', value: 'nurturing_j20' },
                 { name: 'content_type', value: 'daf_offer' },
-            ],
+            ]),
         })
 
         if (error) {

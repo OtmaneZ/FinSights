@@ -8,6 +8,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Resend } from 'resend';
 import { AlertEmailData, getEmailTemplate, getEmailSubject } from '@/lib/emails/templates';
+import { sanitizeResendTagEntries } from '@/lib/emails/sanitizeResendTag';
 import { logger } from '@/lib/logger';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -78,11 +79,11 @@ export default async function handler(
             subject,
             html,
             replyTo: replyTo || 'support@finsight.com',
-            tags: [
+            tags: sanitizeResendTagEntries([
                 { name: 'alert_type', value: alertData.alertType },
                 { name: 'severity', value: alertData.severity },
                 { name: 'company', value: alertData.companyName },
-            ],
+            ]),
         });
 
         if (error) {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes } from 'crypto'
 import { put } from '@vercel/blob'
 import { resend, FROM_EMAIL, REPLY_TO_EMAIL } from '@/lib/emails/resend'
+import { sanitizeResendTagEntries } from '@/lib/emails/sanitizeResendTag'
 
 const SITE_URL = 'https://finsight.zineinsight.com'
 const EXPIRY_DAYS = 30
@@ -229,10 +230,10 @@ export async function POST(req: NextRequest) {
   </table>
 </body>
 </html>`,
-      tags: [
+      tags: sanitizeResendTagEntries([
         { name: 'source', value: 'diagnostic_report' },
         { name: 'score', value: String(totalScore) },
-      ],
+      ]),
     })
 
     if (error) {
