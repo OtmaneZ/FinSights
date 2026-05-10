@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { ArrowRight, Calendar, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, Calculator, Calendar, CheckCircle2 } from 'lucide-react'
 
 export default function CinematicHero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -52,15 +52,15 @@ export default function CinematicHero() {
       {/* ── 5. Content ── */}
       <div className="relative z-20 w-full max-w-4xl mx-auto px-6 sm:px-10 lg:px-8 text-center">
 
-        {/* Eyebrow — positionne l'expertise Finance × Data */}
+        {/* Eyebrow */}
         <div className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-xs font-medium tracking-widest text-slate-300 uppercase">
-            Finance &amp; Data · Score FinSight™
+            Hub financier pour dirigeants PME · 2M€ à 20M€
           </span>
         </div>
 
-        {/* Headline — promesse de valeur dirigeant */}
+        {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-[3.75rem] font-bold tracking-tight text-white leading-[1.1] mb-6">
           Décidez avec{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-emerald-300">
@@ -68,14 +68,13 @@ export default function CinematicHero() {
           </span>
         </h1>
 
-        {/* Sub-headline — concret, orienté dirigeant */}
+        {/* Sub-headline */}
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-300/85 leading-relaxed mb-10">
-          Score FinSight™, vision cash à 90 jours, marges réelles par activité.
-          Nous connectons vos données comptables et opérationnelles pour un
-          pilotage fiable, structuré sur Power BI.
+          9 calculateurs gratuits, diagnostic complet, accompagnement expert.
+          Trois niveaux pour piloter votre cash, vos marges et votre résilience.
         </p>
 
-        {/* Proof points — résultats concrets, pas des features */}
+        {/* Proof points */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-10 text-sm text-slate-300">
           {[
             '−28 jours de DSO · PME Services',
@@ -89,30 +88,31 @@ export default function CinematicHero() {
           ))}
         </div>
 
-        {/* CTA — un seul chemin clair */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+        {/* CTAs — même poids visuel */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 mb-10 w-full max-w-2xl mx-auto">
+          <a
+            href="#calculateurs"
+            className="group inline-flex flex-1 items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-slate-950 text-white font-semibold text-sm tracking-wide transition-all duration-200 hover:bg-slate-900 border border-slate-800 shadow-lg shadow-black/30"
+          >
+            <Calculator className="w-4 h-4 shrink-0" aria-hidden />
+            Tester les outils gratuits
+            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+          </a>
+
           <a
             href="https://calendly.com/zineinsight"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-white text-slate-900 font-semibold text-sm tracking-wide transition-all duration-200 hover:bg-slate-100 shadow-lg shadow-black/30"
+            className="group inline-flex flex-1 items-center justify-center gap-2.5 px-8 py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm tracking-wide backdrop-blur-sm transition-all duration-200"
           >
-            <Calendar className="w-4 h-4 shrink-0" />
-            Demander mon diagnostic stratégique
-            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-          </a>
-
-          <a
-            href="#diagnostic"
-            className="inline-flex items-center gap-2 px-7 py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-medium text-sm tracking-wide backdrop-blur-sm transition-all duration-200"
-          >
-            Voir le Score FinSight™
+            <Calendar className="w-4 h-4 shrink-0" aria-hidden />
+            Parler à un expert
+            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
           </a>
         </div>
 
-        {/* Micro-réassurance */}
         <p className="text-xs text-slate-400 tracking-wide">
-          Réponse sous 24h · Confidentiel · Sans engagement
+          Sans inscription · Résultat immédiat
         </p>
       </div>
 
