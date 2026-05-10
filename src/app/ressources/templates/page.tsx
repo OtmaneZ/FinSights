@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: 'Templates Excel Gratuits Finance | Budget, DSO, Cash Flow | FinSight',
     description: 'Téléchargez gratuitement nos templates Excel professionnels : Budget prévisionnel 2026, Tracker DSO, Dashboard Cash Flow. Prêts à l\'emploi avec formules automatiques.',
     openGraph: {
-        title: 'Templates Excel Gratuits pour CFO/DAF | FinSight',
+        title: 'Templates Excel Gratuits pour Dirigeants PME | FinSight',
         description: '3 templates Excel professionnels gratuits pour piloter votre PME',
         type: 'website'
     }
@@ -25,12 +25,12 @@ export default function TemplatesPage() {
                 <div className="text-center mb-16">
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary-subtle border border-accent-primary-border rounded-full mb-6">
                         <FileSpreadsheet className="w-4 h-4 text-accent-primary" />
-                        <span className="text-accent-primary text-sm font-semibold">100% Gratuits</span>
+                        <span className="text-accent-primary text-sm font-semibold">Accès immédiat</span>
                     </div>
 
                     <h1 className="text-5xl font-bold mb-6 leading-tight">
                         Templates Excel Professionnels<br />
-                        <span className="text-accent-primary">pour CFO/DAF</span>
+                        <span className="text-accent-primary">pour Dirigeants PME</span>
                     </h1>
 
                     <p className="text-xl text-secondary max-w-3xl mx-auto mb-4">
@@ -58,9 +58,9 @@ export default function TemplatesPage() {
                         <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mb-4 mx-auto">
                             <RefreshCw className="w-6 h-6 text-green-600" />
                         </div>
-                        <h3 className="font-bold mb-2 text-center">Import FinSight</h3>
+                        <h3 className="font-bold mb-2 text-center">Prêts en 2 minutes</h3>
                         <p className="text-sm text-secondary text-center">
-                            Exportez vos données vers FinSight pour analyse IA instantanée
+                            Ouvrez, saisissez vos chiffres, obtenez vos indicateurs.
                         </p>
                     </div>
                     <div className="surface rounded-xl p-6 border-2 border-border-default">
@@ -109,7 +109,7 @@ export default function TemplatesPage() {
                     </div>
                 </div>
 
-                {/* CTA Section */}
+                {/* [UPSELL] CTA Section — réutilisable dans l'email J+3
                 <div className="surface rounded-2xl p-12 border-2 border-accent-primary-border bg-gradient-to-br from-accent-primary-subtle to-primary text-center">
                     <h2 className="text-3xl font-bold mb-4">
                         Vous voulez automatiser tout ça avec l'IA ?
@@ -134,6 +134,7 @@ export default function TemplatesPage() {
                         </Link>
                     </div>
                 </div>
+                */}
 
                 {/* FAQ Section */}
                 <div className="mt-16 max-w-3xl mx-auto">

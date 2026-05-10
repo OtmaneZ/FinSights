@@ -50,7 +50,7 @@ export default function Footer() {
                                 Diagnostic financier
                             </Link>
                             <Link href="/methodologie" className="block text-sm text-gray-400 hover:text-white transition-colors">
-                                Méthodologie
+                                Score FinSight™
                             </Link>
                             <Link href="/agents" className="block text-sm text-gray-400 hover:text-white transition-colors">
                                 Agents IA Finance
@@ -79,7 +79,7 @@ export default function Footer() {
                             <Link href="/calculateurs/dso" className="block text-sm text-gray-400 hover:text-white transition-colors">
                                 Calculateur DSO
                             </Link>
-                            <Link href="/daf-externalise-pme" className="block text-sm text-gray-400 hover:text-white transition-colors">
+                            <Link href="/pilotage-financier-pme" className="block text-sm text-gray-400 hover:text-white transition-colors">
                                 Pilotage financier PME
                             </Link>
                             <Link href="/calculateurs/bfr" className="block text-sm text-gray-400 hover:text-white transition-colors">
