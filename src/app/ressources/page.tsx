@@ -82,7 +82,7 @@ export default function RessourcesPage() {
                         >
                             <div className="text-4xl mb-4">📊</div>
                             <h3 className="text-xl font-bold mb-2 group-hover:text-accent-primary transition-colors">
-                                Budget Prévisionnel 2025
+                                Budget Prévisionnel 2026
                             </h3>
                             <p className="text-secondary text-sm mb-4">
                                 12 mois de prévisions avec formules automatiques et graphiques

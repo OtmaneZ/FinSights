@@ -1,4 +1,7 @@
+import path from 'path'
+import fs from 'fs/promises'
 import { NextRequest, NextResponse } from 'next/server'
+import { render } from '@react-email/render'
 import prisma from '@/lib/prisma'
 import {
   sendUserEmailWithAdminNotify,
@@ -6,7 +9,17 @@ import {
   FROM_EMAIL,
   REPLY_TO_EMAIL,
 } from '@/lib/emails/resend'
+import { TemplateDownloadEmail } from '@/lib/emails/templates/TemplateDownloadEmail'
 import { logger } from '@/lib/logger'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://finsight.zineinsight.com'
+
+/** Chemins publics autorisés pour pièce jointe xlsx (lead magnets templates). */
+const ALLOWED_TEMPLATE_XLSX = new Set([
+  '/templates/excel/budget-previsionnel-2026.xlsx',
+  '/templates/excel/tracker-dso.xlsx',
+  '/templates/excel/dashboard-cashflow.xlsx',
+])
 
 interface LeadCapturePayload {
   email?: string
@@ -16,6 +29,9 @@ interface LeadCapturePayload {
   company?: string
   sector?: string
   templateName?: string
+  leadMagnet?: string
+  xlsxPath?: string
+  newsletter_opt_in?: boolean
   metadata?: {
     firstName?: string
     lastName?: string
@@ -34,6 +50,7 @@ function getSafeTemplateName(source?: string, metadata?: LeadCapturePayload['met
   const templateFromMetadata = typeof metadata?.templateName === 'string' ? metadata.templateName.trim() : ''
   if (templateFromMetadata) return templateFromMetadata
   if (source === 'template_download') return 'Template FinSight'
+  if (source?.startsWith('template_')) return 'Template Excel FinSight'
   return `Ressource ${source || 'unknown'}`
 }
 
@@ -53,12 +70,26 @@ function buildConfirmationEmail(templateName: string): { subject: string; html: 
           <p>Vous pouvez continuer à explorer les ressources FinSight depuis votre navigateur.</p>
           <p style="margin-top:24px;font-size:12px;color:#666;">
             FinSight · Direction Financière Externalisée<br />
-            <a href="https://finsight.zineinsight.com/politique-confidentialite" style="color:#666;">Politique de confidentialité</a>
+            <a href="${SITE_URL}/politique-confidentialite" style="color:#666;">Politique de confidentialité</a>
           </p>
         </div>
       </body>
       </html>
     `,
+  }
+}
+
+async function readPublicXlsx(xlsxPath: string): Promise<{ filename: string; content: Buffer } | null> {
+  const relativeFromPublic = xlsxPath.replace(/^\//, '')
+  const fullPath = path.join(process.cwd(), 'public', relativeFromPublic)
+  const safeRoot = path.join(process.cwd(), 'public', 'templates', 'excel')
+  const normalized = path.normalize(fullPath)
+  if (!normalized.startsWith(safeRoot)) return null
+  try {
+    const content = await fs.readFile(normalized)
+    return { filename: path.basename(normalized), content }
+  } catch {
+    return null
   }
 }
 
@@ -77,11 +108,46 @@ export async function POST(req: NextRequest) {
   }
 
   const source = payload.source?.trim() || 'template_download'
-  const templateName = payload.templateName?.trim() || getSafeTemplateName(source, payload.metadata)
-  const firstName = (payload.firstName || payload.metadata?.firstName || 'Prospect').toString().trim() || 'Prospect'
+  const templateName =
+    payload.leadMagnet?.trim() ||
+    payload.templateName?.trim() ||
+    getSafeTemplateName(source, payload.metadata)
+
+  const rawFirstName = (payload.firstName || payload.metadata?.firstName || '').toString().trim()
+  const xlsxPath = payload.xlsxPath?.trim()
+
+  if (xlsxPath) {
+    if (rawFirstName.length < 2) {
+      return NextResponse.json({ success: false, error: 'Merci de saisir votre prénom.' }, { status: 400 })
+    }
+    if (!ALLOWED_TEMPLATE_XLSX.has(xlsxPath)) {
+      return NextResponse.json({ success: false, error: 'Demande invalide.' }, { status: 400 })
+    }
+  }
+
+  const firstName = rawFirstName || 'Prospect'
   const lastName = payload.lastName?.toString().trim() || payload.metadata?.lastName?.toString().trim() || null
   const company = payload.company?.toString().trim() || payload.metadata?.company?.toString().trim() || null
   const sector = payload.sector?.toString().trim() || payload.metadata?.sector?.toString().trim() || null
+
+  let attachment:
+    | { filename: string; content: Buffer; contentType: string }
+    | undefined
+
+  if (isResendConfigured() && xlsxPath) {
+    const loaded = await readPublicXlsx(xlsxPath)
+    if (!loaded) {
+      return NextResponse.json(
+        { success: false, error: 'Fichier template temporairement indisponible.' },
+        { status: 503 },
+      )
+    }
+    attachment = {
+      filename: loaded.filename,
+      content: loaded.content,
+      contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    }
+  }
 
   let leadId: string | null = null
 
@@ -117,8 +183,29 @@ export async function POST(req: NextRequest) {
 
   if (isResendConfigured()) {
     try {
-      const { subject, html } = buildConfirmationEmail(templateName)
-      const adminLine = `Nouveau lead FinSight — ${email} — source: ${source}`
+      let subject: string
+      let html: string
+
+      if (attachment) {
+        html = await render(
+          TemplateDownloadEmail({
+            firstName,
+            templateName,
+            calculatorsUrl: `${SITE_URL}/calculateurs`,
+            privacyUrl: `${SITE_URL}/politique-confidentialite`,
+          }),
+        )
+        subject = `Votre template Excel : ${templateName}`
+      } else {
+        const built = buildConfirmationEmail(templateName)
+        subject = built.subject
+        html = built.html
+      }
+
+      const adminLine = attachment
+        ? `Nouveau lead template — ${email} — ${templateName} — PJ ${attachment.filename} — source: ${source}`
+        : `Nouveau lead FinSight — ${email} — source: ${source}`
+
       const { error } = await sendUserEmailWithAdminNotify(
         {
           from: FROM_EMAIL,
@@ -126,6 +213,7 @@ export async function POST(req: NextRequest) {
           to: [email],
           subject,
           html,
+          ...(attachment ? { attachments: [attachment] } : {}),
           tags: [
             { name: 'source', value: source },
             { name: 'template_name', value: templateName },

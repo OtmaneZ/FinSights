@@ -1,82 +1,19 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Download, FileSpreadsheet, TrendingUp, DollarSign, BarChart3, ArrowRight, Check, Zap, RefreshCw, GraduationCap } from 'lucide-react'
+import { FileSpreadsheet, TrendingUp, ArrowRight, Zap, RefreshCw, GraduationCap } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import TemplatesResourceCards from '@/components/ressources/TemplatesResourceCards'
 
 export const metadata: Metadata = {
     title: 'Templates Excel Gratuits Finance | Budget, DSO, Cash Flow | FinSight',
-    description: 'Téléchargez gratuitement nos templates Excel professionnels : Budget prévisionnel 2025, Tracker DSO, Dashboard Cash Flow. Prêts à l\'emploi avec formules automatiques.',
+    description: 'Téléchargez gratuitement nos templates Excel professionnels : Budget prévisionnel 2026, Tracker DSO, Dashboard Cash Flow. Prêts à l\'emploi avec formules automatiques.',
     openGraph: {
         title: 'Templates Excel Gratuits pour CFO/DAF | FinSight',
         description: '3 templates Excel professionnels gratuits pour piloter votre PME',
         type: 'website'
     }
 }
-
-interface Template {
-    id: string
-    title: string
-    description: string
-    icon: any
-    features: string[]
-    downloadUrl: string
-    downloadUrlPdf: string
-    color: string
-    badge?: string
-}
-
-const templates: Template[] = [
-    {
-        id: 'budget-previsionnel',
-        title: 'Budget Prévisionnel 2025',
-        description: 'Planifiez votre année avec un budget prévisionnel complet sur 12 mois',
-        icon: TrendingUp,
-        features: [
-            '12 mois de prévisions CA/Charges',
-            'Formules automatiques',
-            'Graphiques d\'évolution intégrés',
-            'Calcul auto des marges et cash flow',
-            'Compatible import FinSight'
-        ],
-        downloadUrl: '/templates/excel/budget-previsionnel-2025.xlsx',
-        downloadUrlPdf: '/templates/pdf/budget-previsionnel-2025.pdf',
-        color: 'border-l-4 border-blue-600 bg-gray-50',
-        badge: 'Le plus téléchargé'
-    },
-    {
-        id: 'tracker-dso',
-        title: 'Tracker DSO Clients',
-        description: 'Suivez vos délais de paiement clients et réduisez les impayés',
-        icon: DollarSign,
-        features: [
-            'Liste clients + factures',
-            'Calcul DSO automatique',
-            'Alertes conditionnelles (>60j)',
-            'Suivi des relances',
-            'Export vers FinSight en 1 clic'
-        ],
-        downloadUrl: '/templates/excel/tracker-dso.xlsx',
-        downloadUrlPdf: '/templates/pdf/tracker-dso.pdf',
-        color: 'border-l-4 border-green-600 bg-gray-50'
-    },
-    {
-        id: 'dashboard-cashflow',
-        title: 'Dashboard Cash Flow',
-        description: 'Pilotez votre trésorerie avec un tableau de bord complet',
-        icon: BarChart3,
-        features: [
-            'Encaissements vs Décaissements',
-            'Projection 6 mois glissants',
-            'Graphiques automatiques',
-            'Indicateurs de seuil',
-            'Analyse mensuelle'
-        ],
-        downloadUrl: '/templates/excel/dashboard-cashflow.xlsx',
-        downloadUrlPdf: '/templates/pdf/dashboard-cashflow.pdf',
-        color: 'border-l-4 border-purple-600 bg-gray-50'
-    }
-]
 
 export default function TemplatesPage() {
     return (
@@ -102,7 +39,7 @@ export default function TemplatesPage() {
                     </p>
 
                     <p className="text-sm text-tertiary">
-                        Téléchargement direct • Aucune inscription requise • Compatible Excel/Google Sheets
+                        Indiquez prénom et email pour recevoir le fichier Excel • Compatible Excel/Google Sheets
                     </p>
                 </div>
 
@@ -137,67 +74,8 @@ export default function TemplatesPage() {
                     </div>
                 </div>
 
-                {/* Templates Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                    {templates.map((template) => {
-                        const Icon = template.icon
-                        return (
-                            <div
-                                key={template.id}
-                                className="surface rounded-xl overflow-hidden border-2 border-border-default hover:border-accent-primary transition-all group"
-                            >
-                                {/* Header */}
-                                <div className={`${template.color} p-8 relative`}>
-                                    {template.badge && (
-                                        <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded">
-                                            {template.badge}
-                                        </div>
-                                    )}
-                                    <Icon className="w-12 h-12 mb-4 text-gray-700" />
-                                    <h3 className="text-2xl font-bold mb-2 text-gray-900">{template.title}</h3>
-                                    <p className="text-sm text-gray-600">{template.description}</p>
-                                </div>
-
-                                {/* Features */}
-                                <div className="p-6">
-                                    <ul className="space-y-3 mb-6">
-                                        {template.features.map((feature, idx) => (
-                                            <li key={idx} className="flex items-start gap-2 text-sm text-secondary leading-relaxed">
-                                                <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                                                <span>{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-
-                                    {/* Download Buttons */}
-                                    <div className="space-y-2">
-                                        <a
-                                            href={template.downloadUrl}
-                                            download
-                                            className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all group-hover:shadow-lg"
-                                        >
-                                            <Download className="w-5 h-5" />
-                                            Télécharger Excel (.xlsx)
-                                        </a>
-
-                                        <a
-                                            href={template.downloadUrlPdf}
-                                            download
-                                            className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-white hover:bg-gray-50 text-accent-primary border-2 border-accent-primary rounded-lg font-semibold transition-all"
-                                        >
-                                            <Download className="w-5 h-5" />
-                                            Télécharger PDF
-                                        </a>
-                                    </div>
-
-                                    <p className="text-xs text-tertiary text-center mt-3">
-                                        Excel 2016+ / Google Sheets • PDF universel
-                                    </p>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
+                {/* Templates Grid — capture email avant envoi du xlsx */}
+                <TemplatesResourceCards />
 
                 {/* Prévisionnel Trésorerie 90j CTA */}
                 <div className="surface rounded-2xl p-8 border-2 border-green-200 bg-gradient-to-br from-green-50 to-primary mb-12">
@@ -289,8 +167,9 @@ export default function TemplatesPage() {
                         <div className="surface rounded-xl p-6 border-2 border-border-default">
                             <h3 className="font-bold mb-2">Mes données sont-elles sécurisées ?</h3>
                             <p className="text-secondary text-sm">
-                                Les templates s'exécutent 100% sur votre ordinateur. Aucune donnée n'est envoyée
-                                à FinSight tant que vous ne l'uploadez pas volontairement.
+                                Nous utilisons votre email uniquement pour vous envoyer le fichier demandé et des conseils
+                                pilotage financier (désabonnement en 1 clic). Une fois le fichier reçu, les données que vous
+                                saisissez dans Excel restent sur votre poste tant que vous ne les importez pas dans FinSight.
                             </p>
                         </div>
                     </div>
