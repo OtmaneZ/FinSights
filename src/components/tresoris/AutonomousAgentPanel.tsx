@@ -146,6 +146,7 @@ export default function AutonomousAgentPanel({
     // ═══════════════════════════════════════════════════════════════
     
     const fetchStatus = useCallback(async () => {
+        /* [VEILLE]
         try {
             const response = await fetch('/api/tresoris/agent/status')
             if (!response.ok) throw new Error('Failed to fetch status')
@@ -162,11 +163,13 @@ export default function AutonomousAgentPanel({
             console.error('Status fetch error:', err)
             setError('Erreur de connexion')
         }
+        */
     }, [])
     
     const startAgent = useCallback(async () => {
         setIsLoading(true)
         setError(null)
+        /* [VEILLE]
         try {
             const response = await fetch('/api/tresoris/agent/start', {
                 method: 'POST'
@@ -184,11 +187,14 @@ export default function AutonomousAgentPanel({
         } finally {
             setIsLoading(false)
         }
+        */
+        setIsLoading(false)
     }, [fetchStatus])
     
     const stopAgent = useCallback(async () => {
         setIsLoading(true)
         setAutoScanEnabled(false) // Stop auto-scan when stopping agent
+        /* [VEILLE]
         try {
             const response = await fetch('/api/tresoris/agent/stop', {
                 method: 'POST'
@@ -201,10 +207,13 @@ export default function AutonomousAgentPanel({
         } finally {
             setIsLoading(false)
         }
+        */
+        setIsLoading(false)
     }, [fetchStatus])
     
     // Trigger manual scan (simulates agent check)
     const triggerScan = useCallback(async () => {
+        /* [VEILLE]
         try {
             const response = await fetch('/api/tresoris/agent/trigger-scan', {
                 method: 'POST'
@@ -214,6 +223,7 @@ export default function AutonomousAgentPanel({
         } catch (err) {
             console.error('Trigger scan error:', err)
         }
+        */
     }, [fetchStatus])
     
     // ═══════════════════════════════════════════════════════════════
@@ -221,6 +231,7 @@ export default function AutonomousAgentPanel({
     // ═══════════════════════════════════════════════════════════════
     
     useEffect(() => {
+        /* [VEILLE]
         // Clear existing timers
         if (autoScanTimerRef.current) {
             clearInterval(autoScanTimerRef.current)
@@ -256,6 +267,7 @@ export default function AutonomousAgentPanel({
             if (autoScanTimerRef.current) clearInterval(autoScanTimerRef.current)
             if (countdownRef.current) clearInterval(countdownRef.current)
         }
+        */
     }, [autoScanEnabled, autoScanInterval, status?.running, triggerScan])
     
     // ═══════════════════════════════════════════════════════════════
@@ -263,6 +275,7 @@ export default function AutonomousAgentPanel({
     // ═══════════════════════════════════════════════════════════════
     
     useEffect(() => {
+        /* [VEILLE]
         // Initial fetch
         fetchStatus()
         
@@ -272,6 +285,7 @@ export default function AutonomousAgentPanel({
         }, 3000)
         
         return () => clearInterval(interval)
+        */
     }, [fetchStatus])
     
     // ═══════════════════════════════════════════════════════════════
@@ -282,7 +296,9 @@ export default function AutonomousAgentPanel({
     const isRunning = status?.running || false
     
     return (
-        <div className={`bg-surface-elevated rounded-xl border border-border-subtle overflow-hidden ${className}`}>
+        <>
+            {/* [VEILLE] Panneau agent autonome — UI conservée, appels réseau / timers désactivés ci-dessus */}
+            <div className={`bg-surface-elevated rounded-xl border border-border-subtle overflow-hidden ${className}`}>
             {/* Header */}
             <div className="px-5 py-4 border-b border-border-subtle bg-gradient-to-r from-slate-50 to-white">
                 <div className="flex items-center justify-between">
@@ -488,5 +504,7 @@ export default function AutonomousAgentPanel({
                 </div>
             )}
         </div>
+            {/* [VEILLE] fin panneau */}
+        </>
     )
 }

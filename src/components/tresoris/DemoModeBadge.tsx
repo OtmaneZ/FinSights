@@ -64,6 +64,7 @@ export default function DemoModeBadge({
     
     // Check endpoints on mount
     useEffect(() => {
+        /* [VEILLE]
         const checkEndpoints = async () => {
             const statuses: EndpointStatus[] = []
             let hasLiveEndpoint = false
@@ -116,6 +117,8 @@ export default function DemoModeBadge({
         // Re-check every 30 seconds
         const interval = setInterval(checkEndpoints, 30000)
         return () => clearInterval(interval)
+        */
+        setMode('demo')
     }, [])
     
     // Size classes

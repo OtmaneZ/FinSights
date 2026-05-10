@@ -197,12 +197,14 @@ export default function AgentActivityLog({
 
     // Auto-refresh
     useEffect(() => {
+        /* [VEILLE]
         fetchLogs()
         
         if (!autoRefresh) return
         
         const interval = setInterval(fetchLogs, refreshInterval)
         return () => clearInterval(interval)
+        */
     }, [fetchLogs, autoRefresh, refreshInterval])
 
     // Auto-scroll to bottom

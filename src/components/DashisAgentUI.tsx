@@ -300,6 +300,7 @@ export default function DashisAgentUI() {
     // ═══════════════════════════════════════════════════════════════════════════════
 
     useEffect(() => {
+        /* [VEILLE]
         const loadData = async () => {
             if (!searchParams) return;
             
@@ -316,6 +317,7 @@ export default function DashisAgentUI() {
         }
 
         loadData()
+        */
     }, [searchParams, processApiResponse])
 
     // ═══════════════════════════════════════════════════════════════════════════════
@@ -388,6 +390,7 @@ export default function DashisAgentUI() {
     // ═══════════════════════════════════════════════════════════════════════════════
 
     useEffect(() => {
+        /* [VEILLE]
         const handleFileSelected = (event: Event) => {
             const customEvent = event as CustomEvent;
             if (customEvent.detail) {
@@ -397,6 +400,7 @@ export default function DashisAgentUI() {
 
         window.addEventListener('fileUpload', handleFileSelected);
         return () => window.removeEventListener('fileUpload', handleFileSelected);
+        */
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -420,6 +424,7 @@ export default function DashisAgentUI() {
         reader.onload = async (e) => {
             const fileContent = e.target?.result as string
 
+            /* [VEILLE]
             try {
                 // STEP 1: Validating
                 setUploadStep('validating')
@@ -474,6 +479,9 @@ export default function DashisAgentUI() {
             } finally {
                 setIsUploading(false)
             }
+            */
+            void fileContent
+            setIsUploading(false)
         }
 
         reader.readAsText(file)
@@ -507,6 +515,7 @@ export default function DashisAgentUI() {
     // ═══════════════════════════════════════════════════════════════════════════════
 
     const loadDemoScenario = useCallback(async (scenario: 'saine' | 'difficulte' | 'croissance') => {
+        /* [VEILLE]
         const scenarioConfig = {
             saine: {
                 file: '/demo-scaleup-hypercroissance.csv',
@@ -588,6 +597,8 @@ export default function DashisAgentUI() {
         } finally {
             setIsUploading(false);
         }
+        */
+        void scenario
     }, [activeCompanyId, processApiResponse, agent]);
 
     // ═══════════════════════════════════════════════════════════════════════════════
