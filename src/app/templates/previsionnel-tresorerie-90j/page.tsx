@@ -75,7 +75,7 @@ export default function TemplateExcelTresoreriePage() {
 
             // Démarrer le téléchargement
             const link = document.createElement('a')
-            link.href = '/templates/excel/dashboard-cashflow.xlsx' // Réutilise template existant pour MVP
+            link.href = '/templates/excel/previsionnel-tresorerie-90j.xlsx'
             link.download = 'finsight-previsionnel-tresorerie-90j.xlsx'
             document.body.appendChild(link)
             link.click()
