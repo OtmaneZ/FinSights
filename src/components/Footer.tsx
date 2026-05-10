@@ -76,6 +76,9 @@ export default function Footer() {
                             <Link href="/fondamentaux" className="block text-sm text-gray-400 hover:text-white transition-colors">
                                 Fondamentaux finance
                             </Link>
+                            <Link href="/fondamentaux/glossaire" className="block text-sm text-gray-400 hover:text-white transition-colors">
+                                Glossaire Finance PME
+                            </Link>
                             <Link href="/calculateurs/dso" className="block text-sm text-gray-400 hover:text-white transition-colors">
                                 Calculateur DSO
                             </Link>

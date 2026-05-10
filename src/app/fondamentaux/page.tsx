@@ -112,6 +112,24 @@ const fondamentaux = [
       "Red flags à détecter",
     ],
   },
+  {
+    id: "glossaire",
+    title: "Glossaire Finance",
+    description:
+      "50 définitions essentielles avec formules, benchmarks et interprétations. DSO, BFR, EBITDA, WACC, EVA et bien plus.",
+    icon: BookOpen,
+    color: "bg-teal-500",
+    duration: "Référence",
+    level: "Tous niveaux",
+    href: "/fondamentaux/glossaire",
+    image: "/images/bureau.png",
+    topics: [
+      "Trésorerie & cycles (DSO, BFR, CCC…)",
+      "Rentabilité (EBITDA, ROI, EVA…)",
+      "Financement (WACC, levier, covenant…)",
+      "Valorisation (multiples, DCF, goodwill…)",
+    ],
+  },
 ];
 
 export default function FondamentauxPage() {
@@ -169,7 +187,7 @@ export default function FondamentauxPage() {
               {/* Stats Row */}
               <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto mb-10">
                 <div className="text-center">
-                  <div className="text-3xl sm:text-4xl font-bold text-white mb-1">5</div>
+                  <div className="text-3xl sm:text-4xl font-bold text-white mb-1">6</div>
                   <div className="text-sm text-slate-400">Modules essentiels</div>
                 </div>
                 <div className="text-center">
@@ -294,7 +312,7 @@ export default function FondamentauxPage() {
               className="text-center mb-16"
             >
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                5 modules pour tout comprendre
+                6 modules pour tout comprendre
               </h2>
               <p className="text-lg text-slate-600 max-w-2xl mx-auto">
                 Chaque module est autonome et peut être lu indépendamment. 

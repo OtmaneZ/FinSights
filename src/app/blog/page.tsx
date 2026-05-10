@@ -43,6 +43,18 @@ const blogPosts: BlogPost[] = [
     // NOTES STRATÉGIQUES — Analyse & Positionnement DAF
     // ═══════════════════════════════════════════════
     {
+        slug: 'pge-dso-double-pression-tresorerie-2026',
+        title: 'Remboursement PGE + DSO qui s\'allonge : le double étau de trésorerie des PME en 2026',
+        description: 'Deux pressions distinctes s\'exercent simultanément sur la trésorerie des PME françaises. L\'une vient de l\'intérieur — les PGE arrivent à échéance. L\'autre vient de l\'extérieur — les clients paient de plus en plus tard.',
+        date: '10 mai 2026',
+        readTime: '8 min',
+        category: 'Note Stratégique',
+        tags: ['PGE', 'DSO', 'Trésorerie', 'PME', 'Cash'],
+        featured: true,
+        image: '/images/cash-flow-prev.png',
+        type: 'strategique'
+    },
+    {
         slug: 'dso-superieur-mediane-sectorielle-modele',
         title: 'DSO supérieur à la médiane sectorielle : que révèle vraiment votre modèle ?',
         description: 'Un DSO élevé n\'est pas qu\'un problème de recouvrement. C\'est souvent le symptôme d\'un déséquilibre structurel entre modèle commercial et organisation financière.',
@@ -50,7 +62,7 @@ const blogPosts: BlogPost[] = [
         readTime: '11 min',
         category: 'Note Stratégique',
         tags: ['DSO', 'Analyse structurelle', 'Modèle économique', 'DAF'],
-        featured: true,
+        featured: false,
         image: '/images/bureau-nuit.png',
         type: 'strategique'
     },
