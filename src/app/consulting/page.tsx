@@ -77,7 +77,7 @@ export default function ConsultingPage() {
             },
             {
                 "@type": "Offer",
-                "name": "Système de Décision",
+                "name": "Pilotage Augmenté",
                 "description": "Système de pilotage financier autonome : cockpit dirigeant temps réel, alertes automatiques et scénarios de croissance",
                 "price": "12500",
                 "priceCurrency": "EUR",
@@ -743,13 +743,9 @@ export default function ConsultingPage() {
                         >
                             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Offre Signature</p>
                             <h3 className="text-2xl font-bold text-text-primary mb-2">Diagnostic FinSight™ 90J</h3>
-                            <div className="flex items-baseline gap-1 mb-4">
-                                <span className="text-4xl font-bold text-text-primary">2 490</span>
-                                <span className="text-text-secondary">€ HT</span>
-                            </div>
                             <p className="text-text-secondary mb-6">Clarté stratégique complète en 5 jours ouvrés.</p>
 
-                            <ul className="space-y-3 mb-8">
+                            <ul className="space-y-3">
                                 {[
                                     'Score FinSight™ 0–100 détaillé',
                                     'Décomposition 4 piliers Cash · Marges · Résilience · Risques',
@@ -763,10 +759,6 @@ export default function ConsultingPage() {
                                     </li>
                                 ))}
                             </ul>
-
-                            <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="block w-full py-4 text-center bg-white border-2 border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white font-bold rounded-xl transition-all duration-200">
-                                Lancer le diagnostic
-                            </a>
                         </motion.div>
 
                         {/* Audit - Featured */}
@@ -782,13 +774,9 @@ export default function ConsultingPage() {
                             </div>
                             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Structuration &amp; Pilotage</p>
                             <h3 className="text-2xl font-bold mb-2">Audit Complet</h3>
-                            <div className="flex items-baseline gap-1 mb-4">
-                                <span className="text-4xl font-bold">6 990</span>
-                                <span className="text-gray-400">€ HT</span>
-                            </div>
                             <p className="text-gray-300 mb-6">Visibilité complète, arbitrages rapides, décisions structurées.</p>
 
-                            <ul className="space-y-3 mb-8">
+                            <ul className="space-y-3">
                                 {[
                                     'Tout le Diagnostic FinSight™ 90J',
                                     'Analyse de rentabilité réelle par activité',
@@ -804,13 +792,9 @@ export default function ConsultingPage() {
                                     </li>
                                 ))}
                             </ul>
-
-                            <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="block w-full py-4 text-center bg-accent-primary hover:bg-accent-primary-hover text-white font-bold rounded-xl transition-all duration-200 shadow-lg">
-                                Réserver un audit
-                            </a>
                         </motion.div>
 
-                        {/* Decision System */}
+                        {/* Pilotage Augmenté */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -819,14 +803,10 @@ export default function ConsultingPage() {
                             className="bg-background-primary rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
                             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Système décisionnel</p>
-                            <h3 className="text-2xl font-bold text-text-primary mb-2">Decision System</h3>
-                            <div className="flex items-baseline gap-1 mb-4">
-                                <span className="text-4xl font-bold text-text-primary">12 500</span>
-                                <span className="text-text-secondary">€ HT</span>
-                            </div>
+                            <h3 className="text-2xl font-bold text-text-primary mb-2">Pilotage Augmenté</h3>
                             <p className="text-text-secondary mb-6">Un pilotage financier autonome, fiable et durable.</p>
 
-                            <ul className="space-y-3 mb-8">
+                            <ul className="space-y-3">
                                 {[
                                     'Tout l\'Audit Complet',
                                     'Cockpit décisionnel dirigeant temps réel',
@@ -841,12 +821,26 @@ export default function ConsultingPage() {
                                     </li>
                                 ))}
                             </ul>
-
-                            <a href="https://calendly.com/zineinsight" target="_blank" rel="noopener noreferrer" className="block w-full py-4 text-center bg-white border-2 border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white font-bold rounded-xl transition-all duration-200">
-                                Planifier un échange stratégique
-                            </a>
                         </motion.div>
                     </div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        className="mt-12 text-center max-w-xl mx-auto"
+                    >
+                        <p className="text-text-secondary text-sm mb-4">
+                            Voir les tarifs détaillés et comparer les offres
+                        </p>
+                        <Link
+                            href="/tarifs"
+                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-accent-primary/40 text-accent-primary font-semibold rounded-xl hover:bg-accent-primary/5 transition-all duration-200"
+                        >
+                            Voir les tarifs →
+                        </Link>
+                    </motion.div>
                 </div>
             </section>
 

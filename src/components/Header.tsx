@@ -154,7 +154,7 @@ export default function Header() {
                         Accompagnement
                     </Link>
                     <Link href="/methodologie" className="px-3 py-2 text-sm text-secondary hover:text-primary font-medium rounded-md hover:bg-gray-100 transition-all">
-                        Méthodologie
+                        Score FinSight™
                     </Link>
                     <Link href="/tarifs" className="px-3 py-2 text-sm text-secondary hover:text-primary font-medium rounded-md hover:bg-gray-100 transition-all">
                         Tarifs
@@ -372,7 +372,7 @@ export default function Header() {
                                     onClick={closeMobileMenu}
                                     className="block rounded-md px-3 py-3 text-sm font-medium text-secondary transition-all hover:bg-gray-100 hover:text-primary"
                                 >
-                                    Méthodologie
+                                    Score FinSight™
                                 </Link>
                                 <Link
                                     href="/tarifs"

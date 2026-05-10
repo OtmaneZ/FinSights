@@ -1183,7 +1183,7 @@ export default function ScoreMethodologyPage() {
                                 Conseil Finance & Pilotage
                             </Link>
                             <Link
-                                href="/diagnostic/guide"
+                                href="/mon-diagnostic"
                                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                             >
                                 Lancer mon diagnostic
