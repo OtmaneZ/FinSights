@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook, ChevronDown, Calculator, FileText, BarChart3, Brain, LayoutDashboard, BookOpen, Layers } from 'lucide-react'
+import { Linkedin, User, LogOut, Crown, Settings, Key, Book, Webhook, ChevronDown, Calculator, FileText, BarChart3, Brain, LayoutDashboard, BookOpen, Layers, Menu, X } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { useState, useRef, useEffect } from 'react'
 import { CompanySwitcher } from './CompanySwitcher'
@@ -12,7 +12,6 @@ const resourcesItems = {
     outils: [
         { href: '/calculateurs', label: 'Calculateurs financiers', icon: Calculator, desc: 'DSO, BFR, marge, ROI' },
         { href: '/ressources/templates', label: 'Templates financiers', icon: FileText, desc: 'Tableaux de bord Excel/Notion' },
-        { href: '/mon-diagnostic', label: 'Score FinSight™', icon: BarChart3, desc: 'Diagnostic 0-100 en 7 min' },
     ],
     contenu: [
         { href: '/blog', label: 'Blog', icon: BookOpen, desc: 'Finance & pilotage PME' },
@@ -20,18 +19,33 @@ const resourcesItems = {
         { href: '/fondamentaux', label: 'Fondamentaux', icon: BookOpen, desc: 'Cash, marges, résilience' },
     ],
     technologie: [
-        { href: '/agents', label: 'Agents IA Finance', icon: Brain, desc: 'TRESORIS, MARGIS, SCENARIS' },
-        { href: '/business-intelligence', label: 'Business Intelligence', icon: LayoutDashboard, desc: 'Dashboards & analytics' },
+        { href: '/agents', label: 'Agents IA Finance', icon: Brain, desc: 'TRESORIS, DASHIS, MARGIS, SCENARIS' },
+        { href: '/mon-diagnostic', label: 'Score FinSight™', icon: BarChart3, desc: 'Diagnostic 0-100 en 7 min' },
+        { href: '/business-intelligence', label: 'Reporting multi-entités', icon: LayoutDashboard, desc: 'Consolidation & reporting groupe' },
     ],
 }
+
+/** Ordre d’affichage mobile pour la section Technologie (dropdown Ressources). */
+const mobileTechnologieOrder = ['/mon-diagnostic', '/agents', '/business-intelligence'] as const
+
+const mobileTechnologieItems = mobileTechnologieOrder.map((href) =>
+    resourcesItems.technologie.find((item) => item.href === href)!,
+)
 
 export default function Header() {
     const { data: session, status } = useSession()
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const [isResourcesOpen, setIsResourcesOpen] = useState(false)
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const [isMobileResourcesOpen, setIsMobileResourcesOpen] = useState(false)
+    const [mobilePanelEntered, setMobilePanelEntered] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
     const resourcesRef = useRef<HTMLDivElement>(null)
     const resourcesTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+    const closeMobileMenu = () => {
+        setIsMobileMenuOpen(false)
+    }
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -42,6 +56,46 @@ export default function Header() {
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [])
+
+    useEffect(() => {
+        if (!isMobileMenuOpen) return
+        const prevOverflow = document.body.style.overflow
+        document.body.style.overflow = 'hidden'
+        return () => {
+            document.body.style.overflow = prevOverflow
+        }
+    }, [isMobileMenuOpen])
+
+    useEffect(() => {
+        if (!isMobileMenuOpen) return
+        function onKeyDown(e: KeyboardEvent) {
+            if (e.key === 'Escape') setIsMobileMenuOpen(false)
+        }
+        window.addEventListener('keydown', onKeyDown)
+        return () => window.removeEventListener('keydown', onKeyDown)
+    }, [isMobileMenuOpen])
+
+    useEffect(() => {
+        const mq = window.matchMedia('(min-width: 768px)')
+        function onViewportChange() {
+            if (mq.matches) setIsMobileMenuOpen(false)
+        }
+        mq.addEventListener('change', onViewportChange)
+        return () => mq.removeEventListener('change', onViewportChange)
+    }, [])
+
+    useEffect(() => {
+        if (!isMobileMenuOpen) setIsMobileResourcesOpen(false)
+    }, [isMobileMenuOpen])
+
+    useEffect(() => {
+        if (!isMobileMenuOpen) {
+            setMobilePanelEntered(false)
+            return
+        }
+        const id = requestAnimationFrame(() => setMobilePanelEntered(true))
+        return () => cancelAnimationFrame(id)
+    }, [isMobileMenuOpen])
 
     const openResources = () => {
         if (resourcesTimeoutRef.current) clearTimeout(resourcesTimeoutRef.current)
@@ -79,7 +133,9 @@ export default function Header() {
         <header className="border-b border-border-default backdrop-blur-md bg-primary/90 sticky top-0 z-50 shadow-sm">
             <ReadingProgressBar />
 
-            <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
+            <div
+                className={`max-w-7xl mx-auto flex items-center justify-between px-6 py-3.5 ${isMobileMenuOpen ? 'relative z-[80]' : ''}`}
+            >
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
                     <Image
@@ -214,13 +270,24 @@ export default function Header() {
                     </Link>
                 </nav>
 
-                {/* Right — CTA + Auth */}
-                <div className="flex items-center gap-3">
+                {/* Right — burger (mobile) + CTA + Auth */}
+                <div className="flex items-center gap-2 md:gap-3">
+                    <button
+                        type="button"
+                        className="md:hidden inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg text-secondary transition-all hover:bg-gray-100 hover:text-primary"
+                        aria-expanded={isMobileMenuOpen}
+                        aria-controls="mobile-nav-drawer"
+                        aria-label={isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+                        onClick={() => setIsMobileMenuOpen((open) => !open)}
+                    >
+                        {isMobileMenuOpen ? <X className="h-6 w-6" aria-hidden /> : <Menu className="h-6 w-6" aria-hidden />}
+                    </button>
+
                     <Link
                         href="/mon-diagnostic"
                         className="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-accent-primary hover:bg-accent-primary-hover text-white text-sm font-semibold rounded-lg shadow-sm hover:shadow-md transition-all"
                     >
-                        Diagnostic gratuit
+                        Score FinSight™
                     </Link>
 
                     {status === 'loading' ? (
@@ -279,6 +346,143 @@ export default function Header() {
                     ) : null}
                 </div>
             </div>
+
+            {/* Drawer navigation mobile */}
+            {isMobileMenuOpen && (
+                <div className="fixed inset-0 z-[60] md:hidden" id="mobile-nav-drawer" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+                    <div
+                        className={`absolute inset-0 bg-black/40 transition-opacity duration-200 ease-out ${mobilePanelEntered ? 'opacity-100' : 'opacity-0'}`}
+                        onClick={closeMobileMenu}
+                        aria-hidden
+                    />
+                    <div
+                        className={`absolute inset-y-0 right-0 z-10 flex h-[100dvh] w-full flex-col bg-white shadow-2xl transition-transform duration-200 ease-out ${mobilePanelEntered ? 'translate-x-0' : 'translate-x-full'}`}
+                    >
+                        <div className="flex min-h-0 flex-1 flex-col">
+                            <nav className="flex-1 overflow-y-auto overscroll-contain px-4 pb-4 pt-4" aria-label="Navigation principale">
+                                <Link
+                                    href="/consulting"
+                                    onClick={closeMobileMenu}
+                                    className="block rounded-md px-3 py-3 text-sm font-medium text-secondary transition-all hover:bg-gray-100 hover:text-primary"
+                                >
+                                    Accompagnement
+                                </Link>
+                                <Link
+                                    href="/methodologie"
+                                    onClick={closeMobileMenu}
+                                    className="block rounded-md px-3 py-3 text-sm font-medium text-secondary transition-all hover:bg-gray-100 hover:text-primary"
+                                >
+                                    Méthodologie
+                                </Link>
+                                <Link
+                                    href="/tarifs"
+                                    onClick={closeMobileMenu}
+                                    className="block rounded-md px-3 py-3 text-sm font-medium text-secondary transition-all hover:bg-gray-100 hover:text-primary"
+                                >
+                                    Tarifs
+                                </Link>
+
+                                <div className="border-b border-gray-100 py-1">
+                                    <button
+                                        type="button"
+                                        className="flex w-full items-center justify-between rounded-md px-3 py-3 text-left text-sm font-medium text-secondary transition-all hover:bg-gray-100 hover:text-primary"
+                                        aria-expanded={isMobileResourcesOpen}
+                                        onClick={() => setIsMobileResourcesOpen((v) => !v)}
+                                    >
+                                        Ressources
+                                        <ChevronDown className={`h-4 w-4 shrink-0 transition-transform duration-200 ${isMobileResourcesOpen ? 'rotate-180' : ''}`} aria-hidden />
+                                    </button>
+                                    {isMobileResourcesOpen && (
+                                        <div className="space-y-4 border-l-2 border-accent-primary/15 pb-3 pl-4 pt-1 ml-3">
+                                            <div>
+                                                <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-400">Outils gratuits</p>
+                                                <div className="space-y-1">
+                                                    {resourcesItems.outils.map((item) => (
+                                                        <Link
+                                                            key={item.href}
+                                                            href={item.href}
+                                                            onClick={closeMobileMenu}
+                                                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-all hover:bg-gray-50"
+                                                        >
+                                                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-accent-primary/8">
+                                                                <item.icon className="h-4 w-4 text-accent-primary" aria-hidden />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-medium leading-tight text-gray-900">{item.label}</p>
+                                                                <p className="mt-0.5 text-xs text-gray-400">{item.desc}</p>
+                                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-400">Technologie</p>
+                                                <div className="space-y-1">
+                                                    {mobileTechnologieItems.map((item) => (
+                                                        <Link
+                                                            key={item.href}
+                                                            href={item.href}
+                                                            onClick={closeMobileMenu}
+                                                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-all hover:bg-gray-50"
+                                                        >
+                                                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-accent-primary/8">
+                                                                <item.icon className="h-4 w-4 text-accent-primary" aria-hidden />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-medium leading-tight text-gray-900">{item.label}</p>
+                                                                <p className="mt-0.5 text-xs text-gray-400">{item.desc}</p>
+                                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-400">Contenu &amp; guides</p>
+                                                <div className="space-y-1">
+                                                    {resourcesItems.contenu.map((item) => (
+                                                        <Link
+                                                            key={item.href}
+                                                            href={item.href}
+                                                            onClick={closeMobileMenu}
+                                                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-all hover:bg-gray-50"
+                                                        >
+                                                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-accent-primary/8">
+                                                                <item.icon className="h-4 w-4 text-accent-primary" aria-hidden />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-medium leading-tight text-gray-900">{item.label}</p>
+                                                                <p className="mt-0.5 text-xs text-gray-400">{item.desc}</p>
+                                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <Link
+                                    href="/contact"
+                                    onClick={closeMobileMenu}
+                                    className="block rounded-md px-3 py-3 text-sm font-medium text-secondary transition-all hover:bg-gray-100 hover:text-primary"
+                                >
+                                    Contact
+                                </Link>
+                            </nav>
+
+                            <div className="shrink-0 border-t border-border-default bg-primary/90 px-4 py-4 backdrop-blur-md">
+                                <Link
+                                    href="/mon-diagnostic"
+                                    onClick={closeMobileMenu}
+                                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-accent-primary-hover hover:shadow-md"
+                                >
+                                    Score FinSight™
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </header>
     )
 }
