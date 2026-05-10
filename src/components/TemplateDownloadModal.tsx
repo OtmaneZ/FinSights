@@ -111,7 +111,7 @@ export default function TemplateDownloadModal({
         <div className="px-5 py-4">
           {state === 'success' ? (
             <div className="rounded-xl border border-green-200 bg-green-50 p-4">
-              <p className="font-semibold text-green-900">Vérifie ta boîte email !</p>
+              <p className="font-semibold text-green-900">Vérifiez votre boîte email !</p>
               <p className="text-sm text-green-800 mt-2">
                 Le fichier Excel vous a été envoyé en pièce jointe.
               </p>

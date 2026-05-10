@@ -49,11 +49,11 @@ export const TemplateDownloadEmail = ({
           Voici votre <strong>{templateName}</strong> FinSight.
         </Text>
 
-        <Text style={text}>Le fichier est en pièce jointe.</Text>
+        <Text style={text}>Vous trouverez le fichier Excel en pièce jointe.</Text>
 
         <Section style={buttonContainer}>
           <Button style={button} href={calculatorsUrl}>
-            Découvrir les autres outils gratuits →
+            Découvrir les autres outils →
           </Button>
         </Section>
 

@@ -202,9 +202,19 @@ export async function POST(req: NextRequest) {
         html = built.html
       }
 
-      const adminLine = attachment
-        ? `Nouveau lead template — ${email} — ${templateName} — PJ ${attachment.filename} — source: ${source}`
-        : `Nouveau lead FinSight — ${email} — source: ${source}`
+      const adminSubject = `📥 Nouveau lead — ${templateName} — ${email}`
+
+      const adminBodyLines = [
+        'Nouveau lead FinSight',
+        '',
+        `Lead magnet : ${templateName}`,
+        `Email : ${email}`,
+        `Prénom : ${firstName}`,
+        `Source : ${source}`,
+        attachment ? `Pièce jointe : ${attachment.filename}` : 'Pièce jointe : —',
+        leadId ? `ID lead : ${leadId}` : 'ID lead : —',
+      ]
+      const adminBody = adminBodyLines.join('\n')
 
       const { error } = await sendUserEmailWithAdminNotify(
         {
@@ -219,8 +229,8 @@ export async function POST(req: NextRequest) {
             { name: 'template_name', value: templateName },
           ],
         },
-        adminLine,
-        adminLine,
+        adminSubject,
+        adminBody,
       )
       if (error) {
         logger.error('❌ Envoi email confirmation lead (utilisateur):', error)
