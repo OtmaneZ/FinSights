@@ -38,7 +38,7 @@ const BULLET_POINTS_STANDARD = [
   'Score détaillé par pilier — Trésorerie, Rentabilité, Résilience, Risques',
   'Plan d\'action 90 jours — 3 priorités calibrées sur vos chiffres réels',
   'Synthèse rédigée par IA — ton DAF senior, benchmarks sectoriels BdF 2024',
-  'Format consulting A4 — 9 pages, prêt à présenter à votre banque ou associés',
+  'Format consulting A4 — 8 pages, prêt à présenter à votre banque ou associés',
 ]
 
 const BULLET_POINTS_STRATEGIQUE = [
@@ -46,7 +46,7 @@ const BULLET_POINTS_STRATEGIQUE = [
   'Z-Score Altman — zone de risque de défaillance (distinct du score /100)',
   'Analyse SWOT par IA — forces / menaces à partir de vos réponses',
   'Valorisation & Porter simplifié — lecture stratégique enrichie',
-  'Format consulting A4 étendu — 13 pages, pack banquier & dirigeant',
+  'Format consulting A4 étendu — 12 pages, pack banquier & dirigeant',
 ]
 
 export default function ScorePaywall({

@@ -1192,13 +1192,13 @@ function DiagnosticGuideContent() {
   }, [goNext])
 
   if (!mounted) {
-    return <div className="min-h-screen bg-slate-950" />
+    return <div className="min-h-dvh bg-slate-950" />
   }
 
   // ── Écran de choix SCORIS Standard / Stratégique (avant intro)
   if (scorisLevel === null) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col">
+      <div className="flex min-h-dvh flex-col overflow-x-hidden overflow-y-auto bg-slate-950 font-sans text-white">
         <header className="fixed top-0 inset-x-0 z-50 bg-slate-950/90 backdrop-blur-sm border-b border-gray-800/50">
           <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
             <Link href="/mon-diagnostic" className="text-sm text-gray-500 hover:text-gray-300 transition-colors">
@@ -1206,7 +1206,7 @@ function DiagnosticGuideContent() {
             </Link>
           </div>
         </header>
-        <div className="flex-1 flex flex-col items-center justify-center px-6 pt-20 pb-16">
+        <div className="flex flex-1 flex-col items-center justify-center px-6 pt-20 pb-[max(4rem,env(safe-area-inset-bottom,0px)+3rem)]">
           <p className="text-[11px] text-gray-500 font-medium tracking-[0.2em] uppercase mb-6">SCORIS™</p>
           <h1 className="font-serif text-3xl lg:text-4xl font-medium text-center text-white mb-10 max-w-2xl">
             Choisissez votre diagnostic
@@ -1219,7 +1219,7 @@ function DiagnosticGuideContent() {
             >
               <p className="text-lg font-semibold text-white mb-1">SCORIS Standard</p>
               <p className="text-2xl font-serif font-medium text-white mb-2">49 €</p>
-              <p className="text-[11px] text-gray-500 mb-5">~7 minutes · 9 pages</p>
+              <p className="text-[11px] text-gray-500 mb-5">~7 minutes · 8 pages</p>
               <ul className="space-y-2.5 mb-6 text-sm text-gray-300">
                 {[
                   'Score financier 4 piliers',
@@ -1247,7 +1247,7 @@ function DiagnosticGuideContent() {
               </span>
               <p className="text-lg font-semibold text-white mb-1 mt-1">SCORIS Stratégique</p>
               <p className="text-2xl font-serif font-medium text-white mb-2">99 €</p>
-              <p className="text-[11px] text-blue-400/80 mb-5">~12 minutes · 13 pages</p>
+              <p className="text-[11px] text-blue-400/80 mb-5">~12 minutes · 12 pages</p>
               <ul className="space-y-2.5 mb-6 text-sm text-gray-300">
                 {[
                   'Tout SCORIS Standard',
@@ -1276,7 +1276,7 @@ function DiagnosticGuideContent() {
   const progressPct = Math.min(100, Math.round((completedStepCount / allSteps.length) * 100))
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col">
+    <div className="box-border flex h-[100dvh] w-full min-h-0 flex-col overflow-hidden bg-slate-950 text-white font-sans">
 
       {/* ── Top bar ── */}
       <header className="fixed top-0 inset-x-0 z-50 bg-slate-950/90 backdrop-blur-sm border-b border-gray-800/50">
@@ -1299,11 +1299,11 @@ function DiagnosticGuideContent() {
         </div>
       </header>
 
-      {/* ── Main layout ── */}
-      <div className="flex-1 flex pt-14">
+      {/* ── Main layout (scrollable column; min-h-0 enables flex child overflow) ── */}
+      <div className="flex min-h-0 flex-1 flex-col pt-14 lg:flex-row">
 
         {/* ── Sidebar: live score ── */}
-        <aside className="hidden lg:flex flex-col w-72 border-r border-gray-800/50 bg-slate-950 sticky top-14 h-[calc(100vh-3.5rem)]">
+        <aside className="hidden min-h-0 shrink-0 lg:flex lg:h-[calc(100dvh-3.5rem)] lg:max-h-[calc(100dvh-3.5rem)] lg:w-72 lg:flex-col lg:sticky lg:top-14 lg:overflow-y-auto border-r border-gray-800/50 bg-slate-950">
           <div className="flex-1 px-6 py-8 flex flex-col">
             {/* Score live */}
             <div className="mb-8">
@@ -1365,8 +1365,8 @@ function DiagnosticGuideContent() {
           </div>
         </aside>
 
-        {/* ── Content area ── */}
-        <main className="relative flex-1 flex flex-col min-h-[calc(100vh-3.5rem)] pb-20 lg:pb-0">
+        {/* ── Content area (questions / synthèse scroll here on mobile + desktop) ── */}
+        <main className="relative flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain pb-[calc(5rem+env(safe-area-inset-bottom,0px))] pt-1 touch-pan-y lg:pb-0">
 
           <AnimatePresence mode="wait">
             {/* ── INTRO PHASE ── */}
@@ -1377,9 +1377,9 @@ function DiagnosticGuideContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="flex-1 flex items-center justify-center px-6"
+                className="flex w-full flex-1 flex-col justify-start px-6 py-10 sm:py-14"
               >
-                <div className="max-w-xl text-center">
+                <div className="mx-auto max-w-xl w-full text-center">
                   <p className="text-[11px] text-gray-500 font-medium tracking-[0.2em] uppercase mb-8">
                     Score FinSight
                   </p>
@@ -1526,9 +1526,9 @@ function DiagnosticGuideContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="flex-1 flex items-center justify-center px-6"
+                className="flex w-full flex-1 flex-col justify-start px-6 py-8 sm:py-12"
               >
-                <div className="max-w-lg text-center">
+                <div className="mx-auto max-w-lg w-full text-center">
                   {phase.key === 'strategic' ? (
                     <>
                       <div className="w-14 h-14 rounded-xl bg-indigo-500/10 flex items-center justify-center mx-auto mb-6 border border-indigo-500/20">
@@ -1611,9 +1611,9 @@ function DiagnosticGuideContent() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
-                className="flex-1 flex items-center justify-center px-6"
+                className="flex w-full flex-1 flex-col justify-start px-6 pb-10 pt-4 sm:pb-14 sm:pt-6"
               >
-                <div className="max-w-lg w-full">
+                <div className="mx-auto max-w-lg w-full">
                   {/* Step indicator */}
                   <div className="flex items-center gap-3 mb-8">
                     {currentStep.strategicTag ? (
@@ -1828,9 +1828,9 @@ function DiagnosticGuideContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="flex-1 flex items-center justify-center px-6"
+                className="flex w-full flex-1 flex-col justify-start px-6 py-8 sm:py-12"
               >
-                <div className="max-w-xl w-full">
+                <div className="mx-auto max-w-xl w-full">
                   <div className="w-14 h-14 rounded-xl bg-amber-500/10 flex items-center justify-center mb-6">
                     <AlertTriangle className="w-6 h-6 text-amber-400" />
                   </div>
@@ -1998,9 +1998,9 @@ function DiagnosticGuideContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="flex-1 flex items-center justify-center px-6"
+                className="flex w-full flex-1 flex-col justify-center px-6 py-10 sm:py-14"
               >
-                <div className="max-w-md text-center">
+                <div className="mx-auto max-w-md w-full text-center">
                   {/* Animated pulse ring */}
                   <div className="relative w-20 h-20 mx-auto mb-8">
                     <div className="absolute inset-0 rounded-full bg-white/5 animate-ping" style={{ animationDuration: '2s' }} />
@@ -2061,9 +2061,9 @@ function DiagnosticGuideContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className="flex-1 px-6 py-12 overflow-y-auto"
+                className="w-full flex-1 px-6 py-10 sm:py-12"
               >
-                <div className="max-w-2xl mx-auto">
+                <div className="mx-auto max-w-2xl w-full pb-4">
                   <p className="text-[11px] text-gray-500 font-medium tracking-[0.2em] uppercase mb-6">
                     Synthese
                   </p>
@@ -2469,7 +2469,7 @@ function DiagnosticGuideContent() {
       />
 
       {/* ── Mobile score bar ── */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 bg-slate-950/95 backdrop-blur-sm border-t border-gray-800/50 px-4 py-3 z-40">
+      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-gray-800/50 bg-slate-950/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] backdrop-blur-sm lg:hidden">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Activity className="w-4 h-4 text-gray-500" />
@@ -2499,7 +2499,7 @@ function DiagnosticGuideContent() {
 
 export default function DiagnosticGuidePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
+    <Suspense fallback={<div className="min-h-dvh bg-slate-950" />}>
       <DiagnosticGuideContent />
     </Suspense>
   )
