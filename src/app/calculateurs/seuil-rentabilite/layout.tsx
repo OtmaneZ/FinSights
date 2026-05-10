@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur Seuil de Rentabilité 2026 – Point Mort en 30s | PME & Dirigeants',
-    description: 'Calculez votre point mort en 30 secondes : à partir de quel CA êtes-vous rentable ? Benchmarks sectoriels 2026, marge sur coûts variables, leviers de réduction charges. Outil DAF pour PME.',
+    title: 'Calculateur Seuil de Rentabilité PME 2026 | FinSight',
+    description: 'Calculez votre point mort en 2 minutes. CA minimum, marge sur coûts variables et benchmark sectoriel.',
     keywords: 'calculateur seuil rentabilité 2026, point mort entreprise, break even point, seuil rentabilité formule, charges fixes variables, ca minimum rentable, point mort calcul, équilibre financier pme, diagnostic rentabilité pme',
     openGraph: {
         title: 'Calculateur Seuil de Rentabilité 2026 – Point Mort en 30s | PME',

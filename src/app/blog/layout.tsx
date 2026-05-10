@@ -1,11 +1,11 @@
 export const metadata = {
-    title: 'Blog FinSight - Notes Stratégiques & Guides Finance | DAF Externalisé',
-    description: 'Notes stratégiques et guides opérationnels pour dirigeants de PME : DSO, BFR, pilotage cash, marge, direction financière externalisée. Benchmarks France 2026.',
+    title: 'Blog Finance PME — Notes Stratégiques & Guides Pilotage | FinSight',
+    description: '33 articles sur le pilotage financier PME : DSO, BFR, marge, trésorerie. Notes stratégiques et guides pratiques pour dirigeants.',
     keywords: ['blog finance', 'DAF externalisé', 'note stratégique', 'pilotage financier', 'DSO', 'BFR', 'trésorerie PME', 'direction financière'],
     openGraph: {
         type: 'website',
-        title: 'Blog FinSight - Notes Stratégiques & Guides Finance',
-        description: 'Notes stratégiques, analyses structurelles et guides opérationnels pour le pilotage financier des PME.',
+        title: 'Blog Finance PME — Notes Stratégiques & Guides Pilotage | FinSight',
+        description: '33 articles sur le pilotage financier PME : DSO, BFR, marge, trésorerie. Notes stratégiques et guides pratiques pour dirigeants.',
         url: 'https://finsight.zineinsight.com/blog',
         images: [{
             url: 'https://finsight.zineinsight.com/images/og-blog.png',
@@ -16,8 +16,8 @@ export const metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Blog FinSight - Notes Stratégiques & Guides Finance',
-        description: 'Analyses structurelles, pilotage financier et direction financière externalisée pour PME.',
+        title: 'Blog Finance PME — Notes Stratégiques & Guides Pilotage | FinSight',
+        description: '33 articles sur le pilotage financier PME : DSO, BFR, marge, trésorerie. Notes stratégiques et guides pratiques pour dirigeants.',
         images: ['https://finsight.zineinsight.com/images/og-blog.png']
     },
     alternates: {

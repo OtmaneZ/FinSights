@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur CAC LTV 2026 — Ratio LTV/CAC SaaS & PME | FinSight',
-    description: 'Calculez votre CAC, votre LTV et votre ratio LTV/CAC en 30 secondes. Interprétation claire : danger, attention, sain. Outil gratuit pour piloter votre acquisition.',
+    title: 'Calculateur CAC & LTV 2026 — Rentabilité client | FinSight',
+    description: 'Calculez votre coût d\'acquisition et valeur vie client. Ratio LTV/CAC, benchmark SaaS et PME. Gratuit.',
     keywords: 'calculateur cac ltv, ratio ltv cac, calcul ltv saas, calcul cac marketing, simulateur rentabilité client, ltv cac pme',
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/cac-ltv',

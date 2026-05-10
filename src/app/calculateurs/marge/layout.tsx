@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur Marge Commerciale 2026 – Taux de Marge en 30s | PME & Dirigeants',
-    description: 'Calculez votre taux de marge et taux de marque en 30 secondes. Benchmarks sectoriels 2026 (Commerce, SaaS, Services), interprétation DAF, leviers tarifaires. Outil pour dirigeants PME.',
+    title: 'Calculateur Marge Brute & Nette PME 2026 | FinSight',
+    description: 'Calculez vos taux de marge brute et nette instantanément. Benchmark PME françaises et leviers d\'optimisation.',
     keywords: 'calculateur marge commerciale 2026, taux de marge calcul, taux de marque formule, marge brute pme, coefficient multiplicateur, prix de vente calcul, rentabilité produit, marge bénéficiaire, diagnostic marge pme',
     openGraph: {
         title: 'Calculateur Marge Commerciale 2026 – Taux de Marge en 30s | PME',

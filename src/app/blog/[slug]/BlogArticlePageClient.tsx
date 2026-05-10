@@ -17,6 +17,7 @@ import { finalArticles } from './finalArticles'
 import { seoArticles } from './seoArticles'
 import { strategicArticles } from './strategicArticles'
 import { caseStudyArticles } from './caseStudyArticles'
+import { ARTICLE_CALCULATOR_MAP } from '@/lib/blog/calculatorMapping'
 
 interface BlogArticle {
     slug: string
@@ -3226,6 +3227,33 @@ export function BlogArticlePageClient({ slug }: { slug: string }) {
                                 </div>
                             </div>
                         )}
+
+                        {/* Calculator CTA */}
+                        {(() => {
+                            const calculator = ARTICLE_CALCULATOR_MAP[article.slug]
+                            if (!calculator) return null
+                            return (
+                                <div className="my-10 p-6 bg-gray-50 rounded-2xl border border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                    <div>
+                                        <p className="text-xs font-medium tracking-widest uppercase text-accent-primary mb-1">
+                                            OUTIL ASSOCIÉ
+                                        </p>
+                                        <p className="font-semibold text-gray-900 text-sm">
+                                            {calculator.label}
+                                        </p>
+                                        <p className="text-gray-500 text-sm mt-0.5">
+                                            {calculator.description}
+                                        </p>
+                                    </div>
+                                    <Link
+                                        href={`/calculateurs/${calculator.slug}`}
+                                        className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-all duration-200 whitespace-nowrap"
+                                    >
+                                        Calculer maintenant →
+                                    </Link>
+                                </div>
+                            )
+                        })()}
 
                         {/* Related Articles */}
                         <RelatedArticles currentSlug={article.slug} category={article.category} />

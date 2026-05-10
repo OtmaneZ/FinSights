@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur EBITDA PME 2026 — Marge EBITDA & Benchmark Sectoriel | FinSight',
-    description: 'Calculez votre EBITDA en 30 secondes : résultat opérationnel, marge EBITDA (%) et comparaison sectorielle (industrie, services, commerce). Outil gratuit pour dirigeants PME.',
+    title: 'Calculateur EBITDA PME 2026 — Rentabilité opérationnelle | FinSight',
+    description: 'Calculez votre EBITDA et taux de marge opérationnelle. Benchmark sectoriel et interprétation DAF.',
     keywords: 'calculateur ebitda pme, formule ebitda, marge ebitda, simulateur ebitda, benchmark ebitda secteur, ebitda industrie services commerce',
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/ebitda',

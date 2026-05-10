@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur Valorisation PME 2026 — Multiple EBITDA & Equity Value | FinSight',
-    description: 'Estimez la valorisation de votre entreprise : valeur d’entreprise (EV), valeur des fonds propres et fourchette basse/haute selon multiple sectoriel.',
+    title: 'Calculateur Valorisation PME 2026 — Multiples EBITDA | FinSight',
+    description: 'Estimez la valeur de votre entreprise en 2 minutes. Multiples sectoriels, méthodes DCF et comparable.',
     keywords: 'calculateur valorisation entreprise, multiple ebitda, valeur entreprise pme, equity value, valorisation pme, simulateur valorisation',
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/valorisation',

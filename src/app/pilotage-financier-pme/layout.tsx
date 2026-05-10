@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Guide complet du pilotage financier PME (2026) | FinSight',
+    title: 'Pilotage Financier PME : méthode, outils et KPIs | FinSight',
     description:
-        'Méthode structurée de pilotage financier pour PME de 2 à 20 M€. Indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours et rôle du DAF externalisé.',
+        'Calculez votre DSO, BFR et marge en 2 minutes. Guide complet du pilotage financier pour dirigeants PME 2M€-20M€. Gratuit.',
     keywords: [
         'pilotage financier pme',
         'indicateurs financiers pme',
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
         locale: 'fr_FR',
         url: 'https://finsight.zineinsight.com/pilotage-financier-pme',
         siteName: 'FinSight',
-        title: 'Guide complet du pilotage financier PME (2026)',
+        title: 'Pilotage Financier PME : méthode, outils et KPIs | FinSight',
         description:
-            'Méthode structurée de pilotage financier pour PME. Indicateurs, tableau de bord, trésorerie 90 jours et rôle du DAF externalisé.',
+            'Calculez votre DSO, BFR et marge en 2 minutes. Guide complet du pilotage financier pour dirigeants PME 2M€-20M€. Gratuit.',
         images: [
             {
                 url: 'https://finsight.zineinsight.com/images/og-default.png',
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Guide complet du pilotage financier PME (2026)',
+        title: 'Pilotage Financier PME : méthode, outils et KPIs | FinSight',
         description:
-            'Indicateurs clés, tableau de bord, prévisionnel de trésorerie et rôle du DAF externalisé. Méthode structurée pour dirigeants PME.',
+            'Calculez votre DSO, BFR et marge en 2 minutes. Guide complet du pilotage financier pour dirigeants PME 2M€-20M€. Gratuit.',
         images: ['https://finsight.zineinsight.com/images/og-default.png'],
     },
     robots: {
