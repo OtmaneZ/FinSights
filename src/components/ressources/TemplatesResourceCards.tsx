@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Download, FileSpreadsheet, TrendingUp, DollarSign, BarChart3, Check } from 'lucide-react'
 import TemplateDownloadModal, { type TemplateSlug } from '@/components/TemplateDownloadModal'
+import { StaggerContainer, StaggerItem } from '@/components/ui/FadeIn'
 
 interface Template {
   id: TemplateSlug
@@ -11,7 +12,7 @@ interface Template {
   icon: typeof TrendingUp
   features: string[]
   downloadUrl: string
-  color: string
+  featured?: boolean
   badge?: string
 }
 
@@ -28,8 +29,8 @@ const templates: Template[] = [
       'Calcul auto des marges et cash flow',
       'Scénarios optimiste / pessimiste inclus',
     ],
-        downloadUrl: '/templates/excel/budget-previsionnel-2026.xlsx',
-    color: 'border-l-4 border-blue-600 bg-gray-50',
+    downloadUrl: '/templates/excel/budget-previsionnel-2026.xlsx',
+    featured: true,
     badge: 'Le plus téléchargé',
   },
   {
@@ -45,7 +46,6 @@ const templates: Template[] = [
       'Tableau de bord relances intégré',
     ],
     downloadUrl: '/templates/excel/tracker-dso.xlsx',
-    color: 'border-l-4 border-green-600 bg-gray-50',
   },
   {
     id: 'dashboard-cashflow',
@@ -60,7 +60,6 @@ const templates: Template[] = [
       'Projection 3 scénarios automatiques',
     ],
     downloadUrl: '/templates/excel/dashboard-cashflow.xlsx',
-    color: 'border-l-4 border-purple-600 bg-gray-50',
   },
 ]
 
@@ -69,55 +68,59 @@ export default function TemplatesResourceCards() {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
         {templates.map((template) => {
           const Icon = template.icon
+          const cardBorder = template.featured
+            ? 'border border-accent-primary/40 shadow-md ring-1 ring-accent-primary/20'
+            : 'border border-gray-200 shadow-sm'
+
           return (
-            <div
-              key={template.id}
-              className="surface rounded-xl overflow-hidden border-2 border-border-default hover:border-accent-primary transition-all group"
-            >
-              <div className={`${template.color} p-8 relative`}>
+            <StaggerItem key={template.id}>
+              <div
+                className={`relative bg-white rounded-2xl overflow-hidden ${cardBorder} hover:shadow-md hover:border-accent-primary/30 transition-all duration-200 group`}
+              >
                 {template.badge && (
-                  <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded">
+                  <div className="absolute -top-3 left-6 z-10 px-3 py-1 bg-accent-primary text-white text-xs font-medium rounded-full tracking-wide shadow-sm">
                     {template.badge}
                   </div>
                 )}
-                <Icon className="w-12 h-12 mb-4 text-gray-700" />
-                <h3 className="text-2xl font-bold mb-2 text-gray-900">{template.title}</h3>
-                <p className="text-sm text-gray-600">{template.description}</p>
-              </div>
 
-              <div className="p-6">
-                <ul className="space-y-3 mb-6">
-                  {template.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-secondary leading-relaxed">
-                      <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="p-8 pt-10 border-b border-gray-100">
+                  <Icon className="w-10 h-10 mb-4 text-gray-700" />
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{template.title}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">{template.description}</p>
+                </div>
 
-                <div className="space-y-2">
+                <div className="p-6">
+                  <ul className="space-y-3 mb-6">
+                    {template.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 leading-relaxed">
+                        <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
                   <button
                     type="button"
                     onClick={() => setSelected(template)}
-                    className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all group-hover:shadow-lg"
+                    className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gray-900 text-white font-semibold text-sm tracking-wide border border-gray-800 shadow-sm hover:bg-gray-800 transition-all duration-200 group-hover:shadow-md"
                   >
-                    <Download className="w-5 h-5" />
+                    <Download className="w-4 h-4" />
                     Recevoir Excel (.xlsx)
                   </button>
-                </div>
 
-                <p className="text-xs text-tertiary text-center mt-3 flex items-center justify-center gap-1">
-                  <FileSpreadsheet className="w-3.5 h-3.5 inline" />
-                  Envoi par email · Excel 2016+ / Google Sheets
-                </p>
+                  <p className="text-xs text-gray-400 text-center mt-2 flex items-center justify-center gap-1">
+                    <FileSpreadsheet className="w-3.5 h-3.5 inline" />
+                    Envoi par email · Excel 2016+ / Google Sheets
+                  </p>
+                </div>
               </div>
-            </div>
+            </StaggerItem>
           )
         })}
-      </div>
+      </StaggerContainer>
 
       <TemplateDownloadModal
         templateName={selected?.title ?? ''}
@@ -129,3 +132,5 @@ export default function TemplatesResourceCards() {
     </>
   )
 }
+
+
