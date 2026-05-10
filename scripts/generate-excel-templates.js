@@ -313,8 +313,8 @@ async function createBudgetPrevisionnel() {
     instructions.addRow(['']);
     instructions.addRow(['📞 Support : contact@zineinsight.com']);
 
-    await workbook.xlsx.writeFile(path.join(OUTPUT_DIR, 'budget-previsionnel-2025.xlsx'));
-    console.log('✅ Budget Prévisionnel 2025 créé');
+    await workbook.xlsx.writeFile(path.join(OUTPUT_DIR, 'budget-previsionnel-2026.xlsx'));
+    console.log('✅ Budget Prévisionnel 2026 créé');
 }
 
 // ========================================
@@ -590,7 +590,7 @@ async function main() {
 
         console.log('\n✨ Terminé ! Fichiers créés dans /public/templates/excel/');
         console.log('\n📁 Fichiers générés :');
-        console.log('   - budget-previsionnel-2025.xlsx');
+        console.log('   - budget-previsionnel-2026.xlsx');
         console.log('   - tracker-dso.xlsx');
         console.log('   - dashboard-cashflow.xlsx');
         console.log('\n🔗 Page disponible sur : /ressources/templates');
