@@ -102,7 +102,7 @@ export default function TemplatesPage() {
                                 href="/templates/previsionnel-tresorerie-90j"
                                 className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all shadow-lg whitespace-nowrap"
                             >
-                                Télécharger gratuitement
+                                Télécharger ce template
                                 <ArrowRight className="w-5 h-5" />
                             </Link>
                         </div>
