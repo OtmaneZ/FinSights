@@ -157,6 +157,23 @@ export default function CalculateurCacLtv() {
             />
 
             <div className="max-w-4xl mx-auto px-6 pb-10">
+                <section aria-label="Ressources liées" className="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-6">
+                    <p className="font-semibold text-gray-900 text-sm mb-3">Aller plus loin</p>
+                    <div className="mb-4">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Article lié</p>
+                        <Link href="/blog/top-7-kpis-financiers-startups-saas" className="text-accent-primary text-sm hover:underline block">
+                            Top 7 KPIs financiers pour startups SaaS
+                        </Link>
+                    </div>
+                    <div>
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Calculateurs complémentaires</p>
+                        <div className="flex flex-col gap-1">
+                            <Link href="/calculateurs/roi" className="text-accent-primary text-sm hover:underline">Calculateur ROI</Link>
+                            <Link href="/calculateurs/burn-rate" className="text-accent-primary text-sm hover:underline">Calculateur Burn Rate &amp; Runway</Link>
+                            <Link href="/pilotage-financier-pme" className="text-accent-primary text-sm hover:underline">Guide : Pilotage financier PME</Link>
+                        </div>
+                    </div>
+                </section>
                 <PremiumUpsellCard
                     calculatorType="cac-ltv"
                     hasResult={!!result}

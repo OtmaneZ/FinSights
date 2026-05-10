@@ -1021,6 +1021,23 @@ export default function CalculateurROI() {
             />
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl pb-10">
+                <section aria-label="Ressources liées" className="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-6">
+                    <p className="font-semibold text-gray-900 text-sm mb-3">Aller plus loin</p>
+                    <div className="mb-4">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Article lié</p>
+                        <Link href="/blog/arbitrage-projets-roi-priorites" className="text-accent-primary text-sm hover:underline block">
+                            Arbitrage de projets : comment prioriser selon le ROI ?
+                        </Link>
+                    </div>
+                    <div>
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Calculateurs complémentaires</p>
+                        <div className="flex flex-col gap-1">
+                            <Link href="/calculateurs/marge" className="text-accent-primary text-sm hover:underline">Calculateur Marge Brute &amp; Nette</Link>
+                            <Link href="/calculateurs/ebitda" className="text-accent-primary text-sm hover:underline">Calculateur EBITDA</Link>
+                            <Link href="/pilotage-financier-pme" className="text-accent-primary text-sm hover:underline">Guide : Pilotage financier PME</Link>
+                        </div>
+                    </div>
+                </section>
                 <PremiumUpsellCard
                     calculatorType="roi"
                     hasResult={roi !== null && payback !== null}
