@@ -85,7 +85,7 @@ export interface OpusActionStep {
 }
 
 export interface RecommendationPlan {
-  /** 80–120 mots, prose DAF senior — utilisé dans PDF page 2 et synthèse wizard */
+  /** 80–120 mots, prose DAF senior — utilisé dans PDF (synthèse executive) et wizard */
   executiveSummary: string
   /** Narration courte par pilier — utilisée dans le PDF page "Analyse par pilier" */
   narrativeParPilier: {
@@ -94,7 +94,7 @@ export interface RecommendationPlan {
     resilience: string
     risques: string
   }
-  /** 3 priorités contextualisées secteur + chiffres réels — PDF page 4 */
+  /** 3 priorités contextualisées secteur + chiffres réels — PDF priorités d'action */
   priorities: OpusPriority[]
   /** 5 questions/réponses préparées pour un rendez-vous bancaire */
   packBanquier: Array<{
@@ -133,7 +133,14 @@ export interface RecommendationPlan {
 // SYSTÈME PROMPT
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+const OPUS_REDACTION_STYLE = `STYLE RÉDACTIONNEL (obligatoire pour toute prose générée) :
+Style : DAF humain. Phrases courtes. Verbes d'action. Chiffres concrets.
+Interdit : métaphores, superlatifs, constructions « double X + Y », tirets em (—), points d'exclamation, adjectifs dramatisants (critique, structurel, hémorragie, asphyxie, étau).
+Format cible : « Vos clients paient en 75 jours. La norme secteur est 45j. Vous immobilisez 14k€ inutilement. Action : relance systématique dès J+30. »`
+
 const OPUS_SYSTEM_PROMPT = `Tu es un Directeur Administratif et Financier senior avec 20 ans d'expérience en accompagnement de PME françaises (CA 500k€ à 15M€). Tu interviens en mission DAF externalisé court terme.
+
+${OPUS_REDACTION_STYLE}
 
 TON RÔLE :
 - Analyser un diagnostic financier et produire des recommandations opérationnelles

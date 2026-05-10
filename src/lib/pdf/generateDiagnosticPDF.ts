@@ -1,18 +1,18 @@
 /**
  * DIAGNOSTIC PDF GENERATOR — Executive Edition v3.0
  *
- * Generates a 9-page (Standard) or 13-page (Stratégique) A4 portrait consulting-grade report.
+ * Generates an 8-page (Standard) or 12-page (Stratégique) A4 portrait consulting-grade report.
  * Pure jsPDF — no DOM capture, no html2canvas dependency.
  *
- * Page 0: Message clé (full page)
- * Page 1: Cover enrichie
+ * Page 1: Couverture
  * Page 2: Table des matières
- * Page 3: Executive Summary (score + pillars + signaux clés)
+ * Page 3: Synthèse executive (score + piliers + signaux clés)
  * Page 4: Analyse narrative par pilier + radar
- * Page 5: Priorités d'action (result-oriented) + Cash Impact Pareto
+ * Page 5: Priorités d'action + Cash Impact Pareto
  * Page 6: Pack banquier (Q/R)
  * Page 7: Comparaison sectorielle + Radars J+30
- * Page 8: Méthodologie + Legal disclaimer
+ * [Stratégique] Page 8: Z-Score Altman — Page 9: SWOT — Page 10: Positionnement — Page 11: Valorisation
+ * Dernière page: Méthodologie + Legal disclaimer
  *
  * Design: Big Four audit aesthetic — navy/white, minimal, impactful.
  * Footer: "Document confidentiel" + "Powered by SCORIS™ v1" on every page.
@@ -241,9 +241,9 @@ export interface DiagnosticPDFData {
   } | null
   completedCount: number
   totalCalculators: number
-  /** false = version gratuite partielle ; undefined/true = rapport 9 pages complet */
+  /** false = version gratuite partielle ; undefined/true = rapport complet */
   isPremium?: boolean
-  /** Standard = 9 pages · Stratégique = 13 pages */
+  /** Standard = 8 pages · Stratégique = 12 pages */
   scorisLevel?: 'standard' | 'strategique'
   /** Données wizard stratégique — requis si scorisLevel === 'strategique' */
   strategique?: StrategiqueContextPayload
@@ -320,8 +320,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   const CW = W - 2 * M
   const FOOTER_H = 18
   const isStrategicPdf = data.scorisLevel === 'strategique' && !!data.strategique
-  const totalPages = isStrategicPdf ? 13 : 9
-  let pageNum = 0
+  const totalPages = isStrategicPdf ? 12 : 8
 
   const isPremium = data.isPremium !== false
 
@@ -347,39 +346,13 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // ── Fetch Opus plan avant de commencer le rendu (non-bloquant si indisponible) ──
   const opusPlan = await fetchOpusPlan(data)
 
-  let currentSection = 'Message clé'
+  let currentSection = 'Couverture'
+  let pageNum = 1
   const footer = () => { addPageFooter(pdf, M, pageNum, totalPages, currentSection) }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 0 — MESSAGE CLÉ
+  // PAGE 1 — COUVERTURE
   // ═══════════════════════════════════════════════════════════════════════════
-  const keyMessage = opusPlan?.priorities?.[0]?.detail
-    ? clean(opusPlan.priorities[0].detail).split('.').slice(0, 1)[0] + '.'
-    : data.insights.priorite
-      ? clean(data.insights.priorite)
-      : 'Votre principal levier de performance est identifié : exécutez-le dans les 30 prochains jours.'
-
-  pageNum = 1
-  pdf.setFillColor(...rgb(C.navy))
-  pdf.rect(0, 0, W, H, 'F')
-  pdf.setFont('helvetica', 'bold')
-  pdf.setFontSize(30)
-  pdf.setTextColor(...rgb(C.white))
-  const keyLines = wrapText(pdf, keyMessage, CW - 10)
-  keyLines.forEach((line, i) => pdf.text(line, M, 85 + i * 12))
-  pdf.setFont('helvetica', 'normal')
-  pdf.setFontSize(10)
-  pdf.setTextColor(...rgb(C.light))
-  pdf.text('Rapport stratégique FinSight', M, H - 20)
-  pdf.text('FinSight', W - M, H - 20, { align: 'right' })
-  addPageFooter(pdf, M, pageNum, totalPages, 'Message clé')
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  // PAGE 1 — COVER
-  // ═══════════════════════════════════════════════════════════════════════════
-  pdf.addPage()
-  pageNum = 2
-  currentSection = 'Couverture'
   const coverLevelColor: RGB = data.diagnostic.total !== null
     ? data.diagnostic.total >= 75 ? C.green : data.diagnostic.total >= 55 ? C.accent : data.diagnostic.total >= 35 ? C.amber : C.red
     : C.amber
@@ -464,37 +437,35 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // PAGE 2 — TABLE DES MATIÈRES
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 3
+  pageNum = 2
   currentSection = 'Table des matières'
   addPageHeader(pdf, M, displayName, dateStr)
   let y = M + 18
   y = sectionTitle(pdf, 'TABLE DES MATIERES', M, y)
   const toc = isStrategicPdf
     ? [
-        ['Message clé', '1'],
-        ['Couverture', '2'],
-        ['Table des matières', '3'],
-        ['Synthèse executive', '4'],
-        ['Analyse par pilier', '5'],
-        ['Priorités d’action', '6'],
-        ['Pack banquier', '7'],
-        ['Benchmark et radars J+30', '8'],
-        ['Z-Score Altman', '9'],
-        ['Analyse SWOT', '10'],
-        ['Positionnement stratégique', '11'],
-        ['Valorisation & financement', '12'],
-        ['Méthodologie et disclaimer', '13'],
+        ['Couverture', '1'],
+        ['Table des matières', '2'],
+        ['Synthèse executive', '3'],
+        ['Analyse par pilier', '4'],
+        ['Priorités d’action', '5'],
+        ['Pack banquier', '6'],
+        ['Benchmark et radars J+30', '7'],
+        ['Z-Score Altman', '8'],
+        ['Analyse SWOT', '9'],
+        ['Positionnement stratégique', '10'],
+        ['Valorisation & financement', '11'],
+        ['Méthodologie et disclaimer', '12'],
       ]
     : [
-        ['Message clé', '1'],
-        ['Couverture', '2'],
-        ['Table des matières', '3'],
-        ['Synthèse executive', '4'],
-        ['Analyse par pilier', '5'],
-        ['Priorités d’action', '6'],
-        ['Pack banquier', '7'],
-        ['Benchmark et radars J+30', '8'],
-        ['Méthodologie et disclaimer', '9'],
+        ['Couverture', '1'],
+        ['Table des matières', '2'],
+        ['Synthèse executive', '3'],
+        ['Analyse par pilier', '4'],
+        ['Priorités d’action', '5'],
+        ['Pack banquier', '6'],
+        ['Benchmark et radars J+30', '7'],
+        ['Méthodologie et disclaimer', '8'],
       ]
   pdf.setFont('helvetica', 'normal')
   pdf.setFontSize(TYPO.subtitle)
@@ -510,7 +481,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // PAGE 3 — EXECUTIVE SUMMARY
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 4
+  pageNum = 3
   currentSection = 'Synthèse executive'
   addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
@@ -727,7 +698,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // PAGE 4 — ANALYSE PAR PILIER
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 5
+  pageNum = 4
   currentSection = 'Analyse par pilier'
   addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
@@ -864,7 +835,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // PAGE 5 — PRIORITÉS D'ACTION (result-oriented, no vuln repeats)
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 6
+  pageNum = 5
   currentSection = 'Priorités d’action'
   addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
@@ -961,7 +932,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // PAGE 6 — PACK BANQUIER
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 7
+  pageNum = 6
   currentSection = 'Pack banquier'
   addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
@@ -1002,7 +973,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // PAGE 7 — COMPARAISON SECTORIELLE + RADARS J+30
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = 8
+  pageNum = 7
   currentSection = 'Benchmark et radars J+30'
   addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
@@ -1127,7 +1098,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   footer()
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // PAGES 9–12 — SCORIS STRATÉGIQUE (Z-Score, SWOT, feuille de route, valorisation)
+  // PAGES 8–11 — SCORIS STRATÉGIQUE (Z-Score, SWOT, positionnement, valorisation)
   // ═══════════════════════════════════════════════════════════════════════════
   if (isStrategicPdf && data.strategique) {
     const strat = data.strategique
@@ -1153,9 +1124,9 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
         : undefined
     const ebitdaEstimable = !!(caAnnuel && caAnnuel > 0 && ebitdaPctForVal != null && ebitdaPctForVal > 0)
 
-    // ── Page 9 : Z-Score Altman
+    // ── Page 8 : Z-Score Altman
     pdf.addPage()
-    pageNum = 9
+    pageNum = 8
     currentSection = 'Z-Score Altman'
     addPageHeader(pdf, M, displayName, dateStr)
     y = M + 18
@@ -1270,9 +1241,9 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     pdf.text('Source : Modele Altman Z-Score adapte PME (1983, revise 2000) — X2 non saisi.', M, y)
     footer()
 
-    // ── Page 10 : SWOT
+    // ── Page 9 : SWOT
     pdf.addPage()
-    pageNum = 10
+    pageNum = 9
     currentSection = 'Analyse SWOT'
     addPageHeader(pdf, M, displayName, dateStr)
     y = M + 18
@@ -1354,9 +1325,9 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
 
     footer()
 
-    // ── Page 11 : Positionnement stratégique
+    // ── Page 10 : Positionnement stratégique
     pdf.addPage()
-    pageNum = 11
+    pageNum = 10
     currentSection = 'Positionnement stratégique'
     addPageHeader(pdf, M, displayName, dateStr)
     y = M + 18
@@ -1431,9 +1402,9 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
     })
     footer()
 
-    // ── Page 12 : Valorisation
+    // ── Page 11 : Valorisation
     pdf.addPage()
-    pageNum = 12
+    pageNum = 11
     currentSection = 'Valorisation & financement'
     addPageHeader(pdf, M, displayName, dateStr)
     y = M + 18
@@ -1468,44 +1439,30 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
       })
     } else {
       pdf.setFontSize(9)
+      pdf.setFont('helvetica', 'normal')
       pdf.setTextColor(...rgb(C.muted))
-      wrapText(
-        pdf,
-        'Fourchette de valorisation non affichee : renseigner un EBITDA estime (calculateur EBITDA + CA) pour activer l\'estimation.',
-        CW,
-      ).forEach((ln) => {
+      pdf.text('Valorisation non calculable.', M, y)
+      y += 5
+      wrapText(pdf, 'Renseignez un EBITDA estimé pour activer cette section.', CW).forEach((ln) => {
         pdf.text(ln, M, y)
         y += 5
       })
     }
 
     y += 8
-    pdf.setFillColor(...rgb(C.bg))
-    pdf.roundedRect(M, y, CW, 18, 2, 2, 'F')
-    pdf.setFontSize(6.5)
-    pdf.setTextColor(...rgb(C.muted))
-    wrapText(
-      pdf,
-      'Cette estimation repose sur des donnees declaratives et des multiples sectoriels. Elle ne constitue pas une evaluation officielle et ne peut etre utilisee dans un acte juridique.',
-      CW - 6,
-    ).forEach((ln, i) => {
-      pdf.text(ln, M + 3, y + 6 + i * 3.5)
-    })
-    y += 24
-
-    pdf.setFontSize(8)
-    pdf.setFont('helvetica', 'bold')
-    pdf.setTextColor(...rgb(C.navy))
-    pdf.text('Options de financement', M, y)
-    y += 6
-    pdf.setFont('helvetica', 'normal')
-    pdf.setFontSize(7.5)
-    pdf.setTextColor(...rgb(C.text))
-    wrapText(pdf, clean(as?.recommendationFinancement ?? ''), CW).forEach((ln) => {
-      y = ensureSpace(pdf, y, 5, M, H, FOOTER_H, footer)
-      pdf.text(ln, M, y)
-      y += 4
-    })
+    if (ebitdaEstimable && as?.valorisationFourchette) {
+      pdf.setFillColor(...rgb(C.bg))
+      pdf.roundedRect(M, y, CW, 18, 2, 2, 'F')
+      pdf.setFontSize(6.5)
+      pdf.setTextColor(...rgb(C.muted))
+      wrapText(
+        pdf,
+        'Cette estimation repose sur des donnees declaratives et des multiples sectoriels. Elle ne constitue pas une evaluation officielle et ne peut etre utilisee dans un acte juridique.',
+        CW - 6,
+      ).forEach((ln, i) => {
+        pdf.text(ln, M + 3, y + 6 + i * 3.5)
+      })
+    }
     footer()
   }
 
@@ -1513,7 +1470,7 @@ export async function generateDiagnosticPDF(data: DiagnosticPDFData): Promise<vo
   // Dernière page — MÉTHODOLOGIE + LEGAL
   // ═══════════════════════════════════════════════════════════════════════════
   pdf.addPage()
-  pageNum = isStrategicPdf ? 13 : 9
+  pageNum = isStrategicPdf ? 12 : 8
   currentSection = 'Méthodologie et disclaimer'
   addPageHeader(pdf, M, displayName, dateStr)
   y = M + 18
