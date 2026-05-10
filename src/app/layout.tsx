@@ -68,7 +68,9 @@ export const viewport = {
     initialScale: 1,
     maximumScale: 5,
     userScalable: true,
-    themeColor: '#0F3D7A'
+    themeColor: '#0F3D7A',
+    /** Étend le rendu jusqu’aux bords ; permet env(safe-area-inset-*) sur iPhone encoché / Dynamic Island */
+    viewportFit: 'cover' as const,
 }
 
 export default function RootLayout({

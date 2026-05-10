@@ -59,7 +59,7 @@ const guides: Guide[] = [
         id: '15-ratios-financiers',
         title: '15 Ratios Financiers : Grille d\'Analyse',
         description: 'Grille d\'analyse exhaustive des ratios financiers avec seuils d\'alerte et interprétation sectorielle',
-        pages: '13 pages',
+        pages: '12 pages',
         icon: TrendingUp,
         features: [
             '5 Ratios de Liquidité (Current, Quick, Cash...)',
@@ -79,7 +79,7 @@ const guides: Guide[] = [
         id: 'guide-bfr-optimiser-tresorerie',
         title: 'Note BFR : Diagnostic et Leviers d\'Optimisation',
         description: 'Méthodologie d\'analyse du Besoin en Fonds de Roulement avec grille de lecture et leviers d\'action',
-        pages: '9 pages',
+        pages: '8 pages',
         icon: TrendingUp,
         features: [
             'Décomposition structurelle du BFR',

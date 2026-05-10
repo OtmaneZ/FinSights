@@ -180,10 +180,10 @@ export default function AgentsPage() {
               transition={{ duration: 0.5, delay: 0 }}
               className="group relative bg-gradient-to-br from-accent-primary/5 to-accent-primary/10 rounded-2xl p-8 border-2 border-accent-primary/30 hover:border-accent-primary hover:shadow-xl transition-all duration-300"
             >
-              {/* Badge Nouveau */}
+              {/* Badge Bientôt */}
               <div className="absolute -top-3 left-6">
-                <span className="px-3 py-1 text-xs font-bold bg-accent-primary text-white rounded-full shadow-lg">
-                  ✨ NOUVEAU
+                <span className="px-3 py-1 text-xs font-bold bg-amber-100 text-amber-700 rounded-full shadow">
+                  🚧 BIENTÔT
                 </span>
               </div>
               
@@ -213,10 +213,10 @@ export default function AgentsPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="group relative bg-slate-50 rounded-2xl p-8 border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all duration-300"
             >
-              {/* Badge Disponible */}
+              {/* Badge Bientôt */}
               <div className="absolute -top-3 left-6">
-                <span className="px-3 py-1 text-xs font-bold bg-emerald-500 text-white rounded-full shadow-lg">
-                  ✅ DISPONIBLE
+                <span className="px-3 py-1 text-xs font-bold bg-amber-100 text-amber-700 rounded-full shadow">
+                  🚧 BIENTÔT
                 </span>
               </div>
               

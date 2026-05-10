@@ -137,7 +137,7 @@ export default function AnalysePredictivePage() {
                                 className="inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-950 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-950 transition-all shadow-lg shadow-white/10"
                                 aria-label="Démarrer le diagnostic financier FinSight Advanced"
                             >
-                                Démarrer le diagnostic gratuit
+                                Démarrer le Score FinSight™
                                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
                             </Link>
                             <p className="text-[11px] text-gray-600 mt-3">~7 min · Données locales · Sans inscription</p>

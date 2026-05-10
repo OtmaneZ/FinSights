@@ -443,7 +443,7 @@ export default function TarifsPage() {
             </section>
 
             {/* ============================================
-                QUALIFICATION — Diagnostic gratuit avant achat
+                QUALIFICATION — Score FinSight™ avant achat
                ============================================ */}
             <section className="py-16 bg-white">
                 <div className="max-w-3xl mx-auto px-6 lg:px-12">
@@ -468,7 +468,7 @@ export default function TarifsPage() {
                             href="/diagnostic/guide"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 rounded-xl font-bold text-sm hover:bg-gray-100 transition-all shadow-lg shadow-white/10"
                         >
-                            Lancer le diagnostic gratuit
+                            Lancer le Score FinSight™
                             <ArrowRight className="w-4 h-4" />
                         </Link>
                         <p className="text-xs text-gray-600 mt-4">
@@ -685,7 +685,7 @@ export default function TarifsPage() {
                                 <p className="font-semibold text-slate-900 group-hover:text-accent-primary transition-colors">
                                     Diagnostic en ligne
                                 </p>
-                                <p className="text-xs text-slate-500">Score gratuit en 7 min</p>
+                                <p className="text-xs text-slate-500">Score FinSight™ en 7 min</p>
                             </div>
                             <ArrowRight className="w-4 h-4 text-slate-400 ml-auto group-hover:translate-x-1 transition-transform" />
                         </Link>

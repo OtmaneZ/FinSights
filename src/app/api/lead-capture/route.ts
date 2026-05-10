@@ -131,7 +131,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
                           </p>
                           <a href="https://finsight.zineinsight.com/diagnostic/guide"
                              style="display:inline-block;background:#2563eb;color:#ffffff;text-decoration:none;font-size:13px;font-weight:600;padding:12px 24px;border-radius:6px;">
-                            Faire le diagnostic gratuit →
+                            Obtenir mon Score FinSight™ →
                           </a>
                           <a href="https://calendly.com/zineinsight"
                              style="display:inline-block;margin-left:12px;color:#93c5fd;text-decoration:none;font-size:13px;">
