@@ -14,6 +14,7 @@ import {
     Users,
     BarChart3,
     Clock,
+    Calculator,
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -32,9 +33,9 @@ import {
    ────────────────────────────────────────────────────── */
 const faqItems = [
     {
-        question: 'Comment choisir entre le Diagnostic, l\'Audit Complet et le Decision System ?',
+        question: 'Comment choisir entre le Diagnostic, l\'Audit Complet et le Pilotage Augmenté ?',
         answer:
-            'Le Diagnostic FinSight™ 90J convient si vous souhaitez un état des lieux précis et rapide. L\'Audit Complet est recommandé lorsque vous avez besoin d\'un cockpit décisionnel, d\'une analyse de rentabilité par activité et d\'un plan d\'action chiffré. Le Decision System s\'adresse aux dirigeants qui veulent un pilotage financier autonome et durable avec alertes, scénarios et accompagnement sur 3 mois.',
+            'Le Diagnostic FinSight™ 90J convient si vous souhaitez un état des lieux précis et rapide. L\'Audit Complet est recommandé lorsque vous avez besoin d\'un cockpit décisionnel, d\'une analyse de rentabilité par activité et d\'un plan d\'action chiffré. Le Pilotage Augmenté s\'adresse aux dirigeants qui veulent un pilotage financier autonome et durable avec alertes, scénarios et accompagnement sur 3 mois.',
     },
     {
         question: 'Les tarifs incluent-ils la TVA ?',
@@ -44,12 +45,12 @@ const faqItems = [
     {
         question: 'Proposez-vous un paiement échelonné ?',
         answer:
-            'Pour l\'Audit Complet et le Decision System, un paiement en 2 ou 3 échéances est possible. Le Diagnostic FinSight™ 90J est réglé en une fois à la commande.',
+            'Pour l\'Audit Complet et le Pilotage Augmenté, un paiement en 2 ou 3 échéances est possible. Le Diagnostic FinSight™ 90J est réglé en une fois à la commande.',
     },
     {
         question: 'Y a-t-il un engagement de durée ?',
         answer:
-            'Non. Le Diagnostic et l\'Audit sont des missions ponctuelles sans engagement. Le Decision System inclut 3 mois d\'accompagnement ; au-delà, vous restez libre de renouveler ou non.',
+            'Non. Le Diagnostic et l\'Audit sont des missions ponctuelles sans engagement. Le Pilotage Augmenté inclut 3 mois d\'accompagnement ; au-delà, vous restez libre de renouveler ou non.',
     },
     {
         question: 'Quelle est la différence avec un cabinet de conseil traditionnel ?',
@@ -109,12 +110,12 @@ export default function TarifsPage() {
                 },
                 {
                     '@type': 'Offer',
-                    name: 'Decision System',
+                    name: 'Pilotage Augmenté',
                     price: '12500',
                     priceCurrency: 'EUR',
                     description:
                         'Audit Complet + cockpit dirigeant temps réel, alertes automatiques, scénarios de croissance, formation équipe + 3 mois d\'accompagnement.',
-                    url: 'https://finsight.zineinsight.com/tarifs#decision-system',
+                    url: 'https://finsight.zineinsight.com/tarifs#pilotage-augmente',
                 },
             ],
         },
@@ -189,6 +190,127 @@ export default function TarifsPage() {
                             </div>
                         </div>
                     </motion.div>
+                </div>
+            </section>
+
+            {/* Self-serve — accès immédiat */}
+            <section className="py-16 lg:py-20 bg-slate-50 border-y border-slate-100">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center mb-12 lg:mb-14"
+                    >
+                        <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary/10 border border-accent-primary/30 rounded-full mb-4">
+                            SELF-SERVE · ACCÈS IMMÉDIAT
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+                            Commencer seul, à votre rythme
+                        </h2>
+                        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                            Deux produits en ligne, sans rendez-vous, résultat immédiat.
+                        </p>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 gap-8 items-stretch">
+                        <motion.div
+                            initial={{ opacity: 0, y: 16 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.05 }}
+                            className="flex flex-col rounded-2xl p-8 border border-slate-200 bg-white shadow-sm"
+                        >
+                            <div className="flex items-center gap-2 mb-4">
+                                <Calculator className="w-5 h-5 text-accent-primary shrink-0" aria-hidden />
+                                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    PAR CALCULATEUR
+                                </span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-2">Rapport Premium</h3>
+                            <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                                Analyse personnalisée par Claude Opus sur votre indicateur. Plan d&apos;action
+                                90 jours, benchmark sectoriel, signal d&apos;alerte.
+                            </p>
+                            <ul className="space-y-2.5 mb-8 flex-1">
+                                {[
+                                    'Diagnostic narratif sur vos chiffres réels',
+                                    'Plan d&apos;action 5 priorités (30j / 90j / 6 mois)',
+                                    'Benchmark sectoriel contextualisé',
+                                    'Signal d&apos;alerte personnalisé',
+                                    'PDF McKinsey 3 pages par email',
+                                ].map((item, idx) => (
+                                    <li key={idx} className="flex items-start gap-2.5 text-sm text-slate-600">
+                                        <Check className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="mb-4">
+                                <p className="text-3xl font-bold text-slate-900">9€</p>
+                                <p className="text-sm text-slate-500">par rapport · paiement unique</p>
+                            </div>
+                            <Link
+                                href="/calculateurs"
+                                className="inline-flex items-center justify-center w-full py-3.5 px-6 border-2 border-slate-300 text-slate-800 font-semibold rounded-xl hover:border-slate-400 hover:bg-slate-50 transition-all text-sm"
+                            >
+                                Choisir mon calculateur
+                            </Link>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 16 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                            className="relative flex flex-col rounded-2xl p-8 border-2 border-accent-primary/50 bg-accent-primary/5 shadow-md"
+                        >
+                            <div className="absolute -top-3 right-8">
+                                <span className="px-3 py-1 bg-accent-primary text-white text-xs font-bold rounded-full shadow">
+                                    RECOMMANDÉ
+                                </span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-2 pr-24">Score FinSight™</h3>
+                            <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                                Diagnostic complet 4 piliers — Cash, Marges, Résilience, Risques.
+                                Recommandations IA, rapport 6 pages, résultat en 7 minutes.
+                            </p>
+                            <ul className="space-y-2.5 mb-8 flex-1">
+                                {[
+                                    'Score 0-100 sur 4 piliers',
+                                    'Recommandations générées par Claude Opus',
+                                    'Rapport PDF 6 pages complet',
+                                    'Benchmark vs PME françaises',
+                                    'Accès immédiat sans rendez-vous',
+                                ].map((item, idx) => (
+                                    <li key={idx} className="flex items-start gap-2.5 text-sm text-slate-700">
+                                        <Check className="w-4 h-4 text-accent-primary flex-shrink-0 mt-0.5" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="mb-4">
+                                <p className="text-3xl font-bold text-slate-900">49€</p>
+                                <p className="text-sm text-slate-500">paiement unique · sans abonnement</p>
+                            </div>
+                            <Link
+                                href="/mon-diagnostic"
+                                className="inline-flex items-center justify-center w-full py-3.5 px-6 bg-accent-primary hover:bg-accent-primary-hover text-white font-semibold rounded-xl transition-all text-sm shadow-lg shadow-accent-primary/20"
+                            >
+                                Lancer mon Score FinSight™
+                            </Link>
+                        </motion.div>
+                    </div>
+
+                    <div className="mt-16 pt-14 border-t border-slate-200 text-center max-w-2xl mx-auto">
+                        <h3 className="text-xl md:text-2xl font-bold text-slate-900">
+                            Vous préférez être accompagné ?
+                        </h3>
+                        <p className="text-slate-600 mt-3">
+                            Nos missions expert pour aller plus loin.
+                        </p>
+                    </div>
                 </div>
             </section>
 
@@ -301,9 +423,9 @@ export default function TarifsPage() {
                             </a>
                         </motion.div>
 
-                        {/* ── Decision System ── */}
+                        {/* ── Pilotage Augmenté ── */}
                         <motion.div
-                            id="decision-system"
+                            id="pilotage-augmente"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -313,7 +435,7 @@ export default function TarifsPage() {
                             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
                                 Système décisionnel
                             </p>
-                            <h2 className="text-2xl font-bold text-slate-900 mb-2">Decision System</h2>
+                            <h2 className="text-2xl font-bold text-slate-900 mb-2">Pilotage Augmenté</h2>
                             <div className="flex items-baseline gap-1 mb-1">
                                 <span className="text-4xl font-bold text-slate-900">12&nbsp;500</span>
                                 <span className="text-slate-500">€ HT</span>
@@ -391,7 +513,7 @@ export default function TarifsPage() {
                                     <th className="text-left p-4 font-semibold">Livrable</th>
                                     <th className="text-center p-4 font-semibold">Diagnostic<br /><span className="text-xs font-normal text-gray-400">2 490 €</span></th>
                                     <th className="text-center p-4 font-semibold bg-accent-primary/20">Audit Complet<br /><span className="text-xs font-normal text-gray-300">6 990 €</span></th>
-                                    <th className="text-center p-4 font-semibold">Decision System<br /><span className="text-xs font-normal text-gray-400">12 500 €</span></th>
+                                    <th className="text-center p-4 font-semibold">Pilotage Augmenté<br /><span className="text-xs font-normal text-gray-400">12 500 €</span></th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -465,7 +587,7 @@ export default function TarifsPage() {
                             Le résultat identifie précisément l&apos;accompagnement qui vous correspond.
                         </p>
                         <Link
-                            href="/diagnostic/guide"
+                            href="/mon-diagnostic"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 rounded-xl font-bold text-sm hover:bg-gray-100 transition-all shadow-lg shadow-white/10"
                         >
                             Lancer le Score FinSight™
