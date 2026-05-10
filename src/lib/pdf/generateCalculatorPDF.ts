@@ -5,6 +5,8 @@ import {
   getBenchmarkTable,
   getPremiumActionPlan,
 } from '@/lib/pdf/calculatorPremiumContent'
+import type { CalculatorAnalysis } from '@/lib/pdf/generateCalculatorAnalysis'
+import { formatHorizonForPdf } from '@/lib/pdf/generateCalculatorAnalysis'
 
 // Palette aligned with generateDiagnosticPDF.ts (navy / accent / muted)
 const C = {
@@ -90,6 +92,233 @@ export interface GenerateCalculatorPDFParams {
   generatedAtIso?: string
   /** Pages 2–3 : plan d’action + benchmark sectoriel */
   isPremium?: boolean
+  /** Si défini (Claude OK) : pages 2–3 narratif IA ; sinon fallback statique si isPremium */
+  analysis?: CalculatorAnalysis
+}
+
+const MC = {
+  bg: [250, 250, 250] as const,
+  navy: [27, 43, 75] as const,
+  body: [45, 45, 45] as const,
+  gold: [201, 168, 76] as const,
+  muted: [130, 130, 130] as const,
+  headGrey: [140, 140, 140] as const,
+  rowAlt: [245, 245, 245] as const,
+  alertBg: [255, 248, 231] as const,
+  nextBg: [238, 242, 255] as const,
+  white: [255, 255, 255] as const,
+}
+
+const BODY_LH_MM = 4.76
+const MC_BOTTOM_SAFE = 16
+
+function mcRgb(c: readonly [number, number, number]): [number, number, number] {
+  return c as unknown as [number, number, number]
+}
+
+/** Pages premium 2–3 — style McKinsey + analyse Claude */
+function appendPremiumAnalysisMcKinseyPages(
+  pdf: jsPDF,
+  analysis: CalculatorAnalysis,
+  calculatorTitle: string,
+  emailClean: string,
+) {
+  const W = pdf.internal.pageSize.getWidth()
+  const H = pdf.internal.pageSize.getHeight()
+  const M = 18
+  const CW = W - 2 * M
+
+  let sheetNum = 2
+
+  const drawFooter = (n: number) => {
+    pdf.setFont('helvetica', 'normal')
+    pdf.setFontSize(7)
+    pdf.setTextColor(...mcRgb(MC.muted))
+    pdf.text(`p. ${n} · finsight.zineinsight.com`, M, H - 10)
+    pdf.setFontSize(7.5)
+    pdf.setTextColor(...mcRgb(MC.muted))
+    pdf.text('FinSight™ Rapport Premium — Document indicatif (non audité)', M, H - 6)
+  }
+
+  const openSheet = (): number => {
+    pdf.addPage()
+    pdf.setFillColor(...mcRgb(MC.bg))
+    pdf.rect(0, 0, W, H, 'F')
+    pdf.setFont('helvetica', 'normal')
+    pdf.setFontSize(7)
+    pdf.setTextColor(...mcRgb(MC.headGrey))
+    pdf.text('RAPPORT PREMIUM FINSIGHT™ — CONFIDENTIEL', M, 11)
+    pdf.setFontSize(8.5)
+    pdf.setTextColor(...mcRgb(C.muted))
+    pdf.text(`${calculatorTitle} · ${emailClean}`, M, 17)
+    pdf.setDrawColor(...mcRgb(C.border))
+    pdf.setLineWidth(0.3)
+    pdf.line(M, 20, W - M, 20)
+    return 26
+  }
+
+  const newSheet = (): number => {
+    drawFooter(sheetNum)
+    sheetNum++
+    return openSheet()
+  }
+
+  let y = openSheet()
+
+  const ensureSpace = (h: number) => {
+    if (y + h > H - MC_BOTTOM_SAFE) {
+      y = newSheet()
+    }
+  }
+
+  const drawSectionTitle = (label: string) => {
+    ensureSpace(16)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setFontSize(11)
+    pdf.setTextColor(...mcRgb(MC.navy))
+    pdf.text(label.toUpperCase(), M, y)
+    y += 4.5
+    pdf.setDrawColor(...mcRgb(MC.gold))
+    pdf.setLineWidth(0.5)
+    pdf.line(M, y, M + CW, y)
+    y += 6
+  }
+
+  const drawBody = (text: string) => {
+    pdf.setFont('helvetica', 'normal')
+    pdf.setFontSize(9)
+    pdf.setTextColor(...mcRgb(MC.body))
+    const lines = wrapText(pdf, text, CW)
+    for (const line of lines) {
+      if (y + BODY_LH_MM > H - MC_BOTTOM_SAFE) {
+        y = newSheet()
+        pdf.setFont('helvetica', 'normal')
+        pdf.setFontSize(9)
+        pdf.setTextColor(...mcRgb(MC.body))
+      }
+      pdf.text(line, M, y)
+      y += BODY_LH_MM
+    }
+    y += 4
+  }
+
+  drawSectionTitle('Diagnostic')
+  drawBody(analysis.diagnosticNarratif)
+
+  drawSectionTitle("Coût de l'inaction")
+  drawBody(analysis.coutInaction)
+
+  drawSectionTitle("Signal d'alerte")
+  const alertPad = 5
+  const alertInnerW = CW - alertPad * 2 - 4
+  pdf.setFont('helvetica', 'normal')
+  pdf.setFontSize(9)
+  const alertLines = wrapText(pdf, analysis.signalAlerte, alertInnerW)
+  const alertH = alertPad * 2 + alertLines.length * BODY_LH_MM
+  ensureSpace(alertH + 4)
+  pdf.setFillColor(...mcRgb(MC.alertBg))
+  pdf.rect(M, y, CW, alertH, 'F')
+  pdf.setDrawColor(...mcRgb(MC.gold))
+  pdf.setLineWidth(1)
+  pdf.line(M, y, M, y + alertH)
+  pdf.setTextColor(...mcRgb(MC.body))
+  let ay = y + alertPad
+  for (const line of alertLines) {
+    pdf.text(line, M + alertPad + 3, ay)
+    ay += BODY_LH_MM
+  }
+  y += alertH + 8
+
+  y = newSheet()
+
+  drawSectionTitle("Plan d'action prioritaire")
+  const colP = 14
+  const colH = 20
+  const colI = 38
+  const colA = CW - colP - colH - colI
+  const headerRowH = 9
+  ensureSpace(headerRowH + 6)
+
+  pdf.setFillColor(...mcRgb(MC.navy))
+  pdf.rect(M, y, CW, headerRowH, 'F')
+  pdf.setFont('helvetica', 'bold')
+  pdf.setFontSize(8.5)
+  pdf.setTextColor(...mcRgb(MC.white))
+  pdf.text('Priorité', M + 2, y + 6)
+  pdf.text('Horizon', M + colP + 2, y + 6)
+  pdf.text('Action', M + colP + colH + 2, y + 6)
+  pdf.text('Impact estimé', M + colP + colH + colA + 2, y + 6)
+  y += headerRowH + 3
+
+  const sorted = [...analysis.planAction].sort((a, b) => a.priorite - b.priorite)
+  sorted.forEach((row, idx) => {
+    pdf.setFont('helvetica', 'normal')
+    pdf.setFontSize(8.5)
+    pdf.setTextColor(...mcRgb(MC.body))
+    const rowFill = idx % 2 === 1 ? MC.rowAlt : MC.white
+    const actionLines = wrapText(pdf, row.action, colA - 4)
+    const impactLines = wrapText(pdf, row.impact, colI - 4)
+    const rowH = Math.max(
+      8 + Math.max(actionLines.length, impactLines.length) * 4.2,
+      10,
+    )
+    ensureSpace(rowH + 2)
+    pdf.setFillColor(...mcRgb(rowFill))
+    pdf.rect(M, y, CW, rowH, 'F')
+    pdf.setDrawColor(226, 232, 240)
+    pdf.setLineWidth(0.2)
+    pdf.rect(M, y, CW, rowH, 'S')
+    const topY = y + 6
+    pdf.text(String(row.priorite), M + 3, topY)
+    pdf.text(formatHorizonForPdf(row.horizon), M + colP + 2, topY)
+    let ay2 = y + 5
+    for (const ln of actionLines) {
+      pdf.text(ln, M + colP + colH + 2, ay2)
+      ay2 += 4.2
+    }
+    ay2 = y + 5
+    for (const ln of impactLines) {
+      pdf.text(ln, M + colP + colH + colA + 2, ay2)
+      ay2 += 4.2
+    }
+    y += rowH
+  })
+
+  y += 8
+
+  drawSectionTitle('Benchmark sectoriel')
+  drawBody(analysis.benchmarkContextualise)
+
+  drawSectionTitle('Prochaine étape')
+  const nextPad = 5
+  const nextInner = CW - nextPad * 2 - 4
+  const nextLines = wrapText(pdf, analysis.prochaineEtape, nextInner)
+  const urlLine = 'https://finsight.zineinsight.com/mon-diagnostic'
+  const urlWrapped = wrapText(pdf, urlLine, nextInner)
+  const nextH = nextPad * 2 + (nextLines.length + urlWrapped.length) * BODY_LH_MM + 4
+  ensureSpace(nextH + 4)
+  pdf.setFillColor(...mcRgb(MC.nextBg))
+  pdf.rect(M, y, CW, nextH, 'F')
+  pdf.setDrawColor(...mcRgb(MC.navy))
+  pdf.setLineWidth(1)
+  pdf.line(M, y, M, y + nextH)
+  pdf.setFont('helvetica', 'normal')
+  pdf.setFontSize(9)
+  pdf.setTextColor(...mcRgb(MC.body))
+  let ny = y + nextPad
+  for (const line of nextLines) {
+    pdf.text(line, M + nextPad + 3, ny)
+    ny += BODY_LH_MM
+  }
+  ny += 2
+  pdf.setTextColor(...mcRgb(MC.navy))
+  for (const line of urlWrapped) {
+    pdf.text(line, M + nextPad + 3, ny)
+    ny += BODY_LH_MM
+  }
+  y += nextH + 6
+
+  drawFooter(sheetNum)
 }
 
 /**
@@ -249,6 +478,9 @@ export function generateCalculatorPDF(params: GenerateCalculatorPDFParams): stri
   pdf.text('FinSight by ZineInsight — finsight.zineinsight.com', M, footerY + 2)
 
   if (params.isPremium) {
+    if (params.analysis) {
+      appendPremiumAnalysisMcKinseyPages(pdf, params.analysis, title, clean(params.email))
+    } else {
     const tier = derivePerformanceTier(params.calculatorType, params.result)
     const actions = getPremiumActionPlan(params.calculatorType, tier)
     const bench = getBenchmarkTable(params.calculatorType)
@@ -383,6 +615,7 @@ export function generateCalculatorPDF(params: GenerateCalculatorPDFParams): stri
     }
 
     addPremiumFooter('Page 3 / 3')
+    }
   }
 
   const dataUri = pdf.output('datauristring') as string

@@ -26,6 +26,7 @@ import {
     REPLY_TO_EMAIL,
 } from '@/lib/emails/resend';
 import { generateCalculatorPDF, type CalculatorPDFCalculatorType } from '@/lib/pdf/generateCalculatorPDF';
+import { generateCalculatorAnalysis } from '@/lib/pdf/generateCalculatorAnalysis';
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -87,12 +88,19 @@ async function handleCalculatorPremiumCheckout(session: Stripe.Checkout.Session)
         return;
     }
 
+    const analysis = await generateCalculatorAnalysis({
+        calculatorType,
+        inputs,
+        result,
+    });
+
     const pdfBase64 = generateCalculatorPDF({
         calculatorType,
         email: email.trim().toLowerCase(),
         result,
         inputs,
         isPremium: true,
+        ...(analysis ? { analysis } : {}),
     });
 
     const pdfBuffer = Buffer.from(pdfBase64, 'base64');
