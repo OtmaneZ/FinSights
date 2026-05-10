@@ -68,7 +68,7 @@ export default function TemplatesResourceCards() {
 
   return (
     <>
-      <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 pt-4">
         {templates.map((template) => {
           const Icon = template.icon
           const cardBorder = template.featured
@@ -78,7 +78,7 @@ export default function TemplatesResourceCards() {
           return (
             <StaggerItem key={template.id}>
               <div
-                className={`relative bg-white rounded-2xl overflow-hidden ${cardBorder} hover:shadow-md hover:border-accent-primary/30 transition-all duration-200 group`}
+                className={`relative bg-white rounded-2xl ${cardBorder} hover:shadow-md hover:border-accent-primary/30 transition-all duration-200 group`}
               >
                 {template.badge && (
                   <div className="absolute -top-3 left-6 z-10 px-3 py-1 bg-accent-primary text-white text-xs font-medium rounded-full tracking-wide shadow-sm">
@@ -86,7 +86,7 @@ export default function TemplatesResourceCards() {
                   </div>
                 )}
 
-                <div className="p-8 pt-10 border-b border-gray-100">
+                <div className="p-8 pt-8 border-b border-gray-100">
                   <Icon className="w-10 h-10 mb-4 text-gray-700" />
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{template.title}</h3>
                   <p className="text-sm text-gray-500 leading-relaxed">{template.description}</p>
