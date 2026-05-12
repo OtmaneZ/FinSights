@@ -689,6 +689,15 @@ export const BLOG_ARTICLES: BlogArticleData[] = [
         readTime: '14 min',
         category: 'Analyse',
         keywords: ['eva', 'roic', 'wacc', 'création de valeur', 'rentabilité économique', 'performance financière']
+    },
+    {
+        slug: 'facturation-electronique-2026-ce-que-tu-dois-vraiment-faire-avant-septembre',
+        title: 'Facturation électronique 2026 : ce que tu dois vraiment faire avant septembre',
+        description: 'À 4 mois de l\'échéance, 65% des dirigeants de TPE ne connaissent pas le contenu exact de la réforme. Calendrier, formats, sanctions et checklist actionnable en 3 étapes.',
+        date: '2026-05-12',
+        readTime: '6 min',
+        category: 'Réglementation',
+        keywords: ['facturation électronique 2026', 'e-facture obligatoire', 'factur-x', 'pdp dgfip', 'réforme facture tva', 'chorus pro']
     }
 ]
 

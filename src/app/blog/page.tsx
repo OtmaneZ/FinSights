@@ -55,6 +55,18 @@ const blogPosts: BlogPost[] = [
         type: 'strategique'
     },
     {
+        slug: 'facturation-electronique-2026-ce-que-tu-dois-vraiment-faire-avant-septembre',
+        title: 'Facturation électronique 2026 : ce que tu dois vraiment faire avant septembre',
+        description: 'À 4 mois de l\'échéance, 65% des dirigeants de TPE ne connaissent pas le contenu exact de la réforme. Calendrier, formats, sanctions et checklist actionnable en 3 étapes.',
+        date: '12 mai 2026',
+        readTime: '6 min',
+        category: 'Réglementation',
+        tags: ['Facturation électronique', 'Factur-X', 'DGFiP', 'Conformité', 'TVA'],
+        featured: true,
+        image: '/images/bureau-nuit.png',
+        type: 'operationnel'
+    },
+    {
         slug: 'dso-superieur-mediane-sectorielle-modele',
         title: 'DSO supérieur à la médiane sectorielle : que révèle vraiment votre modèle ?',
         description: 'Un DSO élevé n\'est pas qu\'un problème de recouvrement. C\'est souvent le symptôme d\'un déséquilibre structurel entre modèle commercial et organisation financière.',
