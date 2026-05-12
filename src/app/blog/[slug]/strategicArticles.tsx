@@ -717,5 +717,145 @@ export const strategicArticles: Record<string, {
                 />
             </>
         )
+    },
+    'facturation-electronique-2026-ce-que-tu-dois-vraiment-faire-avant-septembre': {
+        slug: 'facturation-electronique-2026-ce-que-tu-dois-vraiment-faire-avant-septembre',
+        title: 'Facturation électronique 2026 : ce que tu dois vraiment faire avant septembre',
+        description: 'À 4 mois de l\'échéance, 65% des dirigeants de TPE ne connaissent pas le contenu exact de la réforme. Calendrier, formats, sanctions et checklist actionnable en 3 étapes.',
+        date: '12 mai 2026',
+        readTime: '6 min',
+        category: 'Réglementation',
+        image: '/images/bureau-nuit.png',
+        content: (
+            <>
+                <div className="bg-orange-50 border-l-4 border-orange-500 p-6 rounded-r-lg mb-8">
+                    <p className="font-bold text-orange-900 mb-1">1er septembre 2026, c&apos;est dans 112 jours.</p>
+                    <p className="text-orange-800 text-sm">Si tu n&apos;as pas encore choisi et paramétré une plateforme agréée, tu es en retard. Cet article te donne ce que tu dois faire, dans l&apos;ordre.</p>
+                </div>
+
+                <p className="lead">
+                    À 4 mois de la première échéance, seulement <strong>35&nbsp;% des dirigeants de TPE connaissent précisément le contenu de la réforme</strong>{' '}
+                    <span className="text-slate-400 text-sm">(sondage avril 2026, francenum.gouv.fr)</span>.
+                    Les 65&nbsp;% restants ont <em>entendu parler</em> de la facturation électronique — mais ils confondent les dates, sous-estiment la première obligation,
+                    et risquent concrètement d&apos;être bloqués dès le 1er septembre.
+                </p>
+
+                <h2>Le calendrier exact : deux dates, deux obligations bien différentes</h2>
+
+                <div className="info-box">
+                    <p><strong>1er septembre 2026 — Obligation de RÉCEPTION</strong></p>
+                    <p>
+                        Toutes les entreprises assujetties à la TVA en France — sans exception de taille — doivent pouvoir <strong>recevoir</strong> des factures électroniques au format structuré.
+                        Que tu fasses 200&nbsp;000&nbsp;€ ou 5 millions de CA, cette date te concerne.
+                    </p>
+                    <p className="text-sm text-slate-500 mt-2">Source : economie.gouv.fr, impots.gouv.fr, service-public.fr</p>
+                </div>
+
+                <div className="info-box">
+                    <p><strong>1er septembre 2027 — Obligation d&apos;ÉMISSION</strong></p>
+                    <p>
+                        Les TPE et PME devront <strong>émettre</strong> leurs factures au format électronique via une plateforme agréée par la DGFiP.
+                        Les grandes entreprises (ETI et grands groupes) avaient cette obligation dès septembre 2026 pour l&apos;émission.
+                    </p>
+                    <p className="text-sm text-slate-500 mt-2">Source : economie.gouv.fr, impots.gouv.fr, service-public.fr</p>
+                </div>
+
+                <h2>Le piège que personne ne voit — et qui te concerne dès septembre 2026</h2>
+
+                <p>
+                    Voilà le scénario type : tu es dirigeant d&apos;une SASU de conseil ou de commerce, tu as retenu que <em>&ldquo;la facturation électronique devient obligatoire en 2027&rdquo;</em>.
+                    Tu te dis que tu as encore le temps.
+                </p>
+
+                <div className="warning-box">
+                    <strong>C&apos;est faux. Et c&apos;est là que le piège se referme.</strong>
+                    <p>
+                        L&apos;obligation de <strong>réception</strong> s&apos;applique en septembre 2026, pour tout le monde.
+                        Ça ne veut pas dire que tu dois juste &ldquo;être au courant&rdquo;. Ça veut dire que tu dois avoir <strong>choisi et paramétré une plateforme agréée</strong> avant
+                        cette date pour être techniquement capable de recevoir des factures au bon format.
+                    </p>
+                    <p>
+                        Si un fournisseur t&apos;envoie une facture via Chorus Pro ou une plateforme agréée, et que tu n&apos;es pas raccordé,
+                        la facture n&apos;arrive pas. <strong>Résultat : un paiement bloqué, une relation fournisseur dégradée, un retard comptable.</strong>
+                    </p>
+                </div>
+
+                <p>Choisir une plateforme, créer son compte, paramétrer ses préférences de réception : ça prend du temps. Août 2026, c&apos;est trop tard.</p>
+
+                <h2>Ce que ça change concrètement : la fin du PDF par email</h2>
+
+                <p>
+                    Si aujourd&apos;hui tu envoies tes factures en PDF joint à un email, c&apos;est cette pratique-là qui devient non conforme.
+                    La réforme impose des <strong>formats structurés lisibles par les machines</strong> :
+                </p>
+
+                <ul>
+                    <li><strong>Factur-X</strong> (recommandé pour TPE/PME) : format hybride PDF + données XML. Ton client le lit comme un PDF, son logiciel l&apos;intègre automatiquement.</li>
+                    <li><strong>UBL</strong> : format XML pur, courant dans les systèmes EDI déjà en place.</li>
+                    <li><strong>CII</strong> : autre format XML, fréquent dans les échanges inter-entreprises européens.</li>
+                </ul>
+
+                <p>
+                    Toutes les factures devront transiter par une <strong>plateforme de dématérialisation partenaire (PDP)</strong> agréée par la DGFiP, ou par la plateforme publique Chorus Pro.
+                </p>
+
+                <h2>Les sanctions si tu ne fais rien</h2>
+
+                <p>Ce ne sont pas des menaces vagues. Les montants sont fixés dans le texte de loi <span className="text-slate-400 text-sm">(source : entrepreneur.lcl.fr)</span> :</p>
+
+                <ul>
+                    <li><strong>15&nbsp;€ par facture non conforme</strong>, plafonnée à <strong>15&nbsp;000&nbsp;€ par an</strong>. Pour 100 factures/mois, le plafond est atteint en quelques semaines.</li>
+                    <li><strong>250&nbsp;€ par manquement à l&apos;e-reporting</strong>, même plafond annuel.</li>
+                    <li>Une <strong>facture rejetée = un paiement potentiellement bloqué</strong>. C&apos;est le risque le plus immédiat pour ta trésorerie.</li>
+                </ul>
+
+                <h2>Checklist actionnable : 3 étapes à faire cette semaine (45 min max)</h2>
+
+                <p>Tu n&apos;as pas besoin d&apos;être expert-comptable pour faire ça.</p>
+
+                <ol>
+                    <li>
+                        <strong>Consulte la liste officielle des plateformes agréées</strong><br/>
+                        Rends-toi sur <strong>impots.gouv.fr</strong> → section <em>&ldquo;Je passe à la facturation électronique&rdquo;</em> → <em>&ldquo;Je consulte la liste des plateformes agréées&rdquo;</em>.{' '}
+                        <Link href="https://www.impots.gouv.fr/je-consulte-la-liste-des-plateformes-agreees" target="_blank" className="text-accent-primary hover:underline">
+                            Lien direct →
+                        </Link>{' '}
+                        Prends 10 minutes pour comparer 2 ou 3 plateformes selon ton secteur et ton volume. Certaines sont gratuites pour les petits volumes.
+                    </li>
+                    <li>
+                        <strong>Si tu utilises Pennylane, Qonto ou Sage — vérifie ton inscription</strong><br/>
+                        Ces trois outils sont officiellement immatriculés comme PDP par la DGFiP. Si tu es déjà client, vérifie que tu es bien inscrit sur leur <strong>module &ldquo;plateforme agréée&rdquo;</strong>, distinct de l&apos;abonnement de base.
+                        En cas de doute, contacte leur support.
+                    </li>
+                    <li>
+                        <strong>Vérifie que ton logiciel gère le format Factur-X</strong><br/>
+                        Va dans les paramètres → formats d&apos;export → Factur-X ou XML structuré. Si cette option n&apos;existe pas, <strong>commence la migration maintenant</strong> — pas en août 2026.
+                        Migrer un logiciel de facturation prend plusieurs semaines.
+                    </li>
+                </ol>
+
+                <h2>L&apos;autonomie financière, ça commence par anticiper ce type de changement</h2>
+
+                <p>
+                    La facturation électronique n&apos;est pas une contrainte isolée. C&apos;est un signal parmi d&apos;autres : la gestion financière d&apos;une TPE/PME devient de plus en plus réglementée,
+                    numérique, et exigeante en données structurées.
+                </p>
+
+                <p>
+                    Les dirigeants qui s&apos;en sortent le mieux ne sont pas ceux qui ont le meilleur expert-comptable —
+                    ce sont ceux qui <strong>comprennent leur propre situation financière</strong> et anticipent ces évolutions sans attendre qu&apos;un intermédiaire les prévienne.
+                </p>
+
+                <div className="bg-slate-900 rounded-xl p-6 my-8">
+                    <p className="text-white text-lg font-medium leading-relaxed">
+                        &ldquo; Anticiper ce type de réforme fait partie du pilotage financier autonome. Ce n&apos;est pas une urgence de dernière minute — c&apos;est une case à cocher dans ton tableau de bord. &rdquo;
+                    </p>
+                </div>
+
+                <p className="text-xs text-slate-400">
+                    Sources : francenum.gouv.fr (sondage avril 2026), economie.gouv.fr, impots.gouv.fr, service-public.fr, entrepreneur.lcl.fr
+                </p>
+            </>
+        )
     }
 }
