@@ -14,14 +14,42 @@ import {
     Cell,
 } from 'recharts'
 
-// ─── Constantes de calcul ───────────────────────────────────────────
-const CHARGES_NON_CADRE = 0.42
-const CHARGES_CADRE = 0.45
-const TAUX_NET_BRUT = 0.775
-const MUTUELLE_EMPLOYEUR = 50
+// ─── Constantes RGDU 2026 ────────────────────────────────────────────
+// Source : Loi n°2025-199 du 28/02/2025 (LFSS 2025), décret n°2025-1446 du 31/12/2025
+const SMIC_ANNUEL_2026 = 21876.36
+const TAUX_BRUT_PATRONAL = 0.45   // taux brut avant réduction RGDU
+const TMIN = 0.0200
+const TDELTA_SMALL = 0.3781       // entreprises < 50 salariés
+const P = 1.75
+const TAUX_NET_BRUT = 0.775       // ~22.5% cotisations salariales
+const MUTUELLE_EMPLOYEUR = 50     // €/mois, part patronale moyenne
 
 const formatEur = (n: number) =>
     new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n)
+
+/** Calcule la réduction RGDU mensuelle (ex-réduction Fillon, en vigueur depuis le 1er janvier 2026) */
+function calculateRGDU(salaireBrutMensuel: number): number {
+    const RAB = salaireBrutMensuel * 12
+    if (RAB >= SMIC_ANNUEL_2026 * 3) {
+        return (TMIN * RAB) / 12
+    }
+    const coeff = TMIN + TDELTA_SMALL * Math.pow((1 / 2) * (3 * SMIC_ANNUEL_2026 / RAB - 1), P)
+    const coeffFinal = Math.min(Math.max(coeff, TMIN), 0.3981)
+    return (coeffFinal * RAB) / 12
+}
+
+function calculateCout(salaireBrutMensuel: number, mutuelleActive: boolean) {
+    const chargesBrutes = Math.round(salaireBrutMensuel * TAUX_BRUT_PATRONAL)
+    const reductionRGDU = Math.round(calculateRGDU(salaireBrutMensuel))
+    const chargesNettes = chargesBrutes - reductionRGDU
+    const mutuelle = mutuelleActive ? MUTUELLE_EMPLOYEUR : 0
+    const coutMois = salaireBrutMensuel + chargesNettes + mutuelle
+    const coutAn = coutMois * 12
+    const netMensuel = Math.round(salaireBrutMensuel * TAUX_NET_BRUT)
+    const ratio = coutMois / netMensuel
+    const tauxEffectif = Math.round((chargesNettes / salaireBrutMensuel) * 100)
+    return { chargesBrutes, reductionRGDU, chargesNettes, mutuelle, coutMois, coutAn, netMensuel, ratio, tauxEffectif }
+}
 
 function CustomTooltip({ active, payload }: any) {
     if (active && payload && payload.length) {
@@ -38,19 +66,9 @@ function CustomTooltip({ active, payload }: any) {
 
 export default function SimulateurCoutSalarieContent() {
     const [brutMensuel, setBrutMensuel] = useState(3000)
-    const [isCadre, setIsCadre] = useState(false)
     const [mutuellActive, setMutuelleActive] = useState(true)
 
-    const calcul = useMemo(() => {
-        const tauxCharges = isCadre ? CHARGES_CADRE : CHARGES_NON_CADRE
-        const chargesPatronales = Math.round(brutMensuel * tauxCharges)
-        const mutuelle = mutuellActive ? MUTUELLE_EMPLOYEUR : 0
-        const coutMois = brutMensuel + chargesPatronales + mutuelle
-        const coutAn = coutMois * 12
-        const netMensuel = Math.round(brutMensuel * TAUX_NET_BRUT)
-        const ratio = coutMois / netMensuel
-        return { chargesPatronales, mutuelle, coutMois, coutAn, netMensuel, ratio }
-    }, [brutMensuel, isCadre, mutuellActive])
+    const calcul = useMemo(() => calculateCout(brutMensuel, mutuellActive), [brutMensuel, mutuellActive])
 
     const chartData = [
         { name: 'Salaire net', value: calcul.netMensuel, color: '#10b981', label: 'Ce que perçoit le salarié' },
@@ -86,41 +104,26 @@ export default function SimulateurCoutSalarieContent() {
                             }}
                         />
                         <div className="flex justify-between text-xs text-tertiary mt-2">
-                            <span>1 500 €</span>
+                            <span>1 823 € (SMIC)</span>
                             <span>10 000 €</span>
                         </div>
                     </div>
 
-                    {/* Toggle Cadre / Non-cadre */}
-                    <div className="surface rounded-2xl p-6 border border-slate-200">
-                        <div className="flex items-center justify-between mb-1">
-                            <label className="text-sm font-semibold text-primary">Statut</label>
-                            <div className="flex items-center gap-1 text-xs text-tertiary">
-                                <Info className="w-3 h-3" />
-                                <span>Convention SYNTEC</span>
+                    {/* Info RGDU */}
+                    <div className="surface rounded-2xl p-6 border border-emerald-200 bg-emerald-50/50">
+                        <div className="flex items-start gap-2">
+                            <Info className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                            <div>
+                                <p className="text-sm font-semibold text-emerald-800 mb-1">RGDU 2026 incluse</p>
+                                <p className="text-xs text-emerald-700 leading-relaxed">
+                                    La Réduction Générale Dégressive Unique (ex-réduction Fillon) est automatiquement appliquée.
+                                    Elle représente jusqu&apos;à <strong>~40% d&apos;économie</strong> au niveau du SMIC.
+                                </p>
+                                <p className="text-xs text-emerald-600 mt-1.5">
+                                    Taux effectif actuel : <strong>{calcul.tauxEffectif}%</strong> de charges nettes
+                                </p>
                             </div>
                         </div>
-                        <div className="flex rounded-xl overflow-hidden border border-slate-200 mt-3">
-                            <button
-                                onClick={() => setIsCadre(false)}
-                                className={`flex-1 py-3 text-sm font-semibold transition-colors ${
-                                    !isCadre ? 'bg-accent-primary text-slate-900' : 'text-secondary hover:bg-slate-50'
-                                }`}
-                            >
-                                Non-cadre
-                            </button>
-                            <button
-                                onClick={() => setIsCadre(true)}
-                                className={`flex-1 py-3 text-sm font-semibold transition-colors ${
-                                    isCadre ? 'bg-accent-primary text-slate-900' : 'text-secondary hover:bg-slate-50'
-                                }`}
-                            >
-                                Cadre
-                            </button>
-                        </div>
-                        <p className="text-xs text-tertiary mt-2">
-                            Taux charges : {isCadre ? '~45%' : '~42%'} du brut
-                        </p>
                     </div>
 
                     {/* Toggle Mutuelle */}
@@ -155,17 +158,35 @@ export default function SimulateurCoutSalarieContent() {
                         <h2 className="text-sm font-semibold text-tertiary uppercase tracking-wider mb-5">
                             Décomposition du coût mensuel
                         </h2>
-                        <div className="space-y-3">
+                        <div className="space-y-0">
+                            {/* Salaire brut */}
                             <div className="flex items-center justify-between py-3 border-b border-slate-100">
                                 <span className="text-secondary text-sm">Salaire brut</span>
                                 <span className="font-semibold text-primary">{formatEur(brutMensuel)}</span>
                             </div>
+                            {/* Charges brutes */}
                             <div className="flex items-center justify-between py-3 border-b border-slate-100">
                                 <span className="text-secondary text-sm">
-                                    Charges patronales ({isCadre ? '45%' : '42%'})
+                                    Charges patronales brutes (45%)
                                 </span>
-                                <span className="font-semibold text-orange-600">+ {formatEur(calcul.chargesPatronales)}</span>
+                                <span className="font-semibold text-orange-600">+ {formatEur(calcul.chargesBrutes)}</span>
                             </div>
+                            {/* Réduction RGDU */}
+                            <div className="flex items-center justify-between py-3 border-b border-slate-100 bg-emerald-50/60 rounded-lg px-2 -mx-2">
+                                <div>
+                                    <span className="text-sm font-medium text-emerald-700">Réduction RGDU 2026</span>
+                                    <span className="block text-xs text-emerald-600">Économie sur vos charges</span>
+                                </div>
+                                <span className="font-semibold text-emerald-600">− {formatEur(calcul.reductionRGDU)}</span>
+                            </div>
+                            {/* Charges nettes */}
+                            <div className="flex items-center justify-between py-3 border-b border-slate-100">
+                                <span className="text-secondary text-sm">
+                                    Charges patronales nettes ({calcul.tauxEffectif}%)
+                                </span>
+                                <span className="font-semibold text-slate-700">+ {formatEur(calcul.chargesNettes)}</span>
+                            </div>
+                            {/* Mutuelle */}
                             <div className="flex items-center justify-between py-3 border-b border-slate-100">
                                 <span className={`text-sm ${mutuellActive ? 'text-secondary' : 'text-tertiary line-through'}`}>
                                     Mutuelle employeur
@@ -174,14 +195,17 @@ export default function SimulateurCoutSalarieContent() {
                                     {mutuellActive ? `+ ${formatEur(calcul.mutuelle)}` : '—'}
                                 </span>
                             </div>
+                            {/* Total mois */}
                             <div className="flex items-center justify-between pt-3">
                                 <span className="font-bold text-primary">Coût employeur / mois</span>
                                 <span className="text-2xl font-bold text-accent-primary">{formatEur(calcul.coutMois)}</span>
                             </div>
+                            {/* Total an */}
                             <div className="flex items-center justify-between pb-3 border-b border-slate-200">
                                 <span className="font-bold text-primary">Coût employeur / an</span>
                                 <span className="text-xl font-bold text-primary">{formatEur(calcul.coutAn)}</span>
                             </div>
+                            {/* Ratio */}
                             <div className="flex items-start justify-between pt-3 bg-slate-50 rounded-xl p-4 -mx-1">
                                 <div>
                                     <span className="text-sm font-semibold text-slate-700 block">Ratio coût / net perçu</span>
@@ -206,17 +230,17 @@ export default function SimulateurCoutSalarieContent() {
                             Comparaison net / brut / coût employeur
                         </h2>
                         <ResponsiveContainer width="100%" height={200}>
-                            <BarChart data={chartData} barCategoryGap="30%">
+                            <BarChart data={chartData} barCategoryGap="25%">
                                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                                 <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#64748b' }} axisLine={false} tickLine={false} />
                                 <YAxis
-                                    tick={{ fontSize: 11, fill: '#94a3b8' }}
+                                    tick={{ fontSize: 13, fill: '#94a3b8' }}
                                     axisLine={false}
                                     tickLine={false}
                                     tickFormatter={(v) => `${(v / 1000).toFixed(0)}k€`}
                                 />
                                 <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(100,116,139,0.05)' }} />
-                                <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                                <Bar dataKey="value" radius={[6, 6, 0, 0]} barSize={48}>
                                     {chartData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
@@ -239,9 +263,10 @@ export default function SimulateurCoutSalarieContent() {
             <div className="mt-8 flex items-start gap-3 p-5 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
                 <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
                 <p>
-                    <strong>Estimation indicative.</strong> Ces calculs sont basés sur des taux moyens de charges patronales.
-                    Le coût réel dépend de votre convention collective, de votre secteur et de vos accords d&apos;entreprise.
-                    Consultez votre expert-comptable pour une simulation précise.
+                    <strong>Estimation indicative.</strong> Calcul basé sur la <strong>RGDU 2026</strong> (ex-réduction Fillon),
+                    entrée en vigueur le 1er janvier 2026. Valable pour les entreprises de moins de 50 salariés.
+                    Le coût réel dépend de votre convention collective et de vos accords d&apos;entreprise.{' '}
+                    <span className="text-amber-700">Source : service-public.fr, décret n°2025-1446 du 31 décembre 2025.</span>
                 </p>
             </div>
 
