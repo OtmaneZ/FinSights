@@ -256,6 +256,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
+  // Simulateurs interactifs
+  const simulateurs: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/simulateurs`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/simulateurs/cout-reel-salarie`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+  ]
+
   return [
     ...staticPages,
     ...blogPages,
@@ -265,6 +281,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...fondamentauxPages,
     ...agentPages,
     ...integrationsPages,
+    ...simulateurs,
   ]
 }
 
