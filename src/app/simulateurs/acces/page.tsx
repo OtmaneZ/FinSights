@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
@@ -13,7 +13,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   server: 'Erreur serveur. Veuillez réessayer.',
 }
 
-export default function SimulateursAccesPage() {
+function AccesContent() {
   const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
   const [state, setState] = useState<State>('idle')
@@ -30,7 +30,6 @@ export default function SimulateursAccesPage() {
     e.preventDefault()
     setState('loading')
     setErrorMsg('')
-
     try {
       const res = await fetch('/api/simulateurs/request-access', {
         method: 'POST',
@@ -53,8 +52,6 @@ export default function SimulateursAccesPage() {
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-
-        {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
             <span className="text-2xl font-bold text-amber-400">FinSight</span>
@@ -63,7 +60,6 @@ export default function SimulateursAccesPage() {
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
           {state === 'sent' ? (
-            /* État : lien envoyé */
             <div className="text-center">
               <div className="w-16 h-16 bg-amber-400/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg className="w-8 h-8 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -72,21 +68,17 @@ export default function SimulateursAccesPage() {
               </div>
               <h2 className="text-xl font-bold text-white mb-3">Vérifiez votre boîte mail</h2>
               <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                Un lien d'accès vient d'être envoyé à <strong className="text-slate-200">{email}</strong>.
+                Un lien d&apos;accès vient d&apos;être envoyé à <strong className="text-slate-200">{email}</strong>.
                 <br />Il est valable <strong className="text-amber-400">24 heures</strong>.
               </p>
               <p className="text-xs text-slate-500">
                 Pas reçu ? Vérifiez vos spams ou{' '}
-                <button
-                  onClick={() => { setState('idle'); setEmail('') }}
-                  className="text-amber-400 underline hover:text-amber-300"
-                >
+                <button onClick={() => { setState('idle'); setEmail('') }} className="text-amber-400 underline hover:text-amber-300">
                   réessayez
                 </button>.
               </p>
             </div>
           ) : (
-            /* État : formulaire */
             <>
               <div className="mb-6">
                 <div className="inline-flex items-center gap-2 bg-amber-400/10 text-amber-400 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
@@ -95,16 +87,13 @@ export default function SimulateursAccesPage() {
                   </svg>
                   Accès gratuit
                 </div>
-                <h1 className="text-2xl font-bold text-white mb-2">
-                  Accédez aux simulateurs
-                </h1>
+                <h1 className="text-2xl font-bold text-white mb-2">Accédez aux simulateurs</h1>
                 <p className="text-slate-400 text-sm leading-relaxed">
-                  Entrez votre email professionnel pour recevoir un lien d'accès instantané.
+                  Entrez votre email professionnel pour recevoir un lien d&apos;accès instantané.
                   Aucun mot de passe, aucun engagement.
                 </p>
               </div>
 
-              {/* Message d'erreur (depuis query param ou fetch) */}
               {errorMsg && (
                 <div className="bg-red-900/30 border border-red-800 text-red-300 text-sm rounded-lg px-4 py-3 mb-4">
                   {errorMsg}
@@ -126,7 +115,6 @@ export default function SimulateursAccesPage() {
                     className="w-full bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition"
                   />
                 </div>
-
                 <button
                   type="submit"
                   disabled={state === 'loading' || !email}
@@ -141,7 +129,7 @@ export default function SimulateursAccesPage() {
                       Envoi en cours…
                     </span>
                   ) : (
-                    'Recevoir mon lien d\'accès →'
+                    "Recevoir mon lien d'accès →"
                   )}
                 </button>
               </form>
@@ -161,5 +149,17 @@ export default function SimulateursAccesPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function SimulateursAccesPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-slate-500 text-sm">Chargement…</div>
+      </div>
+    }>
+      <AccesContent />
+    </Suspense>
   )
 }
