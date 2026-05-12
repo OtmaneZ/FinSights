@@ -466,3 +466,20 @@ model DiagnosticLead {
   @@index([stripeSessionId])
   @@map("diagnostic_leads")
 }
+
+// ============================================
+// SIMULATOR TOKEN — Magic Link access
+// ============================================
+
+model SimulatorToken {
+  id        String    @id @default(cuid())
+  email     String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([token])
+  @@index([email])
+  @@map("simulator_tokens")
+}
