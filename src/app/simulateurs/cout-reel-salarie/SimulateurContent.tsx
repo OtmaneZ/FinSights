@@ -265,7 +265,8 @@ export default function SimulateurCoutSalarieContent() {
                 <p>
                     <strong>Estimation indicative.</strong> Calcul basé sur la <strong>RGDU 2026</strong> (ex-réduction Fillon),
                     entrée en vigueur le 1er janvier 2026. Valable pour les entreprises de moins de 50 salariés.
-                    Le coût réel dépend de votre convention collective et de vos accords d&apos;entreprise.{' '}
+                    Le coût réel dépend de votre convention collective et de vos accords d&apos;entreprise.
+                    Non-cadre par défaut — les cadres sont soumis à des cotisations APEC et prévoyance complémentaires (impact estimé : +30 à +80 €/mois).{' '}
                     <span className="text-amber-700">Source : service-public.fr, décret n°2025-1446 du 31 décembre 2025.</span>
                 </p>
             </div>
