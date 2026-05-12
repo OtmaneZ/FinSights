@@ -12,6 +12,7 @@ const resourcesItems = {
     outils: [
         { href: '/calculateurs', label: 'Calculateurs financiers', icon: Calculator, desc: 'DSO, BFR, marge, ROI' },
         { href: '/ressources/templates', label: 'Templates financiers', icon: FileText, desc: 'Tableaux de bord Excel/Notion' },
+        { href: '/simulateurs', label: 'Simulateurs financiers', icon: BarChart3, desc: 'Coût salarié, charges, RGDU' },
     ],
     contenu: [
         { href: '/blog', label: 'Blog', icon: BookOpen, desc: 'Finance & pilotage PME' },
