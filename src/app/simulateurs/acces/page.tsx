@@ -50,30 +50,30 @@ function AccesContent() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
-            <span className="text-2xl font-bold text-amber-400">FinSight</span>
+            <span className="text-2xl font-bold text-accent-primary">FinSight</span>
           </Link>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
           {state === 'sent' ? (
             <div className="text-center">
-              <div className="w-16 h-16 bg-amber-400/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              <div className="w-14 h-14 bg-gray-50 border border-gray-200 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <svg className="w-6 h-6 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h2 className="text-xl font-bold text-white mb-3">Vérifiez votre boîte mail</h2>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                Un lien d&apos;accès vient d&apos;être envoyé à <strong className="text-slate-200">{email}</strong>.
-                <br />Il est valable <strong className="text-amber-400">24 heures</strong>.
+              <h2 className="text-xl font-bold text-gray-900 mb-3">Vérifiez votre boîte mail</h2>
+              <p className="text-gray-500 text-sm leading-relaxed mb-6">
+                Un lien d&apos;accès vient d&apos;être envoyé à <strong className="text-gray-900">{email}</strong>.
+                <br />Il est valable <strong className="text-accent-primary">24 heures</strong>.
               </p>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-gray-400">
                 Pas reçu ? Vérifiez vos spams ou{' '}
-                <button onClick={() => { setState('idle'); setEmail('') }} className="text-amber-400 underline hover:text-amber-300">
+                <button onClick={() => { setState('idle'); setEmail('') }} className="text-accent-primary underline hover:opacity-80">
                   réessayez
                 </button>.
               </p>
@@ -81,28 +81,28 @@ function AccesContent() {
           ) : (
             <>
               <div className="mb-6">
-                <div className="inline-flex items-center gap-2 bg-amber-400/10 text-amber-400 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 shadow-sm mb-5">
+                  <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
-                  Accès gratuit
+                  <span className="text-xs font-medium tracking-widest text-accent-primary uppercase">Accès gratuit</span>
                 </div>
-                <h1 className="text-2xl font-bold text-white mb-2">Accédez aux simulateurs</h1>
-                <p className="text-slate-400 text-sm leading-relaxed">
+                <h1 className="text-2xl font-bold text-gray-900 mb-2">Accédez aux simulateurs</h1>
+                <p className="text-gray-500 text-sm leading-relaxed">
                   Entrez votre email professionnel pour recevoir un lien d&apos;accès instantané.
                   Aucun mot de passe, aucun engagement.
                 </p>
               </div>
 
               {errorMsg && (
-                <div className="bg-red-900/30 border border-red-800 text-red-300 text-sm rounded-lg px-4 py-3 mb-4">
+                <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl px-4 py-3 mb-4">
                   {errorMsg}
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1.5">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
                     Email professionnel
                   </label>
                   <input
@@ -112,13 +112,13 @@ function AccesContent() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="vous@entreprise.com"
                     required
-                    className="w-full bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition"
+                    className="w-full bg-white border border-gray-200 text-gray-900 placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent-primary/30 focus:border-accent-primary transition"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={state === 'loading' || !email}
-                  className="w-full bg-amber-400 hover:bg-amber-300 disabled:opacity-50 disabled:cursor-not-allowed text-slate-950 font-bold rounded-xl py-3 text-sm transition-colors"
+                  className="w-full bg-accent-primary hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 font-bold rounded-xl py-3 text-sm transition-opacity shadow-sm"
                 >
                   {state === 'loading' ? (
                     <span className="flex items-center justify-center gap-2">
@@ -134,7 +134,7 @@ function AccesContent() {
                 </button>
               </form>
 
-              <p className="text-xs text-slate-600 text-center mt-4">
+              <p className="text-xs text-gray-400 text-center mt-4">
                 En continuant, vous acceptez de recevoir des emails de FinSight.
                 <br />Nous ne partageons jamais vos données.
               </p>
@@ -143,7 +143,7 @@ function AccesContent() {
         </div>
 
         <p className="text-center mt-6">
-          <Link href="/simulateurs" className="text-slate-500 hover:text-slate-400 text-sm transition">
+          <Link href="/simulateurs" className="text-gray-400 hover:text-gray-600 text-sm transition">
             ← Retour aux simulateurs
           </Link>
         </p>
@@ -155,8 +155,8 @@ function AccesContent() {
 export default function SimulateursAccesPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="text-slate-500 text-sm">Chargement…</div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-400 text-sm">Chargement…</div>
       </div>
     }>
       <AccesContent />
