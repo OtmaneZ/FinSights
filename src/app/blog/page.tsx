@@ -55,6 +55,18 @@ const blogPosts: BlogPost[] = [
         type: 'strategique'
     },
     {
+        slug: 'ia-finance-entreprise-grands-groupes-industrialisent-pme-experimentent-2026',
+        title: "L'IA en Finance d'entreprise : les grands groupes industrialisent, les PME expérimentent. Et toi, tu en es où ?",
+        description: "Seulement 10% des cas d'usage financiers sont réellement déployés en France. Ce que font les grands groupes que les PME ne font pas encore — et les 3 cas d'usage accessibles dès maintenant.",
+        date: '13 mai 2026',
+        readTime: '6 min',
+        category: 'Intelligence Artificielle',
+        tags: ['IA Finance', 'PME', 'Transformation digitale', 'KPMG', 'ROI'],
+        featured: true,
+        image: '/images/bureau-nuit.png',
+        type: 'strategique'
+    },
+    {
         slug: 'facturation-electronique-2026-ce-que-tu-dois-vraiment-faire-avant-septembre',
         title: 'Facturation électronique 2026 : ce que tu dois vraiment faire avant septembre',
         description: 'À 4 mois de l\'échéance, 65% des dirigeants de TPE ne connaissent pas le contenu exact de la réforme. Calendrier, formats, sanctions et checklist actionnable en 3 étapes.',
