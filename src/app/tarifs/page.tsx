@@ -164,8 +164,8 @@ export default function TarifsPage() {
                             Tarifs
                         </span>
                         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                            Trois missions, des résultats mesurables.{' '}
-                            <span className="text-accent-primary">Tarifs transparents.</span>
+                            Trois niveaux d&apos;intervention.{' '}
+                            <span className="text-accent-primary">Un seul objectif : vous faire piloter par les chiffres.</span>
                         </h1>
                         <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
                             Trois niveaux d&apos;accompagnement pour les PME de 2 à 20&nbsp;M€ de CA.

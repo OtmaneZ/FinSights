@@ -32,7 +32,7 @@ export default function TemplatesPage() {
 
                         <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.1] text-gray-900 mb-6">
                             3 Templates Excel pour Piloter<br />
-                            <span className="text-accent-primary">votre PME dès Aujourd&apos;hui</span>
+                            <span className="text-accent-primary">votre PME immédiatement</span>
                         </h1>
 
                         <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto mb-6">
@@ -103,7 +103,7 @@ export default function TemplatesPage() {
                             TEMPLATES GRATUITS
                         </span>
                         <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mt-4 mb-4">
-                            Téléchargez votre template, obtenez votre score
+                            Téléchargez, renseignez vos chiffres, décidez
                         </h2>
                         <p className="text-gray-500 text-base leading-relaxed max-w-xl mx-auto">
                             Téléchargement immédiat par email · Aucune carte bancaire requise
