@@ -1021,7 +1021,7 @@ function MonDiagnosticContent() {
               Détail par pilier
             </span>
             <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mt-3">
-              Vos 4 piliers financiers
+              Votre analyse pilier par pilier
             </h2>
           </FadeIn>
 

@@ -1627,7 +1627,7 @@ export default function PilotageFinancierPME() {
 
                 <div className="relative max-w-3xl mx-auto px-6 text-center">
                     <h2 className="font-serif text-3xl lg:text-5xl font-medium text-white mb-6 leading-tight">
-                        Structurez votre pilotage financier
+                        Passez d&apos;un pilotage intuitif à un pilotage prédictif
                     </h2>
                     <p className="text-lg text-gray-400 mb-10 max-w-xl mx-auto leading-relaxed">
                         Un &eacute;change confidentiel de 30 minutes pour identifier

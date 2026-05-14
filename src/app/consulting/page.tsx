@@ -170,8 +170,8 @@ export default function ConsultingPage() {
 
                             {/* H1 */}
                             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
-                                Transformez vos données en{' '}
-                                <span className="text-accent-primary">décisions stratégiques</span>
+                                Votre DAF externalisé,{' '}
+                                <span className="text-accent-primary">disponible dès cette semaine</span>
                             </h1>
 
                             {/* Subheadline */}
@@ -496,8 +496,8 @@ export default function ConsultingPage() {
                                 Fondateur
                             </span>
                             <h2 className="text-3xl md:text-4xl font-bold">
-                                Un partenaire engagé pour votre{' '}
-                                <span className="text-accent-primary">réussite financière</span>
+                                Pourquoi des dirigeants PME{' '}
+                                <span className="text-accent-primary">choisissent FinSight</span>
                             </h2>
 
                             <div className="space-y-4 text-gray-300 leading-relaxed">
@@ -1095,8 +1095,8 @@ export default function ConsultingPage() {
                             Passez à l&apos;action
                         </span>
                         <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                            Prêt à transformer votre{' '}
-                            <span className="text-accent-primary">pilotage financier</span> ?
+                            Un échange de 30 min pour identifier{' '}
+                            <span className="text-accent-primary">vos 3 leviers prioritaires</span>
                         </h2>
                         <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
                             Échangeons 30 minutes sur vos enjeux stratégiques.

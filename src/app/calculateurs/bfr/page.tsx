@@ -256,9 +256,9 @@ export default function CalculateurBFR() {
                             </div>
 
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-                                Simulateur BFR
+                                Calculez votre BFR en 1 minute
                                 <span className="block text-accent-primary mt-2">
-                                    Besoin en Fonds de Roulement
+                                    — et libérez du cash
                                 </span>
                             </h1>
 
@@ -759,7 +759,7 @@ export default function CalculateurBFR() {
                                                 {/* CTAs */}
                                                 <div className="flex flex-col sm:flex-row gap-4">
                                                     <a
-                                                        href="https://calendly.com/zineinsight"
+                                                        href="https://calendly.com/zineinsight/15min"
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         onClick={() => trackCTAClick('bfr-diagnostic', 'calendly', `audit-bfr-${bfr}-jours-${joursCA}`)}
@@ -942,7 +942,7 @@ export default function CalculateurBFR() {
 
                                         {/* Étape 3 : Audit */}
                                         <a
-                                            href="https://calendly.com/zineinsight"
+                                            href="https://calendly.com/zineinsight/15min"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             onClick={() => trackCTAClick('bfr-result', 'calendly', `audit-30min-bfr-${bfr}`)}
@@ -1032,7 +1032,7 @@ export default function CalculateurBFR() {
                                                 Voir l'Diagnostic FinSight™ 90J (2 490€ HT)
                                             </Link>
                                             <a
-                                                href="https://calendly.com/zineinsight"
+                                                href="https://calendly.com/zineinsight/15min"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 onClick={() => trackCTAClick('calculateur-bfr', 'calendly', '30min-diagnostic')}
@@ -1075,7 +1075,7 @@ export default function CalculateurBFR() {
                                 className="text-center mb-12"
                             >
                                 <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                                    Ressources utiles
+                                    Aller plus loin : réduire son BFR
                                 </h2>
                                 <p className="text-lg text-slate-600">
                                     Guides et outils pour optimiser votre besoin en fonds de roulement
@@ -1272,7 +1272,7 @@ export default function CalculateurBFR() {
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <a
-                                    href="https://calendly.com/zineinsight"
+                                    href="https://calendly.com/zineinsight/15min"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={() => trackCTAClick('bfr-final-cta', 'calendly', 'diagnostic-30min')}

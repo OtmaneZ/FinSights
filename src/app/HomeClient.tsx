@@ -174,7 +174,7 @@ export default function HomeClient() {
               ACCOMPAGNEMENT EXPERT
             </span>
             <h2 className="font-serif text-4xl lg:text-5xl font-medium text-gray-900 mt-4 mb-5">
-              Pour aller plus loin : structuration et pilotage
+              Structuration financière, pilotage augmenté, agents IA
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
               Deux niveaux d&apos;accompagnement selon votre maturité financière

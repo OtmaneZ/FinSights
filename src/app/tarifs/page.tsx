@@ -164,8 +164,8 @@ export default function TarifsPage() {
                             Tarifs
                         </span>
                         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                            Un pilotage financier{' '}
-                            <span className="text-accent-primary">à la hauteur de vos enjeux</span>
+                            Trois missions, des résultats mesurables.{' '}
+                            <span className="text-accent-primary">Tarifs transparents.</span>
                         </h1>
                         <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
                             Trois niveaux d&apos;accompagnement pour les PME de 2 à 20&nbsp;M€ de CA.
@@ -493,7 +493,7 @@ export default function TarifsPage() {
                         className="text-center mb-12"
                     >
                         <h2 className="text-3xl font-bold text-slate-900 mb-4">
-                            Comparatif des offres
+                            Quelle mission correspond à votre situation ?
                         </h2>
                         <p className="text-lg text-slate-600">
                             Chaque niveau intègre les livrables du précédent
@@ -726,8 +726,8 @@ export default function TarifsPage() {
                             Passez à l&apos;action
                         </span>
                         <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                            Prêt à structurer votre{' '}
-                            <span className="text-accent-primary">pilotage financier</span>&nbsp;?
+                            Commencez par 30 minutes —{' '}
+                            <span className="text-accent-primary">sans engagement</span>
                         </h2>
                         <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
                             Échangeons 30 minutes sur vos enjeux - sans engagement.

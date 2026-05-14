@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
     title: 'Pilotage Financier PME : méthode, outils et KPIs | FinSight',
     description:
-        'Calculez votre DSO, BFR et marge en 2 minutes. Guide complet du pilotage financier pour dirigeants PME 2M€-20M€. Gratuit.',
+        'Méthode complète + outils gratuits : trésorerie à 90 jours, BFR, DSO, marges. Pour dirigeants PME de 2M€ à 20M€. Score FinSight™ inclus.',
     keywords: [
         'pilotage financier pme',
         'indicateurs financiers pme',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
         siteName: 'FinSight',
         title: 'Pilotage Financier PME : méthode, outils et KPIs | FinSight',
         description:
-            'Calculez votre DSO, BFR et marge en 2 minutes. Guide complet du pilotage financier pour dirigeants PME 2M€-20M€. Gratuit.',
+            'Méthode complète + outils gratuits : trésorerie à 90 jours, BFR, DSO, marges. Pour dirigeants PME de 2M€ à 20M€. Score FinSight™ inclus.',
         images: [
             {
                 url: 'https://finsight.zineinsight.com/images/og-default.png',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         title: 'Pilotage Financier PME : méthode, outils et KPIs | FinSight',
         description:
-            'Calculez votre DSO, BFR et marge en 2 minutes. Guide complet du pilotage financier pour dirigeants PME 2M€-20M€. Gratuit.',
+            'Méthode complète + outils gratuits : trésorerie à 90 jours, BFR, DSO, marges. Pour dirigeants PME de 2M€ à 20M€. Score FinSight™ inclus.',
         images: ['https://finsight.zineinsight.com/images/og-default.png'],
     },
     robots: {
