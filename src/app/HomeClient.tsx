@@ -10,6 +10,7 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
+import NewsletterPopup from "@/components/NewsletterPopup";
 import FadeIn, { StaggerContainer, StaggerItem } from "@/components/ui/FadeIn";
 import CinematicHero from "@/components/landing/CinematicHero";
 import CalculatorsHubGrid from "@/components/landing/CalculatorsHubGrid";
@@ -416,6 +417,7 @@ export default function HomeClient() {
       </section>
 
       <Footer />
+      <NewsletterPopup />
       <ExitIntentPopup />
     </div>
   );

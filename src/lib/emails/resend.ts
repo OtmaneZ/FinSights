@@ -14,7 +14,7 @@ export const resend = new Resend(apiKey)
  * (à aligner avec un domaine « verified » dans le dashboard Resend - pas zineinsight.com racine sauf si configuré).
  * Override : RESEND_FROM_EMAIL
  */
-export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'FinSight <noreply@finsight.zineinsight.com>'
+export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'FinSight <otmane@zineinsight.com>'
 export const REPLY_TO_EMAIL = 'otmane@zineinsight.com'
 
 /** Notifications internes (override : ADMIN_NOTIFY_EMAIL) */

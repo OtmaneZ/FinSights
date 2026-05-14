@@ -11,9 +11,14 @@ import {
     isResendConfigured,
     FROM_EMAIL,
     REPLY_TO_EMAIL,
+    resend,
 } from '@/lib/emails/resend';
 import { sanitizeResendTagEntries } from '@/lib/emails/sanitizeResendTag';
 import { logger } from '@/lib/logger';
+import { prisma } from '@/lib/prisma';
+
+const SITE_URL = 'https://finsight.zineinsight.com';
+const NEWSLETTER_AUDIENCE_ID = process.env.RESEND_NEWSLETTER_AUDIENCE_ID;
 
 export interface SubscribeRequest {
     email: string;
@@ -61,6 +66,43 @@ export default async function handler(
 
         const emailTrim = email.trim().toLowerCase();
         const adminLine = `Newsletter - Nouvel abonné : ${emailTrim}`;
+        const unsubscribeUrl = `${SITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(emailTrim)}`;
+
+        if (NEWSLETTER_AUDIENCE_ID) {
+            try {
+                await resend.contacts.create({
+                    email: emailTrim,
+                    audienceId: NEWSLETTER_AUDIENCE_ID,
+                    unsubscribed: false,
+                });
+            } catch (audienceError: any) {
+                const raw = String(audienceError?.message || '').toLowerCase();
+                const alreadyExists = raw.includes('already') || raw.includes('exists') || raw.includes('duplicate');
+                if (!alreadyExists) {
+                    logger.error('❌ Erreur ajout audience Resend:', audienceError);
+                }
+            }
+        } else {
+            logger.warn('⚠️ RESEND_NEWSLETTER_AUDIENCE_ID non configuré - ajout audience ignoré');
+        }
+
+        // Stocker/mettre à jour en base pour permettre le désabonnement et la séquence hebdo
+        await prisma.lead.upsert({
+            where: { email: emailTrim },
+            update: {
+                source: 'newsletter',
+                unsubscribed: false,
+            },
+            create: {
+                email: emailTrim,
+                firstName: 'Abonne',
+                source: 'newsletter',
+                templateName: 'Newsletter FinSight',
+                lastEmailSent: 'newsletter_welcome',
+                nextEmailScheduled: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+                unsubscribed: false,
+            },
+        });
 
         const { data, error } = await sendUserEmailWithAdminNotify(
             {
@@ -76,7 +118,7 @@ export default async function handler(
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 </head>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+                    <div style="background: #1B3A5C; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
                         <h1 style="color: white; margin: 0; font-size: 28px;">Bienvenue sur FinSight !</h1>
                     </div>
 
@@ -92,33 +134,33 @@ export default async function handler(
                         </p>
 
                         <ul style="font-size: 16px; margin-bottom: 20px; padding-left: 20px;">
-                            <li>📊 Des analyses financières concrètes pour PME</li>
+                            <li>📊 Un article par semaine sur le pilotage financier PME</li>
                             <li>💡 Des conseils pratiques de gestion de trésorerie</li>
-                            <li>🎯 Des études de cas réels et retours terrain</li>
-                            <li>🚀 Les nouvelles fonctionnalités de FinSight</li>
+                            <li>🎯 Des cas concrets et retours terrain</li>
+                            <li>🚀 Les nouveautés FinSight et outils utiles</li>
                         </ul>
 
                         <div style="text-align: center; margin: 30px 0;">
-                            <a href="https://finsight.fr/blog" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                            <a href="https://finsight.zineinsight.com/blog" style="display: inline-block; background: #1B3A5C; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
                                 Découvrir le blog
                             </a>
                         </div>
 
                         <p style="font-size: 16px; margin-bottom: 20px;">
-                            En attendant, n'hésitez pas à explorer nos <a href="https://finsight.fr/ressources/guides" style="color: #667eea; text-decoration: none;">guides pratiques</a> et notre <a href="https://finsight.fr/diagnostic" style="color: #667eea; text-decoration: none;">Diagnostic Express gratuit</a>.
+                            En attendant, n'hésitez pas à explorer nos <a href="https://finsight.zineinsight.com/ressources/guides" style="color: #1B3A5C; text-decoration: none;">guides pratiques</a> et notre <a href="https://finsight.zineinsight.com/diagnostic/guide" style="color: #1B3A5C; text-decoration: none;">Diagnostic Express gratuit</a>.
                         </p>
 
                         <p style="font-size: 16px; margin-top: 30px;">
                             À très bientôt,<br>
-                            <strong>Hugo Vallet</strong><br>
+                            <strong>Otmane BOULAHIA</strong><br>
                             <span style="color: #666; font-size: 14px;">Expert Finance & Conseil PME</span>
                         </p>
 
                         <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
 
                         <p style="font-size: 12px; color: #666; text-align: center;">
-                            Vous recevez cet email car vous vous êtes inscrit(e) sur finsight.fr.<br>
-                            <a href="#" style="color: #667eea; text-decoration: none;">Se désinscrire</a>
+                            Vous recevez cet email car vous vous êtes inscrit(e) sur finsight.zineinsight.com.<br>
+                            <a href="${unsubscribeUrl}" style="color: #1B3A5C; text-decoration: none;">Se désinscrire</a>
                         </p>
                     </div>
                 </body>
@@ -142,9 +184,6 @@ export default async function handler(
         }
 
         logger.debug(`✅ Email de bienvenue envoyé! ID: ${data?.id}`);
-
-        // TODO: Ajouter l'email à une liste d'audience Resend (feature à venir)
-        // Pour l'instant, on envoie juste un email de bienvenue
 
         return res.status(200).json({
             success: true,

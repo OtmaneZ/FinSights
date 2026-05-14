@@ -9,6 +9,7 @@ import TutorialEmail from './templates/TutorialEmail'
 import CaseStudyEmail from './templates/CaseStudyEmail'
 import AlertSignalsEmail from './templates/AlertSignalsEmail'
 import DAFOfferEmail from './templates/DAFOfferEmail'
+import WeeklyNewsletterEmail from './templates/WeeklyNewsletterEmail'
 import { logger } from '@/lib/logger';
 import { sanitizeResendTagEntries } from '@/lib/emails/sanitizeResendTag';
 
@@ -399,6 +400,53 @@ export async function sendDAFOfferEmail(params: {
         return { success: true, id: data?.id }
     } catch (error) {
         logger.error('[Email] DAF offer email exception:', error)
+        return { success: false, error }
+    }
+}
+
+// ============================================================================
+// NEWSLETTER WEEKLY EMAIL
+// ============================================================================
+
+export async function sendWeeklyNewsletterEmail(params: {
+    to: string
+    recipientName?: string
+    articleTitle: string
+    articleUrl: string
+    summary: string
+    unsubscribeUrl: string
+}) {
+    try {
+        const emailHtml = await render(
+            WeeklyNewsletterEmail({
+                recipientName: params.recipientName,
+                articleTitle: params.articleTitle,
+                articleUrl: params.articleUrl,
+                summary: params.summary,
+                unsubscribeUrl: params.unsubscribeUrl,
+            })
+        )
+
+        const { data, error } = await resend.emails.send({
+            from: FROM_EMAIL,
+            to: params.to,
+            replyTo: REPLY_TO_EMAIL,
+            subject: `Le Pilote FinSight - ${params.articleTitle}`,
+            html: emailHtml,
+            tags: sanitizeResendTagEntries([
+                { name: 'email_type', value: 'newsletter_weekly' },
+            ]),
+        })
+
+        if (error) {
+            logger.error('[Email] Weekly newsletter email failed:', error)
+            return { success: false, error }
+        }
+
+        logger.debug('[Email] Weekly newsletter email sent:', data?.id)
+        return { success: true, id: data?.id }
+    } catch (error) {
+        logger.error('[Email] Weekly newsletter email exception:', error)
         return { success: false, error }
     }
 }

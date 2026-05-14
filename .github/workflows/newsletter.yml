@@ -1,0 +1,110 @@
+name: Newsletter On New Blog Article
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/lib/seo.ts'
+
+jobs:
+  newsletter:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    env:
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
+      NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect newly added slugs in BLOG_ARTICLES
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TARGET_FILE="src/lib/seo.ts"
+
+          if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+            DIFF_OUTPUT="$(git --no-pager diff --unified=0 HEAD~1 HEAD -- "$TARGET_FILE")"
+          else
+            DIFF_OUTPUT="$(git --no-pager show --unified=0 HEAD:"$TARGET_FILE")"
+          fi
+
+          # New slugs are only lines added in this push, matching: +        slug: '...'
+          NEW_SLUGS="$(printf '%s\n' "$DIFF_OUTPUT" \
+            | grep -E "^\+\s*slug:\s*['\"][^'\"]+['\"]" \
+            | sed -E "s/^\+\s*slug:\s*['\"]([^'\"]+)['\"].*$/\1/" \
+            | sort -u || true)"
+
+          if [ -z "$NEW_SLUGS" ]; then
+            echo "Aucun nouvel article détecté"
+            echo "has_new_slugs=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Slugs détectés:"
+          printf '%s\n' "$NEW_SLUGS"
+
+          {
+            echo "has_new_slugs=true"
+            echo "slugs<<EOF"
+            printf '%s\n' "$NEW_SLUGS"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publish newsletter for each new slug
+        if: steps.detect.outputs.has_new_slugs == 'true'
+        shell: bash
+        run: |
+          set +e
+          failed=0
+
+          while IFS= read -r slug; do
+            [ -z "$slug" ] && continue
+
+            echo "Trigger newsletter for slug: $slug"
+            npm run publish:article -- "$slug"
+            status=$?
+
+            if [ $status -ne 0 ]; then
+              echo "Erreur sur le slug: $slug (exit=$status)"
+              failed=1
+            fi
+          done <<< "${{ steps.detect.outputs.slugs }}"
+
+          if [ $failed -ne 0 ]; then
+            echo "Au moins un slug a échoué, mais les autres ont été traités."
+            exit 1
+          fi
+
+      - name: Commit updated newsletter registry
+        if: steps.detect.outputs.has_new_slugs == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- data/newsletter-published-articles.json; then
+            echo "No registry changes to commit"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/newsletter-published-articles.json
+          git commit -m "chore(newsletter): update published articles registry"
+          git push

@@ -14,9 +14,67 @@ import {
     sendCaseStudyEmail,
     sendAlertSignalsEmail,
     sendDAFOfferEmail,
+    sendWeeklyNewsletterEmail,
 } from '@/lib/emails/emailService'
 import { logger } from '@/lib/logger'
 import { prisma } from '@/lib/prisma'
+
+const SITE_URL = 'https://finsight.zineinsight.com'
+
+interface WeeklyNewsletterContentItem {
+    title: string
+    url: string
+    summary: string
+}
+
+interface WeeklyNewsletterPayload {
+    weeklyContent?: {
+        week1?: WeeklyNewsletterContentItem
+        week2?: WeeklyNewsletterContentItem
+        recurring?: WeeklyNewsletterContentItem
+    }
+}
+
+const DEFAULT_WEEKLY_CONTENT: Required<NonNullable<WeeklyNewsletterPayload['weeklyContent']>> = {
+    week1: {
+        title: '7 leviers pour ameliorer votre tresorerie PME',
+        url: `${SITE_URL}/blog`,
+        summary: 'Un guide concret pour reduire la tension de tresorerie et reprendre de la visibilite en moins de 30 jours.',
+    },
+    week2: {
+        title: 'DSO, BFR, marge: les 3 indicateurs a suivre chaque semaine',
+        url: `${SITE_URL}/calculateurs`,
+        summary: 'Comment mettre en place un rituel de pilotage simple pour prendre de meilleures decisions financieres.',
+    },
+    recurring: {
+        title: 'Le Pilote FinSight: article hebdomadaire',
+        url: `${SITE_URL}/blog`,
+        summary: 'Chaque semaine, un article pratique pour piloter cash, rentabilite et risques sans jargon inutile.',
+    },
+}
+
+function sanitizeWeeklyContent(payload?: WeeklyNewsletterPayload): Required<NonNullable<WeeklyNewsletterPayload['weeklyContent']>> {
+    const c = payload?.weeklyContent
+
+    const pick = (
+        value: WeeklyNewsletterContentItem | undefined,
+        fallback: WeeklyNewsletterContentItem,
+    ): WeeklyNewsletterContentItem => {
+        if (!value) return fallback
+        if (!value.title || !value.url || !value.summary) return fallback
+        return {
+            title: value.title,
+            url: value.url,
+            summary: value.summary,
+        }
+    }
+
+    return {
+        week1: pick(c?.week1, DEFAULT_WEEKLY_CONTENT.week1),
+        week2: pick(c?.week2, DEFAULT_WEEKLY_CONTENT.week2),
+        recurring: pick(c?.recurring, DEFAULT_WEEKLY_CONTENT.recurring),
+    }
+}
 
 interface TriggerResponse {
     success: boolean
@@ -26,6 +84,9 @@ interface TriggerResponse {
         j5_sent: number
         j10_sent: number
         j20_sent: number
+        newsletter_j7_sent: number
+        newsletter_j14_sent: number
+        newsletter_weekly_sent: number
         errors: number
     }
     error?: string
@@ -35,8 +96,8 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<TriggerResponse>
 ) {
-    // Only accept GET requests
-    if (req.method !== 'GET') {
+    // Keep GET for Vercel cron, allow POST for manual trigger with payload
+    if (req.method !== 'GET' && req.method !== 'POST') {
         return res.status(405).json({
             success: false,
             error: 'Method not allowed',
@@ -71,8 +132,14 @@ export default async function handler(
             j5_sent: 0,
             j10_sent: 0,
             j20_sent: 0,
+            newsletter_j7_sent: 0,
+            newsletter_j14_sent: 0,
+            newsletter_weekly_sent: 0,
             errors: 0,
         }
+
+        const bodyPayload = req.method === 'POST' ? (req.body as WeeklyNewsletterPayload) : undefined
+        const weeklyContent = sanitizeWeeklyContent(bodyPayload)
 
         const now = new Date()
         const tolerance = 60 * 60 * 1000 // 1 hour tolerance
@@ -216,6 +283,63 @@ export default async function handler(
             } catch (error) {
                 stats.errors++
                 logger.error(`❌ Failed to send DAF offer email to ${lead.email}:`, error)
+            }
+        }
+
+        // Newsletter segment (distinct from template nurturing)
+        const newsletterLeads = await prisma.lead.findMany({
+            where: {
+                source: 'newsletter',
+                nextEmailScheduled: {
+                    gte: new Date(now.getTime() - tolerance),
+                    lte: new Date(now.getTime() + tolerance),
+                },
+                unsubscribed: false,
+            },
+        })
+
+        for (const lead of newsletterLeads) {
+            try {
+                const unsubscribeUrl = `${SITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(lead.email)}`
+                const recipientName = lead.firstName || 'abonne'
+                const stage = lead.lastEmailSent || 'newsletter_welcome'
+
+                let content = weeklyContent.recurring
+                let nextStage = 'newsletter_weekly'
+                let statKey: 'newsletter_j7_sent' | 'newsletter_j14_sent' | 'newsletter_weekly_sent' = 'newsletter_weekly_sent'
+
+                if (stage === 'newsletter_welcome') {
+                    content = weeklyContent.week1
+                    nextStage = 'newsletter_article_1'
+                    statKey = 'newsletter_j7_sent'
+                } else if (stage === 'newsletter_article_1') {
+                    content = weeklyContent.week2
+                    nextStage = 'newsletter_article_2'
+                    statKey = 'newsletter_j14_sent'
+                }
+
+                await sendWeeklyNewsletterEmail({
+                    to: lead.email,
+                    recipientName,
+                    articleTitle: content.title,
+                    articleUrl: content.url,
+                    summary: content.summary,
+                    unsubscribeUrl,
+                })
+
+                await prisma.lead.update({
+                    where: { id: lead.id },
+                    data: {
+                        lastEmailSent: nextStage,
+                        nextEmailScheduled: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000),
+                    },
+                })
+
+                stats[statKey]++
+                logger.debug(`✅ Newsletter email sent to ${lead.email} (${nextStage})`)
+            } catch (error) {
+                stats.errors++
+                logger.error(`❌ Failed to send newsletter email to ${lead.email}:`, error)
             }
         }
 

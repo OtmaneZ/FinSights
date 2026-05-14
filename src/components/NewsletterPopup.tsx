@@ -13,8 +13,9 @@ export default function NewsletterPopup() {
     useEffect(() => {
         // Vérifier si l'utilisateur a déjà fermé/soumis la popup
         const hasSeenPopup = localStorage.getItem('newsletter-popup-seen')
+        const isSubscribed = localStorage.getItem('newsletter-subscribed') === 'true'
 
-        if (!hasSeenPopup) {
+        if (!hasSeenPopup && !isSubscribed) {
             // Afficher après 10 secondes de navigation
             const timer = setTimeout(() => {
                 setIsOpen(true)
@@ -54,6 +55,7 @@ export default function NewsletterPopup() {
 
             setIsSubmitted(true)
             localStorage.setItem('newsletter-popup-seen', 'true')
+            localStorage.setItem('newsletter-subscribed', 'true')
 
             // Fermer après 4 secondes
             setTimeout(() => {
@@ -103,7 +105,7 @@ export default function NewsletterPopup() {
                                 <strong className="text-primary">Newsletter Finance PME</strong>
                             </p>
                             <p className="text-center text-sm text-tertiary mb-6">
-                                1 analyse mensuelle + 1 outil gratuit + conseils actionnables
+                                1 article par semaine + 1 outil gratuit + conseils actionnables
                             </p>
 
                             {/* Form */}
@@ -138,7 +140,7 @@ export default function NewsletterPopup() {
 
                             {/* Footer */}
                             <p className="text-xs text-center text-tertiary mt-4">
-                                1 email/mois maximum • Désabonnement en 1 clic • Pas de spam
+                                1 article par semaine • Désabonnement en 1 clic • Pas de spam
                             </p>
                         </>
                     ) : (
