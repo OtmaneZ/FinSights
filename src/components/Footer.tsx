@@ -21,20 +21,31 @@ export default function Footer() {
                             />
                             <span className="text-xl font-semibold text-white">FinSight</span>
                         </Link>
-                        <p className="text-[15px] leading-relaxed max-w-md mb-8">
+        <p className="text-[15px] leading-relaxed max-w-md mb-6">
                             Expert Finance &amp; Data pour PME de 2 à 20&nbsp;M€.
                             Nous connectons vos données comptables et opérationnelles
                             pour construire un pilotage fiable - trésorerie, marges,
                             reporting - via Power BI, SQL et le Score FinSight™.
                         </p>
+                        <div className="flex flex-wrap items-center gap-3 mb-8">
                         <a
-                            href="https://calendly.com/zineinsight"
+                            href="https://calendly.com/zineinsight/15min"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-gray-900 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors"
                         >
-                            Réserver un échange
+                            Réserver mon diagnostic offert (15 min)
                         </a>
+                        <a
+                            href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-4 py-2.5 border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 text-sm font-medium rounded-lg transition-colors"
+                        >
+                            <Linkedin className="w-4 h-4" />
+                            LinkedIn
+                        </a>
+                        </div>
                     </div>
 
                     {/* Col 2 - Services */}

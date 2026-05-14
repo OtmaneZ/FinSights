@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur BFR 2026 – Besoin en Fonds de Roulement en 30s | PME & Dirigeants',
-    description: 'Calculez votre BFR en 30 secondes et découvrez combien de cash est immobilisé dans vos stocks et créances. Benchmarks sectoriels 2026, interprétation DAF, leviers de libération cash. Outil pour dirigeants PME.',
+    title: 'Calculateur BFR Gratuit — Besoin en Fonds de Roulement en 1 minute | FinSight',
+    description: 'Calculez votre BFR en 1 minute : stocks + créances – dettes fournisseurs. Interprétation automatique, benchmark sectoriel inclus. Rapport PDF offert.',
     keywords: 'calculateur bfr 2026, analyse bfr, besoin fonds roulement pme, bfr formule, bfr négatif, optimiser bfr, trésorerie pme, working capital, cash immobilisé, pré-diagnostic financier, bfr pme',
     openGraph: {
         title: 'Calculateur BFR 2026 – Besoin en Fonds de Roulement en 30s | PME',

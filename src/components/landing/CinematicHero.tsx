@@ -99,16 +99,19 @@ export default function CinematicHero() {
             <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
           </a>
 
-          <a
-            href="https://calendly.com/zineinsight"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex flex-1 items-center justify-center gap-2.5 px-8 py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm tracking-wide backdrop-blur-sm transition-all duration-200"
-          >
-            <Calendar className="w-4 h-4 shrink-0" aria-hidden />
-            Parler à un expert
-            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-          </a>
+          <div className="flex flex-1 flex-col items-center gap-1">
+            <p className="text-xs text-slate-400">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
+            <a
+              href="https://calendly.com/zineinsight/15min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex w-full items-center justify-center gap-2.5 px-8 py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm tracking-wide backdrop-blur-sm transition-all duration-200"
+            >
+              <Calendar className="w-4 h-4 shrink-0" aria-hidden />
+              Réserver mon diagnostic offert (15 min)
+              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+            </a>
+          </div>
         </div>
 
         <p className="text-xs text-slate-400 tracking-wide">

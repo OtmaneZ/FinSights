@@ -35,10 +35,17 @@ export default function TemplatesPage() {
                             <span className="text-accent-primary">pour Dirigeants PME</span>
                         </h1>
 
-                        <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto mb-4">
+                        <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto mb-6">
                             3 fichiers Excel prêts à l&apos;emploi avec formules automatiques,
                             graphiques intégrés et compatibles import FinSight
                         </p>
+
+                        <a
+                            href="#templates-grid"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-all duration-200 shadow-sm mb-4"
+                        >
+                            Télécharger les templates gratuitement →
+                        </a>
 
                         <p className="text-sm text-gray-400 tracking-wide">
                             Indiquez prénom et email pour recevoir le fichier Excel · Compatible Excel/Google Sheets
@@ -89,7 +96,7 @@ export default function TemplatesPage() {
             </section>
 
             {/* ── Section 3 - Templates Grid (bg-white) ── */}
-            <section className="bg-white py-20">
+            <section id="templates-grid" className="bg-white py-20">
                 <div className="max-w-6xl mx-auto px-6">
                     <FadeIn className="text-center mb-12">
                         <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">

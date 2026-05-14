@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Agents IA Finance | Automatisez votre Pilotage Financier - FinSight',
-    description: 'Automatisez votre DAF avec 4 agents IA spécialisés : DASHIS, TRESORIS, MARGIS et SCENARIS. Surveillance cash 24/7, analyse de rentabilité et simulations stratégiques pour PME. Démo gratuite.',
+    title: 'Agents IA Finance pour PME — Trésorerie, Marges et Scénarios 24h/24 | FinSight',
+    description: 'Surveillez votre trésorerie, marges et scénarios avec des agents IA autonomes. Disponible fin août 2026. Inscrivez-vous pour être notifié en priorité.',
     keywords: [
         'agent ia finance',
         'automatisation comptable',

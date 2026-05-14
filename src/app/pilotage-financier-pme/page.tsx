@@ -1634,13 +1634,14 @@ export default function PilotageFinancierPME() {
                         vos leviers prioritaires et d&eacute;finir une feuille de route adapt&eacute;e
                         &agrave; votre situation.
                     </p>
+                    <p className="text-sm text-gray-400 mb-3">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
                     <a
-                        href="https://calendly.com/zineinsight"
+                        href="https://calendly.com/zineinsight/15min"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-3 px-10 py-5 bg-white text-gray-900 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300"
                     >
-                        R&eacute;server un &eacute;change strat&eacute;gique
+                        R&eacute;server mon diagnostic offert (15 min)
                     </a>
                     <div className="flex items-center justify-center gap-8 text-sm text-gray-500 mt-8">
                         <span>Sans engagement</span>

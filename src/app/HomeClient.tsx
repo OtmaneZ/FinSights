@@ -222,13 +222,14 @@ export default function HomeClient() {
                 <div className="pt-6 border-t border-gray-100">
                   <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">À partir de</p>
                   <p className="text-3xl font-semibold text-gray-900 mb-5">2 490€</p>
+                  <p className="text-sm text-gray-500 mb-2">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
                   <a
-                    href="https://calendly.com/zineinsight"
+                    href="https://calendly.com/zineinsight/15min"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full px-6 py-3.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-center transition-all duration-200"
                   >
-                    Demander mon diagnostic
+                    Réserver mon diagnostic offert (15 min)
                   </a>
                   <p className="text-xs text-center text-gray-400 mt-3">Réponse sous 24h · Sans engagement</p>
                 </div>
@@ -393,13 +394,13 @@ export default function HomeClient() {
 
           <FadeIn delay={0.35}>
             <a
-              href="https://calendly.com/zineinsight"
+              href="https://calendly.com/zineinsight/15min"
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 px-10 py-5 bg-white text-gray-900 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300"
             >
               <Calendar className="w-5 h-5" />
-              Identifier mes leviers financiers
+              Réserver mon diagnostic offert (15 min)
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </FadeIn>

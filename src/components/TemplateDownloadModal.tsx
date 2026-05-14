@@ -122,6 +122,18 @@ export default function TemplateDownloadModal({
               >
                 Fermer
               </button>
+              <div className="mt-5 pt-4 border-t border-green-200">
+                <p className="text-sm text-green-900 font-medium mb-2">
+                  Vous souhaitez analyser votre BFR réel ?
+                </p>
+                <a
+                  href="/calculateurs/bfr"
+                  onClick={onClose}
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-primary hover:underline"
+                >
+                  Calculer mon BFR gratuitement →
+                </a>
+              </div>
             </div>
           ) : (
             <form onSubmit={submit} className="space-y-4">

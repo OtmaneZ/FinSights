@@ -206,15 +206,18 @@ export default function ConsultingPage() {
 
                             {/* CTAs */}
                             <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                                <a
-                                    href="https://calendly.com/zineinsight"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
-                                >
-                                    <Calendar className="w-5 h-5" />
-                                    Réserver un échange stratégique
-                                </a>
+                                <div className="flex flex-col gap-1">
+                                    <p className="text-sm text-gray-400">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
+                                    <a
+                                        href="https://calendly.com/zineinsight/15min"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
+                                    >
+                                        <Calendar className="w-5 h-5" />
+                                        Réserver mon diagnostic offert (15 min)
+                                    </a>
+                                </div>
                                 <a
                                     href="#offres"
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-white text-lg font-semibold rounded-xl border border-white/20 transition-all duration-200"
@@ -539,12 +542,12 @@ export default function ConsultingPage() {
                                     LinkedIn
                                 </a>
                                 <a
-                                    href="https://calendly.com/zineinsight"
+                                    href="https://calendly.com/zineinsight/15min"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover rounded-xl font-semibold transition-all"
                                 >
-                                    Échanger
+                                    Réserver mon diagnostic offert (15 min)
                                     <ArrowRight className="w-5 h-5" />
                                 </a>
                             </div>
@@ -1061,13 +1064,13 @@ export default function ConsultingPage() {
                             Réservez un échange exploratoire de 30 minutes pour en discuter.
                         </p>
                         <a
-                            href="https://calendly.com/zineinsight"
+                            href="https://calendly.com/zineinsight/15min"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
                         >
                             <Calendar className="w-5 h-5" />
-                            Réserver un échange exploratoire
+                            Réserver mon diagnostic offert (15 min)
                         </a>
                     </motion.div>
                 </div>
@@ -1101,13 +1104,13 @@ export default function ConsultingPage() {
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <a
-                                href="https://calendly.com/zineinsight"
+                                href="https://calendly.com/zineinsight/15min"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-3 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
                             >
                                 <Calendar className="w-6 h-6" />
-                                Réserver un créneau
+                                Réserver mon diagnostic offert (15 min)
                             </a>
                             <a
                                 href="mailto:otmane@zineinsight.com"

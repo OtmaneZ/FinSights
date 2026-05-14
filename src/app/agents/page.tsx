@@ -29,6 +29,7 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StructuredData from "@/components/StructuredData";
+import AgentsWaitlistForm from "@/components/AgentsWaitlistForm";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -134,13 +135,13 @@ export default function AgentsPage() {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="https://calendly.com/zineinsight"
+              <a
+                href="#notify"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
               >
-                Demander une démo
+                Être notifié à l&apos;ouverture — fin août 2026
                 <ArrowRight className="w-5 h-5" />
-              </Link>
+              </a>
               <a
                 href="#agents-overview"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
@@ -1036,13 +1037,13 @@ export default function AgentsPage() {
                 </div>
               </div>
 
-              <Link
-                href="https://calendly.com/zineinsight"
+              <a
+                href="#notify"
                 className="flex items-center justify-center gap-2 w-full py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300"
               >
-                Demander un devis
+                Être notifié à l&apos;ouverture — fin août 2026
                 <ArrowRight className="w-5 h-5" />
-              </Link>
+              </a>
             </div>
           </motion.div>
         </div>
@@ -1073,15 +1074,41 @@ export default function AgentsPage() {
             </h2>
             <p className="text-lg text-slate-300 mb-8">
               Découvrez comment DASHIS, TRESORIS, MARGIS et SCENARIS peuvent transformer 
-              la gestion financière de votre PME. Démo gratuite de 30 minutes.
+              la gestion financière de votre PME. Disponible fin août 2026.
             </p>
-            <Link
-              href="https://calendly.com/zineinsight"
+            <a
+              href="#notify"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
             >
-              Réserver ma démo
+              Être notifié à l&apos;ouverture — fin août 2026
               <ArrowRight className="w-5 h-5" />
-            </Link>
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Waitlist Section */}
+      <section id="notify" className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-lg mx-auto text-center"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-primary/10 border border-accent-primary/20 mb-6">
+              <Zap className="w-4 h-4 text-accent-primary" />
+              <span className="text-sm text-accent-primary font-medium">Accès prioritaire</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
+              Accès prioritaire dès l&apos;ouverture — fin août 2026
+            </h2>
+            <p className="text-slate-500 mb-8">
+              Inscrivez-vous maintenant pour être parmi les premiers notifiés et bénéficier 
+              des conditions de lancement réservées aux early adopters.
+            </p>
+            <AgentsWaitlistForm />
           </motion.div>
         </div>
       </section>
