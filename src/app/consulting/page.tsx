@@ -745,16 +745,16 @@ export default function ConsultingPage() {
                             className="bg-background-primary rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
                             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Offre Signature</p>
-                            <h3 className="text-2xl font-bold text-text-primary mb-2">Diagnostic FinSight™ 90J</h3>
-                            <p className="text-text-secondary mb-6">Clarté stratégique complète en 5 jours ouvrés.</p>
+                            <h3 className="text-2xl font-bold text-text-primary mb-2">Savoir exactement où vous en êtes</h3>
+                            <p className="text-text-secondary mb-6">Livrable clé en main — 5 jours ouvrés.</p>
 
-                            <ul className="space-y-3">
+                            <ul className="space-y-3 mb-4">
                                 {[
-                                    'Score FinSight™ 0–100 détaillé',
-                                    'Décomposition 4 piliers Cash · Marges · Résilience · Risques',
-                                    '3 leviers prioritaires chiffrés (anomalies incluses)',
-                                    'Simulation d\'impact à 90 jours',
-                                    'Restitution stratégique 60 min avec plan d\'action'
+                                    'Diagnostic complet : cash, marges, résilience, risques',
+                                    'Les 3 leviers prioritaires identifiés et chiffrés',
+                                    'Ce que vous devez faire maintenant — pas dans 6 mois',
+                                    'Simulation de l\'impact de chaque levier à 90 jours',
+                                    '1h de restitution avec plan d\'action concret'
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-text-secondary">
                                         <Check className="w-5 h-5 text-accent-success flex-shrink-0 mt-0.5" />
@@ -762,6 +762,7 @@ export default function ConsultingPage() {
                                     </li>
                                 ))}
                             </ul>
+                            <p className="text-sm italic text-text-tertiary">Pour le dirigeant qui veut enfin des chiffres clairs pour prendre des décisions sereines.</p>
                         </motion.div>
 
                         {/* Audit - Featured */}
@@ -776,16 +777,15 @@ export default function ConsultingPage() {
                                 Recommandé
                             </div>
                             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Structuration &amp; Pilotage</p>
-                            <h3 className="text-2xl font-bold mb-2">Audit Complet</h3>
-                            <p className="text-gray-300 mb-6">Visibilité complète, arbitrages rapides, décisions structurées.</p>
+                            <h3 className="text-2xl font-bold mb-2">Passer de la réaction à la décision</h3>
+                            <p className="text-gray-300 mb-6">Vous passez votre temps à réagir aux problèmes plutôt qu&apos;à les anticiper. Cette mission vous donne un système de pilotage sur mesure — pour que vous décidiez avec des chiffres, pas avec des intuitions.</p>
 
-                            <ul className="space-y-3">
+                            <ul className="space-y-3 mb-4">
                                 {[
-                                    'Tout le Diagnostic FinSight™ 90J',
-                                    'Analyse de rentabilité réelle par activité',
-                                    'Vision trésorerie fiabilisée sur 24 mois',
-                                    'Cockpit décisionnel sur mesure',
-                                    'Modèle de rentabilité analytique',
+                                    'Tout le diagnostic initial inclus',
+                                    'Rentabilité réelle par activité — vous saurez ce qui rapporte vraiment',
+                                    'Trésorerie visible et fiabilisée à 24 mois',
+                                    'Cockpit décisionnel sur mesure — vous pilotez seul à l\'issue',
                                     'Plan d\'action chiffré sur 6 mois',
                                     'Formation 2h + 1 mois de support'
                                 ].map((item, i) => (
@@ -795,6 +795,7 @@ export default function ConsultingPage() {
                                     </li>
                                 ))}
                             </ul>
+                            <p className="text-sm italic text-gray-500">Pour le dirigeant qui veut anticiper, structurer, et arrêter d&apos;éteindre des incendies.</p>
                         </motion.div>
 
                         {/* Pilotage Augmenté */}
@@ -806,15 +807,14 @@ export default function ConsultingPage() {
                             className="bg-background-primary rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
                             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Système décisionnel</p>
-                            <h3 className="text-2xl font-bold text-text-primary mb-2">Pilotage Augmenté</h3>
-                            <p className="text-text-secondary mb-6">Un pilotage financier autonome, fiable et durable.</p>
+                            <h3 className="text-2xl font-bold text-text-primary mb-2">Grandir sans perdre le contrôle</h3>
+                            <p className="text-text-secondary mb-6">Vous recrutez, vous investissez, vous ouvrez de nouveaux marchés. Mais vos chiffres ne suivent plus. Cette mission vous donne un pilotage financier autonome, fiable et durable — pour que chaque décision stratégique soit prise sur une base solide.</p>
 
-                            <ul className="space-y-3">
+                            <ul className="space-y-3 mb-4">
                                 {[
-                                    'Tout l\'Audit Complet',
-                                    'Cockpit décisionnel dirigeant temps réel',
-                                    'Alertes automatiques sur anomalies clés',
-                                    'Scénarios de croissance simulés en continu',
+                                    'Tout l\'audit complet inclus',
+                                    'Cockpit temps réel avec alertes automatiques sur anomalies',
+                                    'Scénarios simulés en continu : recrutement, investissement, perte d\'un client',
                                     'Maîtrise totale des marges et du cash',
                                     'Formation équipe + 3 mois d\'accompagnement'
                                 ].map((item, i) => (
@@ -824,6 +824,7 @@ export default function ConsultingPage() {
                                     </li>
                                 ))}
                             </ul>
+                            <p className="text-sm italic text-text-tertiary">Pour le dirigeant en croissance qui veut scaler sans perdre le contrôle de ses chiffres.</p>
                         </motion.div>
                     </div>
 
