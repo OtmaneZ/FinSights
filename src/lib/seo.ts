@@ -611,7 +611,7 @@ export const BLOG_ARTICLES: BlogArticleData[] = [
     },
     {
         slug: 'pilotage-financier-change-pme-5-20m',
-        title: 'Ce qu\'un vrai pilotage financier change dans une PME 5–20M€',
+        title: 'Ce qu\'un vrai pilotage financier change dans une PME 500k€–5M€',
         description: 'Avant/après : les transformations concrètes quand une PME passe d\'une comptabilité subie à un pilotage financier structuré.',
         date: '2026-02-21',
         readTime: '14 min',

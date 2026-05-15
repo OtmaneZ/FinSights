@@ -56,7 +56,7 @@ export default function CinematicHero() {
         <div className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-xs font-medium tracking-widest text-slate-300 uppercase">
-            Hub financier pour dirigeants PME · 2M€ à 20M€
+            Hub financier pour dirigeants PME · 500k€ à 5M€
           </span>
         </div>
 

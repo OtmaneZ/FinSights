@@ -167,7 +167,7 @@ export const DAFOfferEmail = ({
                             <Section style={offerBody}>
                                 <Text style={offerTitle}>Pour qui ?</Text>
                                 <Text style={offerText}>
-                                    CA 1-20M€, besoin d'un DAF régulier sans recruter temps plein.
+                                    CA 500k€–5M€, besoin d'un DAF régulier sans recruter temps plein.
                                     2j/mois → 3j/semaine selon intensité.
                                 </Text>
                                 <Text style={offerTitle}>Missions typiques :</Text>
@@ -182,9 +182,9 @@ export const DAFOfferEmail = ({
                                 <Section style={pricingDetails}>
                                     <Text style={pricingTitle}>💰 Tarification :</Text>
                                     <ul style={pricingList}>
-                                        <li style={pricingItem}><strong>2j/mois</strong> : 1 500€/mois (PME 1-5M€)</li>
-                                        <li style={pricingItem}><strong>1j/semaine</strong> : 3 500€/mois (PME 5-10M€)</li>
-                                        <li style={pricingItem}><strong>2j/semaine</strong> : 6 500€/mois (ETI 10-20M€)</li>
+                                        <li style={pricingItem}><strong>2j/mois</strong> : 1 500€/mois (PME 500k€–2M€)</li>
+                                        <li style={pricingItem}><strong>1j/semaine</strong> : 3 500€/mois (PME 2M€–4M€)</li>
+                                        <li style={pricingItem}><strong>2j/semaine</strong> : 6 500€/mois (PME 4M€–5M€)</li>
                                     </ul>
                                 </Section>
                                 <Button style={buttonGreen} href="https://calendly.com/zineinsight/15min">

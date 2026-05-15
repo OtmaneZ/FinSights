@@ -228,7 +228,7 @@ export default function CalculateurROI() {
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
                                 <Calculator className="w-4 h-4 text-purple-400" />
                                 <span className="text-sm text-white/90 font-medium">
-                                    Outil de décision financière · PME 1–20M€
+                                    Outil de décision financière · PME 500k€–5M€
                                 </span>
                             </div>
 

@@ -349,7 +349,7 @@ export default function ContactPage() {
 
                             <div className="space-y-4 text-gray-300 leading-relaxed">
                                 <p>
-                                    J&apos;accompagne des dirigeants de PME (2 à 20 M€ de chiffre d&apos;affaires) 
+                                    J&apos;accompagne des dirigeants de PME (500k€ à 5M€ de chiffre d&apos;affaires) 
                                     confrontés à une complexité croissante de leurs décisions financières : 
                                     <span className="text-white font-medium"> arbitrages d&apos;investissement, pilotage du cash, rentabilité réelle, timing des choix stratégiques.</span>
                                 </p>

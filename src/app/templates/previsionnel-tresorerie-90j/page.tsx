@@ -531,7 +531,7 @@ export default function TemplateExcelTresoreriePage() {
                                         <td className="py-3 text-center text-green-600 font-semibold">90 jours</td>
                                     </tr>
                                     <tr>
-                                        <td className="py-3 text-slate-700">PME &gt; 20M€ CA</td>
+                                        <td className="py-3 text-slate-700">PME &gt; 5M€ CA</td>
                                         <td className="py-3 text-center text-blue-600 font-semibold">60 jours</td>
                                         <td className="py-3 text-center text-green-600 font-semibold">180 jours</td>
                                     </tr>

@@ -107,7 +107,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
                               ['⏱️', 'Benchmarks DSO / BFR par secteur (services, industrie, BTP, tech…)'],
                               ['⚡', '7 leviers actionnables pour réduire votre BFR et libérer du cash'],
                               ['📋', 'Template de suivi de trésorerie 12 semaines (version Excel disponible)'],
-                              ['🗺️', 'Plan d\'action en 7 étapes - roadmap 90 jours PME 2–20 M€'],
+                              ['🗺️', 'Plan d\'action en 7 étapes - roadmap 90 jours PME 500k€–5M€'],
                             ].map(([icon, text]) => `
                             <tr>
                               <td style="padding:5px 0;vertical-align:top;width:28px;font-size:15px;">${icon}</td>
@@ -165,7 +165,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
                 <tr>
                   <td style="background:#f8fafc;border-top:1px solid #e2e8f0;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;">
                     <p style="margin:0;color:#94a3b8;font-size:11px;line-height:1.6;">
-                      FinSight · Direction Financière Externalisée pour PME 2–20 M€<br>
+                      FinSight · Direction Financière Externalisée pour PME 500k€–5M€<br>
                       <a href="mailto:otmane@zineinsight.com" style="color:#64748b;">otmane@zineinsight.com</a> ·
                       <a href="https://finsight.zineinsight.com" style="color:#64748b;">finsight.zineinsight.com</a><br>
                       <a href="https://finsight.zineinsight.com/politique-confidentialite" style="color:#94a3b8;">Se désinscrire</a> · Conformément au RGPD
@@ -196,7 +196,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
       <body style="font-family:Arial,sans-serif;line-height:1.6;color:#333;max-width:600px;margin:0 auto;padding:20px;">
         <div style="background:#0f172a;padding:30px;text-align:center;border-radius:10px 10px 0 0;">
           <h1 style="color:white;margin:0;font-size:22px;">FinSight</h1>
-          <p style="color:#94a3b8;margin:8px 0 0;">Direction Financière Externalisée · PME 2–20M€</p>
+          <p style="color:#94a3b8;margin:8px 0 0;">Direction Financière Externalisée · PME 500k€–5M€</p>
         </div>
         <div style="background:#f9fafb;padding:30px;border-radius:0 0 10px 10px;">
           <p>Bonjour,</p>

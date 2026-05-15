@@ -52,7 +52,7 @@ function headerBar(doc, title, pageNum, total) {
     doc.rect(0, 0, W, 36).fill(C.dark);
     doc.fillColor(C.white).font('Helvetica').fontSize(8)
         .text('FINSIGHT', ML, 13)
-        .text(`Direction Financière Externalisée · PME 2–20 M€`, ML + 60, 13)
+        .text(`Direction Financière Externalisée · PME 500k€–5M€`, ML + 60, 13)
         .text(`${pageNum} / ${total}`, W - MR - 25, 13);
 
     // Chapter title
@@ -164,7 +164,7 @@ function page1(doc) {
         '03  Calculer et interpréter votre BFR (avec benchmark BdF 2024)',
         '04  7 leviers actionnables pour réduire votre BFR',
         '05  Template de suivi de trésorerie 12 mois',
-        '06  Plan d\'action en 7 étapes — PME 2–20 M€',
+        '06  Plan d\'action en 7 étapes — PME 500k€–5M€',
         '07  Benchmarks sectoriels DSO / BFR (Banque de France)',
     ];
     let y = 350;
@@ -181,7 +181,7 @@ function page1(doc) {
     doc.fillColor(C.white).font('Helvetica-Bold').fontSize(10)
         .text('Otmane Boulahia', ML, 548);
     doc.fillColor(C.gray).font('Helvetica').fontSize(8.5)
-        .text('DAF Externalisé · Missions PME 2–20 M€ · finsight.zineinsight.com', ML, 564);
+        .text('DAF Externalisé · Missions PME 500k€–5M€ · finsight.zineinsight.com', ML, 564);
 
     // Bottom bar
     doc.rect(0, H - 50, W, 50).fill('#060f1e');
@@ -214,7 +214,7 @@ function page2(doc) {
     y += 4;
 
     y = sectionTitle(doc, 'À qui s\'adresse ce guide ?', y);
-    y = paragraph(doc, `Ce guide est conçu pour les dirigeants et DAF de PME générant entre 2 et 20 M€ de chiffre d'affaires, confrontés à l'un de ces symptômes :`, y);
+    y = paragraph(doc, `Ce guide est conçu pour les dirigeants et DAF de PME générant entre 500k€ et 5M€ de chiffre d'affaires, confrontés à l'un de ces symptômes :`, y);
 
     const symptoms = [
         'Trésorerie tendue malgré une activité en croissance',
@@ -585,7 +585,7 @@ function page15(doc) {
 
     // Logo
     doc.fillColor(C.white).font('Helvetica-Bold').fontSize(14).text('FINSIGHT', ML, 40);
-    doc.fillColor(C.gray).font('Helvetica').fontSize(9).text('Direction Financière Externalisée · PME 2–20 M€', ML, 58);
+    doc.fillColor(C.gray).font('Helvetica').fontSize(9).text('Direction Financière Externalisée · PME 500k€–5M€', ML, 58);
 
     // Separator
     doc.rect(ML, 82, CONTENT_W, 1).fill('#1e3a5f');

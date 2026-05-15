@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   keywords: ['note stratégique finance', 'DAF externalisé', 'pilotage financier PME', 'dso', 'bfr', 'trésorerie', 'direction financière'],
   openGraph: {
     title: 'Notes Stratégiques & Guides Finance | FinSight',
-    description: 'Analyses structurelles et méthodologies de pilotage financier pour PME 1-20M€.',
+    description: 'Analyses structurelles et méthodologies de pilotage financier pour PME 500k€–5M€.',
     url: 'https://finsight.zineinsight.com/blog',
     siteName: 'FinSight',
     locale: 'fr_FR',
