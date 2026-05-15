@@ -8,7 +8,7 @@ import {
 
 export const metadata: Metadata = {
     title: 'FinSight Advanced : Avis & Test - Diagnostic PME en 7 min | Analyse Prédictive',
-    description: 'FinSight Advanced : avis honnête et test complet. Analyse financière prédictive pour PME 2–20 M€ - Score FinSight™ 0→100, 4 piliers, benchmarks Banque de France. Résultat en 7 minutes, 0 donnée transmise.',
+    description: 'FinSight Advanced : avis honnête et test complet. Analyse financière prédictive pour PME 500k€–5M€ - Score FinSight™ 0→100, 4 piliers, benchmarks Banque de France. Résultat en 7 minutes, 0 donnée transmise.',
     keywords: [
         'analyse financière prédictive finsight advanced avis',
         'finsight advanced test',
@@ -98,7 +98,7 @@ const faqJsonLd = {
             name: 'Qu\'est-ce que FinSight Advanced ?',
             acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'FinSight Advanced est un outil d\'analyse financière prédictive pour PME (2–20 M€). Il génère un Score FinSight™ de 0 à 100 en analysant 4 piliers financiers - CASH, MARGIN, RÉSILIENCE, RISQUE - comparés aux médianes sectorielles Banque de France 2024.',
+                text: 'FinSight Advanced est un outil d\'analyse financière prédictive pour PME (500k€–5M€). Il génère un Score FinSight™ de 0 à 100 en analysant 4 piliers financiers - CASH, MARGIN, RÉSILIENCE, RISQUE - comparés aux médianes sectorielles Banque de France 2024.',
             },
         },
         {

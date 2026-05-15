@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
     title: 'Tarifs DAF Externalisé PME | Diagnostic 2 490€ · Audit 6 990€ - FinSight',
     description:
-        'Tarifs transparents pour les missions de direction financière externalisée FinSight. Diagnostic FinSight™ 90J dès 2 490 €, Audit Complet 6 990 €, Decision System 12 500 €. PME de 2 à 20 M€ de CA.',
+        'Tarifs transparents pour les missions de direction financière externalisée FinSight. Diagnostic FinSight™ 90J dès 2 490 €, Audit Complet 6 990 €, Decision System 12 500 €. PME de 500k€ à 5M€ de CA.',
     keywords: [
         'tarifs daf externalisé',
         'prix audit financier pme',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         title: 'Tarifs DAF Externalisé - FinSight',
         description:
-            'Diagnostic dès 2 490 €, Audit Complet 6 990 €, Decision System 12 500 €. PME 2–20 M€ CA.',
+            'Diagnostic dès 2 490 €, Audit Complet 6 990 €, Decision System 12 500 €. PME 500k€–5M€ CA.',
         images: ['https://finsight.zineinsight.com/og-pricing.png'],
     },
     alternates: {

@@ -411,7 +411,7 @@ export default function HomeClient() {
               <span className="text-gray-700">·</span>
               <span>100% confidentiel</span>
               <span className="text-gray-700">·</span>
-              <span>PME de 2 à 20 M€</span>
+              <span>PME de 500k€ à 5M€</span>
             </div>
           </FadeIn>
         </div>

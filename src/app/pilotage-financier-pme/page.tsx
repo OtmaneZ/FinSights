@@ -8,7 +8,7 @@ import StructuredData from '@/components/StructuredData'
 export const metadata: Metadata = {
     title: 'Guide complet du pilotage financier PME (2026) | FinSight',
     description:
-        'Méthode structurée de pilotage financier PME : indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours, DAF externalisé. Guide de référence pour dirigeants 2–20 M€.',
+        'Méthode structurée de pilotage financier PME : indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours, DAF externalisé. Guide de référence pour dirigeants 500k€–5M€.',
     alternates: {
         canonical: 'https://finsight.zineinsight.com/pilotage-financier-pme',
     },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         title: 'Guide complet du pilotage financier PME (2026)',
         description:
-            'Indicateurs clés, tableau de bord, pilotage de trésorerie et DAF externalisé. Méthode structurée pour dirigeants PME 2–20 M€.',
+            'Indicateurs clés, tableau de bord, pilotage de trésorerie et DAF externalisé. Méthode structurée pour dirigeants PME 500k€–5M€.',
         images: ['https://finsight.zineinsight.com/images/og-default.png'],
     },
     robots: { index: true, follow: true },
@@ -46,7 +46,7 @@ const articleSchema = {
     '@type': 'Article',
     headline: 'Guide complet du pilotage financier PME (2026)',
     description:
-        'Méthode structurée de pilotage financier pour PME de 2 à 20 M€. Indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours et rôle du DAF externalisé.',
+        'Méthode structurée de pilotage financier pour PME de 500k€ à 5M€. Indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours et rôle du DAF externalisé.',
     author: {
         '@type': 'Person',
         name: 'Otmane Boulahia',
@@ -168,7 +168,7 @@ export default function PilotageFinancierPME() {
                     </p>
 
                     <p className="text-base text-gray-400 leading-relaxed max-w-3xl mb-10">
-                        M&eacute;thode structur&eacute;e pour dirigeants de PME de 2 &agrave; 20&nbsp;M&euro;. Indicateurs
+                        M&eacute;thode structur&eacute;e pour dirigeants de PME de 500k€ &agrave; 5&nbsp;M&euro;. Indicateurs
                         cl&eacute;s, tableau de bord, pr&eacute;visionnel de tr&eacute;sorerie 90 jours et syst&egrave;me de pilotage pr&eacute;dictif.
                     </p>
 
@@ -334,7 +334,7 @@ export default function PilotageFinancierPME() {
                         </div>
 
                         <p>
-                            La majorit&eacute; des PME de 2 &agrave; 20&nbsp;millions d&apos;euros de chiffre d&apos;affaires
+                            La majorit&eacute; des PME de 500k€ &agrave; 5&nbsp;millions d&apos;euros de chiffre d&apos;affaires
                             ne disposent ni d&apos;un contr&ocirc;leur de gestion, ni d&apos;un directeur financier.
                             Le dirigeant re&ccedil;oit un bilan annuel, parfois une situation interm&eacute;diaire,
                             et pilote son entreprise sur la base du solde bancaire et de l&apos;intuition.
@@ -1590,7 +1590,7 @@ export default function PilotageFinancierPME() {
                         <p className="text-xs text-gray-500 mb-1">Directeur financier externalis&eacute; &middot; Fondateur de FinSight</p>
                         <p className="text-xs text-gray-400 mb-3">+10 ans d&apos;exp&eacute;rience en finance &amp; pilotage PME</p>
                         <p className="text-sm text-gray-600 leading-relaxed">
-                            Sp&eacute;cialis&eacute; dans les PME de 2 &agrave; 20&nbsp;M&euro;. Interventions en structuration
+                            Sp&eacute;cialis&eacute; dans les PME de 500k€ &agrave; 5&nbsp;M&euro;. Interventions en structuration
                             de pilotage financier, optimisation de tr&eacute;sorerie et gouvernance financi&egrave;re.
                             Cas document&eacute;s disponibles dans le{' '}
                             <Link href="/blog" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">

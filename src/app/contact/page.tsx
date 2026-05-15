@@ -369,7 +369,7 @@ export default function ContactPage() {
                             <div className="grid grid-cols-2 gap-4 pt-4">
                                 {[
                                     { icon: BarChart3, label: 'Finance & Data' },
-                                    { icon: Users, label: 'PME 2-20M€' },
+                                    { icon: Users, label: 'PME 500k€-5M€' },
                                     { icon: Target, label: 'ROI mesurable' },
                                     { icon: Shield, label: 'Confidentialité' }
                                 ].map((item, i) => (

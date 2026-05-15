@@ -117,7 +117,7 @@ export default function ConsultingPage() {
                 "name": "Pour quels types d'entreprises ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "J'accompagne principalement les PME de 2 à 20 millions d'euros de chiffre d'affaires, dans les secteurs Services B2B, SaaS, Commerce et Industrie."
+                    "text": "J'accompagne principalement les PME de 500k€ à 5 millions d'euros de chiffre d'affaires, dans les secteurs Services B2B, SaaS, Commerce et Industrie."
                 }
             }
         ]
@@ -519,7 +519,7 @@ export default function ConsultingPage() {
                             <div className="grid grid-cols-2 gap-4 pt-4">
                                 {[
                                     { icon: BarChart3, label: 'Finance & Data' },
-                                    { icon: Users, label: 'PME 2-20M€' },
+                                    { icon: Users, label: 'PME 500k€-5M€' },
                                     { icon: Target, label: 'ROI mesurable' },
                                     { icon: Shield, label: 'Confidentialité' }
                                 ].map((item, i) => (
@@ -985,9 +985,9 @@ export default function ConsultingPage() {
                                     Selon la taille de votre entreprise et vos besoins :
                                 </p>
                                 <ul className="list-disc pl-6 space-y-2 text-slate-600">
-                                    <li><strong>PME 1-5M€</strong> : 1-2 jours/mois (focus sur trésorerie et reporting)</li>
-                                    <li><strong>PME 5-20M€</strong> : 2-3 jours/mois (+ analyse marges, optimisations)</li>
-                                    <li><strong>PME 20-100M€</strong> : 3-4 jours/mois (+ projets structurants, levées de fonds)</li>
+                                    <li><strong>PME 500k€-2M€</strong> : 1-2 jours/mois (focus sur trésorerie et reporting)</li>
+                                    <li><strong>PME 2-5M€</strong> : 2-3 jours/mois (+ analyse marges, optimisations)</li>
+                                    <li><strong>PME 5M€+</strong> : 3-4 jours/mois (+ projets structurants, levées de fonds)</li>
                                 </ul>
                             </div>
                         </motion.details>

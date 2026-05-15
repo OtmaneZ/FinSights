@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Direction Financière Externalisée PME (2M€ à 20M€) | Audit & Pilotage Stratégique - FinSight',
+    title: 'Direction Financière Externalisée PME (500k€ à 5M€) | Audit & Pilotage Stratégique - FinSight',
     description: 'Direction financière externalisée pour dirigeants PME ambitieux. Score FinSight™, audit stratégique, pilotage trésorerie 90j, agents IA. Échange stratégique 30 min offert.',
     keywords: [
         'direction financière externalisée',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     ],
     openGraph: {
         title: 'Direction Financière Externalisée | Audit & Pilotage PME | FinSight',
-        description: 'Structurez votre pilotage financier. Score FinSight™, audit stratégique, agents IA. Pour dirigeants PME de 2M€ à 20M€.',
+        description: 'Structurez votre pilotage financier. Score FinSight™, audit stratégique, agents IA. Pour dirigeants PME de 500k€ à 5M€.',
         url: 'https://finsight.zineinsight.com/consulting',
         siteName: 'FinSight',
         images: [

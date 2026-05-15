@@ -276,7 +276,7 @@ export default async function RapportPage({
         {/* Footer */}
         <div className="text-center pt-4 pb-8 border-t border-slate-800/40">
           <p className="text-xs text-slate-600">
-            FinSight · Direction Financière Externalisée pour PME 2–20M€
+            FinSight · Direction Financière Externalisée pour PME 500k€–5M€
             &nbsp;·&nbsp;
             <a href="https://finsight.zineinsight.com" className="hover:text-slate-400 transition-colors">finsight.zineinsight.com</a>
           </p>

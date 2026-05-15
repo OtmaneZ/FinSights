@@ -6,7 +6,7 @@ import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
     title: 'Notes Méthodologiques Finance | Grilles d\'Analyse DAF | FinSight',
-    description: 'Accédez aux notes méthodologiques FinSight : grilles d\'analyse financière, méthodologie 4 piliers, ratios, BFR, KPIs. Pour dirigeants de PME 1M€–20M€.',
+    description: 'Accédez aux notes méthodologiques FinSight : grilles d\'analyse financière, méthodologie 4 piliers, ratios, BFR, KPIs. Pour dirigeants de PME 500k€–5M€.',
     openGraph: {
         title: 'Notes Méthodologiques Finance | FinSight',
         description: 'Méthodologies et grilles d\'analyse pour structurer votre pilotage financier',

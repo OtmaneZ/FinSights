@@ -16,7 +16,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', weight: ['400', '500', '600', '700'] })
 
 export const metadata = {
-    title: 'FinSight | Pilotage Financier & Data pour Dirigeants PME (2M€ à 20M€)',
+    title: 'FinSight | Pilotage Financier & Data pour Dirigeants PME (500k€ à 5M€)',
     description: 'Structurez votre pilotage financier par la data. Score FinSight™ (0-100), vision cash à 90 jours, tableaux de bord Power BI et agents IA finance. Diagnostic stratégique offert.',
     keywords: ['pilotage financier data pme', 'score finsight', 'structuration financière pme', 'power bi finance pme', 'audit financier pme', 'agents ia finance', 'tableau de bord financier pme', 'anticipation trésorerie', 'consulting finance data', 'dso optimisation pme'],
     authors: [{ name: 'Otmane Boulahia', url: 'https://finsight.zineinsight.com/consulting' }],
@@ -37,7 +37,7 @@ export const metadata = {
             url: 'https://finsight.zineinsight.com/images/og-default.png',
             width: 1200,
             height: 630,
-            alt: 'FinSight - Pilotage Financier & Data pour PME 2M€-20M€'
+            alt: 'FinSight - Pilotage Financier & Data pour PME 500k€-5M€'
         }]
     },
     twitter: {
@@ -125,7 +125,7 @@ export default function RootLayout({
                                 width: 250,
                                 height: 60
                             },
-                            description: 'Expert Finance & Data pour PME de 2 à 20 M€. Score FinSight™ (0-100), structuration Power BI, audit stratégique et pilotage décisionnel par la data.',
+                            description: 'Expert Finance & Data pour PME de 500k€ à 5M€. Score FinSight™ (0-100), structuration Power BI, audit stratégique et pilotage décisionnel par la data.',
                             founder: {
                                 '@type': 'Person',
                                 name: 'Otmane Boulahia',

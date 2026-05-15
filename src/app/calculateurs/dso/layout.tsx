@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: 'Calculateur DSO Gratuit - Délai de Paiement & Cash Immobilisé | FinSight',
-    description: 'Calculez votre DSO en 30 secondes : combien de trésorerie est bloquée chez vos clients ? Benchmarks sectoriels Banque de France 2024, score FinSight, leviers pour réduire votre DSO. Outil DAF pour PME 2–20 M€.',
+    description: 'Calculez votre DSO en 30 secondes : combien de trésorerie est bloquée chez vos clients ? Benchmarks sectoriels Banque de France 2024, score FinSight, leviers pour réduire votre DSO. Outil DAF pour PME 500k€–5M€.',
     keywords: 'calculateur dso gratuit, dso calcul en ligne, simulateur calcul dso, formule dso, days sales outstanding pme, réduire dso, délai paiement clients, dso moyen secteur banque de france, créances clients pme, cash immobilisé dso',
     openGraph: {
         title: 'Calculateur DSO Gratuit - Libérez du Cash en 30 secondes | FinSight',

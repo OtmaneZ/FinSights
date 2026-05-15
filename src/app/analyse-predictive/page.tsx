@@ -153,7 +153,7 @@ export default function AnalysePredictivePage() {
                         </h2>
                         <p className="text-slate-600 leading-relaxed text-lg mb-6 text-center max-w-3xl mx-auto">
                             FinSight Advanced est un protocole de <strong>diagnostic financier prédictif</strong> conçu
-                            pour les dirigeants de PME (2–20 M€ de CA). En 7 minutes, il génère un{' '}
+                            pour les dirigeants de PME (500k€–5M€ de CA). En 7 minutes, il génère un{' '}
                             <strong>Score FinSight™ de 0 à 100</strong> en analysant 9 indicateurs financiers sur
                             4 piliers, comparés aux médianes sectorielles réelles.
                         </p>
