@@ -65,7 +65,7 @@ const faqItems = [
     {
         question: 'Quels types de PME accompagnez-vous ?',
         answer:
-            'PME de 2 à 20 M€ de chiffre d\'affaires, tous secteurs : services B2B, SaaS & Tech, commerce, industrie, BTP. L\'approche data de FinSight s\'adapte rapidement aux spécificités de chaque secteur.',
+            'PME de 500k€ à 5M€ de chiffre d\'affaires, tous secteurs : services B2B, SaaS & Tech, commerce, industrie, BTP. L\'approche data de FinSight s\'adapte rapidement aux spécificités de chaque secteur.',
     },
 ]
 
@@ -168,7 +168,7 @@ export default function TarifsPage() {
                             <span className="text-accent-primary">Un seul objectif : vous faire piloter par les chiffres.</span>
                         </h1>
                         <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
-                            Trois niveaux d&apos;accompagnement pour les PME de 2 à 20&nbsp;M€ de CA.
+                            Trois niveaux d&apos;accompagnement pour les PME de 500k€ à 5&nbsp;M€ de CA.
                             Missions ponctuelles, tarifs transparents, sans engagement récurrent.
                         </p>
 
@@ -333,25 +333,25 @@ export default function TarifsPage() {
                                 Offre Signature
                             </p>
                             <h2 className="text-2xl font-bold text-slate-900 mb-2">
-                                Diagnostic FinSight™ 90J
+                                Savoir exactement où vous en êtes
                             </h2>
                             <div className="flex items-baseline gap-1 mb-1">
                                 <span className="text-4xl font-bold text-slate-900">2&nbsp;490</span>
                                 <span className="text-slate-500">€ HT</span>
                             </div>
-                            <p className="text-sm text-slate-400 mb-6">Mission ponctuelle · 5 jours ouvrés</p>
+                            <p className="text-sm text-slate-400 mb-6">Livrable clé en main — 5 jours ouvrés</p>
 
                             <p className="text-slate-600 mb-6">
-                                Clarté stratégique complète : un état des lieux chiffré de votre santé financière avec plan d&apos;action.
+                                Vous pilotez à l&apos;instinct depuis trop longtemps. Cette mission vous donne une photographie complète et honnête de votre situation financière — avec les 3 actions à faire en priorité.
                             </p>
 
-                            <ul className="space-y-3 mb-8">
+                            <ul className="space-y-3 mb-6">
                                 {[
-                                    'Score FinSight™ 0–100 détaillé',
-                                    'Décomposition 4 piliers Cash · Marges · Résilience · Risques',
-                                    '3 leviers prioritaires chiffrés (anomalies incluses)',
-                                    'Simulation d\'impact à 90 jours',
-                                    'Restitution stratégique 60 min avec plan d\'action',
+                                    'Diagnostic complet : cash, marges, résilience, risques',
+                                    'Les 3 leviers prioritaires identifiés et chiffrés',
+                                    'Ce que vous devez faire maintenant — pas dans 6 mois',
+                                    'Simulation de l\'impact de chaque levier à 90 jours',
+                                    '1h de restitution avec plan d\'action concret',
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
                                         <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
@@ -359,6 +359,10 @@ export default function TarifsPage() {
                                     </li>
                                 ))}
                             </ul>
+
+                            <p className="text-sm italic text-slate-400 mb-8">
+                                Pour le dirigeant qui veut enfin des chiffres clairs pour prendre des décisions sereines.
+                            </p>
 
                             <a
                                 href="https://calendly.com/zineinsight/15min"
@@ -385,24 +389,23 @@ export default function TarifsPage() {
                             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
                                 Structuration &amp; Pilotage
                             </p>
-                            <h2 className="text-2xl font-bold mb-2">Audit Complet</h2>
+                            <h2 className="text-2xl font-bold mb-2">Passer de la réaction à la décision</h2>
                             <div className="flex items-baseline gap-1 mb-1">
                                 <span className="text-4xl font-bold">6&nbsp;990</span>
                                 <span className="text-gray-400">€ HT</span>
                             </div>
-                            <p className="text-sm text-gray-500 mb-6">Mission structurante · Paiement échelonnable</p>
+                            <p className="text-sm text-gray-500 mb-6">Mission structurante — paiement en 3 fois disponible</p>
 
                             <p className="text-gray-300 mb-6">
-                                Visibilité complète, arbitrages rapides, décisions structurées sur 6 mois.
+                                Vous passez votre temps à réagir aux problèmes plutôt qu&apos;à les anticiper. Cette mission vous donne un système de pilotage sur mesure — pour que vous décidiez avec des chiffres, pas avec des intuitions.
                             </p>
 
-                            <ul className="space-y-3 mb-8">
+                            <ul className="space-y-3 mb-6">
                                 {[
-                                    'Tout le Diagnostic FinSight™ 90J',
-                                    'Analyse de rentabilité réelle par activité',
-                                    'Vision trésorerie fiabilisée sur 24 mois',
-                                    'Cockpit décisionnel sur mesure',
-                                    'Modèle de rentabilité analytique',
+                                    'Tout le diagnostic initial inclus',
+                                    'Rentabilité réelle par activité — vous saurez ce qui rapporte vraiment',
+                                    'Trésorerie visible et fiabilisée à 24 mois',
+                                    'Cockpit décisionnel sur mesure — vous pilotez seul à l\'issue',
                                     'Plan d\'action chiffré sur 6 mois',
                                     'Formation 2h + 1 mois de support',
                                 ].map((item, i) => (
@@ -412,6 +415,10 @@ export default function TarifsPage() {
                                     </li>
                                 ))}
                             </ul>
+
+                            <p className="text-sm italic text-gray-500 mb-8">
+                                Pour le dirigeant qui veut anticiper, structurer, et arrêter d&apos;éteindre des incendies.
+                            </p>
 
                             <a
                                 href="https://calendly.com/zineinsight/15min"
@@ -435,23 +442,22 @@ export default function TarifsPage() {
                             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
                                 Système décisionnel
                             </p>
-                            <h2 className="text-2xl font-bold text-slate-900 mb-2">Pilotage Augmenté</h2>
+                            <h2 className="text-2xl font-bold text-slate-900 mb-2">Grandir sans perdre le contrôle</h2>
                             <div className="flex items-baseline gap-1 mb-1">
                                 <span className="text-4xl font-bold text-slate-900">12&nbsp;500</span>
                                 <span className="text-slate-500">€ HT</span>
                             </div>
-                            <p className="text-sm text-slate-400 mb-6">Accompagnement complet · 3 mois inclus</p>
+                            <p className="text-sm text-slate-400 mb-6">Accompagnement complet — 3 mois inclus</p>
 
                             <p className="text-slate-600 mb-6">
-                                Un pilotage financier autonome, fiable et durable pour prendre le contrôle de votre croissance.
+                                Vous recrutez, vous investissez, vous ouvrez de nouveaux marchés. Mais vos chiffres ne suivent plus. Cette mission vous donne un pilotage financier autonome, fiable et durable — pour que chaque décision stratégique soit prise sur une base solide.
                             </p>
 
-                            <ul className="space-y-3 mb-8">
+                            <ul className="space-y-3 mb-6">
                                 {[
-                                    'Tout l\'Audit Complet',
-                                    'Cockpit décisionnel dirigeant temps réel',
-                                    'Alertes automatiques sur anomalies clés',
-                                    'Scénarios de croissance simulés en continu',
+                                    'Tout l\'audit complet inclus',
+                                    'Cockpit temps réel avec alertes automatiques sur anomalies',
+                                    'Scénarios simulés en continu : recrutement, investissement, perte d\'un client',
                                     'Maîtrise totale des marges et du cash',
                                     'Formation équipe + 3 mois d\'accompagnement',
                                 ].map((item, i) => (
@@ -461,6 +467,10 @@ export default function TarifsPage() {
                                     </li>
                                 ))}
                             </ul>
+
+                            <p className="text-sm italic text-slate-400 mb-8">
+                                Pour le dirigeant en croissance qui veut scaler sans perdre le contrôle de ses chiffres.
+                            </p>
 
                             <a
                                 href="https://calendly.com/zineinsight/15min"
