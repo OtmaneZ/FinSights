@@ -209,22 +209,13 @@ export default function ConsultingPage() {
                                 <div className="flex flex-col gap-1">
                                     <p className="text-sm text-gray-400">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
                                     <a
-                                        href="https://calendly.com/zineinsight/15min"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                        href="#offres"
                                         className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
                                     >
-                                        <Calendar className="w-5 h-5" />
-                                        Réserver mon diagnostic offert (15 min)
+                                        <ArrowRight className="w-5 h-5" />
+                                        Voir comment ça fonctionne
                                     </a>
                                 </div>
-                                <a
-                                    href="#offres"
-                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 text-white text-lg font-semibold rounded-xl border border-white/20 transition-all duration-200"
-                                >
-                                    Voir les offres
-                                    <ArrowRight className="w-5 h-5" />
-                                </a>
                             </div>
 
                             {/* Trust */}
@@ -443,6 +434,16 @@ export default function ConsultingPage() {
                             </div>
                         </motion.div>
                     </div>
+
+                    <div className="mt-12 text-center">
+                        <Link
+                            href="/mon-diagnostic"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white font-semibold rounded-xl shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                        >
+                            Identifier mon niveau de priorité
+                            <ArrowRight className="w-5 h-5" />
+                        </Link>
+                    </div>
                 </div>
             </section>
 
@@ -552,7 +553,7 @@ export default function ConsultingPage() {
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover rounded-xl font-semibold transition-all"
                                 >
-                                    Réserver mon diagnostic offert (15 min)
+                                    Réserver un échange de 30 min
                                     <ArrowRight className="w-5 h-5" />
                                 </a>
                             </div>
@@ -843,12 +844,23 @@ export default function ConsultingPage() {
                         <p className="text-text-secondary text-sm mb-4">
                             Voir les tarifs détaillés et comparer les offres
                         </p>
-                        <Link
-                            href="/tarifs"
-                            className="inline-flex items-center gap-2 px-6 py-3 border-2 border-accent-primary/40 text-accent-primary font-semibold rounded-xl hover:bg-accent-primary/5 transition-all duration-200"
-                        >
-                            Voir les tarifs →
-                        </Link>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <a
+                                href="https://calendly.com/zineinsight/15min"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white font-semibold rounded-xl shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                            >
+                                <Calendar className="w-5 h-5" />
+                                Démarrer mon diagnostic
+                            </a>
+                            <Link
+                                href="/tarifs"
+                                className="inline-flex items-center gap-2 px-6 py-4 border-2 border-accent-primary/40 text-accent-primary font-semibold rounded-xl hover:bg-accent-primary/5 transition-all duration-200"
+                            >
+                                Voir les tarifs →
+                            </Link>
+                        </div>
                     </motion.div>
                 </div>
             </section>
@@ -1076,7 +1088,7 @@ export default function ConsultingPage() {
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
                         >
                             <Calendar className="w-5 h-5" />
-                            Réserver mon diagnostic offert (15 min)
+                            Démarrer mon diagnostic
                         </a>
                     </motion.div>
                 </div>
@@ -1116,7 +1128,7 @@ export default function ConsultingPage() {
                                 className="inline-flex items-center gap-3 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
                             >
                                 <Calendar className="w-6 h-6" />
-                                Réserver mon diagnostic offert (15 min)
+                                On échange 30 min — sans engagement
                             </a>
                             <a
                                 href="mailto:otmane@zineinsight.com"
