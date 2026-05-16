@@ -82,7 +82,7 @@ const templates: Template[] = [
     description: 'Calculez votre EBITDA mois par mois et préparez votre dossier bancaire',
     icon: PieChart,
     features: [
-      'Calcul EBITDA automatique (12 mois)',
+      'Calcul EBITDA automatique (sur une période de 12 mois)',
       'Marge EBITDA vs benchmarks secteur',
       'Ratio Dette nette / EBITDA',
       'Graphiques banque-ready',
@@ -93,14 +93,13 @@ const templates: Template[] = [
   },
   {
     id: 'tableau-flux-tresorerie',
-    title: 'Tableau de Flux de Trésorerie',
-    description: 'Construisez le troisième état financier et comprenez d\'où vient (et où part) votre cash',
+    title: 'Tableau Flux de Trésorerie',
+    description: 'Construisez le troisième état financier et comprenez le flux de votre cash',
     icon: BarChart3,
     features: [
       'Structure PCG : exploitation / investissement / financement',
       'Réconciliation résultat net vers cash automatique',
       'Calcul variation BFR intégré',
-      'Méthode indirecte prête pour le commissaire aux comptes',
       'Comparatif N vs N-1',
     ],
     downloadUrl: '/templates/excel/Tableau_Flux_Tresorerie_FinSight_2026.xlsx',
