@@ -1,11 +1,11 @@
-# agent-DAF — Écosystème d'Agents IA Financiers
+# agent-DAF - Écosystème d'Agents IA Financiers
 
 > **4 agents IA hyper-spécialisés pour DAF/CEO**
 >
-> - ✅ **TRESORIS V2** (Production - ✨ NOUVEAU) — Cash & Risque Trésorerie Prédictif
-> - 📋 **MARGIS** (Backlog P1) — Vérité sur la Rentabilité
-> - 📋 **SCORIS** (Backlog P2) — Risque Clients & Impayés
-> - 📋 **SCENARIS** (Backlog P3) — Décisions Sous Incertitude
+> - ✅ **TRESORIS V2** (Production - ✨ NOUVEAU) - Cash & Risque Trésorerie Prédictif
+> - 📋 **MARGIS** (Backlog P1) - Vérité sur la Rentabilité
+> - 📋 **SCORIS** (Backlog P2) - Risque Clients & Impayés
+> - 📋 **SCENARIS** (Backlog P3) - Décisions Sous Incertitude
 
 Chaque agent exécute **seul** un cycle autonome, produit des livrables chiffrés, et s'arrête avant la décision (100% du pouvoir chez le DAF/CEO).
 
@@ -82,7 +82,7 @@ Chaque agent exécute **seul** un cycle autonome, produit des livrables chiffré
 
 ## ✨ Fonctionnalités par agent
 
-### 🧠 TRESORIS — Cash & Risque (✅ Production)
+### 🧠 TRESORIS - Cash & Risque (✅ Production)
 
 ### ✅ Ce que fait l'Agent
 - **Se déclenche sans prompt** - Exécution autonome du workflow complet
@@ -302,4 +302,4 @@ Propriétaire - Tous droits réservés
 
 ---
 
-**Agent DAF v1.0** — *L'agent propose, le DAF décide.* 🎯
+**Agent DAF v1.0** - *L'agent propose, le DAF décide.* 🎯

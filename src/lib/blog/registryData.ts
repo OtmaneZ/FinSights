@@ -1,6 +1,6 @@
 import type { BlogArticleRegistryEntry } from './articlesRegistry'
 
-/** Données catalogue — source unique pour index, SEO et sitemap. */
+/** Données catalogue - source unique pour index, SEO et sitemap. */
 export const BLOG_REGISTRY_ENTRIES: BlogArticleRegistryEntry[] = [
     {
         slug: 'dso-dpo-dio-trois-indicateurs-tresorerie',
@@ -47,7 +47,7 @@ export const BLOG_REGISTRY_ENTRIES: BlogArticleRegistryEntry[] = [
     {
         slug: 'ia-finance-entreprise-grands-groupes-industrialisent-pme-experimentent-2026',
         title: 'L\'IA en Finance d\'entreprise : les grands groupes industrialisent, les PME expérimentent. Et toi, tu en es où ?',
-        description: 'Seulement 10% des cas d\'usage financiers sont réellement déployés en France. Ce que font les grands groupes que les PME ne font pas encore — et les 3 cas d\'usage accessibles dès maintenant.',
+        description: 'Seulement 10% des cas d\'usage financiers sont réellement déployés en France. Ce que font les grands groupes que les PME ne font pas encore - et les 3 cas d\'usage accessibles dès maintenant.',
         displayDate: '13 mai 2026',
         publishedAt: '2026-05-13',
         readTime: '6 min',

@@ -1,4 +1,4 @@
-# TRESORIS — Cash & Risque Trésorerie
+# TRESORIS - Cash & Risque Trésorerie
 
 ## Agent Central | Production ✅
 

@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     }
 
     if (record.usedAt) {
-      // Token déjà utilisé — on le laisse passer quand même (UX : déjà connecté)
+      // Token déjà utilisé - on le laisse passer quand même (UX : déjà connecté)
       // Le cookie sera reposé pour les 365j
     }
 

@@ -6,7 +6,7 @@ interface SimulateurGateProps {
 }
 
 /**
- * Server Component — affiche le contenu si le cookie sim_access est présent,
+ * Server Component - affiche le contenu si le cookie sim_access est présent,
  * sinon affiche un mur d'accès cohérent avec le design FinSight (blanc/gris, accents dorés).
  */
 export default async function SimulateurGate({ children }: SimulateurGateProps) {
@@ -36,7 +36,7 @@ export default async function SimulateurGate({ children }: SimulateurGateProps) 
       </h2>
       <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-sm mx-auto">
         Ce simulateur est réservé aux dirigeants et DAF.
-        Indiquez votre email pour recevoir un lien d&apos;accès instantané — aucun mot de passe.
+        Indiquez votre email pour recevoir un lien d&apos;accès instantané - aucun mot de passe.
       </p>
 
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3">

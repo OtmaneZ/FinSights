@@ -1,4 +1,4 @@
-# MARGIS — Vérité sur la Rentabilité
+# MARGIS - Vérité sur la Rentabilité
 
 ## Agent #2 | En Backlog 📋
 

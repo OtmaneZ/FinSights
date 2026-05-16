@@ -17,7 +17,7 @@ export default function SimulateurCoutSalariePage() {
                     <ArrowLeft className="w-4 h-4" />
                     Retour aux simulateurs
                 </Link>
-                {/* En-tête toujours visible — SEO */}
+                {/* En-tête toujours visible - SEO */}
                 <div className="mb-10">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
@@ -31,7 +31,7 @@ export default function SimulateurCoutSalariePage() {
                         Simulateur coût réel d&apos;un salarié
                     </h1>
                     <p className="text-secondary text-lg max-w-2xl">
-                        Ajustez le salaire brut et obtenez instantanément le vrai coût pour votre entreprise —
+                        Ajustez le salaire brut et obtenez instantanément le vrai coût pour votre entreprise -
                         charges patronales, mutuelle et coût annuel inclus.
                     </p>
                 </div>

@@ -112,7 +112,7 @@ export const articleBody = (
         </p>
 
         <p className="text-slate-300 leading-relaxed mb-4">
-            Connaissez votre EBITDA. Connaissez votre marge EBITDA — EBITDA divisé par votre CA. Comparez-la à
+            Connaissez votre EBITDA. Connaissez votre marge EBITDA - EBITDA divisé par votre CA. Comparez-la à
             la médiane de votre secteur. C'est l'un des premiers chiffres que je regarde quand j'interviens chez
             un dirigeant.
         </p>

@@ -28,7 +28,7 @@ const simulateurs = [
         badgeColor: 'bg-emerald-100 text-emerald-700',
         available: true,
         title: 'Coût réel d\'un salarié',
-        description: 'Entrez un salaire brut, obtenez le coût employeur réel mois par mois — charges, mutuelle, prévoyance incluses.',
+        description: 'Entrez un salaire brut, obtenez le coût employeur réel mois par mois - charges, mutuelle, prévoyance incluses.',
         tag: 'Recrutement',
         tagColor: 'bg-slate-100 text-slate-600',
         cta: 'Simuler maintenant',
@@ -173,7 +173,7 @@ export default function SimulateursPage() {
                     </h2>
                     <p className="text-secondary mb-8 max-w-xl mx-auto">
                         Ces outils donnent un ordre de grandeur. Pour une analyse précise de votre situation
-                        financière — recrutement, trésorerie, financement — échangeons 30 minutes.
+                        financière - recrutement, trésorerie, financement - échangeons 30 minutes.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link

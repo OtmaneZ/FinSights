@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Générateur du Guide PDF : "Optimisez votre Cash Flow — Guide complet pour PME"
+ * Générateur du Guide PDF : "Optimisez votre Cash Flow - Guide complet pour PME"
  * Lead magnet pour ExitIntentPopup
  *
  * Output: public/ressources/guides/guide-optimiser-cash-flow-pme.pdf
@@ -65,7 +65,7 @@ function headerBar(doc, title, pageNum, total) {
 function footerBar(doc) {
     doc.rect(0, H - 32, W, 32).fill(C.grayLight);
     doc.fillColor(C.gray).font('Helvetica').fontSize(7.5)
-        .text('© 2026 FinSight — finsight.zineinsight.com  ·  Tous droits réservés  ·  Ce guide est fourni à titre informatif.', ML, H - 20, {
+        .text('© 2026 FinSight - finsight.zineinsight.com  ·  Tous droits réservés  ·  Ce guide est fourni à titre informatif.', ML, H - 20, {
             width: CONTENT_W, align: 'center'
         });
 }
@@ -125,7 +125,7 @@ function tableRow(doc, cols, widths, y, isHeader = false, isAlt = false) {
     return y + rowH;
 }
 
-// ── PAGE 1 — Couverture ───────────────────────────────────────────────────────
+// ── PAGE 1 - Couverture ───────────────────────────────────────────────────────
 function page1(doc) {
     // Background
     doc.rect(0, 0, W, H).fill(C.dark);
@@ -164,12 +164,12 @@ function page1(doc) {
         '03  Calculer et interpréter votre BFR (avec benchmark BdF 2024)',
         '04  7 leviers actionnables pour réduire votre BFR',
         '05  Template de suivi de trésorerie 12 mois',
-        '06  Plan d\'action en 7 étapes — PME 500k€–5M€',
+        '06  Plan d\'action en 7 étapes - PME 500k€–5M€',
         '07  Benchmarks sectoriels DSO / BFR (Banque de France)',
     ];
     let y = 350;
     items.forEach(item => {
-        doc.fillColor(C.gray).font('Helvetica').fontSize(9).text('—', ML, y);
+        doc.fillColor(C.gray).font('Helvetica').fontSize(9).text('-', ML, y);
         doc.fillColor(C.white).font('Helvetica').fontSize(9).text(item, ML + 14, y, { width: 360 });
         y += 22;
     });
@@ -186,12 +186,12 @@ function page1(doc) {
     // Bottom bar
     doc.rect(0, H - 50, W, 50).fill('#060f1e');
     doc.fillColor(C.gray).font('Helvetica').fontSize(7.5)
-        .text('© 2026 FinSight — Ce guide est fourni à titre informatif et pédagogique. Les benchmarks proviennent de la Banque de France et de l\'INSEE.', ML, H - 36, {
+        .text('© 2026 FinSight - Ce guide est fourni à titre informatif et pédagogique. Les benchmarks proviennent de la Banque de France et de l\'INSEE.', ML, H - 36, {
             width: CONTENT_W, align: 'center'
         });
 }
 
-// ── PAGE 2 — Introduction + contexte ─────────────────────────────────────────
+// ── PAGE 2 - Introduction + contexte ─────────────────────────────────────────
 function page2(doc) {
     headerBar(doc, 'Introduction', 2, 15);
     footerBar(doc);
@@ -199,7 +199,7 @@ function page2(doc) {
 
     y = sectionTitle(doc, 'Pourquoi ce guide ?', y);
     y += 4;
-    y = paragraph(doc, `En France, 25 % des PME rentables déposent le bilan à cause d'un problème de trésorerie, non de rentabilité. Le cash flow n'est pas une notion comptable abstraite : c'est le pouls réel de votre entreprise. Ce guide vous donne les outils concrets pour le comprendre, le mesurer et surtout l'optimiser — sans jargon inutile.`, y);
+    y = paragraph(doc, `En France, 25 % des PME rentables déposent le bilan à cause d'un problème de trésorerie, non de rentabilité. Le cash flow n'est pas une notion comptable abstraite : c'est le pouls réel de votre entreprise. Ce guide vous donne les outils concrets pour le comprendre, le mesurer et surtout l'optimiser - sans jargon inutile.`, y);
     y += 8;
 
     // Key numbers
@@ -231,7 +231,7 @@ function page2(doc) {
         y, C.orangeLight, C.orange);
 }
 
-// ── PAGE 3 — Les 3 flux du cash flow ─────────────────────────────────────────
+// ── PAGE 3 - Les 3 flux du cash flow ─────────────────────────────────────────
 function page3(doc) {
     headerBar(doc, 'Chapitre 1 · Les 3 flux du cash flow', 3, 15);
     footerBar(doc);
@@ -242,7 +242,7 @@ function page3(doc) {
     y += 6;
 
     y = callout(doc, '📊 EXEMPLE CONCRET',
-        'PME B2B — 6 M€ CA — Résultat net : +180 k€ en T4\nMais : DSO à 62 jours → encaissements décalés de 2 mois\nRésultat : découvert bancaire de 95 k€ en janvier malgré la rentabilité.',
+        'PME B2B - 6 M€ CA - Résultat net : +180 k€ en T4\nMais : DSO à 62 jours → encaissements décalés de 2 mois\nRésultat : découvert bancaire de 95 k€ en janvier malgré la rentabilité.',
         y, C.grayLight, C.gray);
     y += 6;
 
@@ -250,7 +250,7 @@ function page3(doc) {
 
     const flows = [
         ['Cash Flow Opérationnel (CFO)', 'L\'argent généré par l\'activité courante. C\'est le plus important. Il inclut les encaissements clients, les paiements fournisseurs, les salaires et charges. Un CFO négatif sur 3 trimestres est un signal d\'alarme majeur.', C.greenLight, C.green],
-        ['Cash Flow d\'Investissement (CFI)', 'Les flux liés aux acquisitions/cessions d\'actifs (machines, logiciels, immobilier). Structurellement négatif dans une PME en croissance — c\'est normal. Attention si le CFI dépasse 40 % du CFO.', C.blueLight, C.blue],
+        ['Cash Flow d\'Investissement (CFI)', 'Les flux liés aux acquisitions/cessions d\'actifs (machines, logiciels, immobilier). Structurellement négatif dans une PME en croissance - c\'est normal. Attention si le CFI dépasse 40 % du CFO.', C.blueLight, C.blue],
         ['Cash Flow de Financement (CFF)', 'Les flux liés aux emprunts, remboursements, dividendes, augmentations de capital. À surveiller : un CFF positif chronique signifie que l\'entreprise vit de la dette pour financer son activité.', C.orangeLight, C.orange],
     ];
 
@@ -263,7 +263,7 @@ function page3(doc) {
     });
 }
 
-// ── PAGE 4 — Calculer le BFR ──────────────────────────────────────────────────
+// ── PAGE 4 - Calculer le BFR ──────────────────────────────────────────────────
 function page4(doc) {
     headerBar(doc, 'Chapitre 2 · Calculer et interpréter votre BFR', 4, 15);
     footerBar(doc);
@@ -273,13 +273,13 @@ function page4(doc) {
     // Formula box
     doc.rect(ML, y, CONTENT_W, 48).fill(C.dark);
     doc.fillColor(C.white).font('Helvetica-Bold').fontSize(14)
-        .text('BFR = Créances clients + Stocks — Dettes fournisseurs', ML + 12, y + 17, { width: CONTENT_W - 24, align: 'center' });
+        .text('BFR = Créances clients + Stocks - Dettes fournisseurs', ML + 12, y + 17, { width: CONTENT_W - 24, align: 'center' });
     y += 62;
 
     y = paragraph(doc, `Le BFR (Besoin en Fonds de Roulement) représente le besoin de financement lié au cycle d'exploitation. Un BFR positif signifie que votre entreprise doit financer l'écart entre ce qu'elle a déjà payé et ce qu'elle n'a pas encore encaissé.`, y);
     y += 6;
 
-    y = sectionTitle(doc, 'BFR en jours de CA — La mesure qui parle', y);
+    y = sectionTitle(doc, 'BFR en jours de CA - La mesure qui parle', y);
     y = paragraph(doc, 'Exprimer le BFR en jours de CA permet de comparer dans le temps et avec les benchmarks sectoriels :', y);
 
     doc.rect(ML, y, CONTENT_W, 36).fill(C.blueLight);
@@ -293,7 +293,7 @@ function page4(doc) {
     y += 6;
 
     y = sectionTitle(doc, 'Benchmarks BFR par secteur (Banque de France 2024)', y);
-    y = paragraph(doc, 'Source : Banque de France — Observatoire des entreprises, données 2024', y, { color: C.gray, size: 8 });
+    y = paragraph(doc, 'Source : Banque de France - Observatoire des entreprises, données 2024', y, { color: C.gray, size: 8 });
 
     const headers = ['Secteur', 'BFR médian (jours CA)', 'BFR P75 (alerte)', 'DSO médian'];
     const rows = [
@@ -314,9 +314,9 @@ function page4(doc) {
         y, C.orangeLight, C.orange);
 }
 
-// ── PAGE 5 — DSO ──────────────────────────────────────────────────────────────
+// ── PAGE 5 - DSO ──────────────────────────────────────────────────────────────
 function page5(doc) {
-    headerBar(doc, 'Chapitre 2 (suite) · Le DSO — Votre indicateur trésorerie n°1', 5, 15);
+    headerBar(doc, 'Chapitre 2 (suite) · Le DSO - Votre indicateur trésorerie n°1', 5, 15);
     footerBar(doc);
     let y = 70;
 
@@ -333,7 +333,7 @@ function page5(doc) {
     y += 8;
 
     y = sectionTitle(doc, 'Benchmarks DSO sectoriels (Banque de France 2024)', y);
-    y = paragraph(doc, 'Source : Observatoire des délais de paiement — Banque de France 2024', y, { color: C.gray, size: 8 });
+    y = paragraph(doc, 'Source : Observatoire des délais de paiement - Banque de France 2024', y, { color: C.gray, size: 8 });
 
     const headers = ['Secteur', 'DSO médian', 'Objectif cible', 'Niveau critique'];
     const rows = [
@@ -363,7 +363,7 @@ function page5(doc) {
     });
 }
 
-// ── PAGE 6–12 — Les 7 leviers ─────────────────────────────────────────────────
+// ── PAGE 6–12 - Les 7 leviers ─────────────────────────────────────────────────
 const LEVIERS = [
     {
         num: '01', title: 'Réduire votre DSO par une politique de recouvrement structurée',
@@ -406,7 +406,7 @@ const LEVIERS = [
     {
         num: '04', title: 'Mettre en place un prévisionnel de trésorerie 90 jours',
         gain: 'Réduction des incidents bancaires de 60 à 80 % en moyenne',
-        desc: 'Un prévisionnel de trésorerie n\'est pas une option dans une PME en croissance — c\'est la différence entre anticiper une tension et subir une crise. La règle : le voir avant qu\'il arrive.',
+        desc: 'Un prévisionnel de trésorerie n\'est pas une option dans une PME en croissance - c\'est la différence entre anticiper une tension et subir une crise. La règle : le voir avant qu\'il arrive.',
         actions: [
             'Construire un modèle de trésorerie hebdomadaire sur 13 semaines (template fourni page 11)',
             'Alimenter le modèle chaque lundi matin (30 minutes maximum)',
@@ -417,7 +417,7 @@ const LEVIERS = [
         kpi: 'KPI : Écart prévisionnel vs réel sur 4 semaines glissantes',
     },
     {
-        num: '05', title: 'Facturer rapidement — La règle des 48h',
+        num: '05', title: 'Facturer rapidement - La règle des 48h',
         gain: '-3 à -8 jours de DSO structurel = +60 à 175 k€ sur 8 M€ CA',
         desc: 'Chaque jour de retard à la facturation est un jour de crédit client gratuit non voulu. La règle : la facture part dans les 48h suivant la livraison ou la fin de prestation, sans exception.',
         actions: [
@@ -431,7 +431,7 @@ const LEVIERS = [
     {
         num: '06', title: 'Optimiser la structure de financement du cycle d\'exploitation',
         gain: 'Réduction du coût de financement de 0,5 à 1,5 % du CA',
-        desc: 'La plupart des PME utilisent le découvert bancaire comme financement de BFR — c\'est le plus cher (souvent 8–12 % annualisé). Des alternatives structurées existent.',
+        desc: 'La plupart des PME utilisent le découvert bancaire comme financement de BFR - c\'est le plus cher (souvent 8–12 % annualisé). Des alternatives structurées existent.',
         actions: [
             'Mettre en place une ligne de crédit court terme dédiée au BFR (Dailly, RCF) avant d\'en avoir besoin',
             'Évaluer l\'affacturage (factor) pour les créances > 60 jours sur clients grands comptes',
@@ -448,7 +448,7 @@ const LEVIERS = [
         actions: [
             'Définir 5 indicateurs hebdomadaires : trésorerie nette, DSO, BFR, prévisionnel 4 semaines, écart S-1',
             'Automatiser la collecte depuis le logiciel comptable (exports hebdomadaires)',
-            'Envoyer le rapport chaque lundi avant 9h — sans exception',
+            'Envoyer le rapport chaque lundi avant 9h - sans exception',
             'Mettre en place des seuils d\'alerte automatiques (ex: trésorerie < seuil critique)',
             'Analyser les écarts budget/réel mensuellement pour améliorer le modèle prévisionnel',
         ],
@@ -462,7 +462,7 @@ function pageLevierIntro(doc) {
     let y = 70;
 
     y = sectionTitle(doc, 'Vue d\'ensemble des 7 leviers', y);
-    y = paragraph(doc, `Ces 7 leviers couvrent l'ensemble du cycle de trésorerie d'une PME. Chacun est indépendant et peut être activé séparément. La priorité dépend de votre diagnostic (voir benchmarks pages 4–5). En règle générale : commencez par le levier 1 (DSO) — il offre le retour sur effort le plus rapide.`, y);
+    y = paragraph(doc, `Ces 7 leviers couvrent l'ensemble du cycle de trésorerie d'une PME. Chacun est indépendant et peut être activé séparément. La priorité dépend de votre diagnostic (voir benchmarks pages 4–5). En règle générale : commencez par le levier 1 (DSO) - il offre le retour sur effort le plus rapide.`, y);
     y += 8;
 
     LEVIERS.forEach((l, i) => {
@@ -505,7 +505,7 @@ function pageLevier(doc, levier, pageNum) {
     doc.fillColor(C.blue).font('Helvetica-Bold').fontSize(8.5).text('🎯 ' + levier.kpi, ML + 10, y + 10, { width: CONTENT_W - 20 });
 }
 
-// ── PAGE 13 — Template de suivi trésorerie ────────────────────────────────────
+// ── PAGE 13 - Template de suivi trésorerie ────────────────────────────────────
 function page13(doc) {
     headerBar(doc, 'Chapitre 4 · Template de suivi de trésorerie 12 semaines', 13, 15);
     footerBar(doc);
@@ -527,10 +527,10 @@ function page13(doc) {
 
     y = sectionTitle(doc, 'Indicateurs clés à suivre chaque semaine', y);
     const kpis = [
-        ['Trésorerie nette', 'Soldes bancaires consolidés — objectif : > seuil critique défini'],
-        ['DSO rolling 4 semaines', 'Recalculer toutes les 4 semaines — alerte si > médian secteur'],
-        ['Prévision J+28', 'Cash disponible dans 4 semaines — scénario central'],
-        ['Écart prévisionnel', 'Réel vs prévu S-1 — identifier les sources d\'erreur'],
+        ['Trésorerie nette', 'Soldes bancaires consolidés - objectif : > seuil critique défini'],
+        ['DSO rolling 4 semaines', 'Recalculer toutes les 4 semaines - alerte si > médian secteur'],
+        ['Prévision J+28', 'Cash disponible dans 4 semaines - scénario central'],
+        ['Écart prévisionnel', 'Réel vs prévu S-1 - identifier les sources d\'erreur'],
     ];
     const kpiW = [160, CONTENT_W - 160];
     y = tableRow(doc, ['Indicateur', 'Description / Règle de gestion'], kpiW, y, true);
@@ -542,7 +542,7 @@ function page13(doc) {
         y, C.blueLight, C.blue);
 }
 
-// ── PAGE 14 — Plan d'action en 7 étapes ──────────────────────────────────────
+// ── PAGE 14 - Plan d'action en 7 étapes ──────────────────────────────────────
 function page14(doc) {
     headerBar(doc, 'Chapitre 5 · Plan d\'action en 7 étapes', 14, 15);
     footerBar(doc);
@@ -577,7 +577,7 @@ function page14(doc) {
     });
 }
 
-// ── PAGE 15 — CTA final ───────────────────────────────────────────────────────
+// ── PAGE 15 - CTA final ───────────────────────────────────────────────────────
 function page15(doc) {
     // Dark background
     doc.rect(0, 0, W, H).fill(C.dark);
@@ -637,7 +637,7 @@ function page15(doc) {
 
     doc.rect(ML + 215, y, 190, 38).fillAndStroke('#0f172a', '#1e3a5f');
     doc.fillColor(C.gray).font('Helvetica').fontSize(9)
-        .text('Diagnostic en ligne — 10 min', ML + 227, y + 14, { width: 166 });
+        .text('Diagnostic en ligne - 10 min', ML + 227, y + 14, { width: 166 });
 
     y += 55;
 
@@ -653,10 +653,10 @@ function page15(doc) {
     doc.fillColor(C.white).font('Helvetica-Bold').fontSize(9).text('Outils gratuits disponibles maintenant :', ML, y);
     y += 16;
     const tools = [
-        'Calculateur DSO — finsight.zineinsight.com/calculateurs/dso',
-        'Calculateur BFR — finsight.zineinsight.com/calculateurs/bfr',
-        'Template trésorerie Excel — finsight.zineinsight.com/templates/previsionnel-tresorerie-90j',
-        'Diagnostic en ligne (10 min) — finsight.zineinsight.com/diagnostic/guide',
+        'Calculateur DSO - finsight.zineinsight.com/calculateurs/dso',
+        'Calculateur BFR - finsight.zineinsight.com/calculateurs/bfr',
+        'Template trésorerie Excel - finsight.zineinsight.com/templates/previsionnel-tresorerie-90j',
+        'Diagnostic en ligne (10 min) - finsight.zineinsight.com/diagnostic/guide',
     ];
     tools.forEach(t => {
         doc.rect(ML, y + 5, 4, 4).fill(C.blue);
@@ -667,24 +667,24 @@ function page15(doc) {
     // Footer
     doc.rect(0, H - 40, W, 40).fill('#060f1e');
     doc.fillColor(C.gray).font('Helvetica').fontSize(7)
-        .text('© 2026 FinSight — otmane@zineinsight.com — finsight.zineinsight.com  ·  Ce guide est fourni à titre informatif. Les benchmarks proviennent de la Banque de France et de l\'INSEE.', ML, H - 24, {
+        .text('© 2026 FinSight - otmane@zineinsight.com - finsight.zineinsight.com  ·  Ce guide est fourni à titre informatif. Les benchmarks proviennent de la Banque de France et de l\'INSEE.', ML, H - 24, {
             width: CONTENT_W, align: 'center'
         });
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
-    console.log('📄 Génération du guide "Optimisez votre Cash Flow — PME" ...\n');
+    console.log('📄 Génération du guide "Optimisez votre Cash Flow - PME" ...\n');
 
     const doc = new PDFDocument({
         size: 'A4',
         autoFirstPage: false,
         info: {
-            Title:    'Optimisez votre Cash Flow — Guide complet pour PME',
-            Author:   'Otmane Boulahia — FinSight',
-            Subject:  'Cash flow, BFR, DSO, trésorerie PME — 7 leviers actionnables',
+            Title:    'Optimisez votre Cash Flow - Guide complet pour PME',
+            Author:   'Otmane Boulahia - FinSight',
+            Subject:  'Cash flow, BFR, DSO, trésorerie PME - 7 leviers actionnables',
             Keywords: 'cash flow, BFR, DSO, trésorerie, PME, guide, benchmarks banque de france',
-            Creator:  'FinSight — finsight.zineinsight.com',
+            Creator:  'FinSight - finsight.zineinsight.com',
         },
         compress: true,
     });
@@ -692,38 +692,38 @@ async function main() {
     const stream = fs.createWriteStream(OUTPUT_FILE);
     doc.pipe(stream);
 
-    // Page 1 — Couverture
+    // Page 1 - Couverture
     doc.addPage({ size: 'A4', margins: { top: 0, bottom: 0, left: 0, right: 0 } });
     page1(doc);
 
-    // Page 2 — Introduction
+    // Page 2 - Introduction
     addPage(doc); page2(doc);
 
-    // Page 3 — Les 3 flux
+    // Page 3 - Les 3 flux
     addPage(doc); page3(doc);
 
-    // Page 4 — BFR
+    // Page 4 - BFR
     addPage(doc); page4(doc);
 
-    // Page 5 — DSO
+    // Page 5 - DSO
     addPage(doc); page5(doc);
 
-    // Page 6 — Vue d'ensemble leviers
+    // Page 6 - Vue d'ensemble leviers
     addPage(doc); pageLevierIntro(doc);
 
-    // Pages 7–13 — Levier par levier
+    // Pages 7–13 - Levier par levier
     LEVIERS.forEach((l, i) => {
         addPage(doc);
         pageLevier(doc, l, 7 + i);
     });
 
-    // Page 14 — Template
+    // Page 14 - Template
     addPage(doc); page13(doc);
 
-    // Page 15 — Plan d'action
+    // Page 15 - Plan d'action
     addPage(doc); page14(doc);
 
-    // Page 15 — CTA
+    // Page 15 - CTA
     addPage(doc); page15(doc);
 
     doc.end();

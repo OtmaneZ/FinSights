@@ -234,7 +234,7 @@ export default function TemplateEbitdaMensuelPage() {
                             {
                                 icon: PieChart,
                                 title: 'EBITDA automatique',
-                                description: 'Résultat net + Impôts + Intérêts + Amortissements — calculé mois par mois'
+                                description: 'Résultat net + Impôts + Intérêts + Amortissements - calculé mois par mois'
                             },
                             {
                                 icon: TrendingUp,
@@ -325,7 +325,7 @@ export default function TemplateEbitdaMensuelPage() {
                             Contenu du calculateur Excel
                         </h2>
                         <p className="text-lg text-slate-600 mb-8">
-                            Conçu pour les dirigeants de PME qui veulent parler le même langage que leur banquier —
+                            Conçu pour les dirigeants de PME qui veulent parler le même langage que leur banquier -
                             <strong> sans formation financière préalable</strong>.
                         </p>
 
@@ -451,12 +451,12 @@ export default function TemplateEbitdaMensuelPage() {
                                 {
                                     step: '2',
                                     title: 'Saisissez vos chiffres mensuels',
-                                    description: 'CA, charges, amortissements, charges financières, IS — directement depuis votre balance comptable'
+                                    description: 'CA, charges, amortissements, charges financières, IS - directement depuis votre balance comptable'
                                 },
                                 {
                                     step: '3',
                                     title: 'Entrez votre dette nette',
-                                    description: 'Emprunts bancaires en cours moins la trésorerie disponible — pour calculer le ratio bancaire clé'
+                                    description: 'Emprunts bancaires en cours moins la trésorerie disponible - pour calculer le ratio bancaire clé'
                                 },
                                 {
                                     step: '4',

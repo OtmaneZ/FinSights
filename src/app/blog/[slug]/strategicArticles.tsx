@@ -736,23 +736,23 @@ export const strategicArticles: Record<string, {
                 <p className="lead">
                     À 4 mois de la première échéance, seulement <strong>35&nbsp;% des dirigeants de TPE connaissent précisément le contenu de la réforme</strong>{' '}
                     <span className="text-slate-400 text-sm">(sondage avril 2026, francenum.gouv.fr)</span>.
-                    Les 65&nbsp;% restants ont <em>entendu parler</em> de la facturation électronique — mais ils confondent les dates, sous-estiment la première obligation,
+                    Les 65&nbsp;% restants ont <em>entendu parler</em> de la facturation électronique - mais ils confondent les dates, sous-estiment la première obligation,
                     et risquent concrètement d&apos;être bloqués dès le 1er septembre.
                 </p>
 
                 <h2>Le calendrier exact : deux dates, deux obligations bien différentes</h2>
 
                 <div className="info-box">
-                    <p><strong>1er septembre 2026 — Obligation de RÉCEPTION</strong></p>
+                    <p><strong>1er septembre 2026 - Obligation de RÉCEPTION</strong></p>
                     <p>
-                        Toutes les entreprises assujetties à la TVA en France — sans exception de taille — doivent pouvoir <strong>recevoir</strong> des factures électroniques au format structuré.
+                        Toutes les entreprises assujetties à la TVA en France - sans exception de taille - doivent pouvoir <strong>recevoir</strong> des factures électroniques au format structuré.
                         Que tu fasses 200&nbsp;000&nbsp;€ ou 5 millions de CA, cette date te concerne.
                     </p>
                     <p className="text-sm text-slate-500 mt-2">Source : economie.gouv.fr, impots.gouv.fr, service-public.fr</p>
                 </div>
 
                 <div className="info-box">
-                    <p><strong>1er septembre 2027 — Obligation d&apos;ÉMISSION</strong></p>
+                    <p><strong>1er septembre 2027 - Obligation d&apos;ÉMISSION</strong></p>
                     <p>
                         Les TPE et PME devront <strong>émettre</strong> leurs factures au format électronique via une plateforme agréée par la DGFiP.
                         Les grandes entreprises (ETI et grands groupes) avaient cette obligation dès septembre 2026 pour l&apos;émission.
@@ -760,7 +760,7 @@ export const strategicArticles: Record<string, {
                     <p className="text-sm text-slate-500 mt-2">Source : economie.gouv.fr, impots.gouv.fr, service-public.fr</p>
                 </div>
 
-                <h2>Le piège que personne ne voit — et qui te concerne dès septembre 2026</h2>
+                <h2>Le piège que personne ne voit - et qui te concerne dès septembre 2026</h2>
 
                 <p>
                     Voilà le scénario type : tu es dirigeant d&apos;une SASU de conseil ou de commerce, tu as retenu que <em>&ldquo;la facturation électronique devient obligatoire en 2027&rdquo;</em>.
@@ -823,13 +823,13 @@ export const strategicArticles: Record<string, {
                         Prends 10 minutes pour comparer 2 ou 3 plateformes selon ton secteur et ton volume. Certaines sont gratuites pour les petits volumes.
                     </li>
                     <li>
-                        <strong>Si tu utilises Pennylane, Qonto ou Sage — vérifie ton inscription</strong><br/>
+                        <strong>Si tu utilises Pennylane, Qonto ou Sage - vérifie ton inscription</strong><br/>
                         Ces trois outils sont officiellement immatriculés comme PDP par la DGFiP. Si tu es déjà client, vérifie que tu es bien inscrit sur leur <strong>module &ldquo;plateforme agréée&rdquo;</strong>, distinct de l&apos;abonnement de base.
                         En cas de doute, contacte leur support.
                     </li>
                     <li>
                         <strong>Vérifie que ton logiciel gère le format Factur-X</strong><br/>
-                        Va dans les paramètres → formats d&apos;export → Factur-X ou XML structuré. Si cette option n&apos;existe pas, <strong>commence la migration maintenant</strong> — pas en août 2026.
+                        Va dans les paramètres → formats d&apos;export → Factur-X ou XML structuré. Si cette option n&apos;existe pas, <strong>commence la migration maintenant</strong> - pas en août 2026.
                         Migrer un logiciel de facturation prend plusieurs semaines.
                     </li>
                 </ol>
@@ -842,13 +842,13 @@ export const strategicArticles: Record<string, {
                 </p>
 
                 <p>
-                    Les dirigeants qui s&apos;en sortent le mieux ne sont pas ceux qui ont le meilleur expert-comptable —
+                    Les dirigeants qui s&apos;en sortent le mieux ne sont pas ceux qui ont le meilleur expert-comptable -
                     ce sont ceux qui <strong>comprennent leur propre situation financière</strong> et anticipent ces évolutions sans attendre qu&apos;un intermédiaire les prévienne.
                 </p>
 
                 <div className="bg-slate-900 rounded-xl p-6 my-8">
                     <p className="text-white text-lg font-medium leading-relaxed">
-                        &ldquo; Anticiper ce type de réforme fait partie du pilotage financier autonome. Ce n&apos;est pas une urgence de dernière minute — c&apos;est une case à cocher dans ton tableau de bord. &rdquo;
+                        &ldquo; Anticiper ce type de réforme fait partie du pilotage financier autonome. Ce n&apos;est pas une urgence de dernière minute - c&apos;est une case à cocher dans ton tableau de bord. &rdquo;
                     </p>
                 </div>
 

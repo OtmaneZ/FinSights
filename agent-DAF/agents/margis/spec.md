@@ -1,4 +1,4 @@
-# MARGIS — Spécifications Techniques
+# MARGIS - Spécifications Techniques
 
 ## Vision
 Analyser la rentabilité réelle par produit, service et client, puis proposer des arbitrages pour optimiser les marges.

@@ -31,7 +31,7 @@ async function createBudgetPrevisionnel() {
     // 🎨 TITRE PRINCIPAL VISUEL (ligne 1)
     sheet.mergeCells('A1:F1');
     const titleCell = sheet.getCell('A1');
-    titleCell.value = 'BUDGET PRÉVISIONNEL 2025 — TEMPLATE PME';
+    titleCell.value = 'BUDGET PRÉVISIONNEL 2025 - TEMPLATE PME';
     titleCell.font = { bold: true, size: 16, color: { argb: 'FFFFFFFF' } };
     titleCell.fill = {
         type: 'pattern',

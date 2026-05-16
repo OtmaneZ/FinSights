@@ -139,7 +139,7 @@ export default function AgentsPage() {
                 href="#notify"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
               >
-                Être notifié à l&apos;ouverture — fin août 2026
+                Être notifié à l&apos;ouverture - fin août 2026
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a
@@ -1041,7 +1041,7 @@ export default function AgentsPage() {
                 href="#notify"
                 className="flex items-center justify-center gap-2 w-full py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300"
               >
-                Être notifié à l&apos;ouverture — fin août 2026
+                Être notifié à l&apos;ouverture - fin août 2026
                 <ArrowRight className="w-5 h-5" />
               </a>
             </div>
@@ -1080,7 +1080,7 @@ export default function AgentsPage() {
               href="#notify"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all duration-300 shadow-lg shadow-accent-primary/25"
             >
-              Être notifié à l&apos;ouverture — fin août 2026
+              Être notifié à l&apos;ouverture - fin août 2026
               <ArrowRight className="w-5 h-5" />
             </a>
           </motion.div>
@@ -1102,7 +1102,7 @@ export default function AgentsPage() {
               <span className="text-sm text-accent-primary font-medium">Accès prioritaire</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
-              Accès prioritaire dès l&apos;ouverture — fin août 2026
+              Accès prioritaire dès l&apos;ouverture - fin août 2026
             </h2>
             <p className="text-slate-500 mb-8">
               Inscrivez-vous maintenant pour être parmi les premiers notifiés et bénéficier 

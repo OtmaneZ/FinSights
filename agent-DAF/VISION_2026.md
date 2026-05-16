@@ -1,4 +1,4 @@
-# 🚀 TRESORIS — Vision Powerhouse 2026
+# 🚀 TRESORIS - Vision Powerhouse 2026
 
 ## État Actuel (Janvier 2026)
 
@@ -12,7 +12,7 @@
 
 ---
 
-## 🎯 Vision Powerhouse — En 1 an
+## 🎯 Vision Powerhouse - En 1 an
 
 **L'agent financier le plus impressionnant pour PME :**
 - Maîtrise **complète** de la finance d'entreprise
@@ -25,9 +25,9 @@
 
 ## 📊 Roadmap détaillée (par trimestre)
 
-### Q1 2026 (Janvier-Mars) — FOUNDATION LAYER
+### Q1 2026 (Janvier-Mars) - FOUNDATION LAYER
 
-#### 1.1 Finance Engine — Advanced Calculations
+#### 1.1 Finance Engine - Advanced Calculations
 
 **Priorité :** P0 (foundation)  
 **Effort :** 4 semaines  
@@ -74,7 +74,7 @@ def get_warning_level(ratio_name, value):
 
 ---
 
-#### 1.2 Forecast Engine — Advanced Projections
+#### 1.2 Forecast Engine - Advanced Projections
 
 **Priorité :** P0  
 **Effort :** 4 semaines  
@@ -187,7 +187,7 @@ def score_risk(self, risk):
 
 ---
 
-### Q2 2026 (Avril-Juin) — LEARNING LAYER
+### Q2 2026 (Avril-Juin) - LEARNING LAYER
 
 #### 2.1 Auto-Learning des Seuils
 
@@ -332,7 +332,7 @@ class PaymentPredictor:
 
 ---
 
-### Q3 2026 (Juillet-Septembre) — ADVANCED ANALYTICS
+### Q3 2026 (Juillet-Septembre) - ADVANCED ANALYTICS
 
 #### 3.1 Scenario Analysis & Stress Testing
 
@@ -495,7 +495,7 @@ def sensitivity_analysis(self):
 
 ---
 
-### Q4 2026 (Octobre-Décembre) — MASTERY LAYER
+### Q4 2026 (Octobre-Décembre) - MASTERY LAYER
 
 #### 4.1 Advanced Financial Models
 

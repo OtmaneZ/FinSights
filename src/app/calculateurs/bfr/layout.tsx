@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur BFR Gratuit — Besoin en Fonds de Roulement en 1 minute | FinSight',
+    title: 'Calculateur BFR Gratuit - Besoin en Fonds de Roulement en 1 minute | FinSight',
     description: 'Calculez votre BFR en 1 minute : stocks + créances – dettes fournisseurs. Interprétation automatique, benchmark sectoriel inclus. Rapport PDF offert.',
     keywords: 'calculateur bfr 2026, analyse bfr, besoin fonds roulement pme, bfr formule, bfr négatif, optimiser bfr, trésorerie pme, working capital, cash immobilisé, pré-diagnostic financier, bfr pme',
     openGraph: {

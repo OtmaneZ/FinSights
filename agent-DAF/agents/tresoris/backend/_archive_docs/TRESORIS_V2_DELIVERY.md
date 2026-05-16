@@ -100,7 +100,7 @@ priority = impact×0.7 + ease×0.3
 | 4 | client_scoring.py | 502 | ✅ | 23/01 |
 | 5 | action_optimizer.py | 513 | ✅ | 23/01 |
 | 6 | seasonality.py | 186 | ✅ | 23/01 |
-| 7 | Intégration risk_agent.py | — | ✅ | 23/01 |
+| 7 | Intégration risk_agent.py | - | ✅ | 23/01 |
 | 8 | Tests efficacité | 529 | ✅ | 24/01 |
 | 9 | Documentation | 2100+ | ✅ | 24/01 |
 

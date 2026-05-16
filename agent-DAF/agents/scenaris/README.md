@@ -1,4 +1,4 @@
-# SCENARIS — Décisions Sous Incertitude
+# SCENARIS - Décisions Sous Incertitude
 
 ## Agent #4 | En Backlog 📋
 

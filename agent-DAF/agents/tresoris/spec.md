@@ -1,4 +1,4 @@
-# TRESORIS — Spécifications Techniques
+# TRESORIS - Spécifications Techniques
 
 ## Vision
 Surveiller la trésorerie en continu, requalifier les risques (26 situations → 2-5 vrais risques), proposer des décisions cash prioritaires.

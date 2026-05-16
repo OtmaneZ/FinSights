@@ -1,4 +1,4 @@
-# SCENARIS — Spécifications Techniques
+# SCENARIS - Spécifications Techniques
 
 ## Vision
 Générer et comparer des scénarios financiers (optimiste, réaliste, pessimiste) pour éclairer décisions stratégiques.

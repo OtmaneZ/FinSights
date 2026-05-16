@@ -29,7 +29,7 @@ export default function AgentsWaitlistForm() {
         body: JSON.stringify({
           email: trimmed,
           source: 'agents_waitlist',
-          leadMagnet: 'Agents IA Finance — Accès prioritaire fin août 2026',
+          leadMagnet: 'Agents IA Finance - Accès prioritaire fin août 2026',
         }),
       })
 

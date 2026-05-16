@@ -258,7 +258,7 @@ export default function CalculateurBFR() {
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
                                 Calculez votre BFR en 1 minute
                                 <span className="block text-accent-primary mt-2">
-                                    — et libérez du cash
+                                    - et libérez du cash
                                 </span>
                             </h1>
 

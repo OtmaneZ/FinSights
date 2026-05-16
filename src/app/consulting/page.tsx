@@ -512,7 +512,7 @@ export default function ConsultingPage() {
                                 <p>
                                     Master en finance. Certification data analyst Le Wagon. Des années à construire des outils,
                                     à lire des données, à traduire des chiffres en décisions concrètes. Pas pour faire de la
-                                    comptabilité — pour donner aux dirigeants ce que personne ne leur donne vraiment :{' '}
+                                    comptabilité - pour donner aux dirigeants ce que personne ne leur donne vraiment :{' '}
                                     <span className="text-white font-semibold">une vision claire de là où ils en sont, et de là où ils vont.</span>
                                 </p>
                                 <p>
@@ -752,13 +752,13 @@ export default function ConsultingPage() {
                         >
                             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Offre Signature</p>
                             <h3 className="text-2xl font-bold text-text-primary mb-2">Savoir exactement où vous en êtes</h3>
-                            <p className="text-text-secondary mb-6">Livrable clé en main — 5 jours ouvrés.</p>
+                            <p className="text-text-secondary mb-6">Livrable clé en main - 5 jours ouvrés.</p>
 
                             <ul className="space-y-3 mb-4">
                                 {[
                                     'Diagnostic complet : cash, marges, résilience, risques',
                                     'Les 3 leviers prioritaires identifiés et chiffrés',
-                                    'Ce que vous devez faire maintenant — pas dans 6 mois',
+                                    'Ce que vous devez faire maintenant - pas dans 6 mois',
                                     'Simulation de l\'impact de chaque levier à 90 jours',
                                     '1h de restitution avec plan d\'action concret'
                                 ].map((item, i) => (
@@ -784,14 +784,14 @@ export default function ConsultingPage() {
                             </div>
                             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Structuration &amp; Pilotage</p>
                             <h3 className="text-2xl font-bold mb-2">Passer de la réaction à la décision</h3>
-                            <p className="text-gray-300 mb-6">Vous passez votre temps à réagir aux problèmes plutôt qu&apos;à les anticiper. Cette mission vous donne un système de pilotage sur mesure — pour que vous décidiez avec des chiffres, pas avec des intuitions.</p>
+                            <p className="text-gray-300 mb-6">Vous passez votre temps à réagir aux problèmes plutôt qu&apos;à les anticiper. Cette mission vous donne un système de pilotage sur mesure - pour que vous décidiez avec des chiffres, pas avec des intuitions.</p>
 
                             <ul className="space-y-3 mb-4">
                                 {[
                                     'Tout le diagnostic initial inclus',
-                                    'Rentabilité réelle par activité — vous saurez ce qui rapporte vraiment',
+                                    'Rentabilité réelle par activité - vous saurez ce qui rapporte vraiment',
                                     'Trésorerie visible et fiabilisée à 24 mois',
-                                    'Cockpit décisionnel sur mesure — vous pilotez seul à l\'issue',
+                                    'Cockpit décisionnel sur mesure - vous pilotez seul à l\'issue',
                                     'Plan d\'action chiffré sur 6 mois',
                                     'Formation 2h + 1 mois de support'
                                 ].map((item, i) => (
@@ -814,7 +814,7 @@ export default function ConsultingPage() {
                         >
                             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Système décisionnel</p>
                             <h3 className="text-2xl font-bold text-text-primary mb-2">Grandir sans perdre le contrôle</h3>
-                            <p className="text-text-secondary mb-6">Vous recrutez, vous investissez, vous ouvrez de nouveaux marchés. Mais vos chiffres ne suivent plus. Cette mission vous donne un pilotage financier autonome, fiable et durable — pour que chaque décision stratégique soit prise sur une base solide.</p>
+                            <p className="text-text-secondary mb-6">Vous recrutez, vous investissez, vous ouvrez de nouveaux marchés. Mais vos chiffres ne suivent plus. Cette mission vous donne un pilotage financier autonome, fiable et durable - pour que chaque décision stratégique soit prise sur une base solide.</p>
 
                             <ul className="space-y-3 mb-4">
                                 {[
@@ -1128,7 +1128,7 @@ export default function ConsultingPage() {
                                 className="inline-flex items-center gap-3 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
                             >
                                 <Calendar className="w-6 h-6" />
-                                On échange 30 min — sans engagement
+                                On échange 30 min - sans engagement
                             </a>
                             <a
                                 href="mailto:otmane@zineinsight.com"

@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Agents IA Finance pour PME — Trésorerie, Marges et Scénarios 24h/24 | FinSight',
+    title: 'Agents IA Finance pour PME - Trésorerie, Marges et Scénarios 24h/24 | FinSight',
     description: 'Surveillez votre trésorerie, marges et scénarios avec des agents IA autonomes. Disponible fin août 2026. Inscrivez-vous pour être notifié en priorité.',
     keywords: [
         'agent ia finance',

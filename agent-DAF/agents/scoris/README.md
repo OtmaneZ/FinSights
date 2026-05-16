@@ -1,4 +1,4 @@
-# SCORIS — Risque Clients & Impayés
+# SCORIS - Risque Clients & Impayés
 
 ## Agent #3 | En Backlog 📋
 

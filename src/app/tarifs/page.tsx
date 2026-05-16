@@ -339,17 +339,17 @@ export default function TarifsPage() {
                                 <span className="text-4xl font-bold text-slate-900">2&nbsp;490</span>
                                 <span className="text-slate-500">€ HT</span>
                             </div>
-                            <p className="text-sm text-slate-400 mb-6">Livrable clé en main — 5 jours ouvrés</p>
+                            <p className="text-sm text-slate-400 mb-6">Livrable clé en main - 5 jours ouvrés</p>
 
                             <p className="text-slate-600 mb-6">
-                                Vous pilotez à l&apos;instinct depuis trop longtemps. Cette mission vous donne une photographie complète et honnête de votre situation financière — avec les 3 actions à faire en priorité.
+                                Vous pilotez à l&apos;instinct depuis trop longtemps. Cette mission vous donne une photographie complète et honnête de votre situation financière - avec les 3 actions à faire en priorité.
                             </p>
 
                             <ul className="space-y-3 mb-6">
                                 {[
                                     'Diagnostic complet : cash, marges, résilience, risques',
                                     'Les 3 leviers prioritaires identifiés et chiffrés',
-                                    'Ce que vous devez faire maintenant — pas dans 6 mois',
+                                    'Ce que vous devez faire maintenant - pas dans 6 mois',
                                     'Simulation de l\'impact de chaque levier à 90 jours',
                                     '1h de restitution avec plan d\'action concret',
                                 ].map((item, i) => (
@@ -394,18 +394,18 @@ export default function TarifsPage() {
                                 <span className="text-4xl font-bold">6&nbsp;990</span>
                                 <span className="text-gray-400">€ HT</span>
                             </div>
-                            <p className="text-sm text-gray-500 mb-6">Mission structurante — paiement en 3 fois disponible</p>
+                            <p className="text-sm text-gray-500 mb-6">Mission structurante - paiement en 3 fois disponible</p>
 
                             <p className="text-gray-300 mb-6">
-                                Vous passez votre temps à réagir aux problèmes plutôt qu&apos;à les anticiper. Cette mission vous donne un système de pilotage sur mesure — pour que vous décidiez avec des chiffres, pas avec des intuitions.
+                                Vous passez votre temps à réagir aux problèmes plutôt qu&apos;à les anticiper. Cette mission vous donne un système de pilotage sur mesure - pour que vous décidiez avec des chiffres, pas avec des intuitions.
                             </p>
 
                             <ul className="space-y-3 mb-6">
                                 {[
                                     'Tout le diagnostic initial inclus',
-                                    'Rentabilité réelle par activité — vous saurez ce qui rapporte vraiment',
+                                    'Rentabilité réelle par activité - vous saurez ce qui rapporte vraiment',
                                     'Trésorerie visible et fiabilisée à 24 mois',
-                                    'Cockpit décisionnel sur mesure — vous pilotez seul à l\'issue',
+                                    'Cockpit décisionnel sur mesure - vous pilotez seul à l\'issue',
                                     'Plan d\'action chiffré sur 6 mois',
                                     'Formation 2h + 1 mois de support',
                                 ].map((item, i) => (
@@ -447,10 +447,10 @@ export default function TarifsPage() {
                                 <span className="text-4xl font-bold text-slate-900">12&nbsp;500</span>
                                 <span className="text-slate-500">€ HT</span>
                             </div>
-                            <p className="text-sm text-slate-400 mb-6">Accompagnement complet — 3 mois inclus</p>
+                            <p className="text-sm text-slate-400 mb-6">Accompagnement complet - 3 mois inclus</p>
 
                             <p className="text-slate-600 mb-6">
-                                Vous recrutez, vous investissez, vous ouvrez de nouveaux marchés. Mais vos chiffres ne suivent plus. Cette mission vous donne un pilotage financier autonome, fiable et durable — pour que chaque décision stratégique soit prise sur une base solide.
+                                Vous recrutez, vous investissez, vous ouvrez de nouveaux marchés. Mais vos chiffres ne suivent plus. Cette mission vous donne un pilotage financier autonome, fiable et durable - pour que chaque décision stratégique soit prise sur une base solide.
                             </p>
 
                             <ul className="space-y-3 mb-6">
@@ -736,7 +736,7 @@ export default function TarifsPage() {
                             Passez à l&apos;action
                         </span>
                         <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                            Commencez par 30 minutes —{' '}
+                            Commencez par 30 minutes -{' '}
                             <span className="text-accent-primary">sans engagement</span>
                         </h2>
                         <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">

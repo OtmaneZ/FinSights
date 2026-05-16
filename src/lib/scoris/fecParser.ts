@@ -90,7 +90,7 @@ export interface FECWizardData {
   bfr: { value: number; inputs: { stocks: number; creances: number; dettes: number; ca: number } }
   /** Marge brute (approximée) */
   marge: { value: number; inputs: { prixVente: number; coutRevient: number } }
-  /** EBITDA — approximation FEC (CA − charges exploitation), cohérente avec la formule canonique add-back */
+  /** EBITDA - approximation FEC (CA − charges exploitation), cohérente avec la formule canonique add-back */
   ebitda: { value: number; inputs: { ca: number; charges: number } }
   /** Burn Rate (charges mensuelles) */
   burnRate: { value: number; inputs: { depensesMensuelles: number } }
@@ -683,7 +683,7 @@ function computeWizardData(data: FECExtractedData): {
   const prixVente = 100
   const coutRevient = Math.round(100 - Math.max(0, margeClamped))
 
-  // ── EBITDA — Approximation FEC : CA − charges exploitation (cohérente avec la formule canonique add-back)
+  // ── EBITDA - Approximation FEC : CA − charges exploitation (cohérente avec la formule canonique add-back)
   const ebitdaValue = data.ca - data.chargesExploitation
   if (data.chargesExploitation === 0) warnings.push('Aucune charge d\'exploitation détectée (classe 6)')
 

@@ -1,5 +1,5 @@
 /**
- * Template email Magic Link — Accès Simulateurs FinSight
+ * Template email Magic Link - Accès Simulateurs FinSight
  */
 
 export function buildMagicLinkEmail(magicUrl: string, email: string): { subject: string; html: string } {

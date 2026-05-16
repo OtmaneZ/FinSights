@@ -1,4 +1,4 @@
-# SCORIS — Spécifications Techniques
+# SCORIS - Spécifications Techniques
 
 ## Vision
 Scorer chaque client (0-100) selon probabilité de payer à temps, et alerter sur risques d'impayés.

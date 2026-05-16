@@ -86,7 +86,7 @@ if (BLOG_ARTICLE_REGISTRY.length !== registrySlugs.size) {
 }
 
 if (!failed) {
-    ok(`${registrySlugs.size} articles — registre, SEO et contenu alignés`)
+    ok(`${registrySlugs.size} articles - registre, SEO et contenu alignés`)
 }
 
 process.exit(failed ? 1 : 0)

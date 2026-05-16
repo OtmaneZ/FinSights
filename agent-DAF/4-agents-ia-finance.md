@@ -23,9 +23,9 @@ Voici les **3 autres agents** qui complètent l'arsenal du DAF/CEO moderne.
 
 ---
 
-## 🧠 1. TRESORIS — Cash & Risque Trésorerie
+## 🧠 1. TRESORIS - Cash & Risque Trésorerie
 
-### Agent central — Non négociable
+### Agent central - Non négociable
 
 **Question posée :** "Est-ce que je vais me prendre un mur de cash sans le voir venir ?"
 
@@ -54,7 +54,7 @@ Surveiller la trésorerie en continu, requalifier les risques (26 situations →
 
 ---
 
-## 💰 2. MARGIS — Vérité sur la Rentabilité
+## 💰 2. MARGIS - Vérité sur la Rentabilité
 
 ### Agent de lucidité économique
 
@@ -85,7 +85,7 @@ Analyser la rentabilité réelle par produit, service et client, puis proposer d
 **Exemple concret**
 
 ```
-Analyse MARGIS — 23 janvier 2026
+Analyse MARGIS - 23 janvier 2026
 
 📊 Produits analysés : 18
 📉 Produits déficitaires : 3 (12% du CA)
@@ -116,7 +116,7 @@ Impact attendu : +27 200 €/an ou réaffectation 340h
 
 ---
 
-## 🧾 3. SCORIS — Risque Clients & Impayés
+## 🧾 3. SCORIS - Risque Clients & Impayés
 
 ### Agent de sécurité cash
 
@@ -144,7 +144,7 @@ Scorer chaque client (0-100) selon sa probabilité de payer à temps, et alerter
 **Exemple concret**
 
 ```
-Alerte SCORIS — 23 janvier 2026
+Alerte SCORIS - 23 janvier 2026
 
 🚨 Client "Pharma Solutions SAS"
 • Score actuel : 38/100 (était 72 il y a 3 mois)
@@ -175,7 +175,7 @@ Probabilité d'impayé : 62%
 
 ---
 
-## 🔮 4. SCENARIS — Décisions Sous Incertitude
+## 🔮 4. SCENARIS - Décisions Sous Incertitude
 
 ### Agent stratégique
 
@@ -205,7 +205,7 @@ Générer et comparer des scénarios financiers (optimiste, réaliste, pessimist
 **Exemple concret**
 
 ```
-Simulation SCENARIS — Recrutement 2026
+Simulation SCENARIS - Recrutement 2026
 
 Question : Recruter 2 ou 3 commerciaux en T1 ?
 
@@ -247,7 +247,7 @@ Question : Recruter 2 ou 3 commerciaux en T1 ?
 
 ## Agents Écartés Volontairement (et Pourquoi)
 
-### ❌ BUDGETIS — Analyse Écarts Budget vs. Réel
+### ❌ BUDGETIS - Analyse Écarts Budget vs. Réel
 
 **Pourquoi écarté :**
 - Utile, mais trop "contrôle"
@@ -258,7 +258,7 @@ Question : Recruter 2 ou 3 commerciaux en T1 ?
 
 ---
 
-### ❌ INVESTIS — Évaluation ROI Investissements
+### ❌ INVESTIS - Évaluation ROI Investissements
 
 **Pourquoi écarté :**
 - Très bon, mais **trop situationnel**

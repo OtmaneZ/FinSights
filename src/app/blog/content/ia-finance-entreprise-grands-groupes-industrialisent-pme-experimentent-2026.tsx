@@ -97,7 +97,7 @@ export const articleBody = (
                         </div>
                     </div>
 
-                    {/* Section 3 — ROI */}
+                    {/* Section 3 - ROI */}
                     <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-4">
                         Le ROI réel, pas celui des plaquettes commerciales
                     </h2>
@@ -128,7 +128,7 @@ export const articleBody = (
                     <p>Le reste, c&apos;est du bruit.</p>
 
                     <p className="text-xs text-slate-400 mt-8">
-                        Sources : KPMG Trends of AI 2026 (356 décideurs français), BPI France (1&nbsp;200 dirigeants PME et ETI), Denis Atlan — analyse de 200 projets IA en PME françaises 2022-2025.
+                        Sources : KPMG Trends of AI 2026 (356 décideurs français), BPI France (1&nbsp;200 dirigeants PME et ETI), Denis Atlan - analyse de 200 projets IA en PME françaises 2022-2025.
                     </p>
 
                 </div>
