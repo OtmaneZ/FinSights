@@ -502,16 +502,21 @@ export default function ConsultingPage() {
 
                             <div className="space-y-4 text-gray-300 leading-relaxed">
                                 <p>
-                                    <span className="text-white font-semibold">+10 ans d&apos;expérience</span> en finance d&apos;entreprise et data analyse.
-                                    Master en Finance, certification Data Analyst, enseignant en Sciences Économiques.
+                                    10 ans à enseigner l&apos;économie. À chercher comment rendre un bilan lisible,
+                                    un ratio parlant, une décision financière évidente pour quelqu&apos;un qui n&apos;a pas fait de finance.
                                 </p>
                                 <p>
-                                    J&apos;ai fondé ZineInsights avec une conviction : trop de dirigeants prennent des décisions
-                                    stratégiques sur des données incomplètes ou en retard.
+                                    À un moment, cette obsession de la clarté ne tenait plus dans une salle de classe.
                                 </p>
                                 <p>
-                                    Ma mission est de transformer vos données financières en{' '}
-                                    <span className="text-accent-primary font-semibold">avantage concurrentiel mesurable</span>.
+                                    Master en finance. Certification data analyst Le Wagon. Des années à construire des outils,
+                                    à lire des données, à traduire des chiffres en décisions concrètes. Pas pour faire de la
+                                    comptabilité — pour donner aux dirigeants ce que personne ne leur donne vraiment :{' '}
+                                    <span className="text-white font-semibold">une vision claire de là où ils en sont, et de là où ils vont.</span>
+                                </p>
+                                <p>
+                                    J&apos;interviens, je construis votre outil de pilotage financier, je vous explique ce qu&apos;il dit.
+                                    Et je repars en laissant quelque chose qui tourne sans moi.
                                 </p>
                             </div>
 
