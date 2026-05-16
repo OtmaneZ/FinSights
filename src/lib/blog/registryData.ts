@@ -3,6 +3,20 @@ import type { BlogArticleRegistryEntry } from './articlesRegistry'
 /** Données catalogue — source unique pour index, SEO et sitemap. */
 export const BLOG_REGISTRY_ENTRIES: BlogArticleRegistryEntry[] = [
     {
+        slug: 'ebitda-vs-resultat-net-banquier',
+        title: 'EBITDA vs résultat net : pourquoi votre banquier s\'en fiche d\'un et pas de l\'autre',
+        description: 'Votre expert-comptable vous montre un résultat net positif. Votre banquier, lui, regarde autre chose. Ce décalage coûte des refus de crédit et des négociations ratées.',
+        displayDate: '16 mai 2026',
+        publishedAt: '2026-05-16',
+        readTime: '5 min',
+        category: 'Note Stratégique',
+        tags: ['EBITDA', 'Résultat net', 'Banque', 'Financement', 'PME'],
+        keywords: ['ebitda', 'résultat net', 'dette nette ebitda', 'financement pme', 'ratio bancaire', 'banquier pme'],
+        featured: true,
+        image: '/images/bureau-nuit.png',
+        type: 'strategique'
+    },
+    {
         slug: 'pge-dso-double-pression-tresorerie-2026',
         title: 'Remboursement PGE + DSO qui s\'allonge : le double étau de trésorerie des PME en 2026',
         description: 'Deux pressions distinctes s\'exercent simultanément sur la trésorerie des PME françaises. L\'une vient de l\'intérieur - les PGE arrivent à échéance. L\'autre vient de l\'extérieur - les clients paient de plus en plus tard.',
