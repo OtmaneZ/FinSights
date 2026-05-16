@@ -1,17 +1,16 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
-import { FileSpreadsheet, TrendingUp, ArrowRight, Zap, RefreshCw, GraduationCap } from 'lucide-react'
+import { FileSpreadsheet, Zap, RefreshCw, GraduationCap } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import TemplatesResourceCards from '@/components/ressources/TemplatesResourceCards'
 import FadeIn, { StaggerContainer, StaggerItem } from '@/components/ui/FadeIn'
 
 export const metadata: Metadata = {
-    title: 'Templates Excel Gratuits Finance | Budget, DSO, Cash Flow | FinSight',
-    description: 'Téléchargez gratuitement nos templates Excel professionnels : Budget prévisionnel 2026, Tracker DSO, Dashboard Cash Flow. Prêts à l\'emploi avec formules automatiques.',
+    title: 'Templates Excel Gratuits Finance | Budget, DSO, Cash Flow, Trésorerie | FinSight',
+    description: 'Téléchargez gratuitement nos 5 templates Excel professionnels : Budget prévisionnel 2026, Tracker DSO, Dashboard Cash Flow, Prévisionnel Trésorerie 90j, Plan de Financement 3 ans. Prêts à l\'emploi avec formules automatiques.',
     openGraph: {
-        title: 'Templates Excel Gratuits pour Dirigeants PME | FinSight',
-        description: '3 templates Excel professionnels gratuits pour piloter votre PME',
+        title: '5 Templates Excel Gratuits pour Dirigeants PME | FinSight',
+        description: '5 templates Excel professionnels gratuits pour piloter votre PME',
         type: 'website'
     }
 }
@@ -31,12 +30,12 @@ export default function TemplatesPage() {
                         </div>
 
                         <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.1] text-gray-900 mb-6">
-                            3 Templates Excel pour Piloter<br />
+                            5 Templates Excel pour Piloter<br />
                             <span className="text-accent-primary">votre PME immédiatement</span>
                         </h1>
 
                         <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto mb-6">
-                            3 fichiers Excel prêts à l&apos;emploi avec formules automatiques,
+                            5 fichiers Excel prêts à l&apos;emploi avec formules automatiques,
                             graphiques intégrés et compatibles import FinSight
                         </p>
 
@@ -115,48 +114,7 @@ export default function TemplatesPage() {
                 </div>
             </section>
 
-            {/* ── Section 4 - Prévisionnel 90j (bg-gray-50) ── */}
-            <section className="bg-gray-50 py-14">
-                <div className="max-w-5xl mx-auto px-6">
-                    <FadeIn>
-                        <div className="bg-gray-50 rounded-2xl border border-gray-200 shadow-sm p-8 flex flex-col md:flex-row items-center gap-6">
-                            <div className="flex-shrink-0">
-                                <div className="w-14 h-14 rounded-xl bg-white border border-gray-200 shadow-sm flex items-center justify-center">
-                                    <TrendingUp className="w-7 h-7 text-gray-700" />
-                                </div>
-                            </div>
-                            <div className="flex-1 text-center md:text-left">
-                                <div className="flex items-center gap-2 mb-2 justify-center md:justify-start">
-                                    <span className="px-2.5 py-0.5 bg-accent-primary/10 text-accent-primary text-xs font-medium rounded-full">
-                                        Nouveau
-                                    </span>
-                                </div>
-                                <h3 className="font-serif text-2xl font-medium text-gray-900 mb-2">
-                                    Prévisionnel Trésorerie 90 jours
-                                </h3>
-                                <p className="text-gray-500 text-sm leading-relaxed mb-1">
-                                    Anticipez vos besoins de trésorerie avec un fichier Excel complet :
-                                    encaissements, décaissements, graphiques automatiques et alertes conditionnelles.
-                                </p>
-                                <p className="text-sm text-gray-700 font-semibold">
-                                    ⚡ Le template le plus demandé par les dirigeants PME
-                                </p>
-                            </div>
-                            <div className="flex-shrink-0">
-                                <Link
-                                    href="/templates/previsionnel-tresorerie-90j"
-                                    className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-gray-900 text-white font-semibold text-sm tracking-wide border border-gray-800 shadow-sm hover:bg-gray-800 transition-all duration-200 whitespace-nowrap"
-                                >
-                                    Télécharger ce template
-                                    <ArrowRight className="w-4 h-4" />
-                                </Link>
-                            </div>
-                        </div>
-                    </FadeIn>
-                </div>
-            </section>
-
-            {/* ── Section 5 - FAQ (bg-white) ── */}
+            {/* ── Section 4 - FAQ (bg-white) ── */}
             <section className="bg-white py-20">
                 <div className="max-w-3xl mx-auto px-6">
                     <FadeIn className="text-center mb-12">

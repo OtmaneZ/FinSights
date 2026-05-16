@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, FileSpreadsheet, TrendingUp, DollarSign, BarChart3, Check } from 'lucide-react'
+import { Download, FileSpreadsheet, TrendingUp, DollarSign, BarChart3, Check, Clock, PieChart } from 'lucide-react'
 import TemplateDownloadModal, { type TemplateSlug } from '@/components/TemplateDownloadModal'
 import { StaggerContainer, StaggerItem } from '@/components/ui/FadeIn'
 
@@ -61,6 +61,36 @@ const templates: Template[] = [
     ],
     downloadUrl: '/templates/excel/dashboard-cashflow.xlsx',
   },
+  {
+    id: 'previsionnel-tresorerie-90j',
+    title: 'Prévisionnel Trésorerie 90j',
+    description: 'Anticipez vos besoins de trésorerie sur 3 mois avec alertes conditionnelles',
+    icon: Clock,
+    features: [
+      'Encaissements & décaissements semaine/mois',
+      'Projection glissante 90 jours',
+      'Alertes solde minimum automatiques',
+      'Graphiques de trésorerie prévisionnelle',
+      'Scénarios optimiste / pessimiste',
+    ],
+    downloadUrl: '/templates/excel/previsionnel-tresorerie-90j.xlsx',
+    badge: 'Nouveau',
+  },
+  {
+    id: 'calculateur-ebitda-mensuel',
+    title: 'Calculateur EBITDA Mensuel',
+    description: 'Calculez votre EBITDA mois par mois et préparez votre dossier bancaire',
+    icon: PieChart,
+    features: [
+      'Calcul EBITDA automatique (12 mois)',
+      'Marge EBITDA vs benchmarks secteur',
+      'Ratio Dette nette / EBITDA',
+      'Graphiques banque-ready',
+      'Comparatif résultat net vs EBITDA',
+    ],
+    downloadUrl: '/templates/excel/FinSight_EBITDA_Mensuel.xlsx',
+    badge: 'Nouveau',
+  },
 ]
 
 export default function TemplatesResourceCards() {
@@ -68,7 +98,7 @@ export default function TemplatesResourceCards() {
 
   return (
     <>
-      <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 pt-4">
+      <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 pt-4">
         {templates.map((template) => {
           const Icon = template.icon
           const cardBorder = template.featured
