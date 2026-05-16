@@ -53,8 +53,8 @@ export const articleBody = (
 
             <p className="text-slate-700 leading-relaxed mb-6">La formule :</p>
 
-            <div className="not-prose bg-slate-50 rounded-xl p-6 border border-slate-200 mb-6 text-center">
-                <p className="text-xl font-bold text-slate-900">
+            <div className="not-prose bg-white rounded-xl p-6 border-2 border-blue-500 mb-6 text-center">
+                <p className="text-xl font-bold text-blue-700">
                     EBITDA = Résultat net + Impôts + Intérêts + Amortissements
                 </p>
             </div>

@@ -3149,7 +3149,7 @@ export function BlogArticlePageClient({ slug }: { slug: string }) {
                         transition={{ delay: 0.2 }}
                         className="max-w-3xl"
                     >
-                        <div className="prose prose-lg prose-slate max-w-none article-content">
+                        <div className="bg-white rounded-2xl p-8 prose prose-lg prose-slate max-w-none article-content [&_p]:text-slate-700 [&_h2]:text-slate-900 [&_h3]:text-slate-900 [&_li]:text-slate-700">
                             {article.content}
                         </div>
 
