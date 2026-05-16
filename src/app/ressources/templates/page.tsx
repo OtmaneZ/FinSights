@@ -6,11 +6,11 @@ import TemplatesResourceCards from '@/components/ressources/TemplatesResourceCar
 import FadeIn, { StaggerContainer, StaggerItem } from '@/components/ui/FadeIn'
 
 export const metadata: Metadata = {
-    title: 'Templates Excel Gratuits Finance | Budget, DSO, Cash Flow, Trésorerie | FinSight',
-    description: 'Téléchargez gratuitement nos 5 templates Excel professionnels : Budget prévisionnel 2026, Tracker DSO, Dashboard Cash Flow, Prévisionnel Trésorerie 90j, Plan de Financement 3 ans. Prêts à l\'emploi avec formules automatiques.',
+    title: 'Templates Excel Gratuits Finance | Budget, DSO, Cash Flow, Trésorerie, EBITDA | FinSight',
+    description: 'Téléchargez gratuitement nos 6 templates Excel professionnels : Budget prévisionnel 2026, Tracker DSO, Dashboard Cash Flow, Prévisionnel Trésorerie 90j, Calculateur EBITDA, Tableau de Flux de Trésorerie. Prêts à l\'emploi avec formules automatiques.',
     openGraph: {
-        title: '5 Templates Excel Gratuits pour Dirigeants PME | FinSight',
-        description: '5 templates Excel professionnels gratuits pour piloter votre PME',
+        title: '6 Templates Excel Gratuits pour Dirigeants PME | FinSight',
+        description: '6 templates Excel professionnels gratuits pour piloter votre PME',
         type: 'website'
     }
 }
@@ -30,12 +30,12 @@ export default function TemplatesPage() {
                         </div>
 
                         <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.1] text-gray-900 mb-6">
-                            5 Templates Excel pour Piloter<br />
+                            6 Templates Excel pour Piloter<br />
                             <span className="text-accent-primary">votre PME immédiatement</span>
                         </h1>
 
                         <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto mb-6">
-                            5 fichiers Excel prêts à l&apos;emploi avec formules automatiques,
+                            6 fichiers Excel prêts à l&apos;emploi avec formules automatiques,
                             graphiques intégrés et compatibles import FinSight
                         </p>
 

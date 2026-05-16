@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { X, Loader2, Mail } from 'lucide-react'
 
-export type TemplateSlug = 'budget-previsionnel' | 'tracker-dso' | 'dashboard-cashflow' | 'previsionnel-tresorerie-90j' | 'calculateur-ebitda-mensuel'
+export type TemplateSlug = 'budget-previsionnel' | 'tracker-dso' | 'dashboard-cashflow' | 'previsionnel-tresorerie-90j' | 'calculateur-ebitda-mensuel' | 'tableau-flux-tresorerie'
 
 export type TemplateDownloadModalProps = {
   templateName: string

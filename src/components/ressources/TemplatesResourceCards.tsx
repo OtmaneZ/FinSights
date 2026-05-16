@@ -91,6 +91,21 @@ const templates: Template[] = [
     downloadUrl: '/templates/excel/FinSight_EBITDA_Mensuel.xlsx',
     badge: 'Nouveau',
   },
+  {
+    id: 'tableau-flux-tresorerie',
+    title: 'Tableau de Flux de Trésorerie',
+    description: 'Construisez le troisième état financier et comprenez d\'où vient (et où part) votre cash',
+    icon: BarChart3,
+    features: [
+      'Structure PCG : exploitation / investissement / financement',
+      'Réconciliation résultat net vers cash automatique',
+      'Calcul variation BFR intégré',
+      'Méthode indirecte prête pour le commissaire aux comptes',
+      'Comparatif N vs N-1',
+    ],
+    downloadUrl: '/templates/excel/Tableau_Flux_Tresorerie_FinSight_2026.xlsx',
+    badge: 'Nouveau',
+  },
 ]
 
 export default function TemplatesResourceCards() {
