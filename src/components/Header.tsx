@@ -22,12 +22,16 @@ const resourcesItems = {
     technologie: [
         { href: '/agents', label: 'Agents IA Finance', icon: Brain, desc: 'TRESORIS, DASHIS, MARGIS, SCENARIS' },
         { href: '/mon-diagnostic', label: 'Score FinSight™', icon: BarChart3, desc: 'Diagnostic 0-100 en 7 min' },
-        { href: '/business-intelligence', label: 'Reporting multi-entités', icon: LayoutDashboard, desc: 'Consolidation & reporting groupe' },
+    ],
+    bi: [
+        { href: '/business-intelligence', label: 'Reporting multi-entités', icon: LayoutDashboard, desc: 'Consolidation groupe & pilotage multi-sites' },
+        { href: '/business-intelligence/dax-financier', label: 'DAX Financier', icon: BarChart3, desc: 'Formules Power BI pour la finance' },
+        { href: '/business-intelligence/connecteurs-comptables', label: 'Connecteurs comptables', icon: Webhook, desc: 'Sage, Cegid, EBP, FEC' },
     ],
 }
 
-/** Ordre d’affichage mobile pour la section Technologie (dropdown Ressources). */
-const mobileTechnologieOrder = ['/mon-diagnostic', '/agents', '/business-intelligence'] as const
+/** Ordre d'affichage mobile pour la section Technologie (dropdown Ressources). */
+const mobileTechnologieOrder = ['/mon-diagnostic', '/agents'] as const
 
 const mobileTechnologieItems = mobileTechnologieOrder.map((href) =>
     resourcesItems.technologie.find((item) => item.href === href)!,
@@ -179,9 +183,9 @@ export default function Header() {
                                 onMouseEnter={openResources}
                                 onMouseLeave={closeResources}
                             >
-                                <div className="bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden w-[560px]">
-                                    <div className="grid grid-cols-2 gap-0">
-                                        {/* Colonne gauche - Outils */}
+                                <div className="bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden w-[780px]">
+                                    <div className="grid grid-cols-3 gap-0">
+                                        {/* Colonne 1 - Outils + Technologie */}
                                         <div className="p-5 border-r border-gray-100">
                                             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">Outils gratuits</p>
                                             <div className="space-y-1">
@@ -225,7 +229,30 @@ export default function Header() {
                                             </div>
                                         </div>
 
-                                        {/* Colonne droite - Contenu */}
+                                        {/* Colonne 2 - Data & BI */}
+                                        <div className="p-5 border-r border-gray-100">
+                                            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">Data & BI</p>
+                                            <div className="space-y-1">
+                                                {resourcesItems.bi.map((item) => (
+                                                    <Link
+                                                        key={item.href}
+                                                        href={item.href}
+                                                        onClick={() => setIsResourcesOpen(false)}
+                                                        className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 group transition-all"
+                                                    >
+                                                        <div className="w-8 h-8 bg-blue-500/8 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-blue-500/15 transition-colors">
+                                                            <item.icon className="w-4 h-4 text-blue-600" />
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">{item.label}</p>
+                                                            <p className="text-xs text-gray-400 mt-0.5">{item.desc}</p>
+                                                        </div>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Colonne 3 - Contenu */}
                                         <div className="p-5">
                                             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">Contenu & guides</p>
                                             <div className="space-y-1">
@@ -428,6 +455,27 @@ export default function Header() {
                                                         >
                                                             <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-accent-primary/8">
                                                                 <item.icon className="h-4 w-4 text-accent-primary" aria-hidden />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-medium leading-tight text-gray-900">{item.label}</p>
+                                                                <p className="mt-0.5 text-xs text-gray-400">{item.desc}</p>
+                                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-400">Data &amp; BI</p>
+                                                <div className="space-y-1">
+                                                    {resourcesItems.bi.map((item) => (
+                                                        <Link
+                                                            key={item.href}
+                                                            href={item.href}
+                                                            onClick={closeMobileMenu}
+                                                            className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-all hover:bg-blue-50"
+                                                        >
+                                                            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/8">
+                                                                <item.icon className="h-4 w-4 text-blue-600" aria-hidden />
                                                             </div>
                                                             <div>
                                                                 <p className="text-sm font-medium leading-tight text-gray-900">{item.label}</p>
