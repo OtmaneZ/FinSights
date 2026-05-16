@@ -17,6 +17,7 @@ import { finalArticles } from './finalArticles'
 import { seoArticles } from './seoArticles'
 import { strategicArticles } from './strategicArticles'
 import { caseStudyArticles } from './caseStudyArticles'
+import { publishedArticles } from './publishedArticles'
 import { ARTICLE_CALCULATOR_MAP } from '@/lib/blog/calculatorMapping'
 
 interface BlogArticle {
@@ -2311,7 +2312,7 @@ const baseArticles: Record<string, BlogArticle> = {
                 </p>
 
                 <div className="formula-box">
-                    <code>EBITDA = Résultat d'exploitation + Dotations aux amortissements</code>
+                    <code>EBITDA = Résultat net + Impôts + Intérêts + Amortissements &amp; Dépréciations</code>
                 </div>
 
                 <p><strong>Utilité de l'EBITDA :</strong></p>
@@ -2759,7 +2760,8 @@ const articles: Record<string, BlogArticle> = {
     ...finalArticles,
     ...seoArticles,
     ...strategicArticles,
-    ...caseStudyArticles
+    ...caseStudyArticles,
+    ...publishedArticles,
 }
 
 // Composant Table des Matières

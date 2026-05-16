@@ -1,83 +1,10 @@
-import { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
-import { ArrowLeft, Calendar, Clock, ArrowRight, AlertTriangle, TrendingDown, DollarSign, CheckCircle2 } from 'lucide-react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import { CheckCircle2, AlertTriangle, TrendingDown, DollarSign } from 'lucide-react'
 
-export const metadata: Metadata = {
-    title: 'Remboursement PGE + DSO qui s\'allonge : le double étau de trésorerie des PME en 2026 | FinSight',
-    description: 'En 2026, deux pressions distinctes s\'exercent simultanément sur la trésorerie des PME françaises : le remboursement des PGE et un DSO qui s\'allonge. Séparément, chacune est gérable. Ensemble, elles forment un étau.',
-    openGraph: {
-        title: 'Remboursement PGE + DSO qui s\'allonge : le double étau de trésorerie des PME en 2026',
-        description: 'Deux pressions distinctes qui s\'exercent simultanément sur la trésorerie des PME françaises. Voici comment les identifier et agir.',
-        type: 'article',
-        publishedTime: '2026-05-10T09:00:00Z'
-    }
-}
-
-export default function ArticlePage() {
-    return (
-        <div className="min-h-screen bg-primary text-primary font-sans">
-            <Header />
-
-            <article className="max-w-4xl mx-auto px-6 py-24">
-                {/* Retour */}
-                <Link
-                    href="/blog"
-                    className="inline-flex items-center gap-2 text-secondary hover:text-accent-primary transition-colors mb-8"
-                >
-                    <ArrowLeft className="w-4 h-4" />
-                    Retour aux articles
-                </Link>
-
+export const articleBody = (
+<div className="published-article-body">
+{/* Retour */}
                 {/* En-tête */}
-                <header className="mb-12">
-                    <div className="flex items-center gap-3 mb-4 flex-wrap">
-                        <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold uppercase tracking-wider rounded-full">
-                            Note Stratégique
-                        </span>
-                        <span className="text-sm text-tertiary flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            10 mai 2026
-                        </span>
-                        <span className="text-sm text-tertiary flex items-center gap-2">
-                            <Clock className="w-4 h-4" />
-                            8 min de lecture
-                        </span>
-                    </div>
-
-                    {/* Signature auteur */}
-                    <div className="flex items-center gap-4 mb-6 p-4 bg-slate-50 rounded-xl border border-slate-200">
-                        <Image
-                            src="/images/Photo_profil.jpeg"
-                            alt="Otmane Boulahia - Architecte de pilotage financier pour PME ambitieuses"
-                            width={64}
-                            height={64}
-                            className="rounded-full object-cover"
-                        />
-                        <div>
-                            <p className="font-bold text-slate-900 text-lg">Par Otmane Boulahia</p>
-                            <p className="text-sm text-slate-600">Architecte de pilotage financier pour PME ambitieuses</p>
-                            <Link
-                                href="https://www.linkedin.com/in/otmane-boulahia-553bb6363"
-                                target="_blank"
-                                className="text-sm text-accent-primary hover:text-accent-primary-hover inline-flex items-center gap-1 mt-1"
-                            >
-                                Voir mon profil LinkedIn →
-                            </Link>
-                        </div>
-                    </div>
-
-                    <h1 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight">
-                        Remboursement PGE + DSO qui s&apos;allonge : le double étau de trésorerie des PME en 2026
-                    </h1>
-
-                    <p className="text-xl text-secondary leading-relaxed">
-                        En 2026, je parle à des dirigeants qui sont rentables, dont le carnet de commandes tient, et qui regardent quand même leur compte bancaire avec une anxiété croissante. Ce n&apos;est pas une question de résultat. C&apos;est une question de cash.
-                    </p>
-                </header>
-
                 {/* Corps */}
                 <div className="prose prose-lg max-w-none space-y-8 text-slate-700 leading-relaxed">
 
@@ -236,33 +163,5 @@ export default function ArticlePage() {
                 </div>
 
                 {/* CTA bas d'article */}
-                <div className="mt-16 p-8 bg-slate-900 rounded-2xl text-center">
-                    <h3 className="text-2xl font-bold text-white mb-3">
-                        Votre trésorerie est sous pression ?
-                    </h3>
-                    <p className="text-slate-300 mb-6">
-                        Faites le diagnostic FinSight™ - DSO, BFR, runway et score de résilience cash en quelques minutes.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link
-                            href="/mon-diagnostic"
-                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-colors"
-                        >
-                            Lancer mon diagnostic
-                            <ArrowRight className="w-5 h-5" />
-                        </Link>
-                        <Link
-                            href="/consulting"
-                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-colors"
-                        >
-                            Parler à un DAF externalisé
-                        </Link>
-                    </div>
-                </div>
-
-            </article>
-
-            <Footer />
-        </div>
-    )
-}
+</div>
+)

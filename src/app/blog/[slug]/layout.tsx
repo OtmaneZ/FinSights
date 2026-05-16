@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
-import { getArticleBySlug, BLOG_ARTICLES } from '@/lib/seo'
+import { getArticleBySlug } from '@/lib/seo'
+import { BLOG_ARTICLES_FROM_REGISTRY as BLOG_ARTICLES } from '@/lib/blog/articlesRegistry'
 
 export function generateStaticParams() {
     return BLOG_ARTICLES.map((article) => ({ slug: article.slug }))
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
 
     return {
-        title: `${article.title} | FinSight Blog`,
+        title: `${article.title} | FinSight`,
         description: article.description,
         keywords: [article.category, 'finance', 'pme', 'daf', article.title.split(' ')[0]],
         openGraph: {

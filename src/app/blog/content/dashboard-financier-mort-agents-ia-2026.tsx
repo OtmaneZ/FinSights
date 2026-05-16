@@ -1,90 +1,10 @@
-import { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
-import { ArrowLeft, Calendar, Clock, Zap, TrendingUp, AlertCircle, CheckCircle2, ArrowRight, Target, BarChart3, Shield } from 'lucide-react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import { AlertCircle, ArrowLeft, ArrowRight, BarChart3, CheckCircle2, Shield, Target, TrendingUp, Zap } from 'lucide-react'
 
-export const metadata: Metadata = {
-    title: 'Pourquoi votre Dashboard Financier est mort (et ce qui le remplace en 2026) | FinSight',
-    description: 'Le Dashboard affiche le passé. Les Agents IA prédisent l\'avenir. Découvrez comment DASHIS, TRESORIS, MARGIS et SCENARIS automatisent le pilotage financier 24/7 pour les PME.',
-    keywords: 'agent ia finance, automatisation trésorerie, dashboard financier pme, ia finance 2026, tresoris, dashis, pilotage automatique pme',
-    openGraph: {
-        title: 'Pourquoi votre Dashboard Financier est mort en 2026',
-        description: 'Dashboard vs Agent IA : La révolution du pilotage financier automatique pour PME',
-        type: 'article',
-        publishedTime: '2026-02-09T09:00:00Z',
-        url: 'https://finsight.zineinsight.com/blog/dashboard-financier-mort-agents-ia-2026'
-    },
-    alternates: {
-        canonical: 'https://finsight.zineinsight.com/blog/dashboard-financier-mort-agents-ia-2026'
-    }
-}
-
-export default function ArticlePage() {
-    return (
-        <div className="min-h-screen bg-primary text-primary font-sans">
-            <Header />
-
-            <article className="max-w-4xl mx-auto px-6 py-24">
-                {/* Back button */}
-                <Link
-                    href="/blog"
-                    className="inline-flex items-center gap-2 text-secondary hover:text-accent-primary transition-colors mb-8"
-                >
-                    <ArrowLeft className="w-4 h-4" />
-                    Retour aux articles
-                </Link>
-
+export const articleBody = (
+<div className="published-article-body">
+{/* Back button */}
                 {/* Header */}
-                <header className="mb-12">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold uppercase tracking-wider rounded-full">
-                            Intelligence Artificielle
-                        </span>
-                        <span className="text-sm text-tertiary flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            9 février 2026
-                        </span>
-                        <span className="text-sm text-tertiary flex items-center gap-2">
-                            <Clock className="w-4 h-4" />
-                            8 min de lecture
-                        </span>
-                    </div>
-
-                    {/* Author Signature */}
-                    <div className="flex items-center gap-4 mb-6 p-4 bg-slate-50 rounded-xl border border-slate-200">
-                        <Image 
-                            src="/images/Photo_profil.jpeg" 
-                            alt="Otmane Boulahia - Architecte de pilotage financier pour PME ambitieuses" 
-                            width={64} 
-                            height={64} 
-                            className="rounded-full object-cover"
-                        />
-                        <div>
-                            <p className="font-bold text-slate-900 text-lg">Par Otmane Boulahia</p>
-                            <p className="text-sm text-slate-600">Architecte de pilotage financier pour PME ambitieuses</p>
-                            <Link 
-                                href="https://www.linkedin.com/in/otmane-boulahia-553bb6363" 
-                                target="_blank"
-                                className="text-sm text-accent-primary hover:text-accent-primary-hover inline-flex items-center gap-1 mt-1"
-                            >
-                                Voir mon profil LinkedIn →
-                            </Link>
-                        </div>
-                    </div>
-
-                    <h1 className="text-5xl font-bold mb-6 leading-tight">
-                        Pourquoi votre Dashboard Financier est mort (et ce qui le remplace en 2026)
-                    </h1>
-
-                    <p className="text-xl text-secondary leading-relaxed">
-                        La plupart des dirigeants reçoivent leur reporting le 15 du mois. <strong>C&apos;est trop tard.</strong> 
-                        C&apos;est comme conduire une voiture en regardant uniquement dans le rétroviseur. 
-                        Bienvenue dans l&apos;ère de la prédiction : les Agents IA financiers.
-                    </p>
-                </header>
-
                 {/* Introduction */}
                 <div className="prose prose-lg max-w-none mb-12">
                     <div className="bg-slate-50 border-l-4 border-accent-primary p-6 rounded-r-xl mb-8">
@@ -492,9 +412,5 @@ export default function ArticlePage() {
                         Voir tous les articles
                     </Link>
                 </div>
-            </article>
-
-            <Footer />
-        </div>
-    )
-}
+</div>
+)

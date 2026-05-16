@@ -233,7 +233,7 @@ export default function CalculateurROI() {
                             </div>
 
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-                                Calculateur ROI
+                                Calculateur ROI PME : rentabilité et payback
                                 <span className="block text-purple-400 mt-2">
                                     Décidez en 30 secondes
                                 </span>

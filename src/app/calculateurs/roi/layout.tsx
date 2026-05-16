@@ -1,12 +1,14 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur ROI PME 2026 - Retour sur investissement | FinSight',
-    description: 'Calculez votre ROI en 2 minutes. Benchmark sectoriel, interprétation et plan d\'action. Gratuit.',
+    title: 'Calculateur ROI PME : rentabilité et payback | FinSight',
+    description:
+        'Machine, recrutement ou logiciel ? Saisissez coûts et gains : ROI, délai de récupération et benchmark sectoriel. Décidez avant de signer.',
     keywords: 'calculateur roi, retour sur investissement, calcul roi, roi formule, payback period, délai récupération investissement, rentabilité projet, roi pme, analyse investissement, roi professionnel 2026',
     openGraph: {
-        title: 'Calculateur ROI 2026 – Retour Investissement en 30s | PME',
-        description: 'ROI + Payback + Benchmarks par projet + Interprétation experte. Outil de décision financière pour dirigeants PME.',
+        title: 'Calculateur ROI PME : rentabilité et payback | FinSight',
+        description:
+            'Machine, recrutement ou logiciel ? Saisissez coûts et gains : ROI, délai de récupération et benchmark sectoriel. Décidez avant de signer.',
         url: 'https://finsight.zineinsight.com/calculateurs/roi',
         siteName: 'FinSight',
         locale: 'fr_FR',
@@ -22,8 +24,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Calculateur ROI 2026 – Retour Investissement en 30s | PME',
-        description: 'ROI + Payback + Benchmarks par projet + Interprétation experte. Décision d\'investissement structurée pour dirigeants.',
+        title: 'Calculateur ROI PME : rentabilité et payback | FinSight',
+        description:
+            'Machine, recrutement ou logiciel ? Saisissez coûts et gains : ROI, délai de récupération et benchmark sectoriel. Décidez avant de signer.',
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/roi',

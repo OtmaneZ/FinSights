@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { BLOG_ARTICLES } from '@/lib/seo'
+import { BLOG_ARTICLES_FROM_REGISTRY as BLOG_ARTICLES } from '@/lib/blog/articlesRegistry'
 import {
   markNewsletterSentForSlug,
   wasNewsletterSentForSlug,

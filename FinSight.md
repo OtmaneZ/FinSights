@@ -67,7 +67,7 @@ Page **full-screen dark** (`bg-slate-950`), sans Header ni Footer, expérience d
 | **Margin 1** | Marge brute : prix vente + coût revient → % |
 | **Margin 2** | Seuil rentabilité : charges fixes + taux marge → € |
 | **Margin 3** | ROI : gains + investissement → % *(optionnel)* |
-| **Resilience 1** | EBITDA : CA + charges → € |
+| **Resilience 1** | EBITDA : Résultat net + Impôts + Intérêts + Amortissements → € *(FEC : approximation CA − charges exploitation)* |
 | **Resilience 2** | CAC/LTV : LTV + CAC → ratio x *(optionnel)* |
 | **Resilience 3** | Gearing : dette nette + EBITDA → ratio x *(optionnel)* |
 | **Risk** | Analyse narrative des croisements — pas de saisie |

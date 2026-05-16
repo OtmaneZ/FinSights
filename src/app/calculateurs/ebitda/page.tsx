@@ -11,6 +11,11 @@ import { trackCalculatorUse } from '@/lib/analytics'
 import { useCalculatorHistory } from '@/hooks/useCalculatorHistory'
 import EmailCaptureModal from '@/components/EmailCaptureModal'
 import PremiumUpsellCard from '@/components/PremiumUpsellCard'
+import {
+    EBITDA_FORMULA_CANONICAL,
+    EBITDA_FORMULA_TOP_DOWN_PME,
+    EBITDA_NOTE_TOP_DOWN,
+} from '@/lib/ebitdaFormula'
 
 type Sector = 'industrie' | 'services' | 'commerce'
 
@@ -38,7 +43,10 @@ export default function CalculateurEBITDA() {
         steps: [
             { name: 'Renseigner CA', text: 'Entrez votre chiffre d’affaires annuel HT.' },
             { name: 'Ajouter les charges', text: 'Achats, charges externes, impôts/taxes et charges de personnel.' },
-            { name: 'Calculer EBITDA', text: 'EBITDA = CA - achats - charges externes - impôts - charges personnel.' },
+            {
+                name: 'Calculer EBITDA',
+                text: `Approche simplifiée PME (top-down) : ${EBITDA_FORMULA_TOP_DOWN_PME}. ${EBITDA_NOTE_TOP_DOWN}`,
+            },
             { name: 'Analyser la marge', text: 'Comparez votre marge EBITDA au benchmark de votre secteur.' },
         ],
     })
@@ -143,6 +151,7 @@ export default function CalculateurEBITDA() {
                     <div className="max-w-4xl mx-auto px-6 text-center">
                         <h1 className="text-4xl font-bold">Calculateur EBITDA PME</h1>
                         <p className="text-slate-300 mt-4">Calculez votre EBITDA, votre marge et comparez-vous à votre secteur.</p>
+                        <p className="text-slate-400 text-sm mt-4 font-mono">{EBITDA_FORMULA_CANONICAL}</p>
                     </div>
                 </section>
 
@@ -180,6 +189,10 @@ export default function CalculateurEBITDA() {
                             </div>
                         </div>
 
+                        <p className="mt-4 text-sm text-slate-600">
+                            {EBITDA_NOTE_TOP_DOWN} Formule de référence : {EBITDA_FORMULA_CANONICAL}.
+                        </p>
+
                         <button onClick={calculer} className="mt-6 w-full px-6 py-3 bg-accent-primary text-white rounded-xl font-semibold">
                             Calculer mon EBITDA
                         </button>
@@ -193,7 +206,10 @@ export default function CalculateurEBITDA() {
                                 <p className="text-slate-300">EBITDA</p>
                                 <p className="text-5xl font-bold mt-2">{Math.round(result.ebitda).toLocaleString('fr-FR')} €</p>
                                 <p className="text-slate-300 mt-3">Marge EBITDA: {result.marge.toFixed(1)}%</p>
-                                <p className="text-slate-400 text-sm mt-2">EBITDA = CA - achats - charges externes - impôts/taxes - charges personnel</p>
+                                <p className="text-slate-400 text-sm mt-2">
+                                    Approche simplifiée PME (top-down) : {EBITDA_FORMULA_TOP_DOWN_PME}
+                                </p>
+                                <p className="text-slate-500 text-xs mt-2">{EBITDA_NOTE_TOP_DOWN}</p>
                             </div>
 
                             <div className={`border rounded-xl p-4 ${interpretation.cls}`}>

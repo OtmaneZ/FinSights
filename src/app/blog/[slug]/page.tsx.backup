@@ -858,7 +858,7 @@ const baseArticles: Record<string, BlogArticle> = {
                 </p>
 
                 <div className="formula-box">
-                    <code>EBITDA = Résultat d'exploitation + Dotations aux amortissements</code>
+                    <code>EBITDA = Résultat net + Impôts + Intérêts + Amortissements &amp; Dépréciations</code>
                 </div>
 
                 <p><strong>Utilité de l'EBITDA :</strong></p>

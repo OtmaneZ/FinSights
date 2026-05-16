@@ -82,7 +82,9 @@ Trésorerie(t) = Trésorerie(t-1) + Encaissements(t) - Décaissements(t)
 
 Cash runway (semaines) = Trésorerie actuelle / Burn rate weekly
 
-EBITDA = CA - Charges opérationnelles (hors D&A, finance)
+EBITDA = Résultat net + Impôts + Intérêts + Amortissements & Dépréciations  (formule canonique)
+
+Approximation scénarios (FEC / top-down PME) : CA − charges opérationnelles hors D&A et finance
 
 BFR = (Créances clients + Stock) - Dettes fournisseurs
 ```

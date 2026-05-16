@@ -477,6 +477,9 @@ export default function ComprendreCashFlowPage() {
                 <p><span className="text-emerald-400">FCF</span> = Flux d&apos;exploitation - Investissements de maintenance</p>
                 <p className="text-slate-400 text-xs mt-4">ou version simplifiée :</p>
                 <p><span className="text-emerald-400">FCF</span> = EBITDA - Impôts - Δ BFR - Capex</p>
+                <p className="text-slate-500 text-xs mt-3">
+                  EBITDA = Résultat net + Impôts + Intérêts + Amortissements &amp; Dépréciations
+                </p>
               </div>
             </div>
 

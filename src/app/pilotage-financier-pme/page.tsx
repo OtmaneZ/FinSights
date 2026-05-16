@@ -6,9 +6,9 @@ import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
 
 export const metadata: Metadata = {
-    title: 'Guide complet du pilotage financier PME (2026) | FinSight',
+    title: 'Pilotage financier PME : tréso, BFR, DSO en 90 j | FinSight',
     description:
-        'Méthode structurée de pilotage financier PME : indicateurs clés, tableau de bord, prévisionnel de trésorerie 90 jours, DAF externalisé. Guide de référence pour dirigeants 500k€–5M€.',
+        'Trésorerie à 90 jours, BFR, DSO, marges : la méthode concrète pour dirigeants PME (500 k€–5 M€). Calculateurs gratuits et score FinSight™.',
     alternates: {
         canonical: 'https://finsight.zineinsight.com/pilotage-financier-pme',
     },
@@ -17,9 +17,9 @@ export const metadata: Metadata = {
         locale: 'fr_FR',
         url: 'https://finsight.zineinsight.com/pilotage-financier-pme',
         siteName: 'FinSight',
-        title: 'Guide complet du pilotage financier PME (2026)',
+        title: 'Pilotage financier PME : tréso, BFR, DSO en 90 j',
         description:
-            'Méthode structurée de pilotage financier PME. Indicateurs, tableau de bord, trésorerie 90 jours et rôle du DAF externalisé.',
+            'Trésorerie à 90 jours, BFR, DSO, marges : la méthode concrète pour dirigeants PME (500 k€–5 M€). Calculateurs gratuits et score FinSight™.',
         images: [
             {
                 url: 'https://finsight.zineinsight.com/images/og-default.png',
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Guide complet du pilotage financier PME (2026)',
+        title: 'Pilotage financier PME : tréso, BFR, DSO en 90 j',
         description:
-            'Indicateurs clés, tableau de bord, pilotage de trésorerie et DAF externalisé. Méthode structurée pour dirigeants PME 500k€–5M€.',
+            'Trésorerie à 90 jours, BFR, DSO, marges : la méthode concrète pour dirigeants PME (500 k€–5 M€). Calculateurs gratuits et score FinSight™.',
         images: ['https://finsight.zineinsight.com/images/og-default.png'],
     },
     robots: { index: true, follow: true },
@@ -156,7 +156,7 @@ export default function PilotageFinancierPME() {
                     </span>
 
                     <h1 className="font-serif text-4xl lg:text-6xl font-medium leading-[1.1] tracking-tight text-white mb-6">
-                        Guide complet du pilotage financier PME
+                        Pilotage financier PME : tréso, BFR, DSO en 90 j
                     </h1>
 
                     <p className="text-xl text-white/90 leading-snug max-w-3xl mb-6 font-light">
@@ -647,8 +647,8 @@ export default function PilotageFinancierPME() {
                                 <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2.5 flex-shrink-0" />
                                 <span>
                                     <strong className="text-gray-900">EBITDA</strong> &mdash;
-                                    R&eacute;sultat avant int&eacute;r&ecirc;ts, imp&ocirc;ts, d&eacute;pr&eacute;ciations et amortissements.
-                                    Mesure la performance op&eacute;rationnelle pure
+                                    R&eacute;sultat net + imp&ocirc;ts + int&eacute;r&ecirc;ts + amortissements &amp; d&eacute;pr&eacute;ciations
+                                    (performance op&eacute;rationnelle avant structure financi&egrave;re et dotations comptables)
                                 </span>
                             </li>
                             <li className="flex items-start gap-3">

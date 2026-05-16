@@ -1,12 +1,14 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Calculateur DSO Gratuit - Délai de Paiement & Cash Immobilisé | FinSight',
-    description: 'Calculez votre DSO en 30 secondes : combien de trésorerie est bloquée chez vos clients ? Benchmarks sectoriels Banque de France 2024, score FinSight, leviers pour réduire votre DSO. Outil DAF pour PME 500k€–5M€.',
+    title: 'Calculateur DSO : cash bloqué chez vos clients | FinSight',
+    description:
+        'Combien vos clients vous doivent en jours et en euros ? DSO en 30 s, benchmark sectoriel et leviers pour encaisser plus vite. Outil gratuit pour PME.',
     keywords: 'calculateur dso gratuit, dso calcul en ligne, simulateur calcul dso, formule dso, days sales outstanding pme, réduire dso, délai paiement clients, dso moyen secteur banque de france, créances clients pme, cash immobilisé dso',
     openGraph: {
-        title: 'Calculateur DSO Gratuit - Libérez du Cash en 30 secondes | FinSight',
-        description: 'Combien de trésorerie est bloquée chez vos clients ? Calculez votre DSO et comparez-le aux médianes sectorielles Banque de France 2024.',
+        title: 'Calculateur DSO : cash bloqué chez vos clients | FinSight',
+        description:
+            'Combien vos clients vous doivent en jours et en euros ? DSO en 30 s, benchmark sectoriel et leviers pour encaisser plus vite. Outil gratuit pour PME.',
         url: 'https://finsight.zineinsight.com/calculateurs/dso',
         siteName: 'FinSight',
         locale: 'fr_FR',
@@ -22,8 +24,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Calculateur DSO Gratuit - Cash Immobilisé en 30s | FinSight',
-        description: 'DSO en 30 secondes + benchmarks sectoriels Banque de France 2024 + leviers cash. Outil DAF pour PME.',
+        title: 'Calculateur DSO : cash bloqué chez vos clients | FinSight',
+        description:
+            'Combien vos clients vous doivent en jours et en euros ? DSO en 30 s, benchmark sectoriel et leviers pour encaisser plus vite. Outil gratuit pour PME.',
     },
     alternates: {
         canonical: 'https://finsight.zineinsight.com/calculateurs/dso',

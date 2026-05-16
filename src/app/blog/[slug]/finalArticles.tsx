@@ -1,7 +1,7 @@
 export const finalArticles = {
     'ratio-liquidite-interpretation': {
         slug: 'ratio-liquidite-interpretation',
-        title: 'Les 3 Ratios de Liquidité : Définition, Formule et Interprétation (2025)',
+        title: 'Ratio de liquidité PME : 3 formules et seuils',
         description: 'Guide complet sur les ratios de liquidité générale, restreinte et immédiate. Formules, seuils et analyse pour PME et startups.',
         category: 'Trésorerie',
         readTime: '8 min',

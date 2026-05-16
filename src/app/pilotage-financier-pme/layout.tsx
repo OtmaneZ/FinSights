@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Pilotage Financier PME : méthode, outils et KPIs | FinSight',
+    title: 'Pilotage financier PME : tréso, BFR, DSO en 90 j | FinSight',
     description:
-        'Méthode complète + outils gratuits : trésorerie à 90 jours, BFR, DSO, marges. Pour dirigeants PME de 500k€ à 5M€. Score FinSight™ inclus.',
+        'Trésorerie à 90 jours, BFR, DSO, marges : la méthode concrète pour dirigeants PME (500 k€–5 M€). Calculateurs gratuits et score FinSight™.',
     keywords: [
         'pilotage financier pme',
         'indicateurs financiers pme',
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
         locale: 'fr_FR',
         url: 'https://finsight.zineinsight.com/pilotage-financier-pme',
         siteName: 'FinSight',
-        title: 'Pilotage Financier PME : méthode, outils et KPIs | FinSight',
+        title: 'Pilotage financier PME : tréso, BFR, DSO en 90 j | FinSight',
         description:
-            'Méthode complète + outils gratuits : trésorerie à 90 jours, BFR, DSO, marges. Pour dirigeants PME de 500k€ à 5M€. Score FinSight™ inclus.',
+            'Trésorerie à 90 jours, BFR, DSO, marges : la méthode concrète pour dirigeants PME (500 k€–5 M€). Calculateurs gratuits et score FinSight™.',
         images: [
             {
                 url: 'https://finsight.zineinsight.com/images/og-default.png',
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Pilotage Financier PME : méthode, outils et KPIs | FinSight',
+        title: 'Pilotage financier PME : tréso, BFR, DSO en 90 j | FinSight',
         description:
-            'Méthode complète + outils gratuits : trésorerie à 90 jours, BFR, DSO, marges. Pour dirigeants PME de 500k€ à 5M€. Score FinSight™ inclus.',
+            'Trésorerie à 90 jours, BFR, DSO, marges : la méthode concrète pour dirigeants PME (500 k€–5 M€). Calculateurs gratuits et score FinSight™.',
         images: ['https://finsight.zineinsight.com/images/og-default.png'],
     },
     robots: {

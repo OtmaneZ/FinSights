@@ -57,7 +57,7 @@ pour proxifier les appels vers FastAPI.
 - **426 codes NAF** couverts (fallback par préfixe 2 chiffres = couverture totale)
 - **69 divisions** économiques (fascicule 82 = 404 sur le site BdF)
 - **5 ratios par secteur** :
-  - Marge EBITDA (Q1 / Médiane / Q3)
+  - Marge EBITDA (Q1 / Médiane / Q3) — EBITDA = Résultat net + Impôts + Intérêts + Amortissements & Dépréciations
   - Marge nette
   - Charges de personnel / CA
   - Taux d'approvisionnement (Achats / CA)

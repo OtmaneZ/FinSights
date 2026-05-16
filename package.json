@@ -15,6 +15,7 @@
         "test:e2e": "playwright test",
         "test:e2e:ui": "playwright test --ui",
         "publish:article": "tsx scripts/publish-article.ts",
+        "validate:blog": "tsx scripts/validate-blog-registry.ts",
         "postinstall": "prisma generate"
     },
     "dependencies": {

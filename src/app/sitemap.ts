@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { BLOG_ARTICLES } from '@/lib/seo'
+import { BLOG_ARTICLES_FROM_REGISTRY } from '@/lib/blog/articlesRegistry'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://finsight.zineinsight.com'
@@ -87,7 +87,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ]
 
   // Blog articles (dynamically generated from BLOG_ARTICLES)
-  const blogPages: MetadataRoute.Sitemap = BLOG_ARTICLES.map((article) => ({
+  const blogPages: MetadataRoute.Sitemap = BLOG_ARTICLES_FROM_REGISTRY.map((article) => ({
     url: `${baseUrl}/blog/${article.slug}`,
     lastModified: new Date(article.date),
     changeFrequency: 'monthly' as const,

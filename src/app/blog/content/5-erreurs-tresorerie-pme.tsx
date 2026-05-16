@@ -1,83 +1,10 @@
-import { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
-import { ArrowLeft, Calendar, Clock, AlertTriangle, TrendingDown, DollarSign, CheckCircle2, ArrowRight } from 'lucide-react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import { CheckCircle2, AlertTriangle, TrendingDown, DollarSign } from 'lucide-react'
 
-export const metadata: Metadata = {
-    title: '5 Erreurs de Trésorerie qui Coûtent Cher aux PME | FinSight',
-    description: 'Les erreurs fatales que commettent 80% des dirigeants de PME avec leur trésorerie. Découvrez comment les éviter et sécuriser votre cash.',
-    openGraph: {
-        title: '5 Erreurs de Trésorerie qui Coûtent Cher aux PME',
-        description: 'Évitez les pièges qui mettent en danger 80% des PME françaises',
-        type: 'article',
-        publishedTime: '2025-12-18T09:00:00Z'
-    }
-}
-
-export default function ArticlePage() {
-    return (
-        <div className="min-h-screen bg-primary text-primary font-sans">
-            <Header />
-
-            <article className="max-w-4xl mx-auto px-6 py-24">
-                {/* Back button */}
-                <Link
-                    href="/blog"
-                    className="inline-flex items-center gap-2 text-secondary hover:text-accent-primary transition-colors mb-8"
-                >
-                    <ArrowLeft className="w-4 h-4" />
-                    Retour aux articles
-                </Link>
-
+export const articleBody = (
+<div className="published-article-body">
+{/* Back button */}
                 {/* Header */}
-                <header className="mb-12">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold uppercase tracking-wider rounded-full">
-                            Trésorerie
-                        </span>
-                        <span className="text-sm text-tertiary flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            18 décembre 2025
-                        </span>
-                        <span className="text-sm text-tertiary flex items-center gap-2">
-                            <Clock className="w-4 h-4" />
-                            7 min de lecture
-                        </span>
-                    </div>
-
-                    {/* Author Signature */}
-                    <div className="flex items-center gap-4 mb-6 p-4 bg-slate-50 rounded-xl border border-slate-200">
-                        <Image 
-                            src="/images/Photo_profil.jpeg" 
-                            alt="Otmane Boulahia - Architecte de pilotage financier pour PME ambitieuses" 
-                            width={64} 
-                            height={64} 
-                            className="rounded-full object-cover"
-                        />
-                        <div>
-                            <p className="font-bold text-slate-900 text-lg">Par Otmane Boulahia</p>
-                            <p className="text-sm text-slate-600">Architecte de pilotage financier pour PME ambitieuses</p>
-                            <Link 
-                                href="https://www.linkedin.com/in/otmane-boulahia-553bb6363" 
-                                target="_blank"
-                                className="text-sm text-accent-primary hover:text-accent-primary-hover inline-flex items-center gap-1 mt-1"
-                            >
-                                Voir mon profil LinkedIn →
-                            </Link>
-                        </div>
-                    </div>
-
-                    <h1 className="text-5xl font-bold mb-6 leading-tight">
-                        5 erreurs de trésorerie qui coûtent cher aux PME
-                    </h1>
-
-                    <p className="text-xl text-secondary leading-relaxed">
-                        Après 10 ans d'accompagnement de PME, j'ai identifié 5 erreurs récurrentes qui mettent en danger la trésorerie de 80% des entreprises. Voici comment les détecter et les corriger.
-                    </p>
-                </header>
-
                 {/* Intro */}
                 <div className="surface rounded-xl p-8 border-l-4 border-accent-primary mb-12">
                     <p className="text-lg leading-relaxed text-secondary">
@@ -366,33 +293,5 @@ export default function ArticlePage() {
                 </div>
 
                 {/* CTA Final */}
-                <div className="surface rounded-2xl p-8 border-2 border-accent-primary-border text-center mt-16">
-                    <h3 className="text-2xl font-bold mb-4">Besoin d'aide pour sécuriser votre trésorerie ?</h3>
-                    <p className="text-secondary mb-6 max-w-2xl mx-auto">
-                        Je peux auditer votre situation en 48h et vous proposer un plan d'action concret
-                        pour améliorer votre cash-flow.
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <a
-                            href="https://calendly.com/zineinsight"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold transition-all"
-                        >
-                            Audit trésorerie express (990€)
-                            <ArrowRight className="w-5 h-5" />
-                        </a>
-                        <Link
-                            href="/consulting"
-                            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-border-default hover:border-accent-primary text-primary rounded-lg font-semibold transition-all"
-                        >
-                            Voir toutes les offres
-                        </Link>
-                    </div>
-                </div>
-            </article>
-
-            <Footer />
-        </div>
-    )
-}
+</div>
+)
