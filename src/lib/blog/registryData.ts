@@ -3,6 +3,20 @@ import type { BlogArticleRegistryEntry } from './articlesRegistry'
 /** Données catalogue — source unique pour index, SEO et sitemap. */
 export const BLOG_REGISTRY_ENTRIES: BlogArticleRegistryEntry[] = [
     {
+        slug: 'dso-dpo-dio-trois-indicateurs-tresorerie',
+        title: 'DSO, DPO et DIO : les 3 indicateurs de trésorerie à maîtriser',
+        description: 'Trois acronymes, trois fenêtres sur la même réalité : comment l\'argent circule dans votre entreprise. Séparément, chacun raconte une partie de l\'histoire. Ensemble, ils racontent tout.',
+        displayDate: '16 mai 2026',
+        publishedAt: '2026-05-16',
+        readTime: '7 min',
+        category: 'Note Stratégique',
+        tags: ['DSO', 'DPO', 'DIO', 'Trésorerie', 'BFR', 'Cash Conversion Cycle'],
+        keywords: ['dso', 'dpo', 'dio', 'cash conversion cycle', 'bfr', 'trésorerie pme', 'indicateurs trésorerie'],
+        featured: true,
+        image: '/images/cash-flow-prev.png',
+        type: 'strategique'
+    },
+    {
         slug: 'ebitda-vs-resultat-net-banquier',
         title: 'EBITDA vs résultat net : pourquoi votre banquier s\'en fiche d\'un et pas de l\'autre',
         description: 'Votre expert-comptable vous montre un résultat net positif. Votre banquier, lui, regarde autre chose. Ce décalage coûte des refus de crédit et des négociations ratées.',

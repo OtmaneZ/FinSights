@@ -4,6 +4,7 @@ import { articleBody as iaFinanceBody } from '../content/ia-finance-entreprise-g
 import { articleBody as dashboardAgentsBody } from '../content/dashboard-financier-mort-agents-ia-2026'
 import { articleBody as cinqErreursBody } from '../content/5-erreurs-tresorerie-pme'
 import { articleBody as ebitdaBody } from '../content/ebitda-vs-resultat-net-banquier'
+import { articleBody as dsoDpoDioBody } from '../content/dso-dpo-dio-trois-indicateurs-tresorerie'
 import { getRegistryEntry } from '@/lib/blog/articlesRegistry'
 
 export interface PublishedBlogArticle {
@@ -37,6 +38,7 @@ function fromRegistry(
 
 /** Articles migrés depuis les anciennes routes statiques /blog/{slug}/page.tsx */
 export const publishedArticles: Record<string, PublishedBlogArticle> = {
+    'dso-dpo-dio-trois-indicateurs-tresorerie': fromRegistry('dso-dpo-dio-trois-indicateurs-tresorerie', dsoDpoDioBody)!,
     'ebitda-vs-resultat-net-banquier': fromRegistry('ebitda-vs-resultat-net-banquier', ebitdaBody)!,
     'pge-dso-double-pression-tresorerie-2026': fromRegistry(
         'pge-dso-double-pression-tresorerie-2026',
