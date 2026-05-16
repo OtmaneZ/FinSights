@@ -3149,7 +3149,7 @@ export function BlogArticlePageClient({ slug }: { slug: string }) {
                         transition={{ delay: 0.2 }}
                         className="max-w-3xl"
                     >
-                        <div className="prose prose-lg prose-invert max-w-none article-content">
+                        <div className="prose prose-lg prose-slate max-w-none article-content">
                             {article.content}
                         </div>
 
