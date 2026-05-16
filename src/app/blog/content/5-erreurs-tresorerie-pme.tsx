@@ -6,9 +6,9 @@ export const articleBody = (
 {/* Back button */}
                 {/* Header */}
                 {/* Intro */}
-                <div className="surface rounded-xl p-8 border-l-4 border-accent-primary mb-12">
-                    <p className="text-lg leading-relaxed text-secondary">
-                        <strong className="text-primary">La réalité :</strong> En France, 25% des défaillances d'entreprises sont dues à des problèmes de trésorerie,
+                <div className="bg-slate-50 rounded-xl p-8 border-l-4 border-blue-500 mb-12">
+                    <p className="text-lg leading-relaxed text-slate-700">
+                        <strong className="text-slate-900">La réalité :</strong> En France, 25% des défaillances d'entreprises sont dues à des problèmes de trésorerie,
                         alors que l'activité est rentable sur le papier. La plupart de ces échecs auraient pu être évités.
                     </p>
                 </div>
@@ -22,7 +22,7 @@ export const articleBody = (
                                 <AlertTriangle className="w-6 h-6 text-red-600" />
                             </div>
                             <div>
-                                <h2 className="text-3xl font-bold text-primary mb-3">
+                                <h2 className="text-3xl font-bold text-slate-900 mb-3">
                                     1. Ne pas suivre le DSO chaque mois
                                 </h2>
                                 <p className="text-lg text-red-600 font-semibold">
@@ -31,12 +31,12 @@ export const articleBody = (
                             </div>
                         </div>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>Le symptôme :</strong> Vous envoyez vos factures, mais vous ne suivez pas précisément le délai moyen de paiement.
                             Résultat : votre DSO (Days Sales Outstanding) passe de 45 à 65 jours sans que vous vous en rendiez compte.
                         </p>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>Cas réel :</strong> PME services 2M€ CA. DSO passé de 42 à 68 jours en 6 mois = 140k€ de cash "gelé" chez les clients.
                             L'entreprise payait des agios bancaires alors que l'argent était juste… en retard.
                         </p>
@@ -70,7 +70,7 @@ export const articleBody = (
                                 <TrendingDown className="w-6 h-6 text-red-600" />
                             </div>
                             <div>
-                                <h2 className="text-3xl font-bold text-primary mb-3">
+                                <h2 className="text-3xl font-bold text-slate-900 mb-3">
                                     2. Confondre rentabilité et trésorerie
                                 </h2>
                                 <p className="text-lg text-red-600 font-semibold">
@@ -79,15 +79,15 @@ export const articleBody = (
                             </div>
                         </div>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>Le piège :</strong> Votre P&L affiche +15% de marge nette, mais votre compte bancaire est à découvert.
                             Vous êtes rentable… mais sans cash.
                         </p>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>Pourquoi ça arrive :</strong>
                         </p>
-                        <ul className="list-disc list-inside space-y-2 text-secondary mb-4 ml-4">
+                        <ul className="list-disc list-inside space-y-2 text-slate-700 mb-4 ml-4">
                             <li>Vos clients paient à 60j, vos fournisseurs à 30j</li>
                             <li>Vous investissez (recrutement, équipements) avant d'encaisser</li>
                             <li>Le BFR augmente plus vite que votre CA</li>
@@ -122,7 +122,7 @@ export const articleBody = (
                                 <DollarSign className="w-6 h-6 text-red-600" />
                             </div>
                             <div>
-                                <h2 className="text-3xl font-bold text-primary mb-3">
+                                <h2 className="text-3xl font-bold text-slate-900 mb-3">
                                     3. Négliger les petites factures impayées
                                 </h2>
                                 <p className="text-lg text-red-600 font-semibold">
@@ -131,12 +131,12 @@ export const articleBody = (
                             </div>
                         </div>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>L'erreur :</strong> "C'est que 500€, je relancerai plus tard." Sauf que vous avez 40 factures comme ça.
                             Total : 20k€ en retard.
                         </p>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>Stat réelle :</strong> Les PME qui ne relancent pas systématiquement les factures {"<"} 1000€ ont en moyenne
                             8% de leur CA en créances de +90 jours.
                         </p>
@@ -170,7 +170,7 @@ export const articleBody = (
                                 <AlertTriangle className="w-6 h-6 text-red-600" />
                             </div>
                             <div>
-                                <h2 className="text-3xl font-bold text-primary mb-3">
+                                <h2 className="text-3xl font-bold text-slate-900 mb-3">
                                     4. Payer les fournisseurs trop tôt
                                 </h2>
                                 <p className="text-lg text-red-600 font-semibold">
@@ -179,12 +179,12 @@ export const articleBody = (
                             </div>
                         </div>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>L'erreur :</strong> Vous payez vos fournisseurs dès réception de facture, alors que vous avez négocié 30j.
                             Vous "offrez" 30 jours de cash gratuit.
                         </p>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>Exemple chiffré :</strong> 50k€ de charges mensuelles. En payant à J+30 au lieu de J+5,
                             vous gardez ~45k€ de plus en trésorerie permanente.
                         </p>
@@ -218,7 +218,7 @@ export const articleBody = (
                                 <TrendingDown className="w-6 h-6 text-red-600" />
                             </div>
                             <div>
-                                <h2 className="text-3xl font-bold text-primary mb-3">
+                                <h2 className="text-3xl font-bold text-slate-900 mb-3">
                                     5. Ne pas avoir de prévisionnel trésorerie
                                 </h2>
                                 <p className="text-lg text-red-600 font-semibold">
@@ -227,12 +227,12 @@ export const articleBody = (
                             </div>
                         </div>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>Le problème :</strong> Vous pilotez à vue. Vous découvrez que vous serez à découvert…
                             le jour où vous l'êtes.
                         </p>
 
-                        <p className="text-secondary leading-relaxed mb-4">
+                        <p className="text-slate-700 leading-relaxed mb-4">
                             <strong>Stat alarmante :</strong> 60% des PME n'ont pas de cash-flow prévisionnel à 90 jours.
                             Elles gèrent leur trésorerie comme leur compte perso.
                         </p>
@@ -261,15 +261,15 @@ export const articleBody = (
 
                     {/* Conclusion */}
                     <section className="mb-12">
-                        <h2 className="text-3xl font-bold text-primary mb-6">
+                        <h2 className="text-3xl font-bold text-slate-900 mb-6">
                             Ce qu'il faut retenir
                         </h2>
 
-                        <div className="surface rounded-xl p-8 border-2 border-accent-primary-border mb-8">
-                            <h3 className="text-xl font-bold mb-4 text-primary">
+                        <div className="bg-slate-50 rounded-xl p-8 border-2 border-accent-primary-border mb-8">
+                            <h3 className="text-xl font-bold mb-4 text-slate-900">
                                 Les 3 règles d'or pour sécuriser votre trésorerie :
                             </h3>
-                            <ol className="space-y-3 text-secondary">
+                            <ol className="space-y-3 text-slate-700">
                                 <li className="flex items-start gap-3">
                                     <span className="font-bold text-accent-primary">1.</span>
                                     <span><strong>Suivre 3 KPIs chaque mois :</strong> DSO, BFR, Cash-flow prévisionnel 90j</span>
@@ -285,7 +285,7 @@ export const articleBody = (
                             </ol>
                         </div>
 
-                        <p className="text-secondary leading-relaxed">
+                        <p className="text-slate-700 leading-relaxed">
                             La bonne nouvelle ? Ces 5 erreurs sont faciles à corriger une fois identifiées.
                             La mauvaise ? Si vous ne les corrigez pas, elles coûteront tôt ou tard très cher.
                         </p>

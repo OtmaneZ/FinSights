@@ -6,10 +6,10 @@ export const articleBody = (
 {/* Retour */}
                 {/* En-tête */}
                 {/* Chiffre clé */}
-                <div className="surface rounded-xl p-6 border-l-4 border-blue-500 mb-12 flex items-start gap-4">
+                <div className="bg-slate-50 rounded-xl p-6 border-l-4 border-blue-500 mb-12 flex items-start gap-4">
                     <AlertCircle className="w-6 h-6 text-blue-500 flex-shrink-0 mt-1" />
-                    <p className="text-secondary leading-relaxed">
-                        <strong className="text-primary">La fonction Finance est la dernière à intégrer concrètement l&apos;IA dans ses processus.</strong>{' '}
+                    <p className="text-slate-700 leading-relaxed">
+                        <strong className="text-slate-900">La fonction Finance est la dernière à intégrer concrètement l&apos;IA dans ses processus.</strong>{' '}
                         Derrière le marketing, les RH, et même la relation client. Ce n&apos;est pas une question de volonté. C&apos;est une question de structure.
                     </p>
                 </div>

@@ -50,7 +50,7 @@ export const finalArticles = {
                 <h3>📐 Formule</h3>
                 <div className="formula-box">
                     <strong>Ratio de liquidité générale = Actif circulant / Passif circulant</strong>
-                    <p className="text-sm text-secondary mt-2">
+                    <p className="text-sm text-slate-500 mt-2">
                         Actif circulant = Stocks + Créances clients + Trésorerie<br/>
                         Passif circulant = Dettes fournisseurs + Dettes fiscales + Dettes sociales
                     </p>
@@ -107,7 +107,7 @@ export const finalArticles = {
                 <h3>📐 Formule</h3>
                 <div className="formula-box">
                     <strong>Ratio de liquidité restreinte = (Actif circulant - Stocks) / Passif circulant</strong>
-                    <p className="text-sm text-secondary mt-2">
+                    <p className="text-sm text-slate-500 mt-2">
                         Exclut les stocks car moins liquides (durée de conversion ≥ 30 jours)
                     </p>
                 </div>
@@ -161,7 +161,7 @@ export const finalArticles = {
                 <div className="tip-box">
                     <p>
                         <strong>Règle d'or</strong> : Quick Ratio ≥ 1<br/>
-                        <span className="text-sm text-secondary">
+                        <span className="text-sm text-slate-500">
                             Une entreprise doit pouvoir rembourser ses dettes sans vendre ses stocks.
                         </span>
                     </p>
@@ -171,7 +171,7 @@ export const finalArticles = {
                 <h3>📐 Formule</h3>
                 <div className="formula-box">
                     <strong>Ratio de liquidité immédiate = Trésorerie / Passif circulant</strong>
-                    <p className="text-sm text-secondary mt-2">
+                    <p className="text-sm text-slate-500 mt-2">
                         Trésorerie = Disponibilités en banque + Placements court terme (&lt; 3 mois)
                     </p>
                 </div>
@@ -379,7 +379,7 @@ export const finalArticles = {
                     <a href="/dashboard" className="cta-button">
                         Analyser ma liquidité gratuitement →
                     </a>
-                    <p className="text-sm text-secondary mt-2">
+                    <p className="text-sm text-slate-500 mt-2">
                         Sans engagement • 10 questions IA gratuites • Dashboard complet
                     </p>
                 </div>
@@ -650,7 +650,7 @@ export const finalArticles = {
                             </tr>
                         </tbody>
                     </table>
-                    <p className="text-sm text-secondary mt-2">
+                    <p className="text-sm text-slate-500 mt-2">
                         * Coût caché calculé sur un TJM DAF de 400€/j (2j/mois × 12 mois × 400€ = 9 600€/an)
                     </p>
                 </div>
@@ -816,7 +816,7 @@ export const finalArticles = {
                     <a href="/dashboard" className="cta-button">
                         Démarrer gratuitement (sans CB) →
                     </a>
-                    <p className="text-sm text-secondary mt-2">
+                    <p className="text-sm text-slate-500 mt-2">
                         ⏱️ 5 minutes • 🔒 Données sécurisées (RGPD) • ❌ Sans engagement
                     </p>
                 </div>
@@ -1115,12 +1115,12 @@ export const finalArticles = {
                     <div className="card">
                         <h4>🏠 100% Distanciel</h4>
                         <p>TJM : <strong>-10 à -15%</strong></p>
-                        <p className="text-sm text-secondary">Visio + outils collaboratifs<br/>Économie frais déplacement</p>
+                        <p className="text-sm text-slate-500">Visio + outils collaboratifs<br/>Économie frais déplacement</p>
                     </div>
                     <div className="card">
                         <h4>🤝 Hybride (1-2j sur site/mois)</h4>
                         <p>TJM : <strong>Standard</strong></p>
-                        <p className="text-sm text-secondary">Meilleur équilibre<br/>Présence Codir/réunions clés</p>
+                        <p className="text-sm text-slate-500">Meilleur équilibre<br/>Présence Codir/réunions clés</p>
                     </div>
                 </div>
 
@@ -1822,7 +1822,7 @@ export const finalArticles = {
 
                 <div className="formula-box">
                     <strong>BFR = Stocks + Créances clients - Dettes fournisseurs</strong>
-                    <p className="text-sm text-secondary mt-2">
+                    <p className="text-sm text-slate-500 mt-2">
                         <a href="/calculateurs/bfr">→ Calculer votre BFR gratuitement</a>
                     </p>
                 </div>
@@ -2044,7 +2044,7 @@ export const finalArticles = {
 
                 <div className="formula-box">
                     <strong>BFR = Stocks + Créances clients - Dettes fournisseurs</strong>
-                    <p className="text-sm text-secondary mt-3">
+                    <p className="text-sm text-slate-500 mt-3">
                         Ou en jours de CA :<br/>
                         <strong>BFR (jours) = (BFR / CA annuel) × 365</strong>
                     </p>
@@ -3533,7 +3533,7 @@ Résultat : (190 000 / 5 000 000) × 365 = 13,87 jours ≈ 14 jours
                         Il a déjà géré des levées de fonds, des M&A, des restructurations. 
                         Vous évitez les 6-12 mois d&apos;onboarding d&apos;un CFO junior.
                     </p>
-                    <p className="text-sm text-secondary mt-2">
+                    <p className="text-sm text-slate-500 mt-2">
                         💡 <strong>Exemple</strong> : Un ex-CFO de Doctolib ou BlaBlaCar en Fractional apporte sa connaissance des process de scale-up.
                     </p>
                 </div>
