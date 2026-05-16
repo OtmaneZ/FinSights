@@ -22,7 +22,7 @@ export const DAFOfferEmail = ({
 }: DAFOfferEmailProps) => (
     <Html>
         <Head />
-        <Preview>DAF Externalisé : Les 3 formules adaptées aux PME/ETI (tarifs transparents)</Preview>
+        <Preview>Pilotage financier pour PME ambitieuses : Les 3 formules adaptées aux PME/ETI (tarifs transparents)</Preview>
         <Body style={main}>
             <Container style={container}>
                 {/* Header */}
@@ -99,7 +99,7 @@ export const DAFOfferEmail = ({
 
                     {/* Solution intro */}
                     <Section style={solutionIntro}>
-                        <Heading style={h2}>✅ La solution : DAF Externalisé</Heading>
+                        <Heading style={h2}>✅ La solution : Architecte de pilotage financier</Heading>
                         <Text style={text}>
                             Même expertise qu'un DAF senior (15+ ans expérience), <strong>sans les contraintes</strong> :
                         </Text>
@@ -319,7 +319,7 @@ export const DAFOfferEmail = ({
                         <Text style={signatureText}>
                             Au plaisir d'échanger,<br />
                             <strong>Otmane Boulahia</strong><br />
-                            DAF Externalisé & Fondateur FinSight<br />
+                            Architecte de pilotage financier & Fondateur FinSight<br />
                             📧 <Link href="mailto:otmane@zineinsight.com" style={link}>
                                 otmane@zineinsight.com
                             </Link><br />
@@ -340,7 +340,7 @@ export const DAFOfferEmail = ({
                 {/* Footer */}
                 <Section style={footer}>
                     <Text style={footerText}>
-                        FinSight - DAF Externalisé pour PME/ETI ambitieuses
+                        FinSight - Architecte de pilotage financier pour PME/ETI ambitieuses
                     </Text>
                     <Text style={footerText}>
                         <Link href="https://finsight.zineinsight.com" style={footerLink}>

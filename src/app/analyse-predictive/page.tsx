@@ -182,7 +182,7 @@ export default function AnalysePredictivePage() {
                             Score FinSight™ - avant / après optimisation
                         </h2>
                         <p className="text-slate-600 text-center mb-10">
-                            Exemple réel : PME distribution 8 M€, 90 jours d'accompagnement DAF externalisé.
+                            Exemple réel : PME distribution 8 M€, 90 jours d'accompagnement pilotage financier.
                         </p>
                         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 space-y-6">
                             {PILLARS.map((p) => (
@@ -211,7 +211,7 @@ export default function AnalysePredictivePage() {
                                     </div>
                                 </div>
                             ))}
-                            <p className="text-xs text-slate-400 text-right">Gris = avant · Couleur = après 90 jours DAF externalisé</p>
+                            <p className="text-xs text-slate-400 text-right">Gris = avant · Couleur = après 90 jours de pilotage structuré</p>
                         </div>
                     </div>
                 </section>

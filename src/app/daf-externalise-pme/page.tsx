@@ -291,7 +291,7 @@ export default function DAFExternalisePME() {
                     <div className="absolute inset-0">
                         <Image
                             src="/images/bureau.png"
-                            alt="DAF externalisé travaillant sur les finances d'une PME"
+                            alt="Architecte de pilotage financier travaillant sur les finances d'une PME"
                             fill
                             className="object-cover opacity-15"
                             priority
@@ -321,7 +321,7 @@ export default function DAFExternalisePME() {
                                 transition={{ duration: 0.5, delay: 0.1 }}
                                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
                             >
-                                DAF Externalisé PME :<br />
+                                Architecte de pilotage financier :<br />
                                 <span className="text-accent-primary">Pilotez votre trésorerie</span><br />
                                 sans recruter
                             </motion.h1>
@@ -451,7 +451,7 @@ export default function DAFExternalisePME() {
                                     Ce que je mets en place pour vous
                                 </h2>
                                 <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                                    Un DAF externalisé apporte structure, visibilité et sérénité financière.
+                                    Un architecte de pilotage financier apporte structure, visibilité et sérénité financière.
                                 </p>
                             </motion.div>
 
@@ -496,7 +496,7 @@ export default function DAFExternalisePME() {
                                     <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
                                         <Image
                                             src="/images/moi-bureau.png"
-                                            alt="Otmane Boulahia - DAF Externalisé"
+                                            alt="Otmane Boulahia - Architecte de pilotage financier"
                                             fill
                                             className="object-cover"
                                         />

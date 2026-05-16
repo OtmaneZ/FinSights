@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 
 const SITE_URL = 'https://finsight.zineinsight.com'
 const SITE_NAME = 'FinSight'
-const SITE_DESCRIPTION = 'DAF externalisé & analyse financière pour PME. Pilotage de trésorerie, tableau de bord et agents IA pour dirigeants et directeurs financiers.'
+const SITE_DESCRIPTION = 'Architecte de pilotage financier pour PME ambitieuses. Pilotage de trésorerie, tableau de bord et agents IA pour dirigeants et directeurs financiers.'
 
 // ============================================
 // DATE HELPERS

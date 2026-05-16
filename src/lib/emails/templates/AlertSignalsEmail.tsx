@@ -242,7 +242,7 @@ export const AlertSignalsEmail = ({
                         <Text style={signatureText}>
                             N'attendez pas la crise,<br />
                             <strong>Otmane Boulahia</strong><br />
-                            DAF Externalisé & Fondateur FinSight<br />
+                            Architecte de pilotage financier & Fondateur FinSight<br />
                             <Link href="mailto:otmane@zineinsight.com" style={link}>
                                 otmane@zineinsight.com
                             </Link>
@@ -253,7 +253,7 @@ export const AlertSignalsEmail = ({
                     <Section style={psSection}>
                         <Text style={psText}>
                             <strong>P.S.</strong> J'envoie un dernier email dans 10 jours avec les détails
-                            de mon accompagnement DAF externalisé. Si vous voulez anticiper, répondez à cet email.
+                            de mon accompagnement en pilotage financier. Si vous voulez anticiper, répondez à cet email.
                         </Text>
                     </Section>
                 </Section>

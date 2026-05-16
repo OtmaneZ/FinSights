@@ -31,7 +31,7 @@ interface Guide {
 const levelLabels: Record<number, { label: string; description: string }> = {
     1: { label: 'Outils opérationnels', description: 'Grilles de contrôle et formules applicables immédiatement' },
     2: { label: 'Lecture stratégique', description: 'Interprétation des indicateurs et diagnostic structurel' },
-    3: { label: 'Accompagnement DAF', description: 'Méthodologie complète de direction financière externalisée' }
+    3: { label: 'Accompagnement DAF', description: 'Méthodologie complète de pilotage financier structuré' }
 }
 
 const guides: Guide[] = [
@@ -349,7 +349,7 @@ export default function GuidesPage() {
                                     Méthodologie FinSight&trade;
                                 </h3>
                                 <span className="text-xs text-slate-400 uppercase tracking-wider font-medium">
-                                    Structurer une Direction Financière Externalisée
+                                    Structurer un Pilotage Financier Performant
                                 </span>
                             </div>
                         </div>

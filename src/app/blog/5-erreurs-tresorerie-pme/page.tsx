@@ -51,14 +51,14 @@ export default function ArticlePage() {
                     <div className="flex items-center gap-4 mb-6 p-4 bg-slate-50 rounded-xl border border-slate-200">
                         <Image 
                             src="/images/Photo_profil.jpeg" 
-                            alt="Otmane Boulahia - Consultant Finance & DAF Externalisé" 
+                            alt="Otmane Boulahia - Architecte de pilotage financier pour PME ambitieuses" 
                             width={64} 
                             height={64} 
                             className="rounded-full object-cover"
                         />
                         <div>
                             <p className="font-bold text-slate-900 text-lg">Par Otmane Boulahia</p>
-                            <p className="text-sm text-slate-600">Consultant Finance & Data | DAF Externalisé</p>
+                            <p className="text-sm text-slate-600">Architecte de pilotage financier pour PME ambitieuses</p>
                             <Link 
                                 href="https://www.linkedin.com/in/otmane-boulahia-553bb6363" 
                                 target="_blank"

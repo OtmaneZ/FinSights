@@ -122,7 +122,7 @@ export const TemplateWelcomeEmail = ({
                         <Text style={signatureText}>
                             À très vite,<br />
                             <strong>Otmane Boulahia</strong><br />
-                            DAF Externalisé & Fondateur FinSight<br />
+                            Architecte de pilotage financier & Fondateur FinSight<br />
                             <Link href="mailto:otmane@zineinsight.com" style={link}>
                                 otmane@zineinsight.com
                             </Link>

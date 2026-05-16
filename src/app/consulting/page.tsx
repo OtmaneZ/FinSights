@@ -170,7 +170,7 @@ export default function ConsultingPage() {
 
                             {/* H1 */}
                             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
-                                Votre DAF externalisé,{' '}
+                                Votre architecte de pilotage financier,{' '}
                                 <span className="text-accent-primary">disponible dès cette semaine</span>
                             </h1>
 

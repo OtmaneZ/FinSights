@@ -33,8 +33,8 @@ export const CONSULTING_RATING_VALUE = '4.8'
 export const CONSULTING_REVIEW_COUNT = '12'
 
 // ── Texte formaté pour l'UI (fr-FR) ────────────────────────────────────────
-/** Chaîne prête à afficher dans un trust bar : "4,8 / 5 (47 avis)" */
-export const SOCIAL_PROOF_LABEL = `${AGGREGATE_RATING_VALUE.replace('.', ',')} / 5 (${AGGREGATE_REVIEW_COUNT} avis)`
+/** Chaîne prête à afficher dans un trust bar : "4,8 / 5" */
+export const SOCIAL_PROOF_LABEL = `${AGGREGATE_RATING_VALUE.replace('.', ',')} / 5`
 
 // ── Nombre de témoignages affichés par page ─────────────────────────────────
 // Ces constantes permettent de s'assurer que reviewCount ≤ témoignages visibles

@@ -52,7 +52,7 @@ function headerBar(doc, title, pageNum, total) {
     doc.rect(0, 0, W, 36).fill(C.dark);
     doc.fillColor(C.white).font('Helvetica').fontSize(8)
         .text('FINSIGHT', ML, 13)
-        .text(`Direction Financière Externalisée · PME 500k€–5M€`, ML + 60, 13)
+        .text(`Architecte de pilotage financier · PME 500k€–5M€`, ML + 60, 13)
         .text(`${pageNum} / ${total}`, W - MR - 25, 13);
 
     // Chapter title
@@ -137,7 +137,7 @@ function page1(doc) {
     doc.fillColor(C.white).font('Helvetica-Bold').fontSize(14)
         .text('FINSIGHT', ML, 40);
     doc.fillColor(C.gray).font('Helvetica').fontSize(9)
-        .text('Direction Financière Externalisée', ML, 58);
+        .text('Architecte de pilotage financier', ML, 58);
 
     // Badge
     doc.rect(ML, 110, 130, 24).fill(C.blue);
@@ -181,7 +181,7 @@ function page1(doc) {
     doc.fillColor(C.white).font('Helvetica-Bold').fontSize(10)
         .text('Otmane Boulahia', ML, 548);
     doc.fillColor(C.gray).font('Helvetica').fontSize(8.5)
-        .text('DAF Externalisé · Missions PME 500k€–5M€ · finsight.zineinsight.com', ML, 564);
+        .text('Architecte de pilotage financier · PME 500k€–5M€ · finsight.zineinsight.com', ML, 564);
 
     // Bottom bar
     doc.rect(0, H - 50, W, 50).fill('#060f1e');
@@ -585,7 +585,7 @@ function page15(doc) {
 
     // Logo
     doc.fillColor(C.white).font('Helvetica-Bold').fontSize(14).text('FINSIGHT', ML, 40);
-    doc.fillColor(C.gray).font('Helvetica').fontSize(9).text('Direction Financière Externalisée · PME 500k€–5M€', ML, 58);
+    doc.fillColor(C.gray).font('Helvetica').fontSize(9).text('Architecte de pilotage financier · PME 500k€–5M€', ML, 58);
 
     // Separator
     doc.rect(ML, 82, CONTENT_W, 1).fill('#1e3a5f');

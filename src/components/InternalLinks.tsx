@@ -32,13 +32,13 @@ const defaultLinks: InternalLink[] = [
     },
     {
         href: '/consulting',
-        title: 'Conseil DAF externalisé',
+        title: 'Pilotage financier PME',
         description: 'Accompagnement finance stratégique pour PME',
         icon: 'users'
     },
     {
         href: '/daf-externalise-pme',
-        title: 'DAF Externalisé PME',
+        title: 'Architecte de pilotage financier',
         description: 'Pilotez votre trésorerie sans recruter',
         icon: 'chart'
     }
@@ -178,8 +178,8 @@ export const consultingLinks: InternalLink[] = [
     },
     {
         href: '/daf-externalise-pme',
-        title: 'DAF Externalisé PME',
-        description: 'Direction financière à temps partagé',
+        title: 'Architecte de pilotage financier',
+        description: 'Pilotage financier structuré pour PME ambitieuses',
         icon: 'chart'
     }
 ]

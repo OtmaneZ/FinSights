@@ -1,7 +1,7 @@
 export const metadata = {
     title: 'Blog Finance PME - Notes Stratégiques & Guides Pilotage | FinSight',
     description: '33 articles sur le pilotage financier PME : DSO, BFR, marge, trésorerie. Notes stratégiques et guides pratiques pour dirigeants.',
-    keywords: ['blog finance', 'DAF externalisé', 'note stratégique', 'pilotage financier', 'DSO', 'BFR', 'trésorerie PME', 'direction financière'],
+    keywords: ['blog finance', 'pilotage financier PME', 'note stratégique', 'architecte de pilotage financier', 'DSO', 'BFR', 'trésorerie PME', 'direction financière'],
     openGraph: {
         type: 'website',
         title: 'Blog Finance PME - Notes Stratégiques & Guides Pilotage | FinSight',

@@ -31,7 +31,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
             <a href="https://calendly.com/zineinsight" style="color:#2563eb;">Réserver un échange stratégique 30 min</a>
             <hr style="border:none;border-top:1px solid #e5e7eb;margin:30px 0;">
             <p style="font-size:12px;color:#666;text-align:center;">
-              FinSight · Direction Financière Externalisée pour PME<br>
+              FinSight · Architecte de pilotage financier pour PME ambitieuses<br>
               <a href="https://finsight.zineinsight.com/politique-confidentialite" style="color:#666;">Se désinscrire</a>
             </p>
           </div>
@@ -60,7 +60,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
                 <!-- Header -->
                 <tr>
                   <td style="background:#0f172a;border-radius:12px 12px 0 0;padding:32px 40px 28px;">
-                    <p style="margin:0 0 4px;color:#94a3b8;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">FinSight · Direction Financière Externalisée</p>
+                    <p style="margin:0 0 4px;color:#94a3b8;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">FinSight · Architecte de pilotage financier</p>
                     <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;line-height:1.3;">
                       Votre guide est prêt à télécharger 📄
                     </h1>
@@ -165,7 +165,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
                 <tr>
                   <td style="background:#f8fafc;border-top:1px solid #e2e8f0;border-radius:0 0 12px 12px;padding:20px 40px;text-align:center;">
                     <p style="margin:0;color:#94a3b8;font-size:11px;line-height:1.6;">
-                      FinSight · Direction Financière Externalisée pour PME 500k€–5M€<br>
+                      FinSight · Architecte de pilotage financier pour PME 500k€–5M€<br>
                       <a href="mailto:otmane@zineinsight.com" style="color:#64748b;">otmane@zineinsight.com</a> ·
                       <a href="https://finsight.zineinsight.com" style="color:#64748b;">finsight.zineinsight.com</a><br>
                       <a href="https://finsight.zineinsight.com/politique-confidentialite" style="color:#94a3b8;">Se désinscrire</a> · Conformément au RGPD
@@ -196,7 +196,7 @@ function getEmailContent(source: string, leadMagnet: string | undefined, score?:
       <body style="font-family:Arial,sans-serif;line-height:1.6;color:#333;max-width:600px;margin:0 auto;padding:20px;">
         <div style="background:#0f172a;padding:30px;text-align:center;border-radius:10px 10px 0 0;">
           <h1 style="color:white;margin:0;font-size:22px;">FinSight</h1>
-          <p style="color:#94a3b8;margin:8px 0 0;">Direction Financière Externalisée · PME 500k€–5M€</p>
+          <p style="color:#94a3b8;margin:8px 0 0;">Architecte de pilotage financier · PME 500k€–5M€</p>
         </div>
         <div style="background:#f9fafb;padding:30px;border-radius:0 0 10px 10px;">
           <p>Bonjour,</p>

@@ -180,7 +180,7 @@ export default function SimulateursPage() {
                             href="/consulting"
                             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary text-slate-900 font-semibold rounded-xl hover:bg-accent-primary-hover transition-colors"
                         >
-                            Parler à un DAF externalisé
+                            Parler à un architecte de pilotage financier
                             <ArrowRight className="w-5 h-5" />
                         </Link>
                         <Link

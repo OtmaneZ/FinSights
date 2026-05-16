@@ -48,7 +48,7 @@ export const SITE_MAP: SitePage[] = [
   { href: '/faq', label: 'FAQ', description: 'Questions frequentes sur FinSight et la finance PME.', category: 'resource' },
 
   // Conversion
-  { href: '/tarifs', label: 'Tarifs', description: 'Tarifs des missions DAF externalisé FinSight : diagnostic, audit, decision system.', category: 'conversion' },
+  { href: '/tarifs', label: 'Tarifs', description: 'Tarifs des missions de pilotage financier FinSight : diagnostic, audit, decision system.', category: 'conversion' },
 ]
 
 // ---------------------------------------------------------------------------

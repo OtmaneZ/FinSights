@@ -1343,7 +1343,7 @@ export default function CalculateurDSO() {
                                 Besoin d'aide pour réduire votre DSO et libérer du cash ?
                             </h2>
                             <p className="text-lg text-slate-300 mb-8">
-                                En tant que DAF externalisé, je vous aide à structurer votre recouvrement et optimiser votre trésorerie.
+                                En tant qu'architecte de pilotage financier, je vous aide à structurer votre recouvrement et optimiser votre trésorerie.
                                 <br />
                                 <strong className="text-white">Résultats visibles sous 60-90 jours.</strong>
                             </p>

@@ -232,7 +232,7 @@ export default function ContactPage() {
                                     <FileText className="w-7 h-7 text-accent-primary" />
                                 </div>
                                 <span className="text-xs font-semibold text-accent-primary uppercase tracking-wider">Audit Finance</span>
-                                <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">Accompagnement DAF externalisé</h3>
+                                <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">Accompagnement pilotage financier</h3>
                                 <p className="text-text-secondary mb-6">
                                     Diagnostic financier, pilotage du cash, analyse de rentabilité, tableaux de bord intelligents et structuration des décisions.
                                 </p>
@@ -311,7 +311,7 @@ export default function ContactPage() {
                             <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl">
                                 <Image
                                     src="/images/Photo_profil.jpeg"
-                                    alt="Otmane Boulahia - DAF externalisé et consultant en intelligence financière"
+                                    alt="Otmane Boulahia - Architecte de pilotage financier pour PME ambitieuses"
                                     width={500}
                                     height={600}
                                     className="object-cover w-full"
@@ -324,7 +324,7 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <p className="text-white font-bold">Otmane Boulahia</p>
-                                            <p className="text-gray-300 text-sm">DAF externalisé • Consultant IA Finance</p>
+                                            <p className="text-gray-300 text-sm">Architecte de pilotage financier • Consultant IA Finance</p>
                                         </div>
                                     </div>
                                 </div>
@@ -343,8 +343,8 @@ export default function ContactPage() {
                                 Mon parcours
                             </span>
                             <h2 className="text-3xl md:text-4xl font-bold">
-                                DAF externalisé &amp; consultant en{' '}
-                                <span className="text-accent-primary">intelligence financière</span>
+                                Architecte de pilotage financier &amp;{' '}
+                                <span className="text-accent-primary">consultant en intelligence financière</span>
                             </h2>
 
                             <div className="space-y-4 text-gray-300 leading-relaxed">
@@ -466,7 +466,7 @@ export default function ContactPage() {
                                 <div className="w-12 h-12 bg-accent-primary-subtle rounded-xl flex items-center justify-center mb-4">
                                     <Users className="w-6 h-6 text-accent-primary" />
                                 </div>
-                                <h4 className="text-xl font-bold text-text-primary mb-3">DAF externalisé</h4>
+                                <h4 className="text-xl font-bold text-text-primary mb-3">Architecte de pilotage financier</h4>
                                 <p className="text-text-secondary leading-relaxed">
                                     Directement intégré au pilotage de l&apos;entreprise, pour un accompagnement opérationnel 
                                     et stratégique sur la durée.

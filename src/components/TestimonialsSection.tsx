@@ -51,7 +51,7 @@ const testimonials = [
 interface TestimonialsSectionProps {
     /** Thème sombre (bg-slate-50) ou blanc (bg-white) - défaut: slate-50 */
     background?: 'slate' | 'white'
-    /** Afficher le compteur agrégé 4,8/5 · 47 avis */
+    /** Afficher le compteur agrégé 4,8/5 */
     showAggregate?: boolean
 }
 

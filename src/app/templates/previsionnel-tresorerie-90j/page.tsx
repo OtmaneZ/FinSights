@@ -758,7 +758,7 @@ export default function TemplateExcelTresoreriePage() {
                             Besoin d&apos;accompagnement personnalisé ?
                         </h2>
                         <p className="text-lg text-slate-600 mb-6">
-                            Vous voulez un DAF externalisé qui pilote votre trésorerie, optimise vos marges et 
+                            Vous voulez un architecte de pilotage financier qui structure votre trésorerie, optimise vos marges et 
                             accompagne vos décisions stratégiques ?
                         </p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -766,7 +766,7 @@ export default function TemplateExcelTresoreriePage() {
                                 href="/consulting"
                                 className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
                             >
-                                Découvrir le service DAF externalisé
+                                Découvrir l&apos;offre de pilotage financier
                                 <ArrowRight className="w-5 h-5" />
                             </Link>
                             <a

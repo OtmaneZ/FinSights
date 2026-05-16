@@ -383,7 +383,7 @@ export async function sendDAFOfferEmail(params: {
             from: FROM_EMAIL,
             to: params.to,
             replyTo: REPLY_TO_EMAIL,
-            subject: '💼 DAF Externalisé : Les 3 formules adaptées aux PME/ETI (tarifs transparents)',
+            subject: '💼 Pilotage financier pour PME ambitieuses : Les 3 formules adaptées aux PME/ETI (tarifs transparents)',
             html: emailHtml,
             tags: sanitizeResendTagEntries([
                 { name: 'email_type', value: 'nurturing_j20' },
