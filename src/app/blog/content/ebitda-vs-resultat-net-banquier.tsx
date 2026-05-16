@@ -3,7 +3,7 @@ import Link from 'next/link'
 export const articleBody = (
 <div className="published-article-body">
 
-    <div className="bg-slate-50 rounded-xl p-8 border-l-4 border-blue-500 mb-12">
+    <div className="not-prose bg-slate-50 rounded-xl p-8 border-l-4 border-blue-500 mb-12">
         <p className="text-lg leading-relaxed text-slate-700">
             Votre expert-comptable vous montre un résultat net positif. Vous souriez.
             Votre banquier, lui, regarde autre chose. Et il ne sourit pas de la même façon.
@@ -53,7 +53,7 @@ export const articleBody = (
 
             <p className="text-slate-700 leading-relaxed mb-6">La formule :</p>
 
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200 mb-6 text-center">
+            <div className="not-prose bg-slate-50 rounded-xl p-6 border border-slate-200 mb-6 text-center">
                 <p className="text-xl font-bold text-slate-900">
                     EBITDA = Résultat net + Impôts + Intérêts + Amortissements
                 </p>
@@ -77,7 +77,7 @@ export const articleBody = (
                 Quand une banque analyse votre dossier de crédit, elle regarde un ratio précis :
             </p>
 
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200 mb-6 text-center">
+            <div className="not-prose bg-slate-50 rounded-xl p-6 border border-slate-200 mb-6 text-center">
                 <p className="text-xl font-bold text-slate-900">Dette nette / EBITDA</p>
             </div>
 
@@ -93,7 +93,7 @@ export const articleBody = (
                 économique solide. L'EBITDA lui montre ça.
             </p>
 
-            <div className="bg-slate-50 rounded-xl p-6 border-l-4 border-yellow-500 mb-6">
+            <div className="not-prose bg-slate-50 rounded-xl p-6 border-l-4 border-yellow-500 mb-6">
                 <p className="text-slate-700 leading-relaxed italic">
                     J'ai vu des dirigeants refusés avec 200k€ de résultat net. Et d'autres financés avec un résultat
                     net à zéro. La différence tenait à un seul chiffre.
@@ -122,7 +122,7 @@ export const articleBody = (
         </section>
 
         {/* CTA */}
-        <div className="bg-slate-50 rounded-xl p-8 border border-slate-200 text-center mt-12">
+        <div className="not-prose bg-slate-50 rounded-xl p-8 border border-slate-200 text-center mt-12">
             <p className="text-lg font-semibold text-slate-900 mb-4">
                 Calculez votre EBITDA maintenant
             </p>
