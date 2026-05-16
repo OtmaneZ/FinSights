@@ -221,6 +221,95 @@ export default function FondamentauxPage() {
           </div>
         </section>
 
+        {/* ─── Les 4 indispensables ─── */}
+        <section className="py-14 bg-white border-b border-slate-100">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+                <div>
+                  <p className="text-[0.65rem] font-semibold tracking-[0.15em] uppercase text-accent-primary mb-2">
+                    Commencer par là
+                  </p>
+                  <h2 className="text-2xl font-bold text-slate-900">
+                    Les 4 concepts que tout dirigeant PME doit maîtriser
+                  </h2>
+                  <p className="text-sm text-slate-500 mt-1.5">
+                    Rentable sur le papier, à découvert en pratique. Ces quatre chiffres expliquent pourquoi.
+                  </p>
+                </div>
+                <Link
+                  href="/fondamentaux/les-4-essentiels"
+                  className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-lg transition-all"
+                >
+                  Lire la page complète
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  {
+                    sigle: 'BFR',
+                    couleur: 'border-blue-500 bg-blue-50',
+                    couleurSigle: 'text-blue-700',
+                    titre: 'Besoin en Fonds de Roulement',
+                    accroche: 'Le cash immobilisé par votre activité chaque jour. La croissance consomme du cash.',
+                    href: '/fondamentaux/les-4-essentiels#bfr',
+                    calc: '/calculateurs/bfr',
+                  },
+                  {
+                    sigle: 'DSO / DPO',
+                    couleur: 'border-amber-500 bg-amber-50',
+                    couleurSigle: 'text-amber-700',
+                    titre: 'Délais de paiement clients / fournisseurs',
+                    accroche: 'Si vos clients paient en 60j et vous payez en 30j, vous financez vos clients.',
+                    href: '/fondamentaux/les-4-essentiels#dso-dpo',
+                    calc: '/calculateurs/dso',
+                  },
+                  {
+                    sigle: 'Cash vs Résultat',
+                    couleur: 'border-purple-500 bg-purple-50',
+                    couleurSigle: 'text-purple-700',
+                    titre: 'Cash-flow vs Résultat net',
+                    accroche: 'Résultat = ce que vous avez gagné. Cash = ce que vous avez en banque. Ce n\'est pas pareil.',
+                    href: '/fondamentaux/les-4-essentiels#cash-flow',
+                    calc: null,
+                  },
+                  {
+                    sigle: 'EBITDA',
+                    couleur: 'border-emerald-500 bg-emerald-50',
+                    couleurSigle: 'text-emerald-700',
+                    titre: 'Ce que banquiers et acheteurs regardent',
+                    accroche: 'L\'indicateur universel de performance brute. C\'est sur lui que se calcule votre valorisation.',
+                    href: '/fondamentaux/les-4-essentiels#ebitda',
+                    calc: '/calculateurs/ebitda',
+                  },
+                ].map((item, i) => (
+                  <Link
+                    key={i}
+                    href={item.href}
+                    className={`group block border-t-2 ${item.couleur} rounded-lg p-5 hover:shadow-md transition-all`}
+                  >
+                    <span className={`block text-xs font-bold tracking-wider uppercase mb-2 ${item.couleurSigle}`}>
+                      {item.sigle}
+                    </span>
+                    <p className="text-sm font-semibold text-slate-800 mb-2 leading-snug">
+                      {item.titre}
+                    </p>
+                    <p className="text-xs text-slate-500 leading-relaxed mb-3">
+                      {item.accroche}
+                    </p>
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 group-hover:gap-2 transition-all">
+                      Comprendre
+                      <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Why Section */}
         <section className="py-20 bg-slate-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
