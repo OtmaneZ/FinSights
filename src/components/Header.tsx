@@ -27,6 +27,7 @@ const resourcesItems = {
         { href: '/business-intelligence', label: 'Reporting multi-entités', icon: LayoutDashboard, desc: 'Consolidation groupe & pilotage multi-sites' },
         { href: '/business-intelligence/dax-financier', label: 'DAX Financier', icon: BarChart3, desc: 'Formules Power BI pour la finance' },
         { href: '/business-intelligence/connecteurs-comptables', label: 'Connecteurs comptables', icon: Webhook, desc: 'Sage, Cegid, EBP, FEC' },
+        { href: '/fondamentaux/diagnostic-pme', label: 'Diagnostic financier PME', icon: FileText, desc: '7 étapes pour lire vos chiffres' },
     ],
 }
 
