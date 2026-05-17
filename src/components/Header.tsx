@@ -159,6 +159,9 @@ export default function Header() {
                     <Link href="/consulting" className="px-3 py-2 text-sm text-secondary hover:text-primary font-medium rounded-md hover:bg-gray-100 transition-all">
                         Accompagnement
                     </Link>
+                    <Link href="/tresorerie-pme" className="px-3 py-2 text-sm text-secondary hover:text-primary font-medium rounded-md hover:bg-gray-100 transition-all">
+                        Trésorerie PME
+                    </Link>
                     <Link href="/methodologie" className="px-3 py-2 text-sm text-secondary hover:text-primary font-medium rounded-md hover:bg-gray-100 transition-all">
                         Score FinSight™
                     </Link>
@@ -395,6 +398,13 @@ export default function Header() {
                                     className="block rounded-md px-3 py-3 text-sm font-medium text-secondary transition-all hover:bg-gray-100 hover:text-primary"
                                 >
                                     Accompagnement
+                                </Link>
+                                <Link
+                                    href="/tresorerie-pme"
+                                    onClick={closeMobileMenu}
+                                    className="block rounded-md px-3 py-3 text-sm font-medium text-secondary transition-all hover:bg-gray-100 hover:text-primary"
+                                >
+                                    Trésorerie PME
                                 </Link>
                                 <Link
                                     href="/methodologie"
