@@ -70,8 +70,9 @@ export default function CinematicHero() {
 
         {/* Sub-headline */}
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-300/85 leading-relaxed mb-10">
-          9 calculateurs gratuits, diagnostic complet, accompagnement expert.
-          Trois niveaux pour piloter votre cash, vos marges et votre résilience.
+          9 calculateurs gratuits, templates Excel, articles de fond.
+          Et quand vous voulez aller plus loin : un accompagnement expert
+          pour transformer vos chiffres en décisions.
         </p>
 
         {/* Proof points */}
@@ -79,7 +80,7 @@ export default function CinematicHero() {
           {[
             '−28 jours de DSO · PME Services',
             '+340k€ de cash libéré · PME BTP',
-            '+6 pts de marge nette · Groupe 500M€',
+            '+6 pts de marge nette · PME Industrie',
           ].map((proof) => (
             <div key={proof} className="flex items-center gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -100,7 +101,7 @@ export default function CinematicHero() {
           </a>
 
           <div className="flex flex-1 flex-col items-center gap-1">
-            <p className="text-xs text-slate-400">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
+            <p className="text-xs text-slate-400">⭐ 4,8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
             <a
               href="https://calendly.com/zineinsight/15min"
               target="_blank"

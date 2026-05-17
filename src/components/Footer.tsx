@@ -22,8 +22,8 @@ export default function Footer() {
                             <span className="text-xl font-semibold text-white">FinSight</span>
                         </Link>
         <p className="text-[15px] leading-relaxed max-w-md mb-6">
-                            Expert Finance &amp; Data pour PME de 2 à 20&nbsp;M€.
-                            Nous connectons vos données comptables et opérationnelles
+                            Architecte de pilotage financier pour PME ambitieuses · 500k€ à 5M€.
+                            Je connecte vos données comptables et opérationnelles
                             pour construire un pilotage fiable - trésorerie, marges,
                             reporting - via Power BI, SQL et le Score FinSight™.
                         </p>
