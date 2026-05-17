@@ -101,7 +101,7 @@ export default function CinematicHero() {
           </a>
 
           <div className="flex flex-1 flex-col items-center gap-1">
-            <p className="text-xs text-slate-400">⭐ 4,8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
+            <p className="text-xs text-slate-400">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
             <a
               href="https://calendly.com/zineinsight/15min"
               target="_blank"

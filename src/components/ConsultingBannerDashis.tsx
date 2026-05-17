@@ -39,10 +39,10 @@ export default function ConsultingBannerDashis() {
                 <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto mb-10">
                     <div className="text-center">
                         <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-1">
-                            +50
+                            +10
                         </div>
                         <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-                            PME accompagnées
+                            Dirigeants accompagnés
                         </div>
                     </div>
                     <div className="text-center">

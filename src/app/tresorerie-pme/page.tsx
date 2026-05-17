@@ -515,6 +515,54 @@ export default function TresoreriePmePage() {
                 </div>
             </section>
 
+            {/* ─── TEMOIGNAGES ─── */}
+            <section className="bg-white border-y border-slate-100">
+                <div className="max-w-[860px] mx-auto px-6 py-14">
+                    <div className="flex items-center gap-4 mb-8">
+                        <p className="text-[0.65rem] font-semibold tracking-[0.15em] uppercase text-slate-400">
+                            Ce que disent les dirigeants
+                        </p>
+                        <span className="text-[0.72rem] text-slate-400">⭐ 4.8/5 · +10 dirigeants PME accompagnés</span>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            {
+                                quote: "Nous disposons désormais d\u2019un cadre de pilotage financier fiable et homogène, aligné avec nos enjeux métiers et utilisable au quotidien.",
+                                name: "Directrice Administrative",
+                                company: "Groupe Formation (500M€)",
+                                initials: "DA",
+                            },
+                            {
+                                quote: "Nous avons enfin une vision exploitable de nos chantiers, du cash et des marges, ce qui nous permet d\u2019arbitrer rapidement et d\u2019agir là où c\u2019est nécessaire.",
+                                name: "Dirigeant",
+                                company: "PME BTP / Services (7M€)",
+                                initials: "LB",
+                            },
+                            {
+                                quote: "Le travail réalisé a permis de structurer un cadre de pilotage robuste et automatisé, avec des indicateurs exploitables en comité de direction.",
+                                name: "CFO",
+                                company: "PME Services / Conseil",
+                                initials: "MC",
+                            },
+                        ].map((t) => (
+                            <div key={t.initials} className="bg-slate-50 border border-slate-200 rounded-xl p-6 flex flex-col">
+                                <span className="text-4xl text-slate-200 font-serif leading-none mb-3">&ldquo;</span>
+                                <p className="text-[0.82rem] text-slate-600 leading-relaxed flex-1">{t.quote}</p>
+                                <div className="flex items-center gap-3 mt-6 pt-4 border-t border-slate-200">
+                                    <div className="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0">
+                                        <span className="text-slate-500 font-semibold text-xs">{t.initials}</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-[0.82rem] font-semibold text-slate-900">{t.name}</p>
+                                        <p className="text-[0.72rem] text-slate-400">{t.company}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* ─── LIENS CONNEXES ─── */}
             <section className="max-w-[860px] mx-auto px-6 py-14">
                 <p className="text-[0.65rem] font-semibold tracking-[0.15em] uppercase text-slate-400 mb-6">
