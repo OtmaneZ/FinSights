@@ -18,6 +18,7 @@ const resourcesItems = {
         { href: '/blog', label: 'Blog', icon: BookOpen, desc: 'Finance & pilotage PME' },
         { href: '/pilotage-financier-pme', label: 'Guide pilotage PME', icon: Layers, desc: 'Structuration & pilotage' },
         { href: '/fondamentaux', label: 'Fondamentaux', icon: BookOpen, desc: 'Cash, marges, résilience' },
+        { href: '/finsight-vs-excel-agicap', label: 'FinSight vs Excel vs Agicap', icon: BarChart3, desc: 'Comparatif honnête pour PME' },
     ],
     technologie: [
         { href: '/agents', label: 'Agents IA Finance', icon: Brain, desc: 'TRESORIS, DASHIS, MARGIS, SCENARIS' },
