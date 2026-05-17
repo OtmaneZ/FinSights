@@ -572,7 +572,7 @@ export default function ComparatifPage() {
                     <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                     <div>
                         <p className="text-[0.85rem] font-semibold text-amber-900 mb-1">
-                            Ce que FinSight ne fait pas (honnettement)
+                            Ce que FinSight ne fait pas
                         </p>
                         <p className="text-[0.78rem] text-amber-800 leading-relaxed">
                             FinSight n&rsquo;est pas un logiciel bancaire temps reel. Si votre besoin principal
