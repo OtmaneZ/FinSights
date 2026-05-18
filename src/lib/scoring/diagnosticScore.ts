@@ -508,6 +508,7 @@ export function enrichDiagnosticWithZScore(
 // computeDiagnosticScore - depuis localStorage history (pour /mon-diagnostic)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/** @deprecated Utiliser calculateUnifiedScore depuis unifiedScoreEngine.ts */
 export function computeDiagnosticScore(
   history: Calculation[],
   sector: SectorKey = 'autre',

@@ -169,6 +169,7 @@ export function validateDataQuality(data: ProcessedData): ValidationResult {
 
 /**
  * Calcule le Score FinSight™ 0-100
+ * @deprecated Utiliser calculateUnifiedScore depuis unifiedScoreEngine.ts
  */
 export async function calculateFinSightScore(data: ProcessedData): Promise<FinSightScore> {
     // Valider qualité des données
@@ -229,7 +230,7 @@ export async function calculateFinSightScore(data: ProcessedData): Promise<FinSi
 /**
  * Extrait les facteurs nécessaires au calcul du score
  */
-function extractScoreFactors(data: ProcessedData): ScoreFactors {
+export function extractScoreFactors(data: ProcessedData): ScoreFactors {
     const { kpis, summary, records, qualityMetrics } = data;
 
     // Cash factors

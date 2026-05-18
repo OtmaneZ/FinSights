@@ -39,6 +39,8 @@ import {
   bfrDenominatorCA,
   numericInput,
 } from '@/lib/scoring/diagnosticScore'
+import { calculateUnifiedScore } from '@/lib/scoring/unifiedScoreEngine'
+import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
 
 import type {
   AnalysisStep,
@@ -119,8 +121,26 @@ export async function runAnalysis(
   emit('scoring', 0)
   checkAbort()
 
-  const liveScores = computeLiveScores(results, bench)
+  const calculations = wizardResultsToCalculations(results)
+  const unified = await calculateUnifiedScore({
+    mode: 'declarative',
+    calculations,
+    sector,
+  })
+  const liveScores: Record<PillarKey, number | null> = {
+    cash: unified.breakdown.cash,
+    margin: unified.breakdown.margin,
+    resilience: unified.breakdown.resilience,
+    risk: unified.breakdown.risk,
+  }
   const score = buildDiagnosticScore(liveScores, results, bench)
+  score.total = unified.total
+  score.level = unifiedLevelToDiagnostic(unified.level, unified.dataCompleteness)
+  score.confidence = unifiedConfidenceToDiagnostic(unified.confidence)
+  score.completedPillars = Math.round(unified.dataCompleteness * 4)
+  ;(Object.keys(unified.breakdown) as PillarKey[]).forEach((k) => {
+    score.pillars[k].score = unified.breakdown[k]
+  })
   const synthesis = computeSynthesis(results, liveScores, bench)
 
   stepsCompleted.push('scoring')
@@ -279,6 +299,46 @@ export async function runAnalysis(
   }
 
   return output
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Unified score → DiagnosticScore (contrat SCORIS inchangé)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+function wizardResultsToCalculations(results: WizardResults): Calculation[] {
+  return Object.entries(results).map(([type, entry]) => ({
+    type: type as CalculatorType,
+    value: entry.value,
+    inputs: Object.fromEntries(
+      Object.entries(entry.inputs ?? {}).map(([k, v]) => [
+        k,
+        typeof v === 'number' ? v : Number(v) || 0,
+      ]),
+    ) as Record<string, number>,
+    date: new Date().toISOString(),
+  }))
+}
+
+function unifiedLevelToDiagnostic(
+  level: 'critical' | 'warning' | 'good' | 'excellent',
+  dataCompleteness: number,
+): DiagnosticScore['level'] {
+  if (dataCompleteness < 0.25) return 'incomplet'
+  const map: Record<typeof level, DiagnosticScore['level']> = {
+    excellent: 'excellent',
+    good: 'bon',
+    warning: 'vigilance',
+    critical: 'action',
+  }
+  return map[level]
+}
+
+function unifiedConfidenceToDiagnostic(
+  confidence: 'low' | 'medium' | 'high',
+): DiagnosticScore['confidence'] {
+  if (confidence === 'high') return 'haute'
+  if (confidence === 'medium') return 'moyenne'
+  return 'faible'
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

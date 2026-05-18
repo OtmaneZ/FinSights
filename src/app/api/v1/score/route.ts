@@ -18,13 +18,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import {
   type SectorKey,
   type PillarKey,
+  type DiagnosticScore,
   SECTOR_BENCHMARKS,
-  computeDiagnosticScore,
   computeInsights,
-  computeLiveScores,
   computeSynthesis,
   getContextualCTA,
 } from '@/lib/scoring/diagnosticScore'
+import { calculateUnifiedScore } from '@/lib/scoring/unifiedScoreEngine'
+import type {
+  AltmanResult,
+  DeclarativeInput,
+  ScoreConfidence,
+  ScoreLevel,
+} from '@/lib/scoring/types/unifiedScore'
 import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
 
 // ---------------------------------------------------------------------------
@@ -34,20 +40,20 @@ import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
 interface ScoreRequestDeclarative {
   mode: 'declarative'
   sector?: SectorKey
-  /** Array of completed calculator results */
   calculations: Array<{
     type: CalculatorType
     value: number
     inputs: Record<string, number>
     date?: string
   }>
+  strategic?: DeclarativeInput['strategic']
 }
 
 interface ScoreRequestWizard {
   mode: 'wizard'
   sector?: SectorKey
-  /** Key→value map from the guided wizard */
   results: Record<string, { value: number; inputs: Record<string, number> }>
+  strategic?: DeclarativeInput['strategic']
 }
 
 type ScoreRequest = ScoreRequestDeclarative | ScoreRequestWizard
@@ -58,6 +64,8 @@ interface ScoreResponse {
     level: string
     confidence: string
     pillars: Record<PillarKey, { score: number | null; max: 25 }>
+    dataCompleteness: number
+    altman?: AltmanResult
   }
   insights: {
     forces: string[]
@@ -129,6 +137,78 @@ function validateRequest(body: unknown): { ok: true; data: ScoreRequest } | { ok
   return { ok: true, data: b as unknown as ScoreRequest }
 }
 
+function toCalculations(items: ScoreRequestDeclarative['calculations']): Calculation[] {
+  return items.map((c) => ({
+    type: c.type,
+    value: c.value,
+    inputs: c.inputs || {},
+    date: c.date || new Date().toISOString(),
+  }))
+}
+
+function wizardResultsToCalculations(
+  results: ScoreRequestWizard['results'],
+): Calculation[] {
+  return Object.entries(results).map(([type, entry]) => ({
+    type: type as CalculatorType,
+    value: entry.value,
+    inputs: entry.inputs || {},
+    date: new Date().toISOString(),
+  }))
+}
+
+function apiLevel(level: ScoreLevel, dataCompleteness: number): DiagnosticScore['level'] {
+  if (dataCompleteness < 0.25) return 'incomplet'
+  const map: Record<ScoreLevel, DiagnosticScore['level']> = {
+    excellent: 'excellent',
+    good: 'bon',
+    warning: 'vigilance',
+    critical: 'action',
+  }
+  return map[level]
+}
+
+function apiConfidence(confidence: ScoreConfidence): DiagnosticScore['confidence'] {
+  if (confidence === 'high') return 'haute'
+  if (confidence === 'medium') return 'moyenne'
+  return 'faible'
+}
+
+function diagnosticStubFromUnified(
+  unified: Awaited<ReturnType<typeof calculateUnifiedScore>>,
+): DiagnosticScore {
+  const p = unified.breakdown
+  const pillar = (
+    score: number,
+    label: string,
+    sublabel: string,
+    color: string,
+    borderColor: string,
+    bgColor: string,
+  ): DiagnosticScore['pillars']['cash'] => ({
+    score,
+    max: 25,
+    calculators: [],
+    label,
+    sublabel,
+    color,
+    borderColor,
+    bgColor,
+  })
+  return {
+    total: unified.total,
+    level: apiLevel(unified.level, unified.dataCompleteness),
+    confidence: apiConfidence(unified.confidence),
+    completedPillars: Math.round(unified.dataCompleteness * 4),
+    pillars: {
+      cash: pillar(p.cash, 'CASH', 'Trésorerie et Liquidité', 'text-blue-600', 'border-blue-200', 'bg-blue-50'),
+      margin: pillar(p.margin, 'MARGIN', 'Rentabilité et Croissance', 'text-emerald-600', 'border-emerald-200', 'bg-emerald-50'),
+      resilience: pillar(p.resilience, 'RÉSILIENCE', 'Stabilité Structurelle', 'text-purple-600', 'border-purple-200', 'bg-purple-50'),
+      risk: pillar(p.risk, 'RISQUES', 'Anomalies et Croisements', 'text-amber-600', 'border-amber-200', 'bg-amber-50'),
+    },
+  }
+}
+
 // ---------------------------------------------------------------------------
 // POST /api/v1/score
 // ---------------------------------------------------------------------------
@@ -155,103 +235,83 @@ export async function POST(req: NextRequest) {
     const sector: SectorKey = data.sector || 'autre'
     const bench = SECTOR_BENCHMARKS[sector]
 
-    let response: ScoreResponse
+    const calculations =
+      data.mode === 'declarative'
+        ? toCalculations(data.calculations)
+        : wizardResultsToCalculations(data.results)
 
-    if (data.mode === 'declarative') {
-      // Convert to Calculation[] for computeDiagnosticScore
-      const history: Calculation[] = data.calculations.map((c) => ({
-        type: c.type,
-        value: c.value,
-        inputs: c.inputs || {},
-        date: c.date || new Date().toISOString(),
-        label: c.type,
-      }))
+    const unified = await calculateUnifiedScore({
+      mode: 'declarative',
+      calculations,
+      sector,
+      strategic: data.strategic,
+    })
 
-      const diagnostic = computeDiagnosticScore(history, sector)
-      const insights = computeInsights(diagnostic, history, sector)
-      const cta = getContextualCTA(diagnostic.total)
+    const pillars = unified.breakdown
+    const liveScores: Record<PillarKey, number | null> = {
+      cash: pillars.cash,
+      margin: pillars.margin,
+      resilience: pillars.resilience,
+      risk: pillars.risk,
+    }
 
-      response = {
-        score: {
-          total: diagnostic.total,
-          level: diagnostic.level,
-          confidence: diagnostic.confidence,
-          pillars: Object.fromEntries(
-            (Object.keys(diagnostic.pillars) as PillarKey[]).map((k) => [
-              k,
-              { score: diagnostic.pillars[k].score, max: 25 as const },
-            ]),
-          ) as Record<PillarKey, { score: number | null; max: 25 }>,
-        },
-        insights: {
-          forces: insights.forces,
-          vulnerabilites: insights.vulnerabilites,
-          priorite: insights.priorite,
-          cashImpactLabel: insights.cashImpactLabel,
-          cashImpactDetail: insights.cashImpactDetail,
-        },
-        levers: [], // Levers are computed from synthesis mode only
-        cta: {
-          label: cta.label,
-          sublabel: cta.sublabel,
-          price: cta.price,
-          urgency: cta.urgency,
-        },
-        meta: {
-          sector,
-          sectorLabel: bench.label,
-          calculatedAt: new Date().toISOString(),
-          version: '1.0.0',
-          engine: 'client-scoring-v1',
-        },
-      }
-    } else {
-      // Wizard mode - uses computeLiveScores + computeSynthesis
-      const results = data.results
-      const liveScores = computeLiveScores(results, bench)
-      const synthesis = computeSynthesis(results, liveScores, bench)
-      const cta = getContextualCTA(synthesis.total)
+    const diagnosticStub = diagnosticStubFromUnified(unified)
+    const structuredInsights = computeInsights(diagnosticStub, calculations, sector)
+    const synthesis =
+      data.mode === 'wizard' ? computeSynthesis(data.results, liveScores, bench) : null
 
-      response = {
-        score: {
-          total: synthesis.total,
-          level: synthesis.level,
-          confidence: 'haute',
-          pillars: Object.fromEntries(
-            (Object.keys(liveScores) as PillarKey[]).map((k) => [
-              k,
-              { score: liveScores[k], max: 25 as const },
-            ]),
-          ) as Record<PillarKey, { score: number | null; max: 25 }>,
-        },
-        insights: {
-          forces: synthesis.forces,
-          vulnerabilites: synthesis.vulnerabilites,
-          priorite: synthesis.priorite,
-          cashImpactLabel: synthesis.cashImpact,
-          cashImpactDetail: null,
-        },
-        levers: synthesis.levers.map((l) => ({
+    const cta = getContextualCTA(unified.total)
+
+    const response: ScoreResponse = {
+      score: {
+        total: unified.total,
+        level: apiLevel(unified.level, unified.dataCompleteness),
+        confidence: apiConfidence(unified.confidence),
+        pillars: Object.fromEntries(
+          (Object.keys(pillars) as PillarKey[]).map((k) => [
+            k,
+            { score: pillars[k], max: 25 as const },
+          ]),
+        ) as Record<PillarKey, { score: number | null; max: 25 }>,
+        dataCompleteness: unified.dataCompleteness,
+        altman: unified.altman,
+      },
+      insights: synthesis
+        ? {
+            forces: synthesis.forces,
+            vulnerabilites: synthesis.vulnerabilites,
+            priorite: synthesis.priorite,
+            cashImpactLabel: synthesis.cashImpact,
+            cashImpactDetail: null,
+          }
+        : {
+            forces: structuredInsights.forces,
+            vulnerabilites: structuredInsights.vulnerabilites,
+            priorite: structuredInsights.priorite,
+            cashImpactLabel: structuredInsights.cashImpactLabel,
+            cashImpactDetail: structuredInsights.cashImpactDetail,
+          },
+      levers:
+        synthesis?.levers.map((l) => ({
           id: l.id,
           label: l.label,
           detail: l.detail,
           impact: l.impact,
           type: l.type,
-        })),
-        cta: {
-          label: cta.label,
-          sublabel: cta.sublabel,
-          price: cta.price,
-          urgency: cta.urgency,
-        },
-        meta: {
-          sector,
-          sectorLabel: bench.label,
-          calculatedAt: new Date().toISOString(),
-          version: '1.0.0',
-          engine: 'client-scoring-v1',
-        },
-      }
+        })) ?? [],
+      cta: {
+        label: cta.label,
+        sublabel: cta.sublabel,
+        price: cta.price,
+        urgency: cta.urgency,
+      },
+      meta: {
+        sector,
+        sectorLabel: bench.label,
+        calculatedAt: unified.calculatedAt.toISOString(),
+        version: '1.0.0',
+        engine: 'client-scoring-v1',
+      },
     }
 
     return NextResponse.json(response, { status: 200 })
@@ -305,7 +365,7 @@ export async function GET() {
         },
       },
       response: {
-        score: '{ total, level, confidence, pillars }',
+        score: '{ total, level, confidence, pillars, dataCompleteness, altman? }',
         insights: '{ forces[], vulnerabilites[], priorite, cashImpactLabel }',
         levers: '[ { id, label, detail, impact, type } ] - up to 3',
         cta: '{ label, sublabel, price, urgency }',

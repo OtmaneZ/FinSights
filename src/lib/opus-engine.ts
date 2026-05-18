@@ -16,7 +16,8 @@
  */
 
 import OpenAI from 'openai'
-import { SECTOR_BENCHMARKS, type SectorKey } from '@/lib/scoring/diagnosticScore'
+import { SECTOR_BENCHMARKS } from '@/lib/scoring/diagnosticScore'
+import type { SectorKey } from '@/lib/scoring/types/unifiedScore'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // TYPES

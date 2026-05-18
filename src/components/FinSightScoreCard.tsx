@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import {
-    FinSightScore,
-    ScoreLevel,
-    ScoreBreakdown
-} from '@/lib/scoring/finSightScore';
+import type { UnifiedScore, ScoreLevel } from '@/lib/scoring/types/unifiedScore';
+
+/** Champs affichés par la carte — compatible FinSightScore legacy et UnifiedScore */
+export type ScoreCardModel = Pick<
+    UnifiedScore,
+    'total' | 'level' | 'confidence' | 'breakdown' | 'insights' | 'recommendations'
+>;
 import {
     ShieldCheckIcon,
     BanknotesIcon,
@@ -18,7 +20,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 interface FinSightScoreProps {
-    score: FinSightScore;
+    score: ScoreCardModel;
 }
 
 /**

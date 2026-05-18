@@ -79,7 +79,8 @@ import { generateCashFlowPredictions, type CashFlowPrediction, type PredictionAl
 import { detectAdvancedPatterns, type AdvancedPattern } from '@/lib/ai/patterns'
 
 // Import Score FinSight™ calculation
-import { calculateFinSightScore, type FinSightScore } from '@/lib/scoring/finSightScore'
+import { calculateUnifiedScore } from '@/lib/scoring/unifiedScoreEngine'
+import type { SectorKey, UnifiedScore } from '@/lib/scoring/types/unifiedScore'
 
 // Import Hooks
 import { useKeyboard } from '@/lib/useKeyboard'
@@ -102,6 +103,16 @@ import { calculateSaaSMetrics, type SaaSMetrics } from '@/lib/saasMetrics'
 import { FinancialPDFExporter } from '@/lib/pdfExporter'
 import { FinancialExcelExporter } from '@/lib/excelExporter'
 import { logger } from '@/lib/logger';
+
+function companySectorToSectorKey(sector: CompanySector): SectorKey {
+    const map: Record<CompanySector, SectorKey> = {
+        services: 'services-b2b',
+        commerce: 'commerce',
+        industrie: 'industrie',
+        saas: 'saas-tech',
+    }
+    return map[sector] ?? 'autre'
+}
 
 interface KPI {
     title: string
@@ -148,7 +159,7 @@ export default function FinancialDashboardV2() {
     const [isLoadingPatterns, setIsLoadingPatterns] = useState(false);
 
     // Score FinSight™ state
-    const [finSightScore, setFinSightScore] = useState<FinSightScore | null>(null);
+    const [finSightScore, setFinSightScore] = useState<UnifiedScore | null>(null);
 
     // Command Palette state
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
@@ -668,7 +679,11 @@ export default function FinancialDashboardV2() {
                     // ✨ Calculate Score FinSight™ (async pour recommandations IA)
                     if (processedData) {
                         try {
-                            const score = await calculateFinSightScore(processedData)
+                            const score = await calculateUnifiedScore({
+                                mode: 'transactional',
+                                data: processedData,
+                                sector: companySectorToSectorKey(companySector),
+                            })
                             setFinSightScore(score)
                         } catch (scoreError) {
                             logger.error('Erreur calcul Score FinSight™:', scoreError)

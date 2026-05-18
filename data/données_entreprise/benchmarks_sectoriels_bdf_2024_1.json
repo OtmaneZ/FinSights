@@ -1,0 +1,291 @@
+{
+  "_meta": {
+    "source": "Banque de France – Fascicules d'indicateurs sectoriels FIBEN",
+    "annee_donnees": 2024,
+    "date_publication": "Novembre 2025",
+    "url_source": "https://www.banque-france.fr/fr/publications-et-statistiques/statistiques/fascicules-dindicateurs-sectoriels",
+    "methodologie": {
+      "taux_de_marge": "EBE / Valeur ajoutée (en %)",
+      "taux_excedent_brut_global": "EBG / Chiffre d'affaires HT (en %) — proxy marge EBITDA/CA",
+      "note": "Le 'taux d'excédent brut global / CA' est le proxy le plus proche de la marge EBITDA au sens financier (EBITDA/CA). Le 'taux de marge' BDF = EBE/VA, différent de la marge EBITDA classique.",
+      "quartiles": {
+        "Q1": "25% des entreprises sont en dessous",
+        "Q2": "médiane — 50% des entreprises sont en dessous",
+        "Q3": "75% des entreprises sont en dessous (top 25%)"
+      }
+    }
+  },
+
+  "secteurs": [
+
+    {
+      "code_naf": "56",
+      "label": "Restauration",
+      "label_court": "Restauration",
+      "naf_section": "I",
+      "nb_entreprises": 8768,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 7.6,
+        "Q2": 16.5,
+        "Q3": 26.3,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 4.6,
+        "Q2": 8.8,
+        "Q3": 13.9,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des restaurants dégagent moins de 8,8% d'EBITDA sur leur CA."
+    },
+
+    {
+      "code_naf": "55",
+      "label": "Hébergement (hôtellerie)",
+      "label_court": "Hôtellerie",
+      "naf_section": "I",
+      "nb_entreprises": 4428,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 17.0,
+        "Q2": 35.5,
+        "Q3": 53.0,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 9.5,
+        "Q2": 20.5,
+        "Q3": 33.4,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des hôtels dégagent moins de 20,5% d'EBITDA sur leur CA. Secteur à forte intensité capitalistique — les marges élevées servent à couvrir l'amortissement des actifs."
+    },
+
+    {
+      "code_naf": "F",
+      "label": "Construction (BTP – total section)",
+      "label_court": "BTP / Construction",
+      "naf_section": "F",
+      "nb_entreprises": 29551,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 9.6,
+        "Q2": 18.8,
+        "Q3": 30.5,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 4.0,
+        "Q2": 7.5,
+        "Q3": 12.4,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des entreprises BTP dégagent moins de 7,5% d'EBITDA sur leur CA."
+    },
+
+    {
+      "code_naf": "47",
+      "label": "Commerce de détail (hors auto)",
+      "label_court": "Commerce de détail",
+      "naf_section": "G",
+      "nb_entreprises": 39689,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 12.0,
+        "Q2": 24.0,
+        "Q3": 35.6,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 2.5,
+        "Q2": 5.1,
+        "Q3": 8.4,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des commerces de détail dégagent moins de 5,1% d'EBITDA sur leur CA."
+    },
+
+    {
+      "code_naf": "C",
+      "label": "Industrie manufacturière (total section)",
+      "label_court": "Industrie",
+      "naf_section": "C",
+      "nb_entreprises": 30865,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 10.0,
+        "Q2": 22.2,
+        "Q3": 36.0,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 4.2,
+        "Q2": 8.8,
+        "Q3": 14.8,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des industriels dégagent moins de 8,8% d'EBITDA sur leur CA."
+    },
+
+    {
+      "code_naf": "62",
+      "label": "Programmation, conseil et activités informatiques (ESN / SSII / SaaS)",
+      "label_court": "Tech & Informatique",
+      "naf_section": "J",
+      "nb_entreprises": 4498,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 2.9,
+        "Q2": 13.3,
+        "Q3": 27.3,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 1.9,
+        "Q2": 7.1,
+        "Q3": 14.9,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des entreprises IT/ESN dégagent moins de 7,1% d'EBITDA sur leur CA. Les top 25% dépassent 14,9%."
+    },
+
+    {
+      "code_naf": "69",
+      "label": "Activités juridiques et comptables (cabinets d'expertise)",
+      "label_court": "Conseil / Expertise",
+      "naf_section": "M",
+      "nb_entreprises": 5091,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 8.8,
+        "Q2": 17.1,
+        "Q3": 27.2,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 7.0,
+        "Q2": 13.0,
+        "Q3": 19.8,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des cabinets juridiques/comptables dégagent moins de 13% d'EBITDA sur leur CA."
+    },
+
+    {
+      "code_naf": "46",
+      "label": "Commerce de gros (hors auto)",
+      "label_court": "Commerce de gros",
+      "naf_section": "G",
+      "nb_entreprises": 29715,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 11.0,
+        "Q2": 27.0,
+        "Q3": 45.1,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 2.1,
+        "Q2": 5.0,
+        "Q3": 9.4,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des grossistes dégagent moins de 5% d'EBITDA sur leur CA. Marges faibles sur CA mais VA concentrée — secteur de volume."
+    },
+
+    {
+      "code_naf": "49",
+      "label": "Transports terrestres",
+      "label_court": "Transport",
+      "naf_section": "H",
+      "nb_entreprises": 7374,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 4.8,
+        "Q2": 17.0,
+        "Q3": 28.4,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 3.4,
+        "Q2": 9.2,
+        "Q3": 15.1,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des transporteurs dégagent moins de 9,2% d'EBITDA sur leur CA. Secteur sous pression des coûts carburant et personnel."
+    },
+
+    {
+      "code_naf": "86",
+      "label": "Activités pour la santé humaine (cliniques, médical)",
+      "label_court": "Santé",
+      "naf_section": "Q",
+      "nb_entreprises": 4435,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 8.0,
+        "Q2": 17.9,
+        "Q3": 33.9,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 6.9,
+        "Q2": 13.6,
+        "Q3": 23.7,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des structures de santé dégagent moins de 13,6% d'EBITDA sur leur CA. Secteur à forte valeur ajoutée par salarié."
+    },
+
+    {
+      "code_naf": "68",
+      "label": "Activités immobilières",
+      "label_court": "Immobilier",
+      "naf_section": "L",
+      "nb_entreprises": 4340,
+      "taux_marge_ebe_sur_va": {
+        "Q1": 19.2,
+        "Q2": 72.0,
+        "Q3": 89.6,
+        "unite": "%",
+        "definition": "EBE / Valeur ajoutée"
+      },
+      "taux_excedent_brut_ca": {
+        "Q1": 12.7,
+        "Q2": 51.0,
+        "Q3": 84.3,
+        "unite": "%",
+        "definition": "EBG / CA HT — proxy marge EBITDA/CA"
+      },
+      "interpretation_mediane": "La moitié des sociétés immobilières dégagent plus de 51% d'EBITDA sur leur CA — secteur hors norme, à afficher avec un avertissement spécifique dans l'UI.",
+      "avertissement_comparabilite": "L'immobilier est un secteur atypique — ces marges élevées reflètent un modèle économique spécifique, non comparable aux autres secteurs."
+    }
+
+  ],
+
+  "guide_utilisation": {
+    "pour_calculateur_ebitda": {
+      "ratio_a_afficher": "taux_excedent_brut_ca.Q2",
+      "label_ui": "Médiane secteur (EBITDA/CA)",
+      "note_pedagogique": "Ce ratio correspond à l'EBG/CA de la Banque de France, proxy de la marge EBITDA. Les chiffres sont issus d'entreprises françaises réelles (base FIBEN), non de cotées.",
+      "citation_source": "Source : Banque de France, Fascicules sectoriels FIBEN – données 2024, publiées novembre 2025"
+    },
+    "logique_positionnement": {
+      "sous_Q1": "Sous la médiane basse — rentabilité opérationnelle faible pour le secteur",
+      "entre_Q1_et_Q2": "Dans la moitié basse — des marges de progression existent",
+      "entre_Q2_et_Q3": "Dans la moitié haute — performance correcte",
+      "au_dessus_Q3": "Top 25% — rentabilité opérationnelle forte pour le secteur"
+    }
+  }
+}
