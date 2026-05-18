@@ -7,10 +7,10 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'Comment FinSight structure le pilotage financier d\'une PME ?',
+      name: 'Quels services propose FinSight pour les PME ?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "FinSight connecte vos données comptables et opérationnelles (ERP, exports, Excel) pour construire un pilotage fiable via Power BI, SQL et Python. Le Score FinSight™ (0-100) évalue 4 piliers - Cash, Marges, Résilience, Risques - pour vous donner une vision claire à 90 jours.",
+        text: "FinSight propose des outils self-serve gratuits (calculateurs, Score FinSight™ à 49€) et des missions expert BI Finance : audit Power BI (2 490€ HT), modélisation sur devis, missions longues en régie via Malt.",
       },
     },
     {
@@ -18,15 +18,15 @@ const faqSchema = {
       name: "Qu'est-ce que le Score FinSight™ ?",
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Le Score FinSight™ est un indicateur exclusif de santé financière noté sur 100. Il analyse 4 piliers critiques de votre entreprise : Cash, Marges, Résilience et Risques, pour vous permettre de décider avec 3 mois d'avance.",
+        text: "Le Score FinSight™ est un indicateur de santé financière noté sur 100. Il analyse 4 piliers : Cash, Marges, Résilience et Risques, avec rapport PDF et recommandations IA.",
       },
     },
     {
       '@type': 'Question',
-      name: 'Comment se déroule un diagnostic financier avec FinSight ?',
+      name: 'Comment démarrer un audit Power BI ?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Le diagnostic débute par un échange stratégique de 30 minutes pour identifier vos enjeux. Nous réalisons ensuite un audit flash en 5 jours pour détecter vos fuites de cash et établir un plan d'action immédiat avec 3 recommandations chiffrées.",
+        text: "Un échange de 15 minutes permet de cadrer votre modèle .pbix. L'audit forfaitaire (2 490€ HT) livre un rapport technique complet et une restitution d'1 heure en 5 jours ouvrés.",
       },
     },
   ],
@@ -47,8 +47,8 @@ const aggregateRatingSchema = {
 }
 
 export const metadata: Metadata = {
-  title: 'FinSight | Pilotage Financier & Data pour Dirigeants PME (500k€ à 5M€)',
-  description: "Structurez votre pilotage financier par la data. Score FinSight™ (0-100), vision cash à 90 jours, tableaux de bord Power BI et agents IA finance. Diagnostic stratégique offert.",
+  title: 'FinSight | Audit Power BI & Modélisation Data Finance pour PME',
+  description: 'Audit Power BI, modélisation de données et automatisation pour PME et ETI. Consultant BI Finance · FinSight™ outils gratuits.',
   keywords: [
     'pilotage financier data pme',
     'score finsight',
@@ -69,13 +69,13 @@ export const metadata: Metadata = {
     locale: 'fr_FR',
     url: 'https://finsight.zineinsight.com',
     siteName: 'FinSight',
-    title: 'FinSight | Pilotage Financier & Data pour PME',
-    description: "Décidez avec 3 mois d'avance. Score FinSight™, structuration Power BI et agents IA finance pour dirigeants PME ambitieux.",
+    title: 'FinSight | Audit Power BI & Modélisation Data Finance',
+    description: 'Audit Power BI, modélisation de données et automatisation pour PME et ETI. Consultant BI Finance · FinSight™ outils gratuits.',
     images: [{
       url: 'https://finsight.zineinsight.com/images/og-default.png',
       width: 1200,
       height: 630,
-      alt: 'FinSight - Pilotage Financier & Data pour PME 500k€-5M€',
+      alt: 'FinSight - Audit Power BI & Modélisation Data Finance',
     }],
   },
   twitter: {

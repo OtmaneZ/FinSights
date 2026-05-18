@@ -19,7 +19,6 @@ import {
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
-import TestimonialsSection from '@/components/TestimonialsSection'
 import {
     AGGREGATE_RATING_VALUE,
     AGGREGATE_REVIEW_COUNT,
@@ -33,9 +32,9 @@ import {
    ────────────────────────────────────────────────────── */
 const faqItems = [
     {
-        question: 'Comment choisir entre le Diagnostic, l\'Audit Complet et le Pilotage Augmenté ?',
+        question: 'Comment choisir entre le Score FinSight™, l\'Audit Power BI et la Modélisation ?',
         answer:
-            'Le Diagnostic FinSight™ 90J convient si vous souhaitez un état des lieux précis et rapide. L\'Audit Complet est recommandé lorsque vous avez besoin d\'un cockpit décisionnel, d\'une analyse de rentabilité par activité et d\'un plan d\'action chiffré. Le Pilotage Augmenté s\'adresse aux dirigeants qui veulent un pilotage financier autonome et durable avec alertes, scénarios et accompagnement sur 3 mois.',
+            'Le Score FinSight™ à 49€ convient pour un diagnostic auto 4 piliers en ligne. L\'Audit Power BI (2 490€ HT) est adapté si vous avez déjà un modèle .pbix à auditer. La Modélisation est recommandée pour construire un modèle from scratch (sur devis 5-12k€ HT). La mission longue en régie (TJM 700€ HT) couvre les projets plus larges via Malt.',
     },
     {
         question: 'Les tarifs incluent-ils la TVA ?',
@@ -74,10 +73,10 @@ export default function TarifsPage() {
     const offersSchema = {
         '@context': 'https://schema.org',
         '@type': 'ProfessionalService',
-        name: 'FinSight - Pilotage Financier & Data',
+        name: 'FinSight - Missions BI Finance',
         url: 'https://finsight.zineinsight.com/tarifs',
         description:
-            'Expert Finance & Data pour PME : diagnostic financier par la data, structuration Power BI, score propriétaire et systèmes décisionnels.',
+            'Consultant BI Finance : Audit Power BI, modélisation, Score FinSight™ self-serve, missions longues via Malt.',
         areaServed: { '@type': 'Country', name: 'France' },
         aggregateRating: {
             '@type': 'AggregateRating',
@@ -88,34 +87,47 @@ export default function TarifsPage() {
         },
         hasOfferCatalog: {
             '@type': 'OfferCatalog',
-            name: 'Offres Pilotage Financier & Data FinSight',
+            name: 'Grille tarifaire FinSight',
             itemListElement: [
                 {
                     '@type': 'Offer',
-                    name: 'Diagnostic FinSight™ 90J',
+                    name: 'Gratuit - Calculateurs et Fondamentaux',
+                    price: '0',
+                    priceCurrency: 'EUR',
+                    description: '9 calculateurs, blog, fondamentaux.',
+                    url: 'https://finsight.zineinsight.com/calculateurs',
+                },
+                {
+                    '@type': 'Offer',
+                    name: 'Score FinSight™',
+                    price: '49',
+                    priceCurrency: 'EUR',
+                    description: 'Diagnostic 4 piliers, rapport PDF 6 pages.',
+                    url: 'https://finsight.zineinsight.com/mon-diagnostic',
+                },
+                {
+                    '@type': 'Offer',
+                    name: 'Audit Power BI',
                     price: '2490',
                     priceCurrency: 'EUR',
-                    description:
-                        'Score FinSight™ 0-100, décomposition 4 piliers, 3 leviers prioritaires chiffrés, simulation d\'impact 90 jours, restitution stratégique 60 min.',
-                    url: 'https://finsight.zineinsight.com/tarifs#diagnostic',
+                    description: 'Audit modèle .pbix, rapport technique, restitution 1h.',
+                    url: 'https://finsight.zineinsight.com/tarifs#audit-pbi',
                 },
                 {
                     '@type': 'Offer',
-                    name: 'Audit Complet',
-                    price: '6990',
+                    name: 'Modélisation Power BI',
+                    price: '5000',
                     priceCurrency: 'EUR',
-                    description:
-                        'Diagnostic + analyse rentabilité par activité, vision trésorerie 24 mois, cockpit décisionnel, plan d\'action chiffré sur 6 mois, formation + 1 mois support.',
-                    url: 'https://finsight.zineinsight.com/tarifs#audit',
+                    description: 'Modèle finance, DAX documenté, connecteurs ERP.',
+                    url: 'https://finsight.zineinsight.com/tarifs#modelisation',
                 },
                 {
                     '@type': 'Offer',
-                    name: 'Pilotage Augmenté',
-                    price: '12500',
+                    name: 'Mission longue',
+                    price: '700',
                     priceCurrency: 'EUR',
-                    description:
-                        'Audit Complet + cockpit dirigeant temps réel, alertes automatiques, scénarios de croissance, formation équipe + 3 mois d\'accompagnement.',
-                    url: 'https://finsight.zineinsight.com/tarifs#pilotage-augmente',
+                    description: 'TJM régie via Malt.',
+                    url: 'https://finsight.zineinsight.com/tarifs#mission',
                 },
             ],
         },
@@ -164,12 +176,12 @@ export default function TarifsPage() {
                             Tarifs
                         </span>
                         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                            Trois niveaux d&apos;intervention.{' '}
-                            <span className="text-accent-primary">Un seul objectif : vous faire piloter par les chiffres.</span>
+                            Forfaits techniques packagés.{' '}
+                            <span className="text-accent-primary">Prix transparents.</span>
                         </h1>
                         <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
-                            Trois niveaux d&apos;accompagnement pour les PME de 500k€ à 5&nbsp;M€ de CA.
-                            Missions ponctuelles, tarifs transparents, sans engagement récurrent.
+                            Du gratuit au forfait audit Power BI, jusqu&apos;à la mission longue en régie.
+                            Self-serve FinSight™ et missions expert BI Finance.
                         </p>
 
                         {/* Trust strip */}
@@ -322,7 +334,7 @@ export default function TarifsPage() {
                     <div className="grid lg:grid-cols-3 gap-8 items-start">
                         {/* ── Diagnostic FinSight™ 90J ── */}
                         <motion.div
-                            id="diagnostic"
+                            id="audit-pbi"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -330,10 +342,10 @@ export default function TarifsPage() {
                             className="bg-white rounded-2xl p-8 border border-slate-200 hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
                             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                                Offre Signature
+                                Niveau 3 · Expert
                             </p>
                             <h2 className="text-2xl font-bold text-slate-900 mb-2">
-                                Savoir exactement où vous en êtes
+                                Audit Power BI
                             </h2>
                             <div className="flex items-baseline gap-1 mb-1">
                                 <span className="text-4xl font-bold text-slate-900">2&nbsp;490</span>
@@ -370,13 +382,13 @@ export default function TarifsPage() {
                                 rel="noopener noreferrer"
                                 className="block w-full py-4 text-center bg-white border-2 border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white font-bold rounded-xl transition-all duration-200"
                             >
-                                Réserver mon diagnostic offert (15 min)
+                                Demander un audit Power BI
                             </a>
                         </motion.div>
 
                         {/* ── Audit Complet - Featured ── */}
                         <motion.div
-                            id="audit"
+                            id="modelisation"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -387,11 +399,11 @@ export default function TarifsPage() {
                                 Recommandé
                             </div>
                             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                                Structuration &amp; Pilotage
+                                Niveau 4 · Expert
                             </p>
-                            <h2 className="text-2xl font-bold mb-2">Passer de la réaction à la décision</h2>
+                            <h2 className="text-2xl font-bold mb-2">Modélisation Power BI</h2>
                             <div className="flex items-baseline gap-1 mb-1">
-                                <span className="text-4xl font-bold">6&nbsp;990</span>
+                                <span className="text-4xl font-bold">Sur devis</span>
                                 <span className="text-gray-400">€ HT</span>
                             </div>
                             <p className="text-sm text-gray-500 mb-6">Mission structurante - paiement en 3 fois disponible</p>
@@ -426,13 +438,13 @@ export default function TarifsPage() {
                                 rel="noopener noreferrer"
                                 className="block w-full py-4 text-center bg-accent-primary hover:bg-accent-primary-hover text-white font-bold rounded-xl transition-all duration-200 shadow-lg"
                             >
-                                Réserver mon diagnostic offert (15 min)
+                                Demander un audit Power BI
                             </a>
                         </motion.div>
 
                         {/* ── Pilotage Augmenté ── */}
                         <motion.div
-                            id="pilotage-augmente"
+                            id="mission"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -440,11 +452,11 @@ export default function TarifsPage() {
                             className="bg-white rounded-2xl p-8 border border-slate-200 hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
                             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                                Système décisionnel
+                                Niveau 5 · Expert
                             </p>
-                            <h2 className="text-2xl font-bold text-slate-900 mb-2">Grandir sans perdre le contrôle</h2>
+                            <h2 className="text-2xl font-bold text-slate-900 mb-2">Mission longue</h2>
                             <div className="flex items-baseline gap-1 mb-1">
-                                <span className="text-4xl font-bold text-slate-900">12&nbsp;500</span>
+                                <span className="text-4xl font-bold text-slate-900">700€ / jour</span>
                                 <span className="text-slate-500">€ HT</span>
                             </div>
                             <p className="text-sm text-slate-400 mb-6">Accompagnement complet - 3 mois inclus</p>
@@ -478,99 +490,10 @@ export default function TarifsPage() {
                                 rel="noopener noreferrer"
                                 className="block w-full py-4 text-center bg-white border-2 border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white font-bold rounded-xl transition-all duration-200"
                             >
-                                Réserver mon diagnostic offert (15 min)
+                                Demander un audit Power BI
                             </a>
                         </motion.div>
                     </div>
-                </div>
-            </section>
-
-            {/* ============================================
-                TEMOIGNAGES - Social proof post-offres
-               ============================================ */}
-            <TestimonialsSection background="slate" showAggregate={true} />
-
-            {/* ============================================
-                COMPARATIF - Tableau simple 
-               ============================================ */}
-            <section className="py-16 bg-slate-50">
-                <div className="max-w-5xl mx-auto px-6 lg:px-12">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-12"
-                    >
-                        <h2 className="text-3xl font-bold text-slate-900 mb-4">
-                            Quelle mission correspond à votre situation ?
-                        </h2>
-                        <p className="text-lg text-slate-600">
-                            Chaque niveau intègre les livrables du précédent
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        className="overflow-x-auto"
-                    >
-                        <table className="w-full text-sm border-collapse bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200">
-                            <thead>
-                                <tr className="bg-slate-900 text-white">
-                                    <th className="text-left p-4 font-semibold">Livrable</th>
-                                    <th className="text-center p-4 font-semibold">Diagnostic<br /><span className="text-xs font-normal text-gray-400">2 490 €</span></th>
-                                    <th className="text-center p-4 font-semibold bg-accent-primary/20">Audit Complet<br /><span className="text-xs font-normal text-gray-300">6 990 €</span></th>
-                                    <th className="text-center p-4 font-semibold">Pilotage Augmenté<br /><span className="text-xs font-normal text-gray-400">12 500 €</span></th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100">
-                                {[
-                                    { label: 'Score FinSight™ 0–100', d: true, a: true, s: true },
-                                    { label: 'Décomposition 4 piliers', d: true, a: true, s: true },
-                                    { label: '3 leviers prioritaires chiffrés', d: true, a: true, s: true },
-                                    { label: 'Simulation impact 90 jours', d: true, a: true, s: true },
-                                    { label: 'Restitution stratégique 60 min', d: true, a: true, s: true },
-                                    { label: 'Analyse rentabilité par activité', d: false, a: true, s: true },
-                                    { label: 'Vision trésorerie 24 mois', d: false, a: true, s: true },
-                                    { label: 'Cockpit décisionnel sur mesure', d: false, a: true, s: true },
-                                    { label: 'Plan d\'action chiffré 6 mois', d: false, a: true, s: true },
-                                    { label: 'Formation 2h + 1 mois support', d: false, a: true, s: true },
-                                    { label: 'Cockpit temps réel dirigeant', d: false, a: false, s: true },
-                                    { label: 'Alertes automatiques anomalies', d: false, a: false, s: true },
-                                    { label: 'Scénarios de croissance continus', d: false, a: false, s: true },
-                                    { label: 'Formation équipe + 3 mois accompagnement', d: false, a: false, s: true },
-                                ].map((row, i) => (
-                                    <tr key={i} className="hover:bg-slate-50 transition-colors">
-                                        <td className="p-4 text-slate-700 font-medium">{row.label}</td>
-                                        <td className="p-4 text-center">
-                                            {row.d ? (
-                                                <Check className="w-5 h-5 text-emerald-500 mx-auto" />
-                                            ) : (
-                                                <span className="text-slate-300">-</span>
-                                            )}
-                                        </td>
-                                        <td className="p-4 text-center bg-accent-primary/5">
-                                            {row.a ? (
-                                                <Check className="w-5 h-5 text-accent-primary mx-auto" />
-                                            ) : (
-                                                <span className="text-slate-300">-</span>
-                                            )}
-                                        </td>
-                                        <td className="p-4 text-center">
-                                            {row.s ? (
-                                                <Check className="w-5 h-5 text-emerald-500 mx-auto" />
-                                            ) : (
-                                                <span className="text-slate-300">-</span>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </motion.div>
                 </div>
             </section>
 
@@ -753,7 +676,7 @@ export default function TarifsPage() {
                                     className="inline-flex items-center gap-3 px-10 py-5 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
                                 >
                                     <Calendar className="w-6 h-6" />
-                                    Réserver mon diagnostic offert (15 min)
+                                    Demander un audit Power BI
                                 </a>
                             </div>
                             <a

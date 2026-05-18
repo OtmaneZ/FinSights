@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { ArrowRight, Calculator, Calendar, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, Calculator, Calendar } from 'lucide-react'
 
 export default function CinematicHero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -56,40 +56,26 @@ export default function CinematicHero() {
         <div className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-xs font-medium tracking-widest text-slate-300 uppercase">
-            Hub financier pour dirigeants PME · 500k€ à 5M€
+            Audit Power BI, modélisation de données et automatisation pour PME et ETI. Plus FinSight™ : outils data en accès libre.
           </span>
         </div>
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-[3.75rem] font-bold tracking-tight text-white leading-[1.1] mb-6">
-          Décidez avec{' '}
+          Vos données financières méritent{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-emerald-300">
-            trois mois d&apos;avance.
+            une vraie infrastructure.
           </span>
         </h1>
 
         {/* Sub-headline */}
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-300/85 leading-relaxed mb-10">
-          9 calculateurs gratuits, templates Excel, articles de fond.
-          Et quand vous voulez aller plus loin : un accompagnement expert
-          pour transformer vos chiffres en décisions.
+          9 calculateurs gratuits, Score FinSight™ à 49€, et des missions techniques packagées :
+          audit Power BI, modélisation, automatisation Python.
         </p>
 
-        {/* Proof points */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-10 text-sm text-slate-300">
-          {[
-            '−28 jours de DSO · PME Services',
-            '+340k€ de cash libéré · PME BTP',
-            '+6 pts de marge nette · PME Industrie',
-          ].map((proof) => (
-            <div key={proof} className="flex items-center gap-2">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span className="text-slate-300/80">{proof}</span>
-            </div>
-          ))}
-        </div>
+        {/* CTAs */}
 
-        {/* CTAs - même poids visuel */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 mb-10 w-full max-w-2xl mx-auto">
           <a
             href="#calculateurs"
@@ -100,23 +86,20 @@ export default function CinematicHero() {
             <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
           </a>
 
-          <div className="flex flex-1 flex-col items-center gap-1">
-            <p className="text-xs text-slate-400">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
-            <a
-              href="https://calendly.com/zineinsight/15min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex w-full items-center justify-center gap-2.5 px-8 py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm tracking-wide backdrop-blur-sm transition-all duration-200"
-            >
-              <Calendar className="w-4 h-4 shrink-0" aria-hidden />
-              Réserver mon diagnostic offert (15 min)
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-            </a>
-          </div>
+          <a
+            href="https://calendly.com/zineinsight/15min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex flex-1 items-center justify-center gap-2.5 px-8 py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm tracking-wide backdrop-blur-sm transition-all duration-200"
+          >
+            <Calendar className="w-4 h-4 shrink-0" aria-hidden />
+            Demander un audit Power BI
+            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+          </a>
         </div>
 
         <p className="text-xs text-slate-400 tracking-wide">
-          Sans inscription · Résultat immédiat
+          Sans inscription · Résultat immédiat sur les calculateurs
         </p>
       </div>
 

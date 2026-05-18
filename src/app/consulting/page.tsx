@@ -19,7 +19,8 @@ import {
     Users,
     Sparkles,
     Play,
-    Quote
+    Quote,
+    Layers
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -35,13 +36,13 @@ export default function ConsultingPage() {
     const professionalServiceSchema = {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
-        "name": "FinSight - Architecture Financière & Systèmes Décisionnels",
-        "description": "Expert Finance & Data pour PME. Score FinSight™ (0-100), structuration Power BI, automatisation des flux (SQL, Python) et pilotage décisionnel.",
+        "name": "FinSight - Missions BI Finance",
+        "description": "Consultant BI Finance pour PME et ETI. Audit Power BI, modélisation de données financières, automatisation Python. Forfaits packagés et missions longues.",
         "url": "https://finsight.zineinsight.com/consulting",
         "provider": {
             "@type": "Person",
             "name": "Otmane Boulahia",
-            "jobTitle": "Architecte de Systèmes Décisionnels Financiers",
+            "jobTitle": "Consultant BI Finance",
             "url": "https://finsight.zineinsight.com/consulting",
             "sameAs": [
                 "https://www.linkedin.com/in/otmaneboulahia"
@@ -52,34 +53,33 @@ export default function ConsultingPage() {
             "name": "France"
         },
         "serviceType": [
-            "Audit financier",
-            "Structuration Power BI",
-            "Automatisation des flux financiers",
-            "Pilotage de trésorerie",
-            "Score FinSight™ et systèmes décisionnels"
+            "Audit Power BI",
+            "Modélisation Power BI",
+            "Automatisation Python",
+            "Missions BI Finance"
         ],
         "offers": [
             {
                 "@type": "Offer",
-                "name": "Diagnostic Stratégique",
-                "description": "Audit financier flash avec feuille de route prioritaire",
+                "name": "Audit Power BI",
+                "description": "Audit complet modèle .pbix, rapport technique, restitution 1h",
                 "price": "2490",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock"
             },
             {
                 "@type": "Offer",
-                "name": "Audit Complet",
-                "description": "Analyse approfondie trésorerie, marges et rentabilité avec plan d'optimisation",
-                "price": "6990",
+                "name": "Modélisation Power BI",
+                "description": "Construction modèle de données financier, DAX documenté, connecteurs ERP",
+                "price": "5000",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock"
             },
             {
                 "@type": "Offer",
-                "name": "Pilotage Augmenté",
-                "description": "Système de pilotage financier autonome : cockpit dirigeant temps réel, alertes automatiques et scénarios de croissance",
-                "price": "12500",
+                "name": "Mission longue",
+                "description": "Régie TJM via Malt : audit, modélisation, pipeline Python, transfert de compétences",
+                "price": "700",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock"
             }
@@ -98,18 +98,18 @@ export default function ConsultingPage() {
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "Qu'est-ce que le pilotage financier par la data ?",
+                "name": "Qu'est-ce qu'un audit Power BI ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Le pilotage financier par la data consiste à connecter vos sources existantes (ERP, comptabilité, exports) via SQL et Python, puis à construire des tableaux de bord Power BI fiables et réconciliés. Le Score FinSight™ fournit ensuite un indicateur propriétaire 0-100 sur 4 piliers pour éclairer chaque décision stratégique."
+                    "text": "Un audit Power BI analyse la structure technique d'un modèle .pbix : mesures DAX, relations, requêtes Power Query, performance et fiabilité des KPI. Le livrable est un rapport technique structuré avec plan de remédiation, livré en 5 jours ouvrés."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Combien coûte un audit financier ?",
+                "name": "Combien coûte un audit Power BI ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Le diagnostic stratégique démarre à 2 490€ HT pour un audit flash de 2-3 semaines. L'audit complet est à 6 990€ HT et inclut une analyse approfondie de vos marges, trésorerie et un plan d'optimisation chiffré."
+                    "text": "L'audit Power BI est proposé en forfait à 2 490€ HT. Il inclut l'analyse complète du modèle, le rapport technique et une restitution d'1 heure. La modélisation from scratch est sur devis entre 5 000 et 12 000€ HT."
                 }
             },
             {
@@ -117,7 +117,7 @@ export default function ConsultingPage() {
                 "name": "Pour quels types d'entreprises ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "J'accompagne principalement les PME de 500k€ à 5 millions d'euros de chiffre d'affaires, dans les secteurs Services B2B, SaaS, Commerce et Industrie."
+                    "text": "PME et ETI avec un modèle Power BI Finance existant ou un projet de modélisation à lancer. Secteurs : services, industrie, retail, réseaux multi-sites. Stack : Power BI, Power Query, DAX, Python, SQL."
                 }
             }
         ]
@@ -152,188 +152,56 @@ export default function ConsultingPage() {
                 </div>
 
                 <div className="relative max-w-7xl mx-auto px-6 lg:px-12 pt-32 pb-24 lg:pt-40 lg:pb-32">
-                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                        {/* LEFT: Content */}
+                    <div className="max-w-3xl mx-auto text-center">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                             className="space-y-8"
                         >
-                            {/* Badge */}
                             <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-primary/10 border border-accent-primary/30 rounded-full">
                                 <Sparkles className="w-4 h-4 text-accent-primary" />
                                 <span className="text-accent-primary text-sm font-semibold">
-                                    Architecture Financière &amp; Systèmes Décisionnels
+                                    Missions BI Finance
                                 </span>
                             </div>
 
-                            {/* H1 */}
                             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
-                                Votre architecte de pilotage financier,{' '}
-                                <span className="text-accent-primary">disponible dès cette semaine</span>
+                                Consultant BI Finance{' '}
+                                <span className="text-accent-primary">pour PME et ETI</span>
                             </h1>
 
-                            {/* Subheadline */}
-                            <p className="text-xl text-gray-300 leading-relaxed max-w-xl">
-                                Audit stratégique, architecture décisionnelle et pilotage financier.
-                                <span className="text-white font-semibold"> Anticipez avec 90 jours d&apos;avance.</span>
+                            <p className="text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
+                                Audit Power BI, modélisation de données financières, automatisation Python.
+                                Forfaits packagés et missions longues.
                             </p>
 
-                            {/* Stats row */}
-                            <div className="flex flex-col md:flex-row gap-8 py-4">
-                                <div className="text-left md:text-center flex-1">
-                                    <p className="text-3xl font-bold text-white mb-2">10+</p>
-                                    <p className="text-sm text-gray-300 leading-relaxed">
-                                        ans d&apos;expertise en finance &amp; pédagogie
-                                    </p>
-                                    <p className="text-xs text-gray-400 mt-2">Formation académique + terrain + data</p>
-                                </div>
-                                <div className="text-left md:text-center flex-1">
-                                    <p className="text-3xl font-bold text-accent-primary mb-2">Testée</p>
-                                    <p className="text-sm text-gray-300 leading-relaxed">
-                                        Méthodes utilisées par des PME &amp; institutions
-                                    </p>
-                                    <p className="text-xs text-gray-400 mt-2">Approche rigoureuse, testée et outillée</p>
-                                </div>
-                                <div className="text-left md:text-center flex-1">
-                                    <p className="text-3xl font-bold text-white mb-2">90j</p>
-                                    <p className="text-sm text-gray-300 leading-relaxed">
-                                        Visibilité cash pilotée par l&apos;IA
-                                    </p>
-                                </div>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+                                <a
+                                    href="https://calendly.com/zineinsight/15min"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
+                                >
+                                    <Calendar className="w-5 h-5" />
+                                    Demander un devis
+                                </a>
+                                <a
+                                    href="#offres"
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-lg font-semibold rounded-xl transition-all duration-200"
+                                >
+                                    Voir les forfaits
+                                    <ArrowRight className="w-5 h-5" />
+                                </a>
                             </div>
 
-                            {/* CTAs */}
-                            <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                                <div className="flex flex-col gap-1">
-                                    <p className="text-sm text-gray-400">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
-                                    <a
-                                        href="#offres"
-                                        className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
-                                    >
-                                        <ArrowRight className="w-5 h-5" />
-                                        Voir comment ça fonctionne
-                                    </a>
-                                </div>
-                            </div>
-
-                            {/* Trust */}
-                            <div className="flex items-center gap-4 text-sm text-gray-400 pt-2">
+                            <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-400 pt-2">
                                 <div className="flex items-center gap-2">
                                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                                     <span>Réponse sous 24h</span>
                                 </div>
                                 <span className="text-gray-600">•</span>
-                                <span>30 min · Confidentiel · Sans engagement</span>
-                            </div>
-                        </motion.div>
-
-                        {/* RIGHT: Photo + Dashboard preview */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                            className="relative hidden lg:block"
-                        >
-                            <div className="relative">
-                                {/* Glow effect */}
-                                <div className="absolute -inset-4 bg-accent-primary/20 rounded-3xl blur-2xl" />
-
-                                {/* Dashboard mockup */}
-                                <div className="relative bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-white/10 p-6 shadow-2xl">
-                                    {/* Header */}
-                                    <div className="flex items-center justify-between mb-6">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-3 h-3 rounded-full bg-red-500" />
-                                            <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                                            <div className="w-3 h-3 rounded-full bg-green-500" />
-                                        </div>
-                                        <span className="text-xs text-gray-500">Cockpit décisionnel dirigeant</span>
-                                    </div>
-
-                                    {/* KPIs Grid */}
-                                    <div className="grid grid-cols-2 gap-4 mb-6">
-                                        <div className="bg-slate-900/60 rounded-xl p-4 border border-white/5">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <TrendingUp className="w-4 h-4 text-green-400" />
-                                                <span className="text-xs text-gray-400">Marge brute</span>
-                                            </div>
-                                            <p className="text-2xl font-bold text-white">+23%</p>
-                                            <p className="text-xs text-green-400">↑ vs N-1</p>
-                                        </div>
-                                        <div className="bg-slate-900/60 rounded-xl p-4 border border-white/5">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <BarChart3 className="w-4 h-4 text-accent-primary" />
-                                                <span className="text-xs text-gray-400">Cash-flow</span>
-                                            </div>
-                                            <p className="text-2xl font-bold text-white">+145k€</p>
-                                            <p className="text-xs text-accent-primary">90j ahead</p>
-                                        </div>
-                                        <div className="bg-slate-900/60 rounded-xl p-4 border border-white/5">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <PieChart className="w-4 h-4 text-purple-400" />
-                                                <span className="text-xs text-gray-400">ROI identifié</span>
-                                            </div>
-                                            <p className="text-2xl font-bold text-white">3.2x</p>
-                                            <p className="text-xs text-purple-400">potentiel</p>
-                                        </div>
-                                        <div className="bg-slate-900/60 rounded-xl p-4 border border-white/5">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <Target className="w-4 h-4 text-orange-400" />
-                                                <span className="text-xs text-gray-400">DSO</span>
-                                            </div>
-                                            <p className="text-2xl font-bold text-white">-15j</p>
-                                            <p className="text-xs text-orange-400">optimisé</p>
-                                        </div>
-                                    </div>
-
-                                    {/* Chart - Animated */}
-                                    <div className="bg-slate-900/40 rounded-xl p-4 border border-white/5">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <span className="text-sm text-gray-300 font-medium">Évolution trésorerie</span>
-                                            <div className="flex items-center gap-2">
-                                                <span className="relative flex h-2 w-2">
-                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                                </span>
-                                                <span className="text-xs text-green-400 font-semibold">Live</span>
-                                            </div>
-                                        </div>
-                                        {/* Bars with animation */}
-                                        <div className="flex items-end gap-1.5 h-24 mb-2">
-                                            {[
-                                                { h: 40, month: 'J' },
-                                                { h: 55, month: 'F' },
-                                                { h: 45, month: 'M' },
-                                                { h: 60, month: 'A' },
-                                                { h: 50, month: 'M' },
-                                                { h: 75, month: 'J' },
-                                                { h: 65, month: 'J' },
-                                                { h: 80, month: 'A' },
-                                                { h: 70, month: 'S' },
-                                                { h: 85, month: 'O' },
-                                                { h: 90, month: 'N' },
-                                                { h: 95, month: 'D' }
-                                            ].map((bar, i) => (
-                                                <motion.div
-                                                    key={i}
-                                                    initial={{ height: 0 }}
-                                                    whileInView={{ height: `${bar.h}%` }}
-                                                    viewport={{ once: true }}
-                                                    transition={{ duration: 0.5, delay: i * 0.05, ease: 'easeOut' }}
-                                                    className="flex-1 bg-gradient-to-t from-accent-primary via-blue-400 to-cyan-300 rounded-t shadow-lg shadow-accent-primary/20"
-                                                />
-                                            ))}
-                                        </div>
-                                        {/* Month labels */}
-                                        <div className="flex gap-1.5">
-                                            {['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'].map((month, i) => (
-                                                <span key={i} className="flex-1 text-center text-[10px] text-gray-500">{month}</span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
+                                <span>15 min · Confidentiel · Sans engagement</span>
                             </div>
                         </motion.div>
                     </div>
@@ -341,7 +209,7 @@ export default function ConsultingPage() {
             </section>
 
             {/* ============================================
-                PROBLÉMATIQUES - Cards modernes
+                PROBLÉMATIQUES - Contextes techniques
                ============================================ */}
             <section className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -353,18 +221,17 @@ export default function ConsultingPage() {
                         className="text-center mb-16"
                     >
                         <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary-subtle rounded-full mb-4">
-                            Diagnostic
+                            Votre contexte
                         </span>
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
                             Vous vous reconnaissez ?
                         </h2>
                         <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-                            Deux situations, une même exigence de clarté financière
+                            Deux situations techniques, deux forfaits adaptés
                         </p>
                     </motion.div>
 
                     <div className="grid md:grid-cols-2 gap-8">
-                        {/* Card 1 - Stabilisation */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -372,34 +239,30 @@ export default function ConsultingPage() {
                             transition={{ duration: 0.6, delay: 0.1 }}
                             className="group relative bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-2xl" />
-                            <div className="relative">
-                                <div className="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center mb-6">
-                                    <Shield className="w-7 h-7 text-red-600" />
-                                </div>
-                                <span className="text-xs font-semibold text-red-600 uppercase tracking-wider">Contexte A</span>
-                                <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">Pilotage sous tension</h3>
-                                <p className="text-text-secondary mb-6">
-                                    Votre pilotage financier manque de visibilité. Vous devez stabiliser, clarifier et anticiper.
-                                </p>
-                                <ul className="space-y-3">
-                                    {['Trésorerie difficile à anticiper', 'Marges par activité floues', 'Reporting manuel chronophage', 'Décisions sur données incomplètes'].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-text-secondary">
-                                            <div className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                                <div className="mt-8 pt-6 border-t border-border-subtle">
-                                    <p className="text-sm font-semibold text-text-primary flex items-center gap-2">
-                                        <Target className="w-4 h-4 text-red-600" />
-                                        Objectif : Stabiliser. Clarifier. Anticiper.
-                                    </p>
-                                </div>
+                            <div className="w-14 h-14 bg-accent-primary-subtle rounded-2xl flex items-center justify-center mb-6">
+                                <BarChart3 className="w-7 h-7 text-accent-primary" />
                             </div>
+                            <span className="text-xs font-semibold text-accent-primary uppercase tracking-wider">Contexte A</span>
+                            <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">
+                                Un Power BI qui tourne, mais vous doutez de sa fiabilité
+                            </h3>
+                            <p className="text-text-secondary mb-6">
+                                Mesures incohérentes, performance dégradante, dépendance à une seule personne pour le refresh.
+                                Vous avez besoin d&apos;un audit technique avant d&apos;investir davantage.
+                            </p>
+                            <ul className="space-y-3">
+                                {['KPI qui ne concordent pas avec la compta', 'Modèle devenu opaque avec le temps', 'Refresh manuel fragile', "Besoin d'un rapport technique objectif"].map((item, i) => (
+                                    <li key={i} className="flex items-center gap-3 text-text-secondary text-sm">
+                                        <div className="w-1.5 h-1.5 bg-accent-primary rounded-full" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                            <p className="mt-8 pt-6 border-t border-border-subtle text-sm font-semibold text-text-primary">
+                                → Forfait Audit Power BI · 2 490€ HT
+                            </p>
                         </motion.div>
 
-                        {/* Card 2 - Croissance */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -407,42 +270,41 @@ export default function ConsultingPage() {
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="group relative bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/5 rounded-full blur-2xl" />
-                            <div className="relative">
-                                <div className="w-14 h-14 bg-accent-primary-subtle rounded-2xl flex items-center justify-center mb-6">
-                                    <TrendingUp className="w-7 h-7 text-accent-primary" />
-                                </div>
-                                <span className="text-xs font-semibold text-accent-primary uppercase tracking-wider">Contexte B</span>
-                                <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">Pilotage de croissance</h3>
-                                <p className="text-text-secondary mb-6">
-                                    Votre activité fonctionne. Vous voulez structurer l&apos;accélération et identifier vos leviers.
-                                </p>
-                                <ul className="space-y-3">
-                                    {['Croissance rapide, visibilité réduite', 'Leviers de rentabilité non exploités', 'Besoin de structuration data', 'Préparation de phase stratégique'].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-text-secondary">
-                                            <div className="w-1.5 h-1.5 bg-accent-primary rounded-full" />
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                                <div className="mt-8 pt-6 border-t border-border-subtle">
-                                    <p className="text-sm font-semibold text-text-primary flex items-center gap-2">
-                                        <Target className="w-4 h-4 text-accent-primary" />
-                                        Objectif : Accélérer. Structurer. Conquérir.
-                                    </p>
-                                </div>
+                            <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mb-6">
+                                <Layers className="w-7 h-7 text-slate-700" />
                             </div>
+                            <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Contexte B</span>
+                            <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">
+                                Construire un modèle Power BI Finance from scratch
+                            </h3>
+                            <p className="text-text-secondary mb-6">
+                                Pas de modèle fiable, données éparpillées (Sage, Cegid, FEC, ERP).
+                                Vous voulez une architecture dimensionnelle documentée et maintenable.
+                            </p>
+                            <ul className="space-y-3">
+                                {['Cadrage technique et fonctionnel', 'Modèle mono ou multi-entités', 'Mesures DAX documentées', 'Connecteurs et documentation livrés'].map((item, i) => (
+                                    <li key={i} className="flex items-center gap-3 text-text-secondary text-sm">
+                                        <div className="w-1.5 h-1.5 bg-slate-600 rounded-full" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                            <p className="mt-8 pt-6 border-t border-border-subtle text-sm font-semibold text-text-primary">
+                                → Forfait Modélisation Power BI · Sur devis
+                            </p>
                         </motion.div>
                     </div>
 
                     <div className="mt-12 text-center">
-                        <Link
-                            href="/mon-diagnostic"
+                        <a
+                            href="https://calendly.com/zineinsight/15min"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white font-semibold rounded-xl shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                         >
-                            Identifier mon niveau de priorité
+                            Demander un devis
                             <ArrowRight className="w-5 h-5" />
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -465,7 +327,7 @@ export default function ConsultingPage() {
                             <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl">
                                 <Image
                                     src="/images/Photo_profil.jpeg"
-                                    alt="Otmane Boulahia - Architecte de Systèmes Décisionnels Financiers"
+                                    alt="Otmane Boulahia - Consultant BI Finance"
                                     width={500}
                                     height={600}
                                     className="object-cover w-full"
@@ -478,7 +340,7 @@ export default function ConsultingPage() {
                                         </div>
                                         <div>
                                             <p className="text-white font-bold">Otmane Boulahia</p>
-                                            <p className="text-gray-300 text-sm">Architecte de Systèmes Décisionnels Financiers</p>
+                                            <p className="text-gray-300 text-sm">Consultant BI Finance</p>
                                         </div>
                                     </div>
                                 </div>
@@ -497,37 +359,32 @@ export default function ConsultingPage() {
                                 Fondateur
                             </span>
                             <h2 className="text-3xl md:text-4xl font-bold">
-                                Pourquoi des dirigeants PME{' '}
-                                <span className="text-accent-primary">choisissent FinSight</span>
+                                Mon angle
                             </h2>
 
                             <div className="space-y-4 text-gray-300 leading-relaxed">
                                 <p>
-                                    10 ans à enseigner l&apos;économie. À chercher comment rendre un bilan lisible,
-                                    un ratio parlant, une décision financière évidente pour quelqu&apos;un qui n&apos;a pas fait de finance.
+                                    Master 2 Finance (Université Côte d&apos;Azur). 10 ans d&apos;enseignement de l&apos;économie.
+                                    Reconversion data analyst (Le Wagon).
                                 </p>
                                 <p>
-                                    À un moment, cette obsession de la clarté ne tenait plus dans une salle de classe.
+                                    Un dashboard peut tourner depuis 3 ans sans qu&apos;on sache qu&apos;il est à deux erreurs de s&apos;effondrer.
+                                    Mesures DAX en O(n²), jointures fragiles, refresh manuel dépendant d&apos;une seule personne.
+                                    Le BI n&apos;est pas un livrable graphique — c&apos;est une infrastructure qui doit tenir.
                                 </p>
                                 <p>
-                                    Master en finance. Certification data analyst Le Wagon. Des années à construire des outils,
-                                    à lire des données, à traduire des chiffres en décisions concrètes. Pas pour faire de la
-                                    comptabilité - pour donner aux dirigeants ce que personne ne leur donne vraiment :{' '}
-                                    <span className="text-white font-semibold">une vision claire de là où ils en sont, et de là où ils vont.</span>
-                                </p>
-                                <p>
-                                    J&apos;interviens, je construis votre outil de pilotage financier, je vous explique ce qu&apos;il dit.
-                                    Et je repars en laissant quelque chose qui tourne sans moi.
+                                    J&apos;interviens, j&apos;audite, je modélise, je documente.
+                                    Je repars en laissant quelque chose qui tourne sans moi.
                                 </p>
                             </div>
 
                             {/* Credentials */}
                             <div className="grid grid-cols-2 gap-4 pt-4">
                                 {[
-                                    { icon: BarChart3, label: 'Finance & Data' },
-                                    { icon: Users, label: 'PME 500k€-5M€' },
-                                    { icon: Target, label: 'ROI mesurable' },
-                                    { icon: Shield, label: 'Confidentialité' }
+                                    { icon: BarChart3, label: 'Power BI & DAX' },
+                                    { icon: Target, label: 'Audit technique' },
+                                    { icon: Shield, label: 'Python & SQL' },
+                                    { icon: Users, label: 'Multi-sites' }
                                 ].map((item, i) => (
                                     <div key={i} className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3">
                                         <item.icon className="w-5 h-5 text-accent-primary" />
@@ -553,7 +410,7 @@ export default function ConsultingPage() {
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover rounded-xl font-semibold transition-all"
                                 >
-                                    Réserver un échange de 30 min
+                                    Demander un devis
                                     <ArrowRight className="w-5 h-5" />
                                 </a>
                             </div>
@@ -578,46 +435,24 @@ export default function ConsultingPage() {
                             Études de cas
                         </span>
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-                            Missions récentes
+                            Réseau multisites santé animale (30 sites)
                         </h2>
                         <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-                            Des résultats concrets pour des entreprises comme la vôtre
+                            Client anonymisé — mission de référence
                         </p>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {[
-                            {
-                                sector: 'Formation professionnelle',
-                                size: '500M€ CA',
-                                icon: Users,
-                                color: 'purple',
-                                challenge: 'Identification des centres de coût déficitaires. Données RH et comptables dispersées.',
-                                solution: 'Centralisation multi-sources, analyse de rentabilité par centre de profit, vision consolidée en temps réel.',
-                                result: 'Récupération de trésorerie significative',
-                                tags: ['Consolidation', 'Rentabilité', 'Vision temps réel']
-                            },
-                            {
-                                sector: 'BTP / Services',
-                                size: '7M€ CA',
-                                icon: TrendingUp,
-                                color: 'blue',
-                                challenge: 'Croissance 40%/an avec perte de visibilité sur les marges chantier et le cash.',
-                                solution: 'Modèle rentabilité par projet, pilotage cash à 90 jours, arbitrages avant engagement.',
-                                result: 'Arbitrages rapides, croissance rentable',
-                                tags: ['Cash-flow', 'Pilotage', 'Projet']
-                            },
-                            {
-                                sector: 'Services / Conseil',
-                                size: 'PME',
+                    <div className="grid md:grid-cols-1 gap-6 max-w-3xl mx-auto">
+                        {[{
+                                sector: 'Réseau santé animale',
+                                size: '30 sites',
                                 icon: BarChart3,
-                                color: 'green',
-                                challenge: 'Dépendance aux retraitements Excel manuels. Indicateurs non fiables en comité.',
-                                solution: 'Cadre de pilotage structuré, production automatique des indicateurs, reporting fiable en comité de direction.',
-                                result: 'Pilotage fiable sans intervention manuelle',
-                                tags: ['Pilotage', 'Automatisation', 'Comité direction']
-                            }
-                        ].map((study, i) => (
+                                color: 'blue',
+                                challenge: 'Modèle Power BI consolidé existant. Doutes sur la fiabilité des mesures, performance dégradante, dépendance à une manipulation manuelle mensuelle.',
+                                solution: 'Audit complet : 20 tables, 80 mesures DAX, 16 requêtes Power Query, 9 relations. Extraction via pbixray (Python). Rapport technique structuré.',
+                                result: '11 anomalies structurelles identifiées, plan de remédiation par priorité',
+                                tags: ['Audit Power BI', 'DAX', 'Multi-sites']
+                            }].map((study, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 20 }}
@@ -682,22 +517,22 @@ export default function ConsultingPage() {
                         className="text-center mb-16"
                     >
                         <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider uppercase text-accent-primary bg-accent-primary/10 border border-accent-primary/30 rounded-full mb-4">
-                            Notre approche
+                            Méthode
                         </span>
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            Ce que nous construisons ensemble
+                            Ma méthode d&apos;audit Power BI
                         </h2>
                         <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                            Une méthodologie éprouvée pour des résultats mesurables
+                            Quatre étapes techniques, livrable documenté en 5 jours ouvrés
                         </p>
                     </motion.div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
-                            { icon: Shield, title: 'Stabiliser', desc: 'Anticipation trésorerie 90 jours, identification des fuites de cash, sécurisation des marges.', color: 'red' },
-                            { icon: TrendingUp, title: 'Accélérer', desc: 'Identification des leviers de croissance, optimisation des marges, analyse de rentabilité.', color: 'blue' },
-                            { icon: Target, title: 'Structurer', desc: 'Préparation levée de fonds, due diligence, modèles financiers fiables et documentés.', color: 'purple' },
-                            { icon: BarChart3, title: 'Automatiser', desc: 'Mise en place d\'un système décisionnel autonome : indicateurs consolidés, alertes ciblées, suppression des retraitements manuels.', color: 'green' }
+                            { step: '01', title: 'Extraction & inventaire', desc: 'Lecture du .pbix (pbixray), inventaire des tables, mesures, relations et requêtes Power Query.' },
+                            { step: '02', title: 'Analyse DAX & performance', desc: 'Patterns problématiques : EARLIER, jointures fragiles, doublons de mesures.' },
+                            { step: '03', title: 'Tests de cohérence', desc: 'Vérification des KPI critiques, contrôle des jointures, simulation de volumes.' },
+                            { step: '04', title: 'Rapport & remédiation', desc: "Document structuré + restitution technique d'1 heure." }
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
@@ -707,9 +542,7 @@ export default function ConsultingPage() {
                                 transition={{ duration: 0.6, delay: i * 0.1 }}
                                 className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-accent-primary/30 hover:bg-white/10 transition-all duration-300"
                             >
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${item.color === 'red' ? 'bg-red-500/20' : item.color === 'blue' ? 'bg-accent-primary/20' : item.color === 'purple' ? 'bg-purple-500/20' : 'bg-green-500/20'}`}>
-                                    <item.icon className={`w-6 h-6 ${item.color === 'red' ? 'text-red-400' : item.color === 'blue' ? 'text-accent-primary' : item.color === 'purple' ? 'text-purple-400' : 'text-green-400'}`} />
-                                </div>
+                                <p className="text-accent-primary text-sm font-bold mb-3">{item.step}</p>
                                 <h3 className="text-xl font-bold mb-3">{item.title}</h3>
                                 <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
                             </motion.div>
@@ -734,10 +567,10 @@ export default function ConsultingPage() {
                             Offres
                         </span>
                         <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-                            Trois niveaux d&apos;accompagnement
+                            Trois forfaits techniques
                         </h2>
                         <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-                            Choisissez l&apos;offre adaptée à vos enjeux
+                            Audit packagé, modélisation sur devis ou mission longue en régie
                         </p>
                     </motion.div>
 
@@ -750,17 +583,17 @@ export default function ConsultingPage() {
                             transition={{ duration: 0.6, delay: 0.1 }}
                             className="bg-background-primary rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
-                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Offre Signature</p>
-                            <h3 className="text-2xl font-bold text-text-primary mb-2">Savoir exactement où vous en êtes</h3>
+                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Audit Power BI</p>
+                            <h3 className="text-2xl font-bold text-text-primary mb-2">Auditer un modèle existant</h3>
                             <p className="text-text-secondary mb-6">Livrable clé en main - 5 jours ouvrés.</p>
 
                             <ul className="space-y-3 mb-4">
                                 {[
-                                    'Diagnostic complet : cash, marges, résilience, risques',
-                                    'Les 3 leviers prioritaires identifiés et chiffrés',
-                                    'Ce que vous devez faire maintenant - pas dans 6 mois',
-                                    'Simulation de l\'impact de chaque levier à 90 jours',
-                                    '1h de restitution avec plan d\'action concret'
+                                    'Audit complet du modèle .pbix',
+                                    'Analyse des mesures DAX, relations, performance',
+                                    'Identification des anomalies structurelles',
+                                    'Rapport technique documenté',
+                                    'Restitution 1h'
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-text-secondary">
                                         <Check className="w-5 h-5 text-accent-success flex-shrink-0 mt-0.5" />
@@ -768,7 +601,7 @@ export default function ConsultingPage() {
                                     </li>
                                 ))}
                             </ul>
-                            <p className="text-sm italic text-text-tertiary">Pour le dirigeant qui veut enfin des chiffres clairs pour prendre des décisions sereines.</p>
+                            <p className="text-sm italic text-text-tertiary">Livré en 5 jours ouvrés · 2 490€ HT</p>
                         </motion.div>
 
                         {/* Audit - Featured */}
@@ -782,18 +615,17 @@ export default function ConsultingPage() {
                             <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-accent-primary text-white text-xs font-bold rounded-full">
                                 Recommandé
                             </div>
-                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Structuration &amp; Pilotage</p>
-                            <h3 className="text-2xl font-bold mb-2">Passer de la réaction à la décision</h3>
-                            <p className="text-gray-300 mb-6">Vous passez votre temps à réagir aux problèmes plutôt qu&apos;à les anticiper. Cette mission vous donne un système de pilotage sur mesure - pour que vous décidiez avec des chiffres, pas avec des intuitions.</p>
+                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Modélisation Power BI</p>
+                            <h3 className="text-2xl font-bold mb-2">Construire un modèle from scratch</h3>
+                            <p className="text-gray-300 mb-6">Vous n&apos;avez pas de modèle Power BI ou vous voulez tout refondre. Je conçois l&apos;architecture data finance. Sur devis · 5 000 à 12 000€ HT · 2 à 4 semaines.</p>
 
                             <ul className="space-y-3 mb-4">
                                 {[
-                                    'Tout le diagnostic initial inclus',
-                                    'Rentabilité réelle par activité - vous saurez ce qui rapporte vraiment',
-                                    'Trésorerie visible et fiabilisée à 24 mois',
-                                    'Cockpit décisionnel sur mesure - vous pilotez seul à l\'issue',
-                                    'Plan d\'action chiffré sur 6 mois',
-                                    'Formation 2h + 1 mois de support'
+                                    'Cadrage technique et fonctionnel',
+                                    'Modèle de données dimensionnel',
+                                    'Mesures DAX documentées',
+                                    'Connecteurs (Sage, Cegid, FEC, ERP)',
+                                    'Documentation technique'
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
                                         <Check className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
@@ -801,7 +633,7 @@ export default function ConsultingPage() {
                                     </li>
                                 ))}
                             </ul>
-                            <p className="text-sm italic text-gray-500">Pour le dirigeant qui veut anticiper, structurer, et arrêter d&apos;éteindre des incendies.</p>
+                            <p className="text-sm italic text-gray-500">Forfait recommandé pour un modèle from scratch</p>
                         </motion.div>
 
                         {/* Pilotage Augmenté */}
@@ -812,17 +644,16 @@ export default function ConsultingPage() {
                             transition={{ duration: 0.6, delay: 0.3 }}
                             className="bg-background-primary rounded-2xl p-8 border border-border-default hover:border-accent-primary/30 hover:shadow-xl transition-all duration-300"
                         >
-                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Système décisionnel</p>
-                            <h3 className="text-2xl font-bold text-text-primary mb-2">Grandir sans perdre le contrôle</h3>
-                            <p className="text-text-secondary mb-6">Vous recrutez, vous investissez, vous ouvrez de nouveaux marchés. Mais vos chiffres ne suivent plus. Cette mission vous donne un pilotage financier autonome, fiable et durable - pour que chaque décision stratégique soit prise sur une base solide.</p>
+                            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">Mission longue</p>
+                            <h3 className="text-2xl font-bold text-text-primary mb-2">Régie au jour via Malt</h3>
+                            <p className="text-text-secondary mb-6">Pour des missions plus larges : audit + modélisation + pipeline Python + accompagnement équipe. TJM 700€ HT via Malt.</p>
 
                             <ul className="space-y-3 mb-4">
                                 {[
-                                    'Tout l\'audit complet inclus',
-                                    'Cockpit temps réel avec alertes automatiques sur anomalies',
-                                    'Scénarios simulés en continu : recrutement, investissement, perte d\'un client',
-                                    'Maîtrise totale des marges et du cash',
-                                    'Formation équipe + 3 mois d\'accompagnement'
+                                    'Engagement de 2 semaines à 3 mois',
+                                    'Présence régulière chez le client',
+                                    'Stack Power BI + Python + SQL',
+                                    'Transfert de compétences'
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-text-secondary">
                                         <Check className="w-5 h-5 text-accent-success flex-shrink-0 mt-0.5" />
@@ -830,7 +661,7 @@ export default function ConsultingPage() {
                                     </li>
                                 ))}
                             </ul>
-                            <p className="text-sm italic text-text-tertiary">Pour le dirigeant en croissance qui veut scaler sans perdre le contrôle de ses chiffres.</p>
+                            <p className="text-sm italic text-text-tertiary">Profil Malt disponible sur demande</p>
                         </motion.div>
                     </div>
 
@@ -852,7 +683,7 @@ export default function ConsultingPage() {
                                 className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary hover:bg-accent-primary-hover text-white font-semibold rounded-xl shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                             >
                                 <Calendar className="w-5 h-5" />
-                                Démarrer mon diagnostic
+                                Demander un devis
                             </a>
                             <Link
                                 href="/tarifs"
@@ -888,7 +719,7 @@ export default function ConsultingPage() {
                             Vous vous posez des questions ?
                         </h2>
                         <p className="text-lg text-slate-600">
-                            Voici les réponses aux questions les plus courantes sur le pilotage financier par la data
+                            Voici les réponses aux questions les plus courantes sur les missions BI Finance
                         </p>
                     </motion.div>
 
@@ -1088,7 +919,7 @@ export default function ConsultingPage() {
                             className="inline-flex items-center gap-2 px-8 py-4 bg-accent-primary text-white font-semibold rounded-xl hover:bg-accent-primary-hover transition-all shadow-lg"
                         >
                             <Calendar className="w-5 h-5" />
-                            Démarrer mon diagnostic
+                            Demander un devis
                         </a>
                     </motion.div>
                 </div>

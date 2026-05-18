@@ -6,6 +6,9 @@ import {
   Linkedin,
   Calendar,
   ArrowRight,
+  BarChart3,
+  Layers,
+  Briefcase,
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -23,6 +26,52 @@ export default function HomeClient() {
 
       {/* Section 1 - Hero */}
       <CinematicHero />
+
+      {/* Section 1b - Ce que je livre */}
+      <section className="py-20 bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-6">
+          <FadeIn className="text-center mb-12">
+            <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">
+              Missions techniques
+            </span>
+            <h2 className="font-serif text-3xl lg:text-4xl font-medium text-gray-900 mt-4">
+              Ce que je livre
+            </h2>
+          </FadeIn>
+          <StaggerContainer className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
+            {[
+              {
+                title: "Audit Power BI",
+                desc: "Audit complet d'un modèle existant. Mesures DAX, relations, performance, fiabilité.",
+                detail: "5 jours ouvrés · Forfait 2 490€ HT",
+                icon: BarChart3,
+              },
+              {
+                title: "Modélisation",
+                desc: "Construction d'un modèle de données financier mono ou multi-entités. Power Query, DAX, connecteurs.",
+                detail: "2–4 semaines · Sur devis",
+                icon: Layers,
+                featured: true,
+              },
+              {
+                title: "Mission longue",
+                desc: "Régie au jour pour missions de 2 semaines à 3 mois. Stack Power BI + Python + SQL.",
+                detail: "TJM 700€ HT via Malt",
+                icon: Briefcase,
+              },
+            ].map((card) => (
+              <StaggerItem key={card.title}>
+                <div className={`rounded-xl p-8 border h-full flex flex-col ${card.featured ? "border-accent-primary/40 bg-slate-50 shadow-sm" : "border-gray-200 bg-white"}`}>
+                  <card.icon className="w-8 h-8 text-accent-primary mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{card.title}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed flex-1">{card.desc}</p>
+                  <p className="text-sm font-medium text-gray-900 mt-6 pt-4 border-t border-gray-100">{card.detail}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
 
       {/* Section 2 - Grille calculateurs */}
       <CalculatorsHubGrid />
@@ -114,40 +163,30 @@ export default function HomeClient() {
                     Otmane Boulahia
                   </h2>
                   <p className="text-lg text-gray-500">
-                    Expert Finance &amp; Data · Score FinSight™
+                    Consultant BI Finance · Master 2 Finance + stack data moderne
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { value: "−28 jours", label: "DSO réduit · PME Services" },
-                    { value: "+340k€", label: "Cash libéré · PME BTP" },
-                    { value: "+6 pts", label: "Marge nette · Groupe 500M€" },
-                    { value: "10+", label: "Dirigeants accompagnés" },
-                  ].map((metric) => (
-                    <div
-                      key={metric.value}
-                      className="p-4 bg-white rounded-lg border border-gray-200"
-                    >
-                      <p className="font-semibold text-gray-900 text-xl leading-tight">
-                        {metric.value}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">{metric.label}</p>
-                    </div>
-                  ))}
+                <div className="p-6 bg-white rounded-lg border border-gray-200">
+                  <p className="text-xs font-semibold text-accent-primary uppercase tracking-wider mb-2">
+                    Mission récente
+                  </p>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    Audit Power BI d&apos;un réseau multisites de 30 sites : 80 mesures DAX auditées,
+                    11 anomalies structurelles identifiées, rapport technique livré.
+                  </p>
                 </div>
 
                 <blockquote className="border-l-2 border-gray-300 pl-6 py-2">
                   <p className="text-gray-700 leading-relaxed">
                     <span className="font-medium">
-                      &quot;Un dirigeant ne devrait jamais prendre une décision
-                      stratégique sans vision claire de son cash à 90 jours.&quot;
+                      &quot;Un dashboard qui marche depuis 3 ans peut cacher 10 anomalies invisibles.
+                      Le BI n&apos;est pas un livrable graphique — c&apos;est une infrastructure qui doit tenir.&quot;
                     </span>
                   </p>
                   <p className="text-gray-500 text-sm mt-4 leading-relaxed">
-                    Ma mission : connecter vos données comptables et
-                    opérationnelles pour construire un pilotage fiable - avec la
-                    rigueur d&apos;un audit et une structuration data robuste.
+                    J&apos;interviens sur l&apos;audit, la modélisation et l&apos;automatisation —
+                    avec la rigueur d&apos;un rapport technique, pas d&apos;un coaching dirigeant.
                   </p>
                 </blockquote>
 
@@ -166,233 +205,128 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* Section 6 - Offres consulting */}
+      {/* Section 6 - Offres */}
       <section className="py-32 bg-white">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-6">
           <FadeIn className="text-center mb-16">
             <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">
-              ACCOMPAGNEMENT EXPERT
+              FORFAITS TECHNIQUES
             </span>
             <h2 className="font-serif text-4xl lg:text-5xl font-medium text-gray-900 mt-4 mb-5">
-              Structuration financière, pilotage augmenté, agents IA
+              Trois façons de travailler ensemble
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              Deux niveaux d&apos;accompagnement selon votre maturité financière
+              Audit packagé, modélisation sur devis ou mission longue en régie
             </p>
           </FadeIn>
 
-          <StaggerContainer className="grid md:grid-cols-2 gap-8" staggerDelay={0.2}>
+          <StaggerContainer className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
             <StaggerItem>
-              <div className="relative bg-white rounded-xl p-8 lg:p-10 border border-accent-primary/30 shadow-sm h-full flex flex-col">
-                <div className="absolute -top-3 left-8">
-                  <span className="px-3 py-1 bg-accent-primary text-white text-xs font-medium rounded-full tracking-wide">
-                    Recommandé
-                  </span>
-                </div>
-
-                <div className="mt-2 mb-8">
-                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                    Diagnostic FinSight™ 90J
-                  </h3>
-                  <p className="text-gray-500 leading-relaxed text-sm">
-                    Score FinSight™, 3 leviers prioritaires chiffrés et plan d&apos;action immédiat.
-                    Clarté stratégique en 5 jours ouvrés.
-                  </p>
-                </div>
-
-                <ul className="space-y-3 mb-8 flex-1">
-                  <li className="flex items-start gap-3 text-sm text-gray-700">
-                    <svg className="w-4 h-4 text-accent-primary mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                    Score FinSight™ (0-100) + benchmark sectoriel
-                  </li>
-                  <li className="flex items-start gap-3 text-sm text-gray-700">
-                    <svg className="w-4 h-4 text-accent-primary mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                    3 leviers prioritaires chiffrés (incl. anomalies identifiées)
-                  </li>
-                  <li className="flex items-start gap-3 text-sm text-gray-700">
-                    <svg className="w-4 h-4 text-accent-primary mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                    Simulation d&apos;impact à 90 jours
-                  </li>
-                  <li className="flex items-start gap-3 text-sm text-gray-700">
-                    <svg className="w-4 h-4 text-accent-primary mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                    Restitution dirigeant 60 min
-                  </li>
-                </ul>
-
-                <div className="pt-6 border-t border-gray-100">
-                  <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">À partir de</p>
-                  <p className="text-3xl font-semibold text-gray-900 mb-5">2 490€</p>
-                  <p className="text-sm text-gray-500 mb-2">⭐ 4.8/5 · +10 dirigeants PME accompagnés · Réponse sous 24h</p>
-                  <a
-                    href="https://calendly.com/zineinsight/15min"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full px-6 py-3.5 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-lg font-semibold text-center transition-all duration-200"
-                  >
-                    Réserver mon diagnostic offert (15 min)
-                  </a>
-                  <p className="text-xs text-center text-gray-400 mt-3">Réponse sous 24h · Sans engagement</p>
-                </div>
+              <div className="rounded-xl p-8 border border-gray-200 h-full flex flex-col">
+                <h3 className="text-xl font-semibold text-gray-900 mb-1">Audit Power BI</h3>
+                <p className="text-sm text-gray-500 mb-4">Auditer un modèle existant</p>
+                <p className="text-sm text-gray-600 flex-1 leading-relaxed">
+                  Audit complet du modèle .pbix, analyse DAX, relations, performance.
+                  Rapport technique + restitution 1h. Livré en 5 jours ouvrés.
+                </p>
+                <p className="text-2xl font-semibold text-gray-900 mt-6">2 490€ HT</p>
+                <Link href="/consulting" className="mt-4 text-sm font-medium text-accent-primary hover:underline">
+                  En savoir plus →
+                </Link>
               </div>
             </StaggerItem>
-
             <StaggerItem>
-              <div className="relative bg-slate-950 rounded-xl p-8 lg:p-10 border border-gray-800 h-full flex flex-col">
-                <div className="absolute -top-3 left-8">
-                  <span className="px-3 py-1 bg-white/15 text-white text-xs font-medium rounded-full tracking-wide border border-white/20">
-                    EXTENSION
-                  </span>
-                </div>
-
-                <div className="mb-8 mt-2">
-                  <h3 className="text-2xl font-semibold text-white mb-3">
-                    Pilotage Augmenté
-                  </h3>
-                  <p className="text-gray-400 leading-relaxed text-sm">
-                    Monitoring continu de vos indicateurs critiques - automatisé et sécurisé.
-                    Trésorerie, marges et scénarios surveillés en permanence.
-                  </p>
-                </div>
-
-                <ul className="space-y-3 mb-8 flex-1">
-                  <li className="flex items-center gap-3 text-sm text-gray-300">
-                    <div className="w-1.5 h-1.5 bg-accent-primary rounded-full flex-shrink-0" />
-                    <span><span className="text-white font-medium">TRESORIS</span> - Surveillance trésorerie</span>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm text-gray-300">
-                    <div className="w-1.5 h-1.5 bg-accent-primary rounded-full flex-shrink-0" />
-                    <span><span className="text-white font-medium">MARGIS</span> - Rentabilité réelle</span>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm text-gray-300">
-                    <div className="w-1.5 h-1.5 bg-accent-primary rounded-full flex-shrink-0" />
-                    <span><span className="text-white font-medium">SCENARIS</span> - Scénarios what-if</span>
-                  </li>
-                </ul>
-
-                <div className="pt-6 border-t border-gray-800">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Investissement</p>
-                  <p className="text-2xl font-semibold text-white mb-5">
-                    Sur mesure
-                  </p>
-                  <Link
-                    href="/consulting"
-                    className="block w-full px-6 py-3.5 bg-white hover:bg-gray-100 text-gray-900 rounded-lg font-semibold text-center transition-all duration-200"
-                  >
-                    Découvrir le pilotage augmenté
-                  </Link>
-                </div>
+              <div className="relative rounded-xl p-8 border border-accent-primary/40 bg-slate-50 h-full flex flex-col">
+                <span className="absolute -top-3 left-6 px-3 py-1 bg-accent-primary text-white text-xs font-medium rounded-full">Recommandé</span>
+                <h3 className="text-xl font-semibold text-gray-900 mb-1 mt-2">Modélisation Power BI</h3>
+                <p className="text-sm text-gray-500 mb-4">Construire un modèle from scratch</p>
+                <p className="text-sm text-gray-600 flex-1 leading-relaxed">
+                  Cadrage, modèle dimensionnel, mesures DAX documentées, connecteurs Sage/Cegid/FEC.
+                  Livré en 2 à 4 semaines.
+                </p>
+                <p className="text-2xl font-semibold text-gray-900 mt-6">Sur devis</p>
+                <Link href="/consulting" className="mt-4 text-sm font-medium text-accent-primary hover:underline">
+                  En savoir plus →
+                </Link>
+              </div>
+            </StaggerItem>
+            <StaggerItem>
+              <div className="rounded-xl p-8 border border-gray-200 h-full flex flex-col">
+                <h3 className="text-xl font-semibold text-gray-900 mb-1">Mission longue</h3>
+                <p className="text-sm text-gray-500 mb-4">Régie au jour via Malt</p>
+                <p className="text-sm text-gray-600 flex-1 leading-relaxed">
+                  Missions de 2 semaines à 3 mois : audit, modélisation, pipeline Python,
+                  transfert de compétences.
+                </p>
+                <p className="text-2xl font-semibold text-gray-900 mt-6">700€ HT / jour</p>
+                <a href="https://www.malt.fr/" target="_blank" rel="noopener noreferrer" className="mt-4 text-sm font-medium text-accent-primary hover:underline">
+                  Profil Malt →
+                </a>
               </div>
             </StaggerItem>
           </StaggerContainer>
         </div>
       </section>
 
-      {/* Section 7 - Témoignages */}
+      {/* Section 7 - Mission de référence */}
       <section className="py-32 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <FadeIn className="text-center mb-16">
-            <h2 className="font-serif text-4xl lg:text-5xl font-medium text-gray-900 mb-5">
-              Ils pilotent mieux,{" "}
-              <span className="text-accent-primary">ils témoignent</span>
+        <div className="max-w-4xl mx-auto px-6">
+          <FadeIn className="text-center mb-12">
+            <span className="text-accent-primary text-sm font-medium tracking-widest uppercase">
+              Étude de cas
+            </span>
+            <h2 className="font-serif text-4xl font-medium text-gray-900 mt-4 mb-4">
+              Mission de référence
             </h2>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              Ce que disent les dirigeants qui ont structuré leur pilotage par la data
-            </p>
+            <p className="text-gray-500">Réseau multisites santé animale (client anonymisé — Fovéa)</p>
           </FadeIn>
-
-          <StaggerContainer className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
-            <StaggerItem>
-              <div className="bg-white rounded-xl p-8 border border-gray-200 h-full flex flex-col">
-                <span className="text-5xl text-gray-200 font-serif leading-none mb-4">&ldquo;</span>
-                <p className="text-gray-600 leading-relaxed text-sm flex-1">
-                  Nous disposons désormais d&apos;un cadre de pilotage financier
-                  fiable et homogène, aligné avec nos enjeux métiers et
-                  utilisable au quotidien.
+          <FadeIn>
+            <div className="bg-white rounded-2xl p-8 lg:p-10 border border-gray-200 space-y-6">
+              <div>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Problématique</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Modèle Power BI consolidé existant. Doutes sur la fiabilité des mesures, performance dégradante,
+                  dépendance à une manipulation manuelle mensuelle.
                 </p>
-                <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-100">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                    <span className="text-gray-500 font-medium text-sm">DA</span>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">Directrice Administrative</p>
-                    <p className="text-xs text-gray-500">Groupe Formation (500M€)</p>
-                  </div>
-                </div>
               </div>
-            </StaggerItem>
-
-            <StaggerItem>
-              <div className="bg-white rounded-xl p-8 border border-gray-200 h-full flex flex-col">
-                <span className="text-5xl text-gray-200 font-serif leading-none mb-4">&ldquo;</span>
-                <p className="text-gray-600 leading-relaxed text-sm flex-1">
-                  Nous avons enfin une vision exploitable de nos chantiers, du
-                  cash et des marges, ce qui nous permet d&apos;arbitrer rapidement
-                  et d&apos;agir là où c&apos;est nécessaire.
+              <div>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Solution</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Audit complet : 20 tables, 80 mesures DAX, 16 requêtes Power Query, 9 relations.
+                  Extraction via pbixray (Python). Rapport technique structuré.
                 </p>
-                <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-100">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                    <span className="text-gray-500 font-medium text-sm">LB</span>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">Dirigeant</p>
-                    <p className="text-xs text-gray-500">PME BTP / Services (7M€)</p>
-                  </div>
-                </div>
               </div>
-            </StaggerItem>
-
-            <StaggerItem>
-              <div className="bg-white rounded-xl p-8 border border-gray-200 h-full flex flex-col">
-                <span className="text-5xl text-gray-200 font-serif leading-none mb-4">&ldquo;</span>
-                <p className="text-gray-600 leading-relaxed text-sm flex-1">
-                  Le travail réalisé a permis de structurer un cadre de
-                  pilotage robuste et automatisé, avec des indicateurs
-                  exploitables en comité de direction.
+              <div>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Résultat</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  11 anomalies structurelles identifiées : clé composite fragile, 8 colonnes calculées en O(n²) (boucles EARLIER),
+                  doublons de mesures confirmés, RLS inopérant en local. Plan de remédiation par ordre de priorité.
                 </p>
-                <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-100">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                    <span className="text-gray-500 font-medium text-sm">MC</span>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">CFO</p>
-                    <p className="text-xs text-gray-500">PME Services / Conseil</p>
-                  </div>
-                </div>
               </div>
-            </StaggerItem>
-          </StaggerContainer>
+              <div className="flex flex-wrap gap-2 pt-2">
+                {['Audit Power BI', 'DAX', 'Multi-sites'].map((tag) => (
+                  <span key={tag} className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
       {/* Section 8 - CTA final */}
       <section className="py-36 bg-slate-950 relative overflow-hidden">
         <div className="absolute inset-0">
-          <Image
-            src="/images/vue-NY.png"
-            alt=""
-            fill
-            className="object-cover opacity-10"
-          />
+          <Image src="/images/vue-NY.png" alt="" fill className="object-cover opacity-10" />
           <div className="absolute inset-0 bg-slate-950/80" />
         </div>
-
         <div className="relative max-w-3xl mx-auto px-6 text-center">
           <FadeIn>
-            <h2 className="font-serif text-4xl lg:text-6xl font-medium text-white mb-8 leading-tight">
-              Et si vous décidiez
-              <br />
-              avec trois mois d&apos;avance ?
+            <h2 className="font-serif text-4xl lg:text-5xl font-medium text-white mb-8 leading-tight">
+              Un modèle Power BI à auditer ?
             </h2>
-          </FadeIn>
-
-          <FadeIn delay={0.2}>
             <p className="text-lg text-gray-400 mb-12 max-w-xl mx-auto leading-relaxed">
-              DSO, BFR, marges réelles, concentration client - un échange confidentiel
-              pour identifier ce que vos tableaux de bord ne montrent pas.
+              15 minutes pour cadrer votre contexte technique — sans engagement.
             </p>
-          </FadeIn>
-
-          <FadeIn delay={0.35}>
             <a
               href="https://calendly.com/zineinsight/15min"
               target="_blank"
@@ -400,19 +334,9 @@ export default function HomeClient() {
               className="group inline-flex items-center gap-3 px-10 py-5 bg-white text-gray-900 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300"
             >
               <Calendar className="w-5 h-5" />
-              Réserver mon diagnostic offert (15 min)
+              Demander un audit Power BI
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
-          </FadeIn>
-
-          <FadeIn delay={0.45}>
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-gray-500 mt-10">
-              <span>Réponse sous 24h</span>
-              <span className="text-gray-700">·</span>
-              <span>100% confidentiel</span>
-              <span className="text-gray-700">·</span>
-              <span>PME de 500k€ à 5M€</span>
-            </div>
           </FadeIn>
         </div>
       </section>
