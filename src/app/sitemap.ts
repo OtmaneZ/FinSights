@@ -1,6 +1,16 @@
 import { MetadataRoute } from 'next'
 import { BLOG_ARTICLES_FROM_REGISTRY } from '@/lib/blog/articlesRegistry'
 
+/** Articles redirigés en 301 — exclus du sitemap */
+const REDIRECTED_BLOG_SLUGS = new Set([
+  'daf-externalise-pme-prix-2026',
+  'fractional-cfo-france-guide-2026',
+  'daf-externalise-vs-expert-comptable-confusion',
+  'a-partir-quel-ca-faut-il-un-daf',
+  '4-priorites-daf-90-jours',
+  'pme-b2b-6m-240k-cash-libere-4-mois',
+])
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://finsight.zineinsight.com'
 
@@ -87,7 +97,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ]
 
   // Blog articles (dynamically generated from BLOG_ARTICLES)
-  const blogPages: MetadataRoute.Sitemap = BLOG_ARTICLES_FROM_REGISTRY.map((article) => ({
+  const blogPages: MetadataRoute.Sitemap = BLOG_ARTICLES_FROM_REGISTRY.filter(
+    (article) => !REDIRECTED_BLOG_SLUGS.has(article.slug)
+  ).map((article) => ({
     url: `${baseUrl}/blog/${article.slug}`,
     lastModified: new Date(article.date),
     changeFrequency: 'monthly' as const,
@@ -136,12 +148,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Landing pages SEO
   const landingPages: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/daf-externalise-pme`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.95,
-    },
     {
       url: `${baseUrl}/pilotage-financier-pme`,
       lastModified: new Date(),

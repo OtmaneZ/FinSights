@@ -22,10 +22,8 @@ export default function Footer() {
                             <span className="text-xl font-semibold text-white">FinSight</span>
                         </Link>
         <p className="text-[15px] leading-relaxed max-w-md mb-6">
-                            Architecte de pilotage financier pour PME ambitieuses · 500k€ à 5M€.
-                            Je connecte vos données comptables et opérationnelles
-                            pour construire un pilotage fiable - trésorerie, marges,
-                            reporting - via Power BI, SQL et le Score FinSight™.
+                            Consultant BI Finance pour PME · Audit Power BI, modélisation de données,
+                            automatisation Python · Créateur de FinSight™ et Axion (à venir).
                         </p>
                         <div className="flex flex-wrap items-center gap-3 mb-8">
                         <a

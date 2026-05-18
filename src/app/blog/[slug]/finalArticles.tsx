@@ -1405,7 +1405,7 @@ export const finalArticles = {
                 <div className="related-articles">
                     <h3>📚 Articles complémentaires</h3>
                     <ul>
-                        <li><a href="/blog/fractional-cfo-france-guide-2026">Fractional CFO France : Guide Complet 2026</a></li>
+                        <li><a href="/business-intelligence">Fractional CFO France : Guide Complet 2026</a></li>
                         <li><a href="/blog/probleme-tresorerie-pme-10-signes">Problème de Trésorerie PME : 10 Signes d'Alerte</a></li>
                         <li><a href="/blog/pilotage-tresorerie-90-jours-methode">Pilotage Trésorerie 90 Jours : Méthode Complète</a></li>
                     </ul>
@@ -1977,7 +1977,7 @@ export const finalArticles = {
                     <ul>
                         <li><a href="/blog/pilotage-tresorerie-90-jours-methode">Pilotage Trésorerie 90 Jours : Méthode Complète PME</a></li>
                         <li><a href="/blog/calculer-bfr-excel-template-2026">Calculer son BFR avec Excel : Template Gratuit 2026</a></li>
-                        <li><a href="/blog/daf-externalise-pme-prix-2026">DAF Externalisé PME : Prix, Tarifs et ROI en 2026</a></li>
+                        <li><a href="/business-intelligence">DAF Externalisé PME : Prix, Tarifs et ROI en 2026</a></li>
                     </ul>
                 </div>
             </>
@@ -2510,7 +2510,7 @@ Résultat : (190 000 / 5 000 000) × 365 = 13,87 jours ≈ 14 jours
                     <ul>
                         <li><a href="/blog/probleme-tresorerie-pme-10-signes">Problème de Trésorerie PME : 10 Signes d'Alerte</a></li>
                         <li><a href="/blog/pilotage-tresorerie-90-jours-methode">Pilotage Trésorerie 90 Jours : Méthode Complète</a></li>
-                        <li><a href="/blog/daf-externalise-pme-prix-2026">DAF Externalisé PME : Prix et ROI 2026</a></li>
+                        <li><a href="/business-intelligence">DAF Externalisé PME : Prix et ROI 2026</a></li>
                     </ul>
                 </div>
             </>
@@ -3254,7 +3254,7 @@ Résultat : (190 000 / 5 000 000) × 365 = 13,87 jours ≈ 14 jours
                     <ul>
                         <li><a href="/blog/probleme-tresorerie-pme-10-signes">Problème de Trésorerie PME : 10 Signes d'Alerte</a></li>
                         <li><a href="/blog/calculer-bfr-excel-template-2026">Calculer son BFR avec Excel : Template Gratuit 2026</a></li>
-                        <li><a href="/blog/daf-externalise-pme-prix-2026">DAF Externalisé PME : Prix et ROI 2026</a></li>
+                        <li><a href="/business-intelligence">DAF Externalisé PME : Prix et ROI 2026</a></li>
                     </ul>
                 </div>
             </>
@@ -3712,7 +3712,7 @@ Résultat : (190 000 / 5 000 000) × 365 = 13,87 jours ≈ 14 jours
                 <div className="related-articles">
                     <h3>📚 Articles complémentaires</h3>
                     <ul>
-                        <li><a href="/blog/daf-externalise-pme-prix-2026">DAF Externalisé PME : Prix, Tarifs et ROI en 2026</a></li>
+                        <li><a href="/business-intelligence">DAF Externalisé PME : Prix, Tarifs et ROI en 2026</a></li>
                         <li><a href="/blog/pilotage-tresorerie-90-jours-methode">Pilotage Trésorerie 90 Jours : Méthode Complète PME</a></li>
                         <li><a href="/blog/probleme-tresorerie-pme-10-signes">Problème de Trésorerie PME : 10 Signes d'Alerte</a></li>
                     </ul>

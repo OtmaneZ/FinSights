@@ -451,7 +451,7 @@ export default function PilotageFinancierPME() {
                                 &agrave; 62 jours, un BFR structurellement &eacute;lev&eacute; et une tr&eacute;sorerie
                                 tendue malgr&eacute; une marge brute de 42&nbsp;%. L&apos;intervention a permis
                                 de{' '}
-                                <Link href="/blog/pme-b2b-6m-240k-cash-libere-4-mois" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                                <Link href="/blog" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
                                     lib&eacute;rer 240&nbsp;k&euro; de cash en quatre mois
                                 </Link>{' '}
                                 sans modifier le mod&egrave;le commercial.
@@ -971,7 +971,7 @@ export default function PilotageFinancierPME() {
                                     pas l&apos;entreprise. Attendre sa situation trimestrielle pour
                                     prendre des d&eacute;cisions op&eacute;rationnelles revient &agrave; conduire
                                     en regardant dans le r&eacute;troviseur. La{' '}
-                                    <Link href="/blog/daf-externalise-vs-expert-comptable-confusion" className="text-gray-500 underline underline-offset-2 hover:text-gray-900 transition-colors">
+                                    <Link href="/blog" className="text-gray-500 underline underline-offset-2 hover:text-gray-900 transition-colors">
                                         confusion entre ces deux r&ocirc;les
                                     </Link>{' '}
                                     est syst&eacute;matiquement co&ucirc;teuse.
@@ -1087,7 +1087,7 @@ export default function PilotageFinancierPME() {
                             complexit&eacute; financi&egrave;re de son entreprise et les ressources
                             dont il dispose pour la piloter. Contrairement &agrave; une id&eacute;e
                             r&eacute;pandue,{' '}
-                            <Link href="/blog/a-partir-quel-ca-faut-il-un-daf" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                            <Link href="/blog" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
                                 le seuil ne d&eacute;pend pas uniquement du chiffre d&apos;affaires
                             </Link>.
                         </p>
@@ -1125,7 +1125,7 @@ export default function PilotageFinancierPME() {
                             L&apos;expert-comptable produit les comptes et assure la conformit&eacute;
                             fiscale. Le DAF interpr&egrave;te ces comptes, construit les outils
                             de pilotage et oriente les d&eacute;cisions strat&eacute;giques. La{' '}
-                            <Link href="/blog/daf-externalise-vs-expert-comptable-confusion" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                            <Link href="/blog" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
                                 confusion entre ces deux r&ocirc;les
                             </Link>{' '}
                             est fr&eacute;quente et co&ucirc;teuse. Elle conduit des dirigeants &agrave;
@@ -1173,7 +1173,7 @@ export default function PilotageFinancierPME() {
                                         <td className="px-5 py-3 font-medium text-gray-900">Investissement</td>
                                         <td className="px-5 py-3 text-gray-600">Honoraires annuels</td>
                                         <td className="px-5 py-3 text-gray-600">
-                                            <Link href="/blog/daf-externalise-pme-prix-2026" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                                            <Link href="/business-intelligence" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
                                                 &Agrave; partir de 1&nbsp;990&nbsp;&euro;
                                             </Link>
                                         </td>
@@ -1293,7 +1293,7 @@ export default function PilotageFinancierPME() {
                                         Automatisation des flux, param&eacute;trage des alertes, d&eacute;finition des
                                         indicateurs de <strong className="text-gray-800 font-medium">direction financi&egrave;re op&eacute;rationnelle</strong>.
                                         Le{' '}
-                                        <Link href="/blog/4-priorites-daf-90-jours" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                                        <Link href="/blog" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
                                             s&eacute;quencement des 90 premiers jours
                                         </Link>{' '}
                                         suit un ordre invariable : tr&eacute;sorerie, marge, structure, reporting.
@@ -1460,7 +1460,7 @@ export default function PilotageFinancierPME() {
                                 une croissance sup&eacute;rieure &agrave; 20&nbsp;% par an, ou une diversification
                                 d&apos;activit&eacute;s, un pilotage financier structur&eacute; devient n&eacute;cessaire &mdash;
                                 m&ecirc;me en dessous de 2&nbsp;M&euro; de CA. L&apos;article{' '}
-                                <Link href="/blog/a-partir-quel-ca-faut-il-un-daf" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                                <Link href="/blog" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
                                     &Agrave; partir de quel CA faut-il un DAF ?
                                 </Link>{' '}
                                 d&eacute;taille les crit&egrave;res de d&eacute;cision.
@@ -1502,7 +1502,7 @@ export default function PilotageFinancierPME() {
                             <p className="mt-4 text-gray-600 leading-relaxed text-[16px]">
                                 Le co&ucirc;t d&apos;une mission de pilotage financier externalis&eacute;e pour une PME
                                 d&eacute;marre &agrave; partir de{' '}
-                                <Link href="/blog/daf-externalise-pme-prix-2026" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
+                                <Link href="/business-intelligence" className="text-gray-900 underline underline-offset-2 hover:text-gray-600 transition-colors">
                                     1&nbsp;990&nbsp;&euro; par mois
                                 </Link>,
                                 selon la complexit&eacute; de l&apos;entreprise et la fr&eacute;quence d&apos;intervention.
@@ -1567,7 +1567,7 @@ export default function PilotageFinancierPME() {
                             </p>
                         </Link>
                         <Link
-                            href="/blog/fractional-cfo-france-guide-2026"
+                            href="/business-intelligence"
                             className="group block p-6 bg-gray-50 border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-white transition-all"
                         >
                             <p className="text-sm text-gray-500 mb-2">Blog</p>

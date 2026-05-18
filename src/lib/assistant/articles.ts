@@ -203,7 +203,7 @@ const ARTICLE_INDEX: ArticleRef[] = [
   {
     slug: 'daf-externalise-pme-prix-2026',
     title: 'DAF Externalisé PME : Prix, Tarifs et ROI en 2026',
-    href: '/blog/daf-externalise-pme-prix-2026',
+    href: '/business-intelligence',
     tags: ['DAF Externalisé', 'Prix', 'ROI', 'PME'],
     keywords: ['daf', 'externalise', 'prix', 'tarif', 'roi', 'directeur financier', 'consulting', 'audit'],
     category: 'blog',

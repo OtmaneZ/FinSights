@@ -37,9 +37,9 @@ const defaultLinks: InternalLink[] = [
         icon: 'users'
     },
     {
-        href: '/daf-externalise-pme',
-        title: 'Architecte de pilotage financier',
-        description: 'Pilotez votre trésorerie sans recruter',
+        href: '/business-intelligence',
+        title: 'Consultant BI Finance',
+        description: 'Audit Power BI, modélisation et automatisation Python',
         icon: 'chart'
     }
 ]
@@ -177,9 +177,9 @@ export const consultingLinks: InternalLink[] = [
         icon: 'users'
     },
     {
-        href: '/daf-externalise-pme',
-        title: 'Architecte de pilotage financier',
-        description: 'Pilotage financier structuré pour PME ambitieuses',
+        href: '/business-intelligence',
+        title: 'Consultant BI Finance',
+        description: 'Consolidation, reporting et industrialisation BI',
         icon: 'chart'
     }
 ]
