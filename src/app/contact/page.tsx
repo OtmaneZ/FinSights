@@ -68,21 +68,20 @@ export default function ContactPage() {
 
                             {/* H1 */}
                             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
-                                Échangeons sur vos{' '}
-                                <span className="text-accent-primary">enjeux financiers</span>
+                                Parlons de votre{' '}
+                                <span className="text-accent-primary">modèle Power BI</span>
                             </h1>
 
                             {/* Subheadline */}
                             <p className="text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
-                                30 minutes pour comprendre votre situation, identifier vos priorités et 
-                                définir ensemble si un accompagnement peut vous aider.
+                                20 minutes pour comprendre votre besoin et voir si je peux vous aider.
                             </p>
 
                             {/* Trust badges */}
                             <div className="flex flex-wrap justify-center gap-6 pt-4">
                                 <div className="flex items-center gap-2 text-gray-300">
                                     <Clock className="w-5 h-5 text-accent-primary" />
-                                    <span className="text-sm">30 min offertes</span>
+                                    <span className="text-sm">20 min offertes</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-300">
                                     <Check className="w-5 h-5 text-accent-primary" />
@@ -231,13 +230,13 @@ export default function ContactPage() {
                                 <div className="w-14 h-14 bg-accent-primary-subtle rounded-2xl flex items-center justify-center mb-6">
                                     <FileText className="w-7 h-7 text-accent-primary" />
                                 </div>
-                                <span className="text-xs font-semibold text-accent-primary uppercase tracking-wider">Audit Finance</span>
-                                <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">Accompagnement pilotage financier</h3>
+                                <span className="text-xs font-semibold text-accent-primary uppercase tracking-wider">Audit Power BI</span>
+                                <h3 className="text-2xl font-bold text-text-primary mt-2 mb-4">Analyse d&apos;un modèle existant</h3>
                                 <p className="text-text-secondary mb-6">
-                                    Diagnostic financier, pilotage du cash, analyse de rentabilité, tableaux de bord intelligents et structuration des décisions.
+                                    Vous avez un modèle Power BI Finance qui tourne mais vous doutez de sa fiabilité ? Je le passe au crible technique.
                                 </p>
                                 <ul className="space-y-3 mb-6">
-                                    {['Pilotage du cash et du BFR', 'Lecture réelle de la rentabilité', 'Prévisions et scénarios à 3-12 mois', 'Dashboards automatisés'].map((item, i) => (
+                                    {['Mesures DAX et performance', 'Relations et jointures', 'Anomalies structurelles', 'Rapport technique documenté'].map((item, i) => (
                                         <li key={i} className="flex items-center gap-3 text-text-secondary">
                                             <Check className="w-5 h-5 text-accent-success" />
                                             {item}
@@ -311,7 +310,7 @@ export default function ContactPage() {
                             <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl">
                                 <Image
                                     src="/images/Photo_profil.jpeg"
-                                    alt="Otmane Boulahia - Architecte de pilotage financier pour PME ambitieuses"
+                                    alt="Otmane Boulahia - Consultant BI Finance"
                                     width={500}
                                     height={600}
                                     className="object-cover w-full"
@@ -324,7 +323,7 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <p className="text-white font-bold">Otmane Boulahia</p>
-                                            <p className="text-gray-300 text-sm">Architecte de pilotage financier • Consultant IA Finance</p>
+                                            <p className="text-gray-300 text-sm">Consultant BI Finance · Power BI · DAX · Python</p>
                                         </div>
                                     </div>
                                 </div>
@@ -343,25 +342,14 @@ export default function ContactPage() {
                                 Mon parcours
                             </span>
                             <h2 className="text-3xl md:text-4xl font-bold">
-                                Architecte de pilotage financier &amp;{' '}
-                                <span className="text-accent-primary">consultant en intelligence financière</span>
+                                Consultant BI Finance
                             </h2>
 
                             <div className="space-y-4 text-gray-300 leading-relaxed">
                                 <p>
-                                    J&apos;accompagne des dirigeants de PME (500k€ à 5M€ de chiffre d&apos;affaires) 
-                                    confrontés à une complexité croissante de leurs décisions financières : 
-                                    <span className="text-white font-medium"> arbitrages d&apos;investissement, pilotage du cash, rentabilité réelle, timing des choix stratégiques.</span>
-                                </p>
-                                <p>
-                                    Mon parcours combine une formation solide en finance, une pratique terrain du pilotage financier 
-                                    et une maîtrise avancée des outils data et IA. Cette double compétence me permet de garder une 
-                                    posture rare : <span className="text-accent-primary font-semibold">à la fois analytique et profondément orientée décision</span>.
-                                </p>
-                                <p>
-                                    Je ne me positionne pas comme un producteur de reporting ni comme un intégrateur d&apos;outils. 
-                                    Je travaille au plus près du dirigeant, là où les chiffres doivent devenir compréhensibles, 
-                                    discutables et exploitables - avant qu&apos;ils ne s&apos;imposent sous forme de contraintes.
+                                    J&apos;audite, modélise et automatise les modèles Power BI Finance pour TPE et PME.
+                                    Master 2 Finance + stack data moderne. Mission récente : audit Power BI d&apos;un réseau de 30 sites,
+                                    80 mesures DAX auditées, 11 anomalies identifiées.
                                 </p>
                             </div>
 
@@ -410,12 +398,11 @@ export default function ContactPage() {
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                         {[
-                            { icon: TrendingUp, title: 'Pilotage du cash et du BFR', desc: 'Visibilité à 90 jours, anticipation des tensions, optimisation du besoin en fonds de roulement.' },
-                            { icon: BarChart3, title: 'Lecture réelle de la rentabilité', desc: 'Au-delà du résultat comptable : marges par activité, par client, par projet.' },
-                            { icon: Target, title: 'Prévisions et scénarios', desc: 'Modélisation à 3-12 mois pour anticiper et préparer les décisions.' },
-                            { icon: Sparkles, title: 'Identification des décalages', desc: 'Entre activité, budget et trésorerie : comprendre où se créent les tensions.' },
-                            { icon: Shield, title: 'Structuration décisionnelle', desc: 'Cadrer les décisions financières clés avec méthode et clarté.' },
-                            { icon: Clock, title: 'Timing optimal', desc: 'Prendre les bonnes décisions au bon moment, avant qu\'elles ne s\'imposent.' }
+                            { icon: FileText, title: 'Audit de modèles Power BI existants', desc: 'Analyse DAX, relations, performance et fiabilité des KPI. Rapport technique documenté.' },
+                            { icon: BarChart3, title: 'Modélisation de données financières from scratch', desc: 'Architecture dimensionnelle, mesures DAX documentées, connecteurs Sage/Cegid/FEC.' },
+                            { icon: Sparkles, title: 'Automatisation Python/SQL des pipelines de données', desc: 'Extraction, transformation et refresh fiables sans dépendance manuelle.' },
+                            { icon: Target, title: 'Réconciliation Reporting ↔ Comptabilité', desc: 'Vérification de cohérence entre le modèle BI et les chiffres comptables.' },
+                            { icon: Users, title: 'Documentation et transfert de compétences', desc: 'Livrables documentés pour que le modèle tourne sans moi.' },
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
@@ -443,7 +430,7 @@ export default function ContactPage() {
                         className="max-w-3xl mx-auto text-center bg-slate-50 rounded-2xl p-8 border border-border-subtle"
                     >
                         <p className="text-xl text-text-primary font-medium italic mb-4">
-                            « Le problème n&apos;est pas le manque de données, mais le manque de décisions claires, prises au bon moment. »
+                            « Un dashboard qui marche depuis 3 ans peut cacher 10 anomalies invisibles. Le BI n&apos;est pas un livrable graphique — c&apos;est une infrastructure qui doit tenir. »
                         </p>
                         <p className="text-text-secondary text-sm">
                             - Ma conviction fondatrice
@@ -466,10 +453,9 @@ export default function ContactPage() {
                                 <div className="w-12 h-12 bg-accent-primary-subtle rounded-xl flex items-center justify-center mb-4">
                                     <Users className="w-6 h-6 text-accent-primary" />
                                 </div>
-                                <h4 className="text-xl font-bold text-text-primary mb-3">Architecte de pilotage financier</h4>
+                                <h4 className="text-xl font-bold text-text-primary mb-3">Mission forfait</h4>
                                 <p className="text-text-secondary leading-relaxed">
-                                    Directement intégré au pilotage de l&apos;entreprise, pour un accompagnement opérationnel 
-                                    et stratégique sur la durée.
+                                    Audit Power BI (2 490€ HT, 5 jours) ou Modélisation from scratch (sur devis).
                                 </p>
                             </div>
                             <div className="bg-white rounded-2xl p-8 border border-border-default shadow-sm">

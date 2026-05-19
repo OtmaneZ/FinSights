@@ -22,7 +22,7 @@ export const DAFOfferEmail = ({
 }: DAFOfferEmailProps) => (
     <Html>
         <Head />
-        <Preview>Pilotage financier pour PME ambitieuses : Les 3 formules adaptées aux PME/ETI (tarifs transparents)</Preview>
+        <Preview>Consultant BI Finance pour TPE et PME : les 3 forfaits (tarifs transparents)</Preview>
         <Body style={main}>
             <Container style={container}>
                 {/* Header */}
@@ -99,9 +99,9 @@ export const DAFOfferEmail = ({
 
                     {/* Solution intro */}
                     <Section style={solutionIntro}>
-                        <Heading style={h2}>✅ La solution : Architecte de pilotage financier</Heading>
+                        <Heading style={h2}>✅ La solution : Consultant BI Finance</Heading>
                         <Text style={text}>
-                            Même expertise qu'un DAF senior (15+ ans expérience), <strong>sans les contraintes</strong> :
+                            Même expertise qu&apos;un profil finance senior (15+ ans expérience), <strong>sans les contraintes</strong> :
                         </Text>
                         <Section style={benefitGrid}>
                             <Section style={benefitCard}>
@@ -160,14 +160,14 @@ export const DAFOfferEmail = ({
                         {/* Formule 2: Récurrent */}
                         <Section style={offerCard}>
                             <Section style={offerHeader2}>
-                                <Text style={offerLabel}>💼 DAF RÉCURRENT</Text>
+                                <Text style={offerLabel}>💼 MISSION LONGUE</Text>
                                 <Text style={offerPrice}>1 500 - 6 500€ HT/mois</Text>
                                 <Text style={offerDuration}>Engagement 6 mois minimum</Text>
                             </Section>
                             <Section style={offerBody}>
                                 <Text style={offerTitle}>Pour qui ?</Text>
                                 <Text style={offerText}>
-                                    CA 500k€–5M€, besoin d'un DAF régulier sans recruter temps plein.
+                                    TPE et PME, besoin d&apos;un accompagnement BI régulier sans recruter temps plein.
                                     2j/mois → 3j/semaine selon intensité.
                                 </Text>
                                 <Text style={offerTitle}>Missions typiques :</Text>
@@ -319,7 +319,7 @@ export const DAFOfferEmail = ({
                         <Text style={signatureText}>
                             Au plaisir d'échanger,<br />
                             <strong>Otmane Boulahia</strong><br />
-                            Architecte de pilotage financier & Fondateur FinSight<br />
+                            Consultant BI Finance & Fondateur FinSight<br />
                             📧 <Link href="mailto:otmane@zineinsight.com" style={link}>
                                 otmane@zineinsight.com
                             </Link><br />
@@ -340,7 +340,7 @@ export const DAFOfferEmail = ({
                 {/* Footer */}
                 <Section style={footer}>
                     <Text style={footerText}>
-                        FinSight - Architecte de pilotage financier pour PME/ETI ambitieuses
+                        FinSight - Audit Power BI · FinSight™
                     </Text>
                     <Text style={footerText}>
                         <Link href="https://finsight.zineinsight.com" style={footerLink}>

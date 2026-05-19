@@ -37,7 +37,7 @@ export default function DaxFinancierPage() {
                             {[
                                 { value: '5 patterns', label: 'DAX couverts' },
                                 { value: 'Finance', label: 'Contexte métier' },
-                                { value: 'PME / ETI', label: 'Cible prioritaire' },
+                                { value: 'TPE / PME', label: 'Cible prioritaire' },
                                 { value: 'Copier-coller', label: 'Prêt à l\'emploi' },
                             ].map((m, i) => (
                                 <div key={i} className={`text-center py-5 px-3 ${i < 3 ? 'border-r border-white/10' : ''} ${i < 2 ? 'border-b lg:border-b-0 border-white/10' : i === 2 ? 'border-b lg:border-b-0 border-white/10 lg:border-r' : ''}`}>

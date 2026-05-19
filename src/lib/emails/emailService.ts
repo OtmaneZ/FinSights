@@ -366,7 +366,7 @@ export async function sendAlertSignalsEmail(params: {
 }
 
 /**
- * J+20: Email offre DAF externalisé (conversion)
+ * J+20: Email offre Consultant BI Finance (conversion)
  */
 export async function sendDAFOfferEmail(params: {
     to: string
@@ -383,7 +383,7 @@ export async function sendDAFOfferEmail(params: {
             from: FROM_EMAIL,
             to: params.to,
             replyTo: REPLY_TO_EMAIL,
-            subject: '💼 Pilotage financier pour PME ambitieuses : Les 3 formules adaptées aux PME/ETI (tarifs transparents)',
+            subject: '💼 Consultant BI Finance pour TPE et PME : les 3 forfaits (tarifs transparents)',
             html: emailHtml,
             tags: sanitizeResendTagEntries([
                 { name: 'email_type', value: 'nurturing_j20' },

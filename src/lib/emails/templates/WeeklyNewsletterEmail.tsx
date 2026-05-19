@@ -63,7 +63,7 @@ export const WeeklyNewsletterEmail = ({
           <Text style={signature}>
             <strong>Otmane BOULAHIA</strong>
             <br />
-            Expert Finance & Conseil PME
+            Consultant BI Finance · TPE et PME
           </Text>
         </Section>
 

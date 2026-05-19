@@ -61,7 +61,7 @@ export const TemplateDownloadEmail = ({
 
         <Text style={footerMuted}>
           Vous recevez cet email suite à votre demande sur FinSight. Pour ne plus recevoir nos emails
-          utiles sur le pilotage financier, répondez à ce message ou consultez notre{' '}
+          utiles sur l&apos;audit et la modélisation Power BI, répondez à ce message ou consultez notre{' '}
           <Link href={privacyUrl} style={link}>
             politique de confidentialité
           </Link>

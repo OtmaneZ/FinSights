@@ -23,7 +23,7 @@ export function buildMagicLinkEmail(magicUrl: string, email: string): { subject:
           <tr>
             <td style="background:#0f172a;padding:32px 40px;text-align:center;">
               <p style="margin:0;font-size:22px;font-weight:700;color:#d4af37;letter-spacing:-0.5px;">FinSight</p>
-              <p style="margin:6px 0 0;font-size:12px;color:#94a3b8;letter-spacing:0.5px;text-transform:uppercase;">Pilotage financier pour dirigeants</p>
+              <p style="margin:6px 0 0;font-size:12px;color:#94a3b8;letter-spacing:0.5px;text-transform:uppercase;">Audit Power BI · FinSight™</p>
             </td>
           </tr>
 

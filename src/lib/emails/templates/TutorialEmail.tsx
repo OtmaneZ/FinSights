@@ -168,7 +168,7 @@ export const TutorialEmail = ({
                         <Text style={signatureText}>
                             Bon pilotage,<br />
                             <strong>Otmane Boulahia</strong><br />
-                            DAF Externalisé & Fondateur FinSight<br />
+                            Consultant BI Finance & Fondateur FinSight<br />
                             <Link href="mailto:otmane@zineinsight.com" style={link}>
                                 otmane@zineinsight.com
                             </Link>
@@ -187,7 +187,7 @@ export const TutorialEmail = ({
                 {/* Footer */}
                 <Section style={footer}>
                     <Text style={footerText}>
-                        FinSight - Pilotage financier simplifié pour PME/ETI
+                        FinSight - Audit Power BI · FinSight™
                     </Text>
                     <Text style={footerText}>
                         <Link href="https://finsight.zineinsight.com" style={footerLink}>
@@ -199,7 +199,7 @@ export const TutorialEmail = ({
                         </Link>
                         {' • '}
                         <Link href="https://finsight.zineinsight.com/consulting" style={footerLink}>
-                            Services DAF
+                            Consulting BI Finance
                         </Link>
                     </Text>
                 </Section>

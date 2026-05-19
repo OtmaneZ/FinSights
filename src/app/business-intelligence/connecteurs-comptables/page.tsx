@@ -198,7 +198,7 @@ in
                         <span className="absolute bottom-0 left-0 w-9 h-0.5 bg-slate-800" />
                     </h2>
                     <p className="text-[0.9rem] text-gray-500 mb-8 max-w-[640px]">
-                        Cible ETI et cabinets. Cegid Y2 (on-premise) et Cegid Loop (cloud) ont
+                        Cible TPE, PME et cabinets. Cegid Y2 (on-premise) et Cegid Loop (cloud) ont
                         des methodes d&rsquo;export differentes mais des structures de donnees proches.
                     </p>
 

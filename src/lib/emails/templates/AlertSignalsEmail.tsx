@@ -47,7 +47,7 @@ export const AlertSignalsEmail = ({
                     </Text>
 
                     <Text style={text}>
-                        J'ai accompagné 50+ PME/ETI en difficulté de trésorerie.
+                        J'ai accompagné 50+ TPE et PME en difficulté de trésorerie.
                     </Text>
 
                     <Text style={text}>
@@ -242,7 +242,7 @@ export const AlertSignalsEmail = ({
                         <Text style={signatureText}>
                             N'attendez pas la crise,<br />
                             <strong>Otmane Boulahia</strong><br />
-                            Architecte de pilotage financier & Fondateur FinSight<br />
+                            Consultant BI Finance & Fondateur FinSight<br />
                             <Link href="mailto:otmane@zineinsight.com" style={link}>
                                 otmane@zineinsight.com
                             </Link>
@@ -253,7 +253,7 @@ export const AlertSignalsEmail = ({
                     <Section style={psSection}>
                         <Text style={psText}>
                             <strong>P.S.</strong> J'envoie un dernier email dans 10 jours avec les détails
-                            de mon accompagnement en pilotage financier. Si vous voulez anticiper, répondez à cet email.
+                            de mon offre audit et modélisation Power BI. Si vous voulez anticiper, répondez à cet email.
                         </Text>
                     </Section>
                 </Section>
@@ -261,7 +261,7 @@ export const AlertSignalsEmail = ({
                 {/* Footer */}
                 <Section style={footer}>
                     <Text style={footerText}>
-                        FinSight - Pilotage financier simplifié pour PME/ETI
+                        FinSight - Audit Power BI · FinSight™
                     </Text>
                     <Text style={footerText}>
                         <Link href="https://finsight.zineinsight.com" style={footerLink}>
@@ -273,7 +273,7 @@ export const AlertSignalsEmail = ({
                         </Link>
                         {' • '}
                         <Link href="https://finsight.zineinsight.com/consulting" style={footerLink}>
-                            Services DAF
+                            Consulting BI Finance
                         </Link>
                     </Text>
                 </Section>

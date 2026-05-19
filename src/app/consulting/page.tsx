@@ -37,7 +37,7 @@ export default function ConsultingPage() {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         "name": "FinSight - Missions BI Finance",
-        "description": "Consultant BI Finance pour PME et ETI. Audit Power BI, modélisation de données financières, automatisation Python. Forfaits packagés et missions longues.",
+        "description": "Consultant BI Finance pour TPE et PME. Audit Power BI, modélisation de données financières, automatisation Python. Forfaits packagés et missions longues.",
         "url": "https://finsight.zineinsight.com/consulting",
         "provider": {
             "@type": "Person",
@@ -117,7 +117,7 @@ export default function ConsultingPage() {
                 "name": "Pour quels types d'entreprises ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "PME et ETI avec un modèle Power BI Finance existant ou un projet de modélisation à lancer. Secteurs : services, industrie, retail, réseaux multi-sites. Stack : Power BI, Power Query, DAX, Python, SQL."
+                    "text": "TPE et PME avec un modèle Power BI Finance existant ou un projet de modélisation à lancer. Secteurs : services, industrie, retail, réseaux multi-sites. Stack : Power BI, Power Query, DAX, Python, SQL."
                 }
             }
         ]
@@ -168,7 +168,7 @@ export default function ConsultingPage() {
 
                             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
                                 Consultant BI Finance{' '}
-                                <span className="text-accent-primary">pour PME et ETI</span>
+                                <span className="text-accent-primary">pour TPE et PME</span>
                             </h1>
 
                             <p className="text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">

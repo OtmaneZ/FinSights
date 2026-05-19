@@ -177,7 +177,7 @@ export default function BusinessIntelligencePage() {
                     </h2>
                     <p className="text-[0.9rem] text-gray-500 mb-10 max-w-[640px]">
                         Les enjeux récurrents des DAF et contrôleurs de gestion dans les structures
-                        en croissance (PME, ETI, groupes multi-sites).
+                        en croissance (TPE, PME, groupes multi-sites).
                     </p>
 
                     <div className="grid md:grid-cols-2 gap-5">
@@ -838,7 +838,7 @@ export default function BusinessIntelligencePage() {
                             <div className="flex items-center justify-between px-5 py-3.5 bg-gray-50 border-b border-gray-200">
                                 <div className="flex items-center gap-3">
                                     <span className="text-[0.6rem] font-semibold tracking-[0.1em] uppercase text-slate-700">Scénario 2</span>
-                                    <h3 className="text-[0.9rem] font-semibold text-slate-800">ETI / 5-30 entités</h3>
+                                    <h3 className="text-[0.9rem] font-semibold text-slate-800">TPE et PME / 5-30 entités</h3>
                                 </div>
                                 <span className="text-[0.6rem] font-semibold uppercase tracking-[0.05em] px-2 py-0.5 rounded-sm bg-blue-50 text-blue-700 border border-blue-200">Recommandé</span>
                             </div>

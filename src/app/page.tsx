@@ -48,7 +48,7 @@ const aggregateRatingSchema = {
 
 export const metadata: Metadata = {
   title: 'FinSight | Audit Power BI & Modélisation Data Finance pour PME',
-  description: 'Audit Power BI, modélisation de données et automatisation pour PME et ETI. Consultant BI Finance · FinSight™ outils gratuits.',
+  description: 'Audit Power BI, modélisation de données et automatisation pour TPE et PME. Consultant BI Finance · FinSight™ outils gratuits.',
   keywords: [
     'pilotage financier data pme',
     'score finsight',
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     url: 'https://finsight.zineinsight.com',
     siteName: 'FinSight',
     title: 'FinSight | Audit Power BI & Modélisation Data Finance',
-    description: 'Audit Power BI, modélisation de données et automatisation pour PME et ETI. Consultant BI Finance · FinSight™ outils gratuits.',
+    description: 'Audit Power BI, modélisation de données et automatisation pour TPE et PME. Consultant BI Finance · FinSight™ outils gratuits.',
     images: [{
       url: 'https://finsight.zineinsight.com/images/og-default.png',
       width: 1200,

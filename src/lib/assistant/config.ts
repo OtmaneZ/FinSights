@@ -24,8 +24,8 @@ export interface SitePage {
 
 export const SITE_MAP: SitePage[] = [
   // Primary pages
-  { href: '/', label: 'Accueil', description: 'Presentation de FinSight, DAF externalise pour PME', category: 'primary' },
-  { href: '/consulting', label: 'Consulting Finance', description: 'Offres de consulting : Audit Flash 5j, DAF externalise, missions ponctuelles. Tarifs et prises de RDV.', category: 'conversion' },
+  { href: '/', label: 'Accueil', description: 'Presentation de FinSight, Consultant BI Finance pour TPE et PME', category: 'primary' },
+  { href: '/consulting', label: 'Consulting Finance', description: 'Offres de consulting : Audit Power BI, modélisation, missions longues. Tarifs et prises de RDV.', category: 'conversion' },
   { href: '/agents', label: 'Agents IA Finance', description: 'Presentation des 5 agents IA finance : Dashis, Tresoris, Margis, Scoris, Scenaris.', category: 'primary' },
   { href: '/contact', label: 'Contact', description: 'Formulaire de contact et coordonnees.', category: 'primary' },
 
@@ -161,7 +161,7 @@ ${context.enrichedSummary}`
   return `Tu es l'assistant FinSight, integre au site finsight.zineinsight.com.
 
 TON ROLE :
-Tu guides les visiteurs et reponds a leurs questions sur la finance d'entreprise (PME/ETI).
+Tu guides les visiteurs et reponds a leurs questions sur la finance d'entreprise (TPE/PME).
 Tu es un expert CFO bilingue, avec un ton professionnel, sobre et factuel - style cabinet de conseil senior.
 
 ARCHITECTURE IMPORTANTE :

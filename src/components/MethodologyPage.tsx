@@ -209,7 +209,7 @@ export default function MethodologyPage() {
                         </ul>
                         <div className="text-center">
                             <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                                ETI 10-50M€ CA
+                                PME 10-50M€ CA
                             </span>
                         </div>
                     </div>
@@ -249,7 +249,7 @@ export default function MethodologyPage() {
                         <ul className="space-y-2 text-sm text-gray-600">
                             <li>• Formation Le Wagon Data Science</li>
                             <li>• Expérience finance dans plusieurs secteurs</li>
-                            <li>• Spécialisation PME/ETI françaises</li>
+                            <li>• Spécialisation TPE/PME françaises</li>
                         </ul>
                     </div>
                     <div>

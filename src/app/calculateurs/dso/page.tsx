@@ -1363,7 +1363,7 @@ export default function CalculateurDSO() {
                                     onClick={() => trackCTAClick('dso-final-cta', '/consulting', 'voir-offres')}
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                 >
-                                    Voir mes offres DAF
+                                    Demander un devis BI Finance
                                     <ArrowRight className="w-5 h-5" />
                                 </Link>
                             </div>

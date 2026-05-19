@@ -7,7 +7,7 @@ import RecommendedPath from '@/components/RecommendedPath'
 
 export const metadata: Metadata = {
     title: 'Pré-Diagnostic Financier PME : DSO, BFR, Marge, ROI | FinSight',
-    description: 'Évaluez vos indicateurs clés en quelques clics. Les mêmes outils que nous utilisons en mission DAF - DSO, BFR, Marge, ROI - avec benchmarks sectoriels et recommandations.',
+    description: 'Évaluez vos indicateurs clés en quelques clics. Les mêmes outils que nous utilisons en mission BI Finance — DSO, BFR, Marge, ROI — avec benchmarks sectoriels et recommandations.',
     keywords: 'diagnostic financier pme, analyse dso, analyse bfr, analyse marge, analyse roi, pré-diagnostic financier, indicateurs financiers pme, audit financier, pilotage financier',
     openGraph: {
         title: 'Pré-Diagnostic Financier PME - DSO, BFR, Marge, ROI | FinSight',
@@ -41,7 +41,7 @@ export default function CalculateursPage() {
                     </h1>
 
                     <p className="text-xl text-secondary max-w-3xl mx-auto mb-8">
-                        Les mêmes outils que nous utilisons en mission DAF.<br />
+                        Les mêmes outils que nous utilisons en mission BI Finance.<br />
                         Obtenez un <strong>premier niveau de lecture</strong> de votre situation financière.
                     </p>
 

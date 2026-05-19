@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     keywords: 'calculateur bfr 2026, analyse bfr, besoin fonds roulement pme, bfr formule, bfr négatif, optimiser bfr, trésorerie pme, working capital, cash immobilisé, pré-diagnostic financier, bfr pme',
     openGraph: {
         title: 'Calculateur BFR 2026 – Besoin en Fonds de Roulement en 30s | PME',
-        description: 'Calculez votre BFR en 30 secondes. Cash immobilisé, benchmarks sectoriels 2026, leviers de libération. Outil de diagnostic DAF pour PME.',
+        description: 'Calculez votre BFR en 30 secondes. Cash immobilisé, benchmarks sectoriels 2026, leviers de libération. Outil de diagnostic pour TPE et PME.',
         url: 'https://finsight.zineinsight.com/calculateurs/bfr',
         siteName: 'FinSight',
         locale: 'fr_FR',

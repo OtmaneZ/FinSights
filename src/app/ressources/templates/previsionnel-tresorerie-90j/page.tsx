@@ -667,7 +667,7 @@ export default function TemplateExcelTresoreriePage() {
                                     href="/consulting"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-all"
                                 >
-                                    Besoin d&apos;aide ? Parler à un DAF
+                                    Besoin d&apos;aide ? Demander un devis BI Finance
                                     <ArrowRight className="w-5 h-5" />
                                 </Link>
                             </div>

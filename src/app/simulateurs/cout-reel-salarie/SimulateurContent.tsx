@@ -291,13 +291,13 @@ export default function SimulateurCoutSalarieContent() {
                 <div className="surface rounded-2xl p-6 border border-slate-200 bg-slate-900">
                     <p className="font-bold text-white mb-1">Recrutement, trésorerie, marges...</p>
                     <p className="text-sm text-slate-300 mb-4">
-                        Un DAF externalisé vous aide à modéliser l&apos;impact réel avant de signer.
+                        Un consultant BI Finance vous aide à modéliser l&apos;impact réel avant de signer.
                     </p>
                     <Link
                         href="/consulting"
                         className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-primary text-slate-900 font-semibold rounded-xl hover:bg-accent-primary-hover transition-colors text-sm"
                     >
-                        Parler à un DAF externalisé
+                        Demander un devis BI Finance
                         <ArrowRight className="w-4 h-4" />
                     </Link>
                 </div>

@@ -1266,7 +1266,7 @@ export default function CalculateurBFR() {
                                 Besoin d'aide pour réduire votre BFR et libérer du cash ?
                             </h2>
                             <p className="text-lg text-slate-300 mb-8">
-                                En tant que DAF externalisé, je vous aide à optimiser votre cycle d'exploitation (stocks, créances, dettes).
+                                En tant que consultant BI Finance, je vous aide à optimiser votre cycle d&apos;exploitation (stocks, créances, dettes).
                                 <br />
                                 <strong className="text-white">Résultats visibles sous 60-90 jours.</strong>
                             </p>
@@ -1286,7 +1286,7 @@ export default function CalculateurBFR() {
                                     onClick={() => trackCTAClick('bfr-final-cta', '/consulting', 'voir-offres')}
                                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
                                 >
-                                    Voir mes offres DAF
+                                    Demander un devis BI Finance
                                     <ArrowRight className="w-5 h-5" />
                                 </Link>
                             </div>

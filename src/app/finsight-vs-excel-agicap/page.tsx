@@ -222,7 +222,7 @@ const PROFILES = [
         ],
         notIdeal: [
             'TPE < 500k€ (overkill)',
-            'ETI avec équipe finance déjà structurée',
+            'TPE et PME avec équipe finance déjà structurée',
             'Besoin d\'un outil purement bancaire en temps réel',
         ],
     },

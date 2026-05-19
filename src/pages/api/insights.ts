@@ -153,7 +153,7 @@ async function callOpenAI(prompt: string): Promise<string> {
             messages: [
                 {
                     role: 'system',
-                    content: `Tu es un expert financier français spécialisé dans l'analyse de PME/ETI.
+                    content: `Tu es un expert financier français spécialisé dans l'analyse de TPE/PME.
                    Tu analyses des données financières et fournis des insights précis et actionnables.
                    Réponds toujours en français professionnel.`
                 },
