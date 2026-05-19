@@ -5,6 +5,7 @@ import { Info } from 'lucide-react'
 import {
     formatNafCode,
     resolveNafToBenchmark,
+    type NafConfidence,
     type NafResolutionResult,
 } from '@/lib/benchmarks/nafResolver'
 
@@ -13,10 +14,15 @@ interface NafInputProps {
     className?: string
 }
 
-const CONFIDENCE_LABELS: Record<NafResolutionResult['confidence'], string> = {
-    exact: 'Correspondance exacte',
-    section: 'Approximation par section',
-    none: 'Non couvert',
+function getConfidenceLabel(confidence: NafConfidence): string {
+    switch (confidence) {
+        case 'exact':
+            return 'Référence fine (code NAF reconnu)'
+        case 'section':
+            return 'Correspondance approchée (section NAF)'
+        case 'none':
+            return 'Non couvert'
+    }
 }
 
 export default function NafInput({ onResolved, className = '' }: NafInputProps) {
@@ -84,7 +90,7 @@ export default function NafInput({ onResolved, className = '' }: NafInputProps) 
                     <span className="font-medium text-slate-500">Secteur BDF :</span>{' '}
                     {resolution.secteurLabel}
                     <span className="ml-2 text-xs text-slate-500">
-                        ({CONFIDENCE_LABELS[resolution.confidence]})
+                        ({getConfidenceLabel(resolution.confidence)})
                     </span>
                 </p>
             )}

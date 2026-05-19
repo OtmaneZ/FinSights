@@ -747,6 +747,42 @@ function computeCausalInsights(
 // SIMULATION - compute one What-If vector
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+const EBITDA_CHARGE_INPUT_KEYS = [
+  'achats',
+  'chargesExternes',
+  'impotsTaxes',
+  'chargesPersonnel',
+  'autresCharges',
+  'autresProduits',
+] as const
+
+/** Charges d'exploitation pour what-if top-down (legacy `charges` ou détail multi-champs). */
+function deriveEbitdaChargesForWhatIf(
+  inputs: Record<string, unknown> | undefined,
+): number | null {
+  if (!inputs) return null
+
+  if (inputs.mode === 'addback' || inputs.calcMode === 1) return null
+
+  if (inputs.charges !== undefined && inputs.charges !== null && inputs.charges !== '') {
+    return numericInput(inputs.charges as number, 0)
+  }
+
+  const hasMultiField = EBITDA_CHARGE_INPUT_KEYS.some(
+    (k) => inputs[k] !== undefined && inputs[k] !== null && inputs[k] !== '',
+  )
+  if (!hasMultiField) return null
+
+  return (
+    numericInput(inputs.achats as number, 0) +
+    numericInput(inputs.chargesExternes as number, 0) +
+    numericInput(inputs.impotsTaxes as number, 0) +
+    numericInput(inputs.chargesPersonnel as number, 0) +
+    numericInput(inputs.autresCharges as number, 0) -
+    numericInput(inputs.autresProduits as number, 0)
+  )
+}
+
 export function computeSimulationVector(
   lever: SimulationLever,
   value: number,
@@ -768,10 +804,18 @@ export function computeSimulationVector(
         projections.marge = { current: results.marge.value, projected: newMarge, delta: newMarge - results.marge.value }
       }
       if (results.ebitda) {
-        const chargesBase = numericInput(results.ebitda.inputs.charges, 0)
-        const newCharges = chargesBase * (1 - value / 100)
-        const newEbitda = Math.round(numericInput(results.ebitda.inputs.ca, 0) - newCharges)
-        projections.ebitda = { current: results.ebitda.value, projected: newEbitda, delta: newEbitda - results.ebitda.value }
+        const chargesBase = deriveEbitdaChargesForWhatIf(
+          results.ebitda.inputs as Record<string, unknown>,
+        )
+        if (chargesBase !== null) {
+          const newCharges = chargesBase * (1 - value / 100)
+          const newEbitda = Math.round(numericInput(results.ebitda.inputs.ca, 0) - newCharges)
+          projections.ebitda = {
+            current: results.ebitda.value,
+            projected: newEbitda,
+            delta: newEbitda - results.ebitda.value,
+          }
+        }
       }
       if (results['burn-rate']) {
         const newBurn = Math.round(results['burn-rate'].value * (1 - value / 100))

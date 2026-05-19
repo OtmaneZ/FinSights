@@ -10,17 +10,15 @@
 
 import { FinancialRecord } from './dataModel';
 import { logger } from '@/lib/logger';
+import { DSO_BENCHMARKS, type DsoSectorKey } from '@/lib/benchmarks/dso-sectoriels';
 
 /**
  * DSO - Days Sales Outstanding (Délai moyen de paiement clients)
  *
  * Formule standard : DSO = (Créances clients / Chiffre d'affaires) × 365
  *
- * Interprétation :
- * - < 30 jours : Excellent (paiements rapides)
- * - 30-45 jours : Bon (standard secteur services)
- * - 45-60 jours : Correct (standard secteur industrie)
- * - > 60 jours : À surveiller (risque de trésorerie)
+ * Interprétation sectorielle : voir DSO_BENCHMARKS (dso-sectoriels.ts, Altares 2024 / DFCG).
+ * Paliers par secteur : good (excellent) · median (bon) · bad (à surveiller) · au-delà : critique.
  *
  * @param receivables - Créances clients en attente de paiement (€)
  * @param revenue - Chiffre d'affaires annuel (€)
@@ -415,15 +413,23 @@ export function estimatePayables(records: FinancialRecord[]): number {
     return Math.round(monthlyExpenses);
 }
 
+/** Seuil critique dérivé pour paliers génériques (4e niveau, hors grille Altares). */
+function dsoCriticalThreshold(key: DsoSectorKey): number {
+    const b = DSO_BENCHMARKS[key];
+    return b.bad + Math.max(b.bad - b.median, 10);
+}
+
+const DEFAULT_DSO_BENCH = DSO_BENCHMARKS.autre;
+
 /**
  * SEUILS D'ALERTE STANDARDS
  */
 export const FINANCIAL_THRESHOLDS = {
     DSO: {
-        excellent: 30,
-        good: 45,
-        warning: 60,
-        critical: 90
+        excellent: DEFAULT_DSO_BENCH.good,
+        good: DEFAULT_DSO_BENCH.median,
+        warning: DEFAULT_DSO_BENCH.bad,
+        critical: dsoCriticalThreshold('autre'),
     },
     GROSS_MARGIN: {
         services: { min: 60, target: 70, excellent: 80 },
@@ -452,31 +458,36 @@ export const FINANCIAL_THRESHOLDS = {
     }
 };
 
+function sectorDsoFromBench(key: DsoSectorKey) {
+    const b = DSO_BENCHMARKS[key];
+    return { min: b.good, median: b.median, max: b.bad };
+}
+
 /**
- * BENCHMARKS SECTORIELS
+ * BENCHMARKS SECTORIELS (DSO : Altares 2024 / DFCG via dso-sectoriels.ts)
  */
 export const SECTOR_BENCHMARKS = {
     SERVICES: {
-        name: 'Services / Conseil',
-        dso: { min: 30, median: 45, max: 60 },
+        name: DSO_BENCHMARKS['services-b2b'].label,
+        dso: sectorDsoFromBench('services-b2b'),
         grossMargin: { min: 60, median: 70, max: 80 },
         netMargin: { min: 10, median: 15, max: 25 }
     },
     COMMERCE: {
-        name: 'Commerce / Distribution',
-        dso: { min: 15, median: 30, max: 45 },
+        name: DSO_BENCHMARKS.commerce.label,
+        dso: sectorDsoFromBench('commerce'),
         grossMargin: { min: 20, median: 30, max: 40 },
         netMargin: { min: 3, median: 5, max: 10 }
     },
     INDUSTRIE: {
-        name: 'Industrie / Manufacturing',
-        dso: { min: 45, median: 60, max: 75 },
+        name: DSO_BENCHMARKS.industrie.label,
+        dso: sectorDsoFromBench('industrie'),
         grossMargin: { min: 30, median: 40, max: 50 },
         netMargin: { min: 5, median: 10, max: 15 }
     },
     SAAS: {
-        name: 'SaaS / Software',
-        dso: { min: 0, median: 15, max: 30 },
+        name: DSO_BENCHMARKS['saas-tech'].label,
+        dso: sectorDsoFromBench('saas-tech'),
         grossMargin: { min: 70, median: 80, max: 90 },
         netMargin: { min: 15, median: 25, max: 40 }
     }

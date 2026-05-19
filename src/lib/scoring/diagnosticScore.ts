@@ -18,6 +18,7 @@
  */
 
 import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
+import { DSO_BENCHMARKS, resolveDsoSectorKey, type DsoSectorKey } from '@/lib/benchmarks/dso-sectoriels'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // TYPES
@@ -134,10 +135,24 @@ export interface LevelConfig {
 // BENCHMARKS SECTORIELS - Sources : Banque de France 2024, INSEE, Altares
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+function dsoBench(key: DsoSectorKey) {
+  const b = DSO_BENCHMARKS[key]
+  return { dsoMedian: b.median, dsoGood: b.good, dsoBad: b.bad }
+}
+
+/** Mappe le secteur stocké par le calculateur DSO vers SectorKey diagnostic. */
+export function mapDsoSectorToSectorKey(secteur: string): SectorKey {
+  const resolved = resolveDsoSectorKey(secteur)
+  if (resolved && resolved in SECTOR_BENCHMARKS) {
+    return resolved as SectorKey
+  }
+  return 'autre'
+}
+
 export const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
   'services-b2b': {
     label: 'Services B2B',
-    dsoMedian: 45, dsoGood: 35, dsoBad: 60,
+    ...dsoBench('services-b2b'),
     margeMedian: 55, margeBon: 45, margeFaible: 30,
     bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 50,
     ebitdaMedian: 12,
@@ -145,7 +160,7 @@ export const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
   },
   commerce: {
     label: 'Commerce & Distribution',
-    dsoMedian: 30, dsoGood: 20, dsoBad: 45,
+    ...dsoBench('commerce'),
     margeMedian: 30, margeBon: 22, margeFaible: 15,
     bfrJoursMedian: 35, bfrJoursBon: 20, bfrJoursBad: 55,
     ebitdaMedian: 5,
@@ -153,7 +168,7 @@ export const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
   },
   industrie: {
     label: 'Industrie & Fabrication',
-    dsoMedian: 55, dsoGood: 40, dsoBad: 75,
+    ...dsoBench('industrie'),
     margeMedian: 38, margeBon: 28, margeFaible: 18,
     bfrJoursMedian: 50, bfrJoursBon: 35, bfrJoursBad: 75,
     ebitdaMedian: 8,
@@ -161,7 +176,7 @@ export const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
   },
   'saas-tech': {
     label: 'SaaS & Tech',
-    dsoMedian: 25, dsoGood: 15, dsoBad: 45,
+    ...dsoBench('saas-tech'),
     margeMedian: 70, margeBon: 55, margeFaible: 35,
     bfrJoursMedian: 15, bfrJoursBon: 10, bfrJoursBad: 30,
     ebitdaMedian: 15,
@@ -169,7 +184,7 @@ export const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
   },
   btp: {
     label: 'BTP & Construction',
-    dsoMedian: 65, dsoGood: 50, dsoBad: 90,
+    ...dsoBench('btp'),
     margeMedian: 22, margeBon: 15, margeFaible: 8,
     bfrJoursMedian: 45, bfrJoursBon: 30, bfrJoursBad: 70,
     ebitdaMedian: 5,
@@ -177,7 +192,7 @@ export const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
   },
   chr: {
     label: 'Restauration & CHR',
-    dsoMedian: 10, dsoGood: 5, dsoBad: 20,
+    ...dsoBench('chr'),
     margeMedian: 68, margeBon: 60, margeFaible: 50,
     bfrJoursMedian: -5, bfrJoursBon: -10, bfrJoursBad: 15,
     ebitdaMedian: 10,
@@ -185,7 +200,7 @@ export const SECTOR_BENCHMARKS: Record<SectorKey, SectorBenchmark> = {
   },
   autre: {
     label: 'Autre / Tous secteurs',
-    dsoMedian: 45, dsoGood: 30, dsoBad: 60,
+    ...dsoBench('autre'),
     margeMedian: 40, margeBon: 30, margeFaible: 20,
     bfrJoursMedian: 30, bfrJoursBon: 20, bfrJoursBad: 55,
     ebitdaMedian: 8,
@@ -245,9 +260,9 @@ export const LEVEL_CONFIG: Record<DiagnosticScore['level'], LevelConfig> = {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function scoreDSO(value: number, bench: SectorBenchmark): number {
-  if (value <= 30) return 10
-  if (value <= 45) return 7
-  if (value <= 60) return 4
+  if (value <= bench.dsoGood) return 10
+  if (value <= bench.dsoMedian) return 7
+  if (value <= bench.dsoBad) return 4
   return 1
 }
 
@@ -323,12 +338,16 @@ export function estimateCA(
   const dsoRaw = get('dso')
   const bfrRaw = get('bfr')
   const seuilRaw = get('seuil-rentabilite')
-  return dsoRaw?.inputs?.caAnnuel
-    ? dsoRaw.inputs.caAnnuel
+  const ebitdaRaw = get('ebitda')
+  const dsoCa = dsoRaw?.inputs?.caAnnuel ?? dsoRaw?.inputs?.ca
+  return dsoCa
+    ? dsoCa
     : bfrRaw?.inputs?.caAnnuel
     ? bfrRaw.inputs.caAnnuel
     : seuilRaw?.inputs?.caAnnuel
     ? seuilRaw.inputs.caAnnuel
+    : ebitdaRaw?.inputs?.ca
+    ? ebitdaRaw.inputs.ca
     : null
 }
 
@@ -514,20 +533,28 @@ export function computeDiagnosticScore(
   sector: SectorKey = 'autre',
 ): DiagnosticScore {
   const get = (t: CalculatorType) => history.find((c) => c.type === t)
-  const bench = SECTOR_BENCHMARKS[sector]
+  const dsoEntry = get('dso')
+  const effectiveSector: SectorKey =
+    dsoEntry?.secteur != null && dsoEntry.secteur.length > 0
+      ? mapDsoSectorToSectorKey(dsoEntry.secteur)
+      : sector
+  const bench = SECTOR_BENCHMARKS[effectiveSector]
 
   const dso = get('dso')
   const bfr = get('bfr')
   const marge = get('marge')
   const seuil = get('seuil-rentabilite')
   const gearing = get('gearing')
+  const ebitda = get('ebitda')
 
   const caAnnuel =
     dso?.inputs?.caAnnuel ||
+    dso?.inputs?.ca ||
     bfr?.inputs?.caAnnuel ||
     seuil?.inputs?.caAnnuel ||
     marge?.inputs?.caAnnuel ||
     gearing?.inputs?.caAnnuel ||
+    ebitda?.inputs?.ca ||
     null
 
   const joursClients = dso?.inputs?.joursClients ?? dso?.value ?? 0

@@ -1,6 +1,7 @@
 'use client'
 
 import type { BdfQuartiles } from '@/lib/benchmarks/bdf-sectoriels'
+import { MARGE_BDF_LABEL } from '@/lib/ebitdaFormula'
 
 interface EbitdaQuartileBarProps {
     currentValue: number
@@ -25,9 +26,8 @@ export default function EbitdaQuartileBar({
         <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
             <div className="flex items-center justify-between gap-2">
                 <p className="text-sm font-semibold text-slate-800">
-                    Marge EBITDA/CA vs {secteurLabel}
+                    {MARGE_BDF_LABEL} vs {secteurLabel}
                 </p>
-                <p className="text-xs text-slate-500 text-right shrink-0">Proxy BDF : EBG/CA</p>
             </div>
 
             <div className="relative h-5">

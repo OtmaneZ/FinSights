@@ -8,6 +8,8 @@
  * Le LLM ne calcule RIEN - il reçoit le diagnostic déjà qualifié.
  */
 
+import { DSO_BENCHMARKS, type DsoSectorKey } from '@/lib/benchmarks/dso-sectoriels'
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -39,71 +41,46 @@ export interface BenchmarkMetric {
 
 // ---------------------------------------------------------------------------
 // DSO - Days Sales Outstanding (jours)
-// Source : Banque de France / Altares, Étude comportement de paiement 2024-2025
+// Source : Altares 2024 / DFCG (voir dso-sectoriels.ts)
 // ---------------------------------------------------------------------------
 
-const DSO_BENCHMARKS: BenchmarkMetric = {
+const ASSISTANT_DSO_SECTOR_KEYS: Record<Sector, DsoSectorKey> = {
+  services: 'services-b2b',
+  commerce: 'commerce',
+  industrie: 'industrie',
+  saas: 'saas-tech',
+  construction: 'btp',
+  restauration: 'chr',
+  general: 'autre',
+}
+
+/** Seuil critique dérivé (4e palier assistant) : au-delà de `bad`. */
+function dsoCriticalFromBench(key: DsoSectorKey): number {
+  const b = DSO_BENCHMARKS[key]
+  return b.bad + Math.max(b.bad - b.median, 10)
+}
+
+function buildDsoSectorThresholds(key: DsoSectorKey): SectorThresholds {
+  const b = DSO_BENCHMARKS[key]
+  return {
+    excellent: b.good,
+    median: b.median,
+    warning: b.bad,
+    critical: dsoCriticalFromBench(key),
+    unit: 'jours',
+    direction: 'lower-is-better',
+  }
+}
+
+const DSO_ASSISTANT_METRIC: BenchmarkMetric = {
   key: 'dso',
   label: 'DSO',
   description: 'Délai moyen de paiement clients (jours)',
-  sectors: {
-    services: {
-      excellent: 30,
-      median: 45,
-      warning: 60,
-      critical: 80,
-      unit: 'jours',
-      direction: 'lower-is-better',
-    },
-    commerce: {
-      excellent: 15,
-      median: 30,
-      warning: 45,
-      critical: 60,
-      unit: 'jours',
-      direction: 'lower-is-better',
-    },
-    industrie: {
-      excellent: 45,
-      median: 60,
-      warning: 75,
-      critical: 100,
-      unit: 'jours',
-      direction: 'lower-is-better',
-    },
-    saas: {
-      excellent: 10,
-      median: 25,
-      warning: 40,
-      critical: 60,
-      unit: 'jours',
-      direction: 'lower-is-better',
-    },
-    construction: {
-      excellent: 50,
-      median: 70,
-      warning: 90,
-      critical: 120,
-      unit: 'jours',
-      direction: 'lower-is-better',
-    },
-    restauration: {
-      excellent: 5,
-      median: 10,
-      warning: 20,
-      critical: 30,
-      unit: 'jours',
-      direction: 'lower-is-better',
-    },
-    general: {
-      excellent: 30,
-      median: 45,
-      warning: 60,
-      critical: 90,
-      unit: 'jours',
-      direction: 'lower-is-better',
-    },
-  },
+  sectors: Object.fromEntries(
+    (Object.entries(ASSISTANT_DSO_SECTOR_KEYS) as [Sector, DsoSectorKey][]).map(
+      ([sector, dsoKey]) => [sector, buildDsoSectorThresholds(dsoKey)],
+    ),
+  ) as Partial<Record<Sector, SectorThresholds>>,
 }
 
 // ---------------------------------------------------------------------------
@@ -373,7 +350,7 @@ const BURN_RATE_BENCHMARKS: BenchmarkMetric = {
 // ---------------------------------------------------------------------------
 
 export const BENCHMARKS: Record<string, BenchmarkMetric> = {
-  dso: DSO_BENCHMARKS,
+  dso: DSO_ASSISTANT_METRIC,
   bfr_jours: BFR_BENCHMARKS,
   marge: MARGE_BENCHMARKS,
   roi: ROI_BENCHMARKS,
@@ -528,6 +505,7 @@ export function normalizeSector(input?: string): Sector {
   if (lower.includes('industri') || lower.includes('manufactur')) return 'industrie'
   if (lower.includes('construct') || lower.includes('btp') || lower.includes('batiment')) return 'construction'
   if (lower.includes('restaurant') || lower.includes('hotel') || lower.includes('chr')) return 'restauration'
+  if (lower === 'autre' || lower.includes('autre')) return 'general'
 
   return 'general'
 }

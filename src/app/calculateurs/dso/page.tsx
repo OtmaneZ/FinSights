@@ -4,7 +4,21 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Calculator, TrendingUp, ArrowRight, AlertCircle, CheckCircle, CheckCircle2, Zap, Clock, Target, BarChart3, FileText, AlertTriangle } from 'lucide-react'
+import {
+    Calculator,
+    TrendingUp,
+    ArrowRight,
+    AlertCircle,
+    CheckCircle,
+    CheckCircle2,
+    Zap,
+    Clock,
+    Target,
+    BarChart3,
+    FileText,
+    AlertTriangle,
+    Info,
+} from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { BenchmarkBar } from '@/components/BenchmarkBar'
@@ -15,12 +29,114 @@ import { trackCalculatorUse, trackCTAClick } from '@/lib/analytics'
 import DiagnosticReturnBanner from '@/components/DiagnosticReturnBanner'
 import EmailCaptureModal from '@/components/EmailCaptureModal'
 import PremiumUpsellCard from '@/components/PremiumUpsellCard'
+import {
+    DSO_BENCHMARKS,
+    DSO_SECTOR_KEYS,
+    computeDsoGapVendeur,
+    getDsoInterpretationTier,
+    type DsoSectorKey,
+} from '@/lib/benchmarks/dso-sectoriels'
+
+type CaBase = 'HT' | 'TTC'
+type CaPeriode = '12m' | 'ytd'
+
+function FieldTooltip({ text }: { text: string }) {
+    const [open, setOpen] = useState(false)
+    return (
+        <span className="relative inline-flex ml-1 align-middle">
+            <button
+                type="button"
+                className="text-slate-400 hover:text-slate-600"
+                aria-label="Plus d'informations"
+                onMouseEnter={() => setOpen(true)}
+                onMouseLeave={() => setOpen(false)}
+                onFocus={() => setOpen(true)}
+                onBlur={() => setOpen(false)}
+            >
+                <Info className="w-4 h-4" aria-hidden />
+            </button>
+            {open && (
+                <span
+                    role="tooltip"
+                    className="absolute z-20 left-0 top-6 w-72 rounded-lg bg-slate-900 px-3 py-2 text-xs text-white shadow-lg"
+                >
+                    {text}
+                </span>
+            )}
+        </span>
+    )
+}
+
+const INTERPRETATION_STYLES = {
+    excellent: {
+        icone: (cls: string) => <CheckCircle className={cls} />,
+        titre: '✅ Excellent',
+        couleur: 'text-green-600',
+        bgCouleur: 'bg-green-50 border-green-200',
+        message:
+            'Votre DSO est remarquable ! Vos clients paient rapidement, ce qui optimise votre trésorerie.',
+    },
+    bon: {
+        icone: (cls: string) => <CheckCircle className={cls} />,
+        titre: '✅ Bon',
+        couleur: 'text-blue-600',
+        bgCouleur: 'bg-blue-50 border-blue-200',
+        message: 'Votre DSO est dans la norme de votre secteur. Continuez ce rythme !',
+    },
+    surveiller: {
+        icone: (cls: string) => <AlertCircle className={cls} />,
+        titre: '⚠️ À surveiller',
+        couleur: 'text-amber-600',
+        bgCouleur: 'bg-amber-50 border-amber-200',
+        message:
+            'Votre DSO commence à être élevé. Il est temps d\'accélérer les relances clients.',
+    },
+    critique: {
+        icone: (cls: string) => <AlertCircle className={cls} />,
+        titre: '🚨 Critique',
+        couleur: 'text-red-600',
+        bgCouleur: 'bg-red-50 border-red-200',
+        message:
+            'Votre DSO est trop élevé ! Cela bloque votre trésorerie et augmente le risque d\'impayés.',
+    },
+} as const
+
+function getInterpretation(dsoValue: number, sectorKey: DsoSectorKey) {
+    const bench = DSO_BENCHMARKS[sectorKey]
+    const tier = getDsoInterpretationTier(dsoValue, sectorKey)
+    const style = INTERPRETATION_STYLES[tier.niveau]
+    const iconCls =
+        tier.color === 'green'
+            ? 'w-6 h-6 text-green-500'
+            : tier.color === 'blue'
+              ? 'w-6 h-6 text-blue-500'
+              : tier.color === 'orange'
+                ? 'w-6 h-6 text-amber-500'
+                : 'w-6 h-6 text-red-500'
+
+    return {
+        niveau: tier.niveau,
+        icone: style.icone(iconCls),
+        titre: style.titre,
+        couleur: style.couleur,
+        bgCouleur: style.bgCouleur,
+        message:
+            tier.niveau === 'bon'
+                ? `Votre DSO est dans la norme du secteur ${bench.label}. Continuez ce rythme !`
+                : style.message,
+    }
+}
 
 export default function CalculateurDSO() {
     const [creances, setCreances] = useState<string>('')
     const [ca, setCA] = useState<string>('')
+    const [baseCa, setBaseCa] = useState<CaBase>('TTC')
+    const [periodeCa, setPeriodeCa] = useState<CaPeriode>('12m')
+    const [moisEcoules, setMoisEcoules] = useState<string>('6')
     const [dso, setDSO] = useState<number | null>(null)
-    const [secteur, setSecteur] = useState<'services' | 'commerce' | 'industrie' | 'saas'>('services')
+    const [caAnnualise, setCaAnnualise] = useState<number | null>(null)
+    const [secteur, setSecteur] = useState<DsoSectorKey>('services-b2b')
+    const [validationError, setValidationError] = useState<string | null>(null)
     const { saveCalculation } = useCalculatorHistory()
 
     // Structured data for SEO
@@ -43,7 +159,7 @@ export default function CalculateurDSO() {
             },
             {
                 name: 'Sélectionner votre secteur d\'activité',
-                text: 'Choisissez parmi Services, Commerce, Industrie ou SaaS pour obtenir des benchmarks adaptés'
+                text: 'Choisissez votre secteur parmi les 7 références Altares / DFCG pour obtenir des benchmarks adaptés'
             },
             {
                 name: 'Calculer et interpréter le résultat',
@@ -85,113 +201,114 @@ export default function CalculateurDSO() {
     }
 
     const calculer = () => {
+        setValidationError(null)
+
         const creancesNum = parseFloat(creances)
-        const caNum = parseFloat(ca)
+        const caSaisi = parseFloat(ca)
 
-        if (caNum > 0 && creancesNum >= 0) {
-            const dsoCalcule = Math.round((creancesNum / caNum) * 365)
-            setDSO(dsoCalcule)
-
-            // Track calculator usage
-            trackCalculatorUse('DSO', dsoCalcule, {
-                creances: creancesNum,
-                ca: caNum,
-                secteur
-            })
-
-            // Sauvegarder dans l'historique local
-            saveCalculation({
-                type: 'dso',
-                value: dsoCalcule,
-                inputs: { creances: creancesNum, ca: caNum },
-                secteur,
-                unit: 'jours',
-            })
+        if (Number.isNaN(creancesNum) || Number.isNaN(caSaisi)) {
+            setValidationError('Veuillez saisir des valeurs numériques valides.')
+            setDSO(null)
+            setCaAnnualise(null)
+            return
         }
+
+        if (creancesNum < 0) {
+            setValidationError('Les créances clients ne peuvent pas être négatives.')
+            setDSO(null)
+            setCaAnnualise(null)
+            return
+        }
+
+        if (caSaisi <= 0) {
+            setValidationError('Le chiffre d\'affaires doit être supérieur à 0.')
+            setDSO(null)
+            setCaAnnualise(null)
+            return
+        }
+
+        let caAnn = caSaisi
+        if (periodeCa === 'ytd') {
+            const mois = parseInt(moisEcoules, 10)
+            if (Number.isNaN(mois) || mois < 1 || mois > 11) {
+                setValidationError('Indiquez un nombre de mois écoulés entre 1 et 11.')
+                setDSO(null)
+                setCaAnnualise(null)
+                return
+            }
+            caAnn = (caSaisi / mois) * 12
+        }
+
+        const dsoCalcule = Math.round((creancesNum / caAnn) * 365)
+        setCaAnnualise(caAnn)
+        setDSO(dsoCalcule)
+
+        trackCalculatorUse('DSO', dsoCalcule, {
+            creances: creancesNum,
+            ca: caSaisi,
+            caAnnuel: caAnn,
+            baseCa,
+            periodeCa,
+            secteur,
+        })
+
+        saveCalculation({
+            type: 'dso',
+            value: dsoCalcule,
+            inputs: {
+                creances: creancesNum,
+                caAnnuel: caAnn,
+                caSaisi,
+                baseCa: baseCa === 'TTC' ? 1 : 0,
+                periodeCa: periodeCa === 'ytd' ? 1 : 0,
+                moisEcoules: periodeCa === 'ytd' ? parseInt(moisEcoules, 10) || 0 : 12,
+            },
+            secteur,
+            unit: 'jours',
+        })
     }
 
     const reset = () => {
         setCreances('')
         setCA('')
         setDSO(null)
-    }
-
-    const getInterpretation = (dso: number, secteur: string) => {
-        const seuils = {
-            services: { excellent: 30, bon: 45, surveiller: 60 },
-            commerce: { excellent: 45, bon: 60, surveiller: 75 },
-            industrie: { excellent: 60, bon: 90, surveiller: 120 },
-            saas: { excellent: 15, bon: 30, surveiller: 45 }
-        }
-
-        const s = seuils[secteur as keyof typeof seuils]
-
-        if (dso < s.excellent) {
-            return {
-                niveau: 'excellent',
-                icone: <CheckCircle className="w-6 h-6 text-green-500" />,
-                titre: '✅ Excellent',
-                couleur: 'text-green-600',
-                bgCouleur: 'bg-green-50 border-green-200',
-                message: 'Votre DSO est remarquable ! Vos clients paient rapidement, ce qui optimise votre trésorerie.'
-            }
-        } else if (dso < s.bon) {
-            return {
-                niveau: 'bon',
-                icone: <CheckCircle className="w-6 h-6 text-blue-500" />,
-                titre: '✅ Bon',
-                couleur: 'text-blue-600',
-                bgCouleur: 'bg-blue-50 border-blue-200',
-                message: 'Votre DSO est dans la norme du secteur ' + secteur + '. Continuez ce rythme !'
-            }
-        } else if (dso < s.surveiller) {
-            return {
-                niveau: 'surveiller',
-                icone: <AlertCircle className="w-6 h-6 text-amber-500" />,
-                titre: '⚠️ À surveiller',
-                couleur: 'text-amber-600',
-                bgCouleur: 'bg-amber-50 border-amber-200',
-                message: 'Votre DSO commence à être élevé. Il est temps d\'accélérer les relances clients.'
-            }
-        } else {
-            return {
-                niveau: 'critique',
-                icone: <AlertCircle className="w-6 h-6 text-red-500" />,
-                titre: '🚨 Critique',
-                couleur: 'text-red-600',
-                bgCouleur: 'bg-red-50 border-red-200',
-                message: 'Votre DSO est trop élevé ! Cela bloque votre trésorerie et augmente le risque d\'impayés.'
-            }
-        }
+        setCaAnnualise(null)
+        setValidationError(null)
     }
 
     const interpretation = dso !== null ? getInterpretation(dso, secteur) : null
+    const bench = DSO_BENCHMARKS[secteur]
+
+    const gapVendeur = useMemo(() => {
+        if (dso === null || caAnnualise == null || caAnnualise <= 0) return null
+        return computeDsoGapVendeur(dso, caAnnualise, secteur)
+    }, [dso, caAnnualise, secteur])
 
     const reportInputs = useMemo(() => {
         if (dso === null) return {}
         return {
             creances: parseFloat(creances) || 0,
-            ca: parseFloat(ca) || 0,
+            caAnnuel: (caAnnualise ?? parseFloat(ca)) || 0,
             secteur,
         }
-    }, [dso, creances, ca, secteur])
+    }, [dso, creances, ca, caAnnualise, secteur])
 
     const reportResult = useMemo(() => {
         if (dso === null || !interpretation) return {}
         return {
             dso,
-            secteur,
+            secteur: bench.label,
             niveau: interpretation.niveau,
             titre: interpretation.titre,
             message: interpretation.message,
             interpretationLines: [interpretation.message],
             summary: [
                 { label: 'DSO', value: `${dso} jours` },
-                { label: 'Secteur', value: secteur },
+                { label: 'Secteur', value: bench.label },
                 { label: 'Niveau', value: interpretation.niveau },
             ],
         }
-    }, [dso, secteur, interpretation])
+    }, [dso, bench.label, interpretation])
 
     return (
         <div className="min-h-screen bg-white">
@@ -350,34 +467,30 @@ export default function CalculateurDSO() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr className="border-b border-slate-200">
-                                                <td className="p-4 font-semibold text-slate-900">Services B2B</td>
-                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 30 jours</td>
-                                                <td className="p-4 text-center text-amber-600">30-60 jours</td>
-                                                <td className="p-4 text-center text-red-600">&gt; 60 jours</td>
-                                            </tr>
-                                            <tr className="border-b border-slate-200 bg-slate-50">
-                                                <td className="p-4 font-semibold text-slate-900">Commerce / Distribution</td>
-                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 45 jours</td>
-                                                <td className="p-4 text-center text-amber-600">45-75 jours</td>
-                                                <td className="p-4 text-center text-red-600">&gt; 75 jours</td>
-                                            </tr>
-                                            <tr className="border-b border-slate-200">
-                                                <td className="p-4 font-semibold text-slate-900">Industrie / BTP</td>
-                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 60 jours</td>
-                                                <td className="p-4 text-center text-amber-600">60-120 jours</td>
-                                                <td className="p-4 text-center text-red-600">&gt; 120 jours</td>
-                                            </tr>
-                                            <tr className="bg-slate-50">
-                                                <td className="p-4 font-semibold text-slate-900">SaaS / Tech B2B</td>
-                                                <td className="p-4 text-center text-green-600 font-semibold">&lt; 15 jours</td>
-                                                <td className="p-4 text-center text-amber-600">15-45 jours</td>
-                                                <td className="p-4 text-center text-red-600">&gt; 45 jours</td>
-                                            </tr>
+                                            {DSO_SECTOR_KEYS.map((key, i) => {
+                                                const b = DSO_BENCHMARKS[key]
+                                                return (
+                                                    <tr
+                                                        key={key}
+                                                        className={`border-b border-slate-200 ${i % 2 === 1 ? 'bg-slate-50' : ''}`}
+                                                    >
+                                                        <td className="p-4 font-semibold text-slate-900">{b.label}</td>
+                                                        <td className="p-4 text-center text-green-600 font-semibold">
+                                                            ≤ {b.good} jours
+                                                        </td>
+                                                        <td className="p-4 text-center text-amber-600">
+                                                            {b.good + 1}–{b.bad} jours
+                                                        </td>
+                                                        <td className="p-4 text-center text-red-600">
+                                                            &gt; {b.bad} jours
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })}
                                         </tbody>
                                     </table>
                                     <p className="text-xs text-slate-500 mt-2 text-right">
-                                        Source : Observatoire du BFR, DFCG France - Données 2025/2026
+                                        Source : Altares 2024 / DFCG France
                                     </p>
                                 </div>
 
@@ -615,7 +728,7 @@ export default function CalculateurDSO() {
                                         <span className="font-semibold text-slate-900">Formule DSO</span>
                                     </div>
                                     <code className="text-sm font-mono text-accent-primary">
-                                        DSO = (Créances clients / CA annuel) × 365
+                                        DSO = (Créances clients / CA annualisé) × 365
                                     </code>
                                 </div>
 
@@ -633,13 +746,13 @@ export default function CalculateurDSO() {
                                             className="w-full px-4 py-4 border border-slate-200 rounded-xl bg-white focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 outline-none transition-all text-lg"
                                         />
                                         <p className="text-xs text-slate-500 mt-2">
-                                            Montant total des factures non encore encaissées
+                                            Montant total des factures non encore encaissées (même base HT ou TTC que le CA)
                                         </p>
                                     </div>
 
                                     <div>
                                         <label className="block text-sm font-semibold text-slate-900 mb-2">
-                                            Chiffre d&apos;affaires annuel (€)
+                                            Chiffre d&apos;affaires (€)
                                         </label>
                                         <input
                                             type="number"
@@ -649,8 +762,81 @@ export default function CalculateurDSO() {
                                             className="w-full px-4 py-4 border border-slate-200 rounded-xl bg-white focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 outline-none transition-all text-lg"
                                         />
                                         <p className="text-xs text-slate-500 mt-2">
-                                            CA sur les 12 derniers mois
+                                            {periodeCa === '12m'
+                                                ? 'CA sur les 12 derniers mois'
+                                                : 'CA cumulé depuis le début de l\'exercice'}
                                         </p>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-slate-900 mb-2">
+                                            Base CA
+                                            <FieldTooltip text="Utilisez la même base que vos créances clients. En général : créances TTC / CA TTC." />
+                                        </label>
+                                        <div className="flex gap-2">
+                                            {(['HT', 'TTC'] as const).map((b) => (
+                                                <button
+                                                    key={b}
+                                                    type="button"
+                                                    onClick={() => setBaseCa(b)}
+                                                    className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium ${
+                                                        baseCa === b
+                                                            ? 'bg-slate-900 text-white border-slate-900'
+                                                            : 'bg-white border-slate-200 text-slate-700'
+                                                    }`}
+                                                >
+                                                    {b}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-semibold text-slate-900 mb-2">
+                                            Période CA
+                                        </label>
+                                        <div className="flex gap-2 mb-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => setPeriodeCa('12m')}
+                                                className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium ${
+                                                    periodeCa === '12m'
+                                                        ? 'bg-slate-900 text-white border-slate-900'
+                                                        : 'bg-white border-slate-200 text-slate-700'
+                                                }`}
+                                            >
+                                                12 mois
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setPeriodeCa('ytd')}
+                                                className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium ${
+                                                    periodeCa === 'ytd'
+                                                        ? 'bg-slate-900 text-white border-slate-900'
+                                                        : 'bg-white border-slate-200 text-slate-700'
+                                                }`}
+                                            >
+                                                Exercice (YTD)
+                                            </button>
+                                        </div>
+                                        {periodeCa === 'ytd' && (
+                                            <div>
+                                                <label className="block text-xs font-medium text-slate-600 mb-1">
+                                                    Mois écoulés (1–11)
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    min={1}
+                                                    max={11}
+                                                    value={moisEcoules}
+                                                    onChange={(e) => setMoisEcoules(e.target.value)}
+                                                    placeholder="6"
+                                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg"
+                                                />
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
@@ -659,21 +845,31 @@ export default function CalculateurDSO() {
                                     <label className="block text-sm font-semibold text-slate-900 mb-3">
                                         Secteur d&apos;activité
                                     </label>
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                        {['services', 'commerce', 'industrie', 'saas'].map((s) => (
-                                            <button
-                                                key={s}
-                                                onClick={() => setSecteur(s as typeof secteur)}
-                                                className={`px-4 py-3 rounded-xl font-medium transition-all duration-300 ${secteur === s
-                                                    ? 'bg-slate-900 text-white shadow-lg'
-                                                    : 'bg-white border border-slate-200 text-slate-700 hover:border-slate-300 hover:shadow-md'
-                                                }`}
-                                            >
-                                                {s.charAt(0).toUpperCase() + s.slice(1)}
-                                            </button>
+                                    <select
+                                        value={secteur}
+                                        onChange={(e) => setSecteur(e.target.value as DsoSectorKey)}
+                                        className="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-slate-900 font-medium"
+                                    >
+                                        {DSO_SECTOR_KEYS.map((key) => (
+                                            <option key={key} value={key}>
+                                                {DSO_BENCHMARKS[key].label}
+                                            </option>
                                         ))}
-                                    </div>
+                                    </select>
+                                    <p className="text-xs text-slate-500 mt-2">
+                                        Références : {bench.source} — objectif sectoriel {bench.good} jours
+                                    </p>
                                 </div>
+
+                                {validationError && (
+                                    <div
+                                        role="alert"
+                                        className="mb-6 flex gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800"
+                                    >
+                                        <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" aria-hidden />
+                                        <p>{validationError}</p>
+                                    </div>
+                                )}
 
                                 {/* Buttons */}
                                 <div className="flex gap-4">
@@ -717,22 +913,59 @@ export default function CalculateurDSO() {
                                         {dso} <span className="text-4xl text-accent-primary">jours</span>
                                     </p>
                                     <p className="text-slate-400 mb-8">
-                                        Formule : ({parseFloat(creances).toLocaleString('fr-FR')} / {parseFloat(ca).toLocaleString('fr-FR')}) × 365
+                                        Formule : ({parseFloat(creances).toLocaleString('fr-FR')} /{' '}
+                                        {caAnnualise != null
+                                            ? Math.round(caAnnualise).toLocaleString('fr-FR')
+                                            : parseFloat(ca).toLocaleString('fr-FR')}
+                                        ) × 365
+                                        {periodeCa === 'ytd' ? ' · CA annualisé' : ''}
                                     </p>
 
                                     {/* Benchmark */}
                                     <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-6">
                                         <p className="text-sm text-slate-300 mb-4">
-                                            Comparaison avec le secteur {secteur}
+                                            Comparaison avec le secteur {bench.label}
                                         </p>
                                         <BenchmarkBar
                                             kpiName="DSO"
                                             currentValue={dso}
-                                            sector={secteur as 'services' | 'commerce' | 'industrie' | 'saas'}
-                                            unit="jours"
+                                            sector={secteur}
+                                            unit=" jours"
                                             inverse={true}
                                         />
                                     </div>
+
+                                    {gapVendeur && (
+                                        <div
+                                            className={`mb-6 rounded-xl border px-4 py-3 text-sm text-left ${
+                                                gapVendeur.sousMediane
+                                                    ? 'border-orange-300 bg-orange-50 text-orange-950'
+                                                    : 'border-emerald-300 bg-emerald-50 text-emerald-950'
+                                            }`}
+                                        >
+                                            {gapVendeur.sousMediane ? (
+                                                <p>
+                                                    Votre DSO est{' '}
+                                                    <strong>{Math.abs(gapVendeur.gapJours)} jours</strong> au-dessus
+                                                    de la médiane de votre secteur. Cela représente{' '}
+                                                    <strong>
+                                                        {gapVendeur.gapEuros.toLocaleString('fr-FR')} €
+                                                    </strong>{' '}
+                                                    de trésorerie immobilisée.
+                                                </p>
+                                            ) : (
+                                                <p>
+                                                    Vous encaissez{' '}
+                                                    <strong>{Math.abs(gapVendeur.gapJours)} jours</strong> plus vite
+                                                    que la médiane de votre secteur, soit{' '}
+                                                    <strong>
+                                                        {Math.abs(gapVendeur.gapEuros).toLocaleString('fr-FR')} €
+                                                    </strong>{' '}
+                                                    de trésorerie libérée vs un concurrent médian.
+                                                </p>
+                                            )}
+                                        </div>
+                                    )}
 
                                     {/* Interpretation */}
                                     <div className={`p-6 rounded-xl border-2 ${interpretation.bgCouleur}`}>
@@ -749,7 +982,7 @@ export default function CalculateurDSO() {
                                 </motion.div>
 
                                 {/* 🔥 NOUVEAU : Diagnostic Personnalisé - Bridge to Consulting */}
-                                {dso > 45 && (
+                                {dso > bench.bad && (
                                     <motion.div
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
@@ -768,9 +1001,14 @@ export default function CalculateurDSO() {
                                                     Avec un DSO de <strong>{dso} jours</strong>, vous perdez l'équivalent de{' '}
                                                     <strong className="text-amber-700">{(dso / 30).toFixed(1)} mois de chiffre d'affaires</strong> immobilisé.
                                                     <br />
-                                                    En le réduisant à 30 jours, vous libérez immédiatement{' '}
+                                                    En le ramenant à l&apos;objectif sectoriel de {bench.good} jours, vous libérez immédiatement{' '}
                                                     <strong className="text-green-600">
-                                                        {Math.round((parseFloat(creances) * (dso - 30)) / dso).toLocaleString('fr-FR')}€
+                                                        {dso > bench.good && caAnnualise != null
+                                                            ? Math.round(
+                                                                  ((dso - bench.good) / 365) * caAnnualise,
+                                                              ).toLocaleString('fr-FR')
+                                                            : '0'}
+                                                        €
                                                     </strong>.
                                                 </p>
                                                 
@@ -784,9 +1022,14 @@ export default function CalculateurDSO() {
                                                             </p>
                                                         </div>
                                                         <div>
-                                                            <p className="text-sm text-gray-600 mb-1">Cash libérable (DSO à 30j)</p>
+                                                            <p className="text-sm text-gray-600 mb-1">Cash libérable (DSO à {bench.good}j)</p>
                                                             <p className="text-2xl font-bold text-green-600">
-                                                                +{Math.round((parseFloat(creances) * (dso - 30)) / dso).toLocaleString('fr-FR')}€
+                                                                +{dso > bench.good && caAnnualise != null
+                                                                    ? Math.round(
+                                                                          ((dso - bench.good) / 365) * caAnnualise,
+                                                                      ).toLocaleString('fr-FR')
+                                                                    : '0'}
+                                                                €
                                                             </p>
                                                         </div>
                                                         <div>
