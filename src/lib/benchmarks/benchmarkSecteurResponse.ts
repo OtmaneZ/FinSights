@@ -5,7 +5,7 @@ import {
 } from '@/lib/benchmarks/bdf-sectoriels'
 import {
     getMultiplesByBdfCode,
-    SOURCE_MULTIPLES_MA,
+    SOURCE_MULTIPLES_MA_LEGACY,
 } from '@/lib/benchmarks/multiples-valorisation'
 import type { NafResolutionResult } from '@/lib/benchmarks/nafResolver'
 
@@ -59,7 +59,7 @@ function buildFromBenchmark(
         avertissement_comparabilite: benchmark.avertissementComparabilite ?? null,
         source: BDF_FIBEN_SOURCE_PREFIX,
         source_marges: BDF_FIBEN_SOURCE_PREFIX,
-        source_multiples: SOURCE_MULTIPLES_MA,
+        source_multiples: SOURCE_MULTIPLES_MA_LEGACY,
         confidence: 'section',
         naf_label: null,
         naf_code: null,
@@ -90,7 +90,7 @@ export function buildBenchmarkSecteurFromResolution(
             avertissement_comparabilite: null,
             source: BDF_FIBEN_SOURCE_PREFIX,
             source_marges: BDF_FIBEN_SOURCE_PREFIX,
-            source_multiples: SOURCE_MULTIPLES_MA,
+            source_multiples: SOURCE_MULTIPLES_MA_LEGACY,
             confidence: 'none',
             naf_label: resolution.nafLabel,
             naf_code: resolution.nafCode,

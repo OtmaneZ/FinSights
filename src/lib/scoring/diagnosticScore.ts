@@ -18,7 +18,9 @@
  */
 
 import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
+import { getBenchmarkBySecteur } from '@/lib/benchmarks/bdf-sectoriels'
 import { DSO_BENCHMARKS, resolveDsoSectorKey, type DsoSectorKey } from '@/lib/benchmarks/dso-sectoriels'
+import { getMultiplesByBdfCode } from '@/lib/benchmarks/multiples-valorisation'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // TYPES
@@ -258,6 +260,16 @@ export const LEVEL_CONFIG: Record<DiagnosticScore['level'], LevelConfig> = {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SCORING HELPERS - fonctions unitaires réutilisables
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/** Points partiels : multiple EBITDA vs médiane M&A du secteur (calculateur valorisation). */
+export function scoreValorisationMultiple(multiple: number, medianMultiple: number): number {
+  if (medianMultiple <= 0) return multiple > 0 ? 4 : 1
+  const ratio = multiple / medianMultiple
+  if (ratio >= 1.15) return 8
+  if (ratio >= 1.0) return 6
+  if (ratio >= 0.85) return 4
+  return 2
+}
 
 export function scoreDSO(value: number, bench: SectorBenchmark): number {
   if (value <= bench.dsoGood) return 10
@@ -546,6 +558,7 @@ export function computeDiagnosticScore(
   const seuil = get('seuil-rentabilite')
   const gearing = get('gearing')
   const ebitda = get('ebitda')
+  const valCalc = get('valorisation')
 
   const caAnnuel =
     dso?.inputs?.caAnnuel ||
@@ -618,10 +631,11 @@ export function computeDiagnosticScore(
   const resilienceCalcs: { type: CalculatorType; done: boolean }[] = [
     { type: 'gearing', done: !!gearing },
     { type: 'marge', done: margeBrute > 0 },
+    ...(valCalc ? [{ type: 'valorisation' as CalculatorType, done: true }] : []),
   ]
 
   let resilienceScore: number | null = null
-  if (concentrationClient > 0 || nombreClients > 0 || detteBancaire > 0) {
+  if (concentrationClient > 0 || nombreClients > 0 || detteBancaire > 0 || valCalc) {
     let pts = 0
     let maxPossible = 0
 
@@ -645,6 +659,20 @@ export function computeDiagnosticScore(
       const gearingValue = detteBancaire / (caAnnuel * (margeBrute / 100))
       maxPossible += 8
       pts += scoreGearing(gearingValue, bench)
+    }
+
+    if (valCalc) {
+      const multiple = valCalc.inputs.multiple ?? 0
+      let medianMultiple = 6
+      if (valCalc.secteur) {
+        const bdfBench = getBenchmarkBySecteur(valCalc.secteur)
+        const multRow = bdfBench ? getMultiplesByBdfCode(bdfBench.codeNaf) : null
+        if (multRow) medianMultiple = multRow.multipleMedian
+      }
+      if (multiple > 0) {
+        maxPossible += 8
+        pts += scoreValorisationMultiple(multiple, medianMultiple)
+      }
     }
 
     resilienceScore = maxPossible > 0 ? Math.round((pts / maxPossible) * 25) : null
@@ -1176,6 +1204,12 @@ export function getBenchmarkHint(
         label: `Médiane ${bench.label}`,
         median: `${bench.gearingMedian}x`,
         critical: `Seuil critique : ${bench.gearingCritique}x`,
+      }
+    case 'valorisation':
+      return {
+        label: `Multiple EBITDA — ${bench.label}`,
+        median: 'Médiane M&A sectorielle (voir calculateur valorisation)',
+        critical: 'Multiple sous la médiane : signal de décote pour acquéreurs',
       }
     default:
       return null

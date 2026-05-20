@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "source": "Multiples M&A PME France 2020-2024",
+    "perimetre": "PME France, transactions < 50M€, 2020-2024",
+    "nb_transactions": "estimation sectorielle (panel transactions mid-market)",
+    "methodologie": "médiane transactions + fourchette Q1-Q3 observée par secteur d'activité (proxy BDF NAF)"
+  },
+  "secteurs": [
+    {
+      "bdf_code": "56",
+      "label": "Restauration",
+      "multiple_min": 3.5,
+      "multiple_median": 4.5,
+      "multiple_max": 6.0,
+      "note": "Cyclique, dépendant localisation"
+    },
+    {
+      "bdf_code": "55",
+      "label": "Hôtellerie",
+      "multiple_min": 5.0,
+      "multiple_median": 7.0,
+      "multiple_max": 10.0,
+      "note": "Forte intensité capitalistique"
+    },
+    {
+      "bdf_code": "F",
+      "label": "BTP / Construction",
+      "multiple_min": 3.0,
+      "multiple_median": 4.5,
+      "multiple_max": 6.5,
+      "note": "Cyclique, carnet commandes clé"
+    },
+    {
+      "bdf_code": "47",
+      "label": "Commerce de détail",
+      "multiple_min": 3.0,
+      "multiple_median": 4.5,
+      "multiple_max": 6.0,
+      "note": "Dépend du concept et emplacement"
+    },
+    {
+      "bdf_code": "46",
+      "label": "Commerce de gros",
+      "multiple_min": 4.0,
+      "multiple_median": 5.5,
+      "multiple_max": 7.5,
+      "note": "Valorise les contrats récurrents"
+    },
+    {
+      "bdf_code": "C",
+      "label": "Industrie",
+      "multiple_min": 4.0,
+      "multiple_median": 5.5,
+      "multiple_max": 7.5,
+      "note": "Dépend intensité capitalistique"
+    },
+    {
+      "bdf_code": "62",
+      "label": "Tech & Informatique",
+      "multiple_min": 5.0,
+      "multiple_median": 7.5,
+      "multiple_max": 12.0,
+      "note": "Prime si revenus récurrents (ARR)"
+    },
+    {
+      "bdf_code": "69",
+      "label": "Conseil / Expertise",
+      "multiple_min": 4.0,
+      "multiple_median": 6.0,
+      "multiple_max": 8.5,
+      "note": "Dépend de la dépendance au dirigeant"
+    },
+    {
+      "bdf_code": "49",
+      "label": "Transport",
+      "multiple_min": 3.5,
+      "multiple_median": 5.0,
+      "multiple_max": 7.0,
+      "note": "Valorise le parc et les contrats"
+    },
+    {
+      "bdf_code": "86",
+      "label": "Santé",
+      "multiple_min": 5.0,
+      "multiple_median": 7.5,
+      "multiple_max": 11.0,
+      "note": "Forte demande acquéreurs stratégiques"
+    },
+    {
+      "bdf_code": "68",
+      "label": "Immobilier",
+      "multiple_min": 8.0,
+      "multiple_median": 12.0,
+      "multiple_max": 20.0,
+      "note": "Hors norme — valorisation patrimoniale"
+    }
+  ]
+}

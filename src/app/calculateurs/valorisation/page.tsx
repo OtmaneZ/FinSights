@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Info, Landmark } from 'lucide-react'
 import Header from '@/components/Header'
@@ -20,8 +20,10 @@ import {
 import type { NafResolutionResult } from '@/lib/benchmarks/nafResolver'
 import {
     describeMargeVsQuartiles,
+    encodeQualificationMultiple,
     getMultipleSuggere,
     getMultiplesByBdfCode,
+    MULTIPLES_MA_METHODOLOGIE,
     SOURCE_MULTIPLES_MA,
     type MultipleSuggereResult,
 } from '@/lib/benchmarks/multiples-valorisation'
@@ -34,6 +36,8 @@ interface ValorisationResult {
     equity: number
     low: number
     high: number
+    lowEV: number
+    highEV: number
     ebitdaUtilise: number
     margePct: number | null
     multipleUtilise: number
@@ -43,6 +47,33 @@ interface ValorisationResult {
 
 function formatEuro(value: number): string {
     return `${Math.round(value).toLocaleString('fr-FR')} €`
+}
+
+function FieldTooltip({ text }: { text: string }) {
+    const [open, setOpen] = useState(false)
+    return (
+        <span className="relative inline-flex ml-1 align-middle">
+            <button
+                type="button"
+                className="text-slate-400 hover:text-slate-600"
+                aria-label="Plus d'informations"
+                onMouseEnter={() => setOpen(true)}
+                onMouseLeave={() => setOpen(false)}
+                onFocus={() => setOpen(true)}
+                onBlur={() => setOpen(false)}
+            >
+                <Info className="w-4 h-4" aria-hidden />
+            </button>
+            {open && (
+                <span
+                    role="tooltip"
+                    className="absolute z-20 left-0 top-6 w-72 rounded-lg bg-slate-900 px-3 py-2 text-xs text-white shadow-lg"
+                >
+                    {text}
+                </span>
+            )}
+        </span>
+    )
 }
 
 export default function CalculateurValorisation() {
@@ -55,9 +86,14 @@ export default function CalculateurValorisation() {
     const [useNafInput, setUseNafInput] = useState(false)
     const [nafResolution, setNafResolution] = useState<NafResolutionResult | null>(null)
     const [detteNette, setDetteNette] = useState('')
-    const [tresorerie, setTresorerie] = useState('')
+    const [validationError, setValidationError] = useState<string | null>(null)
     const [result, setResult] = useState<ValorisationResult | null>(null)
-    const { saveCalculation } = useCalculatorHistory()
+    const [ebitdaPrefillBanner, setEbitdaPrefillBanner] = useState(false)
+    const [useEbitdaNormalise, setUseEbitdaNormalise] = useState(false)
+    const [ebitdaBrutHistory, setEbitdaBrutHistory] = useState<number | null>(null)
+    const [ebitdaNormaliseHistory, setEbitdaNormaliseHistory] = useState<number | null>(null)
+    const prefillDone = useRef(false)
+    const { saveCalculation, history } = useCalculatorHistory()
 
     const modeSectoriel = secteur.length > 0
     const benchmark = useMemo(
@@ -69,22 +105,53 @@ export default function CalculateurValorisation() {
         [benchmark],
     )
 
+    useEffect(() => {
+        if (prefillDone.current) return
+        const latestEbitda = history.find((c) => c.type === 'ebitda')
+        if (!latestEbitda) return
+        prefillDone.current = true
+
+        const brut = latestEbitda.value
+        const normalise = latestEbitda.inputs.ebitdaNormalise
+        if (normalise != null && normalise > 0 && brut > 0) {
+            setEbitdaBrutHistory(brut)
+            setEbitdaNormaliseHistory(normalise)
+            setUseEbitdaNormalise(true)
+            setEbitda(String(normalise))
+        } else if (brut > 0) {
+            setEbitda(String(brut))
+        }
+
+        if (latestEbitda.inputs.ca > 0) setCa(String(latestEbitda.inputs.ca))
+        if (latestEbitda.inputs.marge > 0) setMargePct(String(latestEbitda.inputs.marge))
+
+        setEbitdaPrefillBanner(true)
+    }, [history])
+
     const ebitdaCalcule = useMemo(() => {
         const ebitdaDirect = parseFloat(ebitda)
         if (!Number.isNaN(ebitdaDirect) && ebitdaDirect > 0) return ebitdaDirect
         const caN = parseFloat(ca) || 0
-        const margeN = parseFloat(margePct) || 0
-        if (caN > 0 && margeN > 0) return (caN * margeN) / 100
+        const margeRaw = margePct.trim()
+        if (caN > 0 && margeRaw !== '') {
+            const margeN = parseFloat(margePct)
+            if (!Number.isNaN(margeN) && margeN >= 0) return (caN * margeN) / 100
+        }
         return 0
     }, [ebitda, ca, margePct])
 
     const margeEffective = useMemo(() => {
-        const margeSaisie = parseFloat(margePct)
-        if (!Number.isNaN(margeSaisie) && margeSaisie > 0) return margeSaisie
+        const margeRaw = margePct.trim()
+        if (margeRaw !== '') {
+            const margeSaisie = parseFloat(margePct)
+            if (!Number.isNaN(margeSaisie)) return margeSaisie
+        }
         const caN = parseFloat(ca) || 0
         if (caN > 0 && ebitdaCalcule > 0) return (ebitdaCalcule / caN) * 100
         return null
     }, [margePct, ca, ebitdaCalcule])
+
+    const margeZeroWarning = margePct.trim() !== '' && parseFloat(margePct) === 0
 
     const multipleSuggerePreview = useMemo(() => {
         if (!benchmark || margeEffective == null) return null
@@ -120,10 +187,16 @@ export default function CalculateurValorisation() {
 
     const calculer = () => {
         const ebitdaN = ebitdaCalcule
-        if (ebitdaN <= 0) return
+        if (ebitdaN <= 0) {
+            setValidationError(
+                "L'EBITDA doit être positif pour calculer une valorisation. Vérifiez vos données ou utilisez le calculateur EBITDA.",
+            )
+            setResult(null)
+            return
+        }
+        setValidationError(null)
 
         const detteNetteN = parseFloat(detteNette) || 0
-        const tresorerieN = parseFloat(tresorerie) || 0
         const mult = multipleEffectif
 
         let lowM: number
@@ -137,9 +210,11 @@ export default function CalculateurValorisation() {
         }
 
         const ev = ebitdaN * mult
-        const equity = ev - detteNetteN + tresorerieN
-        const low = ebitdaN * lowM - detteNetteN + tresorerieN
-        const high = ebitdaN * highM - detteNetteN + tresorerieN
+        const equity = ev - detteNetteN
+        const lowEV = ebitdaN * lowM
+        const highEV = ebitdaN * highM
+        const low = lowEV - detteNetteN
+        const high = highEV - detteNetteN
 
         const suggere =
             benchmark && margeEffective != null
@@ -151,6 +226,8 @@ export default function CalculateurValorisation() {
             equity,
             low,
             high,
+            lowEV,
+            highEV,
             ebitdaUtilise: ebitdaN,
             margePct: margeEffective,
             multipleUtilise: mult,
@@ -163,7 +240,6 @@ export default function CalculateurValorisation() {
             ebitda: ebitdaN,
             multiple: mult,
             detteNette: detteNetteN,
-            tresorerie: tresorerieN,
             ev,
             ...(secteur ? { secteur } : {}),
             ...(suggere ? { qualification: suggere.qualification } : {}),
@@ -175,8 +251,14 @@ export default function CalculateurValorisation() {
                 ebitda: ebitdaN,
                 multiple: mult,
                 detteNette: detteNetteN,
-                tresorerie: tresorerieN,
-                valeurEntreprise: ev,
+                ev,
+                equity,
+                low,
+                high,
+                lowEV,
+                highEV,
+                margePct: margeEffective ?? 0,
+                qualification: encodeQualificationMultiple(suggere?.qualification),
             },
             ...(secteur ? { secteur } : {}),
             unit: '€',
@@ -203,11 +285,10 @@ export default function CalculateurValorisation() {
             ebitda: result.ebitdaUtilise,
             multiple: result.multipleUtilise,
             detteNette: parseFloat(detteNette) || 0,
-            tresorerie: parseFloat(tresorerie) || 0,
             secteur: secteur || undefined,
             margeEbitdaPct: result.margePct ?? undefined,
         }
-    }, [result, detteNette, tresorerie, secteur])
+    }, [result, detteNette, secteur])
 
     const reportResult = useMemo(() => {
         if (!result) return {}
@@ -222,17 +303,78 @@ export default function CalculateurValorisation() {
             equityValue: result.equity,
             lowEquity: result.low,
             highEquity: result.high,
+            lowEV: result.lowEV,
+            highEV: result.highEV,
             multipleLow: fourchetteMultiples.min,
             multipleHigh: fourchetteMultiples.max,
             qualification: result.multipleSuggere?.qualification,
             interpretationLines: [label, result.multipleSuggere?.raisonnement].filter(Boolean),
             summary: [
-                { label: 'EV (multiple)', value: formatEuro(result.ev) },
+                { label: 'Valeur d\'entreprise (EV)', value: formatEuro(result.ev) },
                 { label: 'Fonds propres', value: formatEuro(result.equity) },
-                { label: 'Fourchette', value: `${formatEuro(result.low)} → ${formatEuro(result.high)}` },
+                {
+                    label: 'Fourchette fonds propres',
+                    value: `${formatEuro(result.low)} → ${formatEuro(result.high)}`,
+                },
             ],
         }
     }, [result, multiplesSecteur, label])
+
+    const scenarioTable = useMemo(() => {
+        if (!result || !benchmark || !multiplesSecteur) return null
+        const caN = parseFloat(ca) || 0
+        if (caN <= 0 || result.margePct == null) return null
+
+        const { Q2, Q3 } = benchmark.quartiles
+        if (result.margePct >= Q3) {
+            return { type: 'top_quartile' as const }
+        }
+
+        const detteNetteN = parseFloat(detteNette) || 0
+        const ebitdaMedian = (caN * Q2) / 100
+        const ebitdaQ3 = (caN * Q3) / 100
+        const evMedian = ebitdaMedian * multiplesSecteur.multipleMedian
+        const evQ3 = ebitdaQ3 * multiplesSecteur.multipleMax
+        const gainMedian = evMedian - result.ev
+        const gainQ3 = evQ3 - result.ev
+
+        return {
+            type: 'scenarios' as const,
+            caN,
+            Q2,
+            Q3,
+            rows: [
+                {
+                    label: 'Situation actuelle',
+                    marge: result.margePct,
+                    ebitda: result.ebitdaUtilise,
+                    multiple: result.multipleUtilise,
+                    ev: result.ev,
+                    gainEv: 0,
+                    gainPct: 0,
+                },
+                {
+                    label: 'Médiane secteur',
+                    marge: Q2,
+                    ebitda: ebitdaMedian,
+                    multiple: multiplesSecteur.multipleMedian,
+                    ev: evMedian,
+                    gainEv: gainMedian,
+                    gainPct: result.ev > 0 ? (gainMedian / result.ev) * 100 : 0,
+                },
+                {
+                    label: 'Top 25% (Q3)',
+                    marge: Q3,
+                    ebitda: ebitdaQ3,
+                    multiple: multiplesSecteur.multipleMax,
+                    ev: evQ3,
+                    gainEv: gainQ3,
+                    gainPct: result.ev > 0 ? (gainQ3 / result.ev) * 100 : 0,
+                },
+            ],
+            detteNetteN,
+        }
+    }, [result, benchmark, multiplesSecteur, ca, detteNette])
 
     return (
         <div className="min-h-screen bg-white">
@@ -250,6 +392,45 @@ export default function CalculateurValorisation() {
 
                 <section className="py-12 bg-slate-50">
                     <div className="max-w-4xl mx-auto px-6 bg-white border border-slate-200 rounded-2xl p-6 space-y-6">
+                        {ebitdaPrefillBanner && (
+                            <p className="text-xs text-blue-800 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+                                Données pré-remplies depuis votre dernier calcul EBITDA
+                            </p>
+                        )}
+
+                        {ebitdaBrutHistory != null && ebitdaNormaliseHistory != null && (
+                            <div className="flex flex-wrap gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setUseEbitdaNormalise(false)
+                                        setEbitda(String(ebitdaBrutHistory))
+                                    }}
+                                    className={`px-3 py-1.5 rounded-lg border text-xs font-medium ${
+                                        !useEbitdaNormalise
+                                            ? 'bg-slate-900 text-white border-slate-900'
+                                            : 'bg-white border-slate-200 text-slate-700'
+                                    }`}
+                                >
+                                    EBITDA brut ({formatEuro(ebitdaBrutHistory)})
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setUseEbitdaNormalise(true)
+                                        setEbitda(String(ebitdaNormaliseHistory))
+                                    }}
+                                    className={`px-3 py-1.5 rounded-lg border text-xs font-medium ${
+                                        useEbitdaNormalise
+                                            ? 'bg-slate-900 text-white border-slate-900'
+                                            : 'bg-white border-slate-200 text-slate-700'
+                                    }`}
+                                >
+                                    EBITDA normalisé ({formatEuro(ebitdaNormaliseHistory)})
+                                </button>
+                            </div>
+                        )}
+
                         <div className="grid md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-semibold text-slate-800 mb-2">
@@ -259,7 +440,7 @@ export default function CalculateurValorisation() {
                                     type="number"
                                     value={ebitda}
                                     onChange={(e) => setEbitda(e.target.value)}
-                                    placeholder="Ou laissez vide si CA + marge"
+                                    placeholder="Ex. 450 000 — ou laissez vide si CA + marge"
                                     className="w-full px-4 py-3 border border-slate-200 rounded-xl"
                                 />
                             </div>
@@ -277,6 +458,7 @@ export default function CalculateurValorisation() {
                             <div>
                                 <label className="block text-sm font-semibold text-slate-800 mb-2">
                                     Marge EBITDA/CA (%) — optionnel
+                                    <FieldTooltip text="Une marge nulle produit un EBITDA nul — vérifiez vos charges." />
                                 </label>
                                 <input
                                     type="number"
@@ -285,35 +467,44 @@ export default function CalculateurValorisation() {
                                     placeholder="Ex. 14,2"
                                     className="w-full px-4 py-3 border border-slate-200 rounded-xl"
                                 />
+                                {margeZeroWarning && (
+                                    <p className="text-xs text-amber-700 mt-1">
+                                        Une marge nulle produit un EBITDA nul — vérifiez vos charges.
+                                    </p>
+                                )}
                             </div>
                             {ebitdaCalcule > 0 && !ebitda && (
                                 <p className="md:col-span-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
                                     EBITDA déduit : {formatEuro(ebitdaCalcule)} (CA × marge)
                                 </p>
                             )}
-                            <div>
+                            <div className="md:col-span-2">
                                 <label className="block text-sm font-semibold text-slate-800 mb-2">
                                     Dette nette (€)
+                                    <FieldTooltip text="Dette nette = dettes financières brutes − trésorerie disponible. Si votre trésorerie dépasse vos dettes : saisissez un montant négatif. Exemple : 200k€ de dettes, 50k€ de cash → dette nette = 150 000" />
                                 </label>
                                 <input
                                     type="number"
                                     value={detteNette}
                                     onChange={(e) => setDetteNette(e.target.value)}
-                                    className="w-full px-4 py-3 border border-slate-200 rounded-xl"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-semibold text-slate-800 mb-2">
-                                    Trésorerie (€)
-                                </label>
-                                <input
-                                    type="number"
-                                    value={tresorerie}
-                                    onChange={(e) => setTresorerie(e.target.value)}
+                                    placeholder="Ex. 150 000 (ou −20 000 si trésorerie nette positive)"
                                     className="w-full px-4 py-3 border border-slate-200 rounded-xl"
                                 />
                             </div>
                         </div>
+
+                        {validationError && (
+                            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                                {validationError}
+                            </p>
+                        )}
+
+                        {modeSectoriel && margeEffective == null && (
+                            <p className="text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+                                Saisissez votre marge EBITDA/CA pour obtenir un multiple personnalisé. Sans marge, le
+                                multiple médian sectoriel est appliqué.
+                            </p>
+                        )}
 
                         <div className="border-t border-slate-100 pt-6 space-y-4">
                             <p className="text-sm font-semibold text-slate-800">Secteur d&apos;activité (optionnel)</p>
@@ -532,40 +723,140 @@ export default function CalculateurValorisation() {
                                         </span>
                                     </p>
                                 </div>
-                                <div className="border-t border-slate-700 mt-6 pt-6 text-center">
-                                    <p className="text-slate-300">Valorisation centrale (EV)</p>
-                                    <p className="text-5xl font-bold mt-2">{formatEuro(result.ev)}</p>
-                                    <p className="text-slate-300 mt-4">
-                                        Fonds propres :{' '}
-                                        <strong>{formatEuro(result.equity)}</strong>
+                                <div className="border-t border-slate-700 mt-6 pt-6">
+                                    <div className="grid md:grid-cols-2 gap-6 text-center">
+                                        <div>
+                                            <p className="text-slate-400 text-sm">Valeur d&apos;entreprise (EV)</p>
+                                            <p className="text-4xl font-bold mt-2">{formatEuro(result.ev)}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-slate-400 text-sm">Valeur des fonds propres</p>
+                                            <p className="text-4xl font-bold mt-2">{formatEuro(result.equity)}</p>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-slate-400 text-center mt-4">
+                                        EV − dette nette ({formatEuro(parseFloat(detteNette) || 0)}) = valeur des
+                                        fonds propres
                                     </p>
                                 </div>
                                 <div className="grid md:grid-cols-2 gap-4 mt-6 pt-6 border-t border-slate-700">
                                     <div>
-                                        <p className="text-xs text-slate-400">Fourchette basse</p>
-                                        <p className="text-xl font-bold">{formatEuro(result.low)}</p>
-                                        {result.modeSectoriel && multiplesSecteur && (
-                                            <p className="text-xs text-slate-500">{multiplesSecteur.multipleMin}x</p>
-                                        )}
+                                        <p className="text-xs text-slate-400 uppercase tracking-wide">Fourchette EV</p>
+                                        <p className="text-lg font-semibold mt-1">
+                                            {formatEuro(result.lowEV)} → {formatEuro(result.highEV)}
+                                        </p>
                                     </div>
                                     <div>
-                                        <p className="text-xs text-slate-400">Fourchette haute</p>
-                                        <p className="text-xl font-bold">{formatEuro(result.high)}</p>
-                                        {result.modeSectoriel && multiplesSecteur && (
-                                            <p className="text-xs text-slate-500">{multiplesSecteur.multipleMax}x</p>
-                                        )}
+                                        <p className="text-xs text-slate-400 uppercase tracking-wide">
+                                            Fourchette fonds propres
+                                        </p>
+                                        <p className="text-lg font-semibold mt-1">
+                                            {formatEuro(result.low)} → {formatEuro(result.high)}
+                                        </p>
                                     </div>
                                 </div>
                                 {result.modeSectoriel && (
                                     <p className="text-[11px] text-slate-500 mt-4 text-center border-t border-slate-700 pt-4">
-                                        Source multiples : {SOURCE_MULTIPLES_MA}
+                                        <span className="inline-flex items-center justify-center gap-1 flex-wrap">
+                                            Source multiples : {SOURCE_MULTIPLES_MA}
+                                            <FieldTooltip text={MULTIPLES_MA_METHODOLOGIE} />
+                                        </span>
                                         <br />
                                         Source marges : {BDF_FIBEN_SOURCE_PREFIX}
                                     </p>
                                 )}
                             </div>
 
+                            {result.equity <= 0 && (
+                                <div
+                                    role="alert"
+                                    className="rounded-xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm text-orange-900"
+                                >
+                                    Les fonds propres ressortent négatifs — votre dette dépasse la valeur
+                                    d&apos;entreprise. Valorisation patrimoniale à expertiser.
+                                </div>
+                            )}
+
                             <p className="text-sm text-slate-600 border border-slate-200 rounded-xl p-4">{label}</p>
+
+                            {scenarioTable?.type === 'top_quartile' && (
+                                <p className="text-sm text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                                    Vous êtes déjà dans le top 25% de votre secteur (marge au-dessus du 3ᵉ quartile
+                                    BDF).
+                                </p>
+                            )}
+
+                            {scenarioTable?.type === 'scenarios' && (
+                                <div className="border border-slate-200 rounded-2xl p-6 space-y-4">
+                                    <h3 className="text-lg font-semibold text-slate-900">
+                                        Et si vous améliorez votre marge ?
+                                    </h3>
+                                    <p className="text-xs text-slate-500">
+                                        Scénarios en lecture seule (CA {formatEuro(scenarioTable.caN)} conservé).
+                                    </p>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm text-left">
+                                            <thead>
+                                                <tr className="border-b border-slate-200 text-slate-500">
+                                                    <th className="py-2 pr-4 font-medium" />
+                                                    <th className="py-2 px-2 font-medium">Situation actuelle</th>
+                                                    <th className="py-2 px-2 font-medium">Médiane secteur</th>
+                                                    <th className="py-2 px-2 font-medium">Top 25%</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-slate-800">
+                                                <tr className="border-b border-slate-100">
+                                                    <td className="py-2 pr-4 text-slate-500">Marge EBITDA/CA</td>
+                                                    {scenarioTable.rows.map((row) => (
+                                                        <td key={`m-${row.label}`} className="py-2 px-2">
+                                                            {row.marge.toFixed(1)}%
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                                <tr className="border-b border-slate-100">
+                                                    <td className="py-2 pr-4 text-slate-500">EBITDA</td>
+                                                    {scenarioTable.rows.map((row) => (
+                                                        <td key={`e-${row.label}`} className="py-2 px-2">
+                                                            {formatEuro(row.ebitda)}
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                                <tr className="border-b border-slate-100">
+                                                    <td className="py-2 pr-4 text-slate-500">Multiple</td>
+                                                    {scenarioTable.rows.map((row) => (
+                                                        <td key={`x-${row.label}`} className="py-2 px-2">
+                                                            {row.multiple}x
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                                <tr className="border-b border-slate-100">
+                                                    <td className="py-2 pr-4 text-slate-500 font-medium">EV cible</td>
+                                                    {scenarioTable.rows.map((row) => (
+                                                        <td key={`v-${row.label}`} className="py-2 px-2 font-semibold">
+                                                            {formatEuro(row.ev)}
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                                <tr>
+                                                    <td className="py-2 pr-4 text-slate-500">Gain EV vs actuel</td>
+                                                    {scenarioTable.rows.map((row) => (
+                                                        <td
+                                                            key={`g-${row.label}`}
+                                                            className={`py-2 px-2 ${
+                                                                row.gainEv > 0 ? 'text-emerald-700' : 'text-slate-500'
+                                                            }`}
+                                                        >
+                                                            {row.gainEv === 0
+                                                                ? '—'
+                                                                : `+${formatEuro(row.gainEv)} (+${row.gainPct.toFixed(0)}%)`}
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            )}
 
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <Link

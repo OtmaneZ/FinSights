@@ -1,6 +1,34 @@
+import maRaw from '../../../data/données_entreprise/multiples_ma_pme_france_2024.json'
 import { getBenchmarkByBdfCode } from '@/lib/benchmarks/bdf-sectoriels'
 
-export const SOURCE_MULTIPLES_MA = 'Données M&A PME France 2024'
+type MaSecteurJson = {
+    bdf_code: string
+    label: string
+    multiple_min: number
+    multiple_median: number
+    multiple_max: number
+    note: string
+}
+
+type MaJson = {
+    _meta: {
+        source: string
+        perimetre: string
+        nb_transactions: string
+        methodologie: string
+    }
+    secteurs: MaSecteurJson[]
+}
+
+const maData = maRaw as MaJson
+
+export const SOURCE_MULTIPLES_MA =
+    'Multiples M&A PME France 2020-2024 — transactions < 50M€ — fourchette Q1/Q3 observée'
+
+export const MULTIPLES_MA_METHODOLOGIE = `${maData._meta.methodologie}. Périmètre : ${maData._meta.perimetre}. ${maData._meta.nb_transactions}.`
+
+/** @deprecated Utiliser SOURCE_MULTIPLES_MA — conservé pour l’API benchmarks secteur */
+export const SOURCE_MULTIPLES_MA_LEGACY = maData._meta.source
 
 export interface MultiplesSecteur {
     bdfCode: string
@@ -11,96 +39,41 @@ export interface MultiplesSecteur {
     note: string
 }
 
-export const MULTIPLES_SECTORIELS: MultiplesSecteur[] = [
-    {
-        bdfCode: '56',
-        label: 'Restauration',
-        multipleMin: 3.5,
-        multipleMedian: 4.5,
-        multipleMax: 6.0,
-        note: 'Cyclique, dépendant localisation',
-    },
-    {
-        bdfCode: '55',
-        label: 'Hôtellerie',
-        multipleMin: 5.0,
-        multipleMedian: 7.0,
-        multipleMax: 10.0,
-        note: 'Forte intensité capitalistique',
-    },
-    {
-        bdfCode: 'F',
-        label: 'BTP / Construction',
-        multipleMin: 3.0,
-        multipleMedian: 4.5,
-        multipleMax: 6.5,
-        note: 'Cyclique, carnet commandes clé',
-    },
-    {
-        bdfCode: '47',
-        label: 'Commerce de détail',
-        multipleMin: 3.0,
-        multipleMedian: 4.5,
-        multipleMax: 6.0,
-        note: 'Dépend du concept et emplacement',
-    },
-    {
-        bdfCode: '46',
-        label: 'Commerce de gros',
-        multipleMin: 4.0,
-        multipleMedian: 5.5,
-        multipleMax: 7.5,
-        note: 'Valorise les contrats récurrents',
-    },
-    {
-        bdfCode: 'C',
-        label: 'Industrie',
-        multipleMin: 4.0,
-        multipleMedian: 5.5,
-        multipleMax: 7.5,
-        note: 'Dépend intensité capitalistique',
-    },
-    {
-        bdfCode: '62',
-        label: 'Tech & Informatique',
-        multipleMin: 5.0,
-        multipleMedian: 7.5,
-        multipleMax: 12.0,
-        note: 'Prime si revenus récurrents (ARR)',
-    },
-    {
-        bdfCode: '69',
-        label: 'Conseil / Expertise',
-        multipleMin: 4.0,
-        multipleMedian: 6.0,
-        multipleMax: 8.5,
-        note: 'Dépend de la dépendance au dirigeant',
-    },
-    {
-        bdfCode: '49',
-        label: 'Transport',
-        multipleMin: 3.5,
-        multipleMedian: 5.0,
-        multipleMax: 7.0,
-        note: 'Valorise le parc et les contrats',
-    },
-    {
-        bdfCode: '86',
-        label: 'Santé',
-        multipleMin: 5.0,
-        multipleMedian: 7.5,
-        multipleMax: 11.0,
-        note: 'Forte demande acquéreurs stratégiques',
-    },
-    {
-        bdfCode: '68',
-        label: 'Immobilier',
-        multipleMin: 8.0,
-        multipleMedian: 12.0,
-        multipleMax: 20.0,
-        note: 'Hors norme — valorisation patrimoniale',
-    },
-]
+function mapSecteur(s: MaSecteurJson): MultiplesSecteur {
+    return {
+        bdfCode: s.bdf_code,
+        label: s.label,
+        multipleMin: s.multiple_min,
+        multipleMedian: s.multiple_median,
+        multipleMax: s.multiple_max,
+        note: s.note,
+    }
+}
+
+export const MULTIPLES_SECTORIELS: MultiplesSecteur[] = maData.secteurs.map(mapSecteur)
+
+/** Clés secteur CalculatorHub (legacy) → code BDF */
+const HUB_SECTOR_TO_BDF: Record<string, string> = {
+    services: '69',
+    conseil: '69',
+    saas: '62',
+    tech: '62',
+    informatique: '62',
+    industrie: 'C',
+    manufacturing: 'C',
+    commerce: '47',
+    retail: '47',
+    gros: '46',
+    transport: '49',
+    sante: '86',
+    santé: '86',
+    restauration: '56',
+    hotel: '55',
+    hôtellerie: '55',
+    btp: 'F',
+    construction: 'F',
+    immobilier: '68',
+}
 
 export type QualificationMultiple = 'prime' | 'standard' | 'discount'
 
@@ -123,6 +96,17 @@ export function getMultiplesByBdfCode(bdfCode: string): MultiplesSecteur | null 
 
 export function getMultiplesByLabel(label: string): MultiplesSecteur | null {
     return multiplesByLabel.get(label.trim().toLowerCase()) ?? null
+}
+
+/** Résout un libellé ou clé hub vers les multiples M&A sectoriels. */
+export function resolveMultiplesForSectorInput(secteurInput: string): MultiplesSecteur | null {
+    const key = secteurInput.trim().toLowerCase()
+    if (!key) return null
+    const byLabel = getMultiplesByLabel(secteurInput)
+    if (byLabel) return byLabel
+    const bdfCode = HUB_SECTOR_TO_BDF[key]
+    if (bdfCode) return getMultiplesByBdfCode(bdfCode)
+    return null
 }
 
 function interpolate(value: number, min: number, max: number, t: number): number {
@@ -224,4 +208,11 @@ export function describeMargeVsQuartiles(
         return `entre Q1 (${Q1}%) et la médiane (${Q2}%)`
     }
     return `sous le Q1 (${Q1}%)`
+}
+
+export function encodeQualificationMultiple(q: QualificationMultiple | undefined): number {
+    if (q === 'prime') return 3
+    if (q === 'standard') return 2
+    if (q === 'discount') return 1
+    return 0
 }

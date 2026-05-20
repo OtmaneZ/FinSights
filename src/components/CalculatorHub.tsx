@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Calculator, TrendingUp, DollarSign, Target, PieChart, BarChart3, X, CheckCircle, AlertCircle } from 'lucide-react'
 import { BenchmarkBar } from '@/components/BenchmarkBar'
 import { trackCalculatorUse } from '@/lib/analytics'
+import { resolveMultiplesForSectorInput } from '@/lib/benchmarks/multiples-valorisation'
 
 interface CalculatorConfig {
     id: string
@@ -614,21 +615,17 @@ const calculators: CalculatorConfig[] = [
             { key: 'secteur', label: 'Secteur', placeholder: 'services', tooltip: 'Services, SaaS, Industrie, Commerce' }
         ],
         calculate: (inputs) => {
-            // Multiples moyens par secteur (marché FR 2025)
-            const multiples: Record<string, { min: number, max: number }> = {
-                'services': { min: 4, max: 7 },
-                'saas': { min: 8, max: 15 },
-                'industrie': { min: 5, max: 9 },
-                'commerce': { min: 3, max: 6 },
-                'tech': { min: 10, max: 20 }
-            }
+            const secteurKey = inputs.secteur?.toString() || 'services'
+            const sectorMultiples =
+                resolveMultiplesForSectorInput(secteurKey) ??
+                resolveMultiplesForSectorInput('services')!
+            const med = sectorMultiples.multipleMedian
+            const min = sectorMultiples.multipleMin
+            const max = sectorMultiples.multipleMax
 
-            const secteurKey = inputs.secteur?.toString().toLowerCase() || 'services'
-            const multiple = multiples[secteurKey] || multiples['services']
-
-            const valorisationMin = Math.round(inputs.ebitda * multiple.min)
-            const valorisationMax = Math.round(inputs.ebitda * multiple.max)
-            const valorisationMoyenne = Math.round((valorisationMin + valorisationMax) / 2)
+            const valorisationMin = Math.round(inputs.ebitda * min)
+            const valorisationMax = Math.round(inputs.ebitda * max)
+            const valorisationMoyenne = Math.round(inputs.ebitda * med)
 
             let interpretation
             if (inputs.ebitda > 1000000) {
@@ -676,8 +673,8 @@ const calculators: CalculatorConfig[] = [
                 details: [
                     { label: 'Fourchette basse', value: `${valorisationMin.toLocaleString('fr-FR')} €` },
                     { label: 'Fourchette haute', value: `${valorisationMax.toLocaleString('fr-FR')} €` },
-                    { label: 'Multiple appliqué', value: `${multiple.min}x - ${multiple.max}x EBITDA` },
-                    { label: 'Secteur', value: secteurKey.charAt(0).toUpperCase() + secteurKey.slice(1) }
+                    { label: 'Multiple appliqué', value: `${min}x - ${max}x EBITDA (médiane ${med}x)` },
+                    { label: 'Secteur', value: sectorMultiples.label }
                 ],
                 recommendations: [
                     'Augmentez EBITDA : croissance + marges opérationnelles',

@@ -13,6 +13,9 @@
  */
 
 import type { Calculation, CalculatorType } from '@/hooks/useCalculatorHistory'
+import { getBenchmarkBySecteur } from '@/lib/benchmarks/bdf-sectoriels'
+import { getMultiplesByBdfCode } from '@/lib/benchmarks/multiples-valorisation'
+import { scoreValorisationMultiple } from '@/lib/scoring/diagnosticScore'
 import {
   evaluateAgainstBenchmark,
   normalizeSector,
@@ -211,9 +214,23 @@ export function computeDiagnosticScore(history: Calculation[]): DiagnosticScore 
     }
 
     if (valorisation) {
-      maxPossible += 10
-      if (valorisation.value > 0) pts += 10
-      else pts += 2
+      const multiple = valorisation.inputs.multiple ?? 0
+      let medianMultiple = 6
+      if (valorisation.secteur) {
+        const bdfBench = getBenchmarkBySecteur(valorisation.secteur)
+        const multRow = bdfBench ? getMultiplesByBdfCode(bdfBench.codeNaf) : null
+        if (multRow) medianMultiple = multRow.multipleMedian
+      }
+      if (multiple > 0) {
+        maxPossible += 8
+        pts += scoreValorisationMultiple(multiple, medianMultiple)
+      } else if (valorisation.value > 0) {
+        maxPossible += 4
+        pts += 3
+      } else {
+        maxPossible += 4
+        pts += 1
+      }
     }
 
     resilienceScore = maxPossible > 0 ? Math.round((pts / maxPossible) * 25) : null
