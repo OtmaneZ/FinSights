@@ -20,23 +20,20 @@ export async function GET(req: NextRequest) {
     }
 
     if (record.usedAt) {
-      // Token déjà utilisé - on le laisse passer quand même (UX : déjà connecté)
-      // Le cookie sera reposé pour les 365j
+      return NextResponse.redirect(new URL('/simulateurs/acces?error=used', req.url))
     }
 
-    // Marquer le token comme utilisé
     await prisma.simulatorToken.update({
       where: { token },
       data: { usedAt: new Date() },
     })
 
-    // Poser le cookie d'accès
     const response = NextResponse.redirect(new URL('/simulateurs/cout-reel-salarie', req.url))
     response.cookies.set('sim_access', '1', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 365, // 365 jours
+      maxAge: 60 * 60 * 24 * 365,
       path: '/',
     })
 

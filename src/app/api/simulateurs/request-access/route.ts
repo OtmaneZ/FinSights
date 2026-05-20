@@ -16,6 +16,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Adresse email invalide.' }, { status: 400 })
     }
 
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
+    const recentCount = await prisma.simulatorToken.count({
+      where: { email, createdAt: { gte: oneHourAgo } },
+    })
+    if (recentCount >= 3) {
+      return NextResponse.json(
+        { error: 'Trop de demandes pour cet email. Réessayez dans une heure.' },
+        { status: 429 }
+      )
+    }
+
     // Générer un token UUID unique
     const token = randomUUID()
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000) // +24h

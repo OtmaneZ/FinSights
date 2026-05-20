@@ -28,7 +28,7 @@ const simulateurs = [
         badgeColor: 'bg-emerald-100 text-emerald-700',
         available: true,
         title: 'Coût réel d\'un salarié',
-        description: 'Entrez un salaire brut, obtenez le coût employeur réel mois par mois - charges, mutuelle, prévoyance incluses.',
+        description: 'Entrez un salaire brut, obtenez le coût employeur réel mois par mois — charges sociales principales, hors prévoyance conventionnelle.',
         tag: 'Recrutement',
         tagColor: 'bg-slate-100 text-slate-600',
         cta: 'Simuler maintenant',

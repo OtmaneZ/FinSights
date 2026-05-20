@@ -10,6 +10,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   expired: 'Ce lien a expiré. Demandez-en un nouveau ci-dessous.',
   invalid: 'Lien invalide. Demandez-en un nouveau ci-dessous.',
   missing: 'Paramètre manquant. Demandez un nouveau lien.',
+  used: 'Ce lien a déjà été utilisé. Demandez-en un nouveau ci-dessous.',
   server: 'Erreur serveur. Veuillez réessayer.',
 }
 
