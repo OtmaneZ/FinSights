@@ -717,7 +717,7 @@ export default function CalculateurDSO() {
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ duration: 0.5 }}
-                                        className="bg-white rounded-2xl p-8 border border-slate-200 shadow-xl"
+                                        className="bg-white rounded-2xl p-8 border border-border-default shadow-sm border-l-[3px] border-l-[#C9A84C]"
                                     >
                                 {/* Formule */}
                                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-8">
@@ -842,9 +842,6 @@ export default function CalculateurDSO() {
 
                                 {/* Secteur */}
                                 <div className="mb-8">
-                                    <label className="block text-sm font-semibold text-slate-900 mb-3">
-                                        Secteur d&apos;activité
-                                    </label>
                                     <select
                                         value={secteur}
                                         onChange={(e) => setSecteur(e.target.value as DsoSectorKey)}

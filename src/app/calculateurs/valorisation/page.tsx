@@ -391,7 +391,7 @@ export default function CalculateurValorisation() {
                 </section>
 
                 <section className="py-12 bg-slate-50">
-                    <div className="max-w-4xl mx-auto px-6 bg-white border border-slate-200 rounded-2xl p-6 space-y-6">
+                    <div className="max-w-4xl mx-auto px-6 bg-white border border-border-default rounded-2xl p-6 space-y-6 border-l-[3px] border-l-[#C9A84C]">
                         {ebitdaPrefillBanner && (
                             <p className="text-xs text-blue-800 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
                                 Données pré-remplies depuis votre dernier calcul EBITDA
@@ -507,7 +507,6 @@ export default function CalculateurValorisation() {
                         )}
 
                         <div className="border-t border-slate-100 pt-6 space-y-4">
-                            <p className="text-sm font-semibold text-slate-800">Secteur d&apos;activité (optionnel)</p>
                             <div className="flex flex-wrap gap-2">
                                 <button
                                     type="button"
@@ -663,7 +662,7 @@ export default function CalculateurValorisation() {
 
                         <button
                             onClick={calculer}
-                            className="w-full px-6 py-3 bg-accent-primary text-white rounded-xl font-semibold"
+                            className="w-full px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover transition-colors text-white rounded-xl font-semibold"
                         >
                             Calculer ma valorisation
                         </button>
