@@ -379,7 +379,7 @@ export default function CalculateurEBITDA() {
                 </section>
 
                 <section className="py-12 bg-slate-50">
-                    <div className="max-w-4xl mx-auto px-6 bg-white border border-slate-200 rounded-2xl p-6">
+                    <div className="max-w-4xl mx-auto px-6 bg-white border border-border-default rounded-2xl p-6 border-l-[3px] border-l-[#C9A84C] shadow-sm">
                         <div className="mb-6">
                             <p className="text-sm font-semibold text-slate-800 mb-2">Mode de calcul</p>
                             <div className="flex flex-wrap gap-2">
@@ -418,18 +418,33 @@ export default function CalculateurEBITDA() {
                             )}
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-4">
-                            <NumberField
-                                id="ca"
-                                label="Chiffre d'affaires annuel HT (€)"
-                                value={ca}
-                                onChange={setCA}
-                                placeholder="Ex. 850000"
-                                required
-                            />
-
-                            {calcMode === 'topdown' ? (
-                                <>
+                        {calcMode === 'topdown' ? (
+                            <div className="grid md:grid-cols-2 gap-6 md:gap-0">
+                                <div className="space-y-4 md:pr-6">
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        Produits
+                                    </p>
+                                    <NumberField
+                                        id="ca"
+                                        label="Chiffre d'affaires annuel HT (€)"
+                                        value={ca}
+                                        onChange={setCA}
+                                        placeholder="Ex. 850000"
+                                        required
+                                    />
+                                    <NumberField
+                                        id="autres-produits"
+                                        label="Autres produits d'exploitation (€)"
+                                        value={autresProduits}
+                                        onChange={setAutresProduits}
+                                        placeholder="Ex. 12000"
+                                        tooltip="Subventions d'exploitation (74x), produits de gestion courante (75x), refacturations. Laisser vide si non applicable."
+                                    />
+                                </div>
+                                <div className="space-y-4 md:pl-6 md:border-l md:border-border-default">
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        Charges
+                                    </p>
                                     <NumberField
                                         id="achats"
                                         label="Achats (€)"
@@ -463,14 +478,6 @@ export default function CalculateurEBITDA() {
                                         tooltip={CHARGE_FIELD_TOOLTIP}
                                     />
                                     <NumberField
-                                        id="autres-produits"
-                                        label="Autres produits d'exploitation (€)"
-                                        value={autresProduits}
-                                        onChange={setAutresProduits}
-                                        placeholder="Ex. 12000"
-                                        tooltip="Subventions d'exploitation (74x), produits de gestion courante (75x), refacturations. Laisser vide si non applicable."
-                                    />
-                                    <NumberField
                                         id="autres-charges"
                                         label="Autres charges d'exploitation (€)"
                                         value={autresCharges}
@@ -478,10 +485,19 @@ export default function CalculateurEBITDA() {
                                         placeholder="Ex. 8000"
                                         tooltip="Redevances de crédit-bail (612x), pertes sur créances clients (654x), charges de gestion courante (65x). Laisser vide si non applicable."
                                     />
-                                </>
-                            ) : (
-                                <>
-                                    <NumberField
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <NumberField
+                                    id="ca"
+                                    label="Chiffre d'affaires annuel HT (€)"
+                                    value={ca}
+                                    onChange={setCA}
+                                    placeholder="Ex. 850000"
+                                    required
+                                />
+                                <NumberField
                                         id="resultat-net"
                                         label="Résultat net (€)"
                                         value={resultatNet}
@@ -520,9 +536,8 @@ export default function CalculateurEBITDA() {
                                         placeholder="Ex. 42000"
                                         tooltip="Amortissements et dépréciations — nécessaires en mode add-back pour reconstituer l'EBITDA."
                                     />
-                                </>
-                            )}
-                        </div>
+                            </div>
+                        )}
 
                         <div className="mt-6 border border-slate-200 rounded-xl overflow-hidden">
                             <button
@@ -593,9 +608,6 @@ export default function CalculateurEBITDA() {
 
                             {useNafInput ? <NafInput onResolved={handleNafResolved} /> : null}
 
-                            <label htmlFor="secteur-bdf" className="block text-sm font-semibold text-slate-800 mb-2">
-                                Secteur d&apos;activité
-                            </label>
                             <select
                                 id="secteur-bdf"
                                 value={secteur}
@@ -641,7 +653,7 @@ export default function CalculateurEBITDA() {
                         <button
                             type="button"
                             onClick={calculer}
-                            className="mt-6 w-full px-6 py-3 bg-accent-primary text-white rounded-xl font-semibold"
+                            className="mt-6 w-full px-6 py-3 bg-accent-primary hover:bg-accent-primary-hover text-white rounded-xl font-semibold transition-colors"
                         >
                             Calculer mon EBITDA
                         </button>
