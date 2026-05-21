@@ -46,7 +46,7 @@ interface CalculatorResult {
 const calculators: CalculatorConfig[] = [
     {
         id: 'dso',
-        title: 'Calculateur DSO',
+        title: 'Délai d\'encaissement clients',
         description: 'Days Sales Outstanding - Délai moyen de paiement clients',
         icon: TrendingUp,
         color: 'from-slate-700 to-slate-900',
@@ -112,7 +112,7 @@ const calculators: CalculatorConfig[] = [
     },
     {
         id: 'bfr',
-        title: 'Calculateur BFR',
+        title: 'Besoin en fonds de roulement',
         description: 'Besoin en Fonds de Roulement - Trésorerie immobilisée',
         icon: DollarSign,
         color: 'from-slate-700 to-slate-900',
@@ -182,7 +182,7 @@ const calculators: CalculatorConfig[] = [
     },
     {
         id: 'roi',
-        title: 'Calculateur ROI',
+        title: 'Retour sur investissement',
         description: 'Return on Investment - Rentabilité d\'un investissement',
         icon: Target,
         color: 'from-slate-700 to-slate-900',
@@ -247,7 +247,7 @@ const calculators: CalculatorConfig[] = [
     },
     {
         id: 'marge',
-        title: 'Calculateur Marge',
+        title: 'Taux de marge & marque',
         description: 'Marge commerciale - Taux de marge et taux de marque',
         icon: PieChart,
         color: 'from-slate-600 to-slate-800',
@@ -319,7 +319,7 @@ const calculators: CalculatorConfig[] = [
     },
     {
         id: 'seuil',
-        title: 'Seuil de Rentabilité',
+        title: 'Seuil de rentabilité',
         description: 'Point mort - CA minimum pour être rentable',
         icon: BarChart3,
         color: 'from-slate-600 to-slate-800',
@@ -381,7 +381,7 @@ const calculators: CalculatorConfig[] = [
     },
     {
         id: 'ebitda',
-        title: 'Calculateur EBITDA',
+        title: 'EBITDA & marge opérationnelle',
         description: 'Earnings Before Interest, Taxes, Depreciation & Amortization',
         icon: Calculator,
         color: 'from-slate-700 to-slate-900',
@@ -446,7 +446,7 @@ const calculators: CalculatorConfig[] = [
     },
     {
         id: 'cac-ltv',
-        title: 'CAC/LTV (SaaS)',
+        title: 'CAC / LTV client',
         description: 'Customer Acquisition Cost & Lifetime Value',
         icon: Target,
         color: 'from-slate-600 to-slate-800',
@@ -521,7 +521,7 @@ const calculators: CalculatorConfig[] = [
     },
     {
         id: 'burn-rate',
-        title: 'Burn Rate & Runway',
+        title: 'Burn rate & runway',
         description: 'Trésorerie & mois avant rupture de cash',
         icon: TrendingUp,
         color: 'from-slate-700 to-slate-900',
@@ -605,7 +605,7 @@ const calculators: CalculatorConfig[] = [
     },
     {
         id: 'valorisation',
-        title: 'Valorisation Entreprise',
+        title: 'Valorisation d\'entreprise',
         description: 'Estimation par multiple EBITDA',
         icon: Calculator,
         color: 'from-slate-600 to-slate-800',
@@ -691,6 +691,10 @@ export function CalculatorHub() {
     const [selectedCalculator, setSelectedCalculator] = useState<CalculatorConfig | null>(null)
     const [inputs, setInputs] = useState<Record<string, string>>({})
     const [result, setResult] = useState<CalculatorResult | null>(null)
+    const calculatorDisplayOrder = ['ebitda', 'marge', 'seuil', 'dso', 'bfr', 'burn-rate', 'roi', 'cac-ltv', 'valorisation']
+    const sortedCalculators = [...calculators].sort(
+        (a, b) => calculatorDisplayOrder.indexOf(a.id) - calculatorDisplayOrder.indexOf(b.id)
+    )
 
     const handleCalculate = () => {
         if (!selectedCalculator) return
@@ -730,7 +734,7 @@ export function CalculatorHub() {
         <>
             {/* Calculators Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                {calculators.map((calc) => {
+                {sortedCalculators.map((calc) => {
                     const Icon = calc.icon
                     
                     // Si page dédiée existe, on redirige au lieu d'ouvrir modal

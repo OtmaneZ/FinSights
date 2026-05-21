@@ -58,7 +58,7 @@
     /* Primary Blue - Corporate (CTAs, primary actions) */
     --accent-primary: #0078d4;
     /* Microsoft/Power BI blue */
-    --accent-primary-hover: #106ebe;
+    --accent-primary-hover: #141C30;
     --accent-primary-subtle: rgba(0, 120, 212, 0.1);
     --accent-primary-border: rgba(0, 120, 212, 0.3);
 
@@ -86,7 +86,7 @@
     /* Info Blue - Neutral data, information */
     --accent-info: #0078d4;
     /* Même que primary pour cohérence */
-    --accent-info-hover: #106ebe;
+    --accent-info-hover: #141C30;
     --accent-info-subtle: rgba(0, 120, 212, 0.08);
     --accent-info-border: rgba(0, 120, 212, 0.2);
 
